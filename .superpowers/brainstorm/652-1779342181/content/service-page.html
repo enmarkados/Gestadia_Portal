@@ -1,0 +1,160 @@
+<style>
+  :root { --red: #c0392b; --graphite: #2c2c2c; --border: #e8e8e8; --bg: #f7f7f7; }
+
+  .preview-wrap { background: var(--bg); border-radius: 12px; padding: 0; overflow: hidden; border: 1px solid var(--border); margin-top: 16px; }
+
+  /* Nav */
+  .pnav { background: var(--graphite); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .pnav-logo { font-family: Georgia, serif; color: var(--red); font-size: 18px; font-weight: 700; }
+  .pnav-links { display: flex; gap: 20px; }
+  .pnav-link { color: #ccc; font-size: 11px; }
+  .pnav-link.active { color: #fff; font-weight: 600; }
+
+  /* Breadcrumb */
+  .breadcrumb { padding: 10px 24px; font-size: 11px; color: #999; background: #fff; border-bottom: 1px solid var(--border); }
+  .breadcrumb span { color: var(--red); }
+
+  /* Page body */
+  .page-body { display: grid; grid-template-columns: 1fr 340px; gap: 0; background: #fff; }
+
+  /* Left: content */
+  .page-left { padding: 28px 32px; border-right: 1px solid var(--border); }
+  .service-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--red); margin-bottom: 8px; }
+  .service-title { font-size: 26px; font-weight: 800; color: var(--graphite); line-height: 1.2; font-family: Georgia, serif; margin-bottom: 12px; }
+  .service-desc { font-size: 13px; color: #666; line-height: 1.7; margin-bottom: 24px; }
+
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+  .info-item { background: var(--bg); border-radius: 8px; padding: 12px 14px; }
+  .info-item-label { font-size: 10px; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+  .info-item-val { font-size: 13px; font-weight: 700; color: var(--graphite); }
+
+  .docs-section { margin-bottom: 24px; }
+  .docs-title { font-size: 12px; font-weight: 700; color: var(--graphite); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  .doc-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #555; margin-bottom: 6px; }
+  .doc-dot { width: 6px; height: 6px; background: var(--red); border-radius: 50%; flex-shrink: 0; }
+
+  .steps-section { }
+  .steps-title { font-size: 12px; font-weight: 700; color: var(--graphite); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  .step-row { display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start; }
+  .step-num { width: 24px; height: 24px; background: var(--graphite); color: #fff; border-radius: 50%; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-text { font-size: 12px; color: #555; line-height: 1.5; }
+  .step-text strong { color: var(--graphite); display: block; font-size: 12px; }
+
+  /* Right: sticky checkout panel */
+  .page-right { padding: 24px; background: #fff; }
+  .checkout-card { border: 1.5px solid var(--border); border-radius: 12px; overflow: hidden; position: sticky; top: 16px; }
+  .checkout-top { background: var(--graphite); padding: 20px; }
+  .checkout-service { font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; }
+  .checkout-price { font-size: 32px; font-weight: 800; color: #fff; }
+  .checkout-price sub { font-size: 14px; color: #aaa; font-weight: 400; }
+  .checkout-includes { font-size: 11px; color: #888; margin-top: 4px; }
+  .checkout-body { padding: 18px; }
+  .form-label { font-size: 10px; font-weight: 700; color: #999; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .form-input { background: var(--bg); border: 1.5px solid var(--border); border-radius: 6px; padding: 9px 12px; font-size: 12px; color: var(--graphite); width: 100%; box-sizing: border-box; margin-bottom: 10px; }
+  .form-input.red-focus { border-color: var(--red); }
+  .checkout-btn { background: var(--red); color: #fff; border-radius: 8px; padding: 13px; font-size: 14px; font-weight: 800; text-align: center; width: 100%; box-sizing: border-box; margin-top: 4px; }
+  .checkout-security { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 10px; color: #aaa; margin-top: 10px; }
+  .checkout-divider { height: 1px; background: var(--border); margin: 14px 0; }
+  .checkout-whatsapp { background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 10px 12px; font-size: 11px; color: #166534; display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+</style>
+
+<h2>Sección 3 — Página de servicio</h2>
+<p class="subtitle">Layout de /canje-carnet (aplica a todos los trámites)</p>
+
+<div class="preview-wrap">
+
+  <div class="pnav">
+    <div class="pnav-logo">gestadia</div>
+    <div class="pnav-links">
+      <span class="pnav-link active">Trámites DGT</span>
+      <span class="pnav-link">Cómo funciona</span>
+      <span class="pnav-link">Contacto</span>
+    </div>
+  </div>
+
+  <div class="breadcrumb">Inicio / Trámites DGT / <span>Canje de Carnet Extranjero</span></div>
+
+  <div class="page-body">
+
+    <div class="page-left">
+      <div class="service-eyebrow">Permiso de conducir</div>
+      <div class="service-title">Canje de Carnet Extranjero</div>
+      <div class="service-desc">
+        ¿Tienes un permiso de conducir extranjero y quieres obtener el carnet español? Gestionamos la homologación ante la DGT sin que tengas que desplazarte. Nos encargamos de toda la documentación y el proceso.
+      </div>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-item-label">Tiempo estimado</div>
+          <div class="info-item-val">4 – 8 semanas</div>
+        </div>
+        <div class="info-item">
+          <div class="info-item-label">Modalidad</div>
+          <div class="info-item-val">100% online</div>
+        </div>
+        <div class="info-item">
+          <div class="info-item-label">Tasas DGT</div>
+          <div class="info-item-val">Incluidas</div>
+        </div>
+        <div class="info-item">
+          <div class="info-item-label">Atención</div>
+          <div class="info-item-val">Gestora personal</div>
+        </div>
+      </div>
+
+      <div class="docs-section">
+        <div class="docs-title">Documentos necesarios</div>
+        <div class="doc-item"><div class="doc-dot"></div>DNI o NIE en vigor</div>
+        <div class="doc-item"><div class="doc-dot"></div>Permiso de conducir extranjero original</div>
+        <div class="doc-item"><div class="doc-dot"></div>Foto carnet reciente (fondo blanco)</div>
+        <div class="doc-item"><div class="doc-dot"></div>Certificado de aptitud médica (si aplica)</div>
+        <div style="font-size:11px;color:#aaa;margin-top:8px;">Los puedes enviar tras el pago por la web o por WhatsApp.</div>
+      </div>
+
+      <div class="steps-section">
+        <div class="steps-title">¿Cómo funciona?</div>
+        <div class="step-row">
+          <div class="step-num">1</div>
+          <div class="step-text"><strong>Rellena tus datos y paga</strong>Formulario rápido + pago seguro con tarjeta.</div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">2</div>
+          <div class="step-text"><strong>Envíanos los documentos</strong>Por la web o por WhatsApp, como prefieras.</div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">3</div>
+          <div class="step-text"><strong>Nosotros lo gestionamos</strong>Tu gestora personal se encarga de todo ante la DGT.</div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">4</div>
+          <div class="step-text"><strong>Recibes tu carnet</strong>Te informamos de cada paso hasta que lo tengas en mano.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-right">
+      <div class="checkout-card">
+        <div class="checkout-top">
+          <div class="checkout-service">Canje de Carnet Extranjero</div>
+          <div class="checkout-price">89 € <sub>IVA incluido</sub></div>
+          <div class="checkout-includes">✓ Tasas DGT incluidas · ✓ Gestión completa</div>
+        </div>
+        <div class="checkout-body">
+          <div class="form-label">Nombre completo</div>
+          <div class="form-input">María García López</div>
+          <div class="form-label">DNI / NIE</div>
+          <div class="form-input red-focus">X1234567A</div>
+          <div class="form-label">Teléfono de contacto</div>
+          <div class="form-input">+34 600 000 000</div>
+          <div class="form-label">Email</div>
+          <div class="form-input">maria@email.com</div>
+          <div class="checkout-btn">Pagar con tarjeta →</div>
+          <div class="checkout-security">🔒 Pago seguro · Powered by Stripe</div>
+          <div class="checkout-divider"></div>
+          <div class="checkout-whatsapp">💬 ¿Tienes dudas? Escríbenos por WhatsApp antes de pagar</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

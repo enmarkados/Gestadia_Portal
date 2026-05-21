@@ -1,0 +1,173 @@
+<style>
+  :root { --red: #c0392b; --graphite: #2c2c2c; --border: #e8e8e8; }
+
+  .cards-compare { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 16px; }
+  .card-option { background: #fff; border: 2px solid transparent; border-radius: 14px; overflow: hidden; cursor: pointer; transition: border-color .2s; }
+  .card-option:hover { border-color: var(--red); }
+  .card-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #999; padding: 12px 16px 0; }
+
+  /* === OPTION A: Horizontal con borde rojo izquierdo === */
+  .card-a {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 12px;
+  }
+  .card-a-header { display: flex; align-items: flex-start; gap: 14px; }
+  .card-a-accent { width: 3px; background: var(--red); border-radius: 2px; flex-shrink: 0; align-self: stretch; min-height: 48px; }
+  .card-a-info { flex: 1; }
+  .card-a-cat { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--red); margin-bottom: 4px; }
+  .card-a-title { font-size: 15px; font-weight: 800; color: var(--graphite); line-height: 1.2; }
+  .card-a-desc { font-size: 11px; color: #888; line-height: 1.5; }
+  .card-a-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid #f0f0f0; }
+  .card-a-price { font-size: 22px; font-weight: 800; color: var(--graphite); }
+  .card-a-price sup { font-size: 13px; color: var(--red); }
+  .card-a-btn { background: var(--red); color: #fff; border-radius: 6px; padding: 8px 16px; font-size: 11px; font-weight: 700; }
+
+  /* === OPTION B: Full card con fondo foto/textura === */
+  .card-b {
+    margin: 12px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .card-b-top {
+    background: linear-gradient(135deg, #1a1a1a 0%, #3a3a3a 100%);
+    padding: 20px;
+    position: relative;
+    min-height: 80px;
+  }
+  .card-b-pattern {
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(45deg, rgba(192,57,43,.08) 0, rgba(192,57,43,.08) 1px, transparent 0, transparent 50%);
+    background-size: 14px 14px;
+  }
+  .card-b-cat { position: relative; font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--red); margin-bottom: 6px; }
+  .card-b-title { position: relative; font-size: 16px; font-weight: 800; color: #fff; line-height: 1.2; }
+  .card-b-body { padding: 16px; background: #fff; }
+  .card-b-desc { font-size: 11px; color: #888; line-height: 1.5; margin-bottom: 14px; }
+  .card-b-footer { display: flex; align-items: center; justify-content: space-between; }
+  .card-b-price { font-size: 24px; font-weight: 800; color: var(--red); }
+  .card-b-btn { background: var(--graphite); color: #fff; border-radius: 6px; padding: 8px 16px; font-size: 11px; font-weight: 700; }
+
+  /* === OPTION C: Minimalista tipográfico === */
+  .card-c {
+    margin: 12px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: #fff;
+  }
+  .card-c-top { height: 4px; background: var(--red); }
+  .card-c-body { padding: 20px; }
+  .card-c-num { font-size: 11px; font-weight: 700; color: #ccc; margin-bottom: 8px; font-family: monospace; }
+  .card-c-title { font-size: 17px; font-weight: 800; color: var(--graphite); margin-bottom: 6px; line-height: 1.2; font-family: Georgia, serif; }
+  .card-c-desc { font-size: 11px; color: #888; line-height: 1.5; margin-bottom: 18px; }
+  .card-c-footer { display: flex; align-items: center; justify-content: space-between; }
+  .card-c-price { font-size: 22px; font-weight: 800; color: var(--graphite); }
+  .card-c-price em { color: var(--red); font-style: normal; font-size: 14px; margin-left: 2px; }
+  .card-c-btn { color: var(--red); font-size: 12px; font-weight: 700; border-bottom: 2px solid var(--red); padding-bottom: 1px; }
+</style>
+
+<h2>Estilo de tarjeta — elige el que mejor encaja</h2>
+<p class="subtitle">Tres alternativas profesionales, sin iconos infantiles</p>
+
+<div class="cards-compare">
+
+  <div class="card-option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-label">A — Línea lateral</div>
+    <div class="card-a">
+      <div class="card-a-header">
+        <div class="card-a-accent"></div>
+        <div class="card-a-info">
+          <div class="card-a-cat">Permiso de conducir</div>
+          <div class="card-a-title">Canje de Carnet Extranjero</div>
+        </div>
+      </div>
+      <div class="card-a-desc">Homologación de tu permiso de conducir extranjero por el carnet español.</div>
+      <div class="card-a-footer">
+        <div class="card-a-price"><sup>desde </sup>89 €</div>
+        <div class="card-a-btn">Solicitar →</div>
+      </div>
+    </div>
+    <div class="card-a" style="margin-top:0">
+      <div class="card-a-header">
+        <div class="card-a-accent"></div>
+        <div class="card-a-info">
+          <div class="card-a-cat">Vehículo</div>
+          <div class="card-a-title">Transferencia de Vehículo</div>
+        </div>
+      </div>
+      <div class="card-a-desc">Cambio de titularidad ante la DGT sin desplazamientos.</div>
+      <div class="card-a-footer">
+        <div class="card-a-price">120 €</div>
+        <div class="card-a-btn">Solicitar →</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-label">B — Header oscuro con textura</div>
+    <div class="card-b">
+      <div class="card-b-top">
+        <div class="card-b-pattern"></div>
+        <div class="card-b-cat">Permiso de conducir</div>
+        <div class="card-b-title">Canje de Carnet Extranjero</div>
+      </div>
+      <div class="card-b-body">
+        <div class="card-b-desc">Homologación de tu permiso de conducir extranjero por el carnet español.</div>
+        <div class="card-b-footer">
+          <div class="card-b-price">89 €</div>
+          <div class="card-b-btn">Solicitar →</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-b" style="margin-top: 12px;">
+      <div class="card-b-top">
+        <div class="card-b-pattern"></div>
+        <div class="card-b-cat">Vehículo</div>
+        <div class="card-b-title">Transferencia de Vehículo</div>
+      </div>
+      <div class="card-b-body">
+        <div class="card-b-desc">Cambio de titularidad ante la DGT sin desplazamientos.</div>
+        <div class="card-b-footer">
+          <div class="card-b-price">120 €</div>
+          <div class="card-b-btn">Solicitar →</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-label">C — Tipográfico minimal</div>
+    <div class="card-c">
+      <div class="card-c-top"></div>
+      <div class="card-c-body">
+        <div class="card-c-num">01 — Permiso de conducir</div>
+        <div class="card-c-title">Canje de Carnet Extranjero</div>
+        <div class="card-c-desc">Homologación de tu permiso de conducir extranjero por el carnet español.</div>
+        <div class="card-c-footer">
+          <div class="card-c-price">89<em>€</em></div>
+          <div class="card-c-btn">Solicitar →</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-c" style="margin-top:12px;">
+      <div class="card-c-top"></div>
+      <div class="card-c-body">
+        <div class="card-c-num">02 — Vehículo</div>
+        <div class="card-c-title">Transferencia de Vehículo</div>
+        <div class="card-c-desc">Cambio de titularidad ante la DGT sin desplazamientos.</div>
+        <div class="card-c-footer">
+          <div class="card-c-price">120<em>€</em></div>
+          <div class="card-c-btn">Solicitar →</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

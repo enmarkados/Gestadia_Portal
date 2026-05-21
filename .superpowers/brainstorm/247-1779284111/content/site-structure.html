@@ -1,0 +1,130 @@
+<style>
+  :root { --red: #c0392b; --graphite: #2c2c2c; --light: #f5f5f5; }
+
+  .arch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 16px; }
+  .page-box { background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden; }
+  .page-box-header { background: var(--graphite); color: #fff; padding: 10px 16px; font-size: 12px; font-weight: 700; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
+  .page-box-header .url { color: #aaa; font-weight: 400; font-size: 11px; }
+  .page-box-body { padding: 14px 16px; }
+  .page-section { font-size: 12px; color: var(--graphite); padding: 6px 10px; border-left: 3px solid var(--red); margin-bottom: 6px; background: #fafafa; border-radius: 0 4px 4px 0; }
+  .page-section.stripe { border-left-color: #635bff; }
+  .page-section.zoho { border-left-color: #e44d26; }
+  .page-section.upload { border-left-color: #27ae60; }
+
+  .flow-row { display: flex; align-items: center; gap: 10px; margin: 20px 0 8px; flex-wrap: wrap; }
+  .flow-step { background: var(--graphite); color: #fff; border-radius: 20px; padding: 6px 14px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .flow-step.red { background: var(--red); }
+  .flow-arrow { color: #aaa; font-size: 18px; }
+
+  .main-page-preview { background: var(--graphite); border-radius: 10px; padding: 20px; margin-top: 16px; }
+  .preview-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .preview-logo { color: var(--red); font-size: 22px; font-family: Georgia, serif; font-weight: 700; }
+  .preview-nav-links { display: flex; gap: 16px; }
+  .preview-nav-link { color: #ccc; font-size: 11px; }
+  .preview-hero { background: #1a1a1a; border-radius: 8px; padding: 24px; text-align: center; margin-bottom: 16px; }
+  .preview-hero h3 { color: #fff; font-size: 18px; margin: 0 0 6px; }
+  .preview-hero p { color: #aaa; font-size: 12px; margin: 0 0 14px; }
+  .preview-hero-btn { background: var(--red); color: #fff; border-radius: 6px; padding: 8px 20px; font-size: 12px; font-weight: 700; display: inline-block; }
+  .preview-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .preview-card { background: #1a1a1a; border-radius: 8px; padding: 14px; border: 1px solid #333; }
+  .preview-card-icon { font-size: 20px; margin-bottom: 8px; }
+  .preview-card-title { color: #fff; font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+  .preview-card-price { color: var(--red); font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+  .preview-card-btn { background: var(--red); color: #fff; border-radius: 4px; padding: 5px 10px; font-size: 10px; font-weight: 700; text-align: center; }
+</style>
+
+<h2>Sección 1 — Arquitectura de páginas</h2>
+<p class="subtitle">Estructura del site y flujo de usuario</p>
+
+<p class="label">Flujo principal del usuario</p>
+<div class="flow-row">
+  <div class="flow-step">Homepage</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-step red">Página de servicio</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-step">Checkout Stripe</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-step">Éxito + docs</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-step" style="background:#e44d26">Zoho CRM</div>
+</div>
+
+<div class="arch-grid">
+  <div class="page-box">
+    <div class="page-box-header">HOMEPAGE <span class="url">/</span></div>
+    <div class="page-box-body">
+      <div class="page-section">Hero: titular + subtitular de confianza</div>
+      <div class="page-section">Grid de 6 servicios con precio + CTA</div>
+      <div class="page-section">Sección "¿Cómo funciona?" (3 pasos)</div>
+      <div class="page-section">Testimonios / trust badges</div>
+      <div class="page-section">Footer con contacto y legal</div>
+    </div>
+  </div>
+
+  <div class="page-box">
+    <div class="page-box-header">PÁGINA DE SERVICIO <span class="url">/[tramite]</span></div>
+    <div class="page-box-body">
+      <div class="page-section">Título + descripción del trámite</div>
+      <div class="page-section">Precio fijo + qué incluye</div>
+      <div class="page-section">Documentos necesarios</div>
+      <div class="page-section">Formulario de datos básicos</div>
+      <div class="page-section stripe">Botón → Stripe Checkout</div>
+    </div>
+  </div>
+
+  <div class="page-box">
+    <div class="page-box-header">ÉXITO POST-PAGO <span class="url">/success</span></div>
+    <div class="page-box-body">
+      <div class="page-section upload">Confirmación de pago</div>
+      <div class="page-section upload">Upload opcional de documentos</div>
+      <div class="page-section upload">Alternativa: enviar por WhatsApp/email</div>
+      <div class="page-section zoho">→ Crea lead en Zoho CRM</div>
+    </div>
+  </div>
+
+  <div class="page-box">
+    <div class="page-box-header">OTRAS PÁGINAS</div>
+    <div class="page-box-body">
+      <div class="page-section">/sobre-nosotros</div>
+      <div class="page-section">/contacto</div>
+      <div class="page-section">/aviso-legal, /privacidad, /cookies</div>
+    </div>
+  </div>
+</div>
+
+<p class="label" style="margin-top: 24px;">Preview: homepage (concepto)</p>
+<div class="main-page-preview">
+  <div class="preview-nav">
+    <div class="preview-logo">gestadia</div>
+    <div class="preview-nav-links">
+      <span class="preview-nav-link">Trámites DGT</span>
+      <span class="preview-nav-link">Cómo funciona</span>
+      <span class="preview-nav-link">Contacto</span>
+    </div>
+  </div>
+  <div class="preview-hero">
+    <h3>Tus trámites de tráfico, sin colas</h3>
+    <p>Gestamos tu trámite DGT de forma rápida, segura y sin que tengas que moverte</p>
+    <div class="preview-hero-btn">Ver todos los trámites →</div>
+  </div>
+  <div class="preview-cards">
+    <div class="preview-card">
+      <div class="preview-card-icon">🚗</div>
+      <div class="preview-card-title">Canje de Carnet</div>
+      <div class="preview-card-price">desde 89€</div>
+      <div class="preview-card-btn">Solicitar →</div>
+    </div>
+    <div class="preview-card">
+      <div class="preview-card-icon">🔄</div>
+      <div class="preview-card-title">Transferencia</div>
+      <div class="preview-card-price">120€</div>
+      <div class="preview-card-btn">Solicitar →</div>
+    </div>
+    <div class="preview-card">
+      <div class="preview-card-icon">📄</div>
+      <div class="preview-card-title">Duplicado Permiso</div>
+      <div class="preview-card-price">desde 65€</div>
+      <div class="preview-card-btn">Solicitar →</div>
+    </div>
+  </div>
+</div>
