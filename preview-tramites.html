@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestadia — Todos los trámites DGT</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f7f7f7; color: #2c2c2c; }
+
+    :root { --red: #c0392b; --graphite: #2c2c2c; --border: #e8e8e8; --bg: #f7f7f7; }
+
+    /* NAV */
+    .nav { background: var(--graphite); padding: 0 40px; display: flex; align-items: center; justify-content: space-between; height: 60px; position: sticky; top: 0; z-index: 100; }
+    .nav-logo { font-family: Georgia, serif; color: #fff; font-size: 22px; font-weight: 700; text-decoration: none; }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-link { color: #bbb; font-size: 13px; text-decoration: none; }
+    .nav-link:hover { color: #fff; }
+    .nav-link.active { color: #fff; font-weight: 600; }
+    .nav-cta { background: var(--red); color: #fff; border-radius: 6px; padding: 8px 18px; font-size: 13px; font-weight: 700; text-decoration: none; }
+
+    /* HEADER */
+    .page-header { background: #fff; border-bottom: 1px solid var(--border); padding: 40px; }
+    .page-header-inner { max-width: 960px; margin: 0 auto; }
+    .breadcrumb { font-size: 12px; color: #999; margin-bottom: 16px; }
+    .breadcrumb a { color: #999; text-decoration: none; }
+    .breadcrumb span { color: var(--red); }
+    .page-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--red); margin-bottom: 10px; }
+    .page-title { font-size: 32px; font-weight: 800; color: var(--graphite); font-family: Georgia, serif; margin-bottom: 10px; }
+    .page-sub { font-size: 15px; color: #888; }
+
+    /* FILTROS */
+    .filters { max-width: 960px; margin: 32px auto 0; padding: 0 40px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .filter-pill { background: #fff; border: 1.5px solid var(--border); border-radius: 20px; padding: 7px 18px; font-size: 13px; font-weight: 600; color: #888; cursor: pointer; text-decoration: none; transition: all .15s; }
+    .filter-pill:hover { border-color: var(--graphite); color: var(--graphite); }
+    .filter-pill.active { background: var(--graphite); border-color: var(--graphite); color: #fff; }
+
+    /* GRID */
+    .catalog { max-width: 960px; margin: 28px auto 64px; padding: 0 40px; }
+    .catalog-group { margin-bottom: 40px; }
+    .catalog-group-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #bbb; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+    .catalog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+    .service-card { border: 1px solid var(--border); border-radius: 12px; padding: 22px; background: #fff; transition: box-shadow .2s, border-color .2s; display: flex; flex-direction: column; }
+    .service-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-color: #ccc; }
+    .service-card-title { font-size: 15px; font-weight: 800; color: var(--graphite); line-height: 1.3; margin-bottom: 8px; }
+    .service-card-desc { font-size: 12px; color: #888; line-height: 1.6; margin-bottom: 20px; flex: 1; }
+    .service-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid #f0f0f0; }
+    .service-card-price { font-size: 20px; font-weight: 800; color: var(--graphite); }
+    .service-card-btn { background: var(--red); color: #fff; border-radius: 6px; padding: 8px 16px; font-size: 12px; font-weight: 700; text-decoration: none; white-space: nowrap; }
+    .service-card-btn:hover { background: #a93226; }
+
+    /* FOOTER */
+    .footer { background: var(--graphite); padding: 32px 40px 0; }
+    .footer-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding-bottom: 24px; flex-wrap: wrap; }
+    .footer-logo { font-family: Georgia, serif; color: #fff; font-size: 20px; font-weight: 700; display: block; margin-bottom: 10px; }
+    .footer-info { display: flex; flex-wrap: wrap; gap: 6px 20px; max-width: 420px; }
+    .footer-info-line { color: #bbb; font-size: 12px; line-height: 1.5; }
+    .footer-info-line a { color: #bbb; text-decoration: none; }
+    .footer-info-line a:hover { color: #fff; }
+    .footer-links { display: flex; gap: 6px 20px; flex-wrap: wrap; align-items: center; }
+    .footer-link { color: #bbb; font-size: 12px; text-decoration: none; }
+    .footer-link:hover { color: #fff; }
+    .footer-bottom { max-width: 960px; margin: 0 auto; padding: 14px 0; border-top: 1px solid #444; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+    .footer-copy { color: #999; font-size: 11px; }
+    .footer-legal { display: flex; gap: 14px; flex-wrap: wrap; }
+    .footer-legal a { color: #999; font-size: 11px; text-decoration: none; }
+    .footer-legal a:hover { color: #ccc; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="preview-home.html" class="nav-logo">gestadia</a>
+    <div class="nav-links">
+      <a href="preview-tramites.html" class="nav-link active">Trámites DGT</a>
+      <a href="#" class="nav-link">Cómo funciona</a>
+      <a href="#" class="nav-link">Contacto</a>
+      <a href="#" class="nav-cta">Ver trámites →</a>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="breadcrumb"><a href="preview-home.html">Inicio</a> / <span>Trámites DGT</span></div>
+      <div class="page-eyebrow">Trámites DGT</div>
+      <h1 class="page-title">Todos nuestros servicios</h1>
+      <p class="page-sub">Precio fijo, sin sorpresas. Las tasas de la DGT están incluidas en todos los trámites.</p>
+    </div>
+  </div>
+
+  <div class="filters">
+    <a href="#" class="filter-pill active">Todos</a>
+    <a href="#" class="filter-pill">Permiso de conducir</a>
+    <a href="#" class="filter-pill">Vehículo</a>
+  </div>
+
+  <div class="catalog">
+
+    <div class="catalog-group">
+      <div class="catalog-group-title">Permiso de conducir</div>
+      <div class="catalog-grid">
+
+        <div class="service-card">
+          <div class="service-card-title">Canje de Carnet Extranjero</div>
+          <div class="service-card-desc">Homologa tu permiso extranjero por el carnet español. Nos encargamos de toda la documentación ante la DGT.</div>
+          <div class="service-card-footer">
+            <div class="service-card-price">210 €</div>
+            <a href="preview-canje.html" class="service-card-btn">Solicitar →</a>
+          </div>
+        </div>
+
+        <div class="service-card">
+          <div class="service-card-title">Duplicado de Carnet de Conducir</div>
+          <div class="service-card-desc">Pérdida, robo o deterioro de tu carnet. Tramitamos el duplicado sin que tengas que ir a tráfico.</div>
+          <div class="service-card-footer">
+            <div class="service-card-price">70 €</div>
+            <a href="#" class="service-card-btn">Solicitar →</a>
+          </div>
+        </div>
+
+        <div class="service-card">
+          <div class="service-card-title">Duplicado por Cambio de Datos</div>
+          <div class="service-card-desc">NIE a DNI, cambio de nombre o cambio de sexo. Actualizamos los datos de tu carnet de conducir.</div>
+          <div class="service-card-footer">
+            <div class="service-card-price">70 €</div>
+            <a href="#" class="service-card-btn">Solicitar →</a>
+          </div>
+        </div>
+
+        <div class="service-card">
+          <div class="service-card-title">Permiso Internacional de Conducir</div>
+          <div class="service-card-desc">Conduce fuera de la UE con total legalidad. Válido en prácticamente todos los países del mundo durante un año.</div>
+          <div class="service-card-footer">
+            <div class="service-card-price">100 €</div>
+            <a href="#" class="service-card-btn">Solicitar →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="catalog-group">
+      <div class="catalog-group-title">Vehículo</div>
+      <div class="catalog-grid">
+
+        <div class="service-card">
+          <div class="service-card-title">Transferencia de Vehículo</div>
+          <div class="service-card-desc">Cambio de titularidad ante la DGT. Coches y motos, compradores y vendedores particulares.</div>
+          <div class="service-card-footer">
+            <div class="service-card-price">190 €</div>
+            <a href="#" class="service-card-btn">Solicitar →</a>
+          </div>
+        </div>
+
+        <div class="service-card">
+          <div class="service-card-title">Baja de Vehículo</div>
+          <div class="service-card-desc">Deja de pagar impuestos por un vehículo que ya no usas. Tramitamos la baja definitiva o temporal.</div>
+          <div class="service-card-footer">
+            <div class="service-card-price">190 €</div>
+            <a href="#" class="service-card-btn">Solicitar →</a>
+          </div>
+        </div>
+
+        <div class="service-card">
+          <div class="service-card-title">Cancelación de Reserva de Dominio</div>
+          <div class="service-card-desc">Elimina la reserva de dominio de tu vehículo una vez finalizado el préstamo con el banco o financiera.</div>
+          <div class="service-card-footer">
+            <div class="service-card-price">120 €</div>
+            <a href="#" class="service-card-btn">Solicitar →</a>
+          </div>
+        </div>
+
+        <div class="service-card">
+          <div class="service-card-title">Duplicado Permiso de Circulación</div>
+          <div class="service-card-desc">Pérdida o deterioro del permiso de circulación. Autorización provisional inmediata mientras se tramita el definitivo.</div>
+          <div class="service-card-footer">
+            <div class="service-card-price">70 €</div>
+            <a href="#" class="service-card-btn">Solicitar →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <span class="footer-logo">gestadia</span>
+        <div class="footer-info">
+          <span class="footer-info-line">Paseo de la Castellana 143, 2A · 28046 Madrid</span>
+          <span class="footer-info-line"><a href="tel:910600314">910 600 314</a> · <a href="https://wa.me/34684462670">WhatsApp 684 46 26 70</a></span>
+          <span class="footer-info-line"><a href="mailto:info@gestadia.com">info@gestadia.com</a></span>
+          <span class="footer-info-line" style="margin-top:4px; color:#999;">Servicio de tramitación DGT de Defensa Legal Consumidores</span>
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="preview-tramites.html" class="footer-link">Trámites DGT</a>
+        <a href="#" class="footer-link">Cómo funciona</a>
+        <a href="#" class="footer-link">Sobre nosotros</a>
+        <a href="#" class="footer-link">Contacto</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Gestadia. Todos los derechos reservados.</span>
+      <div class="footer-legal">
+        <a href="#">Aviso legal</a>
+        <a href="#">Pagos y devoluciones</a>
+        <a href="#">Protección de datos</a>
+        <a href="#">Privacidad</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
