@@ -12,7 +12,7 @@
 
     /* Nav */
     .pnav { background: var(--graphite); padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; }
-    .pnav-logo { font-family: Georgia, serif; color: #fff; font-size: 22px; font-weight: 700; }
+    .pnav-logo { font-family: Georgia, serif; color: #fff; font-size: 22px; font-weight: 700; text-decoration: none; }
     .pnav-links { display: flex; gap: 24px; }
     .pnav-link { color: #ccc; font-size: 13px; text-decoration: none; }
     .pnav-link.active { color: #fff; font-weight: 600; }
@@ -35,10 +35,13 @@
     .info-item-label { font-size: 10px; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
     .info-item-val { font-size: 14px; font-weight: 700; color: var(--graphite); }
 
-    .docs-section { margin-bottom: 28px; }
+    /* 2-col content layout */
+    .content-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 28px; border-top: 1px solid var(--border); padding-top: 24px; }
+
+    .docs-section { }
     .docs-title { font-size: 12px; font-weight: 700; color: var(--graphite); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
-    .doc-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #555; margin-bottom: 8px; }
-    .doc-dot { width: 7px; height: 7px; background: var(--red); border-radius: 50%; flex-shrink: 0; }
+    .doc-item { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: #555; margin-bottom: 8px; line-height: 1.5; }
+    .doc-dot { width: 7px; height: 7px; background: var(--red); border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
     .docs-note { font-size: 12px; color: #aaa; margin-top: 10px; }
 
     .steps-section { }
@@ -47,6 +50,18 @@
     .step-num { width: 28px; height: 28px; background: var(--graphite); color: #fff; border-radius: 50%; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
     .step-text { font-size: 13px; color: #555; line-height: 1.6; }
     .step-text strong { color: var(--graphite); display: block; font-size: 13px; margin-bottom: 2px; }
+
+    /* Verificador acordeón inline en paso 1 */
+    .step-row-featured { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 14px 16px; }
+    .step-row-featured .step-num { background: #16a34a; }
+    .verif-toggle { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; background: none; border: none; padding: 0; font-size: 13px; font-weight: 700; color: var(--red); cursor: pointer; font-family: inherit; text-decoration: none; }
+    .verif-toggle:hover { color: #a93226; }
+    .verif-toggle span.label { text-decoration: underline; text-underline-offset: 3px; }
+    .verif-toggle .arrow { font-size: 9px; display: inline-block; transition: transform .2s; }
+    .verif-toggle.open .arrow { transform: rotate(180deg); }
+    .verif-inline { background: #f7f7f7; border: 1.5px solid var(--border); border-radius: 10px; padding: 16px; margin-top: 10px; display: none; }
+    .verif-btn { background: var(--graphite); color: #fff; border: none; border-radius: 8px; padding: 10px 18px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; width: 100%; margin-top: 4px; }
+    .verif-btn:hover { background: #444; }
 
     /* Right: sticky checkout panel */
     .page-right { padding: 28px 24px; background: #fafafa; }
@@ -67,6 +82,39 @@
     .checkout-security { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 11px; color: #bbb; margin-top: 10px; }
     .checkout-divider { height: 1px; background: var(--border); margin: 18px 0; }
     .checkout-whatsapp { background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 12px 14px; font-size: 12px; color: #166534; display: flex; align-items: center; gap: 10px; }
+
+    /* DOCS GRUPOS */
+    .doc-group-label { font-size: 11px; font-weight: 700; color: var(--graphite); text-transform: uppercase; letter-spacing: 1px; margin: 14px 0 8px; }
+
+    /* CUESTIONARIO */
+    .check-title { font-size: 14px; font-weight: 800; color: var(--graphite); margin-bottom: 4px; }
+    .check-subtitle { font-size: 12px; color: #aaa; margin-bottom: 20px; }
+    .check-q { margin-bottom: 18px; }
+    .check-q-label { font-size: 12px; font-weight: 600; color: #555; margin-bottom: 8px; }
+    .check-options { display: flex; gap: 8px; }
+    .check-opt { flex: 1; padding: 9px; border: 1.5px solid #ddd; border-radius: 8px; font-size: 13px; font-weight: 600; color: #888; background: #fff; cursor: pointer; font-family: inherit; transition: all .15s; }
+    .check-opt:hover { border-color: var(--graphite); color: var(--graphite); }
+    .check-opt.selected-si { border-color: #16a34a; background: #f0fdf4; color: #16a34a; }
+    .check-opt.selected-no { border-color: var(--red); background: #fdf2f1; color: var(--red); }
+    .check-result-ok { background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 12px 14px; font-size: 13px; color: #166534; font-weight: 600; margin-top: 12px; }
+    .check-result-no { background: #fdf2f1; border: 1px solid #f0c0bc; border-radius: 8px; padding: 12px 14px; font-size: 13px; color: var(--red); margin-top: 12px; }
+    .check-result-no a { color: var(--red); font-weight: 700; }
+    .check-ok-banner { background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #166534; font-weight: 700; margin-bottom: 18px; }
+
+    /* RESPONSIVE */
+    @media (max-width: 700px) {
+      .pnav { padding: 12px 16px; }
+      .pnav-links { gap: 16px; }
+      .breadcrumb { padding: 10px 16px; }
+      .page-body { grid-template-columns: 1fr; }
+      .page-left { padding: 24px 16px; border-right: none; border-bottom: 1px solid var(--border); }
+      .page-right { padding: 20px 16px; background: #fff; }
+      .info-grid { grid-template-columns: 1fr 1fr; }
+      .checkout-card { box-shadow: none; border: none; border-radius: 0; }
+      .footer { padding: 24px 16px 0; }
+      .footer-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; gap: 8px; }
+    }
 
     /* FOOTER */
     .footer { background: var(--graphite); padding: 32px 40px 0; margin-top: 48px; }
@@ -89,21 +137,21 @@
 <body>
 
   <nav class="pnav">
-    <div class="pnav-logo">gestadia</div>
+    <a href="preview-home.html" class="pnav-logo">gestadia</a>
     <div class="pnav-links">
-      <a href="#" class="pnav-link active">Trámites DGT</a>
-      <a href="#" class="pnav-link">Cómo funciona</a>
-      <a href="#" class="pnav-link">Contacto</a>
+      <a href="preview-tramites.html" class="pnav-link active">Trámites DGT</a>
+
+      <a href="preview-contacto.html" class="pnav-link">Contacto</a>
     </div>
   </nav>
 
-  <div class="breadcrumb">Inicio / Trámites DGT / <span>Canje de Carnet Extranjero</span></div>
+  <div class="breadcrumb"><a href="preview-home.html">Inicio</a> / <a href="preview-tramites.html">Trámites DGT</a> / <span>Canje de Carnet Extranjero</span></div>
 
   <div class="page-body">
 
     <div class="page-left">
       <div class="service-eyebrow">Permiso de conducir</div>
-      <div class="service-title">Canje de Carnet Extranjero</div>
+      <h1 class="service-title">Canje de Carnet Extranjero</h1>
       <div class="service-desc">
         ¿Tienes un permiso de conducir extranjero y quieres obtener el carnet español? Gestionamos la homologación ante la DGT sin que tengas que desplazarte. Nos encargamos de toda la documentación y el proceso.
       </div>
@@ -115,7 +163,7 @@
         </div>
         <div class="info-item">
           <div class="info-item-label">Modalidad</div>
-          <div class="info-item-val">100% online</div>
+          <div class="info-item-val">100% online · Sin cita previa</div>
         </div>
         <div class="info-item">
           <div class="info-item-label">Tasas DGT</div>
@@ -123,56 +171,176 @@
         </div>
         <div class="info-item">
           <div class="info-item-label">Atención</div>
-          <div class="info-item-val">Gestora personal</div>
+          <div class="info-item-val">Especialista personal</div>
         </div>
       </div>
 
-      <div class="docs-section">
-        <div class="docs-title">Documentos necesarios</div>
-        <div class="doc-item"><div class="doc-dot"></div>DNI o NIE en vigor</div>
-        <div class="doc-item"><div class="doc-dot"></div>Permiso de conducir extranjero original</div>
-        <div class="doc-item"><div class="doc-dot"></div>Foto carnet reciente (fondo blanco)</div>
-        <div class="doc-item"><div class="doc-dot"></div>Certificado de aptitud médica (si aplica)</div>
-        <div class="docs-note">Los puedes enviar tras el pago por la web o por WhatsApp.</div>
+      <div class="content-cols">
+        <div class="docs-section">
+          <div class="docs-title">Documentos necesarios</div>
+
+          <div class="doc-group-label">Residencia legal en España</div>
+          <div class="doc-item"><div class="doc-dot"></div>DNI español</div>
+          <div class="doc-item"><div class="doc-dot"></div>Carta blanca</div>
+          <div class="doc-item"><div class="doc-dot"></div>Tarjeta Roja</div>
+          <div class="doc-item"><div class="doc-dot"></div>Tarjeta intracomunitaria</div>
+          <div class="doc-item"><div class="doc-dot"></div>Tarjeta de residencia</div>
+          <div class="doc-item"><div class="doc-dot"></div>Resguardo de concesión aprobado</div>
+
+          <div class="doc-group-label" style="margin-top:14px;">Permiso de conducir</div>
+          <div class="doc-item"><div class="doc-dot"></div>Permiso extranjero original en vigor</div>
+          <div class="doc-item"><div class="doc-dot"></div>Examen psicotécnico (centro autorizado)</div>
+
+          <div class="docs-note" style="margin-top:14px;">Una vez realizado el pago podrás subir los documentos desde tu panel o enviarlos por WhatsApp. Si necesitamos documentación original, la recogeremos en tu domicilio a través de nuestro servicio de mensajería sin coste adicional.</div>
+        </div>
+
+        <div class="steps-section">
+          <div class="steps-title">¿Cómo funciona?</div>
+          <div class="step-row step-row-featured">
+            <div class="step-num">1</div>
+            <div class="step-text">
+              <strong>Verifica tus requisitos</strong>
+              Comprueba si cumples los requisitos para el canje.
+              <button class="verif-toggle" id="verif-toggle" onclick="toggleVerif()"><span class="label">Comprobar requisitos</span> <span class="arrow">▼</span></button>
+              <div class="verif-inline" id="verif-body">
+                <div class="check-q">
+                  <div class="check-q-label">¿Tienes residencia legal en España?</div>
+                  <div class="check-options">
+                    <button class="check-opt" data-q="1" data-val="si">Sí</button>
+                    <button class="check-opt" data-q="1" data-val="no">No</button>
+                  </div>
+                </div>
+                <div class="check-q">
+                  <div class="check-q-label">¿Tu permiso es de alguno de estos países?</div>
+                  <select class="form-input" id="country-select" style="margin-top:6px; margin-bottom:0; font-size:13px;">
+                    <option value="">— Selecciona tu país —</option>
+                    <option value="ok">Alemania</option>
+                    <option value="ok">Andorra</option>
+                    <option value="ok">Argentina</option>
+                    <option value="ok">Austria</option>
+                    <option value="ok">Bélgica</option>
+                    <option value="ok">Bolivia</option>
+                    <option value="ok">Brasil</option>
+                    <option value="ok">Bulgaria</option>
+                    <option value="ok">Chile</option>
+                    <option value="ok">Chipre</option>
+                    <option value="ok">Colombia</option>
+                    <option value="ok">Corea del Sur</option>
+                    <option value="ok">Costa Rica</option>
+                    <option value="ok">Croacia</option>
+                    <option value="ok">Cuba</option>
+                    <option value="ok">Dinamarca</option>
+                    <option value="ok">Ecuador</option>
+                    <option value="ok">El Salvador</option>
+                    <option value="ok">Eslovaquia</option>
+                    <option value="ok">Eslovenia</option>
+                    <option value="ok">Estonia</option>
+                    <option value="ok">Filipinas</option>
+                    <option value="ok">Finlandia</option>
+                    <option value="ok">Francia</option>
+                    <option value="ok">Georgia</option>
+                    <option value="ok">Grecia</option>
+                    <option value="ok">Guatemala</option>
+                    <option value="ok">Honduras</option>
+                    <option value="ok">Hungría</option>
+                    <option value="ok">Irlanda</option>
+                    <option value="ok">Islandia</option>
+                    <option value="ok">Italia</option>
+                    <option value="ok">Japón</option>
+                    <option value="ok">Letonia</option>
+                    <option value="ok">Líbano</option>
+                    <option value="ok">Liechtenstein</option>
+                    <option value="ok">Lituania</option>
+                    <option value="ok">Luxemburgo</option>
+                    <option value="ok">Malta</option>
+                    <option value="ok">Marruecos</option>
+                    <option value="ok">México</option>
+                    <option value="ok">Nicaragua</option>
+                    <option value="ok">Noruega</option>
+                    <option value="ok">Países Bajos</option>
+                    <option value="ok">Panamá</option>
+                    <option value="ok">Paraguay</option>
+                    <option value="ok">Perú</option>
+                    <option value="ok">Polonia</option>
+                    <option value="ok">Portugal</option>
+                    <option value="ok">Reino Unido</option>
+                    <option value="ok">República Checa</option>
+                    <option value="ok">República Dominicana</option>
+                    <option value="ok">Rumanía</option>
+                    <option value="ok">Suecia</option>
+                    <option value="ok">Suiza</option>
+                    <option value="ok">Túnez</option>
+                    <option value="ok">Turquía</option>
+                    <option value="ok">Ucrania</option>
+                    <option value="ok">Uruguay</option>
+                    <option value="ok">Venezuela</option>
+                    <option value="no">Mi país no está en la lista</option>
+                  </select>
+                </div>
+                <div class="check-q">
+                  <div class="check-q-label">¿Tu permiso de conducir está en vigor?</div>
+                  <div class="check-options">
+                    <button class="check-opt" data-q="3" data-val="si">Sí</button>
+                    <button class="check-opt" data-q="3" data-val="no">No / Caducado</button>
+                  </div>
+                </div>
+                <div class="check-q">
+                  <div class="check-q-label">¿Obtuvo el permiso de conducir antes de obtener la residencia o nacionalidad española?</div>
+                  <div class="check-options">
+                    <button class="check-opt" data-q="4" data-val="si">Sí</button>
+                    <button class="check-opt" data-q="4" data-val="no">No</button>
+                  </div>
+                </div>
+                <div class="check-q" id="check-q5" style="display:none;">
+                  <div class="check-q-label">Cuando obtuvo el permiso, ¿llevaba más de 6 meses residiendo en ese país?</div>
+                  <div class="check-options">
+                    <button class="check-opt" data-q="5" data-val="si">Sí</button>
+                    <button class="check-opt" data-q="5" data-val="no">No</button>
+                  </div>
+                </div>
+                <div id="check-result" style="display:none; margin-bottom:8px;"></div>
+                <button class="verif-btn" onclick="verificarElegibilidad()">Verificar →</button>
+              </div>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">2</div>
+            <div class="step-text"><strong>Rellena y paga</strong>Formulario rápido + pago seguro con tarjeta.</div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">3</div>
+            <div class="step-text"><strong>Envíanos los documentos</strong>Por la web o por WhatsApp.</div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">4</div>
+            <div class="step-text"><strong>Nosotros lo tramitamos</strong>Nuestro equipo jurídico gestiona todo ante la DGT.</div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">5</div>
+            <div class="step-text"><strong>Recibes tu carnet</strong>Te informamos de cada paso.</div>
+          </div>
+        </div>
       </div>
 
-      <div class="steps-section">
-        <div class="steps-title">¿Cómo funciona?</div>
-        <div class="step-row">
-          <div class="step-num">1</div>
-          <div class="step-text"><strong>Rellena tus datos y paga</strong>Formulario rápido + pago seguro con tarjeta.</div>
-        </div>
-        <div class="step-row">
-          <div class="step-num">2</div>
-          <div class="step-text"><strong>Envíanos los documentos</strong>Por la web o por WhatsApp, como prefieras.</div>
-        </div>
-        <div class="step-row">
-          <div class="step-num">3</div>
-          <div class="step-text"><strong>Nosotros lo tramitamos</strong>Nuestro equipo jurídico se encarga de todo ante la DGT.</div>
-        </div>
-        <div class="step-row">
-          <div class="step-num">4</div>
-          <div class="step-text"><strong>Recibes tu carnet</strong>Te informamos de cada paso hasta que lo tengas en mano.</div>
-        </div>
-      </div>
     </div>
 
     <div class="page-right">
       <div class="checkout-card">
         <div class="checkout-price-block">
-          <div class="checkout-service">Canje de Carnet Internacional</div>
+          <div class="checkout-service">Canje de Carnet Extranjero</div>
           <div class="checkout-price">210 €<sub>IVA incluido</sub></div>
           <div class="checkout-includes">
             <span>Tasas DGT incluidas</span>
             <span>Gestión completa</span>
-            <span>Gestora personal asignada</span>
+            <span>Especialista personal asignado</span>
           </div>
         </div>
+
         <div class="checkout-body">
           <label class="form-label">Nombre completo</label>
           <input class="form-input" type="text" placeholder="María García López">
           <label class="form-label">DNI / NIE</label>
-          <input class="form-input red-focus" type="text" placeholder="X1234567A">
+          <input class="form-input" type="text" placeholder="X1234567A">
           <label class="form-label">Teléfono de contacto</label>
           <input class="form-input" type="tel" placeholder="+34 600 000 000">
           <label class="form-label">Email</label>
@@ -182,6 +350,7 @@
           <div class="checkout-divider"></div>
           <div class="checkout-whatsapp">💬 ¿Tienes dudas? Escríbenos por WhatsApp antes de pagar</div>
         </div>
+
       </div>
     </div>
 
@@ -200,22 +369,75 @@
       </div>
       <div class="footer-links">
         <a href="preview-tramites.html" class="footer-link">Trámites DGT</a>
-        <a href="#" class="footer-link">Cómo funciona</a>
-        <a href="#" class="footer-link">Sobre nosotros</a>
-        <a href="#" class="footer-link">Contacto</a>
+        <a href="preview-contacto.html" class="footer-link">Contacto</a>
       </div>
     </div>
     <div class="footer-bottom">
       <span class="footer-copy">© 2026 Gestadia. Todos los derechos reservados.</span>
       <div class="footer-legal">
-        <a href="#">Aviso legal</a>
-        <a href="#">Pagos y devoluciones</a>
-        <a href="#">Protección de datos</a>
-        <a href="#">Privacidad</a>
-        <a href="#">Cookies</a>
+        <a href="preview-aviso-legal.html">Aviso legal</a>
+        <a href="preview-pagos-devoluciones.html">Pagos y devoluciones</a>
+        <a href="preview-proteccion-datos.html">Protección de datos</a>
+        <a href="preview-privacidad.html">Privacidad</a>
+        <a href="preview-cookies.html">Cookies</a>
       </div>
     </div>
   </footer>
 
+  <script>
+    const answers = { 1: null, 3: null, 4: null, 5: null };
+
+    function toggleVerif() {
+      const toggle = document.getElementById('verif-toggle');
+      const body = document.getElementById('verif-body');
+      const open = toggle.classList.toggle('open');
+      body.style.display = open ? 'block' : 'none';
+    }
+
+    document.querySelectorAll('.check-opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const q = btn.dataset.q;
+        const val = btn.dataset.val;
+        answers[q] = val;
+        document.querySelectorAll(`.check-opt[data-q="${q}"]`).forEach(b => {
+          b.classList.remove('selected-si', 'selected-no');
+        });
+        btn.classList.add(val === 'si' ? 'selected-si' : 'selected-no');
+        document.getElementById('check-result').style.display = 'none';
+        if (q === '4') {
+          const q5 = document.getElementById('check-q5');
+          q5.style.display = val === 'no' ? 'block' : 'none';
+          if (val === 'si') answers[5] = null;
+        }
+      });
+    });
+
+    function verificarElegibilidad() {
+      const res = document.getElementById('check-result');
+      const country = document.getElementById('country-select').value;
+      const q5visible = document.getElementById('check-q5').style.display !== 'none';
+
+      if (!answers[1] || !country || !answers[3] || !answers[4] || (q5visible && !answers[5])) {
+        res.style.display = 'block';
+        res.innerHTML = '<div class="check-result-no">Por favor, responde todas las preguntas.</div>';
+        return;
+      }
+
+      res.style.display = 'block';
+
+      if (answers[1] === 'no') {
+        res.innerHTML = '<div class="check-result-no">No podemos tramitar el canje: necesitas residencia legal en España.<br><br>Consúltanos por <a href="https://wa.me/34684462670">WhatsApp</a>.</div>';
+      } else if (country === 'no') {
+        res.innerHTML = '<div class="check-result-no">No podemos tramitar el canje: tu país no tiene convenio con España.<br><br>Consúltanos por <a href="https://wa.me/34684462670">WhatsApp</a>.</div>';
+      } else if (answers[3] === 'no') {
+        res.innerHTML = '<div class="check-result-no">No podemos tramitar el canje: el permiso debe estar en vigor.<br><br>Consúltanos por <a href="https://wa.me/34684462670">WhatsApp</a>.</div>';
+      } else if (answers[4] === 'si' || answers[5] === 'si') {
+        res.innerHTML = '<div class="check-result-ok">¡Cumples los requisitos! Puedes proceder con el pago.</div>';
+        document.querySelector('.page-right').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        res.innerHTML = '<div class="check-result-no">No podemos tramitar el canje: el permiso debe haberse obtenido tras más de 6 meses de residencia en el país emisor.<br><br>Consúltanos por <a href="https://wa.me/34684462670">WhatsApp</a>.</div>';
+      }
+    }
+  </script>
 </body>
 </html>

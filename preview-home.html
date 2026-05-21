@@ -34,9 +34,17 @@
     .hero-btn { background: var(--red); color: #fff; border-radius: 8px; padding: 14px 28px; font-size: 15px; font-weight: 700; text-decoration: none; }
     .hero-btn:hover { background: #a93226; }
     .hero-link { color: #ccc; font-size: 13px; text-decoration: none; display: flex; align-items: center; gap: 6px; }
-    .hero-trust { display: flex; gap: 28px; margin-top: 40px; padding-top: 32px; border-top: 1px solid #3a3a3a; flex-wrap: wrap; }
+    .hero-trust { display: flex; gap: 20px; margin-top: 40px; padding-top: 28px; border-top: 1px solid #3a3a3a; flex-wrap: wrap; align-items: center; }
     .hero-trust-item { color: #888; font-size: 12px; display: flex; align-items: center; gap: 7px; }
     .hero-trust-item::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--red); border-radius: 50%; }
+    .hero-trust-sep { width: 1px; height: 28px; background: #3a3a3a; }
+    .hero-google-badge { display: flex; align-items: center; gap: 8px; text-decoration: none; background: rgba(255,255,255,0.05); border: 1px solid #3a3a3a; border-radius: 8px; padding: 7px 12px; transition: border-color .15s; }
+    .hero-google-badge:hover { border-color: #555; }
+    .hero-google-stars { color: #FBBC05; font-size: 13px; letter-spacing: 1px; }
+    .hero-google-stars .half-star { position: relative; display: inline-block; color: #555; }
+    .hero-google-stars .half-star::before { content: '★'; position: absolute; left: 0; top: 0; color: #FBBC05; width: 60%; overflow: hidden; display: block; }
+    .hero-google-text { font-size: 12px; color: #bbb; }
+    .hero-google-text strong { color: #fff; }
 
     /* ── SERVICIOS ── */
     .services { padding: 72px 40px; background: #fff; }
@@ -69,12 +77,12 @@
     .how-step-desc { font-size: 12px; color: #888; line-height: 1.6; }
 
     /* ── TRUST / GARANTÍAS ── */
-    .trust { padding: 64px 40px; background: #fff; border-top: 1px solid var(--border); }
+    .trust { padding: 72px 40px; background: #fff; }
     .trust-inner { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-    .trust-item { display: flex; gap: 16px; align-items: flex-start; }
-    .trust-icon { width: 40px; height: 40px; background: #fdf2f1; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 18px; }
-    .trust-title { font-size: 14px; font-weight: 700; color: var(--graphite); margin-bottom: 4px; }
-    .trust-desc { font-size: 12px; color: #888; line-height: 1.6; }
+    .trust-item { display: flex; flex-direction: column; gap: 14px; }
+    .trust-icon { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--graphite); }
+    .trust-title { font-size: 15px; font-weight: 700; color: var(--graphite); margin-bottom: 6px; }
+    .trust-desc { font-size: 13px; color: #888; line-height: 1.6; }
 
     /* ── FOOTER ── */
     .footer { background: var(--graphite); padding: 32px 40px 0; }
@@ -92,6 +100,44 @@
     .footer-legal { display: flex; gap: 14px; flex-wrap: wrap; }
     .footer-legal a { color: #999; font-size: 11px; text-decoration: none; }
     .footer-legal a:hover { color: #ccc; }
+
+    /* ── ANIMACIONES ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* Hero entrance — escalonado */
+    .hero-eyebrow  { animation: fadeUp .5s ease both; animation-delay: .05s; }
+    .hero-title    { animation: fadeUp .6s ease both; animation-delay: .2s; }
+    .hero-sub      { animation: fadeUp .6s ease both; animation-delay: .35s; }
+    .hero-actions  { animation: fadeUp .6s ease both; animation-delay: .5s; }
+    .hero-trust    { animation: fadeIn .8s ease both; animation-delay: .7s; }
+
+    /* Scroll reveal — estado inicial */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Cards hover mejorado */
+    .service-card {
+      transition: box-shadow .25s ease, border-color .25s ease, transform .25s ease;
+    }
+    .service-card:hover {
+      box-shadow: 0 8px 28px rgba(0,0,0,0.11);
+      border-color: #bbb;
+      transform: translateY(-3px);
+    }
   </style>
 </head>
 <body>
@@ -102,7 +148,7 @@
     <div class="nav-links">
       <a href="#servicios" class="nav-link">Trámites DGT</a>
       <a href="#como-funciona" class="nav-link">Cómo funciona</a>
-      <a href="#" class="nav-link">Contacto</a>
+      <a href="preview-contacto.html" class="nav-link">Contacto</a>
       <a href="#servicios" class="nav-cta">Ver trámites →</a>
     </div>
   </nav>
@@ -112,13 +158,19 @@
     <div class="hero-inner">
       <div class="hero-eyebrow">Trámites DGT Online</div>
       <h1 class="hero-title">Tus trámites de tráfico,<br><em>resueltos hoy.</em></h1>
-      <p class="hero-sub">Sin desplazamientos, sin colas. Paga online y nuestro equipo jurídico se encarga de todo ante la DGT.</p>
+      <p class="hero-sub">Sin desplazamientos, sin colas y sin cita previa en la DGT. Paga online y nuestro equipo jurídico se encarga de todo.</p>
       <div class="hero-actions">
         <a href="#servicios" class="hero-btn">Ver trámites disponibles →</a>
         <a href="#" class="hero-link">💬 ¿Dudas? Escríbenos</a>
       </div>
       <div class="hero-trust">
-        <div class="hero-trust-item">+500 trámites gestionados</div>
+        <a href="https://www.google.com/maps/place/Gestadia/@40.4601133,-3.6937097,17z/data=!3m1!5s0xd42291ec58331b3:0xd3f3eb6641fe86ad!4m8!3m7!1s0xaa39be9759911c0b:0xb61c9e4a3dc5cbd0!8m2!3d40.4601133!4d-3.6911348!9m1!1b1!16s%2Fg%2F11j_1gwhqc?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener" class="hero-google-badge">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          <div class="hero-google-stars">★★★★<span class="half-star">★</span></div>
+          <div class="hero-google-text"><strong>4,6</strong> · +600 reseñas</div>
+        </a>
+        <div class="hero-trust-sep"></div>
+        <div class="hero-trust-item">+1.000 trámites realizados</div>
         <div class="hero-trust-item">Pago 100% seguro con Stripe</div>
         <div class="hero-trust-item">Respuesta en menos de 24h</div>
         <div class="hero-trust-item">Tasas DGT incluidas</div>
@@ -135,7 +187,7 @@
 
       <div class="services-grid">
 
-        <div class="service-card">
+        <div class="service-card reveal" style="transition-delay:.05s">
           <div class="service-card-cat">Permiso de conducir</div>
           <div class="service-card-title">Canje de Carnet Extranjero</div>
           <div class="service-card-desc">Homologa tu permiso extranjero por el carnet español sin moverte de casa.</div>
@@ -145,7 +197,7 @@
           </div>
         </div>
 
-        <div class="service-card">
+        <div class="service-card reveal" style="transition-delay:.15s">
           <div class="service-card-cat">Vehículo</div>
           <div class="service-card-title">Transferencia de Vehículo</div>
           <div class="service-card-desc">Cambio de titularidad ante la DGT. Coches y motos, compradores y vendedores particulares.</div>
@@ -155,7 +207,7 @@
           </div>
         </div>
 
-        <div class="service-card">
+        <div class="service-card reveal" style="transition-delay:.25s">
           <div class="service-card-cat">Permiso de conducir</div>
           <div class="service-card-title">Duplicado de Carnet de Conducir</div>
           <div class="service-card-desc">Pérdida, robo o deterioro. Tramitamos el duplicado de tu carnet de conducir.</div>
@@ -181,22 +233,22 @@
       <p class="section-sub">Nos encargamos de todo. Tú solo rellenas el formulario y pagas.</p>
 
       <div class="how-steps">
-        <div class="how-step">
+        <div class="how-step reveal" style="transition-delay:.0s">
           <div class="how-step-num">1</div>
           <div class="how-step-title">Elige tu trámite</div>
           <div class="how-step-desc">Selecciona el servicio que necesitas y revisa qué incluye.</div>
         </div>
-        <div class="how-step">
+        <div class="how-step reveal" style="transition-delay:.12s">
           <div class="how-step-num">2</div>
           <div class="how-step-title">Rellena y paga</div>
           <div class="how-step-desc">Formulario rápido y pago seguro con tarjeta a través de Stripe.</div>
         </div>
-        <div class="how-step">
+        <div class="how-step reveal" style="transition-delay:.24s">
           <div class="how-step-num">3</div>
           <div class="how-step-title">Envía tus documentos</div>
           <div class="how-step-desc">Por la web o por WhatsApp. Te decimos exactamente qué necesitamos.</div>
         </div>
-        <div class="how-step">
+        <div class="how-step reveal" style="transition-delay:.36s">
           <div class="how-step-num">4</div>
           <div class="how-step-title">Recibe el resultado</div>
           <div class="how-step-desc">Te informamos de cada paso. Nuestro equipo se encarga de todo ante la DGT.</div>
@@ -207,26 +259,36 @@
 
   <!-- GARANTÍAS -->
   <section class="trust">
-    <div class="trust-inner">
-      <div class="trust-item">
-        <div class="trust-icon">🔒</div>
+    <div class="trust-inner" style="margin-bottom:0">
+      <div style="grid-column:1/-1; margin-bottom:32px;">
+        <div class="section-eyebrow">Por qué elegirnos</div>
+        <h2 class="section-title">Tu trámite, en buenas manos</h2>
+      </div>
+      <div class="trust-item reveal" style="transition-delay:.0s">
+        <div class="trust-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
         <div>
           <div class="trust-title">Pago 100% seguro</div>
           <div class="trust-desc">Procesamos los pagos a través de Stripe. Nunca almacenamos datos de tu tarjeta.</div>
         </div>
       </div>
-      <div class="trust-item">
-        <div class="trust-icon">⚡</div>
+      <div class="trust-item reveal" style="transition-delay:.15s">
+        <div class="trust-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
         <div>
           <div class="trust-title">Tramitación ágil</div>
-          <div class="trust-desc">Empezamos a gestionar tu trámite en menos de 24 horas tras recibir la documentación.</div>
+          <div class="trust-desc">Empezamos con tu trámite en menos de 24 horas tras recibir la documentación.</div>
         </div>
       </div>
-      <div class="trust-item">
-        <div class="trust-icon">🧑‍💼</div>
+      <div class="trust-item reveal" style="transition-delay:.3s">
+        <div class="trust-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
         <div>
           <div class="trust-title">Especialista personal</div>
-          <div class="trust-desc">Tendrás un especialista asignado de nuestro equipo jurídico que te informa en cada paso.</div>
+          <div class="trust-desc">Tendrás un especialista de nuestro equipo jurídico que te informa en cada paso.</div>
         </div>
       </div>
     </div>
@@ -248,20 +310,54 @@
         <a href="preview-tramites.html" class="footer-link">Trámites DGT</a>
         <a href="#" class="footer-link">Cómo funciona</a>
         <a href="#" class="footer-link">Sobre nosotros</a>
-        <a href="#" class="footer-link">Contacto</a>
+        <a href="preview-contacto.html" class="footer-link">Contacto</a>
       </div>
     </div>
     <div class="footer-bottom">
       <span class="footer-copy">© 2026 Gestadia. Todos los derechos reservados.</span>
       <div class="footer-legal">
-        <a href="#">Aviso legal</a>
-        <a href="#">Pagos y devoluciones</a>
-        <a href="#">Protección de datos</a>
-        <a href="#">Privacidad</a>
-        <a href="#">Cookies</a>
+        <a href="preview-aviso-legal.html">Aviso legal</a>
+        <a href="preview-pagos-devoluciones.html">Pagos y devoluciones</a>
+        <a href="preview-proteccion-datos.html">Protección de datos</a>
+        <a href="preview-privacidad.html">Privacidad</a>
+        <a href="preview-cookies.html">Cookies</a>
       </div>
     </div>
   </footer>
 
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Contador animado "+1.000 trámites"
+    function animateCounter(el, target, duration) {
+      let start = 0;
+      const step = timestamp => {
+        if (!start) start = timestamp;
+        const progress = Math.min((timestamp - start) / duration, 1);
+        const val = Math.floor(progress * target);
+        el.textContent = '+' + val.toLocaleString('es-ES') + ' trámites realizados';
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = '+1.000 trámites realizados';
+      };
+      requestAnimationFrame(step);
+    }
+
+    const counterEl = Array.from(document.querySelectorAll('.hero-trust-item'))
+      .find(el => el.textContent.includes('trámites'));
+
+    if (counterEl) {
+      setTimeout(() => animateCounter(counterEl, 1000, 1400), 800);
+    }
+  </script>
 </body>
 </html>
