@@ -25,10 +25,11 @@
     .info-item { background: var(--bg); border-radius: 8px; padding: 14px 16px; }
     .info-item-label { font-size: 10px; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
     .info-item-val { font-size: 14px; font-weight: 700; color: var(--graphite); }
-    .docs-section { margin-bottom: 28px; }
+    .content-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 28px; border-top: 1px solid var(--border); padding-top: 24px; }
+    .docs-section { }
     .docs-title { font-size: 12px; font-weight: 700; color: var(--graphite); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
-    .doc-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #555; margin-bottom: 8px; }
-    .doc-dot { width: 7px; height: 7px; background: var(--red); border-radius: 50%; flex-shrink: 0; }
+    .doc-item { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: #555; margin-bottom: 8px; line-height: 1.5; }
+    .doc-dot { width: 7px; height: 7px; background: var(--red); border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
     .docs-note { font-size: 12px; color: #aaa; margin-top: 10px; }
     .steps-section { }
     .steps-title { font-size: 12px; font-weight: 700; color: var(--graphite); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
@@ -36,6 +37,8 @@
     .step-num { width: 28px; height: 28px; background: var(--graphite); color: #fff; border-radius: 50%; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
     .step-text { font-size: 13px; color: #555; line-height: 1.6; }
     .step-text strong { color: var(--graphite); display: block; font-size: 13px; margin-bottom: 2px; }
+    .step-row-featured { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 12px 14px; margin: 0 -14px 14px; }
+    .step-row-featured .step-num { background: #16a34a; }
     .page-right { padding: 28px 24px; background: #fafafa; }
     .checkout-card { border: 1px solid #e0e0e0; border-radius: 16px; position: sticky; top: 24px; background: #fff; box-shadow: 0 4px 24px rgba(0,0,0,0.08); overflow: hidden; }
     .checkout-price-block { padding: 28px 24px 20px; border-bottom: 1px solid var(--border); }
@@ -109,33 +112,33 @@
         </div>
       </div>
 
-      <div class="docs-section">
-        <div class="docs-title">Documentos necesarios</div>
-        <div class="doc-item"><div class="doc-dot"></div>DNI o NIE en vigor</div>
-        <div class="doc-item"><div class="doc-dot"></div>Denuncia por pérdida o robo (si aplica)</div>
-        <div class="doc-item"><div class="doc-dot"></div>Carnet deteriorado (si aplica)</div>
-        <div class="doc-item"><div class="doc-dot"></div>Dos fotografías de carnet recientes</div>
-        <div class="doc-item"><div class="doc-dot"></div>Justificante de cambio de domicilio (si es el motivo)</div>
-        <div class="docs-note">Los puedes enviar tras el pago por la web o por WhatsApp.</div>
-      </div>
+      <div class="content-cols">
+        <div class="docs-section">
+          <div class="docs-title">Documentos necesarios</div>
+          <div class="doc-item"><div class="doc-dot"></div>DNI en vigor</div>
+          <div class="doc-item"><div class="doc-dot"></div>Motivo del duplicado (pérdida, robo o deterioro)</div>
+          <div class="doc-item"><div class="doc-dot"></div>Dirección de envío del nuevo carnet</div>
+          <div class="docs-note">Una vez realizado el pago podrás subir los documentos desde tu panel o enviarlos por WhatsApp. Si necesitamos documentación original, la recogeremos en tu domicilio a través de nuestro servicio de mensajería sin coste adicional.</div>
+        </div>
 
-      <div class="steps-section">
-        <div class="steps-title">¿Cómo funciona?</div>
-        <div class="step-row">
-          <div class="step-num">1</div>
-          <div class="step-text"><strong>Rellena tus datos y paga</strong>Formulario rápido + pago seguro con tarjeta.</div>
-        </div>
-        <div class="step-row">
-          <div class="step-num">2</div>
-          <div class="step-text"><strong>Envíanos los documentos</strong>Por la web o por WhatsApp, como prefieras.</div>
-        </div>
-        <div class="step-row">
-          <div class="step-num">3</div>
-          <div class="step-text"><strong>Nosotros lo tramitamos</strong>Nuestro equipo jurídico se encarga de todo ante la DGT. Permiso provisional en menos de 24 horas.</div>
-        </div>
-        <div class="step-row">
-          <div class="step-num">4</div>
-          <div class="step-text"><strong>Recibes tu carnet</strong>El definitivo se envía por correo a tu domicilio. Te informamos de cada paso.</div>
+        <div class="steps-section">
+          <div class="steps-title">¿Cómo funciona?</div>
+          <div class="step-row">
+            <div class="step-num">1</div>
+            <div class="step-text"><strong>Rellena tus datos y paga</strong>Formulario rápido + pago seguro con tarjeta.</div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">2</div>
+            <div class="step-text"><strong>Envíanos los documentos</strong>Por la web o por WhatsApp, como prefieras.</div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">3</div>
+            <div class="step-text"><strong>Nosotros lo tramitamos</strong>Nuestro equipo jurídico se encarga de todo ante la DGT. Permiso provisional en menos de 24 horas.</div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">4</div>
+            <div class="step-text"><strong>Recibes tu carnet</strong>El definitivo se envía por correo a tu domicilio. Te informamos de cada paso.</div>
+          </div>
         </div>
       </div>
     </div>

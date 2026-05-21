@@ -25,10 +25,11 @@
     .info-item { background: var(--bg); border-radius: 8px; padding: 14px 16px; }
     .info-item-label { font-size: 10px; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
     .info-item-val { font-size: 14px; font-weight: 700; color: var(--graphite); }
-    .docs-section { margin-bottom: 28px; }
+    .content-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 28px; border-top: 1px solid var(--border); padding-top: 24px; }
+    .docs-section { }
     .docs-title { font-size: 12px; font-weight: 700; color: var(--graphite); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
-    .doc-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #555; margin-bottom: 8px; }
-    .doc-dot { width: 7px; height: 7px; background: var(--red); border-radius: 50%; flex-shrink: 0; }
+    .doc-item { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: #555; margin-bottom: 8px; line-height: 1.5; }
+    .doc-dot { width: 7px; height: 7px; background: var(--red); border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
     .docs-note { font-size: 12px; color: #aaa; margin-top: 10px; }
     .steps-section { }
     .steps-title { font-size: 12px; font-weight: 700; color: var(--graphite); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
@@ -109,32 +110,34 @@
         </div>
       </div>
 
-      <div class="docs-section">
-        <div class="docs-title">Documentos necesarios</div>
-        <div class="doc-item"><div class="doc-dot"></div>DNI o NIE en vigor</div>
-        <div class="doc-item"><div class="doc-dot"></div>Carta de cancelación o certificado de pago de la entidad financiera</div>
-        <div class="doc-item"><div class="doc-dot"></div>Permiso de circulación del vehículo</div>
-        <div class="doc-item"><div class="doc-dot"></div>Tarjeta ITV</div>
-        <div class="docs-note">Los puedes enviar tras el pago por la web o por WhatsApp.</div>
-      </div>
+      <div class="content-cols">
+        <div class="docs-section">
+          <div class="docs-title">Documentos necesarios</div>
+          <div class="doc-item"><div class="doc-dot"></div>DNI o NIE en vigor</div>
+          <div class="doc-item"><div class="doc-dot"></div>Carta de cancelación o certificado de pago de la entidad financiera</div>
+          <div class="doc-item"><div class="doc-dot"></div>Permiso de circulación del vehículo</div>
+          <div class="doc-item"><div class="doc-dot"></div>Tarjeta ITV</div>
+          <div class="docs-note">Una vez realizado el pago podrás subir los documentos desde tu panel o enviarlos por WhatsApp. Si necesitamos documentación original, la recogeremos en tu domicilio a través de nuestro servicio de mensajería sin coste adicional.</div>
+        </div>
 
-      <div class="steps-section">
-        <div class="steps-title">¿Cómo funciona?</div>
-        <div class="step-row">
-          <div class="step-num">1</div>
-          <div class="step-text"><strong>Rellena tus datos y paga</strong>Formulario rápido + pago seguro con tarjeta.</div>
-        </div>
-        <div class="step-row">
-          <div class="step-num">2</div>
-          <div class="step-text"><strong>Envíanos los documentos</strong>Por la web o por WhatsApp, como prefieras.</div>
-        </div>
-        <div class="step-row">
-          <div class="step-num">3</div>
-          <div class="step-text"><strong>Nosotros lo tramitamos</strong>Nuestro equipo jurídico gestiona la cancelación ante el Registro de Bienes Muebles.</div>
-        </div>
-        <div class="step-row">
-          <div class="step-num">4</div>
-          <div class="step-text"><strong>Vehículo libre de cargas</strong>Recibes la confirmación. Ya puedes venderlo o darlo de baja sin restricciones.</div>
+        <div class="steps-section">
+          <div class="steps-title">¿Cómo funciona?</div>
+          <div class="step-row">
+            <div class="step-num">1</div>
+            <div class="step-text"><strong>Rellena tus datos y paga</strong>Formulario rápido + pago seguro con tarjeta.</div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">2</div>
+            <div class="step-text"><strong>Envíanos los documentos</strong>Por la web o por WhatsApp, como prefieras.</div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">3</div>
+            <div class="step-text"><strong>Nosotros lo tramitamos</strong>Nuestro equipo jurídico gestiona la cancelación ante el Registro de Bienes Muebles.</div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">4</div>
+            <div class="step-text"><strong>Vehículo libre de cargas</strong>Recibes la confirmación. Ya puedes venderlo o darlo de baja sin restricciones.</div>
+          </div>
         </div>
       </div>
     </div>
