@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem c:\\\\Users\\\\gloria.aleix\\\\.source\\\\repos\\\\Gestadia_Portal -Depth 0)",
+      "Bash(cat ~/.claude/settings.json 2>/dev/null | grep -i stripe || echo \"No stripe found in settings\")",
+      "Read(//c/Users/gloria.aleix/.claude/**)"
+    ]
+  }
+}
