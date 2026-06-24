@@ -193,7 +193,7 @@
           <div class="doc-item"><div class="doc-dot"></div>Permiso extranjero original en vigor</div>
           <div class="doc-item"><div class="doc-dot"></div>Examen psicotécnico (centro autorizado)</div>
 
-          <div class="docs-note" style="margin-top:14px;">Una vez realizado el pago podrás subir los documentos desde tu panel o enviarlos por WhatsApp. Si necesitamos documentación original, la recogeremos en tu domicilio a través de nuestro servicio de mensajería sin coste adicional.</div>
+          <div class="docs-note" style="margin-top:14px;">Tras solicitar información podrás enviar los documentos por WhatsApp. Si necesitamos documentación original, la recogeremos en tu domicilio a través de nuestro servicio de mensajería sin coste adicional.</div>
         </div>
 
         <div class="steps-section">
@@ -307,7 +307,7 @@
           </div>
           <div class="step-row">
             <div class="step-num">2</div>
-            <div class="step-text"><strong>Rellena y paga</strong>Formulario rápido + pago seguro con tarjeta.</div>
+            <div class="step-text"><strong>Solicita información</strong>Formulario rápido. Te contactamos en menos de 24h.</div>
           </div>
           <div class="step-row">
             <div class="step-num">3</div>
@@ -436,7 +436,7 @@
       } else if (answers[3] === 'no') {
         res.innerHTML = '<div class="check-result-no">No podemos tramitar el canje: el permiso debe estar en vigor.<br><br>Consúltanos por <a href="https://wa.me/34684462670">WhatsApp</a>.</div>';
       } else if (answers[4] === 'si' || answers[5] === 'si') {
-        res.innerHTML = '<div class="check-result-ok">¡Cumples los requisitos! Puedes proceder con el pago.</div>';
+        res.innerHTML = '<div class="check-result-ok">¡Cumples los requisitos! Puedes solicitar información abajo.</div>';
         document.querySelector('.page-right').scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else {
         res.innerHTML = '<div class="check-result-no">No podemos tramitar el canje: el permiso debe haberse obtenido tras más de 6 meses de residencia en el país emisor.<br><br>Consúltanos por <a href="https://wa.me/34684462670">WhatsApp</a>.</div>';

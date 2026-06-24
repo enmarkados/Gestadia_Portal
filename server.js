@@ -48,6 +48,7 @@ async function createZohoLead(leadData, clientIp) {
     Last_Name: lastName,
     ...(firstName && { First_Name: firstName }),
     Phone: leadData.telefono,
+    Mobile: leadData.telefono,
     Email: leadData.email,
     Lead_Source: process.env.ZOHO_LEAD_SOURCE_DEFAULT,
     Lead_Status: process.env.ZOHO_LEAD_STATUS_DEFAULT,
