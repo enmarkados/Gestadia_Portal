@@ -37,6 +37,11 @@ async function getAccessToken() {
 
 // ── Lead creation ───────────────────────────────────────────────────────────
 
+function normalizePhone(raw) {
+  const cleaned = raw.trim().replace(/\s+/g, '');
+  return cleaned.startsWith('+') ? cleaned : '+34' + cleaned;
+}
+
 async function createZohoLead(leadData, clientIp) {
   const token = await getAccessToken();
 
@@ -44,11 +49,13 @@ async function createZohoLead(leadData, clientIp) {
   const lastName = nameParts.length > 1 ? nameParts.at(-1) : nameParts[0];
   const firstName = nameParts.length > 1 ? nameParts.slice(0, -1).join(' ') : '';
 
+  const phone = normalizePhone(leadData.telefono);
+
   const record = {
     Last_Name: lastName,
     ...(firstName && { First_Name: firstName }),
-    Phone: leadData.telefono,
-    Mobile: leadData.telefono,
+    Phone: phone,
+    Mobile: phone,
     Email: leadData.email,
     Lead_Source: process.env.ZOHO_LEAD_SOURCE_DEFAULT,
     Lead_Status: process.env.ZOHO_LEAD_STATUS_DEFAULT,
