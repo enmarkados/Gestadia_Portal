@@ -11,58 +11,58 @@
     :root { --red: #c0392b; --graphite: #2c2c2c; --border: #e8e8e8; --bg: #f7f7f7; }
 
     /* NAV */
-    .nav { background: var(--graphite); padding: 0 40px; display: flex; align-items: center; justify-content: space-between; height: 60px; position: sticky; top: 0; z-index: 100; }
-    .nav-logo { font-family: Georgia, serif; color: #fff; font-size: 22px; font-weight: 700; text-decoration: none; }
+    .nav { background: var(--graphite); padding: 0 6%; display: flex; align-items: center; justify-content: space-between; height: 60px; position: sticky; top: 0; z-index: 100; }
+    .nav-logo { font-family: Georgia, serif; color: #fff; font-size: 26px; font-weight: 700; text-decoration: none; }
     .nav-links { display: flex; gap: 28px; align-items: center; }
-    .nav-link { color: #bbb; font-size: 13px; text-decoration: none; }
+    .nav-link { color: #bbb; font-size: 15px; text-decoration: none; }
     .nav-link:hover { color: #fff; }
     .nav-link.active { color: #fff; font-weight: 600; }
-    .nav-cta { background: var(--red); color: #fff; border-radius: 6px; padding: 8px 18px; font-size: 13px; font-weight: 700; text-decoration: none; }
+    .nav-cta { background: var(--red); color: #fff; border-radius: 6px; padding: 9px 20px; font-size: 15px; font-weight: 700; text-decoration: none; }
 
     /* HEADER */
-    .page-header { background: var(--graphite); padding: 52px 40px; }
-    .page-header-inner { max-width: 960px; margin: 0 auto; }
-    .breadcrumb { font-size: 12px; color: #777; margin-bottom: 16px; }
+    .page-header { background: var(--graphite); padding: 64px 6%; }
+    .page-header-inner { max-width: 720px; margin: 0 auto; text-align: center; }
+    .breadcrumb { font-size: 14px; color: #777; margin-bottom: 16px; text-align: left; }
     .breadcrumb a { color: #777; text-decoration: none; }
     .breadcrumb span { color: #bbb; }
-    .page-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--red); margin-bottom: 12px; }
-    .page-title { font-size: 36px; font-weight: 800; color: #fff; font-family: Georgia, serif; margin-bottom: 10px; }
-    .page-sub { font-size: 15px; color: #aaa; max-width: 480px; line-height: 1.6; }
+    .page-eyebrow { font-size: 16px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--red); margin-bottom: 14px; }
+    .page-title { font-size: clamp(40px, 4vw, 60px); font-weight: 800; color: #fff; font-family: Georgia, serif; margin-bottom: 14px; line-height: 1.15; }
+    .page-sub { font-size: 17px; color: #aaa; line-height: 1.6; }
 
     /* BODY */
-    .contact-body { max-width: 960px; margin: 0 auto; padding: 56px 40px 80px; display: grid; grid-template-columns: 1fr 340px; gap: 48px; }
+    .contact-body { max-width: 1100px; margin: 0 auto; padding: 56px 6% 80px; display: grid; grid-template-columns: 1fr 360px; gap: 56px; }
 
     /* FORM */
     .contact-form-wrap { }
-    .form-title { font-size: 18px; font-weight: 800; color: var(--graphite); margin-bottom: 6px; font-family: Georgia, serif; }
-    .form-sub { font-size: 13px; color: #888; margin-bottom: 28px; line-height: 1.6; }
+    .form-title { font-size: 20px; font-weight: 800; color: var(--graphite); margin-bottom: 6px; font-family: Georgia, serif; }
+    .form-sub { font-size: 15px; color: #888; margin-bottom: 28px; line-height: 1.6; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .form-group { margin-bottom: 18px; }
-    .form-label { font-size: 11px; font-weight: 600; color: #888; display: block; margin-bottom: 6px; }
-    .form-input { background: #fff; border: 1.5px solid var(--border); border-radius: 8px; padding: 11px 14px; font-size: 14px; color: var(--graphite); width: 100%; font-family: inherit; transition: border-color .15s; }
+    .form-label { font-size: 12px; font-weight: 600; color: #888; display: block; margin-bottom: 6px; }
+    .form-input { background: #fff; border: 1.5px solid var(--border); border-radius: 8px; padding: 11px 14px; font-size: 15px; color: var(--graphite); width: 100%; font-family: inherit; transition: border-color .15s; }
     .form-input:focus { outline: none; border-color: var(--graphite); }
     .form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; cursor: pointer; }
     .form-textarea { resize: vertical; min-height: 130px; }
     .form-submit { background: var(--red); color: #fff; border: none; border-radius: 8px; padding: 14px 28px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; width: 100%; margin-top: 4px; transition: background .15s; }
     .form-submit:hover { background: #a93226; }
-    .form-note { font-size: 11px; color: #aaa; margin-top: 10px; text-align: center; line-height: 1.5; }
+    .form-note { font-size: 13px; color: #aaa; margin-top: 10px; text-align: center; line-height: 1.5; }
 
     /* SIDEBAR */
     .contact-sidebar { }
     .sidebar-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 16px; }
-    .sidebar-card-title { font-size: 13px; font-weight: 700; color: var(--graphite); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .sidebar-card-title { font-size: 15px; font-weight: 700; color: var(--graphite); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
     .sidebar-card-title svg { color: var(--red); flex-shrink: 0; }
     .sidebar-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
     .sidebar-item:last-child { margin-bottom: 0; }
-    .sidebar-item-label { font-size: 10px; font-weight: 700; color: #bbb; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
-    .sidebar-item-val { font-size: 13px; color: var(--graphite); font-weight: 600; }
+    .sidebar-item-label { font-size: 12px; font-weight: 700; color: #bbb; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+    .sidebar-item-val { font-size: 15px; color: var(--graphite); font-weight: 600; }
     .sidebar-item-val a { color: var(--graphite); text-decoration: none; }
     .sidebar-item-val a:hover { color: var(--red); }
 
     .whatsapp-btn { display: flex; align-items: center; justify-content: center; gap: 10px; background: #25D366; color: #fff; border-radius: 10px; padding: 14px; font-size: 14px; font-weight: 700; text-decoration: none; transition: background .15s; }
     .whatsapp-btn:hover { background: #1ebe5d; }
 
-    .hours-row { display: flex; justify-content: space-between; font-size: 12px; color: #666; padding: 6px 0; border-bottom: 1px solid #f5f5f5; }
+    .hours-row { display: flex; justify-content: space-between; font-size: 13px; color: #666; padding: 6px 0; border-bottom: 1px solid #f5f5f5; }
     .hours-row:last-child { border-bottom: none; }
     .hours-row span { font-weight: 600; color: var(--graphite); }
 
@@ -78,20 +78,20 @@
     .contact-sidebar   { animation: fadeUp .6s ease both .25s; }
 
     /* FOOTER */
-    .footer { background: var(--graphite); padding: 32px 40px 0; }
-    .footer-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding-bottom: 24px; flex-wrap: wrap; }
-    .footer-logo { font-family: Georgia, serif; color: #fff; font-size: 20px; font-weight: 700; display: block; margin-bottom: 10px; }
+    .footer { background: var(--graphite); padding: 32px 6% 0; }
+    .footer-inner { margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding-bottom: 24px; flex-wrap: wrap; }
+    .footer-logo { font-family: Georgia, serif; color: #fff; font-size: 22px; font-weight: 700; display: block; margin-bottom: 10px; }
     .footer-info { display: flex; flex-wrap: wrap; gap: 6px 20px; max-width: 420px; }
-    .footer-info-line { color: #bbb; font-size: 12px; line-height: 1.5; }
+    .footer-info-line { color: #bbb; font-size: 14px; line-height: 1.5; }
     .footer-info-line a { color: #bbb; text-decoration: none; }
     .footer-info-line a:hover { color: #fff; }
     .footer-links { display: flex; gap: 6px 20px; flex-wrap: wrap; align-items: center; }
-    .footer-link { color: #bbb; font-size: 12px; text-decoration: none; }
+    .footer-link { color: #bbb; font-size: 14px; text-decoration: none; }
     .footer-link:hover { color: #fff; }
-    .footer-bottom { max-width: 960px; margin: 0 auto; padding: 14px 0; border-top: 1px solid #444; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
-    .footer-copy { color: #999; font-size: 11px; }
+    .footer-bottom { margin: 0 auto; padding: 14px 0; border-top: 1px solid #444; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+    .footer-copy { color: #999; font-size: 13px; }
     .footer-legal { display: flex; gap: 14px; flex-wrap: wrap; }
-    .footer-legal a { color: #999; font-size: 11px; text-decoration: none; }
+    .footer-legal a { color: #999; font-size: 13px; text-decoration: none; }
     .footer-legal a:hover { color: #ccc; }
   </style>
 </head>
@@ -103,7 +103,7 @@
       <a href="preview-tramites.html" class="nav-link">Trámites DGT</a>
 
       <a href="preview-contacto.html" class="nav-link active">Contacto</a>
-      <a href="preview-tramites.html" class="nav-cta">Ver trámites →</a>
+      <a href="https://wa.me/34684462670" target="_blank" rel="noopener" class="nav-cta" style="background:#25D366;">WhatsApp →</a>
     </div>
   </nav>
 

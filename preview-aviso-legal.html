@@ -3,41 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestadia — Aviso Legal</title>
+  <title>Aviso Legal — Gestadia</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f7f7f7; color: #2c2c2c; }
     :root { --red: #c0392b; --graphite: #2c2c2c; --border: #e8e8e8; }
-    .nav { background: var(--graphite); padding: 0 40px; display: flex; align-items: center; justify-content: space-between; height: 60px; position: sticky; top: 0; z-index: 100; }
-    .nav-logo { font-family: Georgia, serif; color: #fff; font-size: 22px; font-weight: 700; text-decoration: none; }
+    .nav { background: var(--graphite); padding: 0 6%; display: flex; align-items: center; justify-content: space-between; height: 60px; position: sticky; top: 0; z-index: 100; }
+    .nav-logo { font-family: Georgia, serif; color: #fff; font-size: 26px; font-weight: 700; text-decoration: none; }
     .nav-links { display: flex; gap: 28px; align-items: center; }
-    .nav-link { color: #bbb; font-size: 13px; text-decoration: none; }
+    .nav-link { color: #bbb; font-size: 15px; text-decoration: none; }
     .nav-link:hover { color: #fff; }
-    .nav-cta { background: var(--red); color: #fff; border-radius: 6px; padding: 8px 18px; font-size: 13px; font-weight: 700; text-decoration: none; }
-    .page-header { background: var(--graphite); padding: 48px 40px; }
-    .page-header-inner { max-width: 800px; margin: 0 auto; }
-    .breadcrumb { font-size: 12px; color: #777; margin-bottom: 14px; }
+    .nav-cta { background: var(--red); color: #fff; border-radius: 6px; padding: 9px 20px; font-size: 15px; font-weight: 700; text-decoration: none; }
+    .page-header { background: var(--graphite); padding: 48px 6%; }
+    .page-header-inner { max-width: 960px; margin: 0 auto; }
+    .breadcrumb { font-size: 14px; color: #777; margin-bottom: 14px; }
     .breadcrumb a { color: #777; text-decoration: none; }
-    .page-title { font-size: 32px; font-weight: 800; color: #fff; font-family: Georgia, serif; }
-    .legal-body { max-width: 800px; margin: 0 auto; padding: 56px 40px 80px; background: #fff; }
-    .legal-section { margin-bottom: 36px; }
-    .legal-section h2 { font-size: 16px; font-weight: 800; color: var(--graphite); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
-    .legal-section p { font-size: 14px; color: #555; line-height: 1.8; margin-bottom: 10px; }
-    .legal-section ul { margin: 10px 0 10px 20px; }
-    .legal-section li { font-size: 14px; color: #555; line-height: 1.8; }
-    .legal-intro { font-size: 13px; color: #888; margin-bottom: 40px; padding: 16px; background: #f7f7f7; border-radius: 8px; border-left: 3px solid var(--red); }
-    .footer { background: var(--graphite); padding: 32px 40px 0; margin-top: 0; }
-    .footer-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding-bottom: 24px; flex-wrap: wrap; }
-    .footer-logo { font-family: Georgia, serif; color: #fff; font-size: 20px; font-weight: 700; display: block; margin-bottom: 10px; }
+    .page-title { font-size: clamp(40px, 4vw, 60px); font-weight: 800; color: #fff; font-family: Georgia, serif; }
+    .page-subtitle { font-size: 17px; color: #888; margin-top: 8px; }
+    .legal-body { max-width: 960px; margin: 0 auto; padding: 56px 40px 80px; background: #fff; }
+    .legal-section { margin-bottom: 40px; }
+    .legal-section h2 { font-size: 20px; font-weight: 800; color: var(--graphite); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); text-transform: uppercase; letter-spacing: 0.5px; }
+    .legal-section p { font-size: 17px; color: #555; line-height: 1.85; margin-bottom: 12px; }
+    .legal-section ul { margin: 10px 0 12px 22px; }
+    .legal-section li { font-size: 17px; color: #555; line-height: 1.85; margin-bottom: 6px; }
+    .legal-section table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 15px; }
+    .legal-section th { background: #f7f7f7; color: var(--graphite); font-weight: 700; padding: 12px 16px; text-align: left; border: 1px solid var(--border); }
+    .legal-section td { padding: 12px 16px; border: 1px solid var(--border); color: #555; vertical-align: top; }
+    .legal-intro { font-size: 17px; color: #666; margin-bottom: 44px; padding: 18px 20px; background: #f7f7f7; border-radius: 8px; border-left: 3px solid var(--red); line-height: 1.8; }
+    .legal-intro strong { color: var(--graphite); }
+    .footer { background: var(--graphite); padding: 32px 6% 0; }
+    .footer-inner { margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding-bottom: 24px; flex-wrap: wrap; }
+    .footer-logo { font-family: Georgia, serif; color: #fff; font-size: 22px; font-weight: 700; display: block; margin-bottom: 10px; }
     .footer-info { display: flex; flex-wrap: wrap; gap: 6px 20px; max-width: 420px; }
-    .footer-info-line { color: #bbb; font-size: 12px; }
+    .footer-info-line { color: #bbb; font-size: 14px; }
     .footer-info-line a { color: #bbb; text-decoration: none; }
     .footer-links { display: flex; gap: 6px 20px; flex-wrap: wrap; align-items: center; }
-    .footer-link { color: #bbb; font-size: 12px; text-decoration: none; }
-    .footer-bottom { max-width: 960px; margin: 0 auto; padding: 14px 0; border-top: 1px solid #444; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
-    .footer-copy { color: #999; font-size: 11px; }
+    .footer-link { color: #bbb; font-size: 14px; text-decoration: none; }
+    .footer-bottom { margin: 0 auto; padding: 14px 0; border-top: 1px solid #444; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+    .footer-copy { color: #999; font-size: 13px; }
     .footer-legal { display: flex; gap: 14px; flex-wrap: wrap; }
-    .footer-legal a { color: #999; font-size: 11px; text-decoration: none; }
+    .footer-legal a { color: #999; font-size: 13px; text-decoration: none; }
     .footer-legal a:hover { color: #ccc; }
   </style>
 </head>
@@ -46,46 +51,90 @@
     <a href="preview-home.html" class="nav-logo">gestadia</a>
     <div class="nav-links">
       <a href="preview-tramites.html" class="nav-link">Trámites DGT</a>
-
       <a href="preview-contacto.html" class="nav-link">Contacto</a>
-      <a href="preview-tramites.html" class="nav-cta">Ver trámites →</a>
+      <a href="https://wa.me/34684462670" target="_blank" rel="noopener" class="nav-cta" style="background:#25D366;">WhatsApp →</a>
     </div>
   </nav>
+
   <div class="page-header">
     <div class="page-header-inner">
       <div class="breadcrumb"><a href="preview-home.html">Inicio</a> / Aviso legal</div>
       <h1 class="page-title">Aviso Legal</h1>
+      <p class="page-subtitle">Última actualización: junio de 2026</p>
     </div>
   </div>
+
   <div class="legal-body">
-    <p class="legal-intro">Titular del sitio web: <strong>Defensa Legal Consumidores S.L.</strong> · NIF: B01813336 · Paseo de la Castellana 143, 2A, 28046 Madrid · info@gestadia.com · 910 600 314</p>
+
+    <p class="legal-intro">
+      En cumplimiento de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se informa de los datos identificativos del titular de este sitio web.<br><br>
+      <strong>Titular:</strong> Defensa Legal Consumidores, S.L. &nbsp;·&nbsp; <strong>CIF:</strong> B01813336 &nbsp;·&nbsp;
+      <strong>Domicilio:</strong> Paseo de la Castellana, 143, 2.ª A, 28046 Madrid &nbsp;·&nbsp;
+      <strong>Teléfono:</strong> 910 600 314 &nbsp;·&nbsp; <strong>Email:</strong> info@gestadia.com
+    </p>
 
     <div class="legal-section">
-      <h2>Condiciones de uso</h2>
-      <p>El acceso a este sitio web es gratuito. El uso del mismo implica la aceptación plena de las presentes condiciones. El usuario se compromete a hacer un uso adecuado de los contenidos y servicios ofrecidos, sin infringir la legislación vigente ni los derechos de terceros.</p>
-      <p>Se permite la visualización, impresión y descarga parcial de los contenidos exclusivamente para uso personal y no comercial, siempre que no se modifiquen los materiales.</p>
+      <h2>1. Datos identificativos del titular</h2>
+      <table>
+        <tr><th>Denominación social</th><td>Defensa Legal Consumidores, S.L.</td></tr>
+        <tr><th>CIF</th><td>B01813336</td></tr>
+        <tr><th>Domicilio social</th><td>Paseo de la Castellana, 143, 2.ª A, 28046 Madrid (España)</td></tr>
+        <tr><th>Teléfono de contacto</th><td>910 600 314</td></tr>
+        <tr><th>WhatsApp</th><td>684 46 26 70</td></tr>
+        <tr><th>Correo electrónico</th><td>info@gestadia.com</td></tr>
+        <tr><th>Sitio web</th><td>gestadia.com</td></tr>
+        <tr><th>Actividad</th><td>Gestión y tramitación de expedientes DGT online</td></tr>
+      </table>
     </div>
 
     <div class="legal-section">
-      <h2>Limitación de responsabilidad</h2>
-      <p>Defensa Legal Consumidores S.L. no garantiza el acceso ininterrumpido al sitio web ni la actualidad de sus contenidos. La empresa no asume responsabilidad por daños derivados del acceso al sitio, virus informáticos, problemas del navegador o versiones de software desactualizadas.</p>
+      <h2>2. Objeto y condiciones de uso</h2>
+      <p>El presente Aviso Legal regula el acceso y la utilización del sitio web <strong>gestadia.com</strong> (en adelante, el «Sitio Web»), del que es titular Defensa Legal Consumidores, S.L. (en adelante, el «Titular»).</p>
+      <p>El acceso al Sitio Web es libre y gratuito. El acceso y la navegación por este sitio web implica la aceptación expresa y plena de todas las presentes condiciones de uso. El Titular se reserva el derecho a modificar, en cualquier momento y sin previo aviso, la presentación y configuración del Sitio Web, así como las presentes condiciones.</p>
+      <p>El usuario se compromete a hacer un uso adecuado de los contenidos y servicios que el Titular ofrece y, con carácter enunciativo pero no limitativo, a no emplearlos para:</p>
+      <ul>
+        <li>Incurrir en actividades ilícitas, ilegales o contrarias a la buena fe y al orden público.</li>
+        <li>Difundir contenidos o propaganda de carácter racista, xenófobo, pornográfico o que atente contra los derechos fundamentales reconocidos en la Constitución Española.</li>
+        <li>Introducir o difundir en la red virus informáticos o cualquier otro sistema físico o lógico que sea susceptible de provocar daños en los sistemas informáticos del Titular, de sus proveedores o de terceros.</li>
+        <li>Intentar acceder, utilizar y/o manipular los datos del Titular, terceros proveedores y otros usuarios.</li>
+      </ul>
+      <p>Se permite la visualización, impresión y descarga parcial del contenido del Sitio Web únicamente si concurren las siguientes condiciones: que sea compatible con los fines del Sitio Web, que se haga con el exclusivo ánimo de obtener la información contenida para uso personal y privado, que no se utilice con fines comerciales directos o indirectos, y que no se modifiquen los materiales obtenidos.</p>
     </div>
 
     <div class="legal-section">
-      <h2>Propiedad intelectual</h2>
-      <p>Todos los elementos del sitio web, incluyendo contenidos, documentación, imágenes, gráficos, logotipos y diseños, están protegidos por la legislación de propiedad intelectual e industrial. Su reproducción total o parcial requiere autorización expresa y por escrito de Defensa Legal Consumidores S.L.</p>
+      <h2>3. Propiedad intelectual e industrial</h2>
+      <p>Todos los contenidos del Sitio Web (a título enunciativo: textos, fotografías, gráficos, imágenes, tecnología, software, enlaces, contenidos audiovisuales, diseño gráfico, código fuente y demás elementos) son propiedad del Titular o de terceros que han autorizado su uso, quedando protegidos por la legislación de propiedad intelectual e industrial española e internacional.</p>
+      <p>El Titular prohíbe expresamente la reproducción total o parcial, distribución, comunicación pública o transformación de los contenidos del Sitio Web sin la autorización previa y por escrito del Titular. Asimismo, quedan reservados todos los derechos de propiedad industrial sobre las marcas, nombres comerciales, logotipos y demás signos distintivos.</p>
+      <p>El incumplimiento de lo dispuesto conllevará el ejercicio de las acciones legales que correspondan.</p>
     </div>
 
     <div class="legal-section">
-      <h2>Enlaces externos</h2>
-      <p>Este sitio web puede contener enlaces a páginas de terceros. Defensa Legal Consumidores S.L. no se hace responsable del contenido de dichos sitios externos ni los avala.</p>
+      <h2>4. Exclusión de garantías y responsabilidad</h2>
+      <p>El Titular no garantiza la continuidad, disponibilidad y utilidad del Sitio Web ni de los contenidos o servicios en él ofrecidos. El Titular hará todo lo posible por el buen funcionamiento del Sitio Web, sin embargo, no se responsabiliza ni garantiza que el acceso a este sitio web no vaya a ser ininterrumpido o que esté libre de error.</p>
+      <p>Tampoco se responsabiliza ni garantiza que el contenido o software al que pueda accederse a través de este sitio web esté libre de error o cause un daño al sistema informático del usuario (hardware y software). En ningún caso el Titular será responsable por las pérdidas, daños o perjuicios de cualquier tipo que surjan por el acceso o el uso del Sitio Web.</p>
+      <p>El Titular no asume responsabilidad alguna derivada de la existencia de virus o cualquier otro software dañino que pueda causar daños en los sistemas informáticos, documentos electrónicos o ficheros del usuario del Sitio Web.</p>
+      <p>El Titular se reserva el derecho de interrumpir el acceso al Sitio Web en cualquier momento y sin previo aviso, ya sea por motivos técnicos, de seguridad, de control, de mantenimiento, por fallos de suministro eléctrico o por cualquier otra causa.</p>
     </div>
 
     <div class="legal-section">
-      <h2>Seguridad en pagos</h2>
-      <p>El sitio cumple con las normativas EMVCo, MasterCard, VISA y la Directiva europea PSD2 para operaciones de pago electrónico, garantizando la seguridad de las transacciones realizadas por los usuarios.</p>
+      <h2>5. Política de enlaces (links)</h2>
+      <p>El Sitio Web puede contener enlaces a páginas de terceros. El Titular no controla ni es responsable del contenido de dichos sitios externos, ni avala o asume responsabilidad por los productos, servicios o información ofrecidos en ellos. El usuario accede a los sitios enlazados bajo su exclusiva responsabilidad.</p>
+      <p>Cualquier persona que desee establecer un enlace desde su propio sitio web hacia el Sitio Web deberá obtener la autorización previa y por escrito del Titular. En todo caso, el enlace solo podrá dirigirse a la página principal del Sitio Web, no pudiendo reproducir ninguno de sus contenidos ni crear marcos (<em>frames</em>) sobre las páginas del Sitio Web.</p>
     </div>
+
+    <div class="legal-section">
+      <h2>6. Protección de datos de carácter personal</h2>
+      <p>El Titular, en su condición de responsable del tratamiento, informa al usuario de que los datos de carácter personal que facilite a través del Sitio Web serán tratados de conformidad con el Reglamento (UE) 2016/679 del Parlamento Europeo y del Consejo (RGPD) y con la Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales (LOPDGDD).</p>
+      <p>Para más información sobre el tratamiento de sus datos personales, puede consultar la <a href="preview-privacidad.html" style="color:var(--red);">Política de Privacidad</a> del Sitio Web.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>7. Legislación aplicable y jurisdicción</h2>
+      <p>Las presentes condiciones se rigen e interpretan de conformidad con la legislación española. Para la resolución de cualquier controversia que pudiera derivarse del acceso o uso del Sitio Web, el usuario y el Titular acuerdan someterse a la jurisdicción de los Juzgados y Tribunales de la ciudad de Madrid, renunciando expresamente a cualquier otro fuero que pudiera corresponderles.</p>
+    </div>
+
   </div>
+
   <footer class="footer">
     <div class="footer-inner">
       <div>
@@ -93,6 +142,7 @@
         <div class="footer-info">
           <span class="footer-info-line">Paseo de la Castellana 143, 2A · 28046 Madrid</span>
           <span class="footer-info-line"><a href="tel:910600314">910 600 314</a> · <a href="https://wa.me/34684462670">WhatsApp 684 46 26 70</a></span>
+          <span class="footer-info-line"><a href="mailto:info@gestadia.com">info@gestadia.com</a></span>
           <span class="footer-info-line" style="color:#999;">Servicio de tramitación DGT de Defensa Legal Consumidores</span>
         </div>
       </div>
