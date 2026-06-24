@@ -131,4 +131,11 @@ app.post('/api/leads', async (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Gestadia server → http://localhost:${PORT}`);
+}).on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`\nError: el puerto ${PORT} ya está en uso.\nCierra el proceso anterior o usa: PORT=3001 npm start\n`);
+    process.exit(1);
+  } else {
+    throw err;
+  }
 });
