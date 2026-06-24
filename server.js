@@ -42,6 +42,17 @@ function normalizePhone(raw) {
   return cleaned.startsWith('+') ? cleaned : '+34' + cleaned;
 }
 
+const SERVICIO_MAP = {
+  'Canje de Carnet Extranjero':        'Canje',
+  'Duplicado de Carnet de Conducir':   'Duplicado Carnet De Conducir',
+  'Duplicado por Cambio de Datos':     'Duplicado Carnet De Conducir',
+  'Permiso Internacional de Conducir': 'Otras gestiones',
+  'Transferencia de Vehículo':         'Transferencia de VEhículos',
+  'Baja de Vehículo':                  'Transferencia de VEhículos',
+  'Cancelación de Reserva de Dominio': 'Otras gestiones',
+  'Duplicado Permiso de Circulación':  'Otras gestiones',
+};
+
 async function createZohoLead(leadData, clientIp) {
   const token = await getAccessToken();
 
@@ -50,6 +61,7 @@ async function createZohoLead(leadData, clientIp) {
   const firstName = nameParts.length > 1 ? nameParts.slice(0, -1).join(' ') : '';
 
   const phone = normalizePhone(leadData.telefono);
+  const servicio = SERVICIO_MAP[leadData.tramite] || 'Otras gestiones';
 
   const record = {
     Last_Name: lastName,
@@ -60,6 +72,7 @@ async function createZohoLead(leadData, clientIp) {
     Lead_Source: process.env.ZOHO_LEAD_SOURCE_DEFAULT,
     Lead_Status: process.env.ZOHO_LEAD_STATUS_DEFAULT,
     Pagina_Procedencia: process.env.ZOHO_PAGE_SOURCE_DEFAULT,
+    Campa_a: servicio,
     LOPD: true,
     IP: clientIp || '',
     Description: `Trámite de interés: ${leadData.tramite}`,
