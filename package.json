@@ -1,6 +1,7 @@
 {
   "scripts": {
     "start": "node server.js",
+    "build": "echo Build OK",
     "deploy": "node ftp-deploy.js",
     "test": "playwright test"
   },
