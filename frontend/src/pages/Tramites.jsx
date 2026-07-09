@@ -5,9 +5,8 @@ import Footer from '../components/Footer.jsx';
 import styles from './Tramites.module.css';
 
 // Migrated from preview-tramites.html (body lines 86-283). <nav>/<footer>
-// replaced with <Header />/<Footer /> (Task 2). Only the "Canje de Carnet
-// Extranjero" card has a real trámite route so far ("/tramites/canje-carnet",
-// per the migration plan) — the rest keep their plain preview-*.html hrefs
+// replaced with <Header />/<Footer /> (Task 2). No individual trámite has a
+// real route yet, so every catalog item keeps its plain preview-*.html href
 // until Task 4/5 adds routes for each trámite.
 //
 // The original page's inline <script> does two things: (1) filter pills
@@ -21,7 +20,7 @@ const CATALOG = {
   permiso: {
     title: 'Permiso de conducir',
     items: [
-      { title: 'Canje de Carnet Extranjero', desc: 'Homologa tu permiso extranjero por el carnet español. Nos encargamos de toda la documentación ante la DGT.', price: '210 €', href: '/tramites/canje-carnet', isRoute: true },
+      { title: 'Canje de Carnet Extranjero', desc: 'Homologa tu permiso extranjero por el carnet español. Nos encargamos de toda la documentación ante la DGT.', price: '210 €', href: 'preview-canje.html' },
       { title: 'Duplicado de Carnet de Conducir', desc: 'Pérdida, robo o deterioro de tu carnet. Tramitamos el duplicado sin que tengas que ir a tráfico.', price: '70 €', href: 'preview-duplicado-carnet.html' },
       { title: 'Duplicado por Cambio de Datos', desc: 'NIE a DNI, cambio de nombre o cambio de sexo. Actualizamos los datos de tu carnet de conducir.', price: '70 €', href: 'preview-duplicado-datos.html' },
       { title: 'Permiso Internacional de Conducir', desc: 'Conduce fuera de la UE con total legalidad. Válido en prácticamente todos los países del mundo durante un año.', price: '100 €', href: 'preview-permiso-internacional.html' },

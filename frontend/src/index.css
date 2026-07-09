@@ -1,0 +1,17 @@
+/*
+ * Global reset shared by every source page (preview-*.html at the repo
+ * root open their <style> block with these same rules). This makes the
+ * reset available once for the whole React app instead of needing to be
+ * redeclared per page/module.
+ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #fff;
+  color: #2c2c2c;
+}

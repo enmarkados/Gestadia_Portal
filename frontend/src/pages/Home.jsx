@@ -6,9 +6,10 @@ import styles from './Home.module.css';
 
 // Migrated from preview-home.html (body lines 184-425). The <nav>/<footer>
 // markup was replaced with <Header />/<Footer /> (Task 2). Internal links
-// that now have real routes ("/", "/contacto", "/tramites", the canje
-// trámite) were converted to <Link>; everything else (in-page anchors,
-// external WhatsApp links) stays a plain <a>.
+// that now have real routes ("/", "/contacto", "/tramites") were converted
+// to <Link>; everything else (in-page anchors, external WhatsApp links, and
+// trámite detail pages that don't have a route yet, e.g. canje-carnet)
+// stays a plain <a href="preview-*.html">.
 //
 // The original page has a scroll-reveal IntersectionObserver in its inline
 // <script> that toggles a `.visible` class onto `.reveal` elements — without
@@ -100,7 +101,7 @@ export default function Home() {
               <div className={styles.serviceCardDesc}>Homologa tu permiso extranjero por el carnet español sin moverte de casa.</div>
               <div className={styles.serviceCardFooter}>
                 <div className={styles.serviceCardPrice}>210 €</div>
-                <Link to="/tramites/canje-carnet" className={styles.serviceCardBtn}>Solicitar información →</Link>
+                <a href="preview-canje.html" className={styles.serviceCardBtn}>Solicitar información →</a>
               </div>
             </div>
 
