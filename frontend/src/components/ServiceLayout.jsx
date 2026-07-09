@@ -17,14 +17,15 @@ import styles from './ServiceLayout.module.css';
 // `sidebar` is optional and renders in the right column (the price/lead-form panel);
 // it's omitted if not passed so ServiceLayout works even before that content exists.
 //
-// The "Inicio" breadcrumb link uses the real "/" route (already wired in Task 1).
-// The "Trámites DGT" breadcrumb link has no route yet (Task 3 adds /tramites), so
-// it stays a plain, unconverted <a href="preview-tramites.html"> for now.
+// The "Inicio" breadcrumb link uses the real "/" route (wired in Task 1).
+// The "Trámites DGT" breadcrumb link now uses the real "/tramites" route
+// (wired in Task 3) — converted from the plain <a href="preview-tramites.html">
+// left here by Task 2, since that route now exists (Task 4).
 export default function ServiceLayout({ title, subtitle, eyebrow, children, sidebar }) {
   return (
     <>
       <div className={styles.breadcrumb}>
-        <Link to="/">Inicio</Link> / <a href="preview-tramites.html">Trámites DGT</a> / <span>{title}</span>
+        <Link to="/">Inicio</Link> / <Link to="/tramites">Trámites DGT</Link> / <span>{title}</span>
       </div>
       <div className={styles.pageBody}>
         <div className={styles.pageLeft}>

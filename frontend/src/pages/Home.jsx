@@ -6,10 +6,14 @@ import styles from './Home.module.css';
 
 // Migrated from preview-home.html (body lines 184-425). The <nav>/<footer>
 // markup was replaced with <Header />/<Footer /> (Task 2). Internal links
-// that now have real routes ("/", "/contacto", "/tramites") were converted
-// to <Link>; everything else (in-page anchors, external WhatsApp links, and
-// trámite detail pages that don't have a route yet, e.g. canje-carnet)
-// stays a plain <a href="preview-*.html">.
+// that now have real routes ("/", "/contacto", "/tramites", and — since
+// Task 4 — "/tramites/canje-carnet") were converted to <Link>; everything
+// else (in-page anchors, external WhatsApp links) stays as-is. Note: the
+// other two service cards ("Transferencia de Vehículo", "Duplicado de
+// Carnet de Conducir") use href="#" in the original source too — that's a
+// pre-existing bug in preview-home.html itself (not a missing-route
+// placeholder), so it's left untouched rather than "fixed" into a route
+// the original page never linked to.
 //
 // The original page has a scroll-reveal IntersectionObserver in its inline
 // <script> that toggles a `.visible` class onto `.reveal` elements — without
@@ -101,7 +105,7 @@ export default function Home() {
               <div className={styles.serviceCardDesc}>Homologa tu permiso extranjero por el carnet español sin moverte de casa.</div>
               <div className={styles.serviceCardFooter}>
                 <div className={styles.serviceCardPrice}>210 €</div>
-                <a href="preview-canje.html" className={styles.serviceCardBtn}>Solicitar información →</a>
+                <Link to="/tramites/canje-carnet" className={styles.serviceCardBtn}>Solicitar información →</Link>
               </div>
             </div>
 
