@@ -27,7 +27,7 @@ frontend/
 │   │   │   │   DuplicadoDatos.jsx, DuplicadoCirculacion.jsx,
 │   │   │   │   PermisoInternacional.jsx, BajaVehiculo.jsx, CancelacionDominio.jsx
 │   │   ├── legal/
-│   │   │   ├── AvisoLegal.jsx, Privacidad.jsx, Cookies.jsx, PagosDevoluciones.jsx
+│   │   │   ├── AvisoLegal.jsx, Privacidad.jsx, Cookies.jsx, PagosDevoluciones.jsx, ProteccionDatos.jsx
 │   │   ├── Checkout.jsx           nuevo — reemplaza public/checkout.html + app.js de unir
 │   │   ├── Gracias.jsx            nuevo — reemplaza public/gracias.html
 │   │   └── portal/
@@ -67,6 +67,7 @@ Igual que la tabla de `HANDOFF.md`, más las rutas nuevas de checkout/portal:
 | preview-aviso-legal.html | `/aviso-legal` |
 | preview-privacidad.html | `/privacidad` |
 | preview-cookies.html | `/cookies` |
+| preview-proteccion-datos.html *(no estaba en el HANDOFF.md original — página añadida después)* | `/proteccion-datos` |
 | *(nuevo)* public/checkout.html | `/checkout?servicio=:slug` |
 | *(nuevo)* public/gracias.html | `/gracias?pedido=:nPedido` |
 | *(nuevo)* public/portal.html | `/portal/*` (login, mis-servicios, mis-datos, notificaciones — sub-rutas dentro de `ProtectedRoute`) |
