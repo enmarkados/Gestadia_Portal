@@ -141,7 +141,7 @@ export default function Checkout() {
               <div className={styles.formCheck}>
                 <input type="checkbox" id="checkout-acepta" name="aceptaCondiciones" checked={form.aceptaCondiciones} onChange={handleChange} required />
                 <label htmlFor="checkout-acepta">
-                  He leído y acepto las <a href="/condiciones" target="_blank" rel="noopener">condiciones de contratación</a> y la <a href="/privacidad" target="_blank" rel="noopener">política de privacidad</a>. Solicito el inicio inmediato del servicio y entiendo que, una vez ejecutado por completo, perderé el derecho de desistimiento.
+                  He leído y acepto las <Link to="/pagos-devoluciones" target="_blank" rel="noopener">condiciones de contratación</Link> y la <a href="/privacidad" target="_blank" rel="noopener">política de privacidad</a>. Solicito el inicio inmediato del servicio y entiendo que, una vez ejecutado por completo, perderé el derecho de desistimiento.
                 </label>
               </div>
 

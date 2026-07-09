@@ -25,6 +25,7 @@ import Privacidad from './pages/legal/Privacidad.jsx';
 import Cookies from './pages/legal/Cookies.jsx';
 import PagosDevoluciones from './pages/legal/PagosDevoluciones.jsx';
 import ProteccionDatos from './pages/legal/ProteccionDatos.jsx';
+import NotFound from './pages/NotFound.jsx';
 
 export default function App() {
   return (
@@ -55,6 +56,7 @@ export default function App() {
         <Route path="/portal/mis-servicios/:id" element={<ProtectedRoute><ExpedienteDetalle /></ProtectedRoute>} />
         <Route path="/portal/mis-datos" element={<ProtectedRoute><MisDatos /></ProtectedRoute>} />
         <Route path="/portal/notificaciones" element={<ProtectedRoute><Notificaciones /></ProtectedRoute>} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );
