@@ -1,10 +1,3 @@
-:root {
-  --red: #c0392b;
-  --graphite: #2c2c2c;
-  --border: #e8e8e8;
-  --bg: #f7f7f7;
-}
-
 /* ── FOOTER ── */
 .footer { background: var(--graphite); padding: 32px 6% 0; }
 .footer-inner { margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding-bottom: 24px; flex-wrap: wrap; }
