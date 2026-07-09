@@ -2,6 +2,8 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home.jsx';
 import Tramites from './pages/Tramites.jsx';
 import Contacto from './pages/Contacto.jsx';
+import Checkout from './pages/Checkout.jsx';
+import Gracias from './pages/Gracias.jsx';
 import Transferencia from './pages/servicios/Transferencia.jsx';
 import CanjeCarnet from './pages/servicios/CanjeCarnet.jsx';
 import DuplicadoCarnet from './pages/servicios/DuplicadoCarnet.jsx';
@@ -23,6 +25,8 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/tramites" element={<Tramites />} />
         <Route path="/contacto" element={<Contacto />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/gracias" element={<Gracias />} />
         <Route path="/tramites/transferencia" element={<Transferencia />} />
         <Route path="/tramites/canje-carnet" element={<CanjeCarnet />} />
         <Route path="/tramites/duplicado-carnet" element={<DuplicadoCarnet />} />
