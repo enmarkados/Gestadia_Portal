@@ -9,7 +9,7 @@
     "start": "node src/server.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
-    "test": "node --test src/**/*.test.js"
+    "test": "node --experimental-test-module-mocks --test src/**/*.test.js"
   },
   "dependencies": {
     "@prisma/client": "^6.1.0",
