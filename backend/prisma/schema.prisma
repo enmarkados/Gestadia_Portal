@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  passwordHash  String?
+  nombre        String
+  apellidos     String
+  telefono      String?
+  tipoDocumento String?
+  numDocumento  String?
+  zohoContactId String?
+  emailVerified Boolean   @default(false)
+  inviteToken   String?   @unique
+  resetToken    String?   @unique
+  resetTokenExp DateTime?
+  createdAt     DateTime  @default(now())
+
+  expedientes    Expediente[]
+  notificaciones Notificacion[]
+}
+
+model Expediente {
+  id               String    @id @default(uuid())
+  nPedido          String    @unique
+  userId           String
+  user             User      @relation(fields: [userId], references: [id])
+  servicioSlug     String
+  titulo           String
+  estado           String    @default("pago_pendiente")
+  faseZoho         String?
+  zohoDealId       String?
+  importe          Float
+  moneda           String    @default("EUR")
+  pagoRef          String?
+  pagoMetodo       String?
+  fechaPago        DateTime?
+  finDesistimiento DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  documentos Documento[]
+  eventos    EventoExpediente[]
+}
+
+model Documento {
+  id           String     @id @default(uuid())
+  expedienteId String
+  expediente   Expediente @relation(fields: [expedienteId], references: [id])
+  clave        String
+  nombre       String
+  mime         String
+  size         Int
+  path         String
+  createdAt    DateTime   @default(now())
+}
+
+model EventoExpediente {
+  id           String     @id @default(uuid())
+  expedienteId String
+  expediente   Expediente @relation(fields: [expedienteId], references: [id])
+  estado       String
+  nota         String?    @db.Text
+  createdAt    DateTime   @default(now())
+}
+
+model Notificacion {
+  id           String   @id @default(uuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  expedienteId String?
+  titulo       String
+  cuerpo       String   @db.Text
+  canal        String   @default("portal")
+  leida        Boolean  @default(false)
+  createdAt    DateTime @default(now())
+}
