@@ -17,10 +17,15 @@ test('GET /api/servicios returns the catalog', async ({ request }) => {
 });
 
 test('POST /api/leads with valid payload returns ok:true', async ({ request }) => {
+  // 600111222 and 600111223 already collided with pre-existing Zoho Leads
+  // (DUPLICATE_DATA). Using 600111224 — explicitly approved by the user for
+  // this exact value — so this smoke test exercises a real, successful Zoho
+  // Lead creation end to end. If this number is ever consumed by a future
+  // Zoho Lead, re-running this test will need a fresh approved number.
   const res = await request.post(`${BASE}/api/leads`, {
     data: {
       nombre: 'TEST SMOKE E2E — borrar',
-      telefono: '600111222',
+      telefono: '600111224',
       email: 'test-smoke-e2e@example.com',
       tramite: 'Canje de Carnet Extranjero',
     },
