@@ -4,6 +4,14 @@ import Tramites from './pages/Tramites.jsx';
 import Contacto from './pages/Contacto.jsx';
 import Checkout from './pages/Checkout.jsx';
 import Gracias from './pages/Gracias.jsx';
+import Login from './pages/portal/Login.jsx';
+import CrearClave from './pages/portal/CrearClave.jsx';
+import RecuperarClave from './pages/portal/RecuperarClave.jsx';
+import MisServicios from './pages/portal/MisServicios.jsx';
+import ExpedienteDetalle from './pages/portal/ExpedienteDetalle.jsx';
+import MisDatos from './pages/portal/MisDatos.jsx';
+import Notificaciones from './pages/portal/Notificaciones.jsx';
+import ProtectedRoute from './components/portal/ProtectedRoute.jsx';
 import Transferencia from './pages/servicios/Transferencia.jsx';
 import CanjeCarnet from './pages/servicios/CanjeCarnet.jsx';
 import DuplicadoCarnet from './pages/servicios/DuplicadoCarnet.jsx';
@@ -40,6 +48,13 @@ export default function App() {
         <Route path="/cookies" element={<Cookies />} />
         <Route path="/pagos-devoluciones" element={<PagosDevoluciones />} />
         <Route path="/proteccion-datos" element={<ProteccionDatos />} />
+        <Route path="/portal/login" element={<Login />} />
+        <Route path="/portal/crear-clave/:token" element={<CrearClave />} />
+        <Route path="/portal/recuperar" element={<RecuperarClave />} />
+        <Route path="/portal/mis-servicios" element={<ProtectedRoute><MisServicios /></ProtectedRoute>} />
+        <Route path="/portal/mis-servicios/:id" element={<ProtectedRoute><ExpedienteDetalle /></ProtectedRoute>} />
+        <Route path="/portal/mis-datos" element={<ProtectedRoute><MisDatos /></ProtectedRoute>} />
+        <Route path="/portal/notificaciones" element={<ProtectedRoute><Notificaciones /></ProtectedRoute>} />
       </Routes>
     </div>
   );

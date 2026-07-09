@@ -1,0 +1,30 @@
+/* Shared by Login.jsx, CrearClave.jsx and RecuperarClave.jsx — mirrors the
+   page-header + card-form pattern established by Checkout.module.css /
+   Contacto.module.css. */
+.page { background: #f7f7f7; min-height: 100vh; }
+
+.page-header { background: var(--graphite); padding: 64px 6%; }
+.page-header-inner { max-width: 480px; margin: 0 auto; text-align: center; }
+.page-eyebrow { font-size: 16px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--red); margin-bottom: 14px; }
+.page-title { font-size: clamp(32px, 4vw, 44px); font-weight: 800; color: #fff; font-family: Georgia, serif; margin-bottom: 14px; line-height: 1.15; }
+.page-sub { font-size: 16px; color: #aaa; line-height: 1.6; }
+
+.body { max-width: 440px; margin: 0 auto; padding: 56px 6% 80px; }
+
+.form { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+.form-group { margin-bottom: 18px; }
+.form-label { font-size: 12px; font-weight: 600; color: #888; display: block; margin-bottom: 6px; }
+.form-input { background: #fff; border: 1.5px solid var(--border); border-radius: 8px; padding: 11px 14px; font-size: 15px; color: var(--graphite); width: 100%; font-family: inherit; transition: border-color .15s; }
+.form-input:focus { outline: none; border-color: var(--graphite); }
+
+.form-submit { background: var(--red); color: #fff; border: none; border-radius: 8px; padding: 14px 28px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; width: 100%; transition: background .15s; }
+.form-submit:hover { background: #a93226; }
+.form-submit:disabled { opacity: .6; cursor: not-allowed; }
+
+.form-note { font-size: 13px; color: #888; margin-top: 16px; text-align: center; line-height: 1.5; }
+.form-note a { color: var(--red); text-decoration: none; }
+.form-note a:hover { text-decoration: underline; }
+
+.form-status { font-size: 14px; margin-bottom: 16px; text-align: center; line-height: 1.5; }
+.form-status.error { color: var(--red); }
+.form-status.success { color: #166534; }
