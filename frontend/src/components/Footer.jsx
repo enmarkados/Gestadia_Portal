@@ -1,9 +1,12 @@
+import { Link } from 'react-router-dom';
 import styles from './Footer.module.css';
 
-// NOTE: several links below point at preview-*.html targets that don't have
-// a React route yet (only "/" exists so far — see Task 1's App.jsx). Per the
-// migration plan, these stay as plain <a> tags for now and get converted to
-// <Link> in the task that adds each corresponding route (Tasks 3–5).
+// NOTE: the legal-page links below (aviso-legal, pagos-devoluciones, etc.)
+// still point at preview-*.html targets that don't have a React route yet.
+// Per the migration plan, those stay as plain <a> tags for now and get
+// converted to <Link> in the task that adds each corresponding route
+// (Task 5). "Trámites DGT" and "Contacto" were converted to <Link> in Task
+// 3, which is what adds the "/tramites" and "/contacto" routes.
 export default function Footer() {
   return (
     <footer className={styles.footer}>
@@ -18,10 +21,10 @@ export default function Footer() {
           </div>
         </div>
         <div className={styles.footerLinks}>
-          <a href="preview-tramites.html" className={styles.footerLink}>Trámites DGT</a>
+          <Link to="/tramites" className={styles.footerLink}>Trámites DGT</Link>
           <a href="#" className={styles.footerLink}>Cómo funciona</a>
           <a href="#" className={styles.footerLink}>Sobre nosotros</a>
-          <a href="preview-contacto.html" className={styles.footerLink}>Contacto</a>
+          <Link to="/contacto" className={styles.footerLink}>Contacto</Link>
         </div>
       </div>
       <div className={styles.footerBottom}>
