@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import styles from './Footer.module.css';
 
-// NOTE: the legal-page links below (aviso-legal, pagos-devoluciones, etc.)
-// still point at preview-*.html targets that don't have a React route yet.
-// Per the migration plan, those stay as plain <a> tags for now and get
-// converted to <Link> in the task that adds each corresponding route
-// (Task 5). "Trámites DGT" and "Contacto" were converted to <Link> in Task
-// 3, which is what adds the "/tramites" and "/contacto" routes.
+// "Trámites DGT" and "Contacto" were converted to <Link> in Task 3, which
+// is what adds the "/tramites" and "/contacto" routes. The 5 legal-page
+// links below were converted to <Link> in Task 5, which adds their routes
+// (/aviso-legal, /pagos-devoluciones, /proteccion-datos, /privacidad,
+// /cookies). "Cómo funciona" and "Sobre nosotros" stay as plain <a href="#">
+// — no corresponding route exists yet.
 export default function Footer() {
   return (
     <footer className={styles.footer}>
@@ -30,11 +30,11 @@ export default function Footer() {
       <div className={styles.footerBottom}>
         <span className={styles.footerCopy}>© 2026 Gestadia. Todos los derechos reservados.</span>
         <div className={styles.footerLegal}>
-          <a href="preview-aviso-legal.html">Aviso legal</a>
-          <a href="preview-pagos-devoluciones.html">Pagos y devoluciones</a>
-          <a href="preview-proteccion-datos.html">Protección de datos</a>
-          <a href="preview-privacidad.html">Privacidad</a>
-          <a href="preview-cookies.html">Cookies</a>
+          <Link to="/aviso-legal">Aviso legal</Link>
+          <Link to="/pagos-devoluciones">Pagos y devoluciones</Link>
+          <Link to="/proteccion-datos">Protección de datos</Link>
+          <Link to="/privacidad">Privacidad</Link>
+          <Link to="/cookies">Cookies</Link>
         </div>
       </div>
     </footer>

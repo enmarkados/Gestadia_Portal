@@ -10,6 +10,11 @@ import DuplicadoCirculacion from './pages/servicios/DuplicadoCirculacion.jsx';
 import PermisoInternacional from './pages/servicios/PermisoInternacional.jsx';
 import BajaVehiculo from './pages/servicios/BajaVehiculo.jsx';
 import CancelacionDominio from './pages/servicios/CancelacionDominio.jsx';
+import AvisoLegal from './pages/legal/AvisoLegal.jsx';
+import Privacidad from './pages/legal/Privacidad.jsx';
+import Cookies from './pages/legal/Cookies.jsx';
+import PagosDevoluciones from './pages/legal/PagosDevoluciones.jsx';
+import ProteccionDatos from './pages/legal/ProteccionDatos.jsx';
 
 export default function App() {
   return (
@@ -26,6 +31,11 @@ export default function App() {
         <Route path="/tramites/permiso-internacional" element={<PermisoInternacional />} />
         <Route path="/tramites/baja-vehiculo" element={<BajaVehiculo />} />
         <Route path="/tramites/cancelacion-dominio" element={<CancelacionDominio />} />
+        <Route path="/aviso-legal" element={<AvisoLegal />} />
+        <Route path="/privacidad" element={<Privacidad />} />
+        <Route path="/cookies" element={<Cookies />} />
+        <Route path="/pagos-devoluciones" element={<PagosDevoluciones />} />
+        <Route path="/proteccion-datos" element={<ProteccionDatos />} />
       </Routes>
     </div>
   );
