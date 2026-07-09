@@ -975,32 +975,42 @@ git commit -m "feat: add leads router and fused server.js entrypoint"
 
 ---
 
-### Task 8: Repo-root `.env` update
+### Task 8: Repo-root `.env.example` cleanup
 
 **Files:**
 - Modify: `.env.example` (repo root)
-- Modify: `.env` (repo root — do this manually, it's gitignored; the agent should print the exact diff instructions rather than touch real secrets blindly)
 
 **Interfaces:**
-- Produces: repo-root `.env` with every variable `backend/src/config.js` reads, reusing the existing Zoho/FTP values already present.
+- None new — this task is documentation-only. It does not touch `.env` (repo root or `backend/`) since both real env files already have everything they need from Tasks 1–2.
 
-- [ ] **Step 1: Update `.env.example`** at the repo root to match `backend/.env.example` from Task 2, plus the FTP block that's already there today (`FTP_HOST`, `FTP_USER`, `FTP_PASS`, `FTP_PORT`, `FTP_SECURE`, `FTP_SECURE_REJECT_UNAUTHORIZED`, `FTP_FORCE_PASSIVE_IPV4`, `FTP_REMOTE_DIR`, `FTP_LOCAL_DIR`, `FTP_UPLOAD_RETRIES`, `FTP_SKIP_PATHS`).
+**Context (read before starting):** the original plan text for this task assumed the repo-root `.env` would hold every variable `backend/src/config.js` reads. That's no longer the design — Task 1/2 already put all backend config (Zoho, Stripe, JWT, SMTP, DATABASE_URL) into `backend/.env`, which `backend/src/config.js` reads via `dotenv/config` relative to `backend/`'s working directory. The repo-root `.env` now only needs to supply `FTP_*` variables, which `ftp-deploy.cjs` (Task 9) still reads for deployment. This task exists only to fix the repo-root `.env.example` so it no longer documents a Zoho block that's been superseded by `backend/.env.example` — the real repo-root `.env` (gitignored, already has working FTP + Zoho values) does NOT need any edits.
 
-- [ ] **Step 2: Manually reconcile the real `.env`** — open it and:
-  - Rename `ZOHO_DOMAIN`/`ZOHO_API_BASE_URL` usage to `ZOHO_ACCOUNTS_URL=https://accounts.zoho.eu` and `ZOHO_API_URL=https://www.zohoapis.eu` (same values, new names).
-  - Add `PORT=3001`, `BASE_URL=http://localhost:3001`, `DATABASE_URL` (the real MySQL connection string once provisioned — until then, leave it pointing at the local docker DB from Task 1), `JWT_SECRET` (generate a real random string, e.g. `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`), `ZOHO_WEBHOOK_SECRET` (another random string), `STRIPE_SECRET_KEY`/`STRIPE_WEBHOOK_SECRET` (leave empty until the user has Stripe keys — demo mode), `SMTP_*` (leave empty — console mode).
-  - Keep every existing `FTP_*` and `ZOHO_CLIENT_ID`/`ZOHO_CLIENT_SECRET`/`ZOHO_REFRESH_TOKEN`/`ZOHO_CAMPAIGN_ID`/`ZOHO_ASSIGNMENT_RULE_ID`/`ZOHO_LEAD_SOURCE_DEFAULT`/`ZOHO_LEAD_STATUS_DEFAULT`/`ZOHO_PAGE_SOURCE_DEFAULT` values exactly as they are.
+- [ ] **Step 1: Replace `.env.example`** at the repo root — remove the now-superseded Zoho block (that documentation lives in `backend/.env.example` now) and document only what `ftp-deploy.cjs` reads:
 
-- [ ] **Step 3: Verify the app still starts with the updated `.env`**
+```
+# --- Despliegue FTP (usado por ftp-deploy.cjs) ---
+FTP_HOST=
+FTP_USER=
+FTP_PASS=
+FTP_PORT=21
+FTP_SECURE=true
+FTP_SECURE_REJECT_UNAUTHORIZED=true
+FTP_FORCE_PASSIVE_IPV4=false
+FTP_REMOTE_DIR=/
+FTP_UPLOAD_RETRIES=4
+FTP_SKIP_PATHS=
 
-Run: `cd backend && npm run dev` then in another terminal `curl http://localhost:3001/api/health`
-Expected: JSON with `"ok":true`.
+# La configuración de Zoho/Stripe/JWT/SMTP/DATABASE_URL del backend fusionado
+# vive en backend/.env — ver backend/.env.example para esa plantilla.
+```
 
-- [ ] **Step 4: Commit** (only `.env.example` — never commit `.env`)
+- [ ] **Step 2: Confirm the real repo-root `.env` still has working `FTP_*` values** (it does — nothing to change there; just open it and check `FTP_HOST`/`FTP_USER`/`FTP_PASS` are non-empty, don't edit anything else in it).
+
+- [ ] **Step 3: Commit**
 
 ```bash
 git add .env.example
-git commit -m "docs: update .env.example for the fused backend"
+git commit -m "docs: simplify repo-root .env.example now that backend config lives in backend/.env.example"
 ```
 
 ---
