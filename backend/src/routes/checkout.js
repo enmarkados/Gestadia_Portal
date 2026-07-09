@@ -129,7 +129,7 @@ export async function fulfillPayment(expedienteId, { ref, metodo }) {
       `<p>Hola ${u.nombre},</p>
        <p>Hemos recibido tu pago de <strong>${updated.importe.toFixed(2)} €</strong> por <strong>${updated.titulo}</strong> (pedido ${updated.nPedido}).</p>
        <p>Crea tu contraseña para acceder a tu área de cliente y subir la documentación:</p>
-       <p><a href="${config.baseUrl}/portal.html#crear-clave/${u.inviteToken}">Crear mi contraseña</a></p>
+       <p><a href="${config.baseUrl}/portal/crear-clave/${u.inviteToken}">Crear mi contraseña</a></p>
        <p>— El equipo de Gestadia</p>`);
   } else {
     await notifyUser(u, {

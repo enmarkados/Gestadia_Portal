@@ -30,7 +30,7 @@ export async function notifyUser(user, { titulo, cuerpo, expedienteId = null, em
       user.email,
       titulo,
       `<p>Hola ${user.nombre},</p><p>${cuerpo}</p>
-       <p><a href="${config.baseUrl}/portal.html">Ver en mi área de cliente</a></p>
+       <p><a href="${config.baseUrl}/portal/mis-servicios">Ver en mi área de cliente</a></p>
        <p>— El equipo de Gestadia</p>`
     );
   }

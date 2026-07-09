@@ -55,7 +55,7 @@ authRouter.post('/api/auth/forgot', async (req, res) => {
     await sendEmail(email, 'Recupera tu acceso a Gestadia',
       `<p>Hola ${user.nombre},</p>
        <p>Para crear una nueva contraseña, pulsa aquí (caduca en 2 horas):</p>
-       <p><a href="${config.baseUrl}/portal.html#crear-clave/${token}">Crear nueva contraseña</a></p>`);
+       <p><a href="${config.baseUrl}/portal/crear-clave/${token}">Crear nueva contraseña</a></p>`);
   }
   // Respuesta idéntica exista o no el email (no filtrar cuentas)
   res.json({ ok: true });
