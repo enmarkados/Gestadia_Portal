@@ -5,7 +5,7 @@ import crypto from 'node:crypto';
 import fs from 'node:fs';
 import { db } from '../db.js';
 import { requireAuth } from '../middleware/auth.js';
-import { getServicio, ESTADOS } from '../catalog.js';
+import { ESTADOS, checklistExpediente } from '../catalog.js';
 import { addDealNote } from '../services/zoho.js';
 
 export const portalRouter = Router();
@@ -62,14 +62,15 @@ portalRouter.get('/api/expedientes/:id', async (req, res) => {
     include: { documentos: true, eventos: { orderBy: { createdAt: 'asc' } } },
   });
   if (!e) return res.status(404).json({ error: 'Expediente no encontrado' });
-  const servicio = getServicio(e.servicioSlug);
+  const checklist = checklistExpediente(e.servicioSlug, e.paisCanje);
   res.json({
     ...resumen(e),
     eventos: e.eventos,
     documentos: e.documentos.map(({ id, clave, nombre, createdAt }) => ({ id, clave, nombre, createdAt })),
-    checklist: (servicio?.checklist || []).map((c) => ({
-      ...c, subido: e.documentos.some((d) => d.clave === c.clave),
-    })),
+    checklist: checklist.map((c) => ({ ...c, subido: e.documentos.some((d) => d.clave === c.clave) })),
+    paisCanje: e.paisCanje || null,
+    direccion: e.direccion || null,
+    datosPais: e.datosPais || null,
   });
 });
 
@@ -96,9 +97,9 @@ portalRouter.post('/api/expedientes/:id/documentos', upload.single('fichero'), a
     `El cliente ha subido "${req.file.originalname}" (${clave}) al expediente ${e.nPedido}.`);
 
   // Si el checklist está completo, se registra el hito (el gestor cambia la fase en Zoho)
-  const servicio = getServicio(e.servicioSlug);
   const claves = new Set([...e.documentos.map((d) => d.clave), clave]);
-  const completo = (servicio?.checklist || []).every((c) => claves.has(c.clave));
+  const checklist = checklistExpediente(e.servicioSlug, e.paisCanje);
+  const completo = checklist.length > 0 && checklist.every((c) => claves.has(c.clave));
   if (completo && e.estado === 'documentacion_pendiente') {
     await db.eventoExpediente.create({
       data: { expedienteId: e.id, estado: e.estado, nota: 'Documentación completa: pendiente de revisión por tu gestor.' },
