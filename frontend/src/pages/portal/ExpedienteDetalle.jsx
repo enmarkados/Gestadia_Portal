@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import PortalLayout from '../../components/portal/PortalLayout.jsx';
 import { getExpediente, uploadDocumento } from '../../lib/api.js';
+import { PAISES } from '@shared/paises-canje.js';
 import styles from './ExpedienteDetalle.module.css';
 
 const fmt = (d) => new Date(d).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
@@ -78,6 +79,16 @@ export default function ExpedienteDetalle() {
 
   const alerta = expediente.estado === 'documentacion_pendiente' || expediente.estado === 'incidencia';
 
+  const pais = expediente.paisCanje ? PAISES[expediente.paisCanje] : null;
+  const dir = expediente.direccion;
+  const dirLinea = dir
+    ? [[dir.tipoVia, dir.nombreVia, dir.numero].filter(Boolean).join(' '),
+       [dir.bloque, dir.portal, dir.escalera, dir.planta, dir.puerta].filter(Boolean).join(' '),
+       [dir.codigoPostal, dir.municipio, dir.provincia].filter(Boolean).join(' · ')].filter(Boolean).join(', ')
+    : '';
+  const camposPais = pais?.camposExtra ?? [];
+  const tieneDatos = pais || dirLinea || (expediente.datosPais && Object.keys(expediente.datosPais).length);
+
   return (
     <PortalLayout>
       <Link to="/portal/mis-servicios" className={styles.backLink}>← Mis servicios</Link>
@@ -120,6 +131,21 @@ export default function ExpedienteDetalle() {
 
         {uploadError && <p className={styles.error} role="alert">{uploadError}</p>}
       </div>
+
+      {tieneDatos && (
+        <div className={styles.card}>
+          <h2 className={styles.cardTitle}>Datos del trámite</h2>
+          <dl className={styles.datos}>
+            {pais && (<><dt>País del permiso</dt><dd>{pais.nombre}</dd></>)}
+            {dirLinea && (<><dt>Dirección de envío</dt><dd>{dirLinea}</dd></>)}
+            {camposPais.map((c) => (
+              <div key={c.clave} style={{ display: 'contents' }}>
+                <dt>{c.label}</dt><dd>{expediente.datosPais?.[c.clave] || '—'}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      )}
 
       <div className={styles.card}>
         <h2 className={styles.cardTitle}>Historial</h2>

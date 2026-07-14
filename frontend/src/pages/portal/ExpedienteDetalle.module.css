@@ -35,3 +35,12 @@
 
 .pay-text { font-size: 14.5px; color: var(--graphite); line-height: 1.6; }
 .muted { color: #999; font-size: 13px; }
+
+.datos {
+  display: grid;
+  grid-template-columns: minmax(120px, auto) 1fr;
+  gap: 8px 16px;
+  margin: 0;
+}
+.datos dt { color: #6b6b6b; font-size: 13px; }
+.datos dd { margin: 0; font-size: 14px; }
