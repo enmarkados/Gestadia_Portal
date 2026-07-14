@@ -43,6 +43,9 @@ model Expediente {
   pagoMetodo       String?
   fechaPago        DateTime?
   finDesistimiento DateTime?
+  paisCanje        String?
+  direccion        Json?
+  datosPais        Json?
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
 
