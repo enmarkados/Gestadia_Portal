@@ -32,3 +32,5 @@ export function faseToEstado(servicioSlug, fase) {
   if (!s || !fase) return null;
   return s.zoho.fases[fase] ?? null;
 }
+
+export { checklistExpediente, validarDatosCanje } from '../../shared/servicios.js';

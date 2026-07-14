@@ -3,7 +3,7 @@ import Stripe from 'stripe';
 import crypto from 'node:crypto';
 import { config } from '../config.js';
 import { db } from '../db.js';
-import { SERVICIOS, getServicio } from '../catalog.js';
+import { SERVICIOS, getServicio, validarDatosCanje } from '../catalog.js';
 import { upsertContact, createDealForExpediente } from '../services/zoho.js';
 import { notifyUser, sendEmail, transitionExpediente } from '../services/notify.js';
 
@@ -17,8 +17,8 @@ function nuevoNPedido() {
 
 // Catálogo público para pintar la página de checkout
 checkoutRouter.get('/api/servicios', (_req, res) => {
-  res.json(Object.values(SERVICIOS).map(({ slug, nombre, descripcion, precio, checklist }) =>
-    ({ slug, nombre, descripcion, precio, checklist })));
+  res.json(Object.values(SERVICIOS).map(({ slug, nombre, descripcion, precio, checklist, requierePais, requiereDireccion }) =>
+    ({ slug, nombre, descripcion, precio, checklist, requierePais: !!requierePais, requiereDireccion: !!requiereDireccion })));
 });
 
 // Inicia el checkout: crea usuario (si no existe) + expediente y devuelve la URL de pago
@@ -29,6 +29,10 @@ checkoutRouter.post('/api/checkout', async (req, res) => {
     if (!servicio) return res.status(400).json({ error: 'Servicio no válido' });
     if (!nombre || !apellidos || !email) return res.status(400).json({ error: 'Nombre, apellidos y email son obligatorios' });
     if (!aceptaCondiciones) return res.status(400).json({ error: 'Debes aceptar las condiciones de contratación' });
+
+    const { paisCanje, direccion, datosPais } = req.body || {};
+    const errorCanje = validarDatosCanje(servicio, { paisCanje, direccion, datosPais });
+    if (errorCanje) return res.status(400).json({ error: errorCanje });
 
     const emailNorm = String(email).trim().toLowerCase();
     let user = await db.user.findUnique({ where: { email: emailNorm } });
@@ -52,6 +56,8 @@ checkoutRouter.post('/api/checkout', async (req, res) => {
         titulo: servicio.nombre,
         importe: servicio.precio,
         estado: 'pago_pendiente',
+        ...(servicio.requierePais ? { paisCanje } : {}),
+        ...(servicio.requiereDireccion ? { direccion, datosPais: datosPais || {} } : {}),
       },
     });
     await db.eventoExpediente.create({ data: { expedienteId: expediente.id, estado: 'pago_pendiente' } });
