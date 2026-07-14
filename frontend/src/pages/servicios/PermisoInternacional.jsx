@@ -2,7 +2,10 @@ import Header from '../../components/Header.jsx';
 import Footer from '../../components/Footer.jsx';
 import ServiceLayout from '../../components/ServiceLayout.jsx';
 import LeadForm from './LeadForm.jsx';
+import { SERVICIOS } from '@shared/servicios.js';
 import styles from './PermisoInternacional.module.css';
+
+const S = SERVICIOS['permiso-internacional'];
 
 // Migrated from preview-permiso-internacional.html (style lines 7-73, body
 // from line 75). See Transferencia.jsx for the full recipe notes shared by
@@ -19,8 +22,8 @@ export default function PermisoInternacional() {
         sidebar={
           <LeadForm
             servicio="Permiso Internacional"
-            precio="100 €"
-            includes={['Tasas DGT incluidas', 'Válido en más de 150 países', 'Gestión completa', 'Especialista personal asignado']}
+            precio={`${S.precio} €`}
+            includes={S.includes}
             tramite="Permiso Internacional de Conducir"
           />
         }

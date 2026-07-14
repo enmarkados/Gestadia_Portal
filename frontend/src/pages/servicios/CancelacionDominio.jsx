@@ -2,7 +2,10 @@ import Header from '../../components/Header.jsx';
 import Footer from '../../components/Footer.jsx';
 import ServiceLayout from '../../components/ServiceLayout.jsx';
 import LeadForm from './LeadForm.jsx';
+import { SERVICIOS } from '@shared/servicios.js';
 import styles from './CancelacionDominio.module.css';
+
+const S = SERVICIOS['cancelacion-dominio'];
 
 // Migrated from preview-cancelacion-dominio.html (style lines 7-73, body
 // from line 75). See Transferencia.jsx for the full recipe notes shared by
@@ -19,8 +22,8 @@ export default function CancelacionDominio() {
         sidebar={
           <LeadForm
             servicio="Cancelación Reserva de Dominio"
-            precio="120 €"
-            includes={['Gestión ante Registro Bienes Muebles', 'Gestión completa', 'Especialista personal asignado']}
+            precio={`${S.precio} €`}
+            includes={S.includes}
             tramite="Cancelación de Reserva de Dominio"
           />
         }

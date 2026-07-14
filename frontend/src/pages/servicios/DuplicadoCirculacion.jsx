@@ -2,7 +2,10 @@ import Header from '../../components/Header.jsx';
 import Footer from '../../components/Footer.jsx';
 import ServiceLayout from '../../components/ServiceLayout.jsx';
 import LeadForm from './LeadForm.jsx';
+import { SERVICIOS } from '@shared/servicios.js';
 import styles from './DuplicadoCirculacion.module.css';
+
+const S = SERVICIOS['duplicado-circulacion'];
 
 // Migrated from preview-duplicado-circulacion.html (style lines 7-73, body
 // from line 75). See Transferencia.jsx for the full recipe notes shared by
@@ -19,8 +22,8 @@ export default function DuplicadoCirculacion() {
         sidebar={
           <LeadForm
             servicio="Duplicado Permiso de Circulación"
-            precio="70 €"
-            includes={['Tasas DGT incluidas', 'Autorización provisional inmediata', 'Gestión completa', 'Especialista personal asignado']}
+            precio={`${S.precio} €`}
+            includes={S.includes}
             tramite="Duplicado Permiso de Circulación"
           />
         }

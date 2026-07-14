@@ -2,7 +2,10 @@ import Header from '../../components/Header.jsx';
 import Footer from '../../components/Footer.jsx';
 import ServiceLayout from '../../components/ServiceLayout.jsx';
 import LeadForm from './LeadForm.jsx';
+import { SERVICIOS } from '@shared/servicios.js';
 import styles from './DuplicadoDatos.module.css';
+
+const S = SERVICIOS['duplicado-datos'];
 
 // Migrated from preview-duplicado-datos.html (style lines 7-73, body from
 // line 75). See Transferencia.jsx for the full recipe notes shared by all
@@ -19,8 +22,8 @@ export default function DuplicadoDatos() {
         sidebar={
           <LeadForm
             servicio="Duplicado por Cambio de Datos"
-            precio="70 €"
-            includes={['Tasas DGT incluidas', 'Gestión completa', 'Especialista personal asignado']}
+            precio={`${S.precio} €`}
+            includes={S.includes}
             tramite="Duplicado por Cambio de Datos"
           />
         }

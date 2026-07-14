@@ -3,7 +3,10 @@ import Header from '../../components/Header.jsx';
 import Footer from '../../components/Footer.jsx';
 import ServiceLayout from '../../components/ServiceLayout.jsx';
 import LeadForm from './LeadForm.jsx';
+import { SERVICIOS } from '@shared/servicios.js';
 import styles from './CanjeCarnet.module.css';
+
+const S = SERVICIOS['canje-carnet'];
 
 // Migrated from preview-canje.html (style lines 7-137, body from line 139).
 // See Transferencia.jsx for the shared recipe notes. This page is the
@@ -107,8 +110,8 @@ export default function CanjeCarnet() {
           <div ref={sidebarRef}>
             <LeadForm
               servicio="Canje de Carnet Extranjero"
-              precio="210 €"
-              includes={['Tasas DGT incluidas', 'Gestión completa', 'Especialista personal asignado', 'Garantía de éxito del trámite']}
+              precio={`${S.precio} €`}
+              includes={S.includes}
               tramite="Canje de Carnet Extranjero"
             />
           </div>

@@ -2,7 +2,10 @@ import Header from '../../components/Header.jsx';
 import Footer from '../../components/Footer.jsx';
 import ServiceLayout from '../../components/ServiceLayout.jsx';
 import LeadForm from './LeadForm.jsx';
+import { SERVICIOS } from '@shared/servicios.js';
 import styles from './DuplicadoCarnet.module.css';
+
+const S = SERVICIOS['duplicado-carnet'];
 
 // Migrated from preview-duplicado-carnet.html (style lines 7-75, body from
 // line 77). See Transferencia.jsx for the full recipe notes shared by all
@@ -19,8 +22,8 @@ export default function DuplicadoCarnet() {
         sidebar={
           <LeadForm
             servicio="Duplicado de Carnet"
-            precio="70 €"
-            includes={['Tasas DGT incluidas', 'Permiso provisional en 24 h', 'Gestión completa', 'Especialista personal asignado']}
+            precio={`${S.precio} €`}
+            includes={S.includes}
             tramite="Duplicado de Carnet de Conducir"
           />
         }

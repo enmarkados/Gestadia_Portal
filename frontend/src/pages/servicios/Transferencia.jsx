@@ -3,7 +3,10 @@ import Header from '../../components/Header.jsx';
 import Footer from '../../components/Footer.jsx';
 import ServiceLayout from '../../components/ServiceLayout.jsx';
 import LeadForm from './LeadForm.jsx';
+import { SERVICIOS } from '@shared/servicios.js';
 import styles from './Transferencia.module.css';
+
+const S = SERVICIOS['transferencia'];
 
 // Migrated from preview-transferencia.html (style lines 7-73, body from
 // line 75). <nav>/<footer> replaced with <Header />/<Footer /> (Task 2);
@@ -27,8 +30,8 @@ export default function Transferencia() {
         sidebar={
           <LeadForm
             servicio="Transferencia de Vehículo"
-            precio="190 €"
-            includes={['Tasas DGT incluidas', 'Coches y motos', 'Gestión completa', 'Especialista personal asignado']}
+            precio={`${S.precio} €`}
+            includes={S.includes}
             tramite="Transferencia de Vehículo"
           />
         }
