@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { SERVICIOS } from './servicios.js';
+import { SERVICIOS, checklistExpediente, validarDatosCanje } from './servicios.js';
 
 const SLUGS = [
   'canje-carnet', 'duplicado-carnet', 'duplicado-datos', 'permiso-internacional',
@@ -35,4 +35,33 @@ test('los precios coinciden con el front', () => {
   assert.equal(SERVICIOS['baja-vehiculo'].precio, 190);
   assert.equal(SERVICIOS['cancelacion-dominio'].precio, 120);
   assert.equal(SERVICIOS['duplicado-circulacion'].precio, 70);
+});
+
+test('canje-carnet tiene flags requierePais/requiereDireccion', () => {
+  assert.equal(SERVICIOS['canje-carnet'].requierePais, true);
+  assert.equal(SERVICIOS['canje-carnet'].requiereDireccion, true);
+  assert.equal(SERVICIOS['duplicado-carnet'].requierePais, undefined);
+});
+
+test('checklistExpediente = base + extra del país', () => {
+  assert.equal(checklistExpediente('canje-carnet', 'argentina').length, 4);
+  assert.equal(checklistExpediente('canje-carnet', 'alemania').length, 3);
+  assert.equal(checklistExpediente('canje-carnet', null).length, 3);
+  const arg = checklistExpediente('canje-carnet', 'argentina');
+  assert.equal(arg.at(-1).clave, 'historial_apostillado');
+});
+
+test('validarDatosCanje exige país válido y campos manuales', () => {
+  const s = SERVICIOS['canje-carnet'];
+  const dirOK = { nombreVia: 'Gran Vía', numero: '1', codigoPostal: '28013', municipio: 'Madrid', provincia: 'Madrid' };
+  assert.equal(validarDatosCanje(s, { paisCanje: 'argentina', direccion: dirOK, datosPais: {} }), null);
+  assert.match(validarDatosCanje(s, { paisCanje: '', direccion: dirOK, datosPais: {} }), /país/i);
+  assert.match(validarDatosCanje(s, { paisCanje: 'zzz', direccion: dirOK, datosPais: {} }), /país/i);
+  assert.match(validarDatosCanje(s, { paisCanje: 'argelia', direccion: dirOK, datosPais: { wilaya: 'Argel' } }), /Daira/i);
+  assert.equal(validarDatosCanje(s, { paisCanje: 'argelia', direccion: dirOK, datosPais: { wilaya: 'Argel', daira: 'X' } }), null);
+  assert.match(validarDatosCanje(s, { paisCanje: 'argentina', direccion: { nombreVia: 'x' }, datosPais: {} }), /dirección/i);
+});
+
+test('validarDatosCanje no exige nada a servicios sin flags', () => {
+  assert.equal(validarDatosCanje(SERVICIOS['duplicado-carnet'], { paisCanje: '', direccion: {}, datosPais: {} }), null);
 });

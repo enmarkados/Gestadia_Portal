@@ -12,6 +12,7 @@
 // y faseField:null. Verificar contra el CRM (ZohoCRM_getFields en
 // Deals) antes de activar Zoho o de conectar las fichas al pago.
 // ============================================================
+import { PAISES } from './paises-canje.js';
 
 const FASES_GENERICAS = {
   'Pdte documentación': 'documentacion_pendiente',
@@ -28,6 +29,8 @@ export const SERVICIOS = {
     categoria: 'permiso',
     precio: 210,
     href: '/tramites/canje-carnet',
+    requierePais: true,
+    requiereDireccion: true,
     includes: ['Tasas DGT incluidas', 'Gestión completa', 'Especialista personal asignado', 'Garantía de éxito del trámite'],
     documentos: [
       { clave: 'residencia', label: 'Documento de residencia legal en España (DNI español, tarjeta de residencia, tarjeta roja, intracomunitaria o resguardo de concesión)' },
@@ -164,3 +167,29 @@ export const SERVICIOS = {
     zoho: { servicio: 'Otras gestiones', faseField: null, fases: FASES_GENERICAS },
   },
 };
+
+// Checklist de documentos de un expediente: base del servicio + extra del país.
+export function checklistExpediente(servicioSlug, paisCanje) {
+  const base = SERVICIOS[servicioSlug]?.documentos ?? [];
+  const extra = paisCanje ? (PAISES[paisCanje]?.documentosExtra ?? []) : [];
+  return [...base, ...extra];
+}
+
+const DIRECCION_OBLIGATORIOS = ['nombreVia', 'numero', 'codigoPostal', 'municipio', 'provincia'];
+
+// Devuelve un mensaje de error (string) o null si es válido.
+export function validarDatosCanje(servicio, { paisCanje, direccion, datosPais } = {}) {
+  if (servicio?.requierePais) {
+    const pais = PAISES[paisCanje];
+    if (!pais) return 'Selecciona el país del permiso.';
+    for (const campo of pais.camposExtra) {
+      if (!String(datosPais?.[campo.clave] || '').trim()) return `Falta el campo "${campo.label}".`;
+    }
+  }
+  if (servicio?.requiereDireccion) {
+    for (const k of DIRECCION_OBLIGATORIOS) {
+      if (!String(direccion?.[k] || '').trim()) return 'Completa la dirección de envío del permiso.';
+    }
+  }
+  return null;
+}
