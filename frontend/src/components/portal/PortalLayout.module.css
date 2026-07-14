@@ -1,0 +1,20 @@
+.page { background: #f7f7f7; min-height: 100vh; }
+
+/* Mirrors Header.module.css's .nav, adapted to a portal topbar + tab nav. */
+.topbar { background: var(--graphite); padding: 0 6%; display: flex; align-items: center; justify-content: space-between; height: 60px; position: sticky; top: 0; z-index: 100; }
+.logo { font-family: "Playfair Display", Georgia, serif; color: #fff; font-size: 26px; font-weight: 800; text-decoration: none; letter-spacing: -0.5px; }
+.logo span { color: var(--red); }
+
+.nav { display: flex; gap: 24px; align-items: center; }
+.nav-link { color: #bbb; font-size: 14.5px; font-weight: 600; text-decoration: none; transition: color .15s; }
+.nav-link:hover { color: #fff; }
+.nav-link-active { color: #fff; }
+
+.logout-btn { background: transparent; border: 1px solid #555; color: #ddd; border-radius: 6px; padding: 8px 16px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: border-color .15s, color .15s; }
+.logout-btn:hover { border-color: var(--red); color: #fff; }
+
+.main { max-width: 900px; margin: 0 auto; padding: 40px 6% 80px; }
+
+.main-header { margin-bottom: 28px; }
+.title { font-size: clamp(26px, 3vw, 34px); font-weight: 800; color: var(--graphite); font-family: Georgia, serif; margin-bottom: 8px; line-height: 1.2; }
+.subtitle { font-size: 15px; color: #777; line-height: 1.5; }

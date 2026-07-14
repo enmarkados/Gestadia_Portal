@@ -1,0 +1,19 @@
+.checkout-card { border: 1px solid #e0e0e0; border-radius: 16px; position: sticky; top: 24px; background: #fff; box-shadow: 0 4px 24px rgba(0,0,0,0.08); overflow: hidden; }
+.checkout-price-block { padding: 28px 24px 20px; border-bottom: 1px solid var(--border); }
+.checkout-service { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; }
+.checkout-price { font-size: 42px; font-weight: 800; color: var(--graphite); line-height: 1; }
+.checkout-price sub { font-size: 14px; color: #999; font-weight: 400; vertical-align: baseline; margin-left: 6px; }
+.checkout-includes { margin-top: 12px; display: flex; flex-direction: column; gap: 5px; }
+.checkout-includes span { font-size: 12px; color: #555; display: flex; align-items: center; gap: 6px; }
+.checkout-includes span::before { content: ''; width: 6px; height: 6px; background: var(--red); border-radius: 50%; flex-shrink: 0; }
+.checkout-body { padding: 24px; }
+.form-label { font-size: 11px; font-weight: 600; color: #888; margin-bottom: 6px; display: block; }
+.form-input { background: #fff; border: 1.5px solid #ddd; border-radius: 8px; padding: 11px 14px; font-size: 14px; color: var(--graphite); width: 100%; margin-bottom: 14px; font-family: inherit; transition: border-color 0.15s; }
+.form-input:focus { outline: none; border-color: var(--graphite); }
+.checkout-btn { background: var(--red); color: #fff; border-radius: 10px; padding: 16px; font-size: 15px; font-weight: 700; text-align: center; width: 100%; margin-top: 6px; cursor: pointer; border: none; font-family: inherit; letter-spacing: 0.3px; }
+.checkout-btn:hover { background: #a93226; }
+.checkout-security { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 11px; color: #bbb; margin-top: 10px; }
+.checkout-divider { height: 1px; background: var(--border); margin: 18px 0; }
+.checkout-whatsapp { background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 12px 14px; font-size: 12px; color: #166534; display: flex; align-items: center; gap: 10px; }
+.lead-form-title { font-size: 14px; font-weight: 700; color: var(--graphite); margin-bottom: 4px; }
+.lead-form-sub { font-size: 12px; color: #888; margin-bottom: 16px; }

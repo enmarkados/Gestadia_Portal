@@ -6,7 +6,7 @@
 
 **Architecture:** One Express process in `backend/src/server.js` mounts all routers (`leads`, `checkout`, `auth`, `portal`, `webhooks`) and, in production, serves the React build (`frontend/dist`, produced by the sibling plan) as static files with an SPA fallback. `backend/src/db.js` becomes a thin `PrismaClient` export — the route files already call it with Prisma's exact method shape (`findUnique`, `create`, `update`, `findFirst`, `findMany`, `updateMany`, nested `include`/relation `where`), so no route logic changes.
 
-**Tech Stack:** Node.js ≥22.5, Express 4, Prisma + MySQL, bcryptjs, jsonwebtoken, multer, nodemailer, stripe, dotenv. Playwright for smoke tests. Docker (local MySQL for dev/test only).
+**Tech Stack:** Node.js ≥22.5, Express 4, Prisma + MySQL, bcryptjs, jsonwebtoken, multer, nodemailer, stripe, dotenv. Playwright for smoke tests.
 
 ## Global Constraints
 
@@ -15,75 +15,56 @@
 - `/api/leads` behavior (request/response shape, Zoho field mapping, `SERVICIO_MAP`) must not change — it's a live endpoint used by production forms.
 - No route logic in `checkout.js`, `auth.js`, `portal.js`, `webhooks.js` changes — only their `db` and `zoho` imports are repointed.
 - Source of truth for unchanged files: `c:\Users\gloria.aleix\.source\repos\unir` (read-only reference; never edit files there).
-- `.env` (repo root, gitignored) already contains real Zoho/FTP credentials — never print its contents in commits, logs, or commit messages.
+- There is **one** MySQL database for this project (hosted, not local) — dev and automated tests share it. Automated tests must only create rows tagged identifiably (`test-*@example.com` emails, `GST-TEST-*`/`GST-DOC-*` order numbers) — never assume a disposable/droppable database, and never run destructive bulk operations (`DROP TABLE`, `DELETE FROM x` without a narrow `WHERE`) against it.
+- `backend/.env` (gitignored, created in Task 1) holds the real `DATABASE_URL` and other secrets — every command in this plan that needs them relies on `backend/.env` being loaded via `dotenv/config`, not on inline `DATABASE_URL=... command` env prefixes. Never print `backend/.env`'s contents in commits, logs, or commit messages; never commit the file itself.
 
 ---
 
-### Task 1: Local MySQL for dev + test
+### Task 1: MySQL connection setup (hosted database)
 
 **Files:**
-- Create: `docker-compose.yml` (repo root)
-- Create: `.env.test` (repo root, gitignored)
-- Modify: `.gitignore`
+- Create: `backend/.env` (gitignored — real secrets, created directly by the implementer, not templated)
+- Modify: `.gitignore` (repo root)
 
 **Interfaces:**
-- Produces: a MySQL instance reachable at `mysql://gestadia:gestadia@localhost:3307/gestadia_dev` (dev) and `mysql://gestadia:gestadia@localhost:3307/gestadia_test` (test) — later tasks' `DATABASE_URL` values point here.
+- Produces: `backend/.env` with a working `DATABASE_URL` — every later task that touches Prisma or starts the server relies on this file existing and `dotenv/config` loading it.
+- Context for the implementer: the connection details are provided directly in this task's brief (ask the controller/orchestrator for them — do not invent placeholder credentials). The database already exists on the host; this task only wires the connection string, it does not provision a new database.
 
-- [ ] **Step 1: Add `docker-compose.yml`**
+- [ ] **Step 1: Update `.gitignore`**
 
-```yaml
-services:
-  mysql:
-    image: mysql:8.4
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: gestadia_dev
-      MYSQL_USER: gestadia
-      MYSQL_PASSWORD: gestadia
-    ports:
-      - "3307:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-
-volumes:
-  mysql_data:
-```
-
-- [ ] **Step 2: Start it and verify it's reachable**
-
-Run: `docker compose up -d && docker compose ps`
-Expected: `mysql` service shows `running (healthy)` or `Up` within ~30s.
-
-- [ ] **Step 3: Create the test database**
-
-Run: `docker compose exec mysql mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS gestadia_test;"`
-Expected: no output (success).
-
-- [ ] **Step 4: Add `.env.test`**
-
-```
-DATABASE_URL="mysql://gestadia:gestadia@localhost:3307/gestadia_test"
-```
-
-- [ ] **Step 5: Update `.gitignore`**
-
-Add to `c:\Users\gloria.aleix\.source\repos\Gestadia_Portal\.gitignore`:
+Add to `c:\Users\gloria.aleix\.source\repos\Gestadia_Portal\.gitignore` (if not already present):
 
 ```
 node_modules/
 .env
-.env.test
+backend/.env
 backend/uploads/
 backend/node_modules/
 ```
 
-- [ ] **Step 6: Commit**
+- [ ] **Step 2: Verify the host is reachable before writing any secrets**
+
+Run: `node -e "const net=require('net');const s=new net.Socket();s.setTimeout(6000);s.on('connect',()=>{console.log('TCP OK');s.destroy();});s.on('timeout',()=>{console.log('TIMEOUT');s.destroy();});s.on('error',e=>console.log('ERROR',e.message));s.connect(3306,'gestadia.com');"`
+Expected: `TCP OK`. If it prints `TIMEOUT` or `ERROR`, stop and report BLOCKED — the DB is not reachable from this machine and no further backend work can be verified until that's resolved.
+
+- [ ] **Step 3: Create `backend/.env`** (this file is gitignored — never add it with `git add`). Use the exact `DATABASE_URL` given in this task's brief — it already has the password correctly percent-encoded for use in a URL (any `@` in the raw password becomes `%40`; `!` does not need encoding). Do not reformat or "clean up" the connection string.
+
+```
+PORT=3001
+BASE_URL=http://localhost:3001
+DATABASE_URL="<exact value from the task brief>"
+```
+
+(Task 2 appends the rest of the variables to this same file — this step only needs `DATABASE_URL` to exist so Task 4's `prisma migrate dev` has something to connect to.)
+
+- [ ] **Step 4: Commit only the `.gitignore` change**
 
 ```bash
-git add docker-compose.yml .gitignore
-git commit -m "chore: add local MySQL via docker-compose for dev/test"
+git add .gitignore
+git commit -m "chore: gitignore backend/.env"
 ```
+
+Verify `backend/.env` is NOT staged: `git status --short` must not list it.
 
 ---
 
@@ -175,12 +156,42 @@ EMAIL_FROM="Gestadia <hola@gestadia.com>"
 
 - [ ] **Step 4: Create `backend/uploads/.gitkeep`** (empty file, so the folder exists in git even though its contents are gitignored)
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 5: Complete the real `backend/.env`** (created with just `DATABASE_URL` in Task 1 — this step fills in the rest; the file stays gitignored, never `git add` it). Append these keys, reusing the Zoho values that already exist in the repo-root `.env` (open it and copy `ZOHO_CLIENT_ID`, `ZOHO_CLIENT_SECRET`, `ZOHO_REFRESH_TOKEN`, `ZOHO_CAMPAIGN_ID`, `ZOHO_ASSIGNMENT_RULE_ID` verbatim — do not invent new values for these) and generating fresh random secrets for `JWT_SECRET`/`ZOHO_WEBHOOK_SECRET`:
+
+```
+JWT_SECRET=<run: node -e "console.log(require('crypto').randomBytes(32).toString('hex'))">
+ZOHO_ACCOUNTS_URL=https://accounts.zoho.eu
+ZOHO_API_URL=https://www.zohoapis.eu
+ZOHO_API_VERSION=v6
+ZOHO_WEBHOOK_SECRET=<run: node -e "console.log(require('crypto').randomBytes(24).toString('hex'))">
+ZOHO_CLIENT_ID=<copied from repo-root .env>
+ZOHO_CLIENT_SECRET=<copied from repo-root .env>
+ZOHO_REFRESH_TOKEN=<copied from repo-root .env>
+ZOHO_LEAD_SOURCE_DEFAULT=Formulario Web
+ZOHO_LEAD_STATUS_DEFAULT=No contactado
+ZOHO_PAGE_SOURCE_DEFAULT=GESTADIA
+ZOHO_CAMPAIGN_ID=<copied from repo-root .env>
+ZOHO_ASSIGNMENT_RULE_ID=<copied from repo-root .env>
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+SMTP_HOST=
+SMTP_PORT=587
+SMTP_USER=
+SMTP_PASS=
+EMAIL_FROM="Gestadia <hola@gestadia.com>"
+```
+
+Leaving `STRIPE_SECRET_KEY` and `SMTP_HOST` empty is intentional (demo mode) — do not fill them with placeholder-looking fake values.
+
+- [ ] **Step 6: Commit** (never stage `backend/.env`)
 
 ```bash
 git add backend/package.json backend/package-lock.json backend/.env.example backend/uploads/.gitkeep
 git commit -m "chore: scaffold backend/ workspace with merged dependencies"
+git status --short
 ```
+
+Verify the output does NOT list `backend/.env`.
 
 ---
 
@@ -327,7 +338,7 @@ model Notificacion {
 
 - [ ] **Step 2: Generate the client and run the first migration against the dev DB**
 
-Run: `cd backend && DATABASE_URL="mysql://gestadia:gestadia@localhost:3307/gestadia_dev" npx prisma migrate dev --name init`
+Run: `cd backend && npx prisma migrate dev --name init` (reads `DATABASE_URL` from `backend/.env` automatically — Prisma CLI loads `.env` in the current directory on its own, no need to export it manually)
 Expected: `Your database is now in sync with your schema.` and `backend/prisma/migrations/<timestamp>_init/migration.sql` created.
 
 - [ ] **Step 3: Write the failing test** — create `backend/src/db.test.js`
@@ -394,6 +405,7 @@ test('db.documento.findFirst supports nested expediente/userId filter', async ()
 - [ ] **Step 4: Write `backend/src/db.js`**
 
 ```js
+import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
 
 export const db = new PrismaClient();
@@ -401,7 +413,7 @@ export const db = new PrismaClient();
 
 - [ ] **Step 5: Run the test against the test database**
 
-Run: `cd backend && DATABASE_URL="mysql://gestadia:gestadia@localhost:3307/gestadia_test" npx prisma migrate deploy && DATABASE_URL="mysql://gestadia:gestadia@localhost:3307/gestadia_test" node --test src/db.test.js`
+Run: `cd backend && node --test src/db.test.js` (the schema is already migrated from Step 2 against the same database — `db.js` imports `dotenv/config` so `DATABASE_URL` loads from `backend/.env` automatically)
 Expected: both tests PASS.
 
 - [ ] **Step 6: Commit**
@@ -951,7 +963,7 @@ process.on('unhandledRejection', (e) => console.error('unhandledRejection:', e))
 
 - [ ] **Step 8: Run the server test to verify it passes**
 
-Run: `cd backend && DATABASE_URL="mysql://gestadia:gestadia@localhost:3307/gestadia_test" node --test src/server.test.js`
+Run: `cd backend && node --test src/server.test.js` (reads `DATABASE_URL` from `backend/.env` via `dotenv/config`)
 Expected: both tests PASS. (The SPA-fallback route will 404 until the frontend plan produces `frontend/dist` — that's expected and not tested here.)
 
 - [ ] **Step 9: Commit**
@@ -963,32 +975,42 @@ git commit -m "feat: add leads router and fused server.js entrypoint"
 
 ---
 
-### Task 8: Repo-root `.env` update
+### Task 8: Repo-root `.env.example` cleanup
 
 **Files:**
 - Modify: `.env.example` (repo root)
-- Modify: `.env` (repo root — do this manually, it's gitignored; the agent should print the exact diff instructions rather than touch real secrets blindly)
 
 **Interfaces:**
-- Produces: repo-root `.env` with every variable `backend/src/config.js` reads, reusing the existing Zoho/FTP values already present.
+- None new — this task is documentation-only. It does not touch `.env` (repo root or `backend/`) since both real env files already have everything they need from Tasks 1–2.
 
-- [ ] **Step 1: Update `.env.example`** at the repo root to match `backend/.env.example` from Task 2, plus the FTP block that's already there today (`FTP_HOST`, `FTP_USER`, `FTP_PASS`, `FTP_PORT`, `FTP_SECURE`, `FTP_SECURE_REJECT_UNAUTHORIZED`, `FTP_FORCE_PASSIVE_IPV4`, `FTP_REMOTE_DIR`, `FTP_LOCAL_DIR`, `FTP_UPLOAD_RETRIES`, `FTP_SKIP_PATHS`).
+**Context (read before starting):** the original plan text for this task assumed the repo-root `.env` would hold every variable `backend/src/config.js` reads. That's no longer the design — Task 1/2 already put all backend config (Zoho, Stripe, JWT, SMTP, DATABASE_URL) into `backend/.env`, which `backend/src/config.js` reads via `dotenv/config` relative to `backend/`'s working directory. The repo-root `.env` now only needs to supply `FTP_*` variables, which `ftp-deploy.cjs` (Task 9) still reads for deployment. This task exists only to fix the repo-root `.env.example` so it no longer documents a Zoho block that's been superseded by `backend/.env.example` — the real repo-root `.env` (gitignored, already has working FTP + Zoho values) does NOT need any edits.
 
-- [ ] **Step 2: Manually reconcile the real `.env`** — open it and:
-  - Rename `ZOHO_DOMAIN`/`ZOHO_API_BASE_URL` usage to `ZOHO_ACCOUNTS_URL=https://accounts.zoho.eu` and `ZOHO_API_URL=https://www.zohoapis.eu` (same values, new names).
-  - Add `PORT=3001`, `BASE_URL=http://localhost:3001`, `DATABASE_URL` (the real MySQL connection string once provisioned — until then, leave it pointing at the local docker DB from Task 1), `JWT_SECRET` (generate a real random string, e.g. `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`), `ZOHO_WEBHOOK_SECRET` (another random string), `STRIPE_SECRET_KEY`/`STRIPE_WEBHOOK_SECRET` (leave empty until the user has Stripe keys — demo mode), `SMTP_*` (leave empty — console mode).
-  - Keep every existing `FTP_*` and `ZOHO_CLIENT_ID`/`ZOHO_CLIENT_SECRET`/`ZOHO_REFRESH_TOKEN`/`ZOHO_CAMPAIGN_ID`/`ZOHO_ASSIGNMENT_RULE_ID`/`ZOHO_LEAD_SOURCE_DEFAULT`/`ZOHO_LEAD_STATUS_DEFAULT`/`ZOHO_PAGE_SOURCE_DEFAULT` values exactly as they are.
+- [ ] **Step 1: Replace `.env.example`** at the repo root — remove the now-superseded Zoho block (that documentation lives in `backend/.env.example` now) and document only what `ftp-deploy.cjs` reads:
 
-- [ ] **Step 3: Verify the app still starts with the updated `.env`**
+```
+# --- Despliegue FTP (usado por ftp-deploy.cjs) ---
+FTP_HOST=
+FTP_USER=
+FTP_PASS=
+FTP_PORT=21
+FTP_SECURE=true
+FTP_SECURE_REJECT_UNAUTHORIZED=true
+FTP_FORCE_PASSIVE_IPV4=false
+FTP_REMOTE_DIR=/
+FTP_UPLOAD_RETRIES=4
+FTP_SKIP_PATHS=
 
-Run: `cd backend && npm run dev` then in another terminal `curl http://localhost:3001/api/health`
-Expected: JSON with `"ok":true`.
+# La configuración de Zoho/Stripe/JWT/SMTP/DATABASE_URL del backend fusionado
+# vive en backend/.env — ver backend/.env.example para esa plantilla.
+```
 
-- [ ] **Step 4: Commit** (only `.env.example` — never commit `.env`)
+- [ ] **Step 2: Confirm the real repo-root `.env` still has working `FTP_*` values** (it does — nothing to change there; just open it and check `FTP_HOST`/`FTP_USER`/`FTP_PASS` are non-empty, don't edit anything else in it).
+
+- [ ] **Step 3: Commit**
 
 ```bash
 git add .env.example
-git commit -m "docs: update .env.example for the fused backend"
+git commit -m "docs: simplify repo-root .env.example now that backend config lives in backend/.env.example"
 ```
 
 ---
@@ -1167,7 +1189,7 @@ test('POST /api/leads with valid payload returns ok:true', async ({ request }) =
 
 - [ ] **Step 2: Start the backend against the test DB in one terminal**
 
-Run: `cd backend && DATABASE_URL="mysql://gestadia:gestadia@localhost:3307/gestadia_test" PORT=3001 npm run dev`
+Run: `cd backend && npm run dev` (`PORT=3001` and `DATABASE_URL` both come from `backend/.env`)
 Expected: `Gestadia backend ▸ http://localhost:3001` printed, no errors.
 
 - [ ] **Step 3: Run the smoke test**

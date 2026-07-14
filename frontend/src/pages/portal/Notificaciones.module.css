@@ -1,0 +1,18 @@
+.loading { text-align: center; color: #888; font-size: 15px; }
+.error { color: var(--red); font-size: 14px; margin-bottom: 16px; }
+
+.empty-card { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 40px 24px; text-align: center; color: #888; box-shadow: 0 4px 24px rgba(0,0,0,0.05); }
+
+.list { display: flex; flex-direction: column; gap: 12px; }
+
+.item { display: flex; align-items: center; justify-content: space-between; gap: 16px; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; box-shadow: 0 4px 24px rgba(0,0,0,0.04); }
+.item-new { border-left: 3px solid var(--red); }
+
+.item-body { flex: 1; min-width: 0; }
+.item-title { display: block; font-size: 15px; color: var(--graphite); margin-bottom: 4px; }
+.item-text { font-size: 14px; color: #666; line-height: 1.5; margin-bottom: 6px; }
+.item-when { font-size: 12px; color: #aaa; }
+
+.mark-btn { flex-shrink: 0; background: #fff; border: 1.5px solid var(--graphite); color: var(--graphite); border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: background .15s, color .15s; }
+.mark-btn:hover { background: var(--graphite); color: #fff; }
+.mark-btn:disabled { opacity: .6; cursor: not-allowed; }

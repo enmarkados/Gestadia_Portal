@@ -1,0 +1,38 @@
+.page { background: #f7f7f7; }
+
+/* HEADER — mirrors Contacto.module.css's .page-header pattern */
+.page-header { background: var(--graphite); padding: 64px 6%; }
+.page-header-inner { max-width: 720px; margin: 0 auto; text-align: center; }
+.breadcrumb { font-size: 14px; color: #777; margin-bottom: 16px; text-align: left; }
+.breadcrumb a { color: #777; text-decoration: none; }
+.breadcrumb span { color: #bbb; }
+.page-eyebrow { font-size: 16px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--red); margin-bottom: 14px; }
+.page-title { font-size: clamp(36px, 4vw, 52px); font-weight: 800; color: #fff; font-family: Georgia, serif; margin-bottom: 14px; line-height: 1.15; }
+.page-sub { font-size: 17px; color: #aaa; line-height: 1.6; }
+
+/* BODY */
+.body { max-width: 620px; margin: 0 auto; padding: 56px 6% 80px; }
+.loading { text-align: center; color: #888; font-size: 15px; }
+
+/* FORM — field styling mirrors Contacto.module.css's .form-* classes */
+.form { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+.form-title { font-size: 18px; font-weight: 800; color: var(--graphite); margin-bottom: 18px; font-family: Georgia, serif; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-group { margin-bottom: 18px; }
+.form-label { font-size: 12px; font-weight: 600; color: #888; display: block; margin-bottom: 6px; }
+.form-input { background: #fff; border: 1.5px solid var(--border); border-radius: 8px; padding: 11px 14px; font-size: 15px; color: var(--graphite); width: 100%; font-family: inherit; transition: border-color .15s; }
+.form-input:focus { outline: none; border-color: var(--graphite); }
+.form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; cursor: pointer; }
+
+.form-check { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px; }
+.form-check input { margin-top: 3px; flex-shrink: 0; }
+.form-check label { font-size: 12.5px; color: #777; line-height: 1.5; }
+.form-check a { color: var(--red); text-decoration: none; }
+.form-check a:hover { text-decoration: underline; }
+
+.form-submit { background: var(--red); color: #fff; border: none; border-radius: 8px; padding: 14px 28px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; width: 100%; transition: background .15s; }
+.form-submit:hover { background: #a93226; }
+.form-submit:disabled { opacity: .6; cursor: not-allowed; }
+.form-note { font-size: 13px; color: #aaa; margin-top: 12px; text-align: center; line-height: 1.5; }
+.form-status { font-size: 14px; margin-bottom: 16px; text-align: center; line-height: 1.5; }
+.form-status.error { color: var(--red); }

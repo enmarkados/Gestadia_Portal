@@ -1,0 +1,31 @@
+/*
+ * Global design tokens shared by every source page (preview-*.html at the
+ * repo root each open their <style> block with these same custom
+ * properties). CSS Modules don't scope :root, so declaring these once here
+ * — instead of repeating an identical block in every .module.css — avoids
+ * six-plus duplicate declarations colliding at the same document root.
+ */
+:root {
+  --red: #c0392b;
+  --graphite: #2c2c2c;
+  --border: #e8e8e8;
+  --bg: #f7f7f7;
+}
+
+/*
+ * Global reset shared by every source page (preview-*.html at the repo
+ * root open their <style> block with these same rules). This makes the
+ * reset available once for the whole React app instead of needing to be
+ * redeclared per page/module.
+ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #fff;
+  color: #2c2c2c;
+}

@@ -839,7 +839,7 @@ Expected: both `backend` and `frontend` logs interleaved, no errors; `http://loc
 
 - [ ] **Step 4: Build and verify the production path**
 
-Run: `npm run build && cd backend && DATABASE_URL="mysql://gestadia:gestadia@localhost:3307/gestadia_test" PORT=3001 npm start`, then open `http://localhost:3001/` and `http://localhost:3001/tramites/canje-carnet` directly (fresh navigation, not client-side routed) to confirm the Express SPA fallback serves `index.html` correctly for a direct URL hit.
+Run: `npm run build && cd backend && npm start` (`PORT` and `DATABASE_URL` come from `backend/.env`), then open `http://localhost:3001/` and `http://localhost:3001/tramites/canje-carnet` directly (fresh navigation, not client-side routed) to confirm the Express SPA fallback serves `index.html` correctly for a direct URL hit.
 
 - [ ] **Step 5: Only after Steps 3–4 both pass, delete the now-superseded static pages**
 
@@ -890,7 +890,7 @@ test('checkout flow in demo mode reaches the gracias page', async ({ page }) => 
 
 - [ ] **Step 2: Run the full stack in one terminal**
 
-Run: `npm run dev` (repo root, needs backend pointed at the test DB: `DATABASE_URL="mysql://gestadia:gestadia@localhost:3307/gestadia_test"` in `backend/.env` for this run, or export it before `npm run dev`)
+Run: `npm run dev` (repo root — `backend/.env`'s `DATABASE_URL` from the backend plan's Task 1 is already the database to use here, nothing extra to set)
 
 - [ ] **Step 3: Run the test**
 
