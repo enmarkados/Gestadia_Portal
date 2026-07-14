@@ -52,6 +52,7 @@ async function deploy() {
 
   const targets = [
     { local: path.join(ROOT, 'backend'), remote: 'backend' },
+    { local: path.join(ROOT, 'shared'), remote: 'shared' },
     { local: path.join(ROOT, 'frontend', 'dist'), remote: 'frontend/dist' },
   ].filter((t) => fs.existsSync(t.local));
 
