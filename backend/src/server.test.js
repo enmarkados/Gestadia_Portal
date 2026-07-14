@@ -21,6 +21,6 @@ test('GET /api/servicios responds with the catalog', async () => {
   const body = await res.json();
   assert.equal(res.status, 200);
   assert.ok(Array.isArray(body));
-  assert.ok(body.some((s) => s.slug === 'canje'));
+  assert.ok(body.some((s) => s.slug === 'canje-carnet'));
   server.close();
 });

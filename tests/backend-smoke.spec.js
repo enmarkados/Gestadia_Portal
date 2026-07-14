@@ -13,7 +13,7 @@ test('GET /api/servicios returns the catalog', async ({ request }) => {
   const res = await request.get(`${BASE}/api/servicios`);
   expect(res.status()).toBe(200);
   const body = await res.json();
-  expect(body.some((s) => s.slug === 'canje')).toBe(true);
+  expect(body.some((s) => s.slug === 'canje-carnet')).toBe(true);
 });
 
 test('POST /api/leads with valid payload returns ok:true', async ({ request }) => {
