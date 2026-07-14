@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
+import { SERVICIOS } from '@shared/servicios.js';
 import styles from './Tramites.module.css';
 
 // Migrated from preview-tramites.html (body lines 86-283). <nav>/<footer>
@@ -17,23 +18,25 @@ import styles from './Tramites.module.css';
 // rendering) rather than DOM manipulation, and the reveal effect via a ref +
 // effect using a `data-reveal` attribute (avoids depending on the CSS
 // module's hashed class name).
+// Solo `slug` (para leer nombre/precio/href de la fuente única) + el copy de
+// marketing propio de esta página. Precio/nombre/href salen de @shared/servicios.
 const CATALOG = {
   permiso: {
     title: 'Permiso de conducir',
     items: [
-      { title: 'Canje de Carnet Extranjero', desc: 'Homologa tu permiso extranjero por el carnet español. Nos encargamos de toda la documentación ante la DGT.', price: '210 €', href: '/tramites/canje-carnet', isRoute: true },
-      { title: 'Duplicado de Carnet de Conducir', desc: 'Pérdida, robo o deterioro de tu carnet. Tramitamos el duplicado sin que tengas que ir a tráfico.', price: '70 €', href: '/tramites/duplicado-carnet', isRoute: true },
-      { title: 'Duplicado por Cambio de Datos', desc: 'NIE a DNI, cambio de nombre o cambio de sexo. Actualizamos los datos de tu carnet de conducir.', price: '70 €', href: '/tramites/duplicado-datos', isRoute: true },
-      { title: 'Permiso Internacional de Conducir', desc: 'Conduce fuera de la UE con total legalidad. Válido en prácticamente todos los países del mundo durante un año.', price: '100 €', href: '/tramites/permiso-internacional', isRoute: true },
+      { slug: 'canje-carnet', desc: 'Homologa tu permiso extranjero por el carnet español. Nos encargamos de toda la documentación ante la DGT.' },
+      { slug: 'duplicado-carnet', desc: 'Pérdida, robo o deterioro de tu carnet. Tramitamos el duplicado sin que tengas que ir a tráfico.' },
+      { slug: 'duplicado-datos', desc: 'NIE a DNI, cambio de nombre o cambio de sexo. Actualizamos los datos de tu carnet de conducir.' },
+      { slug: 'permiso-internacional', desc: 'Conduce fuera de la UE con total legalidad. Válido en prácticamente todos los países del mundo durante un año.' },
     ],
   },
   vehiculo: {
     title: 'Vehículo',
     items: [
-      { title: 'Transferencia de Vehículo', desc: 'Cambio de titularidad ante la DGT. Coches y motos, compradores y vendedores particulares.', price: '190 €', href: '/tramites/transferencia', isRoute: true },
-      { title: 'Baja de Vehículo', desc: 'Deja de pagar impuestos por un vehículo que ya no usas. Tramitamos la baja definitiva o temporal.', price: '190 €', href: '/tramites/baja-vehiculo', isRoute: true },
-      { title: 'Cancelación de Reserva de Dominio', desc: 'Elimina la reserva de dominio de tu vehículo una vez finalizado el préstamo con el banco o financiera.', price: '120 €', href: '/tramites/cancelacion-dominio', isRoute: true },
-      { title: 'Duplicado Permiso de Circulación', desc: 'Pérdida o deterioro del permiso de circulación. Autorización provisional inmediata mientras se tramita el definitivo.', price: '70 €', href: '/tramites/duplicado-circulacion', isRoute: true },
+      { slug: 'transferencia', desc: 'Cambio de titularidad ante la DGT. Coches y motos, compradores y vendedores particulares.' },
+      { slug: 'baja-vehiculo', desc: 'Deja de pagar impuestos por un vehículo que ya no usas. Tramitamos la baja definitiva o temporal.' },
+      { slug: 'cancelacion-dominio', desc: 'Elimina la reserva de dominio de tu vehículo una vez finalizado el préstamo con el banco o financiera.' },
+      { slug: 'duplicado-circulacion', desc: 'Pérdida o deterioro del permiso de circulación. Autorización provisional inmediata mientras se tramita el definitivo.' },
     ],
   },
 };
@@ -97,20 +100,19 @@ export default function Tramites() {
             <div className={styles.catalogGroup} key={key}>
               <div className={styles.catalogGroupTitle}>{group.title}</div>
               <div className={styles.catalogGrid}>
-                {group.items.map((item) => (
-                  <div className={styles.serviceCard} key={item.title}>
-                    <div className={styles.serviceCardTitle}>{item.title}</div>
-                    <div className={styles.serviceCardDesc}>{item.desc}</div>
-                    <div className={styles.serviceCardFooter}>
-                      <div className={styles.serviceCardPrice}>{item.price}</div>
-                      {item.isRoute ? (
-                        <Link to={item.href} className={styles.serviceCardBtn}>Solicitar información →</Link>
-                      ) : (
-                        <a href={item.href} className={styles.serviceCardBtn}>Solicitar información →</a>
-                      )}
+                {group.items.map((item) => {
+                  const s = SERVICIOS[item.slug];
+                  return (
+                    <div className={styles.serviceCard} key={item.slug}>
+                      <div className={styles.serviceCardTitle}>{s.nombre}</div>
+                      <div className={styles.serviceCardDesc}>{item.desc}</div>
+                      <div className={styles.serviceCardFooter}>
+                        <div className={styles.serviceCardPrice}>{s.precio} €</div>
+                        <Link to={s.href} className={styles.serviceCardBtn}>Solicitar información →</Link>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )
