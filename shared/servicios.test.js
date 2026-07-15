@@ -65,3 +65,11 @@ test('validarDatosCanje exige país válido y campos manuales', () => {
 test('validarDatosCanje no exige nada a servicios sin flags', () => {
   assert.equal(validarDatosCanje(SERVICIOS['duplicado-carnet'], { paisCanje: '', direccion: {}, datosPais: {} }), null);
 });
+
+test('cada servicio tiene stripeLookupKey', () => {
+  assert.equal(SERVICIOS['canje-carnet'].stripeLookupKey, 'gestadia_canje_1_categoria_2026');
+  assert.equal(SERVICIOS['transferencia'].stripeLookupKey, 'gestadia_portal_transferencia');
+  for (const s of Object.values(SERVICIOS)) {
+    assert.match(s.stripeLookupKey, /^gestadia_/);
+  }
+});

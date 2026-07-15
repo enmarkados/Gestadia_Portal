@@ -29,6 +29,7 @@ export const SERVICIOS = {
     categoria: 'permiso',
     precio: 210,
     href: '/tramites/canje-carnet',
+    stripeLookupKey: 'gestadia_canje_1_categoria_2026',
     requierePais: true,
     requiereDireccion: true,
     includes: ['Tasas DGT incluidas', 'Gestión completa', 'Especialista personal asignado', 'Garantía de éxito del trámite'],
@@ -60,6 +61,7 @@ export const SERVICIOS = {
     categoria: 'permiso',
     precio: 70,
     href: '/tramites/duplicado-carnet',
+    stripeLookupKey: 'gestadia_portal_duplicado_carnet',
     includes: ['Tasas DGT incluidas', 'Permiso provisional en 24 h', 'Gestión completa', 'Especialista personal asignado'],
     documentos: [
       { clave: 'dni', label: 'DNI en vigor (anverso y reverso)' },
@@ -74,6 +76,7 @@ export const SERVICIOS = {
     categoria: 'permiso',
     precio: 70,
     href: '/tramites/duplicado-datos',
+    stripeLookupKey: 'gestadia_portal_duplicado_datos',
     includes: ['Tasas DGT incluidas', 'Gestión completa', 'Especialista personal asignado'],
     documentos: [
       { clave: 'dni', label: 'DNI en vigor con los datos actualizados' },
@@ -91,6 +94,7 @@ export const SERVICIOS = {
     categoria: 'permiso',
     precio: 100,
     href: '/tramites/permiso-internacional',
+    stripeLookupKey: 'gestadia_portal_permiso_internacional',
     includes: ['Tasas DGT incluidas', 'Válido en más de 150 países', 'Gestión completa', 'Especialista personal asignado'],
     documentos: [
       { clave: 'dni', label: 'DNI o NIE en vigor' },
@@ -107,6 +111,7 @@ export const SERVICIOS = {
     categoria: 'vehiculo',
     precio: 190,
     href: '/tramites/transferencia',
+    stripeLookupKey: 'gestadia_portal_transferencia',
     includes: ['Tasas DGT incluidas', 'Coches y motos', 'Gestión completa', 'Especialista personal asignado'],
     documentos: [
       { clave: 'dni_comprador', label: 'DNI o NIE del comprador' },
@@ -125,6 +130,7 @@ export const SERVICIOS = {
     categoria: 'vehiculo',
     precio: 190,
     href: '/tramites/baja-vehiculo',
+    stripeLookupKey: 'gestadia_portal_baja_vehiculo',
     includes: ['Tasas DGT incluidas', 'Baja definitiva o temporal', 'Gestión completa', 'Especialista personal asignado'],
     documentos: [
       { clave: 'dni', label: 'DNI, pasaporte o NIE en vigor' },
@@ -141,6 +147,7 @@ export const SERVICIOS = {
     categoria: 'vehiculo',
     precio: 120,
     href: '/tramites/cancelacion-dominio',
+    stripeLookupKey: 'gestadia_portal_cancelacion_dominio',
     includes: ['Gestión ante Registro Bienes Muebles', 'Gestión completa', 'Especialista personal asignado'],
     documentos: [
       { clave: 'dni', label: 'DNI o NIE en vigor' },
@@ -158,6 +165,7 @@ export const SERVICIOS = {
     categoria: 'vehiculo',
     precio: 70,
     href: '/tramites/duplicado-circulacion',
+    stripeLookupKey: 'gestadia_portal_duplicado_circulacion',
     includes: ['Tasas DGT incluidas', 'Autorización provisional inmediata', 'Gestión completa', 'Especialista personal asignado'],
     documentos: [
       { clave: 'dni', label: 'DNI o NIE en vigor' },
