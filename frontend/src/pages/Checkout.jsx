@@ -142,12 +142,10 @@ export default function Checkout() {
                 </div>
                 <div className={styles.formGroup}>
                   <label className={styles.formLabel} htmlFor="checkout-telefono">Teléfono móvil</label>
-                  <div style={{ display: 'flex', gap: '8px' }}>
-                    <select className={`${styles.formInput} ${styles.formSelect}`} style={{ maxWidth: '130px' }} aria-label="Prefijo" value={form.prefijo} onChange={(e) => setForm((f) => ({ ...f, prefijo: e.target.value }))}>
-                      {PREFIJOS.map((p) => <option key={`${p.codigo}-${p.pais}`} value={p.codigo}>{p.codigo} {p.pais}</option>)}
-                    </select>
-                    <input className={styles.formInput} type="tel" id="checkout-telefono" name="telefono" autoComplete="tel" value={form.telefono} onChange={handleChange} required />
-                  </div>
+                  <select className={`${styles.formInput} ${styles.formSelect}`} style={{ marginBottom: '8px' }} aria-label="Prefijo" value={form.prefijo} onChange={(e) => setForm((f) => ({ ...f, prefijo: e.target.value }))}>
+                    {PREFIJOS.map((p) => <option key={`${p.codigo}-${p.pais}`} value={p.codigo}>{p.bandera} {p.codigo} · {p.pais}</option>)}
+                  </select>
+                  <input className={styles.formInput} type="tel" id="checkout-telefono" name="telefono" autoComplete="tel" placeholder="Número" value={form.telefono} onChange={handleChange} required />
                 </div>
               </div>
 

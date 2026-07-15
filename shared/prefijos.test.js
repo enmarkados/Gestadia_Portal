@@ -11,9 +11,10 @@ test('lista amplia con España, y varios de canje', () => {
   }
 });
 
-test('cada entrada tiene codigo (+n) y país', () => {
+test('cada entrada tiene bandera, codigo (+n) y país', () => {
   for (const p of PREFIJOS) {
     assert.match(p.codigo, /^\+\d{1,4}$/);
     assert.ok(p.pais && p.pais.length);
+    assert.ok(p.bandera && [...p.bandera].length >= 1);
   }
 });
