@@ -5,6 +5,7 @@ import { config } from '../config.js';
 import { db } from '../db.js';
 import { SERVICIOS, getServicio, validarDatosCanje } from '../catalog.js';
 import { upsertContact, createDealForExpediente } from '../services/zoho.js';
+import { resolvePrice, getOrCreateCustomer, linkCustomerToZoho } from '../services/stripe.js';
 import { notifyUser, sendEmail, transitionExpediente } from '../services/notify.js';
 
 export const checkoutRouter = Router();
@@ -69,21 +70,21 @@ checkoutRouter.post('/api/checkout', async (req, res) => {
       return res.json({ demo: true, url: `/gracias.html?pedido=${expediente.nPedido}` });
     }
 
+    const priceId = await resolvePrice(stripe, servicio.stripeLookupKey);
+    const customer = await getOrCreateCustomer(stripe, user);
+    if (!user.stripeCustomerId) {
+      await db.user.update({ where: { id: user.id }, data: { stripeCustomerId: customer.id } });
+    }
+    const meta = { expedienteId: expediente.id, nPedido: expediente.nPedido, servicio: servicio.slug, canal: 'web' };
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       payment_method_types: ['card', 'bizum'],
-      customer_email: emailNorm,
-      line_items: [{
-        price_data: {
-          currency: 'eur',
-          product_data: { name: servicio.nombre, description: servicio.descripcion },
-          unit_amount: Math.round(servicio.precio * 100),
-        },
-        quantity: 1,
-      }],
-      metadata: { expedienteId: expediente.id, nPedido: expediente.nPedido },
-      success_url: `${config.baseUrl}/gracias.html?pedido=${expediente.nPedido}`,
-      cancel_url: `${config.baseUrl}/checkout.html?servicio=${servicio.slug}&cancelado=1`,
+      customer: customer.id,
+      line_items: [{ price: priceId, quantity: 1 }],
+      metadata: meta,
+      payment_intent_data: { metadata: meta },
+      success_url: `${config.baseUrl}/gracias?pedido=${expediente.nPedido}`,
+      cancel_url: `${config.baseUrl}/checkout?servicio=${servicio.slug}&cancelado=1`,
     });
     res.json({ url: session.url });
   } catch (e) {
@@ -120,6 +121,9 @@ export async function fulfillPayment(expedienteId, { ref, metodo }) {
     const contactId = await upsertContact(updated.user);
     if (contactId && !updated.user.zohoContactId) {
       await db.user.update({ where: { id: updated.user.id }, data: { zohoContactId: contactId } });
+    }
+    if (contactId && updated.user.stripeCustomerId && stripe) {
+      await linkCustomerToZoho(stripe, updated.user.stripeCustomerId, contactId);
     }
     const dealId = await createDealForExpediente(updated, updated.user, servicio, contactId);
     if (dealId) {
