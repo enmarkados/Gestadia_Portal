@@ -669,7 +669,9 @@ Abrir la `url` del paso 3, pagar con `4242 4242 4242 4242` (fecha futura, cualqu
 
 Verificar (dashboard test o MCP de Stripe): el PaymentIntent lleva `metadata.canal=web`, `nPedido`, `servicio`; y el Customer del pago tiene `metadata.external_provider=zoho` (y `external_id` si Zoho está activo). El expediente del portal quedó en estado `pagado`/`documentacion_pendiente`.
 
-- [ ] **Step 6: Limpiar** los expedientes de prueba (`test-web@example.com`) con el patrón de script `backend/.cleanup-tmp.mjs` de planes anteriores.
+- [ ] **Step 6: Verificar email de bienvenida + acceso al panel (vía webhook)** — Tras pagar, en el log del backend debe aparecer el email con el enlace `/portal/crear-clave/<token>`. Abrirlo (por 5173 en local), crear contraseña → **se entra al panel** y el expediente sale en *Mis servicios*. Esto confirma que el webhook `checkout.session.completed` disparó `fulfillPayment` (marca pagado → **envía email** → **da acceso al panel**). ⚠️ **Sin este webhook, un pago real NO avanza el expediente, NO envía el email y el cliente NO entra al panel.**
+
+- [ ] **Step 7: Limpiar** los expedientes de prueba (`test-web@example.com`) con el patrón de script `backend/.cleanup-tmp.mjs` de planes anteriores.
 
 ---
 
@@ -683,4 +685,5 @@ Verificar (dashboard test o MCP de Stripe): el PaymentIntent lleva `metadata.can
 - [ ] `checkout.js` (rama Stripe) usa `price` por `lookup_key`, `customer`, `metadata` (canal/nPedido/servicio/expedienteId) + `payment_intent_data.metadata`, y `success/cancel` a rutas React. Modo demo intacto.
 - [ ] `fulfillPayment` liga el Customer a Zoho (`external_id`).
 - [ ] (Con claves test) enlace real generado, pago de prueba, webhook OK, `metadata.canal=web` en el PaymentIntent.
+- [ ] El webhook `checkout.session.completed` marca el expediente pagado, **envía el email de bienvenida y da acceso al panel** (sin el webhook dado de alta, un pago real no avanza).
 ```
