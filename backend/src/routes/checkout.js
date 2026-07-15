@@ -28,6 +28,7 @@ checkoutRouter.post('/api/checkout', async (req, res) => {
     const servicio = getServicio(slug);
     if (!servicio) return res.status(400).json({ error: 'Servicio no válido' });
     if (!nombre || !apellidos || !email) return res.status(400).json({ error: 'Nombre, apellidos y email son obligatorios' });
+    if (!telefono) return res.status(400).json({ error: 'El teléfono es obligatorio' });
     if (!aceptaCondiciones) return res.status(400).json({ error: 'Debes aceptar las condiciones de contratación' });
 
     const { paisCanje, direccion, datosPais } = req.body || {};

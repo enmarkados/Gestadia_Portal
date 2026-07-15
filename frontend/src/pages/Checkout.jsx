@@ -6,10 +6,11 @@ import CheckoutCard from '../components/CheckoutCard.jsx';
 import { getServicios, postCheckout } from '../lib/api.js';
 import { PAISES, paisesOrdenados } from '@shared/paises-canje.js';
 import { TIPOS_VIA, PROVINCIAS } from '@shared/direccion.js';
+import { PREFIJOS, PREFIJO_DEFECTO } from '@shared/prefijos.js';
 import styles from './Checkout.module.css';
 
 const EMPTY_FORM = {
-  nombre: '', apellidos: '', email: '', telefono: '',
+  nombre: '', apellidos: '', email: '', prefijo: PREFIJO_DEFECTO, telefono: '',
   tipoDocumento: 'DNI', numDocumento: '', aceptaCondiciones: false,
   paisCanje: '', datosPais: {},
   direccion: { tipoVia: 'Calle', nombreVia: '', numero: '', bloque: '', portal: '', escalera: '', planta: '', puerta: '', km: '', codigoPostal: '', municipio: '', localidad: '', provincia: '' },
@@ -79,11 +80,12 @@ export default function Checkout() {
     setStatus('sending');
     setErrorMsg('');
     try {
-      const { paisCanje, datosPais, direccion, ...persona } = form;
+      const { paisCanje, datosPais, direccion, prefijo, telefono, ...persona } = form;
+      const telefonoFull = `${prefijo}${String(telefono).replace(/\D/g, '')}`;
       const extra = {};
       if (servicio.requierePais) { extra.paisCanje = paisCanje; extra.datosPais = datosPais; }
       if (servicio.requiereDireccion) { extra.direccion = direccion; }
-      const body = await postCheckout({ servicio: servicio.slug, ...persona, ...extra });
+      const body = await postCheckout({ servicio: servicio.slug, ...persona, telefono: telefonoFull, ...extra });
       window.location.href = toReactRoute(body.url);
     } catch (err) {
       setStatus('error');
@@ -140,7 +142,12 @@ export default function Checkout() {
                 </div>
                 <div className={styles.formGroup}>
                   <label className={styles.formLabel} htmlFor="checkout-telefono">Teléfono móvil</label>
-                  <input className={styles.formInput} type="tel" id="checkout-telefono" name="telefono" autoComplete="tel" value={form.telefono} onChange={handleChange} />
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <select className={`${styles.formInput} ${styles.formSelect}`} style={{ maxWidth: '130px' }} aria-label="Prefijo" value={form.prefijo} onChange={(e) => setForm((f) => ({ ...f, prefijo: e.target.value }))}>
+                      {PREFIJOS.map((p) => <option key={`${p.codigo}-${p.pais}`} value={p.codigo}>{p.codigo} {p.pais}</option>)}
+                    </select>
+                    <input className={styles.formInput} type="tel" id="checkout-telefono" name="telefono" autoComplete="tel" value={form.telefono} onChange={handleChange} required />
+                  </div>
                 </div>
               </div>
 
