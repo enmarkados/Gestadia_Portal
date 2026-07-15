@@ -90,26 +90,37 @@ export async function upsertContact(user) {
     console.log('[zoho:demo] upsertContact', user.email);
     return null;
   }
+  const movil = user.telefono ? normalizePhone(user.telefono) : '';
+  const criteria = movil ? `(Mobile:equals:${movil})` : `(Email:equals:${user.email})`;
   const search = await zohoFetch(
-    `/crm/v6/Contacts/search?criteria=${encodeURIComponent(`(Email:equals:${user.email})`)}`
+    `/crm/v6/Contacts/search?criteria=${encodeURIComponent(criteria)}`
   ).catch(() => null);
   const existing = search?.data?.[0];
 
-  const fields = {
+  const deseado = {
     First_Name: user.nombre,
     Last_Name: user.apellidos || user.nombre,
     Email: user.email,
-    Mobile: user.telefono || undefined,
+    Mobile: movil || undefined,
     N_de_documento: user.numDocumento || undefined,
     Tipo_de_documento: user.tipoDocumento || undefined,
     Lead_Source: 'Formulario web Gestadia',
   };
 
   if (existing) {
-    await zohoFetch('/crm/v6/Contacts', { method: 'PUT', body: JSON.stringify({ data: [{ id: existing.id, ...fields }] }) });
+    // merge de huecos: solo escribimos los campos que estén vacíos en Zoho
+    const parche = {};
+    for (const [k, v] of Object.entries(deseado)) {
+      if (v === undefined) continue;
+      const actual = existing[k];
+      if (actual === undefined || actual === null || actual === '') parche[k] = v;
+    }
+    if (Object.keys(parche).length) {
+      await zohoFetch('/crm/v6/Contacts', { method: 'PUT', body: JSON.stringify({ data: [{ id: existing.id, ...parche }] }) });
+    }
     return existing.id;
   }
-  const created = await zohoFetch('/crm/v6/Contacts', { method: 'POST', body: JSON.stringify({ data: [fields], trigger: ['workflow'] }) });
+  const created = await zohoFetch('/crm/v6/Contacts', { method: 'POST', body: JSON.stringify({ data: [deseado], trigger: ['workflow'] }) });
   return created?.data?.[0]?.details?.id ?? null;
 }
 
