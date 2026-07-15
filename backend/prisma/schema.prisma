@@ -17,6 +17,7 @@ model User {
   tipoDocumento String?
   numDocumento  String?
   zohoContactId String?
+  stripeCustomerId String?
   emailVerified Boolean   @default(false)
   inviteToken   String?   @unique
   resetToken    String?   @unique
