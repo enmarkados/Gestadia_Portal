@@ -148,7 +148,6 @@ export default function Checkout() {
                   </select>
                   <input className={styles.formInput} type="tel" id="checkout-telefono" name="telefono" autoComplete="tel" placeholder="Número de WhatsApp" value={form.telefono} onChange={handleChange} required style={{ flex: 1 }} />
                 </div>
-                <p className={styles.formNote}>Debe ser un número de <strong>móvil</strong> (no un fijo): te contactaremos por ahí.</p>
               </div>
 
               <div className={styles.formRow}>
