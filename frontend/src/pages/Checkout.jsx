@@ -146,8 +146,9 @@ export default function Checkout() {
                   <select className={`${styles.formInput} ${styles.formSelect}`} style={{ width: 'auto', flex: '0 0 auto' }} aria-label="Prefijo" title={PREFIJOS.find((p) => p.codigo === form.prefijo)?.pais} value={form.prefijo} onChange={(e) => setForm((f) => ({ ...f, prefijo: e.target.value }))}>
                     {PREFIJOS.map((p) => <option key={`${p.codigo}-${p.pais}`} value={p.codigo}>{p.bandera} {p.codigo}</option>)}
                   </select>
-                  <input className={styles.formInput} type="tel" id="checkout-telefono" name="telefono" autoComplete="tel" placeholder="Número de teléfono" value={form.telefono} onChange={handleChange} required style={{ flex: 1 }} />
+                  <input className={styles.formInput} type="tel" id="checkout-telefono" name="telefono" autoComplete="tel" placeholder="Ej. 600 123 456" value={form.telefono} onChange={handleChange} required style={{ flex: 1 }} />
                 </div>
+                <p className={styles.formNote}>Debe ser un número de <strong>móvil</strong> (no un fijo): te contactaremos por ahí.</p>
               </div>
 
               <div className={styles.formRow}>
