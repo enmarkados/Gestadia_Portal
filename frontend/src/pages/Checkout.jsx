@@ -142,10 +142,12 @@ export default function Checkout() {
                 </div>
                 <div className={styles.formGroup}>
                   <label className={styles.formLabel} htmlFor="checkout-telefono">Teléfono móvil</label>
-                  <select className={`${styles.formInput} ${styles.formSelect}`} style={{ marginBottom: '8px' }} aria-label="Prefijo" value={form.prefijo} onChange={(e) => setForm((f) => ({ ...f, prefijo: e.target.value }))}>
-                    {PREFIJOS.map((p) => <option key={`${p.codigo}-${p.pais}`} value={p.codigo}>{p.bandera} {p.codigo} · {p.pais}</option>)}
-                  </select>
-                  <input className={styles.formInput} type="tel" id="checkout-telefono" name="telefono" autoComplete="tel" placeholder="Número" value={form.telefono} onChange={handleChange} required />
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <select className={`${styles.formInput} ${styles.formSelect}`} style={{ width: 'auto', flex: '0 0 auto' }} aria-label="Prefijo" title={PREFIJOS.find((p) => p.codigo === form.prefijo)?.pais} value={form.prefijo} onChange={(e) => setForm((f) => ({ ...f, prefijo: e.target.value }))}>
+                      {PREFIJOS.map((p) => <option key={`${p.codigo}-${p.pais}`} value={p.codigo}>{p.bandera} {p.codigo}</option>)}
+                    </select>
+                    <input className={styles.formInput} type="tel" id="checkout-telefono" name="telefono" autoComplete="tel" placeholder="Número" value={form.telefono} onChange={handleChange} required style={{ flex: 1 }} />
+                  </div>
                 </div>
               </div>
 
