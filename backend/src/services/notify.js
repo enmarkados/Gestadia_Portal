@@ -17,7 +17,9 @@ export async function sendEmail(to, subject, html) {
     console.log(`\n[email:demo] Para: ${to}\nAsunto: ${subject}\n${html.replace(/<[^>]+>/g, '')}\n${links}\n`);
     return;
   }
-  await transporter.sendMail({ from: config.smtp.from, to, subject, html });
+  const info = await transporter.sendMail({ from: config.smtp.from, to, subject, html });
+  const preview = nodemailer.getTestMessageUrl(info);
+  if (preview) console.log(`[email] enviado a ${to} · vista previa (Ethereal): ${preview}`);
 }
 
 /** Crea una notificación en el portal y la envía por email. */
