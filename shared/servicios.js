@@ -41,6 +41,7 @@ export const SERVICIOS = {
     zoho: {
       servicio: 'Canje',
       faseField: 'Fase_del_psicot_cnico',
+      pipeline: 'CV con Pago',
       fases: {
         'Pte. documentación': 'documentacion_pendiente',
         'Gestión de cita': 'en_gestion',
@@ -66,7 +67,7 @@ export const SERVICIOS = {
     documentos: [
       { clave: 'dni', label: 'DNI en vigor (anverso y reverso)' },
     ],
-    zoho: { servicio: 'Duplicado Carnet De Conducir', faseField: null, fases: FASES_GENERICAS },
+    zoho: { servicio: 'Duplicado Carnet De Conducir', faseField: null, pipeline: 'CV con Pago', fases: FASES_GENERICAS},
   },
 
   'duplicado-datos': {
@@ -84,7 +85,7 @@ export const SERVICIOS = {
       { clave: 'carnet_actual', label: 'Carnet de conducir actual' },
       { clave: 'resolucion_registral', label: 'Resolución registral de cambio de nombre o sexo (si aplica)' },
     ],
-    zoho: { servicio: 'Duplicado Carnet De Conducir', faseField: null, fases: FASES_GENERICAS },
+    zoho: { servicio: 'Duplicado Carnet De Conducir', faseField: null, pipeline: 'CV con Pago', fases: FASES_GENERICAS},
   },
 
   'permiso-internacional': {
@@ -101,7 +102,7 @@ export const SERVICIOS = {
       { clave: 'carnet_conducir', label: 'Carnet de conducir español en vigor' },
       { clave: 'foto_carnet', label: 'Foto carnet reciente (fondo blanco)' },
     ],
-    zoho: { servicio: 'Otras gestiones', faseField: null, fases: FASES_GENERICAS },
+    zoho: { servicio: 'Otras gestiones', faseField: null, pipeline: 'CV con Pago', fases: FASES_GENERICAS},
   },
 
   'transferencia': {
@@ -120,7 +121,7 @@ export const SERVICIOS = {
       { clave: 'permiso_circulacion', label: 'Permiso de circulación original' },
       { clave: 'itv', label: 'Tarjeta ITV en vigor' },
     ],
-    zoho: { servicio: 'Transferencia de VEhículos', faseField: null, fases: FASES_GENERICAS },
+    zoho: { servicio: 'Transferencia de VEhículos', faseField: null, pipeline: 'CV con Pago', fases: FASES_GENERICAS},
   },
 
   'baja-vehiculo': {
@@ -137,7 +138,7 @@ export const SERVICIOS = {
       { clave: 'permiso_circulacion', label: 'Permiso de circulación original' },
       { clave: 'ficha_tecnica', label: 'Ficha técnica o tarjeta ITV' },
     ],
-    zoho: { servicio: 'Transferencia de VEhículos', faseField: null, fases: FASES_GENERICAS },
+    zoho: { servicio: 'Transferencia de VEhículos', faseField: null, pipeline: 'CV con Pago', fases: FASES_GENERICAS},
   },
 
   'cancelacion-dominio': {
@@ -155,7 +156,7 @@ export const SERVICIOS = {
       { clave: 'permiso_circulacion', label: 'Permiso de circulación del vehículo' },
       { clave: 'itv', label: 'Tarjeta ITV' },
     ],
-    zoho: { servicio: 'Otras gestiones', faseField: null, fases: FASES_GENERICAS },
+    zoho: { servicio: 'Otras gestiones', faseField: null, pipeline: 'CV con Pago', fases: FASES_GENERICAS},
   },
 
   'duplicado-circulacion': {
@@ -172,7 +173,7 @@ export const SERVICIOS = {
       { clave: 'denuncia', label: 'Denuncia por pérdida o robo (si aplica)' },
       { clave: 'permiso_deteriorado', label: 'Permiso de circulación deteriorado (si aplica)' },
     ],
-    zoho: { servicio: 'Otras gestiones', faseField: null, fases: FASES_GENERICAS },
+    zoho: { servicio: 'Otras gestiones', faseField: null, pipeline: 'CV con Pago', fases: FASES_GENERICAS},
   },
 };
 
