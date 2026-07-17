@@ -134,7 +134,7 @@ export async function createDealForExpediente(expediente, user, servicio, contac
   const d = (x) => x.toISOString().slice(0, 10);
 
   const deal = {
-    Deal_Name: `${servicio.nombre} — ${user.nombre} ${user.apellidos}`.slice(0, 120),
+    Deal_Name: `${servicio.nombre} - ${user.nombre} ${user.apellidos}`.slice(0, 120),
     Amount: expediente.importe,
     Pipeline: servicio.zoho.pipeline,
     Stage: 'Cerrado ganado', // el pago ya está confirmado → trato ganado
@@ -148,7 +148,7 @@ export async function createDealForExpediente(expediente, user, servicio, contac
     N_Pedido: expediente.nPedido,
     Fecha_M_xima_para_Desistimiento: d(fin),
     Lead_Source: 'Formulario web Gestadia',
-    Closing_Date: d(fin),
+    Closing_Date: d(hoy),
     Description: `Contratado online desde el portal. Pedido ${expediente.nPedido}.`,
   };
 
