@@ -137,7 +137,7 @@ export async function createDealForExpediente(expediente, user, servicio, contac
     Deal_Name: `${servicio.nombre} — ${user.nombre} ${user.apellidos}`.slice(0, 120),
     Amount: expediente.importe,
     Pipeline: servicio.zoho.pipeline,
-    // Sin `Stage`: Zoho usa la etapa por defecto del pipeline (las etapas son propias de cada pipeline).
+    Stage: 'Cerrado ganado', // el pago ya está confirmado → trato ganado
     Contact_Name: contactId ? { id: contactId } : undefined,
     Servicio: servicio.zoho.servicio,
     ...(servicio.zoho.faseField ? { [servicio.zoho.faseField]: Object.keys(servicio.zoho.fases)[0] } : {}),
