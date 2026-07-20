@@ -28,14 +28,34 @@ function collectFiles(dir, base = dir) {
 
 const RETRIES = parseInt(process.env.FTP_UPLOAD_RETRIES || '4', 10);
 
-async function uploadFile(client, localPath, remotePath, retries) {
+// Cache de directorios remotos ya creados. basic-ftp NO crea las carpetas
+// padre al subir un fichero: un STOR a un directorio inexistente hace que el
+// servidor corte la conexión de datos (ECONNRESET). ensureDir usa MKD (canal
+// de control, sin transferencia de datos), así que crea las carpetas primero.
+const ensuredDirs = new Set();
+
+async function ensureRemoteDir(client, remoteDir) {
+  if (ensuredDirs.has(remoteDir)) return;
+  await client.ensureDir(remoteDir); // crea remoteDir + intermedios; deja el CWD ahí
+  ensuredDirs.add(remoteDir);
+}
+
+async function uploadFile(client, localPath, remotePath, retries, accessOptions) {
+  const remoteDir = path.posix.dirname(remotePath);
   for (let i = 1; i <= retries; i++) {
     try {
-      await client.uploadFrom(localPath, remotePath);
+      if (client.closed) {            // una ECONNRESET previa deja el cliente cerrado
+        ensuredDirs.clear();
+        await client.access(accessOptions);
+      }
+      await ensureRemoteDir(client, remoteDir);
+      await client.uploadFrom(localPath, remotePath); // ruta absoluta → independiente del CWD
       return;
     } catch (err) {
+      ensuredDirs.delete(remoteDir); // en el reintento, re-crear también el directorio
       if (i === retries) throw err;
-      console.warn(`  ↺ reintento ${i}/${retries}: ${remotePath}`);
+      console.warn(`  ↺ reintento ${i}/${retries}: ${remotePath} (${err.message})`);
+      await new Promise((r) => setTimeout(r, 800 * i)); // backoff
     }
   }
 }
@@ -64,7 +84,8 @@ async function deploy() {
 
   try {
     console.log(`\n🚀 Conectando a ${host}:${port}…`);
-    await client.access({ host, user, password: pass, port, secure, secureOptions: { rejectUnauthorized: process.env.FTP_SECURE_REJECT_UNAUTHORIZED !== 'false' } });
+    const accessOptions = { host, user, password: pass, port, secure, secureOptions: { rejectUnauthorized: process.env.FTP_SECURE_REJECT_UNAUTHORIZED !== 'false' } };
+    await client.access(accessOptions);
     await client.ensureDir(remoteDir);
 
     let ok = 0;
@@ -73,7 +94,7 @@ async function deploy() {
         const localPath = path.join(local, rel);
         const remotePath = path.posix.join(remoteDir, remote, rel.split(path.sep).join('/'));
         process.stdout.write(`  ↑ ${remote}/${rel} … `);
-        await uploadFile(client, localPath, remotePath, RETRIES);
+        await uploadFile(client, localPath, remotePath, RETRIES, accessOptions);
         console.log('✓');
         ok++;
       }
