@@ -105,7 +105,7 @@ export default function Home() {
               <div className={styles.serviceCardDesc}>Homologa tu permiso extranjero por el carnet español sin moverte de casa.</div>
               <div className={styles.serviceCardFooter}>
                 <div className={styles.serviceCardPrice}>210 €</div>
-                <Link to="/tramites/canje-carnet" className={styles.serviceCardBtn}>Contratar →</Link>
+                <Link to="/tramites/canje-carnet" className={styles.serviceCardBtn}>Más información →</Link>
               </div>
             </div>
 
@@ -115,7 +115,7 @@ export default function Home() {
               <div className={styles.serviceCardDesc}>Cambio de titularidad ante la DGT. Coches y motos, compradores y vendedores particulares.</div>
               <div className={styles.serviceCardFooter}>
                 <div className={styles.serviceCardPrice}>190 €</div>
-                <Link to="/tramites/transferencia" className={styles.serviceCardBtn}>Contratar →</Link>
+                <Link to="/tramites/transferencia" className={styles.serviceCardBtn}>Más información →</Link>
               </div>
             </div>
 
@@ -125,7 +125,7 @@ export default function Home() {
               <div className={styles.serviceCardDesc}>Pérdida, robo o deterioro. Tramitamos el duplicado de tu carnet de conducir.</div>
               <div className={styles.serviceCardFooter}>
                 <div className={styles.serviceCardPrice}>70 €</div>
-                <Link to="/tramites/duplicado-carnet" className={styles.serviceCardBtn}>Contratar →</Link>
+                <Link to="/tramites/duplicado-carnet" className={styles.serviceCardBtn}>Más información →</Link>
               </div>
             </div>
           </div>
