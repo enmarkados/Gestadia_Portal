@@ -7,8 +7,10 @@
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
+    "postinstall": "prisma generate",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
+    "migrate:deploy": "prisma migrate deploy",
     "test": "node --experimental-test-module-mocks --test src/**/*.test.js"
   },
   "dependencies": {
@@ -19,9 +21,7 @@
     "jsonwebtoken": "^9.0.2",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.16",
+    "prisma": "^6.1.0",
     "stripe": "^17.5.0"
-  },
-  "devDependencies": {
-    "prisma": "^6.1.0"
   }
 }

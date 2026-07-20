@@ -9,10 +9,16 @@ const ROOT = __dirname;
 
 const EXCLUDE_DIRS = new Set(['node_modules', 'uploads', '.git']);
 
+// Nunca subir ficheros .env: contienen secretos y el .env local está en
+// modo DEMO (pagos simulados). La config de producción se pone en el servidor
+// (fichero .env del server o variables de entorno del panel Node.js de Plesk).
+const isEnvFile = (name) => /^\.env(\.|$)/.test(name);
+
 function collectFiles(dir, base = dir) {
   const out = [];
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     if (EXCLUDE_DIRS.has(entry.name)) continue;
+    if (!entry.isDirectory() && isEnvFile(entry.name)) continue;
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) out.push(...collectFiles(full, base));
     else out.push(path.relative(base, full));
