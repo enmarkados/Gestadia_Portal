@@ -12,7 +12,7 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.footerInner}>
         <div>
-          <span className={styles.footerLogo}>gestadia</span>
+          <span className={styles.footerLogo}>gestadia<span>.</span></span>
           <div className={styles.footerInfo}>
             <span className={styles.footerInfoLine}>Paseo de la Castellana 143, 2A · 28046 Madrid</span>
             <span className={styles.footerInfoLine}><a href="tel:910600314">910 600 314</a> · <a href="https://wa.me/34684462670">WhatsApp 684 46 26 70</a></span>

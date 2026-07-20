@@ -4,7 +4,7 @@ import styles from './Header.module.css';
 export default function Header() {
   return (
     <nav className={styles.nav}>
-      <Link to="/" className={styles.navLogo}>gestadia</Link>
+      <Link to="/" className={styles.navLogo}>gestadia<span>.</span></Link>
       <div className={styles.navLinks}>
         {/* preview-*.html nav points "Trámites DGT" at either the home
             page's #servicios anchor or (from other pages) the trámites
