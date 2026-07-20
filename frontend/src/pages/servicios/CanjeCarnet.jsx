@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import Header from '../../components/Header.jsx';
 import Footer from '../../components/Footer.jsx';
 import ServiceLayout from '../../components/ServiceLayout.jsx';
-import LeadForm from './LeadForm.jsx';
+import ContratarCard from './ContratarCard.jsx';
 import { SERVICIOS } from '@shared/servicios.js';
 import styles from './CanjeCarnet.module.css';
 
@@ -81,7 +81,7 @@ export default function CanjeCarnet() {
         ),
       });
     } else if (answers[4] === 'si' || answers[5] === 'si') {
-      setResult({ ok: true, message: '¡Cumples los requisitos! Puedes solicitar información abajo.' });
+      setResult({ ok: true, message: '¡Cumples los requisitos! Puedes contratar el trámite abajo.' });
       sidebarRef.current?.scrollIntoView?.({ behavior: 'smooth', block: 'start' });
     } else {
       setResult({
@@ -108,11 +108,11 @@ export default function CanjeCarnet() {
         subtitle="¿Tienes un permiso de conducir extranjero y quieres obtener el carnet español? Gestionamos la homologación ante la DGT sin que tengas que desplazarte. Nos encargamos de toda la documentación y el proceso."
         sidebar={
           <div ref={sidebarRef}>
-            <LeadForm
+            <ContratarCard
+              slug={S.slug}
               servicio="Canje de Carnet Extranjero"
               precio={`${S.precio} €`}
               includes={S.includes}
-              tramite="Canje de Carnet Extranjero"
             />
           </div>
         }
@@ -152,7 +152,7 @@ export default function CanjeCarnet() {
             <div className={styles.docItem}><div className={styles.docDot} />Permiso extranjero original en vigor</div>
             <div className={styles.docItem}><div className={styles.docDot} />Examen psicotécnico (centro autorizado)</div>
 
-            <div className={styles.docsNote} style={{ marginTop: '14px' }}>Tras solicitar información podrás enviar los documentos por WhatsApp. Si necesitamos documentación original, la recogeremos en tu domicilio a través de nuestro servicio de mensajería sin coste adicional.</div>
+            <div className={styles.docsNote} style={{ marginTop: '14px' }}>Tras contratar podrás enviar los documentos por WhatsApp. Si necesitamos documentación original, la recogeremos en tu domicilio a través de nuestro servicio de mensajería sin coste adicional.</div>
           </div>
 
           <div className={styles.stepsSection}>
@@ -226,7 +226,7 @@ export default function CanjeCarnet() {
             </div>
             <div className={styles.stepRow}>
               <div className={styles.stepNum}>2</div>
-              <div className={styles.stepText}><strong>Solicita información</strong>Formulario rápido. Te contactamos en menos de 24h.</div>
+              <div className={styles.stepText}><strong>Contrata online</strong>Rellena tus datos y paga de forma segura.</div>
             </div>
             <div className={styles.stepRow}>
               <div className={styles.stepNum}>3</div>

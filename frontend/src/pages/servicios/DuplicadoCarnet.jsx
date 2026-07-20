@@ -1,7 +1,7 @@
 import Header from '../../components/Header.jsx';
 import Footer from '../../components/Footer.jsx';
 import ServiceLayout from '../../components/ServiceLayout.jsx';
-import LeadForm from './LeadForm.jsx';
+import ContratarCard from './ContratarCard.jsx';
 import { SERVICIOS } from '@shared/servicios.js';
 import styles from './DuplicadoCarnet.module.css';
 
@@ -20,11 +20,11 @@ export default function DuplicadoCarnet() {
         eyebrow="Permiso de conducir"
         subtitle="¿Has perdido el carnet, te lo han robado o está deteriorado? Gestionamos el duplicado ante la DGT sin que tengas que desplazarte ni pedir cita previa. En menos de 24 horas obtienes un permiso provisional válido mientras tramitamos el definitivo."
         sidebar={
-          <LeadForm
+          <ContratarCard
+            slug={S.slug}
             servicio="Duplicado de Carnet"
             precio={`${S.precio} €`}
             includes={S.includes}
-            tramite="Duplicado de Carnet de Conducir"
           />
         }
       >

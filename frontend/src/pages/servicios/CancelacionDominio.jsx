@@ -1,7 +1,7 @@
 import Header from '../../components/Header.jsx';
 import Footer from '../../components/Footer.jsx';
 import ServiceLayout from '../../components/ServiceLayout.jsx';
-import LeadForm from './LeadForm.jsx';
+import ContratarCard from './ContratarCard.jsx';
 import { SERVICIOS } from '@shared/servicios.js';
 import styles from './CancelacionDominio.module.css';
 
@@ -20,11 +20,11 @@ export default function CancelacionDominio() {
         eyebrow="Vehículo"
         subtitle="Cuando financias un vehículo, el banco o la financiera inscribe una reserva de dominio en el Registro de Bienes Muebles. Una vez liquidado el préstamo, esa carga debe cancelarse para que el coche sea realmente tuyo. Gestionamos la cancelación de forma completamente online."
         sidebar={
-          <LeadForm
+          <ContratarCard
+            slug={S.slug}
             servicio="Cancelación Reserva de Dominio"
             precio={`${S.precio} €`}
             includes={S.includes}
-            tramite="Cancelación de Reserva de Dominio"
           />
         }
       >

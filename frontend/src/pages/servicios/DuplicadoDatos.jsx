@@ -1,7 +1,7 @@
 import Header from '../../components/Header.jsx';
 import Footer from '../../components/Footer.jsx';
 import ServiceLayout from '../../components/ServiceLayout.jsx';
-import LeadForm from './LeadForm.jsx';
+import ContratarCard from './ContratarCard.jsx';
 import { SERVICIOS } from '@shared/servicios.js';
 import styles from './DuplicadoDatos.module.css';
 
@@ -20,11 +20,11 @@ export default function DuplicadoDatos() {
         eyebrow="Permiso de conducir"
         subtitle="¿Has pasado de NIE a DNI, has cambiado de nombre o has modificado el sexo registral? Tu carnet de conducir debe reflejar los datos actuales. Gestionamos la expedición del nuevo documento ante la DGT sin desplazamientos ni cita previa."
         sidebar={
-          <LeadForm
+          <ContratarCard
+            slug={S.slug}
             servicio="Duplicado por Cambio de Datos"
             precio={`${S.precio} €`}
             includes={S.includes}
-            tramite="Duplicado por Cambio de Datos"
           />
         }
       >

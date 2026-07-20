@@ -1,7 +1,7 @@
 import Header from '../../components/Header.jsx';
 import Footer from '../../components/Footer.jsx';
 import ServiceLayout from '../../components/ServiceLayout.jsx';
-import LeadForm from './LeadForm.jsx';
+import ContratarCard from './ContratarCard.jsx';
 import { SERVICIOS } from '@shared/servicios.js';
 import styles from './BajaVehiculo.module.css';
 
@@ -20,11 +20,11 @@ export default function BajaVehiculo() {
         eyebrow="Vehículo"
         subtitle="¿Vas a desguazar tu vehículo, venderlo al extranjero o simplemente dejar de usarlo? La baja ante la DGT es obligatoria para dejar de pagar el impuesto de circulación y las multas asociadas. Tramitamos la baja definitiva o temporal sin que tengas que desplazarte."
         sidebar={
-          <LeadForm
+          <ContratarCard
+            slug={S.slug}
             servicio="Baja de Vehículo"
             precio={`${S.precio} €`}
             includes={S.includes}
-            tramite="Baja de Vehículo"
           />
         }
       >

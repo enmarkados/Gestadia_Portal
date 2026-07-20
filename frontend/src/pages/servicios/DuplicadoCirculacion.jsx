@@ -1,7 +1,7 @@
 import Header from '../../components/Header.jsx';
 import Footer from '../../components/Footer.jsx';
 import ServiceLayout from '../../components/ServiceLayout.jsx';
-import LeadForm from './LeadForm.jsx';
+import ContratarCard from './ContratarCard.jsx';
 import { SERVICIOS } from '@shared/servicios.js';
 import styles from './DuplicadoCirculacion.module.css';
 
@@ -20,11 +20,11 @@ export default function DuplicadoCirculacion() {
         eyebrow="Vehículo"
         subtitle="El permiso de circulación acredita que tu vehículo está matriculado en España. Si lo has perdido o ha sido robado o deteriorado, necesitas un duplicado para circular con total legalidad. Gestionamos el nuevo documento ante la DGT con autorización provisional inmediata."
         sidebar={
-          <LeadForm
+          <ContratarCard
+            slug={S.slug}
             servicio="Duplicado Permiso de Circulación"
             precio={`${S.precio} €`}
             includes={S.includes}
-            tramite="Duplicado Permiso de Circulación"
           />
         }
       >

@@ -108,7 +108,7 @@ export default function Tramites() {
                       <div className={styles.serviceCardDesc}>{item.desc}</div>
                       <div className={styles.serviceCardFooter}>
                         <div className={styles.serviceCardPrice}>{s.precio} €</div>
-                        <Link to={s.href} className={styles.serviceCardBtn}>Solicitar información →</Link>
+                        <Link to={s.href} className={styles.serviceCardBtn}>Contratar →</Link>
                       </div>
                     </div>
                   );

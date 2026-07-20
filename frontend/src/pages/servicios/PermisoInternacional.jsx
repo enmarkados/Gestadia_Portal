@@ -1,7 +1,7 @@
 import Header from '../../components/Header.jsx';
 import Footer from '../../components/Footer.jsx';
 import ServiceLayout from '../../components/ServiceLayout.jsx';
-import LeadForm from './LeadForm.jsx';
+import ContratarCard from './ContratarCard.jsx';
 import { SERVICIOS } from '@shared/servicios.js';
 import styles from './PermisoInternacional.module.css';
 
@@ -20,11 +20,11 @@ export default function PermisoInternacional() {
         eyebrow="Permiso de conducir"
         subtitle="Si vas a conducir fuera de la Unión Europea, necesitas el Permiso Internacional de Conducir (PIC). Es un documento oficial emitido por la DGT que complementa tu carnet español y tiene validez en prácticamente todos los países del mundo durante un año. Lo tramitamos por ti sin que tengas que ir a ninguna oficina."
         sidebar={
-          <LeadForm
+          <ContratarCard
+            slug={S.slug}
             servicio="Permiso Internacional"
             precio={`${S.precio} €`}
             includes={S.includes}
-            tramite="Permiso Internacional de Conducir"
           />
         }
       >

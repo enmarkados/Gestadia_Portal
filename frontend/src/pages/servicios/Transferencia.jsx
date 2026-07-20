@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import Header from '../../components/Header.jsx';
 import Footer from '../../components/Footer.jsx';
 import ServiceLayout from '../../components/ServiceLayout.jsx';
-import LeadForm from './LeadForm.jsx';
+import ContratarCard from './ContratarCard.jsx';
 import { SERVICIOS } from '@shared/servicios.js';
 import styles from './Transferencia.module.css';
 
@@ -28,11 +28,11 @@ export default function Transferencia() {
         eyebrow="Vehículo"
         subtitle="Cambio de titularidad de coches y motos ante la DGT. Tanto si eres comprador como vendedor, nos encargamos de toda la documentación para que el vehículo quede registrado correctamente a nombre del nuevo propietario. Sin desplazamientos, sin colas, sin cita previa."
         sidebar={
-          <LeadForm
+          <ContratarCard
+            slug={S.slug}
             servicio="Transferencia de Vehículo"
             precio={`${S.precio} €`}
             includes={S.includes}
-            tramite="Transferencia de Vehículo"
           />
         }
       >
