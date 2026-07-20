@@ -24,6 +24,10 @@ webhooksRouter.post('/webhooks/stripe', raw({ type: 'application/json' }), async
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
+    // Solo se cumple el pedido si el pago está CONFIRMADO (no en métodos asíncronos aún pendientes)
+    if (session.payment_status !== 'paid') {
+      return res.json({ received: true, ignored: 'unpaid' });
+    }
     const expedienteId = session.metadata?.expedienteId;
     const metodo = session.payment_method_types?.includes('bizum') && session.payment_method_options?.bizum
       ? 'bizum' : (session.payment_method_types?.[0] || 'card');
