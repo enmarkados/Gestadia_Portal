@@ -4,9 +4,8 @@ import { describe, it, expect } from 'vitest';
 import DuplicadoDatos from './DuplicadoDatos.jsx';
 
 describe('DuplicadoDatos', () => {
-  it('el CTA "Contratar ahora" enlaza al checkout del servicio', () => {
+  it('la ficha muestra el formulario de pago embebido', () => {
     render(<MemoryRouter><DuplicadoDatos /></MemoryRouter>);
-    expect(screen.getByRole('link', { name: /contratar ahora/i }))
-      .toHaveAttribute('href', '/checkout?servicio=duplicado-datos');
+    expect(screen.getByRole('button', { name: /pagar con tarjeta o bizum/i })).toBeInTheDocument();
   });
 });

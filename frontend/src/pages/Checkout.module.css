@@ -17,7 +17,7 @@
 /* FORM — field styling mirrors Contacto.module.css's .form-* classes */
 .form { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
 .form-title { font-size: 18px; font-weight: 800; color: var(--graphite); margin-bottom: 18px; font-family: Georgia, serif; }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
 .form-group { margin-bottom: 18px; }
 .form-label { font-size: 12px; font-weight: 600; color: #888; display: block; margin-bottom: 6px; }
 .form-input { background: #fff; border: 1.5px solid var(--border); border-radius: 8px; padding: 11px 14px; font-size: 15px; color: var(--graphite); width: 100%; font-family: inherit; transition: border-color .15s; }

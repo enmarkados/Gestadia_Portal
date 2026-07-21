@@ -4,9 +4,8 @@ import { describe, it, expect } from 'vitest';
 import CancelacionDominio from './CancelacionDominio.jsx';
 
 describe('CancelacionDominio', () => {
-  it('el CTA "Contratar ahora" enlaza al checkout del servicio', () => {
+  it('la ficha muestra el formulario de pago embebido', () => {
     render(<MemoryRouter><CancelacionDominio /></MemoryRouter>);
-    expect(screen.getByRole('link', { name: /contratar ahora/i }))
-      .toHaveAttribute('href', '/checkout?servicio=cancelacion-dominio');
+    expect(screen.getByRole('button', { name: /pagar con tarjeta o bizum/i })).toBeInTheDocument();
   });
 });

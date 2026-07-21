@@ -4,9 +4,8 @@ import { describe, it, expect } from 'vitest';
 import DuplicadoCarnet from './DuplicadoCarnet.jsx';
 
 describe('DuplicadoCarnet', () => {
-  it('el CTA "Contratar ahora" enlaza al checkout del servicio', () => {
+  it('la ficha muestra el formulario de pago embebido', () => {
     render(<MemoryRouter><DuplicadoCarnet /></MemoryRouter>);
-    expect(screen.getByRole('link', { name: /contratar ahora/i }))
-      .toHaveAttribute('href', '/checkout?servicio=duplicado-carnet');
+    expect(screen.getByRole('button', { name: /pagar con tarjeta o bizum/i })).toBeInTheDocument();
   });
 });

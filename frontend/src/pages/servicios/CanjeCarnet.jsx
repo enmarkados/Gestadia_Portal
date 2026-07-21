@@ -182,6 +182,7 @@ export default function CanjeCarnet() {
                     <select
                       className={styles.formInput}
                       style={{ marginTop: '6px', marginBottom: 0, fontSize: '13px' }}
+                      aria-label="País para verificar el canje"
                       value={country}
                       onChange={(e) => { setCountry(e.target.value); setResult(null); }}
                     >

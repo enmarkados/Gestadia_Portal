@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
-// Reutiliza la tarjeta-precio de LeadForm.module.css (.checkout-*). Sustituye
-// al antiguo formulario de lead ("Solicita información") por un CTA de compra
-// que lleva al checkout (/checkout?servicio=<slug>), con un enlace de WhatsApp
-// para dudas.
+import { SERVICIOS } from '@shared/servicios.js';
+import CheckoutForm from './CheckoutForm.jsx';
+// Reutiliza la tarjeta-precio de LeadForm.module.css (.checkout-*) y embebe el
+// formulario de pago (CheckoutForm) directamente en la ficha, en lugar de un
+// botón que navegaba a /checkout.
 import styles from './LeadForm.module.css';
 
 export default function ContratarCard({ slug, servicio, precio, includes }) {
@@ -19,13 +19,7 @@ export default function ContratarCard({ slug, servicio, precio, includes }) {
       </div>
 
       <div className={styles.checkoutBody}>
-        <Link
-          to={`/checkout?servicio=${slug}`}
-          className={styles.checkoutBtn}
-          style={{ display: 'block', textDecoration: 'none' }}
-        >
-          Contratar ahora →
-        </Link>
+        <CheckoutForm servicio={SERVICIOS[slug]} />
         <div className={styles.checkoutDivider} />
         <div className={styles.checkoutWhatsapp}>
           💬 ¿Tienes dudas?{' '}

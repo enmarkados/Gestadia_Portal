@@ -4,9 +4,8 @@ import { describe, it, expect } from 'vitest';
 import PermisoInternacional from './PermisoInternacional.jsx';
 
 describe('PermisoInternacional', () => {
-  it('el CTA "Contratar ahora" enlaza al checkout del servicio', () => {
+  it('la ficha muestra el formulario de pago embebido', () => {
     render(<MemoryRouter><PermisoInternacional /></MemoryRouter>);
-    expect(screen.getByRole('link', { name: /contratar ahora/i }))
-      .toHaveAttribute('href', '/checkout?servicio=permiso-internacional');
+    expect(screen.getByRole('button', { name: /pagar con tarjeta o bizum/i })).toBeInTheDocument();
   });
 });
