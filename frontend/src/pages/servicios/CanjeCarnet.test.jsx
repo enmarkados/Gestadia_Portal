@@ -13,7 +13,7 @@ describe('CanjeCarnet', () => {
     render(<MemoryRouter><CanjeCarnet /></MemoryRouter>);
     fireEvent.click(screen.getByRole('button', { name: /comprobar requisitos/i }));
     fireEvent.click(screen.getAllByRole('button', { name: 'Sí' })[0]);
-    fireEvent.change(screen.getByLabelText(/país para verificar el canje/i), { target: { value: 'ok' } });
+    fireEvent.change(screen.getByLabelText(/país para verificar el canje/i), { target: { value: 'Alemania' } });
     fireEvent.click(screen.getAllByRole('button', { name: 'Sí' })[1]);
     fireEvent.click(screen.getAllByRole('button', { name: 'Sí' })[2]);
     fireEvent.click(screen.getByRole('button', { name: /verificar →/i }));

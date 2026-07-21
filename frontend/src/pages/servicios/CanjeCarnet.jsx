@@ -188,7 +188,7 @@ export default function CanjeCarnet() {
                     >
                       <option value="">— Selecciona tu país —</option>
                       {COUNTRIES.map((c) => (
-                        <option key={c} value="ok">{c}</option>
+                        <option key={c} value={c}>{c}</option>
                       ))}
                       <option value="no">Mi país no está en la lista</option>
                     </select>
