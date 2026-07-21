@@ -15,24 +15,24 @@
 .loading { text-align: center; color: #888; font-size: 15px; }
 
 /* FORM — field styling mirrors Contacto.module.css's .form-* classes */
-.form { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
-.form-title { font-size: 18px; font-weight: 800; color: var(--graphite); margin-bottom: 18px; font-family: Georgia, serif; }
-.form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
-.form-group { margin-bottom: 18px; }
-.form-label { font-size: 12px; font-weight: 600; color: #888; display: block; margin-bottom: 6px; }
-.form-input { background: #fff; border: 1.5px solid var(--border); border-radius: 8px; padding: 11px 14px; font-size: 15px; color: var(--graphite); width: 100%; font-family: inherit; transition: border-color .15s; }
+.form { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 20px 18px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+.form-title { font-size: 15px; font-weight: 800; color: var(--graphite); margin-bottom: 10px; font-family: Georgia, serif; }
+.form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.form-group { margin-bottom: 12px; }
+.form-label { font-size: 11px; font-weight: 600; color: #888; display: block; margin-bottom: 4px; }
+.form-input { background: #fff; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 11px; font-size: 13.5px; color: var(--graphite); width: 100%; font-family: inherit; transition: border-color .15s; }
 .form-input:focus { outline: none; border-color: var(--graphite); }
 .form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; cursor: pointer; }
 
-.form-check { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px; }
+.form-check { display: flex; align-items: flex-start; gap: 9px; margin-bottom: 14px; }
 .form-check input { margin-top: 3px; flex-shrink: 0; }
-.form-check label { font-size: 12.5px; color: #777; line-height: 1.5; }
+.form-check label { font-size: 11px; color: #777; line-height: 1.45; }
 .form-check a { color: var(--red); text-decoration: none; }
 .form-check a:hover { text-decoration: underline; }
 
-.form-submit { background: var(--red); color: #fff; border: none; border-radius: 8px; padding: 14px 28px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; width: 100%; transition: background .15s; }
+.form-submit { background: var(--red); color: #fff; border: none; border-radius: 8px; padding: 12px 20px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; width: 100%; transition: background .15s; }
 .form-submit:hover { background: #a93226; }
 .form-submit:disabled { opacity: .6; cursor: not-allowed; }
-.form-note { font-size: 13px; color: #aaa; margin-top: 12px; text-align: center; line-height: 1.5; }
+.form-note { font-size: 11.5px; color: #aaa; margin-top: 10px; text-align: center; line-height: 1.45; }
 .form-status { font-size: 14px; margin-bottom: 16px; text-align: center; line-height: 1.5; }
 .form-status.error { color: var(--red); }

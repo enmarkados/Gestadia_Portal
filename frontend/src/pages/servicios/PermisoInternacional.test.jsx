@@ -4,8 +4,8 @@ import { describe, it, expect } from 'vitest';
 import PermisoInternacional from './PermisoInternacional.jsx';
 
 describe('PermisoInternacional', () => {
-  it('la ficha muestra el formulario de pago embebido', () => {
+  it('la ficha muestra el botón "Contratar ahora"', () => {
     render(<MemoryRouter><PermisoInternacional /></MemoryRouter>);
-    expect(screen.getByRole('button', { name: /pagar con tarjeta o bizum/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /contratar ahora/i })).toBeInTheDocument();
   });
 });

@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import { SERVICIOS } from '@shared/servicios.js';
 import CheckoutForm from './CheckoutForm.jsx';
-// Reutiliza la tarjeta-precio de LeadForm.module.css (.checkout-*) y embebe el
-// formulario de pago (CheckoutForm) directamente en la ficha, en lugar de un
-// botón que navegaba a /checkout.
+// Reutiliza la tarjeta-precio de LeadForm.module.css (.checkout-*). La tarjeta
+// muestra precio + botón "Contratar ahora"; al pulsarlo se despliega el
+// formulario de pago (CheckoutForm) ahí mismo, sin cambiar de página.
 import styles from './LeadForm.module.css';
 
 export default function ContratarCard({ slug, servicio, precio, includes }) {
+  const [mostrarForm, setMostrarForm] = useState(false);
+
   return (
     <div className={styles.checkoutCard}>
       <div className={styles.checkoutPriceBlock}>
@@ -19,7 +22,13 @@ export default function ContratarCard({ slug, servicio, precio, includes }) {
       </div>
 
       <div className={styles.checkoutBody}>
-        <CheckoutForm servicio={SERVICIOS[slug]} />
+        {mostrarForm ? (
+          <CheckoutForm servicio={SERVICIOS[slug]} />
+        ) : (
+          <button type="button" className={styles.checkoutBtn} onClick={() => setMostrarForm(true)}>
+            Contratar ahora →
+          </button>
+        )}
         <div className={styles.checkoutDivider} />
         <div className={styles.checkoutWhatsapp}>
           💬 ¿Tienes dudas?{' '}
