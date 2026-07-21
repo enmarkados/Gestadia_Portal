@@ -84,7 +84,7 @@ checkoutRouter.post('/api/checkout', async (req, res) => {
       metadata: meta,
       payment_intent_data: { metadata: meta },
       success_url: `${config.baseUrl}/gracias?pedido=${expediente.nPedido}`,
-      cancel_url: `${config.baseUrl}/checkout?servicio=${servicio.slug}&cancelado=1`,
+      cancel_url: `${config.baseUrl}${servicio.href}?cancelado=1`,
     });
     res.json({ url: session.url });
   } catch (e) {
