@@ -81,7 +81,7 @@ export default function CanjeCarnet() {
         ),
       });
     } else if (answers[4] === 'si' || answers[5] === 'si') {
-      setResult({ ok: true, message: '¡Cumples los requisitos! Puedes contratar el trámite abajo.' });
+      setResult({ ok: true, message: '¡Cumples los requisitos! Pulsa «Contratar ahora» para continuar.' });
       sidebarRef.current?.scrollIntoView?.({ behavior: 'smooth', block: 'start' });
     } else {
       setResult({

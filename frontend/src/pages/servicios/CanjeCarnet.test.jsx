@@ -17,6 +17,6 @@ describe('CanjeCarnet', () => {
     fireEvent.click(screen.getAllByRole('button', { name: 'Sí' })[1]);
     fireEvent.click(screen.getAllByRole('button', { name: 'Sí' })[2]);
     fireEvent.click(screen.getByRole('button', { name: /verificar →/i }));
-    expect(await screen.findByText(/puedes contratar el trámite abajo/i)).toBeInTheDocument();
+    expect(await screen.findByText(/pulsa .*contratar ahora/i)).toBeInTheDocument();
   });
 });
