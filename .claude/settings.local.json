@@ -5,7 +5,8 @@
       "Bash(cat ~/.claude/settings.json 2>/dev/null | grep -i stripe || echo \"No stripe found in settings\")",
       "Read(//c/Users/gloria.aleix/.claude/**)",
       "Bash(ls -la \"c:\\\\Users\\\\gloria.aleix\\\\.source\\\\repos\")",
-      "Read(//c/Users/gloria.aleix/.source/repos/**)"
+      "Read(//c/Users/gloria.aleix/.source/repos/**)",
+      "mcp__ff5a8825-628d-40bc-89ff-0b06b4371b6a__get_stripe_account_info"
     ]
   }
 }
