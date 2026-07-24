@@ -1,165 +1,200 @@
 # Diseño — Integración LidIA → checkout con procedencia (referrer)
 
-**Fecha:** 2026-07-24
-**Estado:** ANÁLISIS — bloqueado hasta recibir la respuesta del equipo LidIA al
-handoff (`docs/integraciones/2026-07-24-handoff-equipo-lidia.md`). **No
-implementar** hasta que confirmen el contrato; sus respuestas pueden alterar
-campos y responsabilidades.
+**Fecha:** 2026-07-24 (v2 — incorpora la contestación del equipo LidIA)
+**Estado:** ACORDADO — contrato cerrado con LidIA
+(`docs/integraciones/2026-07-24-respuesta-a-lidia.md`). Los flecos operativos
+(secretos, URLs, estructura de `extra`, ventana de pruebas) no bloquean el
+desarrollo, solo despliegue y pruebas conjuntas.
 
 ## Contexto
 
 El equipo LidIA opera agentes conversacionales por WhatsApp. Cuando entra un
-lead en Zoho, su agente lo prospecciona, recoge los datos del canje y **ya
-convierte el lead a Contacto + Trato en Zoho**. Al llegar el momento de pagar,
-el agente debe poder pedirnos un enlace de pago y enterarse del resultado para
-seguir la conversación.
+lead en Zoho, su agente lo prospecciona, recoge los datos del canje y convierte
+el lead a Contacto + Oportunidad en Zoho **antes** del pago (adaptarán su lado
+para garantizar y persistir `zoho_contact_id` y `zoho_deal_id`). Su herramienta
+existente `generar_enlace_pago` (controla WhatsApp real, precio presentado,
+confirmación explícita y no-duplicados) llamará a nuestro `checkout-intent`.
 
 Hoy el portal no tiene concepto de procedencia en el checkout: `POST
 /api/checkout` crea User + Expediente y lanza Stripe con `metadata.canal:
-'web'` fijo; `fulfillPayment` siempre crea un Deal nuevo en Zoho
-(`createDealForExpediente`) con `Lead_Source: 'Formulario web Gestadia'`.
+'web'` fijo; `fulfillPayment` siempre crea un Deal nuevo en Zoho con
+`Lead_Source: 'Formulario web Gestadia'`.
 
-## Decisiones tomadas (con el usuario)
+## Decisiones cerradas
 
-1. **Aterrizaje:** el enlace abre nuestro checkout **prellenado**; el cliente
-   revisa, acepta condiciones (requisito legal existente) y paga. No se salta
-   el formulario.
-2. **Datos de LidIA = provisionales.** Se autorrellenan todos los campos que
-   manden, pero cuando la procedencia es `lidia` el checkout muestra un
-   **aviso destacado pidiendo revisar los datos con detenimiento** (los leads
-   de Facebook Ads suelen venir bien; los de Gestadia Woztell no siempre). Lo
-   que el cliente confirma al pagar es la fuente de verdad.
-3. **Callback a LidIA:** sí. Ellos exponen un endpoint; al confirmarse el pago
-   les mandamos evento firmado con los datos confirmados y las correcciones.
-4. **Alcance genérico:** el mecanismo acepta cualquier slug del catálogo;
-   LidIA empezará con `canje-carnet`.
-5. **Zoho:** LidIA ya convirtió Contacto + Trato → al pagar **actualizamos el
-   Deal existente** (`zoho_deal_id`) en vez de crear otro, **sin tocar su
-   `Lead_Source`** (Gestadia Woztell / Facebook Ads). Pendiente de confirmar
-   con LidIA si prefieren actualizar ellos al recibir el callback (pregunta 7
-   del handoff).
+1. **Aterrizaje:** enlace corto tokenizado → checkout **prellenado**; el
+   cliente revisa, acepta condiciones y paga. Con procedencia `lidia` se
+   muestra un **banner destacado de verificación de datos** (la calidad varía
+   según origen: Facebook Ads suele venir bien, Gestadia Woztell no siempre).
+   Lo confirmado por el cliente es la fuente de verdad.
+2. **Catálogo:** el contrato acepta `catalog_code`
+   `canje_1_categoria | canje_2_categorias`, pero **fase 1 solo opera
+   `canje_1_categoria`** (210 €, lookup Stripe `gestadia_canje_1_categoria_2026`
+   ya existente). `canje_2_categorias` → `409 catalog_code_no_disponible`
+   hasta que negocio publique precio. El importe lo valida el Portal contra su
+   catálogo (`409 importe_no_coincide` con `importe_catalogo` en céntimos); el
+   precio cobrado es siempre el del catálogo.
+3. **Idempotencia:** `idempotency_key` única por intento de cobro. Misma clave
+   → mismo intent con su `status` actual y `reused: true`. Regeneración tras
+   caducidad = nueva `idempotency_key` con el mismo `lidia_payment_id`. Sin
+   regeneración automática (la pide LidIA cuando el usuario reconfirme).
+4. **Zoho, responsabilidad única:** LidIA crea/mantiene cualificación,
+   Contacto y Oportunidad pre-pago (sus `Lead_Source`: Gestadia Woztell /
+   Facebook Ads — no se tocan). El Portal escribe el resultado económico en la
+   Oportunidad existente y actualiza el Contacto **solo por allowlist**
+   (First_Name, Last_Name, Email, documento). **El teléfono nunca se
+   sobrescribe** (ni `Mobile` en Zoho ni en LidIA): es la identidad del canal
+   WhatsApp. LidIA no repite la escritura económica.
+5. **Callback:** eventos versionados y firmados; LidIA los procesa
+   idempotentemente por `event_id` y responde `2xx` a duplicados. Cola
+   persistente en Portal con 5 reintentos (1 min/10 min/1 h/6 h/24 h) y replay
+   manual.
+6. **Caducidad configurable** (`LIDIA_INTENT_TTL_DIAS`, defecto 7).
 
 ## Arquitectura
 
 ```
-LidIA ──POST /api/integrations/lidia/checkout-intent──> backend
-backend ── crea CheckoutIntent(token) ──> responde { url: /c/<token> }
-cliente ── abre /c/<token> ──> frontend resuelve intent → CheckoutForm prellenado + aviso
-cliente ── paga ──> POST /api/checkout (con token) → Expediente con procedencia
-Stripe webhook ──> fulfillPayment → update Deal Zoho + callback firmado a LidIA
+LidIA generar_enlace_pago ──POST /api/integrations/lidia/checkout-intent──> backend
+backend ── CheckoutIntent(token, idempotency_key) ──> { checkout_intent_id, url, status, reused, expires_at }
+cliente ── /c/<token> ──> checkout prellenado + banner verificación → paga
+Stripe webhook ──> fulfillPayment → update económico Deal Zoho → outbox → callback firmado a LidIA
+LidIA ──GET /api/integrations/lidia/checkout-intent/:id──> reconciliación
 ```
 
 ### Componentes
 
 **1. Ruta de integración** — `backend/src/routes/integrations.js` (nueva):
 
-- `POST /api/integrations/lidia/checkout-intent`: auth por header `X-Api-Key`
-  contra `config.lidia.apiKey` (nueva sección de config por entorno), rate
-  limit propio. Valida slug de servicio y teléfono E.164. Crea `CheckoutIntent`
-  y devuelve `{ url, token, expires_at }`. Si llega un `lidia_session_id` que
-  ya tiene intent activo sin pagar → invalida el anterior y emite token nuevo
-  (reemisión por caducidad).
-- `GET /api/checkout-intent/:token` (público): devuelve **solo** el prellenado
-  (servicio + datos de formulario) y el flag `procedencia`. Nunca expone ids de
-  Zoho/LidIA ni el estado interno. Token caducado/desconocido → `404`.
+- `POST /api/integrations/lidia/checkout-intent` — auth `X-Api-Key` contra
+  `config.lidia.apiKey`, rate limit propio.
+  - Body: `schema_version` (`"1"`), `idempotency_key`, `lidia_payment_id`,
+    `lidia_session_id`, `lidia_contact_id`, `lidia_agent_id`,
+    `service` (slug), `catalog_code`, `telefono` (E.164), `importe` (céntimos),
+    `moneda`, `prefill` estructurado (nombre, apellidos, email,
+    tipo_documento, num_documento, pais_canje, datos_pais, direccion),
+    `zoho_contact_id`, `zoho_deal_id`, `extra` (cualificación, requisitos,
+    prioridad, cita — estructura pendiente de LidIA).
+  - Validaciones: api key (`401`); slug/teléfono/payload (`400`/`422`);
+    `catalog_code` no operativo (`409 catalog_code_no_disponible`);
+    `importe`/`moneda` vs catálogo (`409 importe_no_coincide` +
+    `importe_catalogo` en céntimos).
+  - Idempotencia: `idempotency_key` con unique en BD; si ya existe → devuelve
+    el intent existente con su `status` y `reused: true` (aunque esté
+    caducado, para que LidIA lo sepa). Nunca emite dos enlaces por la misma
+    clave.
+  - Respuesta `200/201`:
+    `{ checkout_intent_id, url, token, expires_at, status, reused }`.
+- `GET /api/integrations/lidia/checkout-intent/:id` — auth `X-Api-Key`.
+  Devuelve `{ checkout_intent_id, status, n_pedido?, expires_at,
+  lidia_payment_id }` para reconciliación. `404` si no existe.
+- `GET /api/checkout-intent/:token` (público, para el frontend): **solo**
+  prellenado + `servicio` + `procedencia`. Nunca ids de Zoho/LidIA ni estado
+  interno. Caducado/desconocido → `404`. Marca `abierto` la primera vez (y
+  encola evento `checkout.opened`).
 
 **2. Modelo `CheckoutIntent`** (Prisma, tabla nueva):
 
 ```prisma
 model CheckoutIntent {
-  id           String     @id @default(uuid())
-  token        String     @unique          // opaco, crypto.randomBytes
-  procedencia  String                       // 'lidia' (extensible)
-  servicioSlug String
-  prefill      Json                         // datos de formulario tal cual llegaron
-  origenMeta   Json                         // lidia_session_id, lidia_contact_id, lidia_agent_id, zoho_contact_id, zoho_deal_id, extra
-  estado       String     @default("emitido") // emitido | abierto | pagado | caducado | invalidado
-  expiresAt    DateTime
-  expedienteId String?                      // se enlaza al crear el expediente
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  id             String   @id @default(uuid())
+  token          String   @unique            // opaco, crypto.randomBytes
+  idempotencyKey String   @unique
+  procedencia    String                       // 'lidia' (extensible)
+  servicioSlug   String
+  catalogCode    String
+  importeMinor   Int                          // céntimos, validado vs catálogo
+  moneda         String   @default("EUR")
+  prefill        Json
+  origenMeta     Json                         // lidia_payment_id, lidia_session_id, lidia_contact_id, lidia_agent_id, zoho_contact_id, zoho_deal_id, extra
+  estado         String   @default("emitido") // emitido | abierto | pagado | caducado
+  expiresAt      DateTime
+  expedienteId   String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 ```
 
-**3. Campos nuevos en `Expediente`:** `procedencia String @default("web")` y
-`origenMeta Json?` (copia de la atribución del intent en el momento del pago).
-El metadata de Stripe pasa de `canal: 'web'` fijo a `canal: procedencia`.
+**3. Outbox de callbacks** — tabla `LidiaEvento`: `id` (= `event_id`),
+`eventType` (`payment.succeeded` | `checkout.opened` | `checkout.expired`),
+`checkoutIntentId`, `payload` (Json, cuerpo exacto), `estado`
+(`pendiente | enviado | agotado`), `intentos`, `proximoIntento`. Un worker
+simple (setInterval en el proceso, arrancado en server.js) despacha pendientes:
+firma `X-Gestadia-Signature: sha256=<HMAC(body, secreto)>` + cabeceras
+`X-Gestadia-Timestamp` y `X-Gestadia-Key-Version`; backoff
+1 min/10 min/1 h/6 h/24 h; al agotar → log + `addDealNote`. Replay manual:
+script `backend/scripts/lidia-replay.mjs` que reencola por `event_id`.
 
-**4. Frontend:**
+**4. Campos nuevos en `Expediente`:** `procedencia String @default("web")` y
+`origenMeta Json?`. El metadata de Stripe pasa a `canal: procedencia`.
 
-- Ruta nueva `/c/:token`: hace fetch del intent; si es válido monta la página
-  de checkout del servicio con `CheckoutForm` prellenado; si no, redirige al
-  checkout normal con un aviso suave ("el enlace ha caducado, puedes contratar
-  igualmente").
-- `CheckoutForm` acepta `prefill` y `procedencia` como props. Con
-  `procedencia === 'lidia'` muestra un **banner destacado de verificación**
-  ("Estos datos los hemos recogido en tu conversación de WhatsApp — revísalos
-  con calma antes de pagar, sobre todo nombre y apellidos") encima del
-  formulario. El submit incluye el `token` en el body de `postCheckout`.
+**5. Frontend:**
 
-**5. `POST /api/checkout` (cambio mínimo):** si llega `token` válido y no
-pagado → el expediente se crea con `procedencia` y `origenMeta` del intent, el
-intent pasa a `pagado` al confirmarse (vía `fulfillPayment`) y se enlaza
-`expedienteId`. Sin token, todo sigue igual (`procedencia: 'web'`).
+- Ruta `/c/:token`: resuelve el intent; válido → checkout del servicio con
+  `CheckoutForm` prellenado; caducado/inválido → checkout normal con aviso
+  suave; ya pagado → página de gracias del pedido.
+- `CheckoutForm` acepta `prefill` y `procedencia`. Con `procedencia ===
+  'lidia'`: banner destacado ("Estos datos los hemos recogido en tu
+  conversación de WhatsApp — revísalos con calma antes de pagar, sobre todo
+  nombre y apellidos"). El submit incluye el `token` en `postCheckout`.
 
-**6. `fulfillPayment` (cambios):**
+**6. `POST /api/checkout`:** si llega `token` válido no pagado → expediente
+con `procedencia` y `origenMeta` del intent y enlace `expedienteId`. Sin
+token, comportamiento intacto.
 
-- Con `procedencia === 'lidia'` y `zoho_deal_id` en `origenMeta`:
-  - **No** llama a `createDealForExpediente`. Hace `PUT` al Deal existente:
-    `Stage: 'Cerrado ganado'`, `Pago_Confirmado`, `Fecha_de_pago`,
-    `M_todos_de_pago`, `Ref_pago`, `N_Pedido`, `Amount`,
-    `Fecha_M_xima_para_Desistimiento`. No toca `Lead_Source`.
-  - Contacto: enlaza `user.zohoContactId = zoho_contact_id` y actualiza los
-    identificativos (First_Name, Last_Name, Email, documento) con los datos
-    confirmados por el cliente (sobrescribe, no solo huecos — los datos de
-    LidIA pueden venir mal). Si hubo correcciones, nota en el Deal con el
-    antes/después.
-  - **Fallback:** si el update del Deal falla o no hay `zoho_deal_id` →
-    comportamiento actual (crear Deal) + nota indicando el problema. Un pago
-    nunca se queda sin reflejo en CRM.
-- Al final, encola el callback a LidIA.
+**7. `fulfillPayment`:**
 
-**7. Callback saliente** — `backend/src/services/lidia.js` (nuevo):
+- Con `procedencia 'lidia'` + `zoho_deal_id`:
+  - No crea Deal. `PUT` al existente: `Stage: 'Cerrado ganado'`,
+    `Pago_Confirmado`, `Fecha_de_pago`, `M_todos_de_pago`, `Ref_pago`,
+    `N_Pedido`, `Amount`, `Fecha_M_xima_para_Desistimiento`. `Lead_Source`
+    intacto.
+  - Contacto: enlaza `user.zohoContactId`; actualiza por allowlist
+    (First_Name, Last_Name, Email, documento) con lo confirmado. `Mobile` no
+    se toca. Correcciones → nota en el Deal (antes/después).
+  - Fallback: sin `zoho_deal_id` o update fallido → crear Deal (flujo actual)
+    + nota. Un pago nunca queda sin reflejo en CRM.
+- Marca el intent `pagado` y encola `payment.succeeded` con
+  `datos_confirmados` + `correcciones` (diff prefill vs confirmado; el
+  teléfono puede aparecer en correcciones a título informativo).
 
-- `POST` a `config.lidia.callbackUrl` con body del contrato del handoff
-  (`evento: 'pagado'`, `lidia_session_id`, `n_pedido`, `datos_confirmados`,
-  `correcciones`…), firmado `X-Gestadia-Signature: sha256=<HMAC(body, secreto)>`.
-- Reintentos: 3 (1 min / 10 min / 1 h) — persistidos de forma simple (campo de
-  estado + reintento en proceso; sin cola externa). Fallo definitivo → error en
-  log + `addDealNote` en el Deal.
-- Eventos `link_abierto` / `caducado`: solo si LidIA los pide (pregunta 5).
+**8. Config nueva (`config.lidia`):** `apiKey`, `callbackUrl`,
+`callbackSecret`, `callbackKeyVersion`, `intentTtlDias` (defecto 7),
+`enabled`.
+
+**9. Caducidad:** job ligero (mismo worker del outbox) marca `caducado` los
+intents vencidos y encola `checkout.expired`.
 
 ## Manejo de errores
 
-- API key inválida → `401`; slug/teléfono inválidos → `400`; payload
-  malformado → `422`. Siempre `{ error }`.
+- Errores del endpoint según §Componentes.1; siempre `{ error }`.
 - Token caducado/inexistente en `/c/:token` → checkout normal + aviso suave.
-- El intent es reutilizable hasta el pago; tras pagar, `/c/:token` redirige a
-  la página de gracias del pedido.
-- Todo fallo de Zoho o del callback es no-bloqueante para el pago (patrón
-  actual de `fulfillPayment`).
+- Fallos de Zoho o del callback no bloquean el pago (patrón actual).
+- El worker de outbox es tolerante a reinicios (estado persistido en BD).
 
 ## Testing
 
 Siguiendo los patrones existentes (`frontend/src/pages/Checkout.test.jsx`,
 tests de backend):
 
-- Endpoint intent: auth, validación, emisión, reemisión (invalida el anterior),
-  caducidad.
-- `GET /api/checkout-intent/:token`: no filtra ids internos; 404 en caducado.
-- Checkout con token: expediente con `procedencia`/`origenMeta`; sin token,
-  comportamiento intacto (regresión).
-- `fulfillPayment` con `zoho_deal_id`: update (no create), fallback a create si
-  falla, sobrescritura del contacto, nota de correcciones.
-- Firma HMAC del callback y reintentos.
-- Frontend: `/c/:token` prellenado, banner de verificación visible solo con
-  procedencia `lidia`, caducado → checkout normal.
+- Intent: auth, validaciones (catalog_code 409, importe 409), idempotencia
+  (misma clave → mismo intent + reused, caducado incluido), TTL configurable.
+- `GET` estado (auth) y `GET` público (no filtra ids internos; 404 caducado;
+  marca `abierto` y encola `checkout.opened` una sola vez).
+- Checkout con token → `procedencia`/`origenMeta`; sin token → regresión
+  intacta.
+- `fulfillPayment`: update vs create, fallback, allowlist sin `Mobile`, nota
+  de correcciones, intent → `pagado`, encolado de `payment.succeeded` con
+  `amount_minor` correcto.
+- Outbox: firma sobre cuerpo exacto + cabeceras, backoff, agotamiento con
+  nota, replay por `event_id`.
+- Frontend: `/c/:token` prellenado, banner solo con procedencia `lidia`,
+  caducado → checkout normal, pagado → gracias.
 
-## Dependencias abiertas (bloquean implementación)
+## Historial
 
-Las 9 preguntas del handoff, en especial: disponibilidad garantizada de
-`zoho_contact_id`/`zoho_deal_id` (Q1), quién actualiza Zoho al pagar (Q7),
-contrato del callback y secretos (Q4/Q5), y campos `extra` que quieran
-persistir (Q8). Cuando respondan: actualizar este spec, cerrar el contrato y
-pasar a `superpowers:writing-plans` para el plan de implementación con el
-reparto acordado.
+- v1 (2026-07-24): propuesta inicial, enviada como handoff a LidIA.
+- v2 (2026-07-24): contestación de LidIA incorporada — idempotencia,
+  `lidia_payment_id`, `catalog_code` (fase 1 solo 1 categoría, decisión de
+  negocio), validación de precio, endpoint de estado, eventos versionados con
+  `event_id`/`amount_minor`, cola persistente 5 reintentos + replay, allowlist
+  sin teléfono, caducidad configurable, reparto de responsabilidades Zoho.
