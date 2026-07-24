@@ -13,9 +13,6 @@ Resumen de lo acordado, los matices que introducimos y el reparto final.
 
 ## 1. Aceptado tal cual lo proponéis
 
-- **Vuestra herramienta `generar_enlace_pago` se mantiene** como único punto de
-  pago del agente y se conecta internamente a nuestro `checkout-intent`. No se
-  crea una segunda herramienta.
 - **Petición** con `schema_version`, `idempotency_key`, `lidia_payment_id`,
   `lidia_session_id`, `lidia_contact_id`, `lidia_agent_id`, `service`,
   `catalog_code`, teléfono E.164, prefill estructurado, `zoho_contact_id` y
@@ -54,24 +51,34 @@ Resumen de lo acordado, los matices que introducimos y el reparto final.
 
 ## 2. Matices de nuestro lado
 
-1. **`catalog_code` — fase 1 solo `canje_1_categoria`.** Nuestro catálogo hoy
+1. **Tool nueva dedicada, no modificar `generar_enlace_pago`.** Entendemos la
+   propuesta de conectar internamente vuestra herramienta existente, pero como
+   las tools sirven a varios agentes a la vez, preferimos no tocar una
+   compartida: os pedimos **crear una herramienta nueva
+   `generar_enlace_gestadia_portal`**, vinculada únicamente al agente dedicado
+   de Gestadia, que replique los mismos controles que ya tenéis en
+   `generar_enlace_pago` (conversación de WhatsApp real, precio presentado,
+   confirmación explícita del usuario, sin operaciones duplicadas) y llame a
+   nuestro `checkout-intent`. Así el contrato de pago de Gestadia evoluciona
+   sin afectar al resto de agentes, y viceversa.
+2. **`catalog_code` — fase 1 solo `canje_1_categoria`.** Nuestro catálogo hoy
    tiene el canje a **210,00 €** (una categoría; el price de Stripe ya es
    `gestadia_canje_1_categoria_2026`). `canje_2_categorias` aún no tiene precio
    definido de negocio: el contrato acepta el campo, pero de momento el Portal
    responderá `409 { "error": "catalog_code_no_disponible" }` a
    `canje_2_categorias`. Restringid la herramienta a 1 categoría en fase 1;
    cuando se publique el precio, activamos el código sin cambio de contrato.
-2. **Validación de precio:** de acuerdo — validamos `importe`+`moneda` contra
+3. **Validación de precio:** de acuerdo — validamos `importe`+`moneda` contra
    nuestro catálogo y rechazamos discrepancias con
    `409 { "error": "importe_no_coincide", "importe_catalogo": 21000 }`
    (en céntimos, como `amount_minor`). El precio que cobra Stripe es siempre el
    del catálogo del Portal.
-3. **Regeneración tras caducidad:** misma `idempotency_key` → mismo intent con
+4. **Regeneración tras caducidad:** misma `idempotency_key` → mismo intent con
    su `status` actual (aunque esté `caducado`, para que podáis saberlo). Para
    emitir un enlace nuevo tras caducidad, mandad **nueva `idempotency_key`
    con el mismo `lidia_payment_id`** (mantiene la correlación). Decidnos si os
    encaja esta semántica.
-4. **Cualificación, requisitos, prioridad y datos de cita:** los aceptamos en
+5. **Cualificación, requisitos, prioridad y datos de cita:** los aceptamos en
    un objeto `extra` de la petición; se persisten asociados al expediente y,
    si nos confirmáis que os es útil, los volcamos como nota en la Oportunidad.
    Pasadnos la estructura exacta que vais a mandar.
@@ -80,9 +87,11 @@ Resumen de lo acordado, los matices que introducimos y el reparto final.
 
 **LidIA:**
 
-- Adaptar `generar_enlace_pago` para llamar a `checkout-intent` con el payload
-  acordado (manteniendo vuestros controles: WhatsApp real, precio presentado,
-  confirmación explícita, sin duplicados).
+- Crear la herramienta **`generar_enlace_gestadia_portal`** en el agente
+  dedicado de Gestadia y conectarla a `checkout-intent` con el payload
+  acordado, replicando los controles de `generar_enlace_pago` (WhatsApp real,
+  precio presentado, confirmación explícita, sin duplicados). La tool
+  compartida no se modifica.
 - Garantizar y persistir `zoho_contact_id` y `zoho_deal_id` antes de permitir
   el checkout (lo que comentabais de la conversión de Lead).
 - Endpoint de callback: verificación de firma, procesado idempotente por
@@ -113,7 +122,8 @@ Resumen de lo acordado, los matices que introducimos y el reparto final.
    del callback, con versión de clave) por canal seguro.
 2. URLs de vuestro callback en staging y producción.
 3. Estructura exacta del objeto `extra` (cualificación/cita/prioridad).
-4. Confirmación de la semántica de regeneración (§2.3).
+4. Confirmación de la semántica de regeneración (§2.4) y de la creación de la
+   tool dedicada `generar_enlace_gestadia_portal` (§2.1).
 5. Volumen estimado de enlaces/día para dimensionar rate limits.
 6. Ventana para la prueba punta a punta en staging.
 

@@ -11,9 +11,13 @@ desarrollo, solo despliegue y pruebas conjuntas.
 El equipo LidIA opera agentes conversacionales por WhatsApp. Cuando entra un
 lead en Zoho, su agente lo prospecciona, recoge los datos del canje y convierte
 el lead a Contacto + Oportunidad en Zoho **antes** del pago (adaptarán su lado
-para garantizar y persistir `zoho_contact_id` y `zoho_deal_id`). Su herramienta
-existente `generar_enlace_pago` (controla WhatsApp real, precio presentado,
-confirmación explícita y no-duplicados) llamará a nuestro `checkout-intent`.
+para garantizar y persistir `zoho_contact_id` y `zoho_deal_id`). Crearán una
+**herramienta nueva `generar_enlace_gestadia_portal`**, vinculada solo al
+agente dedicado de Gestadia, que llamará a nuestro `checkout-intent`
+replicando los controles de su tool compartida `generar_enlace_pago`
+(WhatsApp real, precio presentado, confirmación explícita, no-duplicados).
+Regla de colaboración con LidIA: sus tools sirven a varios agentes — nunca se
+pide modificar una existente, siempre una tool nueva scoped a nuestro agente.
 
 Hoy el portal no tiene concepto de procedencia en el checkout: `POST
 /api/checkout` crea User + Expediente y lanza Stripe con `metadata.canal:
@@ -54,7 +58,7 @@ Hoy el portal no tiene concepto de procedencia en el checkout: `POST
 ## Arquitectura
 
 ```
-LidIA generar_enlace_pago ──POST /api/integrations/lidia/checkout-intent──> backend
+LidIA generar_enlace_gestadia_portal ──POST /api/integrations/lidia/checkout-intent──> backend
 backend ── CheckoutIntent(token, idempotency_key) ──> { checkout_intent_id, url, status, reused, expires_at }
 cliente ── /c/<token> ──> checkout prellenado + banner verificación → paga
 Stripe webhook ──> fulfillPayment → update económico Deal Zoho → outbox → callback firmado a LidIA
@@ -198,3 +202,6 @@ tests de backend):
   negocio), validación de precio, endpoint de estado, eventos versionados con
   `event_id`/`amount_minor`, cola persistente 5 reintentos + replay, allowlist
   sin teléfono, caducidad configurable, reparto de responsabilidades Zoho.
+- v2.1 (2026-07-24): la integración entra por una tool nueva dedicada
+  `generar_enlace_gestadia_portal` (las tools de LidIA son compartidas entre
+  agentes y no se modifican; Gestadia tiene un agente exclusivo).
