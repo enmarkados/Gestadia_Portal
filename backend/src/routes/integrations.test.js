@@ -140,6 +140,50 @@ test('importe distinto del catálogo → 409 importe_no_coincide con catálogo e
   server.close(); mock.reset();
 });
 
+test('misma idempotency_key y mismo payload → 200 con el mismo intent y reused true', async () => {
+  const db = fakeDb();
+  const server = await montarApp(db);
+  const port = server.address().port;
+  const r1 = await postIntent(port, bodyValido());
+  const b1 = await r1.json();
+  const r2 = await postIntent(port, bodyValido());
+  const b2 = await r2.json();
+  assert.equal(r2.status, 200);
+  assert.equal(b2.reused, true);
+  assert.equal(b2.checkout_intent_id, b1.checkout_intent_id);
+  assert.equal(db.intents.size, 1);
+  server.close(); mock.reset();
+});
+
+test('misma idempotency_key con payload distinto → 409 idempotency_conflict', async () => {
+  const server = await montarApp(fakeDb());
+  const port = server.address().port;
+  await postIntent(port, bodyValido());
+  const res = await postIntent(port, bodyValido({ telefono: '+34699999999' }));
+  assert.equal(res.status, 409);
+  assert.equal((await res.json()).error, 'idempotency_conflict');
+  server.close(); mock.reset();
+});
+
+test('replaces_checkout_intent_id cancela el intent sustituido y crea uno nuevo', async () => {
+  const db = fakeDb();
+  const server = await montarApp(db);
+  const port = server.address().port;
+  const b1 = await (await postIntent(port, bodyValido())).json();
+  const res = await postIntent(port, bodyValido({
+    idempotency_key: '11111111-2222-4333-8444-555555555555',
+    lidia_payment_attempt_id: '99999999-8888-4777-8666-555555555555',
+    replaces_checkout_intent_id: b1.checkout_intent_id,
+  }));
+  const b2 = await res.json();
+  assert.equal(res.status, 201);
+  assert.equal(b2.lidia_payment_id, 'b093ce58-8dc9-4c3e-b4c3-85851b24cf66'); // mismo ciclo
+  assert.notEqual(b2.checkout_intent_id, b1.checkout_intent_id);
+  const anterior = [...db.intents.values()].find((i) => i.publicId === b1.checkout_intent_id);
+  assert.equal(anterior.estado, 'cancelled');
+  server.close(); mock.reset();
+});
+
 test('creación válida → 201 con la respuesta del contrato §6.6', async () => {
   const db = fakeDb();
   const server = await montarApp(db);
