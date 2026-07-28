@@ -12,6 +12,7 @@ import styles from './Checkout.module.css';
 export default function Checkout() {
   const [searchParams] = useSearchParams();
   const slug = searchParams.get('servicio') || '';
+  const enlaceCaducado = searchParams.get('enlace') === 'caducado';
 
   const [servicios, setServicios] = useState(null); // null = loading
   const [loadError, setLoadError] = useState('');
@@ -39,6 +40,11 @@ export default function Checkout() {
       </div>
 
       <div className={styles.body}>
+        {enlaceCaducado && (
+          <p className={styles.formStatus} role="status">
+            El enlace de pago ha caducado, pero puedes contratar igualmente rellenando tus datos.
+          </p>
+        )}
         {loadError && <p className={`${styles.formStatus} ${styles.error}`} role="alert">{loadError}</p>}
         {!loadError && !servicio && <p className={styles.loading}>Cargando…</p>}
         {servicio && (

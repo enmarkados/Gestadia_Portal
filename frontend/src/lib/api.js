@@ -30,6 +30,14 @@ export async function postCheckout(payload) {
   return body;
 }
 
+// Resuelve un enlace corto de LidIA (/c/:token) → { servicio, procedencia,
+// prefill } o { pagado, nPedido }. 404 = caducado/inválido.
+export async function getCheckoutIntent(token) {
+  const res = await fetch(`/api/checkout-intent/${encodeURIComponent(token)}`);
+  if (!res.ok) throw new Error('Enlace no válido o caducado');
+  return res.json();
+}
+
 // ---------- Portal de cliente (Task 8) ----------
 // authedFetch attaches the bearer token from lib/auth.js to every portal
 // API call. On a 401 (expired/invalid token — see backend/src/middleware/

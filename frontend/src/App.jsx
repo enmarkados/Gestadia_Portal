@@ -3,6 +3,7 @@ import Home from './pages/Home.jsx';
 import Tramites from './pages/Tramites.jsx';
 import Contacto from './pages/Contacto.jsx';
 import Checkout from './pages/Checkout.jsx';
+import CheckoutIntent from './pages/CheckoutIntent.jsx';
 import Gracias from './pages/Gracias.jsx';
 import Login from './pages/portal/Login.jsx';
 import CrearClave from './pages/portal/CrearClave.jsx';
@@ -35,6 +36,7 @@ export default function App() {
         <Route path="/tramites" element={<Tramites />} />
         <Route path="/contacto" element={<Contacto />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/c/:token" element={<CheckoutIntent />} />
         <Route path="/gracias" element={<Gracias />} />
         <Route path="/tramites/transferencia" element={<Transferencia />} />
         <Route path="/tramites/canje-carnet" element={<CanjeCarnet />} />

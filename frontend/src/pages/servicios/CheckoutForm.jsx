@@ -18,12 +18,32 @@ function toReactRoute(url) {
   return url.replace('/gracias.html', '/gracias').replace('/checkout.html', '/checkout');
 }
 
+// Aplica el prellenado de un intent de LidIA sobre el formulario vacío.
+// El teléfono llega en E.164: se separa el prefijo más largo que encaje.
+function aplicarPrefill(base, prefill) {
+  if (!prefill) return base;
+  const out = { ...base };
+  for (const campo of ['nombre', 'apellidos', 'email', 'tipoDocumento', 'numDocumento', 'paisCanje']) {
+    if (prefill[campo]) out[campo] = prefill[campo];
+  }
+  if (prefill.telefono) {
+    const prefijo = [...PREFIJOS].sort((a, b) => b.codigo.length - a.codigo.length)
+      .find((p) => prefill.telefono.startsWith(p.codigo));
+    if (prefijo) {
+      out.prefijo = prefijo.codigo;
+      out.telefono = prefill.telefono.slice(prefijo.codigo.length);
+    }
+  }
+  return out;
+}
+
 // Formulario de pago reutilizable. Se usa embebido en la ficha (ContratarCard)
 // y en la página /checkout. Recibe `servicio` (slug + flags) y NO llama a la API.
-export default function CheckoutForm({ servicio }) {
+// `prefill`/`procedencia`/`intentToken` llegan solo desde /c/:token (LidIA).
+export default function CheckoutForm({ servicio, prefill = null, procedencia = '', intentToken = '' }) {
   const [searchParams] = useSearchParams();
   const cancelado = searchParams.get('cancelado');
-  const [form, setForm] = useState(EMPTY_FORM);
+  const [form, setForm] = useState(() => aplicarPrefill(EMPTY_FORM, prefill));
   const [status, setStatus] = useState('idle'); // idle | sending | error
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -50,7 +70,7 @@ export default function CheckoutForm({ servicio }) {
       const extra = {};
       if (servicio.requierePais) { extra.paisCanje = paisCanje; extra.datosPais = datosPais; }
       if (servicio.requiereDireccion) { extra.direccion = direccion; }
-      const body = await postCheckout({ servicio: servicio.slug, ...persona, telefono: telefonoFull, ...extra });
+      const body = await postCheckout({ servicio: servicio.slug, ...persona, telefono: telefonoFull, ...extra, ...(intentToken ? { token: intentToken } : {}) });
       window.location.href = toReactRoute(body.url);
     } catch (err) {
       setStatus('error');
@@ -61,6 +81,14 @@ export default function CheckoutForm({ servicio }) {
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <div className={styles.formTitle}>Tus datos</div>
+
+      {procedencia === 'lidia' && (
+        <p className={styles.avisoVerifica} role="status">
+          <strong>Revisa tus datos antes de pagar.</strong> Los hemos recogido en tu
+          conversación de WhatsApp y pueden contener errores — revísalos con calma,
+          sobre todo el nombre y los apellidos, y corrige lo que haga falta.
+        </p>
+      )}
 
       {cancelado && (
         <p className={`${styles.formStatus} ${styles.error}`} role="alert">
