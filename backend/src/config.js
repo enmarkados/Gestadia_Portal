@@ -35,4 +35,17 @@ export const config = {
     from: process.env.EMAIL_FROM || 'Gestadia <hola@gestadia.com>',
     get enabled() { return !!this.host; },
   },
+
+  lidia: {
+    apiKey: process.env.LIDIA_API_KEY || '',
+    callbackBaseUrl: process.env.LIDIA_CALLBACK_BASE_URL || '',
+    callbackSecret: process.env.LIDIA_CALLBACK_SECRET || '',
+    callbackKeyVersion: process.env.LIDIA_CALLBACK_KEY_VERSION || 'v1',
+    intentTtlDias: Number(process.env.LIDIA_INTENT_TTL_DIAS || 7),
+    get callbackUrl() {
+      // Ruta relativa fija del contrato 1.0 (§8.1); solo cambia la base por entorno.
+      return this.callbackBaseUrl ? `${this.callbackBaseUrl}/api/integrations/gestadia-portal/payment-events` : '';
+    },
+    get enabled() { return !!this.apiKey; },
+  },
 };
