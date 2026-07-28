@@ -160,6 +160,28 @@ test('despachar: al sexto fallo el evento queda agotado', async () => {
   mock.reset();
 });
 
+test('construirDatosPago calcula datos confirmados y correcciones (teléfono informativo)', async () => {
+  const db = dbEventos();
+  const { construirDatosPago } = await cargarLidia(db);
+  const intent = {
+    ...intentDemo,
+    prefill: { nombre: 'Anna', apellidos: 'García López', email: 'vieja@example.com', telefono: '+34600111222', tipo_documento: 'NIE', num_documento: 'X1234567L' },
+  };
+  const user = { nombre: 'Ana', apellidos: 'García López', email: 'ana@example.com', telefono: '+34600999888', tipoDocumento: 'NIE', numDocumento: 'X1234567L' };
+  const expediente = { nPedido: 'GST-202607-12345', pagoMetodo: 'bizum' };
+  const datos = construirDatosPago(intent, expediente, user);
+  assert.equal(datos.n_pedido, 'GST-202607-12345');
+  assert.equal(datos.status, 'paid');
+  assert.equal(datos.amount_minor, 21000);
+  assert.equal(datos.payment_method, 'bizum');
+  assert.equal(datos.datos_confirmados.nombre, 'Ana');
+  assert.equal(datos.datos_confirmados.tipo_documento, 'NIE');
+  const campos = datos.correcciones.map((c) => c.campo).sort();
+  assert.deepEqual(campos, ['email', 'nombre', 'telefono']);
+  assert.equal(datos.correcciones.find((c) => c.campo === 'email').valor_confirmado, 'ana@example.com');
+  mock.reset();
+});
+
 test('expirarIntents marca expired y encola checkout.expired', async () => {
   const db = dbEventos();
   db.intents.push({ ...intentDemo, expiresAt: new Date(Date.now() - 1000) });

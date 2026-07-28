@@ -4,9 +4,10 @@ import crypto from 'node:crypto';
 import { config } from '../config.js';
 import { db } from '../db.js';
 import { SERVICIOS, getServicio, validarDatosCanje } from '../catalog.js';
-import { upsertContact, createDealForExpediente } from '../services/zoho.js';
+import { upsertContact, createDealForExpediente, addDealNote, updateDealPago, updateContactPermitidos } from '../services/zoho.js';
 import { resolvePrice, getOrCreateCustomer, linkCustomerToZoho } from '../services/stripe.js';
 import { notifyUser, sendEmail, transitionExpediente } from '../services/notify.js';
+import { encolarEvento, construirDatosPago } from '../services/lidia.js';
 
 export const checkoutRouter = Router();
 const stripe = config.stripe.enabled ? new Stripe(config.stripe.secretKey) : null;
@@ -36,6 +37,17 @@ checkoutRouter.post('/api/checkout', async (req, res) => {
     const errorCanje = validarDatosCanje(servicio, { paisCanje, direccion, datosPais });
     if (errorCanje) return res.status(400).json({ error: errorCanje });
 
+    // Enlace de LidIA (contrato 1.0): si llega un token válido y vigente, el
+    // expediente hereda la procedencia y la atribución del intent.
+    const { token } = req.body || {};
+    let intentLidia = null;
+    if (token) {
+      const candidato = await db.checkoutIntent.findUnique({ where: { token: String(token) } });
+      if (candidato && ['active', 'opened'].includes(candidato.estado) && candidato.expiresAt > new Date()) {
+        intentLidia = candidato;
+      }
+    }
+
     const emailNorm = String(email).trim().toLowerCase();
     let user = await db.user.findUnique({ where: { email: emailNorm } });
     if (!user) {
@@ -60,9 +72,14 @@ checkoutRouter.post('/api/checkout', async (req, res) => {
         estado: 'pago_pendiente',
         ...(servicio.requierePais ? { paisCanje } : {}),
         ...(servicio.requiereDireccion ? { direccion, datosPais: datosPais || {} } : {}),
+        procedencia: intentLidia ? intentLidia.procedencia : 'web',
+        ...(intentLidia ? { origenMeta: intentLidia.origenMeta } : {}),
       },
     });
     await db.eventoExpediente.create({ data: { expedienteId: expediente.id, estado: 'pago_pendiente' } });
+    if (intentLidia) {
+      await db.checkoutIntent.update({ where: { id: intentLidia.id }, data: { expedienteId: expediente.id } });
+    }
 
     // --- MODO DEMO (sin claves de Stripe): simula el pago al instante ---
     if (!stripe) {
@@ -75,7 +92,7 @@ checkoutRouter.post('/api/checkout', async (req, res) => {
     if (!user.stripeCustomerId) {
       await db.user.update({ where: { id: user.id }, data: { stripeCustomerId: customer.id } });
     }
-    const meta = { expedienteId: expediente.id, nPedido: expediente.nPedido, servicio: servicio.slug, canal: 'web' };
+    const meta = { expedienteId: expediente.id, nPedido: expediente.nPedido, servicio: servicio.slug, canal: intentLidia ? intentLidia.procedencia : 'web' };
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       payment_method_types: ['card', 'bizum'],
@@ -116,18 +133,42 @@ export async function fulfillPayment(expedienteId, { ref, metodo }) {
   });
   await db.eventoExpediente.create({ data: { expedienteId: expediente.id, estado: 'pagado', nota: `Pago ${metodo} · ref ${ref}` } });
 
-  // --- Zoho: contacto + trato ---
+  // --- Zoho ---
+  const metaLidia = updated.procedencia === 'lidia' ? (updated.origenMeta || {}) : {};
+  const esLidia = updated.procedencia === 'lidia' && metaLidia.zoho_deal_id;
   try {
-    const contactId = await upsertContact(updated.user);
-    if (contactId && !updated.user.zohoContactId) {
-      await db.user.update({ where: { id: updated.user.id }, data: { zohoContactId: contactId } });
-    }
-    if (contactId && updated.user.stripeCustomerId && stripe) {
-      await linkCustomerToZoho(stripe, updated.user.stripeCustomerId, contactId);
-    }
-    const dealId = await createDealForExpediente(updated, updated.user, servicio, contactId);
-    if (dealId) {
-      updated = await db.expediente.update({ where: { id: updated.id }, data: { zohoDealId: dealId }, include: { user: true } });
+    if (esLidia) {
+      // Contrato LidIA 1.0 §10.2: la Oportunidad ya existe — escritura
+      // económica sobre ella, sin tocar Lead_Source, y contacto por allowlist.
+      if (!updated.user.zohoContactId && metaLidia.zoho_contact_id) {
+        const u = await db.user.update({ where: { id: updated.user.id }, data: { zohoContactId: String(metaLidia.zoho_contact_id) } });
+        updated = { ...updated, user: u };
+      }
+      const ok = await updateDealPago(metaLidia.zoho_deal_id, updated);
+      if (ok) {
+        updated = await db.expediente.update({ where: { id: updated.id }, data: { zohoDealId: String(metaLidia.zoho_deal_id) }, include: { user: true } });
+        await updateContactPermitidos(metaLidia.zoho_contact_id, updated.user);
+      } else {
+        // Fallback: un pago nunca se queda sin reflejo en CRM.
+        const contactId = await upsertContact(updated.user);
+        const dealId = await createDealForExpediente(updated, updated.user, servicio, contactId);
+        if (dealId) {
+          updated = await db.expediente.update({ where: { id: updated.id }, data: { zohoDealId: dealId }, include: { user: true } });
+          await addDealNote(dealId, 'Aviso integración LidIA', `No se pudo actualizar la Oportunidad ${metaLidia.zoho_deal_id} de LidIA; se creó esta en su lugar.`);
+        }
+      }
+    } else {
+      const contactId = await upsertContact(updated.user);
+      if (contactId && !updated.user.zohoContactId) {
+        await db.user.update({ where: { id: updated.user.id }, data: { zohoContactId: contactId } });
+      }
+      if (contactId && updated.user.stripeCustomerId && stripe) {
+        await linkCustomerToZoho(stripe, updated.user.stripeCustomerId, contactId);
+      }
+      const dealId = await createDealForExpediente(updated, updated.user, servicio, contactId);
+      if (dealId) {
+        updated = await db.expediente.update({ where: { id: updated.id }, data: { zohoDealId: dealId }, include: { user: true } });
+      }
     }
   } catch (e) {
     console.error('Zoho sync error (el pago NO se pierde, reintentar manualmente):', e.message);
@@ -153,4 +194,20 @@ export async function fulfillPayment(expedienteId, { ref, metodo }) {
   await transitionExpediente(updated, 'documentacion_pendiente', {
     nota: 'Sube la documentación necesaria desde tu área de cliente para que podamos empezar.',
   });
+
+  // --- LidIA: cerrar el intent y notificar (idempotente por estado) ---
+  try {
+    const intent = await db.checkoutIntent.findFirst({ where: { expedienteId: updated.id } });
+    if (intent && intent.estado !== 'paid') {
+      await db.checkoutIntent.update({ where: { id: intent.id }, data: { estado: 'paid' } });
+      const datos = construirDatosPago(intent, updated, updated.user);
+      if (datos.correcciones?.length && updated.zohoDealId) {
+        await addDealNote(updated.zohoDealId, 'Datos corregidos en el checkout',
+          datos.correcciones.map((c) => `${c.campo} → ${c.valor_confirmado}`).join('\n'));
+      }
+      await encolarEvento('payment.succeeded', intent, datos);
+    }
+  } catch (e) {
+    console.error('LidIA post-pago error (el pago NO se pierde):', e.message);
+  }
 }

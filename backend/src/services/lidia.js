@@ -38,6 +38,46 @@ export function mapearPrefill(prefill) {
   return out;
 }
 
+const TIPO_DOC_SALIDA = { DNI: 'DNI', NIE: 'NIE', Pasaporte: 'PASAPORTE' };
+
+// Cuerpo de negocio del evento payment.succeeded (contrato §8.4).
+// `correcciones` = diff entre lo que mandó LidIA y lo confirmado por el
+// cliente; el teléfono se incluye SOLO a título informativo (§8.6).
+export function construirDatosPago(intent, expediente, user) {
+  const confirmados = {
+    nombre: user.nombre,
+    apellidos: user.apellidos,
+    email: user.email,
+    tipo_documento: TIPO_DOC_SALIDA[user.tipoDocumento] || (user.tipoDocumento ? 'OTRO' : null),
+    num_documento: user.numDocumento || null,
+    telefono: user.telefono || null,
+  };
+  const mapeado = mapearPrefill(intent.prefill);
+  const previos = {
+    nombre: mapeado.nombre,
+    apellidos: mapeado.apellidos,
+    email: mapeado.email,
+    tipo_documento: mapeado.tipoDocumento ? TIPO_DOC_SALIDA[mapeado.tipoDocumento] : undefined,
+    num_documento: mapeado.numDocumento,
+    telefono: mapeado.telefono,
+  };
+  const correcciones = [];
+  for (const [campo, previo] of Object.entries(previos)) {
+    if (previo !== undefined && confirmados[campo] && previo !== confirmados[campo]) {
+      correcciones.push({ campo, valor_confirmado: confirmados[campo] });
+    }
+  }
+  return {
+    n_pedido: expediente.nPedido,
+    status: 'paid',
+    amount_minor: intent.amountMinor,
+    currency: intent.currency,
+    payment_method: expediente.pagoMetodo || 'card',
+    datos_confirmados: confirmados,
+    correcciones,
+  };
+}
+
 // ---------- Outbox de callbacks (contrato §8-§9) ----------
 
 export function firmarCallback(rawBody, timestampSegundos) {
