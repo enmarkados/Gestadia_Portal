@@ -31,8 +31,10 @@ hosting** (Plesk, deploy por FTP).
    POST https://gestadia.com/api/integrations/lidia/checkout-intent  → 401 (sin api key = integración montada)
    GET https://gestadia.com/api/integrations/lidia/catalog (con api key) → 200 con canje_1_categoria activo
    ```
-   (URL base confirmada el 2026-07-28: `https://gestadia.com` — health 200;
-   `portal.gestadia.com` no responde. Entorno ÚNICO: no hay staging separado.)
+   (URL base confirmada el 2026-07-28: `https://gestadia.com` — health 200.
+   `portal.gestadia.com` NUNCA ha existido: era un error arrastrado del
+   `.env.production.example`, ya corregido. Entorno ÚNICO: no hay staging
+   separado.)
 
 ## Fleco 2 — Credenciales e intercambio por canal seguro
 
@@ -56,6 +58,11 @@ LIDIA_CALLBACK_KEY_VERSION=<su key_id, p. ej. v1>
 
 Sin `LIDIA_API_KEY` la integración queda apagada (401 a todo, worker parado);
 al ponerla y reiniciar, se activa endpoint + worker de callbacks.
+
+**⚠️ Verificar también en el `.env` del servidor:** `BASE_URL=https://gestadia.com`.
+El ejemplo de producción traía arrastrado `portal.gestadia.com` (dominio que
+nunca existió); si el servidor lo heredó, los enlaces `/c/<token>` que el
+agente manda por WhatsApp saldrían rotos. `config.baseUrl` construye esas URLs.
 
 **Enviarles a la vez:** URL base del Portal por entorno + la API key.
 
