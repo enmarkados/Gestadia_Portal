@@ -9,6 +9,7 @@ import { checkoutRouter } from './routes/checkout.js';
 import { authRouter } from './routes/auth.js';
 import { portalRouter } from './routes/portal.js';
 import { webhooksRouter } from './routes/webhooks.js';
+import { integrationsRouter } from './routes/integrations.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const FRONTEND_DIST = path.join(__dirname, '..', '..', 'frontend', 'dist');
@@ -31,11 +32,14 @@ export function createApp() {
   const writeLimiter = rateLimit({ windowMs: 15 * 60 * 1000, limit: 40, standardHeaders: true, legacyHeaders: false, message: { error: 'Demasiadas solicitudes. Espera unos minutos.' } });
   app.use('/api/leads', writeLimiter);
   app.use('/api/checkout', writeLimiter);
+  // Integración LidIA: 60 req/min por entorno (contrato 1.0 §12).
+  app.use('/api/integrations/lidia', rateLimit({ windowMs: 60_000, limit: 60, standardHeaders: true, legacyHeaders: false }));
 
   app.use(leadsRouter);
   app.use(authRouter);
   app.use(checkoutRouter);
   app.use(portalRouter);
+  app.use(integrationsRouter);
 
   app.get('/api/health', (_req, res) => res.json({
     ok: true,

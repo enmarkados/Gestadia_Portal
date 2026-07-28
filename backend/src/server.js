@@ -3,6 +3,7 @@
 // fichero como startup file y necesita que arranque el servidor sin condiciones.
 import { createApp } from './app.js';
 import { config } from './config.js';
+import { despacharEventosPendientes, expirarIntents } from './services/lidia.js';
 
 createApp().listen(config.port, () => {
   console.log(`Gestadia backend ▸ ${config.baseUrl}`);
@@ -17,3 +18,12 @@ createApp().listen(config.port, () => {
 
 process.on('uncaughtException', (e) => console.error('uncaughtException:', e));
 process.on('unhandledRejection', (e) => console.error('unhandledRejection:', e));
+
+// Worker de la integración LidIA: despacha la outbox de callbacks y caduca
+// intents vencidos. Tolerante a reinicios (estado en BD, no en memoria).
+if (config.lidia.enabled) {
+  setInterval(() => {
+    despacharEventosPendientes().catch((e) => console.error('[lidia] despacho:', e.message));
+    expirarIntents().catch((e) => console.error('[lidia] expiración:', e.message));
+  }, 30_000);
+}
