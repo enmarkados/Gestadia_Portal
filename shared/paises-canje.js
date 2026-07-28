@@ -88,3 +88,27 @@ export function paisesOrdenados() {
     ue: Object.values(PAISES).filter((p) => p.tipo === 'ue').sort(orden),
   };
 }
+
+// ISO 3166-1 alfa-2 → clave interna (contrato LidIA 1.0 §6.4: alfa-2 mayúsculas)
+export const ISO_A_CLAVE = {
+  AD: 'andorra', DZ: 'argelia', AR: 'argentina', BO: 'bolivia', BR: 'brasil',
+  CL: 'chile', CO: 'colombia', KR: 'corea-del-sur', CR: 'costa-rica',
+  EC: 'ecuador', SV: 'el-salvador', PH: 'filipinas', GE: 'georgia',
+  GT: 'guatemala', HN: 'honduras', JP: 'japon', MK: 'macedonia-del-norte',
+  MA: 'marruecos', MD: 'moldavia', MC: 'monaco', NI: 'nicaragua',
+  NZ: 'nueva-zelanda', PA: 'panama', PY: 'paraguay', PE: 'peru',
+  GB: 'reino-unido', DO: 'republica-dominicana', RS: 'serbia', CH: 'suiza',
+  TN: 'tunez', TR: 'turquia', UA: 'ucrania', UY: 'uruguay',
+  DE: 'alemania', AT: 'austria', BE: 'belgica', BG: 'bulgaria', CY: 'chipre',
+  HR: 'croacia', DK: 'dinamarca', SK: 'eslovaquia', SI: 'eslovenia',
+  EE: 'estonia', FI: 'finlandia', FR: 'francia', GR: 'grecia', HU: 'hungria',
+  IE: 'irlanda', IS: 'islandia', IT: 'italia', LV: 'letonia',
+  LI: 'liechtenstein', LT: 'lituania', LU: 'luxemburgo', MT: 'malta',
+  NO: 'noruega', NL: 'paises-bajos', PL: 'polonia', PT: 'portugal',
+  CZ: 'republica-checa', RO: 'rumania', SE: 'suecia',
+};
+
+export function claveDesdeISO(iso) {
+  const clave = ISO_A_CLAVE[String(iso || '').toUpperCase()];
+  return clave && PAISES[clave] ? clave : null;
+}
