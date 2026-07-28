@@ -48,6 +48,12 @@ fijo) y `fulfillPayment` siempre crea Deal nuevo en Zoho.
     normalizado. Misma clave + mismo hash → `200` con el intent existente y
     `reused: true` (cualquier `status`, incluido `expired`, para que LidIA lo
     sepa). Misma clave + hash distinto → `409 idempotency_conflict`.
+    **Retención de la clave: indefinida** (garantía dada a LidIA el
+    2026-07-28): la clave es columna única de `CheckoutIntent` y no existe
+    proceso de purga — `expirarIntents` solo cambia `estado`, nunca borra.
+    Un reintento tras corte de red devuelve siempre el mismo intent, jamás
+    crea dos. Introducir archivado en el futuro exigiría avisarles (mínimo
+    comprometido: 12 meses de retención).
   - `replaces_checkout_intent_id`: si llega, el intent referenciado pasa a
     `cancelled` (sin evento — la regeneración la inicia LidIA; evita que un
     callback atrasado pise al activo). Nueva clave + nuevo attempt id → intent
