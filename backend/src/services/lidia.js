@@ -87,6 +87,9 @@ export function construirDatosPago(intent, expediente, user) {
     amount_minor: intent.amountMinor,
     currency: intent.currency,
     payment_method: expediente.pagoMetodo || 'card',
+    // Referencia del cobro (payment_intent de Stripe) — pedida por LidIA para
+    // su ledger (2026-07-28); es la misma que escribimos en Ref_pago del Deal.
+    payment_ref: expediente.pagoRef || null,
     datos_confirmados: confirmados,
     correcciones,
   };

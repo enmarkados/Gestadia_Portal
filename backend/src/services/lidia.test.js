@@ -18,12 +18,17 @@ test('catalogoLidia devuelve null para códigos no habilitados', () => {
   assert.equal(catalogoLidia(undefined), null);
 });
 
-test('config.lidia expone TTL por defecto de 7 días y callbackUrl con la ruta fija', () => {
-  assert.equal(config.lidia.intentTtlDias, 7);
-  assert.equal(config.lidia.callbackKeyVersion, 'v1');
-  // sin LIDIA_CALLBACK_BASE_URL la URL queda vacía (integración apagada)
-  assert.equal(config.lidia.callbackUrl, '');
-  assert.equal(config.lidia.enabled, false);
+test('config.lidia expone TTL, key version y callbackUrl con la ruta fija del contrato', () => {
+  // Robusto al .env local: valida forma y coherencia, no valores concretos.
+  assert.ok(Number.isInteger(config.lidia.intentTtlDias) && config.lidia.intentTtlDias > 0);
+  assert.ok(config.lidia.callbackKeyVersion.length > 0);
+  if (config.lidia.callbackBaseUrl) {
+    assert.ok(config.lidia.callbackUrl.endsWith('/api/integrations/gestadia-portal/payment-events'));
+    assert.ok(config.lidia.callbackUrl.startsWith(config.lidia.callbackBaseUrl));
+  } else {
+    assert.equal(config.lidia.callbackUrl, ''); // sin base → integración de salida apagada
+  }
+  assert.equal(config.lidia.enabled, !!config.lidia.apiKey);
 });
 
 test('claveDesdeISO mapea alfa-2 a claves del catálogo', () => {
@@ -168,12 +173,13 @@ test('construirDatosPago calcula datos confirmados y correcciones (teléfono inf
     prefill: { nombre: 'Anna', apellidos: 'García López', email: 'vieja@example.com', telefono: '+34600111222', tipo_documento: 'NIE', num_documento: 'X1234567L' },
   };
   const user = { nombre: 'Ana', apellidos: 'García López', email: 'ana@example.com', telefono: '+34600999888', tipoDocumento: 'NIE', numDocumento: 'X1234567L' };
-  const expediente = { nPedido: 'GST-202607-12345', pagoMetodo: 'bizum' };
+  const expediente = { nPedido: 'GST-202607-12345', pagoMetodo: 'bizum', pagoRef: 'pi_test_123' };
   const datos = construirDatosPago(intent, expediente, user);
   assert.equal(datos.n_pedido, 'GST-202607-12345');
   assert.equal(datos.status, 'paid');
   assert.equal(datos.amount_minor, 21000);
   assert.equal(datos.payment_method, 'bizum');
+  assert.equal(datos.payment_ref, 'pi_test_123'); // pedida por LidIA para su ledger
   assert.equal(datos.datos_confirmados.nombre, 'Ana');
   assert.equal(datos.datos_confirmados.tipo_documento, 'NIE');
   const campos = datos.correcciones.map((c) => c.campo).sort();

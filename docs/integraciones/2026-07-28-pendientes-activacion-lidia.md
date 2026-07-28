@@ -38,13 +38,13 @@ hosting** (Plesk, deploy por FTP).
 
 ## Fleco 2 — Credenciales e intercambio por canal seguro
 
-**API key: YA GENERADA el 2026-07-28** (entorno único). Está guardada en el
-`backend/.env` local (`LIDIA_API_KEY=…`, fichero no commiteado): copiarla de
-ahí al `.env` del servidor y pasársela a LidIA por canal seguro.
+**RESUELTO 2026-07-28 — intercambio completado.** Todo está en el
+`backend/.env` local (fichero no commiteado); **solo falta copiar el bloque
+`LIDIA_*` al `.env` del servidor** en el deploy:
 
-**Recibimos de LidIA** por el mismo canal seguro:
-- Secreto HMAC + `key_id` de los callbacks (ellos lo generan — acordado).
-- URL base de su callback por entorno.
+- `LIDIA_API_KEY`: generada y entregada a LidIA (acusaron recibo).
+- `LIDIA_CALLBACK_BASE_URL=https://lidia.devvozenter.com` (recibida).
+- `LIDIA_CALLBACK_SECRET`: recibido de LidIA (32 bytes hex). `key_id: v1`.
 
 **Configurar en el `.env` del SERVIDOR** (no en el repo) y reiniciar:
 
@@ -68,18 +68,16 @@ agente manda por WhatsApp saldrían rotos. `config.baseUrl` construye esas URLs.
 
 ## Fleco 3 — Contacto + Oportunidad de prueba en Zoho
 
-Crear en el CRM (lo hacemos nosotros — se puede hacer con el conector Zoho
-CRM de Claude o a mano):
-
-- **Contacto de prueba:** nombre reconocible (p. ej. "Prueba LidIA Staging"),
-  con `Mobile` en E.164 de un número de pruebas de WhatsApp.
-- **Oportunidad de prueba** colgando de ese contacto: `Pipeline: CV con
-  Pago`, `Servicio: Canje`, stage inicial cualquiera anterior al pago.
-- Pasar a LidIA **ambos IDs** (`zoho_contact_id`, `zoho_deal_id`) con las
-  credenciales del Fleco 2.
+**RESUELTO 2026-07-28 — los preparó LidIA** (convertidos por el flujo real
+del agente y verificados contra la API de Zoho). Tabla completa en el anexo
+de `2026-07-28-respuesta-4-confirmaciones.md`: 5 pares contacto/trato con
+marcador `TEST AGENTE V2`, Tratos en «En Negociación». Número WhatsApp del
+piloto: `+34684469182`.
 
 > Nota: el update económico del Portal hará `Stage → "Cerrado ganado"` +
-> campos de pago sobre esa Oportunidad al completarse la prueba de pago.
+> campos de pago sobre esas Oportunidades al completarse la prueba de pago.
+> Modo de pago de la ventana acordado: cobro real + reembolso inmediato
+> (casos 8/9/18); el entorno NO se pone en modo test (tráfico real).
 
 ---
 
