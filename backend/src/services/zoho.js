@@ -156,6 +156,55 @@ export async function createDealForExpediente(expediente, user, servicio, contac
   return created?.data?.[0]?.details?.id ?? null;
 }
 
+// ---------- Integración LidIA (contrato 1.0 §10.2) ----------
+
+// Escritura económica sobre la Oportunidad YA creada por LidIA. No toca
+// Lead_Source ni Pipeline: la atribución y el blueprint son suyos.
+export async function updateDealPago(dealId, expediente) {
+  if (!config.zoho.enabled || !dealId) {
+    console.log('[zoho:demo] updateDealPago', dealId, expediente.nPedido);
+    return false;
+  }
+  const hoy = new Date();
+  const fin = new Date(hoy.getTime() + 14 * 24 * 3600 * 1000);
+  const d = (x) => x.toISOString().slice(0, 10);
+  const registro = {
+    id: String(dealId),
+    Stage: 'Cerrado ganado',
+    Pago_Confirmado: true,
+    Fecha_de_pago: d(hoy),
+    M_todos_de_pago: expediente.pagoMetodo === 'bizum' ? 'Bizum' : 'Stripe',
+    Ref_pago: expediente.pagoRef || undefined,
+    N_Pedido: expediente.nPedido,
+    Amount: expediente.importe,
+    Fecha_M_xima_para_Desistimiento: d(fin),
+    Closing_Date: d(hoy),
+  };
+  const result = await zohoFetch('/crm/v6/Deals', {
+    method: 'PUT', body: JSON.stringify({ data: [registro], trigger: ['workflow', 'blueprint'] }),
+  }).catch((e) => { console.error('Zoho updateDealPago error:', e.message); return null; });
+  return result?.data?.[0]?.status === 'success';
+}
+
+// Correcciones del cliente en el checkout → Contacto, SOLO allowlist del
+// contrato §8.6. Mobile jamás: es la identidad de la conversación de WhatsApp.
+export async function updateContactPermitidos(contactId, user) {
+  if (!config.zoho.enabled || !contactId) {
+    console.log('[zoho:demo] updateContactPermitidos', contactId);
+    return;
+  }
+  const registro = {
+    id: String(contactId),
+    First_Name: user.nombre,
+    Last_Name: user.apellidos || user.nombre,
+    Email: user.email,
+    Tipo_de_documento: user.tipoDocumento || undefined,
+    N_de_documento: user.numDocumento || undefined,
+  };
+  await zohoFetch('/crm/v6/Contacts', { method: 'PUT', body: JSON.stringify({ data: [registro] }) })
+    .catch((e) => console.error('Zoho updateContactPermitidos error:', e.message));
+}
+
 export async function addDealNote(dealId, titulo, contenido) {
   if (!config.zoho.enabled || !dealId) {
     console.log('[zoho:demo] nota en deal', dealId, titulo);
