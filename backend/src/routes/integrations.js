@@ -4,7 +4,7 @@ import { Router } from 'express';
 import crypto from 'node:crypto';
 import { config } from '../config.js';
 import { db } from '../db.js';
-import { catalogoLidia } from '../services/lidia.js';
+import { catalogoLidia, mapearPrefill, encolarEvento } from '../services/lidia.js';
 
 export const integrationsRouter = Router();
 
@@ -138,5 +138,62 @@ integrationsRouter.post('/api/integrations/lidia/checkout-intent', requireApiKey
   } catch (e) {
     console.error('[lidia] checkout-intent error:', e);
     errRes(res, 500, 'internal_error');
+  }
+});
+
+// Reconciliación (contrato §7): fuente de verdad si un callback se pierde.
+integrationsRouter.get('/api/integrations/lidia/checkout-intents/:publicId', requireApiKey, async (req, res) => {
+  try {
+    const intent = await db.checkoutIntent.findUnique({ where: { publicId: req.params.publicId } });
+    if (!intent) return errRes(res, 404, 'checkout_intent_not_found');
+    const expediente = intent.expedienteId
+      ? await db.expediente.findUnique({ where: { id: intent.expedienteId } })
+      : null;
+    res.json({
+      schema_version: '1.0',
+      checkout_intent_id: intent.publicId,
+      lidia_payment_id: intent.lidiaPaymentId,
+      lidia_payment_attempt_id: intent.lidiaPaymentAttemptId,
+      status: intent.estado,
+      url: `${config.baseUrl}/c/${intent.token}`,
+      expires_at: intent.expiresAt.toISOString(),
+      n_pedido: expediente?.nPedido ?? null,
+      amount_minor: intent.amountMinor,
+      currency: intent.currency,
+      payment_method: expediente?.pagoMetodo ?? null,
+      paid_at: expediente?.fechaPago ? new Date(expediente.fechaPago).toISOString() : null,
+      updated_at: new Date(intent.updatedAt).toISOString(),
+    });
+  } catch (e) {
+    console.error('[lidia] GET intent error:', e);
+    errRes(res, 500, 'internal_error');
+  }
+});
+
+// Resolución pública del enlace corto para el frontend. Devuelve SOLO el
+// prellenado — nunca ids de Zoho/LidIA ni estado interno.
+integrationsRouter.get('/api/checkout-intent/:token', async (req, res) => {
+  try {
+    const intent = await db.checkoutIntent.findUnique({ where: { token: req.params.token } });
+    if (!intent || intent.estado === 'expired' || intent.estado === 'cancelled') {
+      return res.status(404).json({ error: 'Enlace no válido o caducado' });
+    }
+    if (intent.estado === 'paid') {
+      const expediente = intent.expedienteId
+        ? await db.expediente.findUnique({ where: { id: intent.expedienteId } })
+        : null;
+      return res.json({ pagado: true, nPedido: expediente?.nPedido ?? null });
+    }
+    if (intent.expiresAt < new Date()) {
+      return res.status(404).json({ error: 'Enlace no válido o caducado' });
+    }
+    if (intent.estado === 'active') {
+      await db.checkoutIntent.update({ where: { id: intent.id }, data: { estado: 'opened' } });
+      await encolarEvento('checkout.opened', intent);
+    }
+    res.json({ servicio: intent.servicioSlug, procedencia: intent.procedencia, prefill: mapearPrefill(intent.prefill) });
+  } catch (e) {
+    console.error('[lidia] GET token error:', e);
+    res.status(500).json({ error: 'No se pudo procesar la solicitud. Inténtalo de nuevo.' });
   }
 });
