@@ -73,10 +73,39 @@ intent nuevo sobre el par 593 (se genera al momento).
 ventana pendiente de la plantilla de Meta de LidIA. Se cerrará con prueba
 puntual sin repetir la matriz.
 
+## Parte 2 — EJECUTADA el 2026-07-29 (ventana Stripe TEST): todos PASS
+
+Método: swap temporal del servidor a claves Stripe de test (backup previo del
+`.env` real, git-ignored), webhook de test creado hacia
+`gestadia.com/webhooks/stripe` (`we_1TyKa8F1ccj1C5JbnopPwZt3` — se conserva
+para futuras ventanas), pago ejecutado con Playwright (tarjeta `4242`,
+casilla de agente IA de Stripe marcada), y **claves reales restauradas y
+verificadas** al terminar (health/catálogo 200, bloque `LIDIA_*` intacto).
+
+| Caso §14 | Prueba | Resultado | Evidencia |
+|---|---|---|---|
+| 7 (visual) | Banner + prellenado + teléfono E.164 separado | ✅ PASS | Captura `stripe-checkout-estado.png`; Colombia preseleccionada |
+| 8 | Pago con tarjeta (test) | ✅ PASS | Pedido `GST-202607-59327`, página de gracias; `pi_3TyKhQF1ccj1C5Jb0C3iKldA` |
+| 10 | Callback duplicado sin repetir efectos | ✅ PASS | Replay de `evt_lKxTghgIGuqgfO2e` → reenviado (`intentos=2`) → LidIA `HTTP 200` |
+| 16 | Correcciones permitidas | ✅ PASS | `correcciones`: nombre→Gonzalo, apellidos→Prueba Matriz, email→vozentercom@gmail.com, teléfono→+34655555600 (informativo) |
+| 17 | Teléfono sin reasignación | ✅ PASS | Contacto Zoho `…6559`: datos corregidos por allowlist y **`Mobile: +34655555592` INTACTO** |
+| 18 | Escritura económica exactamente una vez | ✅ PASS | Deal `…6560`: `Cerrado ganado`, `N_Pedido`, `Pago_Confirmado`, `Ref_pago` = `payment_ref`, **`Lead_Source "TEST AGENTE V2" intacto`**, 1 sola modificación |
+| — | `payment.succeeded` completo | ✅ PASS | `evt_lKxTghgIGuqgfO2e` `HTTP 200` con `payment_ref`, `amount_minor 21000`, `datos_confirmados` y 4 `correcciones` |
+| — | Flujo post-pago del portal | ✅ PASS | Expediente `documentacion_pendiente`, email de bienvenida a vozentercom@gmail.com, intent `paid` |
+
+## Casos restantes
+
+- **9 (Bizum):** pendiente — opcional, requiere ventana test de nuevo o pago live.
+- **20:** PARCIAL según lo acordado (plantilla Meta de LidIA pendiente).
+- **Prueba live preparada (sin pagar):** intent `gci_L2WxaC8EyriLLZpR` sobre el
+  par 593 → `https://gestadia.com/c/pNE58YMDAPTW3ArVqvIMKkL1` (caduca
+  2026-08-04). Ejecutar hasta la pantalla de pago de Stripe LIVE y pagar solo
+  cuando se decida (cobro real 210 € + reembolso).
+
 ## Estado
 
-- Parte 1: **cerrada, 13/13**.
-- Parte 2: preparada; falta ejecutar el pago y la verificación post-pago.
+- Parte 1: **cerrada, 13/13**. Parte 2: **cerrada, 8/8**.
+- Matriz completa salvo 9 (opcional) y 20 (parcial acordado).
 - Intents residuales de pruebas: los `diag-*`/`matriz-*` no pagados caducarán
   solos (2026-08-04/05) y sus `checkout.expired` se descartan por ambas
   partes, como acordado.
