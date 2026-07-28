@@ -47,6 +47,8 @@ model Expediente {
   paisCanje        String?
   direccion        Json?
   datosPais        Json?
+  procedencia      String    @default("web")
+  origenMeta       Json?
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
 
@@ -85,4 +87,46 @@ model Notificacion {
   canal        String   @default("portal")
   leida        Boolean  @default(false)
   createdAt    DateTime @default(now())
+}
+
+model CheckoutIntent {
+  id                    String   @id @default(uuid())
+  publicId              String   @unique
+  token                 String   @unique
+  idempotencyKey        String   @unique
+  payloadHash           String
+  procedencia           String
+  servicioSlug          String
+  catalogCode           String
+  amountMinor           Int
+  currency              String   @default("EUR")
+  lidiaPaymentId        String
+  lidiaPaymentAttemptId String
+  replacesId            String?
+  prefill               Json
+  origenMeta            Json
+  estado                String   @default("active")
+  expiresAt             DateTime
+  expedienteId          String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([lidiaPaymentId])
+  @@index([estado, expiresAt])
+}
+
+model LidiaEvento {
+  id               String    @id @default(uuid())
+  eventId          String    @unique
+  eventType        String
+  checkoutIntentId String
+  payload          String    @db.Text
+  estado           String    @default("pendiente")
+  intentos         Int       @default(0)
+  proximoIntento   DateTime  @default(now())
+  ultimaRespuesta  String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([estado, proximoIntento])
 }
