@@ -208,6 +208,23 @@ test('creación válida → 201 con la respuesta del contrato §6.6', async () =
   server.close(); mock.reset();
 });
 
+test('GET catálogo: 401 sin api key; con ella lista productos con activo/inactivo', async () => {
+  const server = await montarApp(fakeDb());
+  const port = server.address().port;
+  const sinKey = await fetch(`http://localhost:${port}/api/integrations/lidia/catalog`);
+  assert.equal(sinKey.status, 401);
+  const res = await fetch(`http://localhost:${port}/api/integrations/lidia/catalog`, { headers: { 'X-Api-Key': 'clave-test' } });
+  const body = await res.json();
+  assert.equal(res.status, 200);
+  assert.equal(body.schema_version, '1.0');
+  const activo = body.products.find((p) => p.catalog_code === 'canje_1_categoria');
+  assert.deepEqual(activo, { service: 'canje-carnet', catalog_code: 'canje_1_categoria', amount_minor: 21000, currency: 'EUR', active: true });
+  const inactivo = body.products.find((p) => p.catalog_code === 'canje_2_categorias');
+  assert.equal(inactivo.active, false);
+  assert.equal(inactivo.amount_minor, null);
+  server.close(); mock.reset();
+});
+
 test('GET autenticado devuelve el estado completo; 404 si no existe', async () => {
   const db = fakeDb();
   const server = await montarApp(db);

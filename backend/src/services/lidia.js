@@ -5,17 +5,31 @@ import { claveDesdeISO } from '../../../shared/paises-canje.js';
 import { config } from '../config.js';
 import { db } from '../db.js';
 
-// Fase 1: solo una categoría. canje_2_categorias se activará añadiendo la
-// entrada cuando negocio publique el precio (cambio compatible 1.x).
+// Fase 1: solo una categoría activa. canje_2_categorias existe en el contrato
+// pero sin precio de negocio: se activará poniendo activo:true (y su precio en
+// el catálogo de servicios) — cambio compatible 1.x.
 const CATALOGO_LIDIA = {
-  canje_1_categoria: { servicioSlug: 'canje-carnet' },
+  canje_1_categoria: { servicioSlug: 'canje-carnet', activo: true },
+  canje_2_categorias: { servicioSlug: 'canje-carnet', activo: false },
 };
 
 export function catalogoLidia(code) {
   const c = CATALOGO_LIDIA[code];
-  if (!c) return null;
+  if (!c || !c.activo) return null;
   const servicio = getServicio(c.servicioSlug);
   return { ...c, amountMinor: Math.round(servicio.precio * 100), currency: 'EUR' };
+}
+
+// Catálogo de solo lectura para que LidIA sincronice precios automáticamente
+// y detecte desincronizaciones antes de que las sufra un cliente real.
+export function listarCatalogoLidia() {
+  return Object.entries(CATALOGO_LIDIA).map(([catalog_code, c]) => ({
+    service: c.servicioSlug,
+    catalog_code,
+    amount_minor: c.activo ? Math.round(getServicio(c.servicioSlug).precio * 100) : null,
+    currency: 'EUR',
+    active: c.activo,
+  }));
 }
 
 const TIPO_DOC_ENTRADA = { DNI: 'DNI', NIE: 'NIE', PASAPORTE: 'Pasaporte' };

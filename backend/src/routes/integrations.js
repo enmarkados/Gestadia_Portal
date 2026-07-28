@@ -4,7 +4,7 @@ import { Router } from 'express';
 import crypto from 'node:crypto';
 import { config } from '../config.js';
 import { db } from '../db.js';
-import { catalogoLidia, mapearPrefill, encolarEvento } from '../services/lidia.js';
+import { catalogoLidia, listarCatalogoLidia, mapearPrefill, encolarEvento } from '../services/lidia.js';
 
 export const integrationsRouter = Router();
 
@@ -139,6 +139,12 @@ integrationsRouter.post('/api/integrations/lidia/checkout-intent', requireApiKey
     console.error('[lidia] checkout-intent error:', e);
     errRes(res, 500, 'internal_error');
   }
+});
+
+// Catálogo de solo lectura: LidIA sincroniza precios contra la fuente de
+// verdad y detecta desincronizaciones antes que un cliente real.
+integrationsRouter.get('/api/integrations/lidia/catalog', requireApiKey, (_req, res) => {
+  res.json({ schema_version: '1.0', products: listarCatalogoLidia() });
 });
 
 // Reconciliación (contrato §7): fuente de verdad si un callback se pierde.

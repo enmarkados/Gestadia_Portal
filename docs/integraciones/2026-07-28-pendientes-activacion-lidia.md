@@ -27,18 +27,18 @@ hosting** (Plesk, deploy por FTP).
    (la migración ya está aplicada — el comando confirmará "up to date").
 4. Reiniciar la app Node en Plesk (Passenger) y verificar:
    ```
-   GET https://<dominio>/api/health            → ok: true
-   POST https://<dominio>/api/integrations/lidia/checkout-intent  → 401 (sin api key = integración montada)
+   GET https://gestadia.com/api/health            → ok: true
+   POST https://gestadia.com/api/integrations/lidia/checkout-intent  → 401 (sin api key = integración montada)
+   GET https://gestadia.com/api/integrations/lidia/catalog (con api key) → 200 con canje_1_categoria activo
    ```
+   (URL base confirmada el 2026-07-28: `https://gestadia.com` — health 200;
+   `portal.gestadia.com` no responde. Entorno ÚNICO: no hay staging separado.)
 
 ## Fleco 2 — Credenciales e intercambio por canal seguro
 
-**Generamos nosotros** (una por entorno, staging y producción):
-
-```
-# API key con la que LidIA nos llamará:
-openssl rand -hex 32
-```
+**API key: YA GENERADA el 2026-07-28** (entorno único). Está guardada en el
+`backend/.env` local (`LIDIA_API_KEY=…`, fichero no commiteado): copiarla de
+ahí al `.env` del servidor y pasársela a LidIA por canal seguro.
 
 **Recibimos de LidIA** por el mismo canal seguro:
 - Secreto HMAC + `key_id` de los callbacks (ellos lo generan — acordado).
