@@ -5,9 +5,22 @@ export const config = {
   baseUrl: process.env.BASE_URL || 'http://localhost:3001',
   jwtSecret: process.env.JWT_SECRET || 'dev-secret-cambiar',
 
+  // Stripe con conmutador de entorno por STRIPE_MODE:
+  //   STRIPE_MODE=dev  → claves de PRUEBA (…_DEV): pagos simulados, tarjeta 4242
+  //   STRIPE_MODE=pro  → claves REALES (…_PRO): cobros de verdad (por defecto)
+  // Así no hay que intercambiar claves para hacer pruebas: se cambia solo
+  // STRIPE_MODE y se reinicia. Fallback a las variables legacy
+  // (STRIPE_SECRET_KEY / STRIPE_WEBHOOK_SECRET) si no existen las _DEV/_PRO.
   stripe: {
-    secretKey: process.env.STRIPE_SECRET_KEY || '',
-    webhookSecret: process.env.STRIPE_WEBHOOK_SECRET || '',
+    get mode() { return (process.env.STRIPE_MODE || 'pro').toLowerCase() === 'dev' ? 'dev' : 'pro'; },
+    get secretKey() {
+      const porModo = this.mode === 'dev' ? process.env.STRIPE_SECRET_KEY_DEV : process.env.STRIPE_SECRET_KEY_PRO;
+      return porModo || process.env.STRIPE_SECRET_KEY || '';
+    },
+    get webhookSecret() {
+      const porModo = this.mode === 'dev' ? process.env.STRIPE_WEBHOOK_SECRET_DEV : process.env.STRIPE_WEBHOOK_SECRET_PRO;
+      return porModo || process.env.STRIPE_WEBHOOK_SECRET || '';
+    },
     get enabled() { return !!this.secretKey; },
   },
 

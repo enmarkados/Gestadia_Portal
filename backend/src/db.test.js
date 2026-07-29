@@ -2,11 +2,24 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { db } from './db.js';
 
-test('db.user create/findUnique round-trip returns native types', async () => {
+// Estos tests escriben en la BD configurada en .env (que puede ser la real):
+// cada uno limpia sus propias filas al terminar, pase o falle.
+async function limpiar(userId) {
+  const exps = await db.expediente.findMany({ where: { userId }, select: { id: true } });
+  const ids = exps.map((e) => e.id);
+  await db.documento.deleteMany({ where: { expedienteId: { in: ids } } });
+  await db.eventoExpediente.deleteMany({ where: { expedienteId: { in: ids } } });
+  await db.expediente.deleteMany({ where: { id: { in: ids } } });
+  await db.notificacion.deleteMany({ where: { userId } });
+  await db.user.delete({ where: { id: userId } }).catch(() => {});
+}
+
+test('db.user create/findUnique round-trip returns native types', async (t) => {
   const email = `test-${Date.now()}@example.com`;
   const created = await db.user.create({
     data: { email, nombre: 'Ana', apellidos: 'Ruiz', inviteToken: `tok-${Date.now()}` },
   });
+  t.after(() => limpiar(created.id));
   assert.equal(created.emailVerified, false);
   assert.equal(typeof created.emailVerified, 'boolean');
 
@@ -34,9 +47,10 @@ test('db.user create/findUnique round-trip returns native types', async () => {
   assert.equal(exps[0].estado, 'pago_pendiente');
 });
 
-test('db.documento.findFirst supports nested expediente/userId filter', async () => {
+test('db.documento.findFirst supports nested expediente/userId filter', async (t) => {
   const email = `test-doc-${Date.now()}@example.com`;
   const user = await db.user.create({ data: { email, nombre: 'Luis', apellidos: 'Pardo' } });
+  t.after(() => limpiar(user.id));
   const exp = await db.expediente.create({
     data: { nPedido: `GST-DOC-${Date.now()}`, userId: user.id, servicioSlug: 'canje', titulo: 'x', importe: 1 },
   });

@@ -9,6 +9,15 @@ import { transitionExpediente } from '../services/notify.js';
 export const webhooksRouter = Router();
 const stripe = config.stripe.enabled ? new Stripe(config.stripe.secretKey) : null;
 
+// Método de pago REALMENTE usado. `session.payment_method_types` es la lista de
+// métodos PERMITIDOS (['card','bizum']), no el elegido — por eso hay que leer el
+// tipo del cargo del PaymentIntent. Función pura para poder testearla.
+export function metodoDeSesion(paymentIntent, session) {
+  return paymentIntent?.latest_charge?.payment_method_details?.type
+    || session?.payment_method_types?.[0]
+    || 'card';
+}
+
 // ------------------------------------------------------------
 // STRIPE → backend  (configurar en dashboard: checkout.session.completed)
 // ------------------------------------------------------------
@@ -29,8 +38,16 @@ webhooksRouter.post('/webhooks/stripe', raw({ type: 'application/json' }), async
       return res.json({ received: true, ignored: 'unpaid' });
     }
     const expedienteId = session.metadata?.expedienteId;
-    const metodo = session.payment_method_types?.includes('bizum') && session.payment_method_options?.bizum
-      ? 'bizum' : (session.payment_method_types?.[0] || 'card');
+    // El evento trae la sesión sin expandir; recuperamos el cargo para saber el
+    // método real (tarjeta vs Bizum). Si falla, caemos al primer método permitido.
+    let metodo;
+    try {
+      const full = await stripe.checkout.sessions.retrieve(session.id, { expand: ['payment_intent.latest_charge'] });
+      metodo = metodoDeSesion(full.payment_intent, session);
+    } catch (e) {
+      console.error('No se pudo recuperar el método de pago, uso fallback:', e.message);
+      metodo = metodoDeSesion(null, session);
+    }
     if (expedienteId) {
       await fulfillPayment(expedienteId, { ref: session.payment_intent || session.id, metodo });
     }
