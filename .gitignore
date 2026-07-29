@@ -12,3 +12,8 @@ frontend/dist/
 .superpowers/
 test-results/
 playwright-report/
+.playwright-mcp/
+
+# Scripts y volcados temporales de diagnóstico (nunca se comitean)
+tmp-*
+backend/scripts/tmp-*
