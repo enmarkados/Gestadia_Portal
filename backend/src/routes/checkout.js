@@ -89,7 +89,9 @@ checkoutRouter.post('/api/checkout', async (req, res) => {
 
     const priceId = await resolvePrice(stripe, servicio.stripeLookupKey);
     const customer = await getOrCreateCustomer(stripe, user);
-    if (!user.stripeCustomerId) {
+    // Se persiste siempre que difiera: getOrCreateCustomer puede haber creado
+    // uno nuevo si el guardado era de otro modo de Stripe (test ↔ live).
+    if (user.stripeCustomerId !== customer.id) {
       await db.user.update({ where: { id: user.id }, data: { stripeCustomerId: customer.id } });
     }
     const meta = { expedienteId: expediente.id, nPedido: expediente.nPedido, servicio: servicio.slug, canal: intentLidia ? intentLidia.procedencia : 'web' };

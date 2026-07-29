@@ -2,12 +2,17 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { resolvePrice, getOrCreateCustomer, linkCustomerToZoho } from './stripe.js';
 
-function fakeStripe() {
-  const calls = { search: [], create: [], update: [], pricesList: [] };
+function fakeStripe({ customerExiste = true } = {}) {
+  const calls = { search: [], create: [], update: [], pricesList: [], retrieve: [] };
   return {
     calls,
     prices: { list: async (args) => { calls.pricesList.push(args); return { data: [{ id: 'price_X' }] }; } },
     customers: {
+      retrieve: async (id) => {
+        calls.retrieve.push(id);
+        if (!customerExiste) throw Object.assign(new Error(`No such customer: '${id}'`), { code: 'resource_missing' });
+        return { id };
+      },
       search: async (args) => { calls.search.push(args); return { data: [] }; },
       create: async (args) => { calls.create.push(args); return { id: 'cus_NEW' }; },
       update: async (id, args) => { calls.update.push({ id, args }); return { id }; },
@@ -30,6 +35,23 @@ test('getOrCreateCustomer crea con metadata de Zoho cuando no existe', async () 
   assert.equal(meta.external_provider, 'zoho');
   assert.equal(meta.external_id, 'z1');
   assert.equal(meta.portal_user_id, 'u1');
+});
+
+test('getOrCreateCustomer reutiliza el customer guardado si existe en este modo', async () => {
+  const s = fakeStripe({ customerExiste: true });
+  const c = await getOrCreateCustomer(s, { id: 'u1', email: 'a@a.com', nombre: 'Ana', stripeCustomerId: 'cus_VIEJO' });
+  assert.equal(c.id, 'cus_VIEJO');
+  assert.deepEqual(s.calls.retrieve, ['cus_VIEJO']);
+  assert.equal(s.calls.create.length, 0);
+});
+
+test('getOrCreateCustomer crea uno nuevo si el guardado es de otro modo de Stripe', async () => {
+  // Caso real: customer creado en una ventana STRIPE_MODE=dev que no existe en live.
+  const s = fakeStripe({ customerExiste: false });
+  const c = await getOrCreateCustomer(s, { id: 'u1', email: 'a@a.com', nombre: 'Ana', stripeCustomerId: 'cus_DE_TEST' });
+  assert.equal(c.id, 'cus_NEW');
+  assert.deepEqual(s.calls.retrieve, ['cus_DE_TEST']);
+  assert.equal(s.calls.create.length, 1);
 });
 
 test('linkCustomerToZoho actualiza external_id', async () => {
