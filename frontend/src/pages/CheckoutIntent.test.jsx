@@ -35,11 +35,30 @@ describe('CheckoutIntent (/c/:token)', () => {
     expect(getCheckoutIntent).toHaveBeenCalledWith('tok1');
   });
 
-  it('redirige al checkout normal si el enlace no es válido o caducó', async () => {
+  it('redirige al checkout normal solo si el enlace caducó de verdad (404)', async () => {
     getServicios.mockResolvedValue(servicios);
-    getCheckoutIntent.mockRejectedValue(new Error('Enlace no válido o caducado'));
+    getCheckoutIntent.mockRejectedValue(Object.assign(new Error('Enlace no válido o caducado'), { caducado: true }));
     renderRuta();
     await waitFor(() => expect(screen.getByText('PAGINA CHECKOUT NORMAL')).toBeInTheDocument());
+  });
+
+  it('ante un error transitorio reintenta y NO dice que el enlace caducó', async () => {
+    getServicios.mockResolvedValue(servicios);
+    getCheckoutIntent
+      .mockRejectedValueOnce(Object.assign(new Error('servidor reiniciando'), { caducado: false }))
+      .mockResolvedValueOnce({ servicio: 'canje-carnet', procedencia: 'lidia', prefill: { nombre: 'Ana' } });
+    renderRuta();
+    await waitFor(() => expect(screen.getByDisplayValue('Ana')).toBeInTheDocument(), { timeout: 5000 });
+    expect(screen.queryByText('PAGINA CHECKOUT NORMAL')).not.toBeInTheDocument();
+    expect(getCheckoutIntent).toHaveBeenCalledTimes(2);
+  });
+
+  it('si el error transitorio persiste muestra aviso de reintento, sin perder el enlace', async () => {
+    getServicios.mockResolvedValue(servicios);
+    getCheckoutIntent.mockRejectedValue(Object.assign(new Error('sin conexión'), { caducado: false }));
+    renderRuta();
+    await waitFor(() => expect(screen.getByText(/el enlace sigue siendo válido/i)).toBeInTheDocument(), { timeout: 5000 });
+    expect(screen.queryByText('PAGINA CHECKOUT NORMAL')).not.toBeInTheDocument();
   });
 
   it('redirige a gracias si el intent ya está pagado', async () => {
