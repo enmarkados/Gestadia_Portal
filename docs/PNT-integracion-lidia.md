@@ -158,6 +158,19 @@ El `.env` contiene **los dos juegos de claves de Stripe** (`STRIPE_*_DEV` y
 reiniciar la aplicación; al terminar, `STRIPE_MODE=pro`. No hay que
 intercambiar claves ni tocar código.
 
+Desde la raíz del repo, con un solo comando (edita el `.env` del servidor por
+FTP y reinicia Passenger):
+
+```
+node stripe-mode.cjs          # consulta el modo actual
+node stripe-mode.cjs dev      # abre ventana de pruebas
+node stripe-mode.cjs pro      # vuelve a cobros reales
+```
+
+Comprobar siempre el efecto real, no solo el `/api/health`: iniciar un
+checkout y mirar el prefijo de la sesión de Stripe — `cs_test_` en dev,
+`cs_live_` en pro.
+
 > ⚠️ Mientras el modo sea `dev`, **los clientes reales no pueden pagar**.
 > Ventanas cortas y avisadas.
 >
