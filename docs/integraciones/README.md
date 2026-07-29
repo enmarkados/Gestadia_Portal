@@ -27,6 +27,7 @@ que LidIA ya había creado y le notifica el pago con eventos firmados.
 4. [2026-07-28-respuesta-catalogo-y-credenciales.md](2026-07-28-respuesta-catalogo-y-credenciales.md) — endpoint de catálogo y datos de acceso.
 5. [2026-07-28-respuesta-retencion-y-desviaciones.md](2026-07-28-respuesta-retencion-y-desviaciones.md) — retención de `idempotency_key` y desviaciones aceptadas.
 6. [2026-07-28-respuesta-4-confirmaciones.md](2026-07-28-respuesta-4-confirmaciones.md) — confirmaciones técnicas y registros de prueba.
+7. [2026-07-29-cambio-entorno-lidia.md](2026-07-29-cambio-entorno-lidia.md) — LidIA migra a `dev-lidia.gestadia.com`; credenciales nuevas y aclaración de que el Portal no tiene entorno de desarrollo separado.
 
 **Diseño e implementación** (en `docs/superpowers/`):
 
