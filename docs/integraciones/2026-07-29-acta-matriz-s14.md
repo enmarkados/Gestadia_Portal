@@ -139,6 +139,19 @@ servidor) tiene los dos juegos (`STRIPE_*_DEV` y `STRIPE_*_PRO`) y
   2026-08-04). Ejecutar hasta la pantalla de pago de Stripe LIVE y pagar solo
   cuando se decida (cobro real 210 € + reembolso).
 
+## Parte 3 — Revalidación en el entorno nuevo de LidIA (2026-07-29 tarde)
+
+Tras la migración de LidIA a `https://dev-lidia.gestadia.com`, se repitió la
+batería completa en ventana de Stripe test. **Todo PASS:**
+
+| Prueba | Resultado |
+|---|---|
+| Circuito completo con **tarjeta** | ✅ Pedido `GST-202607-35650`; `checkout.opened` y `payment.succeeded` entregados **HTTP 200 al primer intento**; Deal `…685599` Cerrado ganado, `Lead_Source` intacto |
+| Circuito completo con **Bizum** (caso 9) | ✅ Pedido `GST-202607-34257`; **`payment_method = bizum`** y Zoho `M_todos_de_pago = "Bizum"` — confirma el fix del método de pago, que antes registraba `card` |
+| **Matriz API** (12 casos) | ✅ 12/12: creación, idempotencia `reused`, `idempotency_conflict`, `catalog_code_no_disponible`, `importe_no_coincide`, `zoho_reference_invalid`, api key inválida, `unsupported_schema_version`, apertura sin filtrar ids internos, reconciliación, `replaces → cancelled`, catálogo |
+| **Regresión del checkout web** (sin LidIA) | ✅ Crea sesión de Stripe correctamente y **no muestra el banner de verificación** (exclusivo de procedencia LidIA) |
+| **Pase a producción** | ✅ `STRIPE_MODE=pro`; verificado que el checkout genera sesión **`cs_live_`** |
+
 ## Estado
 
 - Parte 1: **cerrada, 13/13**. Parte 2: **cerrada, 8/8**. Caso 9 (Bizum):
