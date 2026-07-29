@@ -118,14 +118,22 @@ servidor) tiene los dos juegos (`STRIPE_*_DEV` y `STRIPE_*_PRO`) y
 (`we_1TyKa8F1ccj1C5JbnopPwZt3`) permanente para futuras ventanas.
 
 ## Casos restantes
-- **20 (comunicación post-pago):** requiere acción de LidIA — la parte
-  *dentro de ventana* NO se puede validar con nuestros intents sintéticos
-  (sus `lidia_session_id` no corresponden a conversaciones vivas, así que su
-  agente correlaciona y archiva sin escribir a nadie). Hace falta que LidIA
-  genere un enlace desde una **conversación real** en su número piloto
-  (`+34684469182`) y lo paguemos en ventana test; entonces su agente debe
-  enviar el mensaje de confirmación. La parte *fuera de ventana* sigue
-  pendiente de su plantilla de Meta (parcial acordado).
+- **20 (comunicación post-pago dentro de ventana): ✅ PASS — cerrado el
+  2026-07-29 con conversación real.** LidIA generó el enlace desde su número
+  piloto, se pagó en ventana de Stripe test y **el aviso llegó por WhatsApp
+  al completarse el pago**. Trazabilidad: intent `gci_p9tq7x14Vb0ZLDLg`
+  (sesión real `d6f855ab-…`), pedido `GST-202607-20918`, evento
+  `evt_AQRrhbnKw-m5Z0FY` entregado `HTTP 200`, Oportunidad
+  `588164000139107434` ("Canje - LidIA [LIDIA-OP:af6b7622…]") en `Cerrado
+  ganado` con importe, `Ref_pago` y `N_Pedido` correctos.
+  La parte *fuera de ventana de 24 h* sigue pendiente de la plantilla de Meta
+  de LidIA (parcial acordado).
+
+  > Nota operativa aprendida: **nunca hacer pruebas de pago con
+  > `lidia_session_id` sintéticos** — LidIA marca todo `payment.succeeded`
+  > huérfano como fallo con alerta (deliberadamente: un cobro que no casa con
+  > ningún checkout suyo es la anomalía que quieren detectar). Los
+  > `checkout.opened`/`expired` huérfanos sí se descartan en silencio.
 - **Prueba live preparada (sin pagar):** intent `gci_L2WxaC8EyriLLZpR` sobre el
   par 593 → `https://gestadia.com/c/pNE58YMDAPTW3ArVqvIMKkL1` (caduca
   2026-08-04). Ejecutar hasta la pantalla de pago de Stripe LIVE y pagar solo
@@ -133,8 +141,15 @@ servidor) tiene los dos juegos (`STRIPE_*_DEV` y `STRIPE_*_PRO`) y
 
 ## Estado
 
-- Parte 1: **cerrada, 13/13**. Parte 2: **cerrada, 8/8**.
-- Matriz completa salvo 9 (opcional) y 20 (parcial acordado).
+- Parte 1: **cerrada, 13/13**. Parte 2: **cerrada, 8/8**. Caso 9 (Bizum):
+  **PASS**. Caso 20 (dentro de ventana): **PASS**.
+- **Matriz §14 superada al completo**, con la única salvedad del aviso *fuera
+  de la ventana de 24 h* de WhatsApp, pendiente de la plantilla de Meta de
+  LidIA (parcial acordado desde el inicio).
+- Integración certificada de punta a punta: conversación real → enlace →
+  checkout prellenado → pago (tarjeta y Bizum) → expediente y cuenta de
+  cliente → escritura económica en Zoho exactamente una vez → evento firmado
+  → aviso al cliente por WhatsApp.
 - Intents residuales de pruebas: los `diag-*`/`matriz-*` no pagados caducarán
   solos (2026-08-04/05) y sus `checkout.expired` se descartan por ambas
   partes, como acordado.
