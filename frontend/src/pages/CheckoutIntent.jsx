@@ -15,16 +15,27 @@ export default function CheckoutIntent() {
   const navigate = useNavigate();
   const [intent, setIntent] = useState(null);
   const [servicios, setServicios] = useState(null);
+  const [loadError, setLoadError] = useState('');
 
   useEffect(() => {
     let cancelled = false;
-    getCheckoutIntent(token)
-      .then((data) => {
+    // Un error transitorio (servidor reiniciando, red) NO debe mandar al
+    // cliente al checkout vacío diciéndole que su enlace caducó: se reintenta
+    // una vez y, si sigue fallando, se le ofrece recargar sin perder el enlace.
+    async function resolver(reintentar = true) {
+      try {
+        const data = await getCheckoutIntent(token);
         if (cancelled) return;
         if (data.pagado) navigate(`/gracias?pedido=${data.nPedido || ''}`, { replace: true });
         else setIntent(data);
-      })
-      .catch(() => { if (!cancelled) navigate('/checkout?enlace=caducado', { replace: true }); });
+      } catch (err) {
+        if (cancelled) return;
+        if (err.caducado) { navigate('/checkout?enlace=caducado', { replace: true }); return; }
+        if (reintentar) { setTimeout(() => resolver(false), 2000); return; }
+        setLoadError('No hemos podido cargar tu enlace de pago. Comprueba tu conexión y vuelve a intentarlo — el enlace sigue siendo válido.');
+      }
+    }
+    resolver();
     return () => { cancelled = true; };
   }, [token, navigate]);
 
@@ -47,7 +58,15 @@ export default function CheckoutIntent() {
         </div>
       </div>
       <div className={styles.body}>
-        {!servicio && <p className={styles.loading}>Cargando…</p>}
+        {loadError && (
+          <p className={`${styles.formStatus} ${styles.error}`} role="alert">
+            {loadError}{' '}
+            <button type="button" className={styles.formSubmit} style={{ marginTop: 12 }} onClick={() => window.location.reload()}>
+              Reintentar
+            </button>
+          </p>
+        )}
+        {!servicio && !loadError && <p className={styles.loading}>Cargando…</p>}
         {servicio && (
           <>
             <CheckoutCard nombre={servicio.nombre} descripcion={servicio.descripcion} precio={servicio.precio} />

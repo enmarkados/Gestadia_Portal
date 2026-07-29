@@ -31,10 +31,23 @@ export async function postCheckout(payload) {
 }
 
 // Resuelve un enlace corto de LidIA (/c/:token) → { servicio, procedencia,
-// prefill } o { pagado, nPedido }. 404 = caducado/inválido.
+// prefill } o { pagado, nPedido }.
+// El error lleva `caducado: true` SOLO si el enlace es inválido de verdad
+// (404). Un fallo de red o del servidor (reinicio, 5xx) no debe decirle al
+// cliente que su enlace ha caducado: perdería la compra creyéndolo expirado.
 export async function getCheckoutIntent(token) {
-  const res = await fetch(`/api/checkout-intent/${encodeURIComponent(token)}`);
-  if (!res.ok) throw new Error('Enlace no válido o caducado');
+  let res;
+  try {
+    res = await fetch(`/api/checkout-intent/${encodeURIComponent(token)}`);
+  } catch {
+    throw Object.assign(new Error('No se pudo contactar con el servidor'), { caducado: false });
+  }
+  if (res.status === 404) {
+    throw Object.assign(new Error('Enlace no válido o caducado'), { caducado: true });
+  }
+  if (!res.ok) {
+    throw Object.assign(new Error('No se pudo cargar el enlace'), { caducado: false });
+  }
   return res.json();
 }
 
