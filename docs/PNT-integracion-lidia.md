@@ -160,6 +160,11 @@ intercambiar claves ni tocar código.
 
 > ⚠️ Mientras el modo sea `dev`, **los clientes reales no pueden pagar**.
 > Ventanas cortas y avisadas.
+>
+> ⚠️ Los identificadores de Stripe **no son intercambiables entre modos**: un
+> cliente que pasó por una ventana de pruebas guarda un `stripeCustomerId` de
+> test que no existe en producción. El portal lo detecta y crea uno nuevo
+> automáticamente, pero conviene saberlo al interpretar los datos.
 
 Existe un webhook de Stripe en modo test hacia `gestadia.com/webhooks/stripe`
 ya creado y permanente, para que el circuito complete también en pruebas.
@@ -169,6 +174,10 @@ ya creado y permanente, para que el circuito complete también en pruebas.
 El servidor **no tiene shell**: se despliega por FTP (`node ftp-deploy.cjs`
 tras `npm run build` del frontend) y se reinicia subiendo cualquier fichero a
 `backend/tmp/restart.txt` (Passenger recarga en la siguiente petición).
+
+> ⚠️ **El deploy por sí solo no aplica los cambios del backend**: Passenger
+> mantiene el código anterior en memoria hasta que se toca `restart.txt`.
+> Después de cada `ftp-deploy.cjs`, reiniciar siempre.
 
 Si cambian las dependencias o el modelo de datos, el cliente de Prisma debe
 regenerarse: se genera en local (el `schema.prisma` incluye el `binaryTarget`

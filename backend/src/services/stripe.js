@@ -13,7 +13,16 @@ export async function resolvePrice(stripe, lookupKey) {
 }
 
 export async function getOrCreateCustomer(stripe, user) {
-  if (user.stripeCustomerId) return { id: user.stripeCustomerId };
+  // Los IDs de Stripe NO son intercambiables entre modo test y modo live: un
+  // customer creado durante una ventana de pruebas (STRIPE_MODE=dev) no existe
+  // en producción y haría fallar el cobro. Por eso se verifica que el customer
+  // guardado exista en el modo actual; si no, se crea uno nuevo (el llamante
+  // persiste el id devuelto).
+  if (user.stripeCustomerId) {
+    const existente = await stripe.customers.retrieve(user.stripeCustomerId).catch(() => null);
+    if (existente && !existente.deleted) return existente;
+    console.warn(`[stripe] customer ${user.stripeCustomerId} no existe en este modo; se crea uno nuevo`);
+  }
   const email = String(user.email).trim().toLowerCase();
   const found = await stripe.customers.search({ query: `email:'${email}'`, limit: 1 }).catch(() => null);
   if (found?.data?.[0]) return found.data[0];
