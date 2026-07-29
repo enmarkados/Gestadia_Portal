@@ -48,12 +48,12 @@ function intentDemo(db) {
   return intent;
 }
 
-async function montarCheckout(db, zohoMock, lidiaMock) {
+async function montarCheckout(db, zohoMock, lidiaMock, notifyMock) {
   mock.module('../config.js', { namedExports: { config: cfgDemo } });
   mock.module('../db.js', { namedExports: { db } });
   mock.module('../services/zoho.js', { namedExports: zohoMock });
   mock.module('../services/stripe.js', { namedExports: { resolvePrice: async () => 'price', getOrCreateCustomer: async () => ({ id: 'cus' }), linkCustomerToZoho: async () => {} } });
-  mock.module('../services/notify.js', { namedExports: { sendEmail: async () => {}, notifyUser: async () => {}, transitionExpediente: async () => {} } });
+  mock.module('../services/notify.js', { namedExports: notifyMock ?? { sendEmail: async () => {}, notifyUser: async () => {}, transitionExpediente: async () => {} } });
   mock.module('../services/lidia.js', { namedExports: lidiaMock });
   const { checkoutRouter } = await import('./checkout.js?t=' + Date.now() + Math.random());
   const app = express();
@@ -131,6 +131,63 @@ test('checkout con token LidIA: si el update del deal falla, cae al flujo actual
   });
   assert.equal(llamadas.createDeal, 1);
   assert.ok(llamadas.notas.some((n) => n.dealId === 'deal-fallback'));
+  server.close(); mock.reset();
+});
+
+test('si el email de bienvenida falla, LidIA SIGUE siendo notificada del pago', async () => {
+  // Caso real (2026-07-29): el cliente tenía un buzón inexistente, el SMTP
+  // lanzó excepción y abortaba fulfillPayment antes de avisar a LidIA.
+  const db = fakeDbCheckout();
+  intentDemo(db);
+  const llamadas = { eventos: [] };
+  const zohoMock = {
+    upsertContact: async () => 'c1', createDealForExpediente: async () => 'd1', addDealNote: async () => {},
+    updateDealPago: async () => true, updateContactPermitidos: async () => {},
+  };
+  const lidiaMock = {
+    encolarEvento: async (tipo) => { llamadas.eventos.push(tipo); return 'evt_x'; },
+    construirDatosPago: () => ({ correcciones: [] }),
+    catalogoLidia: () => null, mapearPrefill: () => ({}),
+  };
+  const notifyRoto = {
+    sendEmail: async () => { throw new Error('550 5.1.1 recipient rejected'); },
+    notifyUser: async () => { throw new Error('550 5.1.1 recipient rejected'); },
+    transitionExpediente: async () => {},
+  };
+  const server = await montarCheckout(db, zohoMock, lidiaMock, notifyRoto);
+  const res = await fetch(`http://localhost:${server.address().port}/api/checkout`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(bodyCheckout({ token: 'tok-lidia-1' })),
+  });
+  assert.equal(res.status, 200);
+  assert.deepEqual(llamadas.eventos, ['payment.succeeded'], 'el evento debe emitirse pese al email fallido');
+  assert.equal(db.intents.get('ci1').estado, 'paid', 'el intent debe cerrarse igualmente');
+  server.close(); mock.reset();
+});
+
+test('si la transición de estado falla, LidIA SIGUE siendo notificada', async () => {
+  const db = fakeDbCheckout();
+  intentDemo(db);
+  const llamadas = { eventos: [] };
+  const zohoMock = {
+    upsertContact: async () => 'c1', createDealForExpediente: async () => 'd1', addDealNote: async () => {},
+    updateDealPago: async () => true, updateContactPermitidos: async () => {},
+  };
+  const lidiaMock = {
+    encolarEvento: async (tipo) => { llamadas.eventos.push(tipo); return 'evt_x'; },
+    construirDatosPago: () => ({ correcciones: [] }),
+    catalogoLidia: () => null, mapearPrefill: () => ({}),
+  };
+  const notifyRoto = {
+    sendEmail: async () => {}, notifyUser: async () => {},
+    transitionExpediente: async () => { throw new Error('Zoho no responde'); },
+  };
+  const server = await montarCheckout(db, zohoMock, lidiaMock, notifyRoto);
+  await fetch(`http://localhost:${server.address().port}/api/checkout`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(bodyCheckout({ token: 'tok-lidia-1' })),
+  });
+  assert.deepEqual(llamadas.eventos, ['payment.succeeded']);
   server.close(); mock.reset();
 });
 

@@ -177,25 +177,36 @@ export async function fulfillPayment(expedienteId, { ref, metodo }) {
   }
 
   // --- Bienvenida + acceso al portal ---
+  // Aislado a propósito: un email que rebota (destinatario inexistente, SMTP
+  // caído) NO puede abortar lo que viene después — antes tumbaba la transición
+  // de estado y el aviso a LidIA, dejando al cliente cobrado y sin avisar.
   const u = updated.user;
-  if (!u.passwordHash && u.inviteToken) {
-    await sendEmail(u.email, `Pago recibido — accede a tu área de cliente de Gestadia`,
-      `<p>Hola ${u.nombre},</p>
-       <p>Hemos recibido tu pago de <strong>${updated.importe.toFixed(2)} €</strong> por <strong>${updated.titulo}</strong> (pedido ${updated.nPedido}).</p>
-       <p>Crea tu contraseña para acceder a tu área de cliente y subir la documentación:</p>
-       <p><a href="${config.baseUrl}/portal/crear-clave/${u.inviteToken}">Crear mi contraseña</a></p>
-       <p>— El equipo de Gestadia</p>`);
-  } else {
-    await notifyUser(u, {
-      titulo: `Pago recibido — pedido ${updated.nPedido}`,
-      cuerpo: `Hemos recibido tu pago de ${updated.importe.toFixed(2)} € por ${updated.titulo}.`,
-      expedienteId: updated.id,
-    });
+  try {
+    if (!u.passwordHash && u.inviteToken) {
+      await sendEmail(u.email, `Pago recibido — accede a tu área de cliente de Gestadia`,
+        `<p>Hola ${u.nombre},</p>
+         <p>Hemos recibido tu pago de <strong>${updated.importe.toFixed(2)} €</strong> por <strong>${updated.titulo}</strong> (pedido ${updated.nPedido}).</p>
+         <p>Crea tu contraseña para acceder a tu área de cliente y subir la documentación:</p>
+         <p><a href="${config.baseUrl}/portal/crear-clave/${u.inviteToken}">Crear mi contraseña</a></p>
+         <p>— El equipo de Gestadia</p>`);
+    } else {
+      await notifyUser(u, {
+        titulo: `Pago recibido — pedido ${updated.nPedido}`,
+        cuerpo: `Hemos recibido tu pago de ${updated.importe.toFixed(2)} € por ${updated.titulo}.`,
+        expedienteId: updated.id,
+      });
+    }
+  } catch (e) {
+    console.error(`Aviso al cliente fallido (el pago SIGUE siendo válido) · pedido ${updated.nPedido}:`, e.message);
   }
 
-  await transitionExpediente(updated, 'documentacion_pendiente', {
-    nota: 'Sube la documentación necesaria desde tu área de cliente para que podamos empezar.',
-  });
+  try {
+    await transitionExpediente(updated, 'documentacion_pendiente', {
+      nota: 'Sube la documentación necesaria desde tu área de cliente para que podamos empezar.',
+    });
+  } catch (e) {
+    console.error(`Transición a documentacion_pendiente fallida · pedido ${updated.nPedido}:`, e.message);
+  }
 
   // --- LidIA: cerrar el intent y notificar (idempotente por estado) ---
   try {
