@@ -108,6 +108,30 @@ test('firmarCallback firma timestamp.body con HMAC-SHA256 hex y prefijo de clave
   mock.reset();
 });
 
+test('occurred_at es el instante del cobro y emitted_at el de encolado', async () => {
+  // Antes occurred_at llevaba el momento de encolado: LidIA no podía medir
+  // nuestro tramo de proceso ni conocer el instante real del pago.
+  const db = dbEventos();
+  const { encolarEvento } = await cargarLidia(db);
+  const cobro = '2026-07-29T18:26:29.489Z';
+  await encolarEvento('payment.succeeded', intentDemo, { paid_at: cobro, n_pedido: 'GST-1' });
+  const cuerpo = JSON.parse(db.eventos[0].payload);
+  assert.equal(cuerpo.occurred_at, cobro, 'occurred_at debe ser el instante del cobro');
+  assert.equal(cuerpo.paid_at, cobro);
+  assert.ok(cuerpo.emitted_at > cobro, 'emitted_at debe ser posterior (momento de encolar)');
+  mock.reset();
+});
+
+test('sin paid_at (eventos que no son de pago) occurred_at es el momento de encolar', async () => {
+  const db = dbEventos();
+  const { encolarEvento } = await cargarLidia(db);
+  await encolarEvento('checkout.opened', intentDemo);
+  const cuerpo = JSON.parse(db.eventos[0].payload);
+  assert.equal(cuerpo.occurred_at, cuerpo.emitted_at);
+  assert.equal(cuerpo.paid_at, undefined);
+  mock.reset();
+});
+
 test('encolarEvento persiste el cuerpo exacto del contrato como string', async () => {
   const db = dbEventos();
   const { encolarEvento } = await cargarLidia(db);
@@ -173,8 +197,9 @@ test('construirDatosPago calcula datos confirmados y correcciones (teléfono inf
     prefill: { nombre: 'Anna', apellidos: 'García López', email: 'vieja@example.com', telefono: '+34600111222', tipo_documento: 'NIE', num_documento: 'X1234567L' },
   };
   const user = { nombre: 'Ana', apellidos: 'García López', email: 'ana@example.com', telefono: '+34600999888', tipoDocumento: 'NIE', numDocumento: 'X1234567L' };
-  const expediente = { nPedido: 'GST-202607-12345', pagoMetodo: 'bizum', pagoRef: 'pi_test_123' };
+  const expediente = { nPedido: 'GST-202607-12345', pagoMetodo: 'bizum', pagoRef: 'pi_test_123', fechaPago: new Date('2026-07-29T18:26:29.489Z') };
   const datos = construirDatosPago(intent, expediente, user);
+  assert.equal(datos.paid_at, '2026-07-29T18:26:29.489Z', 'paid_at debe ser el instante real del cobro');
   assert.equal(datos.n_pedido, 'GST-202607-12345');
   assert.equal(datos.status, 'paid');
   assert.equal(datos.amount_minor, 21000);

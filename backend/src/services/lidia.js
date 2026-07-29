@@ -90,6 +90,10 @@ export function construirDatosPago(intent, expediente, user) {
     // Referencia del cobro (payment_intent de Stripe) — pedida por LidIA para
     // su ledger (2026-07-28); es la misma que escribimos en Ref_pago del Deal.
     payment_ref: expediente.pagoRef || null,
+    // Instante REAL del cobro (no el de emisión del evento). LidIA lo necesita
+    // para su ledger y para medir nuestro tramo de proceso: antes solo tenían
+    // `occurred_at`, que llevaba el momento de encolado (aviso suyo 2026-07-29).
+    paid_at: expediente.fechaPago ? new Date(expediente.fechaPago).toISOString() : null,
     datos_confirmados: confirmados,
     correcciones,
   };
@@ -107,11 +111,17 @@ export function firmarCallback(rawBody, timestampSegundos) {
 // (§8.2) es sobre el body literal, no sobre un JSON re-serializado.
 export async function encolarEvento(eventType, intent, extra = {}) {
   const eventId = 'evt_' + crypto.randomBytes(12).toString('base64url');
+  const ahora = new Date().toISOString();
   const payload = JSON.stringify({
     schema_version: '1.0',
     event_id: eventId,
     event_type: eventType,
-    occurred_at: new Date().toISOString(),
+    // `occurred_at` es cuándo ocurrió el HECHO, no cuándo lo encolamos: para un
+    // pago, el instante del cobro. Antes llevaba el de encolado, lo que hacía
+    // imposible que LidIA midiera nuestro tramo de proceso (aviso 2026-07-29).
+    occurred_at: extra.paid_at || ahora,
+    // Instante de emisión, para que puedan separar proceso de cola.
+    emitted_at: ahora,
     checkout_intent_id: intent.publicId,
     lidia_payment_id: intent.lidiaPaymentId,
     lidia_payment_attempt_id: intent.lidiaPaymentAttemptId,
