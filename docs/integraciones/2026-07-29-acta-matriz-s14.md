@@ -93,10 +93,39 @@ verificadas** al terminar (health/catálogo 200, bloque `LIDIA_*` intacto).
 | — | `payment.succeeded` completo | ✅ PASS | `evt_lKxTghgIGuqgfO2e` `HTTP 200` con `payment_ref`, `amount_minor 21000`, `datos_confirmados` y 4 `correcciones` |
 | — | Flujo post-pago del portal | ✅ PASS | Expediente `documentacion_pendiente`, email de bienvenida a vozentercom@gmail.com, intent `paid` |
 
-## Casos restantes
+## Caso 9 (Bizum) — EJECUTADO, PASS con hallazgo corregido
 
-- **9 (Bizum):** pendiente — opcional, requiere ventana test de nuevo o pago live.
-- **20:** PARCIAL según lo acordado (plantilla Meta de LidIA pendiente).
+Pago con Bizum en ventana test (par 594): autorización simulada → pedido
+`GST-202607-44155`, expediente `documentacion_pendiente`, intent `paid`,
+`payment.succeeded` `evt_3egejBOYeF0TC0dD` entregado **HTTP 200**. Circuito
+completo ✅.
+
+**Hallazgo (bug real detectado por esta prueba):** el método quedó registrado
+como `card` en lugar de `bizum` — el webhook deducía el método de
+`session.payment_method_types` (métodos *permitidos*), no del método
+*realmente usado*. Impacto: `M_todos_de_pago` de Zoho y `payment_method` del
+callback habrían dicho "Stripe/card" en todos los pagos por Bizum.
+**Corregido** (`metodoDeSesion` lee `payment_intent.latest_charge.
+payment_method_details.type`, con 4 tests) y desplegado. Pendiente de
+re-verificar con el próximo pago Bizum (test o real).
+
+## Mejora operativa asociada: `STRIPE_MODE`
+
+Ya no hace falta intercambiar claves para probar: el `.env` (local y del
+servidor) tiene los dos juegos (`STRIPE_*_DEV` y `STRIPE_*_PRO`) y
+`STRIPE_MODE=dev|pro` elige cuál se usa. Servidor desplegado con
+`STRIPE_MODE=pro`. Webhook de test hacia `gestadia.com/webhooks/stripe`
+(`we_1TyKa8F1ccj1C5JbnopPwZt3`) permanente para futuras ventanas.
+
+## Casos restantes
+- **20 (comunicación post-pago):** requiere acción de LidIA — la parte
+  *dentro de ventana* NO se puede validar con nuestros intents sintéticos
+  (sus `lidia_session_id` no corresponden a conversaciones vivas, así que su
+  agente correlaciona y archiva sin escribir a nadie). Hace falta que LidIA
+  genere un enlace desde una **conversación real** en su número piloto
+  (`+34684469182`) y lo paguemos en ventana test; entonces su agente debe
+  enviar el mensaje de confirmación. La parte *fuera de ventana* sigue
+  pendiente de su plantilla de Meta (parcial acordado).
 - **Prueba live preparada (sin pagar):** intent `gci_L2WxaC8EyriLLZpR` sobre el
   par 593 → `https://gestadia.com/c/pNE58YMDAPTW3ArVqvIMKkL1` (caduca
   2026-08-04). Ejecutar hasta la pantalla de pago de Stripe LIVE y pagar solo
