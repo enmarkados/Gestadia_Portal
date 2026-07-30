@@ -34,6 +34,12 @@ que LidIA ya había creado y le notifica el pago con eventos firmados.
 - [Spec de diseño](../superpowers/specs/2026-07-24-integracion-lidia-checkout-design.md) — decisiones internas y arquitectura.
 - [Plan de implementación](../superpowers/plans/2026-07-28-integracion-lidia-portal.md) — las 13 tareas con las que se construyó.
 
+> ⚠️ **El ejemplo de petición del contrato (§6.2) muestra un valor en
+> `direccion` y en `datos_pais`, pero LidIA no envía ninguno de los dos** — el
+> agente no los pregunta en la conversación (confirmado por ellos el
+> 2026-07-30). No construyas nada asumiendo que llegan; los rellena el cliente
+> en el formulario. Detalle en el [PNT](../PNT-integracion-lidia.md), §5.
+
 ## Convenciones
 
 - Los documentos con fecha en el nombre son **inmutables**: reflejan lo que se

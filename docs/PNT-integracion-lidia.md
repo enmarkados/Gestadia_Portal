@@ -63,6 +63,20 @@ habilitados en fase 1).
    un **aviso destacado** pidiéndole que los revise ("los hemos recogido en tu
    conversación de WhatsApp y pueden contener errores"). Este aviso existe
    porque la calidad del dato varía según el origen del lead.
+
+   **Qué llega prellenado y qué no** (confirmado por LidIA el 2026-07-30 —
+   el ejemplo del contrato induce a error en este punto):
+
+   | Campo | ¿Lo envía LidIA? |
+   |---|---|
+   | nombre, apellidos, email | Sí, cuando consta en el contacto de Zoho |
+   | tipo y nº de documento | Sí. `OTRO` para tipos que no están en nuestra lista (Carta Roja, Tarjeta de Residencia): en ese caso el selector queda **vacío y obligatorio**, para que el cliente elija en vez de asumir un "DNI" falso |
+   | `pais_canje` | Sí, en ISO 3166-1 alfa-2. Si no corresponde a un país canjeable, no se prellena |
+   | **dirección de envío** | **No, nunca.** El agente no la pregunta. La rellena siempre el cliente |
+   | **`datos_pais`** (lugar de expedición, wilaya/daira) | **No.** Tampoco se pregunta en la conversación. El código lo soporta por si cambian de criterio, pero hoy no se activa |
+
+   Ningún campo es obligatorio: el formulario tolera que falte cualquiera, y
+   LidIA nunca envía cadenas vacías ni valores inventados.
 6. **Revisión y pago.** El cliente corrige lo que haga falta, completa lo que
    falte (documento, dirección de envío), acepta las condiciones de
    contratación y paga con **tarjeta o Bizum**.

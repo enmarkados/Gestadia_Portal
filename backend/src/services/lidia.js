@@ -35,8 +35,14 @@ export function listarCatalogoLidia() {
 const TIPO_DOC_ENTRADA = { DNI: 'DNI', NIE: 'NIE', PASAPORTE: 'Pasaporte' };
 
 // Prefill del contrato (§6.2) → campos del CheckoutForm. Todo lo no mapeable
-// se omite: el cliente lo completa a mano. `direccion` llega como texto libre
-// y es solo informativa (confirmación 1.0): no prellena el formulario.
+// se omite: el cliente lo completa a mano.
+//
+// Lo que LidIA envía de verdad (confirmado por ellos el 2026-07-30): nombre,
+// apellidos, email, tipo/nº de documento y pais_canje. NO envían `direccion`
+// ni `datos_pais` —el agente no los pregunta en la conversación— pese a que el
+// ejemplo del contrato muestre una dirección de muestra. Esos dos bloques los
+// rellena siempre el cliente en el formulario; el soporte de `datos_pais` que
+// hay aquí es defensivo, por si algún día decidieran capturarlo.
 export function mapearPrefill(prefill) {
   const p = prefill || {};
   const out = {};
@@ -58,9 +64,11 @@ export function mapearPrefill(prefill) {
   const clave = claveDesdeISO(p.pais_canje);
   if (clave) {
     out.paisCanje = clave;
-    // Campos extra que exige ese país (wilaya/daira, lugar_expedicion…). Solo
-    // se aceptan las claves que el país realmente pide: así un dato de más no
-    // acaba colándose en el expediente.
+    // Campos extra que exige ese país (wilaya/daira, lugar_expedicion…). Hoy
+    // LidIA no los envía (decisión suya: sería una pregunta más en la
+    // conversación para BO/NI/DO/DZ), así que en la práctica esto no se activa.
+    // Se deja soportado y probado por si cambian de criterio; solo se aceptan
+    // las claves que el país realmente pide, para no colar datos de más.
     const esperados = (PAISES[clave]?.camposExtra ?? []).map((c) => c.clave);
     const datos = {};
     for (const k of esperados) {
