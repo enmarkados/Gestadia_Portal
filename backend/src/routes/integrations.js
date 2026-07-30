@@ -167,6 +167,10 @@ integrationsRouter.get('/api/integrations/lidia/checkout-intents/:publicId', req
       amount_minor: intent.amountMinor,
       currency: intent.currency,
       payment_method: expediente?.pagoMetodo ?? null,
+      // Referencia de pasarela también aquí: quien cierre por reconciliación
+      // (sin haber recibido el evento) necesita poder completar su ledger sin
+      // esperar al callback — hueco que nos señaló LidIA el 2026-07-30.
+      payment_ref: expediente?.pagoRef ?? null,
       paid_at: expediente?.fechaPago ? new Date(expediente.fechaPago).toISOString() : null,
       updated_at: new Date(intent.updatedAt).toISOString(),
     });

@@ -237,6 +237,10 @@ test('GET autenticado devuelve el estado completo; 404 si no existe', async () =
   assert.equal(body.status, 'active');
   assert.equal(body.amount_minor, 21000);
   assert.equal(body.n_pedido, null);
+  // payment_ref debe existir en la respuesta (null si aún no hay pago): permite
+  // completar el ledger al cerrar por reconciliación, sin esperar al callback.
+  assert.ok('payment_ref' in body, 'el GET debe incluir payment_ref');
+  assert.equal(body.payment_ref, null);
   const res404 = await fetch(`http://localhost:${port}/api/integrations/lidia/checkout-intents/gci_nope`, { headers: { 'X-Api-Key': 'clave-test' } });
   assert.equal(res404.status, 404);
   assert.equal((await res404.json()).error, 'checkout_intent_not_found');
