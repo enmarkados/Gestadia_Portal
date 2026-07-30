@@ -25,6 +25,14 @@ function fakeDbCheckout() {
   };
 }
 
+const cfgStripe = {
+  baseUrl: 'http://portal.test', jwtSecret: 's',
+  stripe: { secretKey: 'sk_test_x', get enabled() { return true; } },
+  zoho: { get enabled() { return false; } },
+  smtp: { get enabled() { return false; } },
+  lidia: { apiKey: 'k', callbackBaseUrl: '', callbackSecret: '', callbackKeyVersion: 'v1', intentTtlDias: 7, get callbackUrl() { return ''; }, get enabled() { return true; } },
+};
+
 const cfgDemo = {
   baseUrl: 'http://portal.test', jwtSecret: 's',
   stripe: { secretKey: '', get enabled() { return false; } },
@@ -188,6 +196,55 @@ test('si la transición de estado falla, LidIA SIGUE siendo notificada', async (
     body: JSON.stringify(bodyCheckout({ token: 'tok-lidia-1' })),
   });
   assert.deepEqual(llamadas.eventos, ['payment.succeeded']);
+  server.close(); mock.reset();
+});
+
+test('la sesión de Stripe lleva la correlación de LidIA y datos del pedido', async () => {
+  const db = fakeDbCheckout();
+  intentDemo(db);
+  const capturado = {};
+  mock.module('../config.js', { namedExports: { config: cfgStripe } });
+  mock.module('../db.js', { namedExports: { db } });
+  mock.module('../services/zoho.js', { namedExports: {
+    upsertContact: async () => 'c1', createDealForExpediente: async () => 'd1', addDealNote: async () => {},
+    updateDealPago: async () => true, updateContactPermitidos: async () => {},
+  } });
+  mock.module('../services/stripe.js', { namedExports: {
+    resolvePrice: async () => 'price_X',
+    getOrCreateCustomer: async () => ({ id: 'cus_1' }),
+    linkCustomerToZoho: async () => {},
+  } });
+  mock.module('../services/notify.js', { namedExports: { sendEmail: async () => {}, notifyUser: async () => {}, transitionExpediente: async () => {} } });
+  mock.module('../services/lidia.js', { namedExports: {
+    encolarEvento: async () => 'evt', construirDatosPago: () => ({ correcciones: [] }),
+    catalogoLidia: () => null, mapearPrefill: () => ({}),
+  } });
+  mock.module('stripe', { defaultExport: class {
+    constructor() {
+      this.checkout = { sessions: { create: async (args) => { Object.assign(capturado, args); return { url: 'https://checkout.stripe.test/x' }; } } };
+    }
+  } });
+  const { checkoutRouter } = await import('./checkout.js?t=' + Date.now() + Math.random());
+  const app = express();
+  app.use(express.json());
+  app.use(checkoutRouter);
+  const server = app.listen(0);
+
+  const res = await fetch(`http://localhost:${server.address().port}/api/checkout`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(bodyCheckout({ token: 'tok-lidia-1' })),
+  });
+  assert.equal(res.status, 200);
+  const m = capturado.metadata;
+  assert.equal(m.canal, 'lidia');
+  assert.equal(m.lidia_session_id, '184237');
+  assert.equal(m.zoho_deal_id, '222');
+  assert.equal(m.paisCanje, 'colombia');
+  assert.ok(m.nPedido?.startsWith('GST-'));
+  // El PaymentIntent lleva los mismos metadatos y una descripción legible
+  assert.deepEqual(capturado.payment_intent_data.metadata, m);
+  assert.match(capturado.payment_intent_data.description, /Canje de Carnet Extranjero · GST-.* · Ana García López/);
+  assert.equal(capturado.receipt_email, 'ana@example.com');
   server.close(); mock.reset();
 });
 

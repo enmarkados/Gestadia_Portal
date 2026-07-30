@@ -94,14 +94,41 @@ checkoutRouter.post('/api/checkout', async (req, res) => {
     if (user.stripeCustomerId !== customer.id) {
       await db.user.update({ where: { id: user.id }, data: { stripeCustomerId: customer.id } });
     }
-    const meta = { expedienteId: expediente.id, nPedido: expediente.nPedido, servicio: servicio.slug, canal: intentLidia ? intentLidia.procedencia : 'web' };
+    // Metadatos del pago: identifican el expediente y su origen. Con procedencia
+    // LidIA se añade la correlación para poder cruzar un cobro de Stripe con la
+    // conversación y el CRM sin salir del dashboard (útil en disputas y soporte).
+    const metaLidiaIntent = intentLidia ? (intentLidia.origenMeta || {}) : {};
+    const meta = {
+      expedienteId: expediente.id,
+      nPedido: expediente.nPedido,
+      servicio: servicio.slug,
+      canal: intentLidia ? intentLidia.procedencia : 'web',
+      ...(servicio.requierePais && paisCanje ? { paisCanje } : {}),
+      ...(intentLidia ? {
+        lidia_session_id: String(metaLidiaIntent.lidia_session_id ?? ''),
+        lidia_payment_id: intentLidia.lidiaPaymentId,
+        zoho_contact_id: String(metaLidiaIntent.zoho_contact_id ?? ''),
+        zoho_deal_id: String(metaLidiaIntent.zoho_deal_id ?? ''),
+      } : {}),
+    };
+    const nombreCompleto = `${nombre} ${apellidos}`.trim();
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       payment_method_types: ['card', 'bizum'],
       customer: customer.id,
+      // Deja editar el email en Stripe: si el cliente se equivocó al teclearlo,
+      // aún puede corregirlo antes de pagar y recibir el recibo.
+      customer_update: { name: 'auto', address: 'auto' },
       line_items: [{ price: priceId, quantity: 1 }],
       metadata: meta,
-      payment_intent_data: { metadata: meta },
+      // El PaymentIntent y el recibo llevan los mismos datos: así una consulta
+      // desde el dashboard de Stripe no obliga a bucear en nuestra base.
+      payment_intent_data: {
+        metadata: meta,
+        description: `${servicio.nombre} · ${expediente.nPedido} · ${nombreCompleto}`,
+      },
+      // Recibo automático al email del cliente.
+      receipt_email: user.email,
       success_url: `${config.baseUrl}/gracias?pedido=${expediente.nPedido}`,
       cancel_url: `${config.baseUrl}${servicio.href}?cancelado=1`,
     });

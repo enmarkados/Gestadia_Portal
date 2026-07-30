@@ -34,6 +34,10 @@ export async function getOrCreateCustomer(stripe, user) {
       external_provider: 'zoho',
       portal_user_id: user.id,
       ...(user.zohoContactId ? { external_id: user.zohoContactId } : {}),
+      // Documento identificativo: en una disputa o una verificación KYC es el
+      // dato que piden, y evita tener que cruzarlo con nuestra base.
+      ...(user.tipoDocumento ? { tipo_documento: user.tipoDocumento } : {}),
+      ...(user.numDocumento ? { num_documento: user.numDocumento } : {}),
     },
   });
 }
