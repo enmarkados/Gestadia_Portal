@@ -53,8 +53,30 @@ test('mapearPrefill traduce el prefill del contrato al formato del formulario', 
 });
 
 test('mapearPrefill omite lo no mapeable sin romper', () => {
-  assert.deepEqual(mapearPrefill({ tipo_documento: 'OTRO', pais_canje: 'US' }), {});
+  // tipo_documento venía informado pero no es de los nuestros → vacío explícito
+  // (no dejar el valor por defecto, que sería un dato falso). El país no
+  // canjeable simplemente no viaja.
+  assert.deepEqual(mapearPrefill({ tipo_documento: 'OTRO', pais_canje: 'US' }), { tipoDocumento: '' });
   assert.deepEqual(mapearPrefill(undefined), {});
+  // Si no venía informado, no se toca el campo.
+  assert.equal('tipoDocumento' in mapearPrefill({ nombre: 'Ana' }), false);
+});
+
+test('mapearPrefill traslada los campos extra del país (datos_pais)', () => {
+  const out = mapearPrefill({ pais_canje: 'BO', datos_pais: { lugar_expedicion: 'La Paz' } });
+  assert.equal(out.paisCanje, 'bolivia');
+  assert.deepEqual(out.datosPais, { lugar_expedicion: 'La Paz' });
+});
+
+test('mapearPrefill acepta varios campos extra y descarta los que el país no pide', () => {
+  const argelia = mapearPrefill({ pais_canje: 'DZ', datos_pais: { wilaya: 'Argel', daira: 'Sidi', colado: 'x' } });
+  assert.deepEqual(argelia.datosPais, { wilaya: 'Argel', daira: 'Sidi' });
+  // Colombia no pide campos extra: no se crea datosPais aunque lleguen datos.
+  const colombia = mapearPrefill({ pais_canje: 'CO', datos_pais: { lugar_expedicion: 'Bogotá' } });
+  assert.equal(colombia.datosPais, undefined);
+  // Valores vacíos no cuentan como dato.
+  const vacios = mapearPrefill({ pais_canje: 'BO', datos_pais: { lugar_expedicion: '  ' } });
+  assert.equal(vacios.datosPais, undefined);
 });
 
 // ---------- Outbox / firma / expiración (con config y db falsos) ----------

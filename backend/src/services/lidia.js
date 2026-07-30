@@ -1,7 +1,7 @@
 // Integración LidIA (contrato 1.0: docs/integraciones/2026-07-28-contrato-lidia-portal-v1-0.md)
 import crypto from 'node:crypto';
 import { getServicio } from '../catalog.js';
-import { claveDesdeISO } from '../../../shared/paises-canje.js';
+import { claveDesdeISO, PAISES } from '../../../shared/paises-canje.js';
 import { config } from '../config.js';
 import { db } from '../db.js';
 
@@ -43,12 +43,32 @@ export function mapearPrefill(prefill) {
   if (p.nombre) out.nombre = String(p.nombre);
   if (p.apellidos) out.apellidos = String(p.apellidos);
   if (p.email) out.email = String(p.email);
+  if (p.num_documento) out.numDocumento = String(p.num_documento);
+  if (p.telefono) out.telefono = String(p.telefono);
+
+  // Tipo de documento: el catálogo de Zoho es más amplio que el nuestro (llega
+  // OTRO para "Carta Roja", "Tarjeta de Residencia"…). Si no se puede mapear
+  // pero SÍ venía informado, se devuelve vacío a propósito: dejar el valor por
+  // defecto ("DNI") mostraría al cliente un dato falso con aspecto de correcto.
   const tipo = TIPO_DOC_ENTRADA[String(p.tipo_documento || '').toUpperCase()];
   if (tipo) out.tipoDocumento = tipo;
-  if (p.num_documento) out.numDocumento = String(p.num_documento);
+  else if (p.tipo_documento) out.tipoDocumento = '';
+
+  // País del permiso en ISO 3166-1 alfa-2 → clave del catálogo.
   const clave = claveDesdeISO(p.pais_canje);
-  if (clave) out.paisCanje = clave;
-  if (p.telefono) out.telefono = String(p.telefono);
+  if (clave) {
+    out.paisCanje = clave;
+    // Campos extra que exige ese país (wilaya/daira, lugar_expedicion…). Solo
+    // se aceptan las claves que el país realmente pide: así un dato de más no
+    // acaba colándose en el expediente.
+    const esperados = (PAISES[clave]?.camposExtra ?? []).map((c) => c.clave);
+    const datos = {};
+    for (const k of esperados) {
+      const v = p.datos_pais?.[k];
+      if (v !== undefined && v !== null && String(v).trim() !== '') datos[k] = String(v);
+    }
+    if (Object.keys(datos).length) out.datosPais = datos;
+  }
   return out;
 }
 

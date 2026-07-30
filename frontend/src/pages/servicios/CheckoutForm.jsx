@@ -23,9 +23,15 @@ function toReactRoute(url) {
 function aplicarPrefill(base, prefill) {
   if (!prefill) return base;
   const out = { ...base };
-  for (const campo of ['nombre', 'apellidos', 'email', 'tipoDocumento', 'numDocumento', 'paisCanje']) {
+  for (const campo of ['nombre', 'apellidos', 'email', 'numDocumento', 'paisCanje']) {
     if (prefill[campo]) out[campo] = prefill[campo];
   }
+  // tipoDocumento se copia aunque llegue vacío: el backend lo vacía a propósito
+  // cuando el tipo real no existe en nuestra lista, para que el cliente elija
+  // en vez de quedarse el valor por defecto (que sería un dato falso).
+  if (prefill.tipoDocumento !== undefined) out.tipoDocumento = prefill.tipoDocumento;
+  // Campos extra del país (lugar de expedición, wilaya/daira…).
+  if (prefill.datosPais) out.datosPais = { ...prefill.datosPais };
   if (prefill.telefono) {
     const prefijo = [...PREFIJOS].sort((a, b) => b.codigo.length - a.codigo.length)
       .find((p) => prefill.telefono.startsWith(p.codigo));
@@ -125,7 +131,10 @@ export default function CheckoutForm({ servicio, prefill = null, procedencia = '
       <div className={styles.formRow}>
         <div className={styles.formGroup}>
           <label className={styles.formLabel} htmlFor="checkout-tipoDocumento">Tipo de documento</label>
-          <select className={`${styles.formInput} ${styles.formSelect}`} id="checkout-tipoDocumento" name="tipoDocumento" value={form.tipoDocumento} onChange={handleChange}>
+          <select className={`${styles.formInput} ${styles.formSelect}`} id="checkout-tipoDocumento" name="tipoDocumento" value={form.tipoDocumento} onChange={handleChange} required>
+            {/* Opción vacía solo visible cuando el tipo que traía el prellenado
+                no existe en nuestra lista: obliga a elegir en vez de asumir. */}
+            {!form.tipoDocumento && <option value="">— Selecciona el tipo —</option>}
             <option value="DNI">DNI</option>
             <option value="NIE">NIE</option>
             <option value="Pasaporte">Pasaporte</option>

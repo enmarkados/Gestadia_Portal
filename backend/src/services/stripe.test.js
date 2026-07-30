@@ -37,6 +37,22 @@ test('getOrCreateCustomer crea con metadata de Zoho cuando no existe', async () 
   assert.equal(meta.portal_user_id, 'u1');
 });
 
+test('getOrCreateCustomer incluye el documento identificativo si se conoce', async () => {
+  const s = fakeStripe();
+  await getOrCreateCustomer(s, { id: 'u1', email: 'a@a.com', nombre: 'Ana', apellidos: 'Ruiz', tipoDocumento: 'NIE', numDocumento: 'X1234567L' });
+  const meta = s.calls.create[0].metadata;
+  assert.equal(meta.tipo_documento, 'NIE');
+  assert.equal(meta.num_documento, 'X1234567L');
+});
+
+test('getOrCreateCustomer no inventa campos de documento si no los hay', async () => {
+  const s = fakeStripe();
+  await getOrCreateCustomer(s, { id: 'u1', email: 'a@a.com', nombre: 'Ana' });
+  const meta = s.calls.create[0].metadata;
+  assert.equal('tipo_documento' in meta, false);
+  assert.equal('num_documento' in meta, false);
+});
+
 test('getOrCreateCustomer reutiliza el customer guardado si existe en este modo', async () => {
   const s = fakeStripe({ customerExiste: true });
   const c = await getOrCreateCustomer(s, { id: 'u1', email: 'a@a.com', nombre: 'Ana', stripeCustomerId: 'cus_VIEJO' });
