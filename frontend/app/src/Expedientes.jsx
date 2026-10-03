@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { useApp } from "./AppContext.jsx";
 import { request } from "./api.js";
 import Icon from "./Icon.jsx";
@@ -64,12 +64,21 @@ export default function Expedientes({ onContact }) {
 }
 export function ExpedienteDetalle() {
   const { id } = useParams();
+  const [params] = useSearchParams();
+  const selectedDocument = params.get("documento");
   const { mode, data, setData } = useApp();
   const [detail, setDetail] = useState(null);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(null);
   const [revision, setRevision] = useState(0);
+  useEffect(() => {
+    if (!detail || !selectedDocument) return;
+    if (!detail.checklist.some((doc) => doc.clave === selectedDocument)) return;
+    const card = document.getElementById(`documento-${selectedDocument}`);
+    card?.scrollIntoView?.({ block: "center" });
+    card?.querySelector("input")?.focus({ preventScroll: true });
+  }, [detail, selectedDocument]);
   useEffect(() => {
     let active = true;
     setDetail(null);
@@ -190,7 +199,11 @@ export function ExpedienteDetalle() {
           )}
           <div className="stack">
             {(detail.checklist || []).map((doc) => (
-              <div className="card document" key={doc.clave}>
+              <div
+                className={`card document ${selectedDocument === doc.clave ? "selected-document" : ""}`}
+                id={`documento-${doc.clave}`}
+                key={doc.clave}
+              >
                 <div>
                   <strong>{doc.label}</strong>
                   <p className={doc.subido ? "success-text" : "helper"}>

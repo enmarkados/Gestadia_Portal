@@ -443,6 +443,62 @@ svg {
   font-size: 11px;
   margin-bottom: 4px;
 }
+.bubble-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.bubble-meta .bubble-author {
+  margin: 0;
+  font-weight: 700;
+}
+.bubble-time {
+  font-size: 11px;
+  color: #d1d5db;
+  white-space: nowrap;
+}
+.bubble.user .bubble-time {
+  color: #ffffffd9;
+}
+.manager-chat-page .bubble.with-documents {
+  max-width: 88%;
+}
+.manager-document-list {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ffffff1f;
+  border-radius: 10px;
+  background: #1e1e1e;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.manager-document-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+.manager-document-row > span {
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 600;
+}
+.manager-document-row a {
+  background: var(--red);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.selected-document {
+  border-color: var(--red);
+}
 .manager-chat-page .bubble p {
   margin: 0;
   color: #f3f4f6;

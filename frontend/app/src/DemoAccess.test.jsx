@@ -13,6 +13,7 @@ import { PluginWebProvider } from "./PluginWebContext.jsx";
 import App from "./App.jsx";
 import { setToken, getToken, request } from "./api.js";
 import { pluginRequest } from "./PluginWebContext.jsx";
+import { createDemo, readDemo, DEMO_KEY } from "./demo.js";
 
 beforeEach(() => {
   HTMLDialogElement.prototype.showModal = function () {
@@ -81,6 +82,10 @@ it("el chat del gestor mantiene cabecera, expediente e input y envía solo al ej
     screen.getByText("✓ Expediente DEMO-001 · Juan Carlos Acero asignado"),
   ).toBeInTheDocument();
   expect(screen.queryByText(/Chat de demostración/)).toBeNull();
+  expect(screen.getByText("10:15")).toBeInTheDocument();
+  expect(screen.getByText("3 documentos obligatorios")).toBeInTheDocument();
+  expect(screen.getAllByRole("link", { name: /^Subir / })).toHaveLength(3);
+  expect(screen.queryByText("Revisar documentación del expediente")).toBeNull();
   expect(
     screen.getByRole("textbox", { name: "Mensaje para el gestor" }),
   ).toHaveAttribute("placeholder", "¿Qué necesitas?");
@@ -110,6 +115,52 @@ it("el chat del gestor mantiene cabecera, expediente e input y envía solo al ej
   expect(
     screen.getByRole("heading", { name: "Mensajes", exact: true }),
   ).toBeInTheDocument();
+  expect(fetch).not.toHaveBeenCalled();
+});
+
+it("actualiza el historial antiguo sin perder perfil, documentos ni mensajes escritos", () => {
+  const old = createDemo();
+  delete old.managerDemoVersion;
+  old.profile.nombre = "Persona Ejemplo";
+  old.expedientes[0].documentos = [
+    { clave: "residencia", nombre: "ejemplo.pdf" },
+  ];
+  old.managerMessages = [
+    {
+      role: "manager",
+      content:
+        "Hola, soy Juan Carlos. En este ejemplo puedes revisar tu documentación y probar cómo sería nuestra conversación.",
+    },
+    { role: "user", content: "Mensaje que quiero conservar" },
+  ];
+  localStorage.setItem(DEMO_KEY, JSON.stringify(old));
+  const updated = readDemo();
+  expect(updated.managerDemoVersion).toBe(2);
+  expect(updated.managerMessages).toHaveLength(5);
+  expect(updated.managerMessages[0].content).toContain(
+    "¡Hola Persona Ejemplo!",
+  );
+  expect(updated.managerMessages.at(-1).content).toBe(
+    "Mensaje que quiero conservar",
+  );
+  expect(updated.expedientes[0].documentos).toEqual(
+    old.expedientes[0].documentos,
+  );
+  localStorage.setItem(DEMO_KEY, JSON.stringify(updated));
+  expect(readDemo().managerMessages).toHaveLength(5);
+  expect(fetch).not.toHaveBeenCalled();
+});
+
+it("Subir desde el chat selecciona el documento correcto sin enviar archivos", async () => {
+  mount("/mensajes/gestor");
+  fireEvent.click(
+    screen.getByRole("link", { name: "Subir Psicotécnico oficial" }),
+  );
+  const input = await screen.findByLabelText(
+    "Subir Examen psicotécnico (centro autorizado)",
+  );
+  await waitFor(() => expect(input).toHaveFocus());
+  expect(input.closest(".document")).toHaveClass("selected-document");
   expect(fetch).not.toHaveBeenCalled();
 });
 

@@ -94,10 +94,11 @@ export function ManagerChat({ onContact }) {
   }, []);
   const expediente = data.expedientes[0];
   const end = useRef(null);
+  const previousMessageCount = useRef(data.managerMessages.length);
   useEffect(() => {
-    end.current?.scrollIntoView?.({
-      block: "end",
-    });
+    if (data.managerMessages.length > previousMessageCount.current)
+      end.current?.scrollIntoView?.({ block: "end" });
+    previousMessageCount.current = data.managerMessages.length;
   }, [data.managerMessages]);
   function send() {
     if (input.trim().length < 2) return;
@@ -108,6 +109,10 @@ export function ManagerChat({ onContact }) {
         {
           role: "user",
           content: input.trim(),
+          time: new Date().toLocaleTimeString("es-ES", {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
         },
       ],
     }));
@@ -138,20 +143,46 @@ export function ManagerChat({ onContact }) {
           )}
           <div className="conversation" aria-live="polite">
             {data.managerMessages.map((msg, i) => (
-              <div key={i} className={`bubble ${msg.role}`}>
-                <strong className="bubble-author">
-                  {msg.role === "user" ? "Tú" : "Juan Carlos Acero"}
-                </strong>
-                <p>{msg.content}</p>
+              <div
+                key={msg.id || i}
+                className={`bubble ${msg.role} ${msg.documents?.length ? "with-documents" : ""}`}
+              >
+                <div className="bubble-meta">
+                  <strong className="bubble-author">
+                    {msg.role === "user" ? "Tú" : "Juan Carlos Acero"}
+                  </strong>
+                  {msg.time && <span className="bubble-time">{msg.time}</span>}
+                </div>
+                <p>
+                  {msg.emphasis && msg.content.includes(msg.emphasis) ? (
+                    <>
+                      {msg.content.slice(0, msg.content.indexOf(msg.emphasis))}
+                      <strong>{msg.emphasis}</strong>
+                      {msg.content.slice(
+                        msg.content.indexOf(msg.emphasis) + msg.emphasis.length,
+                      )}
+                    </>
+                  ) : (
+                    msg.content
+                  )}
+                </p>
+                {msg.documents?.length > 0 && expediente && (
+                  <div className="manager-document-list">
+                    {msg.documents.map((doc) => (
+                      <div className="manager-document-row" key={doc.clave}>
+                        <span>{doc.label}</span>
+                        <Link
+                          to={`/tramites/${encodeURIComponent(expediente.id)}?documento=${encodeURIComponent(doc.clave)}`}
+                          aria-label={`Subir ${doc.label.replace(/^\d+\. /, "")}`}
+                        >
+                          Subir
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
-            <Link
-              className="card option"
-              to={`/tramites/${data.expedientes[0].id}`}
-            >
-              <span>Revisar documentación del expediente</span>
-              <Icon name="arrow" />
-            </Link>
             <div ref={end} />
           </div>
           {composerHost &&
