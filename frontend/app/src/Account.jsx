@@ -104,27 +104,6 @@ export default function Account() {
         </>
       ) : (
         <>
-          <form className="card form-card" onSubmit={submit}>
-            <h2>Datos personales</h2>
-            <p className="helper">
-              Revisa tus datos antes de presentar el trámite. Guardarlos no
-              autoriza ni presenta ningún expediente.
-            </p>
-            <ProfileFields profile={profile} setProfile={setProfile} required />
-            {error && (
-              <p role="alert" className="error">
-                {error}
-              </p>
-            )}
-            {status && (
-              <p role="status" className="success">
-                {status}
-              </p>
-            )}
-            <button className="btn primary" disabled={busy}>
-              {busy ? "Guardando…" : "Guardar datos"}
-            </button>
-          </form>
           {app.mode === "demo" && (
             <div className="card form-card">
               <h2>Perfil de demostración</h2>
@@ -151,6 +130,27 @@ export default function Account() {
               </p>
             </div>
           )}
+          <form className="card form-card" onSubmit={submit}>
+            <h2>Datos personales</h2>
+            <p className="helper">
+              Revisa tus datos antes de presentar el trámite. Guardarlos no
+              autoriza ni presenta ningún expediente.
+            </p>
+            <ProfileFields profile={profile} setProfile={setProfile} required />
+            {error && (
+              <p role="alert" className="error">
+                {error}
+              </p>
+            )}
+            {status && (
+              <p role="status" className="success">
+                {status}
+              </p>
+            )}
+            <button className="btn primary" disabled={busy}>
+              {busy ? "Guardando…" : "Guardar datos"}
+            </button>
+          </form>
           {demoOnly() && (
             <div className="card form-card">
               <h2>Acceso y registro</h2>
