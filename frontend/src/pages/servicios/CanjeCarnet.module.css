@@ -49,15 +49,40 @@
 .check-result-no a { color: var(--red); font-weight: 700; }
 .check-ok-banner { background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #166534; font-weight: 700; margin-bottom: 18px; }
 
-/* RESPONSIVE — only the page-owned selectors from the original's media
-   query (.info-grid, .checkout-card) are reproduced here. The rest of that
-   query (.pnav, .breadcrumb, .page-body, .page-left, .page-right, .footer*)
-   targeted markup now owned by Header/ServiceLayout/Footer respectively —
-   those components don't yet have their own responsive rules, so this is a
-   known, deferred gap (no visual regression on desktop, the target viewport
-   for this pixel-parity migration). */
-@media (max-width: 700px) {
-  .info-grid { grid-template-columns: 1fr 1fr; }
+@media (max-width: 768px) {
+  .content-cols {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .info-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .step-row-featured {
+    margin: 0 0 14px;
+    padding: 14px 12px;
+  }
+  .check-opt {
+    min-height: 44px;
+  }
+  .verif-btn {
+    min-height: 44px;
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .info-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .info-item {
+    padding: 10px 12px;
+  }
+  .info-item-val {
+    font-size: 13.5px;
+  }
 }
 
 /* form-input is reused here for the country <select> inside the verificador
@@ -65,3 +90,4 @@
    since this page's own inline form doesn't otherwise use it). */
 .form-input { background: #fff; border: 1.5px solid #ddd; border-radius: 8px; padding: 11px 14px; font-size: 14px; color: var(--graphite); width: 100%; margin-bottom: 14px; font-family: inherit; transition: border-color 0.15s; }
 .form-input:focus { outline: none; border-color: var(--graphite); }
+

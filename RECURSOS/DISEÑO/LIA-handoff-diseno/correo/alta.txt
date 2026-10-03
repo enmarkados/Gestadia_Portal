@@ -1,0 +1,9 @@
+Verifica tu correo
+
+Tu cuenta LIA ya está creada. Confirma que este correo es tuyo para completar su verificación.
+
+https://lia.defensalegalconsumidores.com/login?emailVerificationToken=EJEMPLO-SIN-VALIDEZ#verificar
+
+Si no has solicitado esta acción, puedes ignorar este correo.
+
+LIA · La IA de Defensa Legal Consumidores

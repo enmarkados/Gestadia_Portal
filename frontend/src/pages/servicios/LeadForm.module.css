@@ -17,3 +17,37 @@
 .checkout-whatsapp { background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 12px 14px; font-size: 12px; color: #166534; display: flex; align-items: center; gap: 10px; }
 .lead-form-title { font-size: 14px; font-weight: 700; color: var(--graphite); margin-bottom: 4px; }
 .lead-form-sub { font-size: 12px; color: #888; margin-bottom: 16px; }
+
+@media (max-width: 860px) {
+  .checkout-card {
+    position: static;
+    border-radius: 14px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    max-width: 100%;
+  }
+
+  .checkout-price-block {
+    padding: 20px 18px 16px;
+  }
+
+  .checkout-price {
+    font-size: clamp(32px, 8vw, 42px);
+  }
+
+  .checkout-body {
+    padding: 20px 18px;
+  }
+
+  .form-input {
+    font-size: 16px;
+    padding: 12px 14px;
+    min-height: 44px;
+  }
+
+  .checkout-btn {
+    padding: 16px 20px;
+    font-size: 16px;
+    min-height: 48px;
+  }
+}
+

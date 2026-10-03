@@ -21,3 +21,49 @@
 .right-item { background: #f7f7f7; border-radius: 8px; padding: 14px 16px; }
 .right-item strong { font-size: 13px; color: var(--graphite); display: block; margin-bottom: 4px; }
 .right-item span { font-size: 12px; color: #777; line-height: 1.6; }
+
+@media (max-width: 768px) {
+  .page-header {
+    padding: 32px 16px;
+  }
+  .page-title {
+    font-size: clamp(28px, 7vw, 42px);
+  }
+  .page-subtitle {
+    font-size: 15px;
+  }
+  .legal-body {
+    padding: 24px 16px 56px;
+  }
+  .legal-section {
+    margin-bottom: 32px;
+  }
+  .legal-section h2 {
+    font-size: 18px;
+  }
+  .legal-section p, .legal-section li {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .legal-section table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    font-size: 13.5px;
+  }
+  .legal-section th, .legal-section td {
+    padding: 8px 12px;
+    white-space: nowrap;
+  }
+  .legal-intro {
+    font-size: 15px;
+    padding: 14px 16px;
+    margin-bottom: 32px;
+  }
+  .rights-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+

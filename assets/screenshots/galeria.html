@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galería de Assets y Capturas Móviles — Gestadia</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #1a1a1a; color: #eee; padding: 40px 24px; }
+    .header { max-width: 1300px; margin: 0 auto 40px; }
+    h1 { font-family: Georgia, serif; font-size: 36px; margin-bottom: 8px; color: #fff; }
+    h1 span { color: #c0392b; }
+    p.lead { color: #aaa; font-size: 16px; margin-bottom: 24px; }
+    .tabs { display: flex; gap: 12px; margin-bottom: 32px; border-bottom: 1px solid #333; padding-bottom: 16px; }
+    .tab { background: #2a2a2a; border: 1px solid #444; color: #fff; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; text-decoration: none; }
+    .tab:hover { background: #c0392b; border-color: #c0392b; }
+    .section-title { font-size: 22px; font-weight: 700; color: #fff; margin: 36px 0 20px; border-left: 4px solid #c0392b; padding-left: 12px; }
+    .brand-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px; }
+    .brand-card { background: #262626; border: 1px solid #383838; border-radius: 12px; padding: 20px; text-align: center; }
+    .brand-card.light { background: #f7f7f7; color: #222; }
+    .brand-card img { max-width: 100%; max-height: 140px; object-fit: contain; margin-bottom: 14px; }
+    .brand-card .name { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+    .brand-card .desc { font-size: 12px; opacity: 0.7; }
+    .screens-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px; }
+    .screen-card { background: #262626; border: 1px solid #383838; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; transition: transform .2s, box-shadow .2s; }
+    .screen-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.5); border-color: #555; }
+    .screen-card .img-wrap { background: #000; overflow: hidden; border-bottom: 1px solid #383838; }
+    .screen-card img { width: 100%; height: auto; display: block; }
+    .screen-info { padding: 14px 16px; }
+    .screen-num { font-size: 11px; font-weight: 800; color: #c0392b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .screen-title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .screen-link { font-size: 12px; color: #888; text-decoration: none; word-break: break-all; }
+    .screen-link:hover { color: #fff; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>gestadia<span>.</span> — Catálogo de Assets y Capturas Móviles</h1>
+    <p class="lead">Kit completo de marca, iconos de aplicación y capturas en formato móvil (iPhone 14/15 390×844 @2x Retina) de todas las pantallas del sistema.</p>
+    <div class="tabs">
+      <a href="#brand" class="tab">Identidad de Marca</a>
+      <a href="#screens" class="tab">Pantallas Móviles (25)</a>
+      <a href="#fullpage" class="tab">Scroll Completo</a>
+    </div>
+
+    <h2 class="section-title" id="brand">1. Elementos de Marca y Logotipo</h2>
+    <div class="brand-grid">
+      <div class="brand-card">
+        <img src="../brand/logo-dark.png" alt="Logo Dark">
+        <div class="name">Logo Dark (Fondo Oscuro)</div>
+        <div class="desc">logo-dark.svg / .png (Transparente)</div>
+      </div>
+      <div class="brand-card light">
+        <img src="../brand/logo-light.png" alt="Logo Light">
+        <div class="name">Logo Light (Fondo Claro)</div>
+        <div class="desc">logo-light.svg / .png (Transparente)</div>
+      </div>
+      <div class="brand-card">
+        <img src="../brand/app-icon-512.png" alt="App Icon 512" style="max-height:100px; border-radius: 22px;">
+        <div class="name">Icono de App (512×512)</div>
+        <div class="desc">app-icon-512.png / 192.png / .svg</div>
+      </div>
+      <div class="brand-card" style="grid-column: span 2;">
+        <img src="../brand/og-social-card-1200x630.png" alt="Social Banner" style="max-height: 160px; border-radius: 8px;">
+        <div class="name">Banner Social Card (1200×630)</div>
+        <div class="desc">og-social-card-1200x630.png (Para WhatsApp, redes sociales y prensa)</div>
+      </div>
+    </div>
+
+    <h2 class="section-title" id="screens">2. Capturas de Pantalla Móvil (25 Pantallas)</h2>
+    <div class="screens-grid">
+      
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/01-inicio.png" target="_blank">
+            <img src="./mobile/01-inicio.png" alt="Página de Inicio" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">01</div>
+          <div class="screen-title">Página de Inicio</div>
+          <a class="screen-link" href="/" target="_blank">/</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/02-menu-navegacion.png" target="_blank">
+            <img src="./mobile/02-menu-navegacion.png" alt="Menú Móvil Desplegado" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">02</div>
+          <div class="screen-title">Menú Móvil Desplegado</div>
+          <a class="screen-link" href="/" target="_blank">/</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/03-catalogo-tramites.png" target="_blank">
+            <img src="./mobile/03-catalogo-tramites.png" alt="Catálogo de Trámites DGT" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">03</div>
+          <div class="screen-title">Catálogo de Trámites DGT</div>
+          <a class="screen-link" href="/tramites" target="_blank">/tramites</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/04-tramite-canje-carnet.png" target="_blank">
+            <img src="./mobile/04-tramite-canje-carnet.png" alt="Ficha Canje de Carnet Extranjero" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">04</div>
+          <div class="screen-title">Ficha Canje de Carnet Extranjero</div>
+          <a class="screen-link" href="/tramites/canje-carnet" target="_blank">/tramites/canje-carnet</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/05-tramite-canje-verificador.png" target="_blank">
+            <img src="./mobile/05-tramite-canje-verificador.png" alt="Verificador de Requisitos Canje (Interactivo)" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">05</div>
+          <div class="screen-title">Verificador de Requisitos Canje (Interactivo)</div>
+          <a class="screen-link" href="/tramites/canje-carnet" target="_blank">/tramites/canje-carnet</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/06-tramite-transferencia.png" target="_blank">
+            <img src="./mobile/06-tramite-transferencia.png" alt="Ficha Transferencia de Vehículo" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">06</div>
+          <div class="screen-title">Ficha Transferencia de Vehículo</div>
+          <a class="screen-link" href="/tramites/transferencia" target="_blank">/tramites/transferencia</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/07-tramite-duplicado-carnet.png" target="_blank">
+            <img src="./mobile/07-tramite-duplicado-carnet.png" alt="Ficha Duplicado de Carnet" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">07</div>
+          <div class="screen-title">Ficha Duplicado de Carnet</div>
+          <a class="screen-link" href="/tramites/duplicado-carnet" target="_blank">/tramites/duplicado-carnet</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/08-tramite-duplicado-datos.png" target="_blank">
+            <img src="./mobile/08-tramite-duplicado-datos.png" alt="Ficha Duplicado Cambio de Datos" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">08</div>
+          <div class="screen-title">Ficha Duplicado Cambio de Datos</div>
+          <a class="screen-link" href="/tramites/duplicado-datos" target="_blank">/tramites/duplicado-datos</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/09-tramite-duplicado-circulacion.png" target="_blank">
+            <img src="./mobile/09-tramite-duplicado-circulacion.png" alt="Ficha Permiso de Circulación" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">09</div>
+          <div class="screen-title">Ficha Permiso de Circulación</div>
+          <a class="screen-link" href="/tramites/duplicado-circulacion" target="_blank">/tramites/duplicado-circulacion</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/10-tramite-permiso-internacional.png" target="_blank">
+            <img src="./mobile/10-tramite-permiso-internacional.png" alt="Ficha Permiso Internacional" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">10</div>
+          <div class="screen-title">Ficha Permiso Internacional</div>
+          <a class="screen-link" href="/tramites/permiso-internacional" target="_blank">/tramites/permiso-internacional</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/11-tramite-baja-vehiculo.png" target="_blank">
+            <img src="./mobile/11-tramite-baja-vehiculo.png" alt="Ficha Baja de Vehículo" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">11</div>
+          <div class="screen-title">Ficha Baja de Vehículo</div>
+          <a class="screen-link" href="/tramites/baja-vehiculo" target="_blank">/tramites/baja-vehiculo</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/12-tramite-cancelacion-dominio.png" target="_blank">
+            <img src="./mobile/12-tramite-cancelacion-dominio.png" alt="Ficha Cancelación Reserva Dominio" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">12</div>
+          <div class="screen-title">Ficha Cancelación Reserva Dominio</div>
+          <a class="screen-link" href="/tramites/cancelacion-dominio" target="_blank">/tramites/cancelacion-dominio</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/13-contacto-whatsapp.png" target="_blank">
+            <img src="./mobile/13-contacto-whatsapp.png" alt="Contacto y Soporte WhatsApp" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">13</div>
+          <div class="screen-title">Contacto y Soporte WhatsApp</div>
+          <a class="screen-link" href="/contacto" target="_blank">/contacto</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/14-checkout-formulario.png" target="_blank">
+            <img src="./mobile/14-checkout-formulario.png" alt="Pasarela de Pago y Checkout Seguro" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">14</div>
+          <div class="screen-title">Pasarela de Pago y Checkout Seguro</div>
+          <a class="screen-link" href="/checkout?servicio=canje-carnet" target="_blank">/checkout?servicio=canje-carnet</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/15-confirmacion-gracias.png" target="_blank">
+            <img src="./mobile/15-confirmacion-gracias.png" alt="Confirmación de Pedido y Gracias" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">15</div>
+          <div class="screen-title">Confirmación de Pedido y Gracias</div>
+          <a class="screen-link" href="/gracias?ref=GST-2026-8942" target="_blank">/gracias?ref=GST-2026-8942</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/16-portal-login.png" target="_blank">
+            <img src="./mobile/16-portal-login.png" alt="Portal Clientes - Inicio de Sesión" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">16</div>
+          <div class="screen-title">Portal Clientes - Inicio de Sesión</div>
+          <a class="screen-link" href="/portal/login" target="_blank">/portal/login</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/17-portal-mis-servicios.png" target="_blank">
+            <img src="./mobile/17-portal-mis-servicios.png" alt="Portal Clientes - Mis Servicios / Expedientes" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">17</div>
+          <div class="screen-title">Portal Clientes - Mis Servicios / Expedientes</div>
+          <a class="screen-link" href="/portal/mis-servicios" target="_blank">/portal/mis-servicios</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/18-portal-expediente-detalle.png" target="_blank">
+            <img src="./mobile/18-portal-expediente-detalle.png" alt="Portal Clientes - Detalle de Expediente" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">18</div>
+          <div class="screen-title">Portal Clientes - Detalle de Expediente</div>
+          <a class="screen-link" href="/portal/mis-servicios/1" target="_blank">/portal/mis-servicios/1</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/19-portal-mis-datos.png" target="_blank">
+            <img src="./mobile/19-portal-mis-datos.png" alt="Portal Clientes - Mis Datos Personales" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">19</div>
+          <div class="screen-title">Portal Clientes - Mis Datos Personales</div>
+          <a class="screen-link" href="/portal/mis-datos" target="_blank">/portal/mis-datos</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/20-portal-notificaciones.png" target="_blank">
+            <img src="./mobile/20-portal-notificaciones.png" alt="Portal Clientes - Centro de Notificaciones" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">20</div>
+          <div class="screen-title">Portal Clientes - Centro de Notificaciones</div>
+          <a class="screen-link" href="/portal/notificaciones" target="_blank">/portal/notificaciones</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/21-legal-aviso-legal.png" target="_blank">
+            <img src="./mobile/21-legal-aviso-legal.png" alt="Información Legal - Aviso Legal" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">21</div>
+          <div class="screen-title">Información Legal - Aviso Legal</div>
+          <a class="screen-link" href="/aviso-legal" target="_blank">/aviso-legal</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/22-legal-privacidad.png" target="_blank">
+            <img src="./mobile/22-legal-privacidad.png" alt="Información Legal - Política de Privacidad" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">22</div>
+          <div class="screen-title">Información Legal - Política de Privacidad</div>
+          <a class="screen-link" href="/privacidad" target="_blank">/privacidad</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/23-legal-cookies.png" target="_blank">
+            <img src="./mobile/23-legal-cookies.png" alt="Información Legal - Política de Cookies" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">23</div>
+          <div class="screen-title">Información Legal - Política de Cookies</div>
+          <a class="screen-link" href="/cookies" target="_blank">/cookies</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/24-legal-condiciones-pagos.png" target="_blank">
+            <img src="./mobile/24-legal-condiciones-pagos.png" alt="Información Legal - Condiciones y Devoluciones" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">24</div>
+          <div class="screen-title">Información Legal - Condiciones y Devoluciones</div>
+          <a class="screen-link" href="/pagos-devoluciones" target="_blank">/pagos-devoluciones</a>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="img-wrap">
+          <a href="./mobile/25-pantalla-404.png" target="_blank">
+            <img src="./mobile/25-pantalla-404.png" alt="Pantalla de Error 404" loading="lazy">
+          </a>
+        </div>
+        <div class="screen-info">
+          <div class="screen-num">25</div>
+          <div class="screen-title">Pantalla de Error 404</div>
+          <a class="screen-link" href="/pagina-inexistente" target="_blank">/pagina-inexistente</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

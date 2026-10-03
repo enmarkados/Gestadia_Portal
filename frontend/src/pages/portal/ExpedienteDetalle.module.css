@@ -44,3 +44,45 @@
 }
 .datos dt { color: #6b6b6b; font-size: 13px; }
 .datos dd { margin: 0; font-size: 14px; }
+
+@media (max-width: 600px) {
+  .header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .title {
+    font-size: clamp(20px, 5.5vw, 26px);
+  }
+
+  .card {
+    padding: 18px 16px;
+    border-radius: 12px;
+  }
+
+  .doc-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .upload-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px;
+    font-size: 14px;
+    min-height: 44px;
+  }
+
+  .datos {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .datos dt {
+    font-weight: 700;
+    margin-top: 8px;
+  }
+}
+

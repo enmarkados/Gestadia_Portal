@@ -1,0 +1,60 @@
+@font-face {
+  font-family: Figtree;
+  src: url('../assets/fonts/Figtree.ttf') format('truetype');
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+.lia-startup-splash { position: fixed; inset: 0; z-index: 200000; background: #1c2e4a; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; color: white; font-family: Figtree, system-ui, sans-serif; }
+.lia-startup-logo { width: min(65vw, 280px); height: auto; }
+.lia-startup-loader { width: 48px; height: 48px; }
+.lia-startup-label { font-size: 14px; }
+.lia-user-shell {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  overflow: hidden;
+  --lia-navy: #1c2e4a;
+  --lia-muted: #5b6b82;
+  font-family: Figtree, system-ui, sans-serif;
+  color: var(--lia-navy);
+  background: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+.lia-user-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: white;
+  border-bottom: 1px solid #e6eaf0;
+  padding: calc(12px + env(safe-area-inset-top, 0px)) 20px 12px;
+  flex-shrink: 0;
+}
+.lia-user-header-actions { display: flex; align-items: center; gap: 3px; flex-shrink: 0; }
+.lia-user-header-actions > button { width: 36px; height: 36px; border: 0; box-shadow: none; }
+.lia-user-header-actions button[aria-label="Abrir menu de cuenta"] { width: 36px; height: 36px; justify-content: center; padding: 0; border: 0; box-shadow: none; background: transparent; }
+.lia-user-content { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+.lia-user-primary { min-height: 52px; padding: 12px 20px; border-radius: 14px; background: #1c2e4a; color: white; font-weight: 700; font-size: 16px; }
+.lia-user-primary:hover { background: #0f1b2e; }
+.lia-user-primary:disabled { opacity: .55; }
+.lia-user-nav { background: white; border-top: 1px solid #e6eaf0; display: flex; justify-content: space-around; flex-shrink: 0; padding: 8px 12px max(12px, env(safe-area-inset-bottom, 0px)); }
+.lia-user-nav a { width: 33.33%; position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; color: #5b6b82; font-size: 13px; font-weight: 700; padding: 10px 0 0; text-decoration: none; }
+.lia-user-nav a[aria-current=page] { color: #1c2e4a; }
+.lia-user-nav a[aria-current=page]::before { content: ''; position: absolute; top: 0; width: 24px; height: 3px; border-radius: 2px; background: #c49b36; }
+.lia-user-shell button:focus-visible, .lia-user-shell a:focus-visible { outline: 2px solid #9a7a24; outline-offset: 3px; }
+.lia-user-chat-input { border: 1px solid #d9e0ea; border-radius: 26px; background: white; display: flex; align-items: flex-end; padding: 6px; gap: 4px; }
+.lia-user-chat-input textarea { flex: 1; min-width: 0; resize: none; background: transparent; outline: 0; padding: 9px 10px; font-size: 16px; max-height: 120px; }
+.lia-user-chat-input > button { flex-shrink: 0; }
+.lia-user-chat-input > button[aria-label="Grabar audio"] { width: 40px; height: 40px; border: 0; box-shadow: none; background: transparent; }
+.lia-user-message { max-width: min(85%, 600px); border-radius: 18px; padding: 12px 14px; font-size: 15px; line-height: 1.5; overflow-wrap: anywhere; }
+.lia-user-message p { margin-bottom: .6em; }
+.lia-user-message p:last-child { margin-bottom: 0; }
+@media (min-width: 768px) {
+  .lia-user-header { padding-left: max(24px, calc((100vw - 850px)/2)); padding-right: max(24px, calc((100vw - 850px)/2)); }
+  .lia-user-nav { gap: 24px; justify-content: center; }
+  .lia-user-nav a { width: 200px; }
+}

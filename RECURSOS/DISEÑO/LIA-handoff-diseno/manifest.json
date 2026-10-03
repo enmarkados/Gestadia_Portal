@@ -1,0 +1,636 @@
+{
+  "title": "LIA - Handoff del rediseño Usuario",
+  "preparedDate": "2026-10-03",
+  "sourceBranch": "app/release-2.0.2-seguimiento",
+  "sourceCommit": "796df0864f7c82fb81cc034dff6f6a411a310318",
+  "screenshotDate": "2026-10-02",
+  "scope": "Experiencia Usuario, herramientas relacionadas y correo de verificación",
+  "screenshots": 35,
+  "nativeDeviceValidation": false,
+  "files": [
+    {
+      "path": "GLOSARIO.md",
+      "bytes": 2429,
+      "sha256": "3059371d6a4a134ba48cbf8e88682dcb8efacb91e3ad318807e047f21aeb8703"
+    },
+    {
+      "path": "INSTRUCCIONES-PARA-REPLICAR.md",
+      "bytes": 1329,
+      "sha256": "1db8648e29833f3d01d1b53118477f292f34ab9007f213aeaa5265cf97b68767"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2735,
+      "sha256": "8ec5e7385c488375e84045f2c6a3a74d82c25bda68e2dd12db43c274bb0ca59d"
+    },
+    {
+      "path": "assets/brand/dlc-logo-inverted.png",
+      "bytes": 101783,
+      "sha256": "5dbb4f2e38b38acec7b7a7cf770f792fe5deea999f4e00d87f752e7369f89e23",
+      "source": "src/assets/brand/dlc-logo-inverted.png",
+      "width": 2272,
+      "height": 512,
+      "format": "PNG"
+    },
+    {
+      "path": "assets/brand/dlc-logo-real.svg",
+      "bytes": 30834,
+      "sha256": "1dd5ef7230bfbf3bb74e230d6c013cb5e1f2eee90c7614a2462bffb751c93e8c",
+      "source": "docs/marketing/variaciones-diseno/assets/dlc-logo-real.svg"
+    },
+    {
+      "path": "assets/brand/startup-loader.gif",
+      "bytes": 7329,
+      "sha256": "e815a6b3c5b39f0569b5ad6ddad408420c7013148231c00f3dad437062d382c4",
+      "source": "src/assets/brand/startup-loader.gif",
+      "width": 96,
+      "height": 96,
+      "format": "GIF"
+    },
+    {
+      "path": "assets/brand/startup-loader.png",
+      "bytes": 1245,
+      "sha256": "b7f7e8df5c5023157bee7a63d9c4681f2e9d39ee4d4f7f5700c5d887125b22e1",
+      "source": "src/assets/brand/startup-loader.png",
+      "width": 96,
+      "height": 96,
+      "format": "PNG"
+    },
+    {
+      "path": "assets/fonts/Figtree.ttf",
+      "bytes": 62712,
+      "sha256": "26ad3db9b31ff7dde67a91ff515d022d2f495cd506590699cf264f0bfe6fb714",
+      "source": "src/assets/fonts/Figtree.ttf"
+    },
+    {
+      "path": "assets/fonts/OFL-Figtree.txt",
+      "bytes": 4388,
+      "sha256": "140d37233e7f3ce7313798befa9600893bcceaf41a55fa0fa5ad52f7f657a268",
+      "source": "src/assets/fonts/OFL-Figtree.txt"
+    },
+    {
+      "path": "capturas/android/01-lia-inicio.jpg",
+      "bytes": 35263,
+      "sha256": "55d6d2ea3b4ca0928e4971c8082b665255707c04e534e3da8e1a0b48020f6906",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/android/01-lia-inicio.png",
+      "width": 432,
+      "height": 768,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/android/02-nueva-consulta.jpg",
+      "bytes": 17449,
+      "sha256": "7862f46faecfa31b8ef0ea27c569bc40faf49d9d484099e3c26a631a0f79954c",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/android/02-nueva-consulta.png",
+      "width": 432,
+      "height": 768,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/android/03-mis-consultas.jpg",
+      "bytes": 30112,
+      "sha256": "804a6f767795560647be975cb8d2bd8e4195ed6c10eccbb74c457f209aca32c0",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/android/03-mis-consultas.png",
+      "width": 432,
+      "height": 768,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/android/04-conversacion-lia.jpg",
+      "bytes": 50149,
+      "sha256": "8a5c2ca21b3e872db580537d1f93e374ea0b04617911e732797124db76aad70b",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/android/04-conversacion-lia.png",
+      "width": 432,
+      "height": 768,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export",
+      "note": "Composición válida; formato Markdown anterior. Prevalece LiaResponseContent actual."
+    },
+    {
+      "path": "capturas/android/05-utilidades.jpg",
+      "bytes": 32488,
+      "sha256": "081d5257ad004383de3663b6d5368dc988bb5ada9110d839aae180397223bf4b",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/android/05-utilidades.png",
+      "width": 432,
+      "height": 768,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/android/06-contacto-abogado.jpg",
+      "bytes": 27097,
+      "sha256": "86007a8ed6fc7e18f4e250a5fc1f88fec96d2c6f55515046a4993db95d8b069a",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/android/06-contacto-abogado.png",
+      "width": 432,
+      "height": 768,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/android/07-analizador.jpg",
+      "bytes": 31677,
+      "sha256": "727557a672cebb4f1988de1e17bac88c2037faef7a458a68850832ee87739a2f",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/android/07-analizador.png",
+      "width": 432,
+      "height": 768,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/ipad/01-lia-inicio.jpg",
+      "bytes": 52065,
+      "sha256": "07981b8a502740688749d30571ed28af3f49bb27e910bcb64484efcd760a6247",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/ipad/01-lia-inicio.png",
+      "width": 1024,
+      "height": 1366,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/ipad/02-nueva-consulta.jpg",
+      "bytes": 27281,
+      "sha256": "6f4dbbdf40fd9960a65a764609b9b5f75467a0825c4a19c921882d884b9e4a2b",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/ipad/02-nueva-consulta.png",
+      "width": 1024,
+      "height": 1366,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/ipad/03-mis-consultas.jpg",
+      "bytes": 51969,
+      "sha256": "9523eae5a44c2cbeab06fee8f3989cdf913f37de0b4bea34a92885e1b2465a03",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/ipad/03-mis-consultas.png",
+      "width": 1024,
+      "height": 1366,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/ipad/04-conversacion-lia.jpg",
+      "bytes": 91567,
+      "sha256": "bfae3b4ec0f1e336490620d402a2eb2aff21cbde38ff1ff94b83dc0773a0e1bd",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/ipad/04-conversacion-lia.png",
+      "width": 1024,
+      "height": 1366,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export",
+      "note": "Composición válida; formato Markdown anterior. Prevalece LiaResponseContent actual."
+    },
+    {
+      "path": "capturas/ipad/05-utilidades.jpg",
+      "bytes": 45549,
+      "sha256": "58a912903abedbfd532c947fc17ae9b11cce97cf7755ffcf50c97d054f6094d7",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/ipad/05-utilidades.png",
+      "width": 1024,
+      "height": 1366,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/ipad/06-contacto-abogado.jpg",
+      "bytes": 52494,
+      "sha256": "c6ef18c867ed4c3357c298803e91b82a40638a46f0af939a04aa20af7af3913e",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/ipad/06-contacto-abogado.png",
+      "width": 1024,
+      "height": 1366,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/ipad/07-analizador.jpg",
+      "bytes": 59357,
+      "sha256": "b543cd6bded8dbf57fc881e4751001fd4bc5f3f807590a3c79db91acea733dbd",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/ipad/07-analizador.png",
+      "width": 1024,
+      "height": 1366,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/iphone/01-lia-inicio.jpg",
+      "bytes": 36730,
+      "sha256": "e749ed99c7816260aefe7da8637ade0cf6198afac53ed309fa04809412b19731",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/iphone/01-lia-inicio.png",
+      "width": 430,
+      "height": 932,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/iphone/02-nueva-consulta.jpg",
+      "bytes": 18162,
+      "sha256": "5b52748362230331b74ac8cfe446faaa8ba2bb31a0579cf0d61838ba30061501",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/iphone/02-nueva-consulta.png",
+      "width": 430,
+      "height": 932,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/iphone/03-mis-consultas.jpg",
+      "bytes": 31007,
+      "sha256": "63cc59c05b3fda86d206f508333486e2e75f0d7404112126889fa3b4b6ef2575",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/iphone/03-mis-consultas.png",
+      "width": 430,
+      "height": 932,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/iphone/04-conversacion-lia.jpg",
+      "bytes": 67475,
+      "sha256": "42121e6398d869239e71371c3f2b334f12c78f8ad63f18a3a6e6ce9b5aaf52dd",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/iphone/04-conversacion-lia.png",
+      "width": 430,
+      "height": 932,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export",
+      "note": "Composición válida; formato Markdown anterior. Prevalece LiaResponseContent actual."
+    },
+    {
+      "path": "capturas/iphone/05-utilidades.jpg",
+      "bytes": 33429,
+      "sha256": "bebc2343700750ca3c97c7df8dcb2027a8e067ccca8a1e6bfeca3a76e52396d4",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/iphone/05-utilidades.png",
+      "width": 430,
+      "height": 932,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/iphone/06-contacto-abogado.jpg",
+      "bytes": 32115,
+      "sha256": "38d3a58cecc253cef6b1a800fc2ca2740b1dd99b1be09cda8da9736e431f59f6",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/iphone/06-contacto-abogado.png",
+      "width": 430,
+      "height": 932,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/iphone/07-analizador.jpg",
+      "bytes": 38641,
+      "sha256": "75c88b69f3a369e5038ed5f0c59eb1967f1181eab30612887e8ab580a0d06bdd",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/iphone/07-analizador.png",
+      "width": 430,
+      "height": 932,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/tablet-10/01-lia-inicio.jpg",
+      "bytes": 52542,
+      "sha256": "e7be8d95dbd0fb982697da69983e19dc5c1a52d255aee36192b37bdb688ec7c9",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/tablet-10/01-lia-inicio.png",
+      "width": 900,
+      "height": 1600,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/tablet-10/02-nueva-consulta.jpg",
+      "bytes": 27547,
+      "sha256": "16a1593fe669dbdb80562b1c0e00f78bee0582f4a12a0872e921e1f0af6338c7",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/tablet-10/02-nueva-consulta.png",
+      "width": 900,
+      "height": 1600,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/tablet-10/03-mis-consultas.jpg",
+      "bytes": 51431,
+      "sha256": "fe79aa7bd580f20aa14af814e1557b81ef2ef1bce958e8c1f49312b1e5f08f40",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/tablet-10/03-mis-consultas.png",
+      "width": 900,
+      "height": 1600,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/tablet-10/04-conversacion-lia.jpg",
+      "bytes": 90841,
+      "sha256": "52063a010790835ddd680e8cbbba6b65a05273efb1003e988831087d604d303e",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/tablet-10/04-conversacion-lia.png",
+      "width": 900,
+      "height": 1600,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export",
+      "note": "Composición válida; formato Markdown anterior. Prevalece LiaResponseContent actual."
+    },
+    {
+      "path": "capturas/tablet-10/05-utilidades.jpg",
+      "bytes": 44943,
+      "sha256": "add371d6e1ecec179b8b80814eb237dfceeb779c7ad6b782ed4265f9830ffcda",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/tablet-10/05-utilidades.png",
+      "width": 900,
+      "height": 1600,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/tablet-10/06-contacto-abogado.jpg",
+      "bytes": 58095,
+      "sha256": "ffa986b4b1a80d0a7ec462027ff378236b52cf6e4ab0133116e22955e4a15948",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/tablet-10/06-contacto-abogado.png",
+      "width": 900,
+      "height": 1600,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/tablet-10/07-analizador.jpg",
+      "bytes": 44973,
+      "sha256": "0b9ce34ca79be14ded5b135c43b6c3577f5babd1944021928ec8f30ef1723131",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/tablet-10/07-analizador.png",
+      "width": 900,
+      "height": 1600,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/tablet-7/01-lia-inicio.jpg",
+      "bytes": 42295,
+      "sha256": "68ed8a50068c3e0ee4f630b8340f0e7d0dd86d9018801fabe9bc46954c5012ef",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/tablet-7/01-lia-inicio.png",
+      "width": 720,
+      "height": 1280,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/tablet-7/02-nueva-consulta.jpg",
+      "bytes": 23497,
+      "sha256": "ebaf98e69e0e6669131920c8a01be0f893433e07df74c3cb78040c86922cdfe1",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/tablet-7/02-nueva-consulta.png",
+      "width": 720,
+      "height": 1280,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/tablet-7/03-mis-consultas.jpg",
+      "bytes": 44051,
+      "sha256": "2981141a6050df3a13a0a7390ef569e8a8a927cbf3dab8255a88bf215f96c6a1",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/tablet-7/03-mis-consultas.png",
+      "width": 720,
+      "height": 1280,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/tablet-7/04-conversacion-lia.jpg",
+      "bytes": 85468,
+      "sha256": "964de2e9773c18659647f43007ddae9c18f265f00e170c9de52025250d8d8228",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/tablet-7/04-conversacion-lia.png",
+      "width": 720,
+      "height": 1280,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export",
+      "note": "Composición válida; formato Markdown anterior. Prevalece LiaResponseContent actual."
+    },
+    {
+      "path": "capturas/tablet-7/05-utilidades.jpg",
+      "bytes": 39899,
+      "sha256": "f6ba5f66ee3c65ed357bce38ac526bed79d6e588bc9094dcf6b3a3d9036d4e53",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/tablet-7/05-utilidades.png",
+      "width": 720,
+      "height": 1280,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/tablet-7/06-contacto-abogado.jpg",
+      "bytes": 45994,
+      "sha256": "704591c4db558b08795aebd9fc5394f6ed80f4ed0bfb21bd2c1d8832cea678a9",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/tablet-7/06-contacto-abogado.png",
+      "width": 720,
+      "height": 1280,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "capturas/tablet-7/07-analizador.jpg",
+      "bytes": 39583,
+      "sha256": "f65f8b93971685e4a671859615db7c3b424b925cf6f6a0bbe9b9cbf351df2264",
+      "source": "docs/marketing/variaciones-diseno/app-usuario/2026-10-02-marketplaces/tablet-7/07-analizador.png",
+      "width": 720,
+      "height": 1280,
+      "format": "JPEG",
+      "captureDate": "2026-10-02",
+      "kind": "existing-screenshot-export"
+    },
+    {
+      "path": "correo/alta-desktop.jpg",
+      "bytes": 46553,
+      "sha256": "d6a93f29310e02d8c05a841f3a94312be9567fb06efcb075505331b429a428a2",
+      "source": "docs/marketing/variaciones-diseno/correos/2026-10-02-alta-logo-v2/alta-desktop.png",
+      "width": 1280,
+      "height": 720,
+      "format": "JPEG"
+    },
+    {
+      "path": "correo/alta-email.html",
+      "bytes": 4463,
+      "sha256": "6caaecdf78986cc8890313ad5f422f18e986408e7ebb06d3d5cf16f1eecad09f",
+      "source": "docs/marketing/variaciones-diseno/correos/2026-10-02-alta-logo-v2/alta-email.html"
+    },
+    {
+      "path": "correo/alta-mobile.jpg",
+      "bytes": 39789,
+      "sha256": "5d7f5cda5f48b0971eef35050eb985469a1c4ddfa38785f50a9a9ac9e714d5cb",
+      "source": "docs/marketing/variaciones-diseno/correos/2026-10-02-alta-logo-v2/alta-mobile.png",
+      "width": 393,
+      "height": 852,
+      "format": "JPEG"
+    },
+    {
+      "path": "correo/alta.html",
+      "bytes": 4426,
+      "sha256": "893990ce16b3128072791a07a46679d9a4aace2ebd0e4b951edbd1cec9af6a2e",
+      "source": "docs/marketing/variaciones-diseno/correos/2026-10-02-alta-logo-v2/alta.html"
+    },
+    {
+      "path": "correo/alta.txt",
+      "bytes": 325,
+      "sha256": "f4d93434162b43ef6e5c01702220f025fe192ac9ae44115fffe46ce6275301c5",
+      "source": "docs/marketing/variaciones-diseno/correos/2026-10-02-alta-logo-v2/alta.txt"
+    },
+    {
+      "path": "correo/logo.png",
+      "bytes": 101783,
+      "sha256": "5dbb4f2e38b38acec7b7a7cf770f792fe5deea999f4e00d87f752e7369f89e23",
+      "source": "docs/marketing/variaciones-diseno/correos/2026-10-02-alta-logo-v2/logo.png",
+      "width": 2272,
+      "height": 512,
+      "format": "PNG"
+    },
+    {
+      "path": "design.md",
+      "bytes": 22482,
+      "sha256": "2640059c3588dc702edbe8731b878fb4ebd11667ee856994bc2fb67f93f41963"
+    },
+    {
+      "path": "documentacion/DESIGN-original.md",
+      "bytes": 12928,
+      "sha256": "f176c00f0a65124d1a80b39e6e4835e137d755d1cdd90112e325eb8005993e17",
+      "source": "DESIGN.md"
+    },
+    {
+      "path": "estilos/index.css",
+      "bytes": 10630,
+      "sha256": "34c3c18c25897c2c43735060598e182f267582bc017b6beccdf74a93b42cbd60",
+      "source": "src/index.css"
+    },
+    {
+      "path": "estilos/lia-tokens.css",
+      "bytes": 3578,
+      "sha256": "f7c8e38d44a49786fc28398ca2bc0fb29a3a4033b04fe70ff4bc4c21b3bdfe9c",
+      "source": "src/styles/lia-tokens.css"
+    },
+    {
+      "path": "index.html",
+      "bytes": 11877,
+      "sha256": "6b5460a1ad5d9d3fe841d02a88003d155a1a8bc4d7760bb896000df3806b6a4a"
+    },
+    {
+      "path": "referencia-codigo/src/components/UserMenu.tsx",
+      "bytes": 4528,
+      "sha256": "2f155e21a13c32b21b9672caac83d07ecabb60c8b77874ad947709d1e8bba969",
+      "source": "src/components/UserMenu.tsx"
+    },
+    {
+      "path": "referencia-codigo/src/components/app/StartupSplash.tsx",
+      "bytes": 3454,
+      "sha256": "ca5ec07f441036bd1524e65788b1f2d0a4c3262dff5d318e0c3c45e4e583d0ac",
+      "source": "src/components/app/StartupSplash.tsx"
+    },
+    {
+      "path": "referencia-codigo/src/components/audio/AudioRecorderControl.tsx",
+      "bytes": 5311,
+      "sha256": "e8eb8602a1fe42f6f957c8f0adfa6f2037133922caa916bae6f293598c82bbbe",
+      "source": "src/components/audio/AudioRecorderControl.tsx"
+    },
+    {
+      "path": "referencia-codigo/src/components/lia/LiaResponseContent.tsx",
+      "bytes": 749,
+      "sha256": "6fcaed5a902f2a8bb4d8c283ac404f9c13008306b231e774c83ea7562e391a9f",
+      "source": "src/components/lia/LiaResponseContent.tsx"
+    },
+    {
+      "path": "referencia-codigo/src/components/ui/AppButton.tsx",
+      "bytes": 1744,
+      "sha256": "d33bc135fbe8a04e1d3c6acb9a717d3b99752c6071f3afd48c144c9b6159d7d9",
+      "source": "src/components/ui/AppButton.tsx"
+    },
+    {
+      "path": "referencia-codigo/src/components/ui/AppCard.tsx",
+      "bytes": 521,
+      "sha256": "dd1c720b3e4cf441faf7ad5fe5b6c0349dbc5447622d29e4c7816f633e2ada1d",
+      "source": "src/components/ui/AppCard.tsx"
+    },
+    {
+      "path": "referencia-codigo/src/components/ui/BottomSheet.tsx",
+      "bytes": 9498,
+      "sha256": "62e4d53abcd9633ca8f5778e4f4a3823b6b306d24863ddaeeabf66cf8dc3592e",
+      "source": "src/components/ui/BottomSheet.tsx"
+    },
+    {
+      "path": "referencia-codigo/src/components/user/LawyerContactForm.tsx",
+      "bytes": 3163,
+      "sha256": "edbe4c1c2893de5f0bbd2548b7cd67eea0151d63da7dbc6e4b1cbf4508669cee",
+      "source": "src/components/user/LawyerContactForm.tsx"
+    },
+    {
+      "path": "referencia-codigo/src/components/user/UserAppShell.tsx",
+      "bytes": 4373,
+      "sha256": "1dcbfd662c50ebb704089e90d9ffbbff693efdf523159893e643cd81757508aa",
+      "source": "src/components/user/UserAppShell.tsx"
+    },
+    {
+      "path": "referencia-codigo/src/index.css",
+      "bytes": 10630,
+      "sha256": "34c3c18c25897c2c43735060598e182f267582bc017b6beccdf74a93b42cbd60",
+      "source": "src/index.css"
+    },
+    {
+      "path": "referencia-codigo/src/pages/ClientCompensationCalculator.tsx",
+      "bytes": 12736,
+      "sha256": "b81dd143df65b9b15181388c9cc91c13560c0f8b10d4931213e7a17815b456ab",
+      "source": "src/pages/ClientCompensationCalculator.tsx"
+    },
+    {
+      "path": "referencia-codigo/src/pages/ClientContractAnalyzer.tsx",
+      "bytes": 10666,
+      "sha256": "416bcaaf9e39fde25a0ae609c2c21d95d2d672bb017bead3774990f1ced3f39e",
+      "source": "src/pages/ClientContractAnalyzer.tsx"
+    },
+    {
+      "path": "referencia-codigo/src/pages/UserHome.tsx",
+      "bytes": 14588,
+      "sha256": "5bcff1072e3546e776f0e6c85cc92de4777ef5c0d97efcd354d97fc15284e150",
+      "source": "src/pages/UserHome.tsx"
+    },
+    {
+      "path": "referencia-codigo/src/pages/UserQueries.tsx",
+      "bytes": 3170,
+      "sha256": "b2171d178ac999d369a63a4711c4784899a8a133dfe9188d5775f9b7a98d6666",
+      "source": "src/pages/UserQueries.tsx"
+    },
+    {
+      "path": "referencia-codigo/src/pages/UserUtilities.tsx",
+      "bytes": 1458,
+      "sha256": "5c5b4953d027936f6c07ba6921410c5a97d508bd657412c1cbac151525c7ac83",
+      "source": "src/pages/UserUtilities.tsx"
+    },
+    {
+      "path": "referencia-codigo/src/styles/lia-tokens.css",
+      "bytes": 3578,
+      "sha256": "f7c8e38d44a49786fc28398ca2bc0fb29a3a4033b04fe70ff4bc4c21b3bdfe9c",
+      "source": "src/styles/lia-tokens.css"
+    },
+    {
+      "path": "tokens.json",
+      "bytes": 1305,
+      "sha256": "7723c75f246be3f9caf3b0034d193b26bee9eceaede64d07481f60af6d88a1bf"
+    }
+  ]
+}

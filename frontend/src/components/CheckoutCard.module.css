@@ -3,3 +3,16 @@
 .description { font-size: 14px; color: #666; line-height: 1.5; margin-bottom: 14px; }
 .price { font-size: 32px; font-weight: 800; color: var(--graphite); line-height: 1; }
 .price sub { font-size: 13px; color: #999; font-weight: 400; vertical-align: baseline; margin-left: 6px; }
+
+@media (max-width: 860px) {
+  .checkout-card {
+    padding: 20px 18px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+  }
+
+  .price {
+    font-size: clamp(26px, 6vw, 32px);
+  }
+}
+

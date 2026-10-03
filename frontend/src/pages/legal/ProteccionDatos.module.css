@@ -12,3 +12,31 @@
 .legal-section ol { margin: 10px 0 10px 20px; }
 .legal-section li { font-size: 17px; color: #555; line-height: 1.8; margin-bottom: 8px; }
 .legal-intro { font-size: 17px; color: #888; margin-bottom: 40px; padding: 16px; background: #f7f7f7; border-radius: 8px; border-left: 3px solid var(--red); }
+
+@media (max-width: 768px) {
+  .page-header {
+    padding: 32px 16px;
+  }
+  .page-title {
+    font-size: clamp(28px, 7vw, 42px);
+  }
+  .legal-body {
+    padding: 24px 16px 56px;
+  }
+  .legal-section {
+    margin-bottom: 32px;
+  }
+  .legal-section h2 {
+    font-size: 18px;
+  }
+  .legal-section p, .legal-section li {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .legal-intro {
+    font-size: 15px;
+    padding: 14px 16px;
+    margin-bottom: 32px;
+  }
+}
+

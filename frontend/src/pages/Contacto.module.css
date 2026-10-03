@@ -61,3 +61,60 @@
 .page-sub     { animation: fadeUp .6s ease both .25s; }
 .contact-form-wrap { animation: fadeUp .6s ease both .1s; }
 .contact-sidebar   { animation: fadeUp .6s ease both .25s; }
+
+@media (max-width: 860px) {
+  .page-header {
+    padding: 36px 16px;
+  }
+
+  .page-eyebrow {
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+  }
+
+  .page-title {
+    font-size: clamp(28px, 7vw, 42px);
+    margin-bottom: 10px;
+  }
+
+  .page-sub {
+    font-size: 15px;
+  }
+
+  .contact-body {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding: 32px 16px 56px;
+  }
+}
+
+@media (max-width: 560px) {
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .form-input {
+    font-size: 16px;
+    padding: 12px 14px;
+    min-height: 44px;
+  }
+
+  .form-submit {
+    padding: 16px 20px;
+    font-size: 16px;
+    min-height: 48px;
+  }
+
+  .sidebar-card {
+    padding: 20px 16px;
+  }
+
+  .whatsapp-btn {
+    padding: 16px;
+    font-size: 15px;
+    min-height: 48px;
+  }
+}
+
