@@ -12,6 +12,12 @@
 - **Alcance:** `frontend/app/src/demo.js`, `frontend/app/src/AppContext.jsx`.
 - **Notas:** No acredita autenticación, conversación con gestor ni tramitación real.
 
+## Panel de contacto con gestor
+- **Tipo:** concepto de interfaz.
+- **Definición:** Panel que entra desde el borde inferior para abrir el chat con el gestor asignado o solicitar una llamada mediante nombre y teléfono.
+- **Alcance:** `frontend/app/src/Contact.jsx`, `Sheet.jsx` y estilos de la app.
+- **Notas:** Replica el handoff; el perfil lead sólo ofrece la llamada. En esta entrega la solicitud es local y no se envía al CRM.
+
 ## GESTADIA_APP_CONFIG
 - **Tipo:** decisión naming.
 - **Definición:** Configuración pública de despliegue de la app, con la URL de la API, del checkout y disponibilidad del modo demostración.

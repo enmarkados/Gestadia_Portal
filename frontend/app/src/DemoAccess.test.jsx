@@ -15,6 +15,12 @@ import { setToken, getToken, request } from "./api.js";
 import { pluginRequest } from "./PluginWebContext.jsx";
 
 beforeEach(() => {
+  HTMLDialogElement.prototype.showModal = function () {
+    this.setAttribute("open", "");
+  };
+  HTMLDialogElement.prototype.close = function () {
+    this.removeAttribute("open");
+  };
   localStorage.clear();
   sessionStorage.clear();
   window.GESTADIA_APP_CONFIG = {
@@ -47,7 +53,9 @@ it("arranca en demo con un token antiguo y bloquea las APIs", async () => {
   setToken("sesion-real-antigua");
   mount();
   expect(
-    screen.getByText("Demostración · Datos ficticios"),
+    screen.getByRole("heading", {
+      name: "¿Qué trámite de Tráfico necesitas gestionar hoy?",
+    }),
   ).toBeInTheDocument();
   expect(getToken()).toBeNull();
   await expect(request("/api/me")).rejects.toThrow("no realiza conexiones");
@@ -115,5 +123,68 @@ it("el recorrido de servicios finaliza localmente sin abrir el checkout real", a
   expect(
     screen.getByText(/No se contrata ningún servicio/),
   ).toBeInTheDocument();
+  expect(fetch).not.toHaveBeenCalled();
+});
+
+it("Mensajes ofrece una sola llamada, contacto con dos campos y una nueva consulta limpia", async () => {
+  mount("/mensajes");
+  expect(
+    screen.getAllByRole("button", {
+      name: "Hablar con un gestor",
+      exact: true,
+    }),
+  ).toHaveLength(1);
+  fireEvent.click(
+    screen.getByRole("button", { name: "Hablar con un gestor", exact: true }),
+  );
+  expect(
+    screen.getByRole("dialog", { name: "Hablar con un gestor" }),
+  ).toBeInTheDocument();
+  expect(screen.getAllByRole("textbox")).toHaveLength(2);
+  expect(screen.getByLabelText("Nombre y apellidos")).toHaveValue(
+    "Alex Ejemplo",
+  );
+  expect(screen.queryByLabelText("Email")).toBeNull();
+  expect(screen.queryByRole("combobox")).toBeNull();
+  expect(
+    screen.getByRole("button", {
+      name: "Abrir Chat en la App con Juan Carlos",
+    }),
+  ).toBeInTheDocument();
+  fireEvent.change(screen.getByLabelText("Teléfono de contacto"), {
+    target: { value: "+34 600000000" },
+  });
+  fireEvent.click(
+    screen.getByRole("button", { name: "Solicitar llamada de un gestor" }),
+  );
+  expect(
+    screen.getByText("Solicitud de ejemplo completada"),
+  ).toBeInTheDocument();
+  expect(fetch).not.toHaveBeenCalled();
+  fireEvent.click(screen.getByRole("button", { name: "Volver a la app" }));
+  fireEvent.click(
+    screen.getByRole("link", { name: /Nueva consulta con LidIA/ }),
+  );
+  fireEvent.click(
+    screen.getByRole("button", {
+      name: "Canje de carnet extranjero",
+      exact: true,
+    }),
+  );
+  expect(
+    screen.getByRole("heading", { name: "Tu consulta" }),
+  ).toBeInTheDocument();
+  fireEvent.click(screen.getByRole("link", { name: "Mensajes", exact: true }));
+  fireEvent.click(
+    screen.getByRole("link", { name: /Nueva consulta con LidIA/ }),
+  );
+  expect(
+    screen.getByRole("heading", {
+      name: "¿Qué trámite de Tráfico necesitas gestionar hoy?",
+    }),
+  ).toBeInTheDocument();
+  expect(screen.queryByText("Consulta con LidIA")).toBeNull();
+  expect(screen.queryByText("Consultas habituales")).toBeNull();
+  expect(screen.queryByText("Demostración · Datos ficticios")).toBeNull();
   expect(fetch).not.toHaveBeenCalled();
 });

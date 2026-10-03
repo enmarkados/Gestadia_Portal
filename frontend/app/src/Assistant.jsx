@@ -123,7 +123,9 @@ export default function Assistant({ onContact }) {
   }
   function dictate() {
     if (demoOnly()) {
-      setVoiceError("El dictado está desactivado en esta demo sin conexiones. Puedes escribir tu consulta.");
+      setVoiceError(
+        "El dictado está desactivado en esta demo sin conexiones. Puedes escribir tu consulta.",
+      );
       return;
     }
     const Recognition =
@@ -161,22 +163,11 @@ export default function Assistant({ onContact }) {
     <section className="assistant-page">
       {!messages.length ? (
         <>
-          <p className="eyebrow">TU ASISTENTE DE TRÁFICO</p>
           <h1>¿Qué trámite de Tráfico necesitas gestionar hoy?</h1>
           <p className="muted">
             Nuestro asistente LidIA te ayuda a preparar tu consulta. Tu gestor
             revisa los requisitos y acompaña tu trámite.
           </p>
-          <div className="assistant-intro">
-            <span className="avatar red">
-              <Icon name="spark" />
-            </span>
-            <div>
-              <strong>Consulta con LidIA</strong>
-              <p>Sondeo inicial, paso a paso</p>
-            </div>
-          </div>
-          <h2 className="small-heading">Consultas habituales</h2>
           <div className="stack">
             {Object.entries(TOPICS).map(([slug, value]) => (
               <button

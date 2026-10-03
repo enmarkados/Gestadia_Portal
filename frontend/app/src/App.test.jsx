@@ -125,12 +125,12 @@ it("el perfil lead deja la campana sin aviso y ofrece llamada sin chat de client
   );
   expect(
     screen.queryByRole("button", {
-      name: "Abrir chat con Juan Carlos",
+      name: "Abrir Chat en la App con Juan Carlos",
     }),
   ).toBeNull();
   expect(
     screen.getByRole("button", {
-      name: "Solicitar llamada",
+      name: "Solicitar llamada de un gestor",
     }),
   ).toBeInTheDocument();
 });
@@ -188,7 +188,7 @@ it("no deja aparecer datos de una sesión anterior al cambiar a demo", async () 
       });
   });
   expect(
-    screen.getByText("Demostración · Datos ficticios"),
+    screen.getByRole("heading", { name: "Perfil de demostración" }),
   ).toBeInTheDocument();
   fireEvent.click(
     screen.getByRole("link", {

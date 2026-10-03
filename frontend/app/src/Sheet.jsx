@@ -1,6 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import Icon from "./Icon.jsx";
-export default function Sheet({ title, children, onClose }) {
+export default function Sheet({
+  title,
+  subtitle,
+  className = "",
+  children,
+  onClose,
+}) {
   const ref = useRef(null);
   useEffect(() => {
     const previous = document.activeElement;
@@ -13,7 +19,7 @@ export default function Sheet({ title, children, onClose }) {
   return (
     <dialog
       ref={ref}
-      className="sheet"
+      className={`sheet ${className}`}
       aria-label={title}
       onCancel={(e) => {
         e.preventDefault();
@@ -32,8 +38,12 @@ export default function Sheet({ title, children, onClose }) {
         }
       }}
     >
+      <div className="sheet-handle" aria-hidden="true" />
       <div className="sheet-head">
-        <h2>{title}</h2>
+        <div>
+          <h2>{title}</h2>
+          {subtitle}
+        </div>
         <button className="icon-btn" onClick={onClose} aria-label="Cerrar">
           <Icon name="close" />
         </button>

@@ -66,12 +66,7 @@ export default function App() {
           </Link>
         </div>
       </header>
-      {app.mode === "demo" ? (
-        <div className="mode-bar">
-          <span>Demostración · Datos ficticios</span>
-          <Link to="/cuenta">Cambiar perfil</Link>
-        </div>
-      ) : app.mode === "visitante" && demoEnabled() ? (
+      {app.mode === "visitante" && demoEnabled() && !demoOnly() ? (
         <div className="mode-bar">
           <span>Descubre Gestadia</span>
           <button onClick={() => app.startDemo()}>Probar demo</button>
@@ -158,9 +153,7 @@ export default function App() {
       {!["/acceso", "/registro"].includes(location.pathname) && (
         <footer className="app-footer">
           <button className="contact-cta" onClick={onContact}>
-            <Icon name="phone" size={18} />
             <span>Hablar con un gestor</span>
-            <Icon name="arrow" size={18} />
           </button>
           <nav className="dock" aria-label="Navegación principal">
             {TABS.map(([to, label, icon]) => (

@@ -2,72 +2,83 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useApp } from "./AppContext.jsx";
 import Icon from "./Icon.jsx";
-export default function Messages({ onContact }) {
-  const { data, isClient } = useApp();
+export default function Messages() {
+  const { data, setData, mode, isClient } = useApp();
+  const expediente = data.expedientes[0];
+  const managerLast = data.managerMessages.at(-1);
+  const assistantLast = data.assistantState?.messages?.at(-1);
+  function newConsultation() {
+    if (mode === "demo")
+      setData((old) => ({
+        ...old,
+        assistantState: { topic: null, answers: {}, messages: [] },
+      }));
+  }
   return (
-    <section>
-      <p className="eyebrow">EN CONTACTO CONTIGO</p>
+    <section className="messages-page">
+      <p className="eyebrow">CENTRO DE COMUNICACIONES</p>
       <h1>Mensajes</h1>
-      <p className="muted">
-        Tu consulta con LidIA y la comunicación con tu gestor, en un mismo
-        lugar.
+      <p className="muted messages-description">
+        Tus conversaciones activas con tu gestor asignado y el asistente LidIA.
       </p>
-      <div className="stack">
+      <Link className="card new-consultation" to="/" onClick={newConsultation}>
+        <span className="avatar red">
+          <Icon name="spark" size={20} />
+        </span>
+        <div>
+          <strong>Nueva consulta con LidIA</strong>
+          <p>Diagnóstico previo y requisitos DGT en 1 min</p>
+        </div>
+        <span className="new-consultation-plus" aria-hidden="true">
+          +
+        </span>
+      </Link>
+      <h2 className="threads-heading">Conversaciones activas</h2>
+      <div className="stack messages-threads">
         {isClient && (
-          <Link className="card thread" to="/mensajes/gestor">
-            <span className="avatar dark">JA</span>
-            <div>
-              <strong>Juan Carlos Acero</strong>
-              <p>Consulta sobre tu expediente</p>
+          <Link
+            className="card message-thread manager-thread"
+            to="/mensajes/gestor"
+          >
+            <div className="thread-heading">
+              <span className="avatar dark">JA</span>
+              <div className="thread-details">
+                <strong>Juan Carlos Acero</strong>
+                <p>
+                  {expediente
+                    ? `Exp. ${expediente.nPedido} · ${expediente.paisCanje ? `Canje ${expediente.paisCanje}` : expediente.titulo}`
+                    : "Tu gestor asignado"}
+                </p>
+              </div>
             </div>
-            <Icon name="arrow" size={18} />
+            {managerLast && (
+              <p className="thread-preview">
+                {managerLast.role === "user" ? "Tú" : "Juan Carlos"}:{" "}
+                {managerLast.content}
+              </p>
+            )}
           </Link>
         )}
-        <Link className="card thread" to="/">
-          <span className="avatar red">
-            <Icon name="spark" />
-          </span>
-          <div>
-            <strong>LidIA</strong>
-            <p>
-              {data.consultations.length
-                ? `${data.consultations.length} consultas preparadas`
-                : "Prepara una nueva consulta"}
-            </p>
+        <Link className="card message-thread assistant-thread" to="/">
+          <div className="thread-heading">
+            <span className="avatar red">
+              <Icon name="spark" size={20} />
+            </span>
+            <div className="thread-details">
+              <div className="thread-name">
+                <strong>LidIA</strong>
+                <span className="assistant-badge">IA Gestadia</span>
+              </div>
+              <p>Sondeo y Diagnóstico Previo DGT</p>
+            </div>
           </div>
-          <Icon name="arrow" size={18} />
+          <p className="thread-preview">
+            {assistantLast?.role === "user" ? "Tú" : "LidIA"}:{" "}
+            {assistantLast?.content ||
+              "¿Qué trámite de Tráfico necesitas gestionar hoy?"}
+          </p>
         </Link>
       </div>
-      {data.consultations.length > 0 && (
-        <>
-          <h2>Consultas preparadas</h2>
-          <div className="stack">
-            {data.consultations.map((item, i) => (
-              <div className="card" key={`${item.date}-${i}`}>
-                <strong>
-                  {item.topic === "canje-carnet"
-                    ? "Canje de carnet"
-                    : item.topic === "transferencia"
-                      ? "Transferencia de vehículo"
-                      : "Duplicado de carnet"}
-                </strong>
-                <p className="helper">Pendiente de revisión por un gestor</p>
-                <dl>
-                  {Object.entries(item.answers).map(([key, value]) => (
-                    <div key={key}>
-                      <dt>{key}</dt>
-                      <dd>{value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-            ))}
-          </div>
-        </>
-      )}
-      <button className="btn secondary" onClick={onContact}>
-        Hablar con un gestor
-      </button>
     </section>
   );
 }
