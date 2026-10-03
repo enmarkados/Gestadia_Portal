@@ -546,7 +546,8 @@ svg {
   text-align: center;
   margin-top: 22px;
 }
-.text-btn.password-recovery {
+.text-btn.password-recovery,
+.auth-page .form-card > .text-btn {
   color: #000;
   width: 100%;
   justify-content: center;
