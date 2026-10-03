@@ -181,6 +181,7 @@ export default function Assistant({ onContact }) {
       sendLabel="Enviar consulta"
       recording={recording}
       status={voiceError}
+      onStatusChange={setVoiceError}
     />
   );
   return (
@@ -282,7 +283,7 @@ export default function Assistant({ onContact }) {
                   className="btn primary"
                   to={`/servicios?servicio=${topic}`}
                 >
-                  Ver Servicios DGT
+                  Ver Servicios
                 </Link>
                 <button className="btn secondary" onClick={onContact}>
                   Hablar con un gestor

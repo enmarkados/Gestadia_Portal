@@ -195,6 +195,38 @@ svg {
   flex-shrink: 0;
   background: #f7f7f7;
 }
+.warning-toast {
+  position: fixed;
+  top: calc(12px + env(safe-area-inset-top, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: min(480px, calc(100vw - 32px));
+  padding: 14px;
+  border: 1px solid #eab308;
+  border-radius: 14px;
+  background: #fef3c7;
+  color: #713f12;
+  box-shadow: 0 6px 24px #00000024;
+}
+.warning-toast > svg {
+  color: #a16207;
+  margin-top: 2px;
+}
+.warning-toast p {
+  flex: 1;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.warning-toast .icon-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+}
 .footer-actions {
   padding: 10px 16px 12px;
 }
@@ -1043,6 +1075,10 @@ input[readonly] {
   margin: 0;
   font-size: 18px;
   font-weight: 800;
+}
+.sheet-head > .icon-btn:focus,
+.sheet-head > .icon-btn:focus-visible {
+  outline: none;
 }
 .sheet-title-group {
   display: flex;

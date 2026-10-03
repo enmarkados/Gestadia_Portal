@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { createPortal } from "react-dom";
 import Icon from "./Icon.jsx";
 
 export default function ChatComposer({
@@ -10,7 +11,13 @@ export default function ChatComposer({
   sendLabel,
   recording = false,
   status,
+  onStatusChange,
 }) {
+  useEffect(() => {
+    if (!status) return;
+    const timeout = setTimeout(() => onStatusChange?.(""), 4000);
+    return () => clearTimeout(timeout);
+  }, [status, onStatusChange]);
   return (
     <>
       <form
@@ -50,11 +57,22 @@ export default function ChatComposer({
           <Icon name="send" size={18} />
         </button>
       </form>
-      {status && (
-        <p role="status" className="helper">
-          {status}
-        </p>
-      )}
+      {status &&
+        createPortal(
+          <div role="status" className="warning-toast">
+            <Icon name="warning" size={22} />
+            <p>{status}</p>
+            <button
+              type="button"
+              className="icon-btn"
+              aria-label="Cerrar aviso"
+              onClick={() => onStatusChange?.("")}
+            >
+              <Icon name="close" size={18} />
+            </button>
+          </div>,
+          document.body,
+        )}
     </>
   );
 }

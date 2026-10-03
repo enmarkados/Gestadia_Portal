@@ -92,9 +92,6 @@ export default function Notifications({ onClose }) {
           )}
         </div>
       )}
-      <button className="btn dark-btn notification-close" onClick={onClose}>
-        Cerrar
-      </button>
     </Sheet>
   );
 }

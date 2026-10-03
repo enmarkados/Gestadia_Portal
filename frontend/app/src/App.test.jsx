@@ -80,7 +80,7 @@ it("completa el sondeo demo sin afirmar viabilidad y precarga el país del servi
   ).toBeInTheDocument();
   fireEvent.click(
     screen.getByRole("link", {
-      name: "Ver Servicios DGT",
+      name: "Ver Servicios",
     }),
   );
   expect(screen.getByLabelText("País del permiso")).toHaveValue("peru");
@@ -113,9 +113,12 @@ it("el perfil lead deja la campana sin aviso y ofrece llamada sin chat de client
   expect(
     screen.getByRole("heading", { name: "Estás al día" }),
   ).toBeInTheDocument();
+  expect(
+    screen.queryByRole("button", { name: "Cerrar", exact: true }),
+  ).toBeNull();
   fireEvent.click(
     screen.getByRole("button", {
-      name: "Cerrar",
+      name: "Cerrar notificaciones",
       exact: true,
     }),
   );

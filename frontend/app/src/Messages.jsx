@@ -199,6 +199,7 @@ export function ManagerChat({ onContact }) {
                   )
                 }
                 status={voiceStatus}
+                onStatusChange={setVoiceStatus}
               />,
               composerHost,
             )}

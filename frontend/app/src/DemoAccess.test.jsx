@@ -5,6 +5,7 @@ import {
   fireEvent,
   cleanup,
   waitFor,
+  act,
 } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { beforeEach, afterEach, it, expect, vi } from "vitest";
@@ -49,6 +50,30 @@ function mount(path = "/") {
     </MemoryRouter>,
   );
 }
+
+it.each(["/", "/mensajes/gestor"])(
+  "el aviso del micrófono se oculta y puede volver a abrirse en %s",
+  (path) => {
+    vi.useFakeTimers();
+    try {
+      mount(path);
+      fireEvent.click(screen.getByRole("button", { name: "Dictar consulta" }));
+      expect(screen.getByRole("status")).toHaveClass("warning-toast");
+      expect(screen.getByRole("status")).toHaveTextContent(
+        /dictado está desactivado/,
+      );
+      act(() => vi.advanceTimersByTime(4000));
+      expect(screen.queryByRole("status")).toBeNull();
+      fireEvent.click(screen.getByRole("button", { name: "Dictar consulta" }));
+      expect(screen.getByRole("status")).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button", { name: "Cerrar aviso" }));
+      expect(screen.queryByRole("status")).toBeNull();
+      expect(fetch).not.toHaveBeenCalled();
+    } finally {
+      vi.useRealTimers();
+    }
+  },
+);
 
 it("LidIA presenta autor y hora, permite solicitar llamada y vuelve al inicio sin conexiones", () => {
   mount();

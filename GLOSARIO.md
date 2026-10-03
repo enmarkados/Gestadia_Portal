@@ -144,6 +144,12 @@
 - **Alcance:** `frontend/app/index.html`, `native.js`, configuración SplashScreen y recursos nativos iOS/Android.
 - **Notas:** Fondo negro oficial `#181818` y logotipo completo blanco/rojo centrado, sin «Trámites DGT Online», por indicación del usuario. Imagen local `brand/gestadia-logo-completo.png` en web; `assets/splash{,-dark}.png` para iOS/Android; `gestadia_splash_logo` es el recurso del arranque de Android 12 y posteriores, adaptado a su área central. No descarga fuentes ni imágenes externas.
 
+## Aviso de dictado
+- **Tipo:** concepto de interfaz.
+- **Definición:** Advertencia amarilla emergente que explica la indisponibilidad del micrófono y se oculta automáticamente a los cuatro segundos.
+- **Alcance:** `ChatComposer.jsx`, estado `status`/`onStatusChange`, clase `warning-toast` y pictograma `warning` de `Icon.jsx`; compartido por LidIA y el chat de gestor.
+- **Notas:** Permite cerrar manualmente y volver a mostrar el aviso con otra pulsación. Reemplaza el texto bajo el input sin activar conexiones externas.
+
 ## Revisión de servicio en demo
 - **Tipo:** concepto runtime.
 - **Definición:** Cierre local del recorrido comercial que muestra el servicio elegido sin contratar ni realizar un pago.
