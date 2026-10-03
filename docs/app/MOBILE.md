@@ -30,6 +30,8 @@ APK: `frontend/android/app/build/outputs/apk/debug/app-debug.apk`. Es un APK de 
 
 Iconos y splash parten de los recursos del handoff, preparados en `frontend/assets/`. Regenerar con `npm run mobile:assets`. iOS muestra el LaunchScreen de Gestadia; Android usa su splash nativo. `SplashScreen.launchAutoHide=false` mantiene el splash hasta que React ha preparado la interfaz. El splash HTML sirve también a la web y se retira al finalizar el arranque.
 
+El splash tiene fondo `#181818` y el logotipo blanco/rojo centrado, sin «Trámites DGT Online». Los PNG `splash.png` y `splash-dark.png` contienen la composición para los recursos nativos; el arranque de Android 12 y posteriores usa además `drawable/gestadia_splash_logo.png`, adaptado al área central del sistema. La web usa `app/public/brand/gestadia-logo-completo.png`, recortado a los límites visibles del logo oficial `assets/brand/logo-dark.png`.
+
 Atrás en Android cierra primero un diálogo abierto, vuelve por el historial o retorna a Inicio; sólo sale de la app desde Inicio. Los enlaces internos permanecen en el frontend. La demo bloquea navegación y llamadas externas, y el inicio no descarga configuración remota.
 
 ## Siguiente fase solicitada

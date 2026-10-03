@@ -6,7 +6,7 @@ Rama `app/main` creada desde `main`, revisión de partida `af5b515`. La entrega 
 
 ## Pruebas y builds
 
-- `npm test --prefix frontend`: **71/71 pruebas**, 26 archivos. Incluye las 40 pruebas existentes del portal y 31 de la app.
+- `npm test --prefix frontend`: **72/72 pruebas**, 26 archivos. Incluye las 40 pruebas existentes del portal y 32 de la app.
 - `npm run app:build` y `npm run mobile:sync`: build y sincronización de los proyectos correctos. El portal conserva su build independiente y también se construyó correctamente con `npm run build`.
 - Los tests comprueban acceso y registro locales sin persistir contraseñas, bloqueo de peticiones/navegación externa y reconocimiento de voz en demo, descarte de sesiones reales antiguas y cierre interno del servicio de ejemplo. El micrófono de la app no inicia un servicio de dictado en esta entrega.
 - La lógica futura de conexión tiene pruebas controladas de aislamiento de credenciales, rechazo de respuestas de sesiones antiguas, recuperación de mensajes tras errores sin reenvío automático, campos opcionales y normalización de países. No acredita una conversación real ni permite habilitarla sin las comprobaciones de la siguiente fase.
@@ -21,6 +21,8 @@ Rama `app/main` creada desde `main`, revisión de partida `af5b515`. La entrega 
 - Verificación usa cabecera negra con número de expediente y título, campos personales compactos, tarjetas documentales discontinuas con botones negros y «Validar y Enviar» rojo. Comprueba los documentos seleccionados, conserva los datos revisados y regresa al chat con confirmación local, sin transmisión. No muestra los antiguos accesos a Mi cuenta y contacto al final de esta pantalla.
 - Acceso muestra «¿Has olvidado tu contraseña?» centrado en negro; acceso y registro permiten alternar la visibilidad de contraseña mediante ojo/ojo tachado. Los campos y compositores enfocados destacan en negro. Se verificaron colores y comportamiento en navegador.
 - Registro muestra «Acerca de esta demostración» centrado en negro dentro del formulario, con navegación interna a la información de la demo.
+- LidIA usa cabecera negra «Habla con LidIA», vuelta a la selección inicial y llamada al panel local. Se retiraron «Tu consulta» y «Nueva consulta». Las tarjetas de LidIA son blancas, con insignia «L.» y título «LidIA · Asistente IA Gestadia»; los mensajes del cliente usan negro suave `#383838`, autor «Tú» y la hora local real al escribir. La vuelta conserva el perfil y las consultas completadas. Verificado por prueba del recorrido y captura móvil.
+- El splash usa negro oficial `#181818` y el logotipo completo de Gestadia blanco/rojo centrado, sin lema. Se prepararon recursos locales para web, iOS y Android, incluyendo el área central del arranque de Android 12 y posteriores. El recurso se carga sin depender de fuentes o imágenes externas.
 
 - Imagen `gestadia-app:2026-10-03` construida para **linux/amd64**. Contenedor local en `http://127.0.0.1:8099/`; `nginx -t` correcto y `/healthz` identifica la app.
 - Configuración servida: `demoEnabled: true`, `demoOnly: true`, key vacía. `/api/health` y `/lidia/api/pluginweb/config` devuelven **503**, sin consultar upstreams.

@@ -32,6 +32,7 @@ export default function App() {
   const app = useApp();
   const location = useLocation();
   const [sheet, setSheet] = useState(null);
+  const [assistantReset, setAssistantReset] = useState(0);
   useLayoutEffect(() => {
     const main = document.getElementById("main");
     if (main) main.scrollTop = 0;
@@ -39,6 +40,17 @@ export default function App() {
   const onContact = () => setSheet("contact");
   const hasNotifications = app.data.notifications.some((item) => !item.leida);
   const managerChat = location.pathname === "/mensajes/gestor";
+  const assistantChat =
+    location.pathname === "/" &&
+    app.mode === "demo" &&
+    !!app.data.assistantState?.messages?.length;
+  function returnToLidIA() {
+    app.setData((old) => ({
+      ...old,
+      assistantState: { topic: null, answers: {}, messages: [] },
+    }));
+    setAssistantReset((old) => old + 1);
+  }
   const validationRoute = useMatch("/tramites/:id");
   const validationExpediente = app.data.expedientes.find(
     (item) => item.id === validationRoute?.params.id,
@@ -70,6 +82,24 @@ export default function App() {
             )}
             <h1>Verificación de Datos y Carnet</h1>
           </div>
+        </header>
+      ) : assistantChat ? (
+        <header className="manager-chat-header">
+          <button
+            className="icon-btn"
+            aria-label="Volver a LidIA"
+            onClick={returnToLidIA}
+          >
+            <Icon name="back" size={20} />
+          </button>
+          <h1>Habla con LidIA</h1>
+          <button
+            className="icon-btn"
+            aria-label="Solicitar llamada"
+            onClick={onContact}
+          >
+            <Icon name="phone" size={18} />
+          </button>
         </header>
       ) : managerChat ? (
         <header className="manager-chat-header">
@@ -149,7 +179,7 @@ export default function App() {
               path="/"
               element={
                 app.mode === "demo" ? (
-                  <Assistant onContact={onContact} />
+                  <Assistant key={assistantReset} onContact={onContact} />
                 ) : demoOnly() ? (
                   <Login />
                 ) : (
@@ -208,7 +238,7 @@ export default function App() {
         <footer className="app-footer">
           {location.pathname !== "/servicios" && !validationRoute && (
             <div className="footer-actions">
-              {!managerChat && (
+              {!managerChat && !assistantChat && (
                 <button className="contact-cta" onClick={onContact}>
                   <span>Hablar con un gestor</span>
                 </button>
@@ -228,6 +258,9 @@ export default function App() {
                   key={to}
                   to={to}
                   end={to === "/"}
+                  onClick={
+                    to === "/" && assistantChat ? returnToLidIA : undefined
+                  }
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   <Icon name={icon} size={21} />

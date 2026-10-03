@@ -54,6 +54,12 @@
 - **Alcance:** `Login.jsx`, `Register.jsx`, iconos `eye`/`eyeOff` de `Icon.jsx` y `app.css`.
 - **Notas:** Conserva la contraseña solo en el estado temporal del formulario; no altera el envío ni su almacenamiento.
 
+## Habla con LidIA
+- **Tipo:** concepto de interfaz.
+- **Definición:** Estado de conversación con LidIA, con cabecera propia, mensajes identificados y burbujas del cliente en negro suave con su hora.
+- **Alcance:** `App.jsx`, `Assistant.jsx`, mensajes locales `assistantState.messages` con `time`/`greeting` y `app.css`.
+- **Notas:** Volver o pulsar la pestaña LidIA regresa a la selección inicial; las consultas completadas siguen conservadas. El teléfono abre el contacto con un gestor.
+
 ## Compositor de LidIA
 - **Tipo:** concepto de interfaz.
 - **Definición:** Control de texto, micrófono y envío de la consulta, situado debajo del botón de contacto y encima de la navegación en LidIA.
@@ -136,7 +142,7 @@
 - **Tipo:** concepto runtime.
 - **Definición:** Pantalla de marca que acompaña el arranque y se retira cuando la interfaz está preparada.
 - **Alcance:** `frontend/app/index.html`, `native.js`, configuración SplashScreen y recursos nativos iOS/Android.
-- **Notas:** Usa los recursos de Gestadia del handoff y respeta movimiento reducido en la web.
+- **Notas:** Fondo negro oficial `#181818` y logotipo completo blanco/rojo centrado, sin «Trámites DGT Online», por indicación del usuario. Imagen local `brand/gestadia-logo-completo.png` en web; `assets/splash{,-dark}.png` para iOS/Android; `gestadia_splash_logo` es el recurso del arranque de Android 12 y posteriores, adaptado a su área central. No descarga fuentes ni imágenes externas.
 
 ## Revisión de servicio en demo
 - **Tipo:** concepto runtime.

@@ -22,6 +22,24 @@ export default function Assistant({ onContact }) {
   const end = useRef(null);
   const step = topic ? Object.keys(answers).length : 0;
   const question = TOPICS[topic]?.questions[step];
+  function createMessage(role, content, greeting = false) {
+    return {
+      role,
+      content,
+      greeting,
+      time: new Date().toLocaleTimeString("es-ES", {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+    };
+  }
+  function greetingMessage() {
+    return createMessage(
+      "assistant",
+      "¡Hola! Soy LidIA, tu asistente de Gestadia. Selecciona qué trámite deseas comprobar para realizar el sondeo de viabilidad:",
+      true,
+    );
+  }
   useEffect(() => {
     setData((old) => ({
       ...old,
@@ -42,14 +60,12 @@ export default function Assistant({ onContact }) {
     setTopic(slug);
     setAnswers({});
     setMessages([
-      {
-        role: "user",
-        content: text || TOPICS[slug].label,
-      },
-      {
-        role: "assistant",
-        content: `Vamos a recoger los datos para que un gestor revise tu caso. ${TOPICS[slug].questions[0].text}`,
-      },
+      greetingMessage(),
+      createMessage("user", text || TOPICS[slug].label),
+      createMessage(
+        "assistant",
+        `Vamos a recoger los datos para que un gestor revise tu caso. ${TOPICS[slug].questions[0].text}`,
+      ),
     ]);
   }
   function send(text = input) {
@@ -61,31 +77,24 @@ export default function Assistant({ onContact }) {
       if (found) start(found, text);
       else
         setMessages((old) => [
+          ...(old.length ? [] : [greetingMessage()]),
           ...old,
-          {
-            role: "user",
-            content: text,
-          },
-          {
-            role: "assistant",
-            content:
-              "Puedo ayudarte a preparar un canje, una transferencia o un duplicado. Elige un trámite o solicita que un gestor revise tu consulta.",
-          },
+          createMessage("user", text),
+          createMessage(
+            "assistant",
+            "Puedo ayudarte a preparar un canje, una transferencia o un duplicado. Elige un trámite o solicita que un gestor revise tu consulta.",
+          ),
         ]);
       return;
     }
     if (!question) {
       setMessages((old) => [
         ...old,
-        {
-          role: "user",
-          content: text,
-        },
-        {
-          role: "assistant",
-          content:
-            "He añadido tu comentario. Un gestor debe confirmar los requisitos de tu caso antes de presentar el trámite.",
-        },
+        createMessage("user", text),
+        createMessage(
+          "assistant",
+          "He añadido tu comentario. Un gestor debe confirmar los requisitos de tu caso antes de presentar el trámite.",
+        ),
       ]);
       return;
     }
@@ -97,16 +106,13 @@ export default function Assistant({ onContact }) {
     const nextQuestion = TOPICS[topic].questions[step + 1];
     setMessages((old) => [
       ...old,
-      {
-        role: "user",
-        content: text,
-      },
-      {
-        role: "assistant",
-        content: nextQuestion
+      createMessage("user", text),
+      createMessage(
+        "assistant",
+        nextQuestion
           ? nextQuestion.text
           : "Gracias. Ya tenemos tus respuestas iniciales. La viabilidad y la documentación definitiva quedan pendientes de revisión por un gestor. Puedes consultar el servicio o solicitar una llamada.",
-      },
+      ),
     ]);
     if (!nextQuestion)
       setData((old) => ({
@@ -178,7 +184,9 @@ export default function Assistant({ onContact }) {
     />
   );
   return (
-    <section className="assistant-page">
+    <section
+      className={`assistant-page ${messages.length ? "assistant-chat-page" : ""}`}
+    >
       {!messages.length ? (
         <>
           <h1>¿Qué trámite de Tráfico necesitas gestionar hoy?</h1>
@@ -209,26 +217,54 @@ export default function Assistant({ onContact }) {
         </>
       ) : (
         <>
-          <div className="section-head">
-            <div>
-              <p className="eyebrow">LIDIA</p>
-              <h1 className="compact-title">Tu consulta</h1>
-            </div>
-            <button
-              className="text-btn"
-              onClick={() => {
-                setMessages([]);
-                setTopic(null);
-                setAnswers({});
-              }}
-            >
-              Nueva consulta
-            </button>
-          </div>
           <div className="conversation" aria-live="polite">
             {messages.map((msg, i) => (
               <div className={`bubble ${msg.role}`} key={i}>
-                {msg.content}
+                {msg.role === "user" ? (
+                  <>
+                    <div className="bubble-meta">
+                      <strong className="bubble-author">Tú</strong>
+                      {msg.time && (
+                        <span className="bubble-time">{msg.time}</span>
+                      )}
+                    </div>
+                    <p>{msg.content}</p>
+                  </>
+                ) : (
+                  <>
+                    <div className="lidia-message-heading">
+                      <span className="lidia-message-avatar" aria-hidden="true">
+                        L.
+                      </span>
+                      <strong>LidIA · Asistente IA Gestadia</strong>
+                    </div>
+                    <p>
+                      {msg.greeting ? (
+                        <>
+                          ¡Hola! Soy <strong>LidIA</strong>, tu asistente de{" "}
+                          <strong>Gestadia</strong>. Selecciona qué trámite
+                          deseas comprobar para realizar el sondeo de
+                          viabilidad:
+                        </>
+                      ) : (
+                        msg.content
+                      )}
+                    </p>
+                    {msg.greeting && (
+                      <div className="chips lidia-topic-options">
+                        {Object.entries(TOPICS).map(([slug, value]) => (
+                          <button
+                            key={slug}
+                            onClick={() => start(slug)}
+                            aria-pressed={topic === slug}
+                          >
+                            {value.label}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                )}
               </div>
             ))}
             {question && (

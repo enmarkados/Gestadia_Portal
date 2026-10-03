@@ -438,6 +438,63 @@ svg {
   border-radius: 16px 16px 4px 16px;
   box-shadow: 0 2px 6px #c0392b26;
 }
+.app-main > section.assistant-chat-page {
+  padding: 16px 14px;
+}
+.assistant-chat-page .conversation {
+  gap: 12px;
+  margin: 0;
+}
+.assistant-chat-page .bubble {
+  white-space: normal;
+  padding: 16px;
+  border-radius: 18px;
+  box-shadow: 0 2px 6px #0000000a;
+}
+.assistant-chat-page .bubble.user {
+  background: #383838;
+  max-width: 85%;
+  padding: 11px 14px;
+  border-radius: 18px 18px 4px 18px;
+}
+.assistant-chat-page .bubble p {
+  margin: 0;
+  white-space: pre-wrap;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.lidia-message-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.lidia-message-heading > strong {
+  font-size: 13px;
+  color: #2c2c2c;
+}
+.lidia-message-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: #fdedec;
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 800;
+}
+.lidia-topic-options {
+  margin-top: 10px;
+}
+.lidia-topic-options button[aria-pressed="true"] {
+  background: #fdedec;
+  border-color: var(--red);
+  color: var(--red);
+  font-weight: 700;
+}
 .bubble-author {
   display: block;
   font-size: 11px;

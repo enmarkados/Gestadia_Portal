@@ -93,6 +93,8 @@ export function setupNativeNavigation() {
   };
 }
 export async function finishSplash() {
+  const logo = document.querySelector("#launch-splash img");
+  if (logo?.decode) await logo.decode().catch(() => {});
   await new Promise((resolve) =>
     requestAnimationFrame(() => requestAnimationFrame(resolve)),
   );

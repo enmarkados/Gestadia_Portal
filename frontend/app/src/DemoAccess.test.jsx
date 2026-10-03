@@ -50,6 +50,41 @@ function mount(path = "/") {
   );
 }
 
+it("LidIA presenta autor y hora, permite solicitar llamada y vuelve al inicio sin conexiones", () => {
+  mount();
+  fireEvent.click(
+    screen.getByRole("button", {
+      name: "Quiero canjear mi carnet de conducir extranjero",
+      exact: true,
+    }),
+  );
+  expect(
+    screen.getByRole("heading", { name: "Habla con LidIA" }),
+  ).toBeInTheDocument();
+  expect(screen.queryByRole("heading", { name: "Tu consulta" })).toBeNull();
+  expect(screen.queryByText("Nueva consulta")).toBeNull();
+  const userBubble = screen.getByText("Tú").closest(".bubble");
+  expect(userBubble.querySelector(".bubble-time").textContent).toMatch(
+    /^\d{2}:\d{2}$/,
+  );
+  expect(screen.getAllByText("LidIA · Asistente IA Gestadia")).toHaveLength(2);
+  fireEvent.click(
+    screen.getByRole("button", { name: "Solicitar llamada", exact: true }),
+  );
+  expect(
+    screen.getByRole("dialog", { name: "Hablar con un gestor" }),
+  ).toBeInTheDocument();
+  fireEvent.click(screen.getByRole("button", { name: "Cerrar", exact: true }));
+  fireEvent.click(screen.getByRole("button", { name: "Volver a LidIA" }));
+  expect(
+    screen.getByRole("heading", {
+      name: "¿Qué trámite de Tráfico necesitas gestionar hoy?",
+    }),
+  ).toBeInTheDocument();
+  expect(screen.queryByRole("heading", { name: "Habla con LidIA" })).toBeNull();
+  expect(fetch).not.toHaveBeenCalled();
+});
+
 it("el aviso prioritario abre el expediente y cierra el panel sin conexiones", async () => {
   mount("/mensajes");
   fireEvent.click(
@@ -371,7 +406,7 @@ it("Mensajes ofrece una sola llamada, contacto con dos campos y una nueva consul
     }),
   );
   expect(
-    screen.getByRole("heading", { name: "Tu consulta" }),
+    screen.getByRole("heading", { name: "Habla con LidIA" }),
   ).toBeInTheDocument();
   fireEvent.click(screen.getByRole("link", { name: "Mensajes", exact: true }));
   fireEvent.click(
@@ -392,7 +427,7 @@ it("Mensajes ofrece una sola llamada, contacto con dos campos y una nueva consul
     screen.getByRole("button", { name: "Enviar consulta", exact: true }),
   );
   expect(
-    screen.getByRole("heading", { name: "Tu consulta" }),
+    screen.getByRole("heading", { name: "Habla con LidIA" }),
   ).toBeInTheDocument();
   expect(screen.getByRole("textbox", { name: "Tu consulta" })).toHaveValue("");
   fireEvent.click(screen.getByRole("link", { name: "Servicios", exact: true }));
