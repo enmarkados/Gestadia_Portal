@@ -31,6 +31,7 @@ export default function App() {
   }, [location.pathname]);
   const onContact = () => setSheet("contact");
   const hasNotifications = app.data.notifications.some((item) => !item.leida);
+  const managerChat = location.pathname === "/mensajes/gestor";
   return (
     <div className="app-shell">
       <a
@@ -43,29 +44,51 @@ export default function App() {
       >
         Ir al contenido
       </a>
-      <header className="app-header">
-        <Link to="/" className="brand" aria-label="Gestadia, inicio">
-          <span>
-            gestadia<b>.</b>
-          </span>
-          <small>Trámites DGT Online</small>
-        </Link>
-        <div className="header-actions">
+      {managerChat ? (
+        <header className="manager-chat-header">
+          <Link
+            className="icon-btn"
+            to="/mensajes"
+            aria-label="Volver a mensajes"
+          >
+            <Icon name="back" size={20} />
+          </Link>
+          <h1>Habla con tu gestor</h1>
           <button
             className="icon-btn"
-            onClick={() => setSheet("notifications")}
-            aria-label={
-              hasNotifications ? "Notificaciones pendientes" : "Notificaciones"
-            }
+            aria-label="Solicitar llamada"
+            onClick={onContact}
           >
-            <Icon name="bell" />
-            {hasNotifications && <span className="notification-dot" />}
+            <Icon name="phone" size={18} />
           </button>
-          <Link to="/cuenta" className="icon-btn" aria-label="Mi cuenta">
-            <Icon name="user" />
+        </header>
+      ) : (
+        <header className="app-header">
+          <Link to="/" className="brand" aria-label="Gestadia, inicio">
+            <span>
+              gestadia<b>.</b>
+            </span>
+            <small>Trámites DGT Online</small>
           </Link>
-        </div>
-      </header>
+          <div className="header-actions">
+            <button
+              className="icon-btn"
+              onClick={() => setSheet("notifications")}
+              aria-label={
+                hasNotifications
+                  ? "Notificaciones pendientes"
+                  : "Notificaciones"
+              }
+            >
+              <Icon name="bell" />
+              {hasNotifications && <span className="notification-dot" />}
+            </button>
+            <Link to="/cuenta" className="icon-btn" aria-label="Mi cuenta">
+              <Icon name="user" />
+            </Link>
+          </div>
+        </header>
+      )}
       {app.mode === "visitante" && demoEnabled() && !demoOnly() ? (
         <div className="mode-bar">
           <span>Descubre Gestadia</span>
@@ -154,11 +177,16 @@ export default function App() {
         <footer className="app-footer">
           {location.pathname !== "/servicios" && (
             <div className="footer-actions">
-              <button className="contact-cta" onClick={onContact}>
-                <span>Hablar con un gestor</span>
-              </button>
+              {!managerChat && (
+                <button className="contact-cta" onClick={onContact}>
+                  <span>Hablar con un gestor</span>
+                </button>
+              )}
               {location.pathname === "/" && app.mode === "demo" && (
                 <div id="lidia-composer" className="footer-lidia-composer" />
+              )}
+              {managerChat && app.mode === "demo" && app.isClient && (
+                <div id="manager-composer" className="footer-lidia-composer" />
               )}
             </div>
           )}

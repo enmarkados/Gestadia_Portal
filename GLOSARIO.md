@@ -24,6 +24,12 @@
 - **Alcance:** `frontend/app/src/App.jsx` y `app.css`.
 - **Notas:** Conserva las cuatro pestañas del diseño; el CTA y el compositor se sitúan sobre el fondo gris claro.
 
+## ChatComposer
+- **Tipo:** componente de interfaz.
+- **Definición:** Entrada de texto compartida por la consulta con LidIA y la conversación con el gestor para conservar el mismo diseño y controles.
+- **Alcance:** `frontend/app/src/ChatComposer.jsx`, `Assistant.jsx`, `Messages.jsx` y `app.css`.
+- **Notas:** El envío y el dictado dependen de cada conversación; en esta demo los mensajes son locales y el micrófono no inicia conexiones.
+
 ## Compositor de LidIA
 - **Tipo:** concepto de interfaz.
 - **Definición:** Control de texto, micrófono y envío de la consulta, situado debajo del botón de contacto y encima de la navegación en LidIA.

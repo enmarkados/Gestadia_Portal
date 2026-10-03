@@ -2,6 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import Icon from "./Icon.jsx";
+import ChatComposer from "./ChatComposer.jsx";
 import { useApp } from "./AppContext.jsx";
 import { detectTopic, TOPICS } from "./qualification.js";
 import { demoOnly } from "./api.js";
@@ -165,50 +166,16 @@ export default function Assistant({ onContact }) {
     }
   }
   const composer = (
-    <>
-      <form
-        className="composer"
-        onSubmit={(e) => {
-          e.preventDefault();
-          send();
-        }}
-      >
-        <textarea
-          aria-label="Tu consulta"
-          rows="1"
-          maxLength={4000}
-          placeholder="¿Qué necesitas?"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (
-              e.key === "Enter" &&
-              !e.shiftKey &&
-              !e.nativeEvent.isComposing
-            ) {
-              e.preventDefault();
-              send();
-            }
-          }}
-        />
-        <button
-          type="button"
-          className={`icon-btn ${recording ? "recording" : ""}`}
-          aria-label={recording ? "Detener dictado" : "Dictar consulta"}
-          onClick={dictate}
-        >
-          <Icon name="mic" size={20} />
-        </button>
-        <button className="send-btn" aria-label="Enviar consulta">
-          <Icon name="send" size={18} />
-        </button>
-      </form>
-      {voiceError && (
-        <p role="status" className="helper">
-          {voiceError}
-        </p>
-      )}
-    </>
+    <ChatComposer
+      value={input}
+      onChange={setInput}
+      onSend={send}
+      onDictate={dictate}
+      label="Tu consulta"
+      sendLabel="Enviar consulta"
+      recording={recording}
+      status={voiceError}
+    />
   );
   return (
     <section className="assistant-page">

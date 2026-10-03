@@ -71,6 +71,48 @@ it("el aviso prioritario abre el expediente y cierra el panel sin conexiones", a
   expect(fetch).not.toHaveBeenCalled();
 });
 
+it("el chat del gestor mantiene cabecera, expediente e input y envía solo al ejemplo local", async () => {
+  mount("/mensajes");
+  fireEvent.click(screen.getByRole("link", { name: /JA Juan Carlos Acero/ }));
+  expect(
+    screen.getByRole("heading", { name: "Habla con tu gestor" }),
+  ).toBeInTheDocument();
+  expect(
+    screen.getByText("✓ Expediente DEMO-001 · Juan Carlos Acero asignado"),
+  ).toBeInTheDocument();
+  expect(screen.queryByText(/Chat de demostración/)).toBeNull();
+  expect(
+    screen.getByRole("textbox", { name: "Mensaje para el gestor" }),
+  ).toHaveAttribute("placeholder", "¿Qué necesitas?");
+  fireEvent.change(
+    screen.getByRole("textbox", { name: "Mensaje para el gestor" }),
+    { target: { value: "Hola Juan Carlos" } },
+  );
+  fireEvent.click(
+    screen.getByRole("button", { name: "Enviar mensaje de ejemplo" }),
+  );
+  expect(screen.getByText("Hola Juan Carlos")).toBeInTheDocument();
+  expect(
+    screen.getByRole("textbox", { name: "Mensaje para el gestor" }),
+  ).toHaveValue("");
+  fireEvent.click(screen.getByRole("button", { name: "Dictar consulta" }));
+  expect(screen.getByRole("status")).toHaveTextContent(
+    "dictado está desactivado",
+  );
+  fireEvent.click(
+    screen.getByRole("button", { name: "Solicitar llamada", exact: true }),
+  );
+  expect(
+    screen.getByRole("dialog", { name: "Hablar con un gestor" }),
+  ).toBeInTheDocument();
+  fireEvent.click(screen.getByRole("button", { name: "Cerrar", exact: true }));
+  fireEvent.click(screen.getByRole("link", { name: "Volver a mensajes" }));
+  expect(
+    screen.getByRole("heading", { name: "Mensajes", exact: true }),
+  ).toBeInTheDocument();
+  expect(fetch).not.toHaveBeenCalled();
+});
+
 it("arranca en demo con un token antiguo y bloquea las APIs", async () => {
   setToken("sesion-real-antigua");
   mount();

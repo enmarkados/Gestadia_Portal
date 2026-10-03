@@ -1,7 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import { useApp } from "./AppContext.jsx";
 import Icon from "./Icon.jsx";
+import ChatComposer from "./ChatComposer.jsx";
 export default function Messages() {
   const { data, setData, mode, isClient } = useApp();
   const expediente = data.expedientes[0];
@@ -85,14 +87,19 @@ export default function Messages() {
 export function ManagerChat({ onContact }) {
   const { mode, data, setData, isClient } = useApp();
   const [input, setInput] = useState("");
+  const [voiceStatus, setVoiceStatus] = useState("");
+  const [composerHost, setComposerHost] = useState(null);
+  useLayoutEffect(() => {
+    setComposerHost(document.getElementById("manager-composer"));
+  }, []);
+  const expediente = data.expedientes[0];
   const end = useRef(null);
   useEffect(() => {
     end.current?.scrollIntoView?.({
       block: "end",
     });
   }, [data.managerMessages]);
-  function send(event) {
-    event.preventDefault();
+  function send() {
     if (input.trim().length < 2) return;
     setData((old) => ({
       ...old,
@@ -107,24 +114,7 @@ export function ManagerChat({ onContact }) {
     setInput("");
   }
   return (
-    <section>
-      <div className="section-head">
-        <Link
-          className="icon-btn"
-          to="/mensajes"
-          aria-label="Volver a mensajes"
-        >
-          <Icon name="back" />
-        </Link>
-        <h1 className="compact-title">Habla con tu gestor</h1>
-        <button
-          className="icon-btn"
-          aria-label="Solicitar llamada"
-          onClick={onContact}
-        >
-          <Icon name="phone" />
-        </button>
-      </div>
+    <section className="manager-chat-page">
       {mode !== "demo" || !isClient ? (
         <div className="card empty">
           <span className="avatar dark">JA</span>
@@ -139,13 +129,20 @@ export function ManagerChat({ onContact }) {
         </div>
       ) : (
         <>
-          <p className="notice">
-            Chat de demostración · Los mensajes no se envían al gestor.
-          </p>
+          {expediente && (
+            <div className="manager-expediente">
+              <span>
+                ✓ Expediente {expediente.nPedido} · Juan Carlos Acero asignado
+              </span>
+            </div>
+          )}
           <div className="conversation" aria-live="polite">
             {data.managerMessages.map((msg, i) => (
               <div key={i} className={`bubble ${msg.role}`}>
-                {msg.content}
+                <strong className="bubble-author">
+                  {msg.role === "user" ? "Tú" : "Juan Carlos Acero"}
+                </strong>
+                <p>{msg.content}</p>
               </div>
             ))}
             <Link
@@ -157,22 +154,23 @@ export function ManagerChat({ onContact }) {
             </Link>
             <div ref={end} />
           </div>
-          <form className="composer" onSubmit={send}>
-            <textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              rows="1"
-              placeholder="Escribe a tu gestor…"
-              aria-label="Mensaje para el gestor"
-            />
-            <button
-              className="send-btn"
-              disabled={input.trim().length < 2}
-              aria-label="Enviar mensaje de ejemplo"
-            >
-              <Icon name="send" />
-            </button>
-          </form>
+          {composerHost &&
+            createPortal(
+              <ChatComposer
+                value={input}
+                onChange={setInput}
+                onSend={send}
+                label="Mensaje para el gestor"
+                sendLabel="Enviar mensaje de ejemplo"
+                onDictate={() =>
+                  setVoiceStatus(
+                    "El dictado está desactivado en esta demostración.",
+                  )
+                }
+                status={voiceStatus}
+              />,
+              composerHost,
+            )}
         </>
       )}
     </section>
