@@ -49,6 +49,28 @@ function mount(path = "/") {
   );
 }
 
+it("el aviso prioritario abre el expediente y cierra el panel sin conexiones", async () => {
+  mount("/mensajes");
+  fireEvent.click(
+    screen.getByRole("button", { name: "Notificaciones pendientes" }),
+  );
+  expect(
+    screen.getByRole("dialog", { name: "Notificaciones y Avisos" }),
+  ).toBeInTheDocument();
+  expect(
+    screen.getByText("1 acción prioritaria pendiente"),
+  ).toBeInTheDocument();
+  expect(
+    screen.getByText("Juan Carlos Acero ha sido asignado a tu trámite"),
+  ).toBeInTheDocument();
+  fireEvent.click(
+    screen.getByRole("link", { name: "Subir documentación ahora ›" }),
+  );
+  expect(screen.queryByRole("dialog")).toBeNull();
+  await screen.findByText("DEMO-001");
+  expect(fetch).not.toHaveBeenCalled();
+});
+
 it("arranca en demo con un token antiguo y bloquea las APIs", async () => {
   setToken("sesion-real-antigua");
   mount();
@@ -167,7 +189,7 @@ it("Mensajes ofrece una sola llamada, contacto con dos campos y una nueva consul
   );
   fireEvent.click(
     screen.getByRole("button", {
-      name: "Canje de carnet extranjero",
+      name: "Quiero canjear mi carnet de conducir extranjero",
       exact: true,
     }),
   );
@@ -186,5 +208,19 @@ it("Mensajes ofrece una sola llamada, contacto con dos campos y una nueva consul
   expect(screen.queryByText("Consulta con LidIA")).toBeNull();
   expect(screen.queryByText("Consultas habituales")).toBeNull();
   expect(screen.queryByText("Demostración · Datos ficticios")).toBeNull();
+  fireEvent.change(screen.getByRole("textbox", { name: "Tu consulta" }), {
+    target: { value: "Quiero canjear mi carnet" },
+  });
+  fireEvent.click(
+    screen.getByRole("button", { name: "Enviar consulta", exact: true }),
+  );
+  expect(
+    screen.getByRole("heading", { name: "Tu consulta" }),
+  ).toBeInTheDocument();
+  expect(screen.getByRole("textbox", { name: "Tu consulta" })).toHaveValue("");
+  fireEvent.click(screen.getByRole("link", { name: "Servicios", exact: true }));
+  expect(
+    screen.queryByRole("button", { name: "Hablar con un gestor", exact: true }),
+  ).toBeNull();
   expect(fetch).not.toHaveBeenCalled();
 });

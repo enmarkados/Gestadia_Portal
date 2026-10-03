@@ -152,9 +152,14 @@ export default function App() {
       </main>
       {!["/acceso", "/registro"].includes(location.pathname) && (
         <footer className="app-footer">
-          <button className="contact-cta" onClick={onContact}>
-            <span>Hablar con un gestor</span>
-          </button>
+          {location.pathname !== "/servicios" && (
+            <button className="contact-cta" onClick={onContact}>
+              <span>Hablar con un gestor</span>
+            </button>
+          )}
+          {location.pathname === "/" && app.mode === "demo" && (
+            <div id="lidia-composer" className="footer-lidia-composer" />
+          )}
           <nav className="dock" aria-label="Navegación principal">
             {TABS.map(([to, label, icon]) => (
               <NavLink

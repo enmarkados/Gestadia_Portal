@@ -6,14 +6,15 @@ Rama `app/main` creada desde `main`, revisión de partida `af5b515`. La entrega 
 
 ## Pruebas y builds
 
-- `npm test --prefix frontend`: **64/64 pruebas**, 26 archivos. Incluye las 40 pruebas existentes del portal y 24 de la app.
+- `npm test --prefix frontend`: **65/65 pruebas**, 26 archivos. Incluye las 40 pruebas existentes del portal y 25 de la app.
 - `npm run app:build` y `npm run mobile:sync`: build y sincronización de los proyectos correctos. El portal conserva su build independiente y también se construyó correctamente con `npm run build`.
 - Los tests comprueban acceso y registro locales sin persistir contraseñas, bloqueo de peticiones/navegación externa y reconocimiento de voz en demo, descarte de sesiones reales antiguas y cierre interno del servicio de ejemplo. El micrófono de la app no inicia un servicio de dictado en esta entrega.
 - La lógica futura de conexión tiene pruebas controladas de aislamiento de credenciales, rechazo de respuestas de sesiones antiguas, recuperación de mensajes tras errores sin reenvío automático, campos opcionales y normalización de países. No acredita una conversación real ni permite habilitarla sin las comprobaciones de la siguiente fase.
 
 ## Docker y navegador
 
-- Ajustes posteriores al handoff: Mensajes conserva un único CTA rojo, tarjetas de nueva consulta e hilos, y el panel de gestor entra desde abajo con indicador, chat negro, separador y sólo nombre/teléfono. Se quitaron la franja global de demo y los bloques añadidos de Inicio, conservando el selector de perfil arriba en Mi cuenta. La llamada permanece local y su conexión futura está pendiente.
+- Ajustes posteriores al handoff: Mensajes conserva un único CTA rojo, tarjetas de nueva consulta e hilos, y el panel de gestor entra desde abajo con indicador, chat negro, separador y sólo nombre/teléfono. Se quitaron la franja global de demo y los bloques añadidos de Inicio, conservando el selector de perfil arriba en Mi cuenta. El compositor de LidIA se sitúa bajo el CTA, con medidas y flecha diagonal del handoff; se omiten «de guardia», el CTA en Servicios y el rótulo «Sondeo guiado». La llamada permanece local y su conexión futura está pendiente.
+- Inicio conserva el titular, párrafo y las tres opciones del diseño. Notificaciones usa el panel inferior con campana, contador de prioridad, aviso rojo suave, tarjeta de asignación y cierre negro; el enlace documental abre el expediente local y cierra el panel, verificado sin peticiones. Los identificadores siguen siendo ficticios y se omiten horas que no existen en los datos.
 
 - Imagen `gestadia-app:2026-10-03` construida para **linux/amd64**. Contenedor local en `http://127.0.0.1:8099/`; `nginx -t` correcto y `/healthz` identifica la app.
 - Configuración servida: `demoEnabled: true`, `demoOnly: true`, key vacía. `/api/health` y `/lidia/api/pluginweb/config` devuelven **503**, sin consultar upstreams.

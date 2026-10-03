@@ -2,7 +2,9 @@ import React, { useEffect, useRef } from "react";
 import Icon from "./Icon.jsx";
 export default function Sheet({
   title,
+  icon,
   subtitle,
+  closeLabel = "Cerrar",
   className = "",
   children,
   onClose,
@@ -40,11 +42,14 @@ export default function Sheet({
     >
       <div className="sheet-handle" aria-hidden="true" />
       <div className="sheet-head">
-        <div>
-          <h2>{title}</h2>
-          {subtitle}
+        <div className="sheet-title-group">
+          {icon}
+          <div>
+            <h2>{title}</h2>
+            {subtitle}
+          </div>
         </div>
-        <button className="icon-btn" onClick={onClose} aria-label="Cerrar">
+        <button className="icon-btn" onClick={onClose} aria-label={closeLabel}>
           <Icon name="close" />
         </button>
       </div>

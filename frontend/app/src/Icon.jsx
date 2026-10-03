@@ -12,7 +12,7 @@ const paths = {
   back: "m15 18-6-6 6-6",
   close: "m6 6 12 12M6 18 18 6",
   phone: "M5 3h4l2 5-3 2a14 14 0 0 0 6 6l2-3 5 2v4c-9 3-19-7-16-16Z",
-  send: "m3 3 18 9-18 9 4-9ZM7 12h14",
+  send: "m5 12 14-7-7 14-2-5-5-2Z",
   check: "m5 12 4 4 10-10",
   mic: "M9 4a3 3 0 0 1 6 0v7a3 3 0 0 1-6 0ZM5 10v1a7 7 0 0 0 14 0v-1M12 18v4m-4 0h8",
 };
@@ -24,7 +24,7 @@ export default function Icon({ name, size = 22 }) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.8"
+      strokeWidth={name === "send" ? "2.5" : "1.8"}
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"

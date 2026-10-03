@@ -1,67 +1,100 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useApp } from "./AppContext.jsx";
 import Sheet from "./Sheet.jsx";
 import Icon from "./Icon.jsx";
 export default function Notifications({ onClose }) {
-  const { data, markRead } = useApp();
-  const [error, setError] = useState("");
-  const [busy, setBusy] = useState(null);
-  async function read(id) {
-    setBusy(id);
-    setError("");
-    try {
-      await markRead(id);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setBusy(null);
-    }
-  }
+  const { data, mode, isClient } = useApp();
+  const pending = data.notifications.filter((item) => !item.leida).length;
+  const expediente = data.expedientes[0];
   return (
-    <Sheet title="Notificaciones" onClose={onClose}>
-      {error && (
-        <p className="error" role="alert">
-          {error}
+    <Sheet
+      title="Notificaciones y Avisos"
+      className="notifications-sheet"
+      closeLabel="Cerrar notificaciones"
+      onClose={onClose}
+      icon={
+        <span className={`notification-icon ${pending ? "priority" : ""}`}>
+          <Icon name="bell" size={18} />
+        </span>
+      }
+      subtitle={
+        <p className={`notification-counter ${pending ? "priority" : ""}`}>
+          {pending
+            ? `${pending} ${pending === 1 ? "acción prioritaria pendiente" : "acciones prioritarias pendientes"}`
+            : "Estás al día"}
         </p>
-      )}
+      }
+    >
       {!data.notifications.length ? (
-        <div className="empty">
-          <Icon name="check" size={40} />
+        <div className="notification-empty">
+          <span className="notification-check">
+            <Icon name="check" size={24} />
+          </span>
           <h3>Estás al día</h3>
-          <p>No tienes notificaciones pendientes.</p>
+          <p>
+            No tienes notificaciones pendientes. Cuando inicies un trámite, aquí
+            verás las actualizaciones y requerimientos de tu expediente.
+          </p>
+          <Link className="btn primary" to="/servicios" onClick={onClose}>
+            Ver Servicios
+          </Link>
         </div>
       ) : (
-        <div className="stack">
-          {data.notifications.map((n) => (
+        <div className="notification-list">
+          {data.notifications.map((item) => (
             <article
-              key={n.id}
-              className={`card notification ${n.leida ? "" : "unread"}`}
+              key={item.id}
+              className={`notification-card ${item.leida ? "" : "priority"}`}
             >
-              <strong>{n.titulo}</strong>
-              <p>{n.mensaje || n.cuerpo}</p>
-              {n.expedienteId && (
+              <div className="notification-meta">
+                <span>{item.leida ? "Actualización" : "Acción requerida"}</span>
+                {!item.leida && (
+                  <span
+                    className="notification-unread"
+                    aria-label="Pendiente"
+                  />
+                )}
+              </div>
+              <strong>
+                {mode === "demo" && item.id === "demo-aviso" && expediente
+                  ? `Actualización de tu expediente ${expediente.nPedido}`
+                  : item.titulo}
+              </strong>
+              <p>
+                {mode === "demo" && item.id === "demo-aviso"
+                  ? `Tu gestor Juan Carlos Acero solicita que subas la foto del carnet original${expediente?.paisCanje ? ` de ${expediente.paisCanje}` : ""} y el psicotécnico.`
+                  : item.mensaje || item.cuerpo}
+              </p>
+              {item.expedienteId && (
                 <Link
-                  className="text-btn"
-                  to={`/tramites/${encodeURIComponent(n.expedienteId)}`}
+                  className="notification-action"
+                  to={`/tramites/${encodeURIComponent(item.expedienteId)}`}
                   onClick={onClose}
                 >
-                  Ver trámite
+                  Subir documentación ahora ›
                 </Link>
-              )}
-              {!n.leida && (
-                <button
-                  className="text-btn"
-                  disabled={busy !== null}
-                  onClick={() => read(n.id)}
-                >
-                  {busy === n.id ? "Guardando…" : "Marcar como leída"}
-                </button>
               )}
             </article>
           ))}
+          {mode === "demo" && isClient && expediente && (
+            <article className="notification-card">
+              <div className="notification-meta">Asignación</div>
+              <strong>Juan Carlos Acero ha sido asignado a tu trámite</strong>
+              <p>
+                Canje de carnet extranjero
+                {expediente.paisCanje
+                  ? ` (${expediente.paisCanje} → España)`
+                  : ""}{" "}
+                en tramitación telemática.
+              </p>
+            </article>
+          )}
         </div>
       )}
+      <button className="btn dark-btn notification-close" onClick={onClose}>
+        Cerrar
+      </button>
     </Sheet>
   );
 }

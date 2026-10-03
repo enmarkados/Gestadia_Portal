@@ -1,11 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import Icon from "./Icon.jsx";
 import { useApp } from "./AppContext.jsx";
 import { detectTopic, TOPICS } from "./qualification.js";
 import { demoOnly } from "./api.js";
 export default function Assistant({ onContact }) {
-  const { data, setData, mode } = useApp();
+  const { data, setData } = useApp();
+  const [composerHost, setComposerHost] = useState(null);
+  useLayoutEffect(() => {
+    setComposerHost(document.getElementById("lidia-composer"));
+  }, []);
   const [topic, setTopic] = useState(data.assistantState?.topic || null);
   const [answers, setAnswers] = useState(data.assistantState?.answers || {});
   const [messages, setMessages] = useState(data.assistantState?.messages || []);
@@ -159,14 +164,60 @@ export default function Assistant({ onContact }) {
       setVoiceError("No se pudo iniciar el dictado.");
     }
   }
+  const composer = (
+    <>
+      <form
+        className="composer"
+        onSubmit={(e) => {
+          e.preventDefault();
+          send();
+        }}
+      >
+        <textarea
+          aria-label="Tu consulta"
+          rows="1"
+          maxLength={4000}
+          placeholder="¿Qué necesitas?"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (
+              e.key === "Enter" &&
+              !e.shiftKey &&
+              !e.nativeEvent.isComposing
+            ) {
+              e.preventDefault();
+              send();
+            }
+          }}
+        />
+        <button
+          type="button"
+          className={`icon-btn ${recording ? "recording" : ""}`}
+          aria-label={recording ? "Detener dictado" : "Dictar consulta"}
+          onClick={dictate}
+        >
+          <Icon name="mic" size={20} />
+        </button>
+        <button className="send-btn" aria-label="Enviar consulta">
+          <Icon name="send" size={18} />
+        </button>
+      </form>
+      {voiceError && (
+        <p role="status" className="helper">
+          {voiceError}
+        </p>
+      )}
+    </>
+  );
   return (
     <section className="assistant-page">
       {!messages.length ? (
         <>
           <h1>¿Qué trámite de Tráfico necesitas gestionar hoy?</h1>
           <p className="muted">
-            Nuestro asistente LidIA te ayuda a preparar tu consulta. Tu gestor
-            revisa los requisitos y acompaña tu trámite.
+            Nuestro asistente LidIA cualifica tus requisitos al instante. Tras
+            contratar, tu gestor tramita tu expediente sin cita previa.
           </p>
           <div className="stack">
             {Object.entries(TOPICS).map(([slug, value]) => (
@@ -175,8 +226,16 @@ export default function Assistant({ onContact }) {
                 className="card option"
                 onClick={() => start(slug)}
               >
-                <span>{value.label}</span>
-                <Icon name="arrow" size={18} />
+                <span>
+                  {slug === "canje-carnet"
+                    ? "Quiero canjear mi carnet de conducir extranjero"
+                    : slug === "transferencia"
+                      ? "Cómo transferir un coche y cambiar titular"
+                      : "He perdido el carnet y necesito un duplicado urgente"}
+                </span>
+                <span className="probe-chevron" aria-hidden="true">
+                  ›
+                </span>
               </button>
             ))}
           </div>
@@ -231,58 +290,7 @@ export default function Assistant({ onContact }) {
           </div>
         </>
       )}
-      <p className="helper">
-        Sondeo guiado ·{" "}
-        {mode === "demo"
-          ? "Demostración, sin envío al gestor"
-          : "Revisión por gestor pendiente"}
-      </p>
-      <form
-        className="composer"
-        onSubmit={(e) => {
-          e.preventDefault();
-          send();
-        }}
-      >
-        <textarea
-          aria-label="Tu consulta"
-          rows="1"
-          maxLength={4000}
-          placeholder="¿Qué necesitas?"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (
-              e.key === "Enter" &&
-              !e.shiftKey &&
-              !e.nativeEvent.isComposing
-            ) {
-              e.preventDefault();
-              send();
-            }
-          }}
-        />
-        <button
-          type="button"
-          className={`icon-btn ${recording ? "recording" : ""}`}
-          aria-label={recording ? "Detener dictado" : "Dictar consulta"}
-          onClick={dictate}
-        >
-          <Icon name="mic" />
-        </button>
-        <button
-          className="send-btn"
-          disabled={input.trim().length < 2}
-          aria-label="Enviar consulta"
-        >
-          <Icon name="send" size={20} />
-        </button>
-      </form>
-      {voiceError && (
-        <p role="status" className="helper">
-          {voiceError}
-        </p>
-      )}
+      {composerHost && createPortal(composer, composerHost)}
     </section>
   );
 }

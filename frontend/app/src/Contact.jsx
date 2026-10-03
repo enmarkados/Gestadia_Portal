@@ -32,7 +32,6 @@ export default function Contact({ onClose }) {
         !sent && isClient ? (
           <p className="manager-status">
             ✓ Juan Carlos Acero (Gestor asignado)
-            {mode === "demo" ? " de guardia" : ""}
           </p>
         ) : null
       }

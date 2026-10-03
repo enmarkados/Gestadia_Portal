@@ -52,7 +52,7 @@ it("completa el sondeo demo sin afirmar viabilidad y precarga el país del servi
   );
   fireEvent.click(
     screen.getByRole("button", {
-      name: "Canje de carnet extranjero",
+      name: "Quiero canjear mi carnet de conducir extranjero",
       exact: true,
     }),
   );
@@ -110,7 +110,9 @@ it("el perfil lead deja la campana sin aviso y ofrece llamada sin chat de client
       exact: true,
     }),
   );
-  expect(screen.getByText("Estás al día")).toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", { name: "Estás al día" }),
+  ).toBeInTheDocument();
   fireEvent.click(
     screen.getByRole("button", {
       name: "Cerrar",
