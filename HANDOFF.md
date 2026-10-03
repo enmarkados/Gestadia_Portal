@@ -1,170 +1,148 @@
-# Handoff — Gestadia Portal
-**Última actualización:** 2026-05-28
+# Handoff Técnico · Gestadia Portal
+**Fecha de corte:** 3 de octubre de 2026, 12:55 CEST  
+**Rama activa:** `main` (sincronizada en `origin/main`)  
+**Último commit:** `0af9d2e` · `feat(ui): handoff de diseno Gestadia, mejoras en checkout y portal, y sondeo en LidIA`  
+**Estado del árbol de trabajo:** 100% limpio (`working tree clean`)
 
 ---
 
-## ¿Qué es este proyecto?
+## 1. ¿Qué es este proyecto y estado actual?
 
-**Gestadia** es una plataforma de tramitación DGT (transferencias, canje de carnet, duplicados, bajas, etc.). El sitio web actual es HTML estático puro. La decisión tomada es transformarlo en una **aplicación full-stack React + Node.js** con autenticación, pagos via Stripe y un dashboard de expedientes para clientes.
+**Gestadia** es una plataforma integral de tramitación telemática ante la DGT (transferencias de vehículos, canje de carnet extranjero, duplicados, bajas, etc.) atendida por gestores colegiados y asistida por la IA **LidIA**.
 
----
-
-## Estado actual
-
-### Hecho
-- Diseño visual completo en HTML/CSS — 15 páginas `preview-*.html` en la raíz del repo
-- Spec técnico aprobado para la **Fase 1** (migración a React + Node.js)
-- Spec guardado en `docs/superpowers/specs/2026-05-22-fase1-setup-react-migration-design.md`
-
-### Pendiente — todo el código de la aplicación
-El repo solo contiene HTML estático. **No hay ni una línea de React ni Node.js todavía.**
+La plataforma cuenta con:
+- **Frontend React 18 + Vite**: Catálogo de trámites, flujo de checkout con Stripe, y Portal del Cliente (`/portal`) con visualización de expedientes, estados de tramitación, subida de documentación, verificación de datos y centro de notificaciones.
+- **Backend Node.js + Express**: Gestión de trámites, sesiones de pago de Stripe, expedientes y notificaciones.
+- **Handoff de Diseño Móvil**: Especificación completa, interactiva y empaquetada en `RECURSOS/DISEÑO/GESTADIA-handoff-diseno/` con 8 pantallas, capturas multi-dispositivo y tokens.
+- **Suite de Pruebas**: 21 archivos y 40/40 tests pasando en verde (`npm test --prefix frontend`).
 
 ---
 
-## Hoja de ruta completa (5 fases)
-
-| Fase | Contenido | Estado |
-|---|---|---|
-| **Fase 1** | Setup monorepo + Migración HTML → React + Express vacío | ⏳ Siguiente |
-| **Fase 2** | Autenticación (login, registro, recuperar contraseña, JWT) | 🔒 Pendiente |
-| **Fase 3** | Pagos con Stripe Checkout Sessions + metadata | 🔒 Pendiente |
-| **Fase 4** | Dashboard cliente (mis expedientes, estado, documentos) | 🔒 Pendiente |
-| **Fase 5** | Panel de administración (back-office Gestadia) | 🔒 Pendiente |
-
----
-
-## Stack tecnológico acordado
-
-| Capa | Tecnología |
-|---|---|
-| Frontend | React 18 + Vite |
-| Routing | React Router v6 |
-| Estilos | CSS Modules (migración directa desde CSS actuales) |
-| Backend | Node.js + Express |
-| ORM | Prisma |
-| Base de datos | MySQL |
-| Auth | JWT + bcrypt (Fase 2) |
-| Pagos | Stripe Checkout Sessions (Fase 3) |
-| Email | Nodemailer (Fase 2) |
-
----
-
-## Estructura objetivo del proyecto (Fase 1)
+## 2. Mapa de Directorios Clave
 
 ```
-gestadia-portal/
+Gestadia_Portal/
+├── assets/
+│   └── brand/                      # Kit oficial de marca Gestadia (logos, iconos, favicons, OG social)
+├── backend/
+│   ├── src/                        # API Express, controladores de expedientes y webhooks Stripe
+│   └── scripts/                    # Utilidades de backend
 ├── frontend/
 │   ├── src/
+│   │   ├── components/             # Header, Footer, CheckoutCard, ServiceLayout
+│   │   │   └── portal/             # PortalLayout (navegación y estructura del área privada)
 │   │   ├── pages/
-│   │   │   ├── Home.jsx
-│   │   │   ├── Tramites.jsx
-│   │   │   ├── Contacto.jsx
-│   │   │   ├── servicios/
-│   │   │   │   ├── Transferencia.jsx
-│   │   │   │   ├── CanjeCarnet.jsx
-│   │   │   │   ├── DuplicadoCarnet.jsx
-│   │   │   │   ├── DuplicadoDatos.jsx
-│   │   │   │   ├── DuplicadoCirculacion.jsx
-│   │   │   │   ├── PermisoInternacional.jsx
-│   │   │   │   ├── BajaVehiculo.jsx
-│   │   │   │   └── CancelacionDominio.jsx
-│   │   │   └── legal/
-│   │   │       ├── AvisoLegal.jsx
-│   │   │       ├── Privacidad.jsx
-│   │   │       ├── Cookies.jsx
-│   │   │       └── PagosDevoluciones.jsx
-│   │   ├── components/
-│   │   │   ├── Header.jsx
-│   │   │   ├── Footer.jsx
-│   │   │   ├── CheckoutCard.jsx   ← Panel de pago reutilizable
-│   │   │   └── ServiceLayout.jsx  ← Layout 2 columnas de todas las páginas de trámite
-│   │   ├── styles/
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   └── vite.config.js
-├── backend/
-│   ├── src/index.js               ← Express con GET /api/health
-│   ├── prisma/schema.prisma       ← Datasource MySQL, sin modelos aún
-│   └── package.json
-└── package.json                   ← Scripts raíz: dev, build
+│   │   │   ├── Checkout.jsx        # Pantalla de pago con soporte de query params prefill
+│   │   │   ├── CheckoutIntent.jsx  # Gestión de intents de Stripe
+│   │   │   ├── Tramites.jsx        # Catálogo de trámites
+│   │   │   ├── portal/
+│   │   │   │   ├── MisServicios.jsx# Listado de expedientes (cards ancho completo, estado inferior)
+│   │   │   │   ├── ExpedienteDetalle.jsx # Vista detallada y subida documental
+│   │   │   │   ├── MisDatos.jsx    # Verificación de datos del cliente
+│   │   │   │   └── Notificaciones.jsx   # Avisos ("Estás al día" en modo Lead)
+│   │   │   └── servicios/          # Formularios específicos por trámite (Canje, Transferencia, etc.)
+├── RECURSOS/
+│   └── DISEÑO/
+│       ├── GESTADIA-handoff-diseno/ # Handoff móvil interactivo oficial
+│       │   ├── index.html           # Showcase interactivo con selector de 8 pantallas y dispositivos
+│       │   ├── design.md            # Especificación completa de diseño y UX
+│       │   ├── tokens.json          # Tokens de diseño oficiales
+│       │   ├── GLOSARIO.md          # Terminología oficial DGT / Gestoría
+│       │   ├── INSTRUCCIONES-PARA-REPLICAR.md # Guía para implementar en producción
+│       │   ├── capturas/            # Capturas reales Playwright (iphone, android, ipad, tablet-7, tablet-10)
+│       │   ├── correo/              # Plantillas HTML/TXT de email transaccional y capturas
+│       │   ├── referencia-codigo/   # Componentes JSX desacoplados de referencia
+│       │   └── SHA256SUMS.txt       # Integridad criptográfica de 81 ficheros
+│       └── GESTADIA-handoff-diseno-2026-10-03.zip # Archivo ZIP comprimido del handoff
+└── scripts/
+    ├── generate-gestadia-handoff-capturas.cjs # Generador automatizado de capturas con Playwright
+    └── fix-gestadia-brand-assets.cjs          # Generador de assets vectoriales y rasterizados de marca
 ```
 
 ---
 
-## Rutas React Router (Fase 1)
+## 3. Decisiones de Diseño y Requisitos Clave
 
-| HTML actual | Ruta React |
-|---|---|
-| preview-home.html | `/` |
-| preview-tramites.html | `/tramites` |
-| preview-transferencia.html | `/tramites/transferencia` |
-| preview-canje.html | `/tramites/canje-carnet` |
-| preview-duplicado-carnet.html | `/tramites/duplicado-carnet` |
-| preview-duplicado-datos.html | `/tramites/duplicado-datos` |
-| preview-duplicado-circulacion.html | `/tramites/duplicado-circulacion` |
-| preview-permiso-internacional.html | `/tramites/permiso-internacional` |
-| preview-baja-vehiculo.html | `/tramites/baja-vehiculo` |
-| preview-cancelacion-dominio.html | `/tramites/cancelacion-dominio` |
-| preview-contacto.html | `/contacto` |
-| preview-pagos-devoluciones.html | `/pagos-devoluciones` |
-| preview-aviso-legal.html | `/aviso-legal` |
-| preview-privacidad.html | `/privacidad` |
-| preview-cookies.html | `/cookies` |
+### A. Paleta de Color y Tipografía Oficial
+- **Grafito Principal**: `#2C2C2C` (textos, cabeceras en contrastes, botones de acción secundaria/gestor).
+- **Rojo Gestadia**: `#C0392B` (acento principal, estado de error/alerta, llamada a la acción primaria, mensajes del usuario en chats).
+- **Fondo General**: `#F7F7F7` (superficie neutral de aplicación).
+- **Superficies**: `#FFFFFF` (tarjetas, inputs, burbujas del asistente).
+- **Verde Éxito**: `#16A34A` (estados favorables, badges verificados, justificantes).
+- **Tipografía Cabeceras**: `'Playfair Display', Georgia, serif` (800 / 900 bold).
+- **Tipografía UI**: `-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`.
 
----
+### B. Gestor Colegiado y Terminología
+- **Gestor Asignado**: Juan Carlos Acero (iniciales de avatar: `JA`).
+- **No usar**: Carlos M. Valero.
+- **Títulos y textos**:
+  - En el menú/dock inferior, la sección de catálogo es **"Servicios"** (nunca "Contratar" en tamaño grande o agresivo).
+  - En los correos y mensajes, el botón de acceso directo es **"Entrar al portal"**.
+  - En la validación de datos: *"Validación antes de la presentación del trámite"*, con botón rojo *"Validar y Enviar"*.
+  - En el chat de mensajes se suprimió el badge duplicado de Gestor DGT y el label "210 PAGADO".
 
-## Criterio de éxito de la Fase 1
+### C. Comportamiento de LidIA (`02 · Consulta LidIA`)
+- Al tocar un trámite desde el inicio o en la propia pantalla de consulta, **NO se redirige a Servicios**.
+- En su lugar, el sistema lanza un diálogo de **sondeo conversacional**:
+  1. Muestra la consulta del usuario en una burbuja roja.
+  2. LidIA responde con 3 preguntas de cualificación previa específicas del trámite (país emisor/residencia previa para Canje, cargas/ITV para Transferencia, causa/vigencia para Duplicado).
+  3. Muestra chips interactivos para que el usuario responda con un clic o escriba en el compositor (placeholder: `¿Qué necesitas?`).
+  4. Al responder, LidIA genera un diagnóstico preliminar favorable y ofrece botones de acción (*"Hablar con Juan Carlos"* o *"Ver Servicios DGT"*).
 
-- `npm run dev` levanta frontend en `:5173` y backend en `:3001` simultáneamente
-- Todas las rutas de React Router cargan la página correcta
-- El diseño visual es idéntico al HTML original
-- El botón "Pagar con tarjeta →" muestra un placeholder (no hace nada todavía)
-- `GET /api/health` responde `{ status: "ok" }`
-
----
-
-## Prompt para continuar
-
-Copia y pega esto al iniciar una nueva conversación con Claude Code:
+### D. Perfiles de Usuario (Cliente vs. Lead)
+- **Perfil Cliente (`cliente`)**: Tiene expediente contratado. Muestra badge de notificación pendiente en la campana, acceso directo a chat de expediente con Juan Carlos Acero y estado de avance.
+- **Perfil Lead (`lead`)**: Sin trámites activos aún. La campana no muestra punto rojo; al abrirla muestra el estado vacío: *"Estás al día. No tienes notificaciones pendientes"*. El botón de contacto ofrece solicitud de llamada telefónica.
 
 ---
 
+## 4. Comandos de Verificación y Testing
+
+### Tests Unitarios del Frontend
+```bash
+npm test --prefix frontend
 ```
-Soy el propietario del proyecto Gestadia Portal, una plataforma de tramitación DGT.
+*Debe reportar 21 archivos de test y 40 tests pasados.*
 
-ESTADO ACTUAL DEL REPO:
-- Sitio web completo en HTML estático puro (15 archivos preview-*.html en la raíz)
-- El diseño visual está TERMINADO — no hay que tocar el diseño, solo migrarlo
-- No hay React ni Node.js todavía — hay que crearlo todo desde cero
-- Spec de la Fase 1 en: docs/superpowers/specs/2026-05-22-fase1-setup-react-migration-design.md
+### Regenerar Capturas de Pantalla con Playwright
+Si se realizan cambios en el handoff de diseño (`RECURSOS/DISEÑO/GESTADIA-handoff-diseno/index.html`):
+```bash
+node scripts/generate-gestadia-handoff-capturas.cjs
+```
+*Levanta un servidor HTTP local en el puerto 4571 y captura todas las pantallas en 5 resoluciones (`iphone`, `android`, `ipad`, `tablet-7`, `tablet-10`) y las 2 plantillas de correo.*
 
-LO QUE NECESITO AHORA:
-Ejecutar la Fase 1: convertir el proyecto en un monorepo React + Node.js siguiendo exactamente el spec. Concretamente:
+### Recalcular Checksums y Actualizar ZIP del Handoff
+```bash
+# 1. Recalcular SHA256SUMS.txt
+python3 -c "import os, hashlib, glob
+handoff_dir = os.path.abspath(glob.glob('RECURSOS/*/GESTADIA-handoff-diseno')[0])
+files = sorted([os.path.relpath(os.path.join(r, f), handoff_dir) for r, d, fns in os.walk(handoff_dir) for f in fns if f not in ('SHA256SUMS.txt', '.DS_Store') and not f.endswith('.zip')])
+lines = [f'{hashlib.sha256(open(os.path.join(handoff_dir, f), \"rb\").read()).hexdigest()}  ./{f}\n' for f in files]
+open(os.path.join(handoff_dir, 'SHA256SUMS.txt'), 'w', encoding='utf-8').writelines(lines)
+print('Wrote', len(lines), 'checksums.')"
 
-1. Crear la estructura de carpetas: frontend/ (React 18 + Vite) y backend/ (Express + Prisma)
-2. Configurar package.json raíz con scripts `dev` y `build` que levanten frontend y backend juntos
-3. Migrar todos los archivos preview-*.html a componentes React, respetando fielmente el diseño CSS actual
-4. Crear los componentes compartidos: Header, Footer, CheckoutCard, ServiceLayout
-5. Configurar React Router con todas las rutas del spec
-6. Crear el backend Express mínimo con GET /api/health y CORS para localhost:5173
-7. Configurar Prisma con datasource MySQL (sin modelos todavía)
-8. El botón "Pagar con tarjeta →" debe mostrar un placeholder — la lógica Stripe va en Fase 3
-
-STACK:
-- Frontend: React 18 + Vite + React Router v6 + CSS Modules
-- Backend: Node.js + Express + Prisma + MySQL
-
-Lee el spec completo antes de empezar: docs/superpowers/specs/2026-05-22-fase1-setup-react-migration-design.md
-
-Empieza creando el plan de implementación paso a paso y luego ejecuta.
+# 2. Empaquetar ZIP
+zip -r -q RECURSOS/DISEÑO/GESTADIA-handoff-diseno-2026-10-03.zip RECURSOS/DISEÑO/GESTADIA-handoff-diseno -x "*.DS_Store"
 ```
 
+### Ejecutar Entorno de Desarrollo Local
+```bash
+# Frontend (Vite)
+npm run dev --prefix frontend
+
+# Backend (Express)
+npm run dev --prefix backend
+```
+
 ---
 
-## Decisiones clave tomadas (no reabrir)
+## 5. Parámetros de Prellenado en Checkout (Referencia para Integración)
 
-- **MySQL** como base de datos (no PostgreSQL, no MongoDB)
-- **CSS Modules** para estilos (no Tailwind, no styled-components) — migración directa del CSS existente
-- **Stripe Checkout Sessions** para pagos (no Payment Links, no Elements embebidos)
-- Los datos del formulario (nombre, DNI, teléfono) se pasan a Stripe como **metadata**
-- El botón "Pagar" en Fase 1 es un **placeholder** — Stripe va en Fase 3
+Cuando LidIA o una automatización externa redirige al usuario a la web para pagar o formalizar un trámite, debe utilizar la URL de checkout con los siguientes query params:
+
+```
+https://gestadia.com/checkout?servicio={slug}&nombre={nombre}&apellidos={apellidos}&email={email}&telefono={telefono}&numDocumento={dni_nie}&tipoDocumento={DNI|NIE|Pasaporte}&paisCanje={pais}&procedencia=lidia
+```
+
+- Si el nombre viene unificado (ej. `nombre=Gonzalo+Villanova+Alvarez`), `Checkout.jsx` automáticamente separa el primer término como nombre y el resto como apellidos.
+- Si el teléfono incluye prefijo internacional (ej. `+34684460971`), el formulario normaliza los 9 dígitos nacionales y conserva el prefijo.
+- El aviso superior informa: *"Revisa tus datos antes de pagar. Los hemos recogido en tu conversación con LidIA y pueden contener errores..."*.
