@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useParams,
+  useSearchParams,
+  useNavigate,
+} from "react-router-dom";
 import { useApp } from "./AppContext.jsx";
 import { request } from "./api.js";
 import Icon from "./Icon.jsx";
@@ -64,21 +69,69 @@ export default function Expedientes({ onContact }) {
 }
 export function ExpedienteDetalle() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [params] = useSearchParams();
   const selectedDocument = params.get("documento");
   const { mode, data, setData } = useApp();
+  const [profile, setProfile] = useState(data.profile || {});
   const [detail, setDetail] = useState(null);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(null);
   const [revision, setRevision] = useState(0);
+  const documentPresentation = {
+    residencia: {
+      label: "1. Residencia legal (DNI/TIE)",
+      description: "DNI, tarjeta de residencia o resguardo",
+    },
+    permiso_extranjero: {
+      label: `2. Permiso original ${detail?.paisCanje || ""}`.trim(),
+      description: "Fotografía legible por ambas caras",
+    },
+    psicotecnico: {
+      label: "3. Examen psicotécnico",
+      description: "Certificado de centro autorizado",
+    },
+  };
+  function validateDemo(event) {
+    event.preventDefault();
+    if (mode !== "demo" || !detail) return;
+    const missing = detail.checklist.find((doc) => !doc.subido);
+    if (missing) {
+      setError(
+        "Selecciona todos los documentos obligatorios antes de validar el ejemplo.",
+      );
+      document
+        .getElementById(`documento-${missing.clave}`)
+        ?.querySelector("input")
+        ?.focus();
+      return;
+    }
+    setData((old) => ({
+      ...old,
+      profile,
+      managerMessages: [
+        ...old.managerMessages,
+        {
+          role: "user",
+          content:
+            "He revisado mis datos y seleccionado la documentación. Validación de ejemplo completada, sin envío real.",
+          time: new Date().toLocaleTimeString("es-ES", {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        },
+      ],
+    }));
+    navigate("/mensajes/gestor");
+  }
   useEffect(() => {
     if (!detail || !selectedDocument) return;
     if (!detail.checklist.some((doc) => doc.clave === selectedDocument)) return;
     const card = document.getElementById(`documento-${selectedDocument}`);
     card?.scrollIntoView?.({ block: "center" });
     card?.querySelector("input")?.focus({ preventScroll: true });
-  }, [detail, selectedDocument]);
+  }, [detail?.id, selectedDocument]);
   useEffect(() => {
     let active = true;
     setDetail(null);
@@ -169,10 +222,7 @@ export function ExpedienteDetalle() {
       </section>
     );
   return (
-    <section>
-      <Link className="text-btn" to="/tramites">
-        ← Mis trámites
-      </Link>
+    <section className="validation-page">
       {error && (
         <p role="alert" className="error">
           {error}
@@ -183,21 +233,72 @@ export function ExpedienteDetalle() {
           {error ? "No se pudo cargar el expediente." : "Cargando tu trámite…"}
         </p>
       ) : (
-        <>
-          <p className="eyebrow">{detail.nPedido}</p>
-          <h1>{detail.titulo}</h1>
-          <p className="status-line">
-            Estado: <strong>{detail.estadoLabel || "En trámite"}</strong>
+        <form className="validation-form" onSubmit={validateDemo}>
+          <p className="validation-description">
+            Validación antes de la presentación del trámite.
           </p>
-          {detail.paisCanje && <p>País del permiso: {detail.paisCanje}</p>}
-          <h2>Documentación</h2>
-          <p className="helper">Imágenes o PDF · Máximo 10 MB por archivo.</p>
+          <h2>1. Datos Personales y Filiación DGT</h2>
+          <div className="validation-fields">
+            <input
+              aria-label="Nombre"
+              placeholder="Nombre"
+              autoComplete="given-name"
+              value={profile.nombre || ""}
+              required
+              onChange={(event) =>
+                setProfile({ ...profile, nombre: event.target.value })
+              }
+            />
+            <input
+              aria-label="Apellidos"
+              placeholder="Apellidos"
+              autoComplete="family-name"
+              value={profile.apellidos || ""}
+              required
+              onChange={(event) =>
+                setProfile({ ...profile, apellidos: event.target.value })
+              }
+            />
+            <div className="validation-document-fields">
+              <input
+                aria-label="Número de documento"
+                placeholder={profile.tipoDocumento || "DNI/NIE"}
+                value={profile.numDocumento || ""}
+                onChange={(event) =>
+                  setProfile({ ...profile, numDocumento: event.target.value })
+                }
+              />
+              <input
+                aria-label="País del permiso"
+                value={detail.paisCanje || ""}
+                readOnly
+              />
+            </div>
+            <input
+              aria-label="Email"
+              type="email"
+              autoComplete="email"
+              value={profile.email || ""}
+              readOnly
+            />
+            <input
+              aria-label="Teléfono"
+              type="tel"
+              placeholder="Teléfono"
+              autoComplete="tel"
+              value={profile.telefono || ""}
+              onChange={(event) =>
+                setProfile({ ...profile, telefono: event.target.value })
+              }
+            />
+          </div>
+          <h2>2. Documentación Obligatoria (máx. 10 MB)</h2>
           {notice && (
             <p className="success" role="status">
               {notice}
             </p>
           )}
-          <div className="stack">
+          <div className="stack validation-documents">
             {(detail.checklist || []).map((doc) => (
               <div
                 className={`card document ${selectedDocument === doc.clave ? "selected-document" : ""}`}
@@ -205,11 +306,14 @@ export function ExpedienteDetalle() {
                 key={doc.clave}
               >
                 <div>
-                  <strong>{doc.label}</strong>
+                  <strong>
+                    {documentPresentation[doc.clave]?.label || doc.label}
+                  </strong>
                   <p className={doc.subido ? "success-text" : "helper"}>
                     {doc.subido
                       ? "Recibido · Pendiente de revisión"
-                      : "Pendiente de aportar"}
+                      : documentPresentation[doc.clave]?.description ||
+                        "Pendiente de aportar"}
                   </p>
                   {detail.documentos
                     ?.filter((item) => item.clave === doc.clave)
@@ -219,12 +323,12 @@ export function ExpedienteDetalle() {
                       </p>
                     ))}
                 </div>
-                <label className="btn secondary upload-label">
+                <label className="btn dark-btn upload-label">
                   {busy === doc.clave
                     ? "Subiendo…"
                     : doc.subido
-                      ? "Añadir otro archivo"
-                      : "Subir documento"}
+                      ? "Cambiar"
+                      : "Subir"}
                   <input
                     type="file"
                     accept="image/jpeg,image/png,image/webp,application/pdf"
@@ -239,9 +343,14 @@ export function ExpedienteDetalle() {
               </div>
             ))}
           </div>
-          <Link className="btn secondary" to="/cuenta">
-            Revisar mis datos
-          </Link>
+          {mode === "demo" && (
+            <button
+              className="btn primary validation-submit"
+              disabled={busy !== null}
+            >
+              Validar y Enviar
+            </button>
+          )}
           {detail.eventos?.length > 0 && (
             <>
               <h2>Historial de tu trámite</h2>
@@ -254,7 +363,7 @@ export function ExpedienteDetalle() {
               </div>
             </>
           )}
-        </>
+        </form>
       )}
     </section>
   );

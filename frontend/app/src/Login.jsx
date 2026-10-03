@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useApp } from "./AppContext.jsx";
 import { demoOnly } from "./api.js";
+import Icon from "./Icon.jsx";
 
 export default function Login() {
   const app = useApp();
@@ -49,21 +50,23 @@ export default function Login() {
         </label>
         <label>
           Contraseña
-          <span className="password-row">
+          <span className="password-field">
             <input
               type={visible ? "text" : "password"}
+              aria-label="Contraseña"
               autoComplete="current-password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
             <button
-              className="text-btn"
+              className="icon-btn password-toggle"
               type="button"
               aria-label={visible ? "Ocultar contraseña" : "Mostrar contraseña"}
+              aria-pressed={visible}
               onClick={() => setVisible(!visible)}
             >
-              {visible ? "Ocultar" : "Mostrar"}
+              <Icon name={visible ? "eyeOff" : "eye"} size={22} />
             </button>
           </span>
         </label>
@@ -77,15 +80,18 @@ export default function Login() {
         </button>
         {demoOnly() ? (
           <button
-            className="text-btn"
+            className="text-btn password-recovery"
             type="button"
             onClick={() => setRecovery(true)}
           >
-            He olvidado mi contraseña
+            ¿Has olvidado tu contraseña?
           </button>
         ) : (
-          <a className="text-btn" href="https://gestadia.com/portal/recuperar">
-            Recuperar contraseña
+          <a
+            className="text-btn password-recovery"
+            href="https://gestadia.com/portal/recuperar"
+          >
+            ¿Has olvidado tu contraseña?
           </a>
         )}
         {recovery && (

@@ -1,5 +1,12 @@
 import React, { useState, useLayoutEffect } from "react";
-import { NavLink, Routes, Route, Link, useLocation } from "react-router-dom";
+import {
+  NavLink,
+  Routes,
+  Route,
+  Link,
+  useLocation,
+  useMatch,
+} from "react-router-dom";
 import { useApp } from "./AppContext.jsx";
 import { demoEnabled, demoOnly } from "./api.js";
 import Login from "./Login.jsx";
@@ -32,6 +39,10 @@ export default function App() {
   const onContact = () => setSheet("contact");
   const hasNotifications = app.data.notifications.some((item) => !item.leida);
   const managerChat = location.pathname === "/mensajes/gestor";
+  const validationRoute = useMatch("/tramites/:id");
+  const validationExpediente = app.data.expedientes.find(
+    (item) => item.id === validationRoute?.params.id,
+  );
   return (
     <div className="app-shell">
       <a
@@ -44,7 +55,23 @@ export default function App() {
       >
         Ir al contenido
       </a>
-      {managerChat ? (
+      {validationRoute ? (
+        <header className="validation-header">
+          <Link
+            className="icon-btn"
+            to="/mensajes/gestor"
+            aria-label="Volver al chat del gestor"
+          >
+            <Icon name="back" size={22} />
+          </Link>
+          <div>
+            {validationExpediente && (
+              <span>{validationExpediente.nPedido}</span>
+            )}
+            <h1>Verificación de Datos y Carnet</h1>
+          </div>
+        </header>
+      ) : managerChat ? (
         <header className="manager-chat-header">
           <Link
             className="icon-btn"
@@ -95,7 +122,11 @@ export default function App() {
           <button onClick={() => app.startDemo()}>Probar demo</button>
         </div>
       ) : null}
-      <main id="main" tabIndex="-1" className="app-main">
+      <main
+        id="main"
+        tabIndex="-1"
+        className={`app-main ${validationRoute ? "validation-main" : ""}`}
+      >
         {app.error && (
           <div className="error" role="alert">
             <p>{app.error}</p>
@@ -175,7 +206,7 @@ export default function App() {
       </main>
       {!["/acceso", "/registro"].includes(location.pathname) && (
         <footer className="app-footer">
-          {location.pathname !== "/servicios" && (
+          {location.pathname !== "/servicios" && !validationRoute && (
             <div className="footer-actions">
               {!managerChat && (
                 <button className="contact-cta" onClick={onContact}>

@@ -164,6 +164,90 @@ it("Subir desde el chat selecciona el documento correcto sin enviar archivos", a
   expect(fetch).not.toHaveBeenCalled();
 });
 
+it("valida los datos y documentos del ejemplo y vuelve al chat sin enviar nada", async () => {
+  mount("/tramites/demo-canje");
+  await screen.findByRole("heading", {
+    name: "Verificación de Datos y Carnet",
+  });
+  await screen.findByRole("button", { name: "Validar y Enviar" });
+  expect(screen.queryByText("Revisar mis datos")).toBeNull();
+  expect(
+    screen.queryByRole("button", { name: "Hablar con un gestor" }),
+  ).toBeNull();
+  fireEvent.click(screen.getByRole("button", { name: "Validar y Enviar" }));
+  expect(screen.getByRole("alert")).toHaveTextContent(
+    "Selecciona todos los documentos",
+  );
+  fireEvent.change(
+    screen.getByRole("textbox", { name: "Nombre", exact: true }),
+    { target: { value: "Nombre Revisado" } },
+  );
+  for (const label of [
+    "Subir Documento de residencia legal en España (DNI español, tarjeta de residencia, tarjeta roja, intracomunitaria o resguardo de concesión)",
+    "Subir Permiso de conducir extranjero original en vigor (ambas caras)",
+    "Subir Examen psicotécnico (centro autorizado)",
+  ]) {
+    fireEvent.change(screen.getByLabelText(label), {
+      target: {
+        files: [
+          new File(["ejemplo"], "ejemplo.pdf", { type: "application/pdf" }),
+        ],
+      },
+    });
+  }
+  fireEvent.click(screen.getByRole("button", { name: "Validar y Enviar" }));
+  await screen.findByRole("heading", { name: "Habla con tu gestor" });
+  expect(
+    screen.getByText(/Validación de ejemplo completada, sin envío real/),
+  ).toBeInTheDocument();
+  expect(readDemo().profile.nombre).toBe("Nombre Revisado");
+  expect(readDemo().expedientes[0].documentos).toHaveLength(3);
+  expect(fetch).not.toHaveBeenCalled();
+});
+
+it("la pregunta de recuperación mantiene el aviso local sin enviar correos", () => {
+  mount("/acceso");
+  fireEvent.click(
+    screen.getByRole("button", { name: "¿Has olvidado tu contraseña?" }),
+  );
+  expect(screen.getByRole("status")).toHaveTextContent("No se envían emails");
+  expect(fetch).not.toHaveBeenCalled();
+});
+
+it("los ojos alternan las contraseñas de acceso y registro sin enviar el formulario", () => {
+  const login = mount("/acceso");
+  fireEvent.change(screen.getByLabelText("Contraseña"), {
+    target: { value: "ClaveSoloDemo" },
+  });
+  fireEvent.click(screen.getByRole("button", { name: "Mostrar contraseña" }));
+  expect(screen.getByLabelText("Contraseña")).toHaveAttribute("type", "text");
+  expect(
+    screen.getByRole("button", { name: "Ocultar contraseña" }),
+  ).toHaveAttribute("aria-pressed", "true");
+  fireEvent.click(screen.getByRole("button", { name: "Ocultar contraseña" }));
+  expect(screen.getByLabelText("Contraseña")).toHaveAttribute(
+    "type",
+    "password",
+  );
+  expect(screen.getByLabelText("Contraseña")).toHaveValue("ClaveSoloDemo");
+  login.unmount();
+  mount("/registro");
+  fireEvent.click(screen.getByRole("button", { name: "Mostrar contraseña" }));
+  expect(screen.getByLabelText("Contraseña")).toHaveAttribute("type", "text");
+  expect(screen.getByLabelText("Repetir contraseña")).toHaveAttribute(
+    "type",
+    "password",
+  );
+  fireEvent.click(
+    screen.getByRole("button", { name: "Mostrar repetición de contraseña" }),
+  );
+  expect(screen.getByLabelText("Repetir contraseña")).toHaveAttribute(
+    "type",
+    "text",
+  );
+  expect(fetch).not.toHaveBeenCalled();
+});
+
 it("arranca en demo con un token antiguo y bloquea las APIs", async () => {
   setToken("sesion-real-antigua");
   mount();

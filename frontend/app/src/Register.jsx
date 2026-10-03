@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useApp } from "./AppContext.jsx";
+import Icon from "./Icon.jsx";
 
 export default function Register() {
   const app = useApp();
@@ -13,6 +14,8 @@ export default function Register() {
     confirm: "",
   });
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   function submit(event) {
     event.preventDefault();
     if (form.password !== form.confirm) {
@@ -73,31 +76,61 @@ export default function Register() {
         </label>
         <label>
           Contraseña
-          <input
-            required
-            type="password"
-            autoComplete="new-password"
-            aria-describedby="password-helper"
-            minLength={8}
-            maxLength={128}
-            value={form.password}
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-          />
+          <span className="password-field">
+            <input
+              required
+              type={showPassword ? "text" : "password"}
+              aria-label="Contraseña"
+              autoComplete="new-password"
+              aria-describedby="password-helper"
+              minLength={8}
+              maxLength={128}
+              value={form.password}
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
+            />
+            <button
+              type="button"
+              className="icon-btn password-toggle"
+              aria-label={
+                showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
+              }
+              aria-pressed={showPassword}
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              <Icon name={showPassword ? "eyeOff" : "eye"} size={22} />
+            </button>
+          </span>
         </label>
         <p id="password-helper" className="helper">
           Al menos 8 caracteres.
         </p>
         <label>
           Repetir contraseña
-          <input
-            required
-            type="password"
-            autoComplete="new-password"
-            minLength={8}
-            maxLength={128}
-            value={form.confirm}
-            onChange={(e) => setForm({ ...form, confirm: e.target.value })}
-          />
+          <span className="password-field">
+            <input
+              required
+              type={showConfirmation ? "text" : "password"}
+              aria-label="Repetir contraseña"
+              autoComplete="new-password"
+              minLength={8}
+              maxLength={128}
+              value={form.confirm}
+              onChange={(e) => setForm({ ...form, confirm: e.target.value })}
+            />
+            <button
+              type="button"
+              className="icon-btn password-toggle"
+              aria-label={
+                showConfirmation
+                  ? "Ocultar repetición de contraseña"
+                  : "Mostrar repetición de contraseña"
+              }
+              aria-pressed={showConfirmation}
+              onClick={() => setShowConfirmation(!showConfirmation)}
+            >
+              <Icon name={showConfirmation ? "eyeOff" : "eye"} size={22} />
+            </button>
+          </span>
         </label>
         <p className="notice">
           Registro de demostración: no crea una cuenta real ni envía datos. Las

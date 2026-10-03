@@ -42,6 +42,18 @@
 - **Alcance:** ruta `/tramites/:id?documento=...`, `Messages.jsx` y `Expedientes.jsx`.
 - **Notas:** Reutiliza las claves del checklist; únicamente selecciona el campo, sin iniciar cargas ni conexiones.
 
+## Verificación de Datos y Carnet
+- **Tipo:** concepto de interfaz.
+- **Definición:** Pantalla para revisar los datos personales y seleccionar los documentos obligatorios del expediente antes de su presentación.
+- **Alcance:** `/tramites/:id`, `App.jsx`, `Expedientes.jsx` y `app.css`.
+- **Notas:** «Validar y Enviar» comprueba el ejemplo local y vuelve al chat; en demo no transmite datos, archivos ni solicitudes.
+
+## Visibilidad de contraseña
+- **Tipo:** concepto de interfaz.
+- **Definición:** Control con icono de ojo u ojo tachado que permite mostrar u ocultar una contraseña mientras se escribe.
+- **Alcance:** `Login.jsx`, `Register.jsx`, iconos `eye`/`eyeOff` de `Icon.jsx` y `app.css`.
+- **Notas:** Conserva la contraseña solo en el estado temporal del formulario; no altera el envío ni su almacenamiento.
+
 ## Compositor de LidIA
 - **Tipo:** concepto de interfaz.
 - **Definición:** Control de texto, micrófono y envío de la consulta, situado debajo del botón de contacto y encima de la navegación en LidIA.

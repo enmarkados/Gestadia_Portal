@@ -15,6 +15,9 @@ const paths = {
   send: "m5 12 14-7-7 14-2-5-5-2Z",
   check: "m5 12 4 4 10-10",
   mic: "M9 4a3 3 0 0 1 6 0v7a3 3 0 0 1-6 0ZM5 10v1a7 7 0 0 0 14 0v-1M12 18v4m-4 0h8",
+  eye: "M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12ZM15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0",
+  eyeOff:
+    "M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12ZM15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0M3 3l18 18",
 };
 export default function Icon({ name, size = 22 }) {
   return (
