@@ -15,6 +15,7 @@ Rama `app/main` creada desde `main`, revisión de partida `af5b515`. La entrega 
 
 - Ajustes posteriores al handoff: Mensajes conserva un único CTA rojo, tarjetas de nueva consulta e hilos, y el panel de gestor entra desde abajo con indicador, chat negro, separador y sólo nombre/teléfono. Se quitaron la franja global de demo y los bloques añadidos de Inicio, conservando el selector de perfil arriba en Mi cuenta. El compositor de LidIA se sitúa bajo el CTA, con medidas y flecha diagonal del handoff; se omiten «de guardia», el CTA en Servicios y el rótulo «Sondeo guiado». La llamada permanece local y su conexión futura está pendiente.
 - Inicio conserva el titular, párrafo y las tres opciones del diseño. Notificaciones usa el panel inferior con campana, contador de prioridad, aviso rojo suave, tarjeta de asignación y cierre negro; el enlace documental abre el expediente local y cierra el panel, verificado sin peticiones. Los identificadores siguen siendo ficticios y se omiten horas que no existen en los datos.
+- El menú inferior conserva su fondo blanco, borde superior y sombra suave, separado de la zona gris claro del CTA y el compositor.
 
 - Imagen `gestadia-app:2026-10-03` construida para **linux/amd64**. Contenedor local en `http://127.0.0.1:8099/`; `nginx -t` correcto y `/healthz` identifica la app.
 - Configuración servida: `demoEnabled: true`, `demoOnly: true`, key vacía. `/api/health` y `/lidia/api/pluginweb/config` devuelven **503**, sin consultar upstreams.

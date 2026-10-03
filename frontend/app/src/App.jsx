@@ -153,26 +153,30 @@ export default function App() {
       {!["/acceso", "/registro"].includes(location.pathname) && (
         <footer className="app-footer">
           {location.pathname !== "/servicios" && (
-            <button className="contact-cta" onClick={onContact}>
-              <span>Hablar con un gestor</span>
-            </button>
+            <div className="footer-actions">
+              <button className="contact-cta" onClick={onContact}>
+                <span>Hablar con un gestor</span>
+              </button>
+              {location.pathname === "/" && app.mode === "demo" && (
+                <div id="lidia-composer" className="footer-lidia-composer" />
+              )}
+            </div>
           )}
-          {location.pathname === "/" && app.mode === "demo" && (
-            <div id="lidia-composer" className="footer-lidia-composer" />
-          )}
-          <nav className="dock" aria-label="Navegación principal">
-            {TABS.map(([to, label, icon]) => (
-              <NavLink
-                key={to}
-                to={to}
-                end={to === "/"}
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                <Icon name={icon} size={21} />
-                <span>{label}</span>
-              </NavLink>
-            ))}
-          </nav>
+          <div className="dock-zone">
+            <nav className="dock" aria-label="Navegación principal">
+              {TABS.map(([to, label, icon]) => (
+                <NavLink
+                  key={to}
+                  to={to}
+                  end={to === "/"}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <Icon name={icon} size={21} />
+                  <span>{label}</span>
+                </NavLink>
+              ))}
+            </nav>
+          </div>
         </footer>
       )}
       {sheet === "contact" && <Contact onClose={() => setSheet(null)} />}

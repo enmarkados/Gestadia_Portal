@@ -18,6 +18,12 @@
 - **Alcance:** `frontend/app/src/Contact.jsx`, `Sheet.jsx` y estilos de la app.
 - **Notas:** Replica el handoff; el perfil lead sólo ofrece la llamada. En esta entrega la solicitud es local y no se envía al CRM.
 
+## Menú inferior
+- **Tipo:** concepto de interfaz.
+- **Definición:** Navegación persistente entre LidIA, Trámites, Mensajes y Servicios, presentada en una zona blanca separada del fondo de acciones por una línea divisoria.
+- **Alcance:** `frontend/app/src/App.jsx` y `app.css`.
+- **Notas:** Conserva las cuatro pestañas del diseño; el CTA y el compositor se sitúan sobre el fondo gris claro.
+
 ## Compositor de LidIA
 - **Tipo:** concepto de interfaz.
 - **Definición:** Control de texto, micrófono y envío de la consulta, situado debajo del botón de contacto y encima de la navegación en LidIA.
