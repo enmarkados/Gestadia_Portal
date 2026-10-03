@@ -1,0 +1,1348 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestadia · Handoff de Diseño Móvil e Interactivo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilos/gestadia-tokens.css">
+  <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #1E1E1E;
+      color: #E5E7EB;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header.showcase-header {
+      background: #141414;
+      border-bottom: 1px solid #2C2C2C;
+      padding: 16px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .showcase-logo {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 26px;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.5px;
+    }
+    .showcase-logo span {
+      color: #C0392B;
+    }
+    .showcase-nav {
+      display: flex;
+      gap: 16px;
+    }
+    .showcase-nav a {
+      color: #9CA3AF;
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: all 0.15s;
+    }
+    .showcase-nav a:hover {
+      color: #FFFFFF;
+      background: #2C2C2C;
+    }
+    .showcase-main {
+      flex: 1;
+      display: flex;
+      padding: 24px;
+      gap: 28px;
+      max-width: 1440px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .controls-panel {
+      width: 340px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+    .control-card {
+      background: #262626;
+      border: 1px solid #383838;
+      border-radius: 16px;
+      padding: 18px;
+    }
+    .control-card h3 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #9CA3AF;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+    .screen-btn {
+      width: 100%;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #D1D5DB;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      transition: all 0.15s;
+    }
+    .screen-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #FFFFFF;
+    }
+    .screen-btn.active {
+      background: #C0392B;
+      color: #FFFFFF;
+      border-color: #C0392B;
+    }
+    .device-switcher {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .device-btn {
+      flex: 1;
+      padding: 8px 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: #D1D5DB;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+    }
+    .device-btn.active {
+      background: #FFFFFF;
+      color: #1F1F1F;
+    }
+
+    /* Device Preview Stage */
+    .preview-stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      background: #181818;
+      border: 1px solid #333333;
+      border-radius: 20px;
+      padding: 30px 20px;
+      min-height: 860px;
+      overflow: hidden;
+    }
+    .phone-mockup {
+      width: 390px;
+      height: 844px;
+      background: #FFFFFF;
+      border: 12px solid #2C2C2C;
+      border-radius: 54px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      transition: width 0.3s, height 0.3s, border-radius 0.3s;
+    }
+    .phone-mockup.pixel {
+      width: 412px;
+      height: 860px;
+      border-radius: 46px;
+      border-width: 10px;
+    }
+    .phone-mockup.tablet {
+      width: 768px;
+      height: 844px;
+      border-radius: 36px;
+      border-width: 14px;
+    }
+
+    /* Authentic Phone Status Bar (Dark Theme matching Gestadia Header) */
+    .phone-status-bar {
+      height: 44px;
+      background: #181818;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1000;
+      flex-shrink: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .status-time {
+      font-size: 14px;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: -0.2px;
+      line-height: 1;
+    }
+    .phone-notch {
+      position: absolute;
+      top: 9px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 27px;
+      background: #0D0D0D;
+      border-radius: 20px;
+      z-index: 9999;
+      pointer-events: none;
+    }
+    .status-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #FFFFFF;
+    }
+
+    /* Interactive Live Screen Inside Frame */
+    .screen-viewport {
+      width: 100%;
+      height: calc(100% - 44px);
+      display: flex;
+      flex-direction: column;
+      background: #F7F7F7;
+      overflow: hidden;
+      position: relative;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #2C2C2C;
+    }
+
+    /* Colors and Swatches */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    .swatch-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .swatch-color {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .swatch-info {
+      font-size: 11px;
+    }
+    .swatch-info strong {
+      display: block;
+      color: #FFFFFF;
+    }
+    .swatch-info span {
+      color: #9CA3AF;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cabecera del Showcase -->
+  <header class="showcase-header">
+    <div style="display: flex; align-items: center; gap: 14px;">
+      <div class="showcase-logo">gestadia<span>.</span></div>
+      <div>
+        <p style="font-size: 13px; color: #9CA3AF; margin-top: 2px;">
+          Handoff de Diseño Móvil · Ecosistema de Contratación y Gestión DGT
+        </p>
+      </div>
+    </div>
+    <nav class="showcase-nav">
+      <a href="design.md" target="_blank">design.md</a>
+      <a href="tokens.json" target="_blank">tokens.json</a>
+      <a href="GLOSARIO.md" target="_blank">GLOSARIO.md</a>
+      <a href="INSTRUCCIONES-PARA-REPLICAR.md" target="_blank">Instrucciones Replicar</a>
+      <a href="README.md" target="_blank">README.md</a>
+    </nav>
+  </header>
+
+  <!-- Cuerpo Principal -->
+  <main class="showcase-main">
+    <!-- Panel Izquierdo: Selector de Pantallas y Dispositivos -->
+    <aside class="controls-panel">
+      <!-- Selector de Dispositivo -->
+      <div class="control-card">
+        <h3>Dispositivo de Prueba</h3>
+        <div class="device-switcher">
+          <button class="device-btn active" onclick="setDevice('iphone', this)">iPhone 16 Pro</button>
+          <button class="device-btn" onclick="setDevice('pixel', this)">Pixel 8</button>
+          <button class="device-btn" onclick="setDevice('tablet', this)">iPad / Tablet</button>
+        </div>
+        <p style="font-size: 12px; color: #9CA3AF;">
+          Comprueba la ergonomía móvil y la visibilidad de la cabecera bajo el notch / Dynamic Island.
+        </p>
+      </div>
+
+      <!-- Perfil Zoho CRM -->
+      <div class="control-card">
+        <h3>Perfil Zoho CRM</h3>
+        <div style="display:flex; gap:6px;">
+          <button id="btnProfileCliente" class="device-btn active" style="flex:1; font-size:11.5px; padding:6px 6px;" onclick="setUserProfile('cliente')">
+            Contacto / Trato
+          </button>
+          <button id="btnProfileLead" class="device-btn" style="flex:1; font-size:11.5px; padding:6px 6px;" onclick="setUserProfile('lead')">
+            Lead / Prospecto
+          </button>
+        </div>
+        <p style="font-size:11px; color:#9CA3AF; margin-top:6px; line-height:1.35;">
+          • <strong>Contacto / Trato:</strong> Con gestor asignado (botón negro de chat en app + llamada).<br>
+          • <strong>Lead:</strong> Sin gestor asignado aún (solo solicitar llamada).
+        </p>
+      </div>
+
+      <!-- Selector de Pantallas -->
+      <div class="control-card">
+        <h3>Pantallas del Sistema</h3>
+        <button class="screen-btn active" onclick="loadScreen('01-inicio', this)">
+          <span>01 · Inicio / LidIA</span>
+          <span style="font-size: 11px; opacity: 0.7;">LidIA IA</span>
+        </button>
+        <button class="screen-btn" onclick="loadScreen('02-nueva-consulta', this)">
+          <span>02 · Consulta LidIA</span>
+          <span style="font-size: 11px; opacity: 0.7;">LidIA Sondeo</span>
+        </button>
+        <button class="screen-btn" onclick="loadScreen('05-mensajes', this)">
+          <span>05 · Mensajes</span>
+          <span style="font-size: 11px; color: #C0392B; font-weight: 700;">HUB</span>
+        </button>
+        <button class="screen-btn" onclick="loadScreen('04-chat-gestor', this)">
+          <span>04 · Chat con Gestor</span>
+          <span style="font-size: 11px; color: #16A34A; font-weight: 700;">POSTVENTA</span>
+        </button>
+        <button class="screen-btn" onclick="loadScreen('08-contratar', this)">
+          <span>08 · Servicios DGT</span>
+          <span style="font-size: 11px; opacity: 0.7;">Catálogo</span>
+        </button>
+        <button class="screen-btn" onclick="loadScreen('03-mis-tramites', this)">
+          <span>03 · Mis Trámites</span>
+          <span style="font-size: 11px; opacity: 0.7;">Expedientes</span>
+        </button>
+        <button class="screen-btn" onclick="loadScreen('07-verificacion-datos', this)">
+          <span>07 · Verificación Datos</span>
+          <span style="font-size: 11px; opacity: 0.7;">Postventa</span>
+        </button>
+        <button class="screen-btn" onclick="loadScreen('06-contacto', this)">
+          <span>06 · Hablar con un gestor</span>
+          <span style="font-size: 11px; opacity: 0.7;">Sheet</span>
+        </button>
+        <button class="screen-btn" onclick="loadScreen('09-correo', this)">
+          <span>09 · Correo Gestor</span>
+          <span style="font-size: 11px; opacity: 0.7;">Email</span>
+        </button>
+      </div>
+
+      <!-- Paleta Oficial -->
+      <div class="control-card">
+        <h3>Tokens de Color Oficiales</h3>
+        <div class="swatch-grid">
+          <div class="swatch-item">
+            <div class="swatch-color" style="background: #2C2C2C;"></div>
+            <div class="swatch-info"><strong>Grafito</strong><span>#2C2C2C</span></div>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-color" style="background: #C0392B;"></div>
+            <div class="swatch-info"><strong>Rojo DGT</strong><span>#C0392B</span></div>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-color" style="background: #F7F7F7; border: 1px solid #D1D5DB;"></div>
+            <div class="swatch-info"><strong>Fondo App</strong><span>#F7F7F7</span></div>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-color" style="background: #16A34A;"></div>
+            <div class="swatch-info"><strong>Éxito DGT</strong><span>#16A34A</span></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Centro: Simulador Móvil en Vivo -->
+    <section class="preview-stage">
+      <div id="phoneFrame" class="phone-mockup">
+        <!-- Status Bar Física del Dispositivo -->
+        <div id="phoneStatusBar" class="phone-status-bar">
+          <span class="status-time">9:41</span>
+          <div id="phoneNotch" class="phone-notch"></div>
+          <div class="status-icons">
+            <svg width="15" height="11" viewBox="0 0 16 12" fill="currentColor"><path d="M1 9.5h2.5V12H1zm4-3h2.5V12H5zm4-3.5h2.5V12H9zm4-3h2.5V12H13z"/></svg>
+            <svg width="15" height="11" viewBox="0 0 16 12" fill="currentColor"><path d="M8 3.5c2.3 0 4.4.9 6 2.4l1.4-1.4C13.5 2.6 10.9 1.5 8 1.5S2.5 2.6.6 4.5L2 5.9c1.6-1.5 3.7-2.4 6-2.4zm0 4c1.3 0 2.5.5 3.4 1.4L12.8 7.5C11.5 6.3 9.8 5.5 8 5.5s-3.5.8-4.8 2L4.6 8.9C5.5 8 6.7 7.5 8 7.5zm0 4c.8 0 1.5.3 2 .8l1.4-1.4C10.6 10.2 9.4 9.5 8 9.5s-2.6.7-3.4 1.4L6 12.3c.5-.5 1.2-.8 2-.8z"/></svg>
+            <svg width="22" height="11" viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="1" y="1" width="19" height="10" rx="3"/><path d="M22 4v4" stroke-linecap="round"/><rect x="2.5" y="2.5" width="13" height="7" rx="1.5" fill="currentColor"/></svg>
+          </div>
+        </div>
+
+        <!-- Contenedor del Viewport Interactivo -->
+        <div id="viewportRoot" class="screen-viewport">
+          <!-- El contenido de la pantalla se inyecta dinámicamente -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    let currentScreen = '01-inicio';
+    let activeTab = 'asistente';
+    let userProfileType = 'cliente'; // 'cliente' | 'lead'
+    let contactSheetOpen = false;
+    let notifSheetOpen = false;
+    let lidiaProbe = 'canje'; // 'canje' | 'transferencia' | 'duplicado'
+    let lidiaFollowUp = null;
+
+    function selectLidiaProbe(topic, navigate = false) {
+      lidiaProbe = topic;
+      lidiaFollowUp = null;
+      if (navigate || currentScreen !== '02-nueva-consulta') {
+        loadScreen('02-nueva-consulta');
+      } else {
+        renderCurrentScreen();
+      }
+    }
+
+    function answerLidiaProbe(answerText) {
+      lidiaFollowUp = answerText;
+      renderCurrentScreen();
+    }
+
+    function setUserProfile(type) {
+      userProfileType = type;
+      const bCli = document.getElementById('btnProfileCliente');
+      const bLead = document.getElementById('btnProfileLead');
+      if (bCli) bCli.classList.toggle('active', type === 'cliente');
+      if (bLead) bLead.classList.toggle('active', type === 'lead');
+      renderCurrentScreen();
+    }
+
+    function setDevice(device, btn) {
+      document.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const frame = document.getElementById('phoneFrame');
+      const statusBar = document.getElementById('phoneStatusBar');
+      const notch = document.getElementById('phoneNotch');
+      frame.className = 'phone-mockup ' + (device === 'iphone' ? '' : device);
+      if (device === 'tablet') {
+        statusBar.style.display = 'none';
+        document.getElementById('viewportRoot').style.height = '100%';
+      } else if (device === 'pixel') {
+        statusBar.style.display = 'flex';
+        document.getElementById('viewportRoot').style.height = 'calc(100% - 44px)';
+        notch.style.width = '12px';
+        notch.style.height = '12px';
+        notch.style.borderRadius = '50%';
+        notch.style.top = '16px';
+      } else {
+        statusBar.style.display = 'flex';
+        document.getElementById('viewportRoot').style.height = 'calc(100% - 44px)';
+        notch.style.width = '120px';
+        notch.style.height = '27px';
+        notch.style.borderRadius = '20px';
+        notch.style.top = '9px';
+      }
+    }
+
+    function loadScreen(screenId, btn) {
+      if (btn) {
+        document.querySelectorAll('.screen-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      }
+      currentScreen = screenId;
+      if (screenId === '01-inicio' || screenId === '02-nueva-consulta') {
+        activeTab = 'asistente';
+      } else if (screenId === '05-mensajes') {
+        activeTab = 'mensajes';
+      } else if (screenId === '08-contratar') {
+        activeTab = 'servicios';
+      } else if (screenId === '03-mis-tramites' || screenId === '07-verificacion-datos') {
+        activeTab = 'tramites';
+      } else if (screenId === '04-chat-gestor') {
+        activeTab = 'mensajes';
+      }
+      contactSheetOpen = screenId === '06-contacto';
+      renderCurrentScreen();
+    }
+
+    function renderHeader(backBtn = false) {
+      const isLead = userProfileType === 'lead';
+      return `
+        <header class="gestadia-user-header" style="padding: 10px 18px 12px; background: #181818; border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
+          <div style="min-width:0; flex:1; display:flex; align-items:center; gap:8px;">
+            ${backBtn ? `
+              <button onclick="loadScreen('01-inicio')" class="gestadia-icon-btn" aria-label="Volver" style="color:#FFFFFF; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.1);">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+              </button>
+            ` : ''}
+            <div>
+              <div class="gestadia-brand-title" style="font-family:'Playfair Display',Georgia,serif; font-size:24px; font-weight:800; color:#FFFFFF; line-height:1.1; letter-spacing:-0.5px;">
+                gestadia<span style="color:#C0392B;">.</span>
+              </div>
+              <p class="gestadia-brand-subtitle" style="margin-top:2px; font-size:11.5px; color:#9CA3AF; font-weight:500;">
+                Trámites DGT Online
+              </p>
+            </div>
+          </div>
+          <div class="gestadia-user-header-actions" style="display:flex; align-items:center; gap:6px; flex-shrink:0;">
+            <button class="gestadia-icon-btn" onclick="toggleNotifSheet()" title="Notificaciones" style="position:relative; color:#FFFFFF; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.1);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+              ${isLead ? '' : '<span style="position:absolute; top:7px; right:7px; width:7px; height:7px; background:#C0392B; border-radius:50%;"></span>'}
+            </button>
+            <button class="gestadia-icon-btn" title="Mi Cuenta" onclick="alert('${isLead ? 'Área de consulta · Usuario nuevo' : 'Área de cliente · Gonzalo Villanova Alvarez (DNI: 47307603F)'}')" style="color:#FFFFFF; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.1);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </button>
+          </div>
+        </header>
+      `;
+    }
+
+    function renderNav() {
+      return `
+        <nav class="gestadia-user-nav">
+          <button class="nav-item ${activeTab === 'asistente' ? 'active' : ''}" onclick="loadScreen('01-inicio')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+            <span>LidIA</span>
+          </button>
+          <button class="nav-item ${activeTab === 'tramites' ? 'active' : ''}" onclick="loadScreen('03-mis-tramites')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>
+            <span>Trámites</span>
+          </button>
+          <button class="nav-item ${activeTab === 'mensajes' ? 'active' : ''}" onclick="loadScreen('05-mensajes')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <span>Mensajes</span>
+          </button>
+          <button class="nav-item ${activeTab === 'servicios' ? 'active' : ''}" onclick="loadScreen('08-contratar')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            <span>Servicios</span>
+          </button>
+        </nav>
+      `;
+    }
+
+    function renderComposer(placeholder = '¿Qué necesitas?', value = '') {
+      return `
+        <div style="padding: 0 16px 12px; background: #F7F7F7;">
+          <div class="gestadia-user-chat-input">
+            <textarea id="liveInput" rows="1" placeholder="${placeholder}">${value}</textarea>
+            <button class="gestadia-mic-btn" title="Grabar audio" onclick="alert('Iniciando dictado por voz...')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+            </button>
+            <button class="gestadia-send-btn" onclick="sendMockPrompt()" title="Enviar">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 14-7-7 14-2-5-5-2Z"/></svg>
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderBottomSheet() {
+      if (!contactSheetOpen) return '';
+      const isCliente = userProfileType === 'cliente';
+      return `
+        <div class="gestadia-sheet-overlay" onclick="closeSheet(event)">
+          <div class="gestadia-sheet-card">
+            <div class="gestadia-sheet-handle"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <div>
+                <h2 style="font-size:18px; font-weight:800; color:#2C2C2C; margin:0;">Hablar con un gestor</h2>
+                ${isCliente ? '<span style="font-size:12px; color:#16A34A; font-weight:600;">✓ Juan Carlos Acero (Gestor asignado) de guardia</span>' : ''}
+              </div>
+              <button onclick="toggleSheet()" class="gestadia-icon-btn" style="width:32px;height:32px;background:#F3F4F6;color:#2C2C2C;">✕</button>
+            </div>
+            <p style="font-size:13.5px; color:#6B7280; margin-bottom:16px;">
+              ${isCliente ? 'Atención directa en la app con tu gestor asignado sin esperas ni desplazamientos.' : 'Solicita llamada de asesoramiento con un gestor sin compromiso.'}
+            </p>
+            ${isCliente ? `
+              <button class="gestadia-user-primary" style="width:100%; margin-bottom:12px; background:#2C2C2C; display:flex; align-items:center; justify-content:center; gap:8px;" onclick="toggleSheet(); loadScreen('04-chat-gestor');">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <span>Abrir Chat en la App con Juan Carlos</span>
+              </button>
+              <div style="font-size:12px; text-align:center; color:#9CA3AF; margin-bottom:12px;">o solicita que te llamemos</div>
+            ` : ''}
+            <input type="text" placeholder="Tu nombre y apellidos *" style="width:100%; padding:10px 12px; border-radius:10px; border:1px solid #D1D5DB; margin-bottom:8px; font-size:15px;" value="${isCliente ? 'Gonzalo Villanova Alvarez' : ''}">
+            <input type="tel" placeholder="Teléfono de contacto *" style="width:100%; padding:10px 12px; border-radius:10px; border:1px solid #D1D5DB; margin-bottom:12px; font-size:15px;" value="${isCliente ? '+34 684 46 09 71' : ''}">
+            <button class="gestadia-user-primary red-variant" style="width:100%;" onclick="alert('Solicitud enviada a un gestor de Gestadia. Te llamaremos en menos de 15 minutos.'); toggleSheet();">
+              Solicitar llamada de un gestor
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleSheet() {
+      contactSheetOpen = !contactSheetOpen;
+      renderCurrentScreen();
+    }
+
+    function closeSheet(e) {
+      if (e.target.classList.contains('gestadia-sheet-overlay')) {
+        contactSheetOpen = false;
+        renderCurrentScreen();
+      }
+    }
+
+    function toggleNotifSheet() {
+      notifSheetOpen = !notifSheetOpen;
+      renderCurrentScreen();
+    }
+
+    function closeNotifSheet(e) {
+      if (e.target.classList.contains('gestadia-sheet-overlay')) {
+        notifSheetOpen = false;
+        renderCurrentScreen();
+      }
+    }
+
+    function renderNotifSheet() {
+      if (!notifSheetOpen) return '';
+      const isLead = userProfileType === 'lead';
+      return `
+        <div class="gestadia-sheet-overlay" onclick="closeNotifSheet(event)">
+          <div class="gestadia-sheet-card">
+            <div class="gestadia-sheet-handle"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <div style="width:32px; height:32px; border-radius:8px; background:${isLead ? '#F3F4F6' : '#FDEDEC'}; color:${isLead ? '#6B7280' : '#C0392B'}; display:flex; align-items:center; justify-content:center;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                </div>
+                <div>
+                  <h2 style="font-size:17px; font-weight:800; color:#2C2C2C; margin:0;">Notificaciones y Avisos</h2>
+                  <span style="font-size:12px; color:${isLead ? '#16A34A' : '#C0392B'}; font-weight:700;">
+                    ${isLead ? 'Estás al día' : '1 acción prioritaria pendiente'}
+                  </span>
+                </div>
+              </div>
+              <button onclick="toggleNotifSheet()" class="gestadia-icon-btn" style="width:32px;height:32px;background:#F3F4F6;color:#2C2C2C;">✕</button>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:16px;">
+              ${isLead ? `
+                <div style="background:#FFFFFF; border:1px solid #E5E7EB; border-radius:12px; padding:28px 16px; text-align:center;">
+                  <div style="width:48px; height:48px; border-radius:50%; background:#DCFCE7; color:#16A34A; display:flex; align-items:center; justify-content:center; margin:0 auto 12px;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                  <strong style="font-size:15px; color:#2C2C2C; display:block; margin-bottom:4px;">Estás al día</strong>
+                  <p style="font-size:13px; color:#6B7280; line-height:1.45; margin:0 0 14px;">
+                    No tienes notificaciones pendientes. Cuando inicies un trámite, aquí verás las actualizaciones y requerimientos de tu expediente.
+                  </p>
+                  <button onclick="toggleNotifSheet(); loadScreen('08-servicios');" class="gestadia-user-primary red-variant" style="font-size:13px; padding:8px 16px; display:inline-block; width:auto;">
+                    Ver Servicios
+                  </button>
+                </div>
+              ` : `
+                <!-- Notificación 1: Requerimiento de Documentación -->
+                <div style="background:#FFF5F5; border:1.5px solid #F5C6CB; border-radius:12px; padding:12px; cursor:pointer;" onclick="notifSheetOpen=false; loadScreen('04-chat-gestor');">
+                  <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:4px;">
+                    <span style="font-size:11px; font-weight:700; color:#C0392B; text-transform:uppercase;">Acción requerida · Hoy 10:16</span>
+                    <span style="width:8px; height:8px; background:#C0392B; border-radius:50%;"></span>
+                  </div>
+                  <strong style="font-size:13.5px; color:#2C2C2C; display:block; margin-bottom:4px;">Actualización de tu expediente GST-202607-97389</strong>
+                  <p style="font-size:12.5px; color:#6B7280; line-height:1.4; margin:0 0 8px;">Tu gestor Juan Carlos Acero solicita que subas la foto del carnet original de Perú y el psicotécnico.</p>
+                  <span style="font-size:12px; font-weight:700; color:#C0392B;">Subir documentación ahora ›</span>
+                </div>
+
+                <!-- Notificación 2: Asignación de gestor -->
+                <div style="background:#FFFFFF; border:1px solid #E5E7EB; border-radius:12px; padding:12px;">
+                  <span style="font-size:11px; font-weight:600; color:#9CA3AF; text-transform:uppercase;">Asignación · Ayer 18:30</span>
+                  <strong style="font-size:13.5px; color:#2C2C2C; display:block; margin-top:2px;">Juan Carlos Acero ha sido asignado a tu trámite</strong>
+                  <p style="font-size:12.5px; color:#6B7280; line-height:1.4; margin:2px 0 0;">Canje de carnet extranjero (Perú → España) en tramitación telemática.</p>
+                </div>
+              `}
+            </div>
+
+            <button onclick="toggleNotifSheet()" class="gestadia-user-primary" style="width:100%;">
+              Cerrar
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function sendMockPrompt(custom) {
+      const inputEl = document.getElementById('liveInput');
+      const txt = custom || (inputEl ? inputEl.value : '');
+      const lower = (txt || '').toLowerCase();
+      if (lower.includes('transf') || lower.includes('coche') || lower.includes('titular') || lower.includes('veh')) {
+        selectLidiaProbe('transferencia', true);
+      } else if (lower.includes('duplicad') || lower.includes('perdid') || lower.includes('perdí') || lower.includes('renov') || lower.includes('robo')) {
+        selectLidiaProbe('duplicado', true);
+      } else {
+        selectLidiaProbe('canje', true);
+      }
+    }
+
+    function renderCurrentScreen() {
+      const root = document.getElementById('viewportRoot');
+      let html = '';
+
+      if (currentScreen === '01-inicio') {
+        html = `
+          ${renderHeader()}
+          <div class="gestadia-user-content" style="padding: 24px 20px;">
+            <div style="margin-bottom: 24px;">
+              <h1 style="font-family:'Playfair Display',Georgia,serif; font-size: 27px; font-weight: 800; color: #2C2C2C; margin: 0 0 10px; line-height: 1.15;">
+                ¿Qué trámite de Tráfico necesitas gestionar hoy?
+              </h1>
+              <p style="font-size: 14.5px; color: #6B7280; line-height: 1.5;">
+                Nuestro asistente LidIA cualifica tus requisitos al instante. Tras contratar, tu gestor tramita tu expediente sin cita previa.
+              </p>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px;">
+              <div onclick="selectLidiaProbe('canje', true)" class="gestadia-card" style="padding: 14px 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 14.5px; font-weight: 600; color: #2C2C2C;">Quiero canjear mi carnet de conducir extranjero</span>
+                <span style="color: #C0392B; font-weight: bold;">›</span>
+              </div>
+              <div onclick="selectLidiaProbe('transferencia', true)" class="gestadia-card" style="padding: 14px 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 14.5px; font-weight: 600; color: #2C2C2C;">Cómo transferir un coche y cambiar titular</span>
+                <span style="color: #C0392B; font-weight: bold;">›</span>
+              </div>
+              <div onclick="selectLidiaProbe('duplicado', true)" class="gestadia-card" style="padding: 14px 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 14.5px; font-weight: 600; color: #2C2C2C;">He perdido el carnet y necesito un duplicado urgente</span>
+                <span style="color: #C0392B; font-weight: bold;">›</span>
+              </div>
+            </div>
+          </div>
+          <div style="padding: 0 16px 10px;">
+            <button class="gestadia-user-primary red-variant" style="width: 100%;" onclick="toggleSheet()">
+              Hablar con un gestor
+            </button>
+          </div>
+          ${renderComposer()}
+          ${renderNav()}
+          ${renderBottomSheet()}
+        `;
+      } else if (currentScreen === '02-nueva-consulta') {
+        const probeData = {
+          canje: {
+            userQuery: 'Quiero canjear mi carnet de conducir extranjero',
+            probeIntro: 'Perfecto, te ayudo a cualificar tu <strong>Canje de Carnet Extranjero</strong> ante la DGT sin cita previa.',
+            questions: [
+              '<strong>1. País emisor:</strong> ¿De qué país es tu carnet original? (Perú, Colombia, Argentina, Marruecos u otro convenio bilateral).',
+              '<strong>2. Residencia legal:</strong> ¿Obtuviste el permiso antes de tener residencia legal en España? (Requisito indispensable DGT).',
+              '<strong>3. Estado del carnet:</strong> ¿Dispones del carnet original físico y está en vigor?'
+            ],
+            options: [
+              { label: 'Perú · Previo a residencia', value: 'Carnet de Perú obtenido antes de residir en España' },
+              { label: 'Colombia · En vigor', value: 'Carnet de Colombia en vigor, previo a residencia' },
+              { label: 'Tengo dudas con el convenio', value: 'Tengo dudas sobre el país o la fecha de residencia' }
+            ]
+          },
+          transferencia: {
+            userQuery: 'Cómo transferir un coche y cambiar titular',
+            probeIntro: 'Excelente, iniciamos el sondeo para la <strong>Transferencia de Vehículo</strong> y cambio de titularidad oficial en DGT.',
+            questions: [
+              '<strong>1. Tipo de compraventa:</strong> ¿La operación es entre particulares o interviene empresa / autónomo?',
+              '<strong>2. Cargas y tributos:</strong> ¿Tiene el impuesto de circulación (IVTM) y la ITV al día?',
+              '<strong>3. Contrato:</strong> ¿Tenéis redactado y firmado el contrato de compraventa con copia del DNI del vendedor?'
+            ],
+            options: [
+              { label: 'Entre particulares · Al día', value: 'Compraventa entre particulares con ITV e impuesto al día' },
+              { label: 'Compro a empresa / autónomo', value: 'Compro vehículo a una empresa o autónomo' },
+              { label: 'Necesito informe DGT de cargas', value: 'Quiero solicitar informe DGT antes de firmar' }
+            ]
+          },
+          duplicado: {
+            userQuery: 'He perdido el carnet y necesito un duplicado urgente',
+            probeIntro: 'De acuerdo, gestionamos la expedición telemática de tu <strong>Duplicado de Carnet DGT</strong>.',
+            questions: [
+              '<strong>1. Causa:</strong> ¿Se trata de pérdida/extravío, sustracción (robo) o deterioro del carnet?',
+              '<strong>2. Vigencia:</strong> ¿Tu carnet estaba en vigor? (Si estaba caducado, requiere test psicotécnico).',
+              '<strong>3. Domicilio:</strong> ¿Deseas recibirlo en la misma dirección que consta en Tráfico o has cambiado de domicilio?'
+            ],
+            options: [
+              { label: 'Pérdida · Estaba en vigor', value: 'Pérdida o extravío con carnet en vigor y misma dirección' },
+              { label: 'Robo · Tengo denuncia', value: 'Sustracción con denuncia policial presentada' },
+              { label: 'Deterioro / Cambio domicilio', value: 'Deterioro físico o actualización de domicilio' }
+            ]
+          }
+        };
+
+        const activeProbe = probeData[lidiaProbe] || probeData.canje;
+
+        html = `
+          ${renderHeader()}
+          <div class="gestadia-user-content" style="padding: 16px 14px; display:flex; flex-direction:column; gap:12px; background:#F7F7F7;">
+            
+            <!-- Mensaje 1: Saludo LidIA con selector de trámite -->
+            <div class="gestadia-assistant-bubble" style="max-width:92%; margin-bottom:0;">
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                <div style="width:24px;height:24px;border-radius:6px;background:#FDEDEC;color:#C0392B;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;">L.</div>
+                <strong style="font-size:13px; color:#2C2C2C;">LidIA · Asistente IA Gestadia</strong>
+              </div>
+              <p style="font-size:14px; line-height:1.45; margin:0 0 10px;">
+                ¡Hola! Soy <strong>LidIA</strong>, tu asistente de <strong>Gestadia</strong>. Selecciona qué trámite deseas comprobar para realizar el sondeo de viabilidad:
+              </p>
+              <div class="gestadia-reply-options" style="margin-top:4px;">
+                <button class="gestadia-reply-chip" style="${lidiaProbe === 'canje' ? 'background:#FDEDEC; border-color:#C0392B; color:#C0392B; font-weight:700;' : ''}" onclick="selectLidiaProbe('canje')">
+                  ${lidiaProbe === 'canje' ? '✓ ' : ''}Canje extranjero
+                </button>
+                <button class="gestadia-reply-chip" style="${lidiaProbe === 'transferencia' ? 'background:#FDEDEC; border-color:#C0392B; color:#C0392B; font-weight:700;' : ''}" onclick="selectLidiaProbe('transferencia')">
+                  ${lidiaProbe === 'transferencia' ? '✓ ' : ''}Transferencia vehículo
+                </button>
+                <button class="gestadia-reply-chip" style="${lidiaProbe === 'duplicado' ? 'background:#FDEDEC; border-color:#C0392B; color:#C0392B; font-weight:700;' : ''}" onclick="selectLidiaProbe('duplicado')">
+                  ${lidiaProbe === 'duplicado' ? '✓ ' : ''}Duplicado carnet
+                </button>
+              </div>
+            </div>
+
+            <!-- Mensaje 2: Pregunta elegida por el usuario (Burbuja Roja) -->
+            <div style="max-width:85%; background:#C0392B; color:#FFFFFF; border-radius:18px 18px 4px 18px; padding:11px 14px; box-shadow:0 2px 6px rgba(192,57,43,0.15); align-self:flex-end;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:3px; font-size:11px; color:rgba(255,255,255,0.85);">
+                <span style="font-weight:700;">Tú</span>
+                <span>Ahora</span>
+              </div>
+              <p style="font-size:13.5px; line-height:1.4; margin:0;">
+                ${activeProbe.userQuery}
+              </p>
+            </div>
+
+            <!-- Mensaje 3: LidIA Sondeando Requisitos con chips interactivos -->
+            <div class="gestadia-assistant-bubble" style="max-width:92%; margin-bottom:0; align-self:flex-start;">
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                <div style="width:24px;height:24px;border-radius:6px;background:#FDEDEC;color:#C0392B;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;">L.</div>
+                <strong style="font-size:13px; color:#2C2C2C;">LidIA · Sondeo de Requisitos</strong>
+                <span style="font-size:10px; background:#DCFCE7; color:#16A34A; padding:2px 6px; border-radius:4px; font-weight:700;">DGT Telemática</span>
+              </div>
+              <p style="font-size:13.5px; line-height:1.45; margin:0 0 8px;">
+                ${activeProbe.probeIntro} Responde a estas 3 preguntas para validar tu caso:
+              </p>
+              <div style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:10px; padding:10px 12px; font-size:12.5px; color:#374151; line-height:1.45; margin-bottom:10px; display:flex; flex-direction:column; gap:6px;">
+                ${activeProbe.questions.map(q => `<div>${q}</div>`).join('')}
+              </div>
+              <div style="font-size:12px; font-weight:700; color:#6B7280; margin-bottom:6px;">
+                Selecciona tu situación o escríbela abajo:
+              </div>
+              <div class="gestadia-reply-options" style="margin-top:2px;">
+                ${activeProbe.options.map(opt => `
+                  <button class="gestadia-reply-chip" style="font-size:12.5px; padding:6px 12px; ${lidiaFollowUp === opt.value ? 'background:#FDEDEC; border-color:#C0392B; color:#C0392B; font-weight:700;' : ''}" onclick="answerLidiaProbe('${opt.value}')">
+                    ${opt.label}
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Mensaje 4 (si se ha respondido al sondeo) -->
+            ${lidiaFollowUp ? `
+              <div style="max-width:85%; background:#C0392B; color:#FFFFFF; border-radius:18px 18px 4px 18px; padding:11px 14px; box-shadow:0 2px 6px rgba(192,57,43,0.15); align-self:flex-end;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:3px; font-size:11px; color:rgba(255,255,255,0.85);">
+                  <span style="font-weight:700;">Tú</span>
+                  <span>Ahora</span>
+                </div>
+                <p style="font-size:13.5px; line-height:1.4; margin:0;">
+                  ${lidiaFollowUp}
+                </p>
+              </div>
+
+              <div class="gestadia-assistant-bubble" style="max-width:92%; margin-bottom:0; align-self:flex-start; border-left:4px solid #16A34A;">
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+                  <div style="width:24px;height:24px;border-radius:6px;background:#DCFCE7;color:#16A34A;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;">✓</div>
+                  <strong style="font-size:13px; color:#2C2C2C;">Diagnóstico Preliminar Favorable</strong>
+                </div>
+                <p style="font-size:13.5px; line-height:1.45; margin:0 0 10px; color:#2C2C2C;">
+                  ¡Tu expediente cumple los requisitos legales! Tu gestor Juan Carlos Acero puede iniciar la tramitación telemática sin cita previa y emitir tu justificante oficial.
+                </p>
+                <div style="display:flex; gap:8px;">
+                  <button class="gestadia-user-primary red-variant" style="flex:1; padding:8px 10px; font-size:12.5px;" onclick="toggleSheet()">
+                    Hablar con Juan Carlos
+                  </button>
+                  <button class="gestadia-user-primary" style="flex:1; padding:8px 10px; font-size:12.5px; background:#2C2C2C;" onclick="loadScreen('08-contratar')">
+                    Ver Servicios DGT
+                  </button>
+                </div>
+              </div>
+            ` : ''}
+
+          </div>
+          <div style="padding: 0 16px 10px;">
+            <button class="gestadia-user-primary red-variant" style="width: 100%;" onclick="toggleSheet()">
+              Hablar con un gestor
+            </button>
+          </div>
+          ${renderComposer()}
+          ${renderNav()}
+          ${renderBottomSheet()}
+        `;
+      } else if (currentScreen === '08-contratar') {
+        html = `
+          ${renderHeader()}
+          <div class="gestadia-user-content" style="padding: 20px 16px;">
+            <div style="margin-bottom:18px;">
+              <span style="font-size:12px; font-weight:700; color:#C0392B; text-transform:uppercase; letter-spacing:0.5px;">Gestión 100% Online</span>
+              <h1 style="font-size:24px; font-weight:800; color:#2C2C2C; margin:4px 0 6px;">Trámites y Gestiones DGT</h1>
+              <p style="font-size:13.5px; color:#6B7280; line-height:1.45;">Servicio integral con tu gestor asignado y justificante provisional.</p>
+            </div>
+
+            <!-- Garantías -->
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:16px;">
+              <div style="background:white; border:1px solid #E5E7EB; border-radius:10px; padding:8px 10px; font-size:12px; font-weight:600; color:#2C2C2C; display:flex; align-items:center; gap:6px;">
+                <span style="color:#16A34A;">✓</span> Sin cita previa DGT
+              </div>
+              <div style="background:white; border:1px solid #E5E7EB; border-radius:10px; padding:8px 10px; font-size:12px; font-weight:600; color:#2C2C2C; display:flex; align-items:center; gap:6px;">
+                <span style="color:#16A34A;">✓</span> Permiso provisional CSV
+              </div>
+            </div>
+
+            <!-- Catálogo de Trámites -->
+            <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">
+              <div class="gestadia-card contract-service-card" style="border:2px solid #C0392B; padding:14px; cursor:pointer;" onclick="selectContractService('canje-carnet', '210', 'Canje de Carnet Extranjero', this)">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:4px;">
+                  <div>
+                    <h3 style="font-size:15.5px; font-weight:700; color:#2C2C2C;">Canje de Carnet Extranjero</h3>
+                    <span style="font-size:11.5px; color:#16A34A; font-weight:600;">Gestión urgente · Exento examen</span>
+                  </div>
+                  <strong style="font-size:18px; color:#C0392B;">210 €</strong>
+                </div>
+                <p style="font-size:12.5px; color:#6B7280; line-height:1.4;">Homologación oficial en España bajo convenio bilateral. Incluye gestor asignado.</p>
+              </div>
+
+              <div class="gestadia-card contract-service-card" style="border:1px solid #E5E7EB; padding:14px; cursor:pointer;" onclick="selectContractService('transferencia', '135', 'Transferencia de Vehículo', this)">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:4px;">
+                  <div>
+                    <h3 style="font-size:15.5px; font-weight:700; color:#2C2C2C;">Transferencia de Vehículo</h3>
+                    <span style="font-size:11.5px; color:#16A34A; font-weight:600;">Provisional en 24h</span>
+                  </div>
+                  <strong style="font-size:18px; color:#C0392B;">135 €</strong>
+                </div>
+                <p style="font-size:12.5px; color:#6B7280; line-height:1.4;">Cambio de titularidad de coche o moto con justificante oficial.</p>
+              </div>
+
+              <div class="gestadia-card contract-service-card" style="border:1px solid #E5E7EB; padding:14px; cursor:pointer;" onclick="selectContractService('duplicado-carnet', '59', 'Duplicado de Carnet de Conducir', this)">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:4px;">
+                  <div>
+                    <h3 style="font-size:15.5px; font-weight:700; color:#2C2C2C;">Duplicado de Carnet de Conducir</h3>
+                    <span style="font-size:11.5px; color:#16A34A; font-weight:600;">Envío a domicilio</span>
+                  </div>
+                  <strong style="font-size:18px; color:#C0392B;">59 €</strong>
+                </div>
+                <p style="font-size:12.5px; color:#6B7280; line-height:1.4;">Reexpedición urgente por pérdida, robo o deterioro físico.</p>
+              </div>
+            </div>
+
+            <!-- Formulario Rápido con Parámetros para la Web -->
+            <div class="gestadia-card" style="margin-bottom:16px;">
+              <h3 style="font-size:14.5px; font-weight:700; color:#2C2C2C; margin-bottom:10px;">Tus datos de tramitación</h3>
+              <input id="contractNombre" type="text" placeholder="Nombre completo *" style="width:100%; padding:10px; border-radius:10px; border:1px solid #D1D5DB; margin-bottom:8px; font-size:15px;" value="Gonzalo Villanova Alvarez">
+              <input id="contractDni" type="text" placeholder="DNI / NIE *" style="width:100%; padding:10px; border-radius:10px; border:1px solid #D1D5DB; margin-bottom:8px; font-size:15px;" value="47307603F">
+              <input id="contractTel" type="tel" placeholder="Teléfono móvil *" style="width:100%; padding:10px; border-radius:10px; border:1px solid #D1D5DB; margin-bottom:8px; font-size:15px;" value="+34 684 46 09 71">
+              <input id="contractEmail" type="email" placeholder="Correo electrónico *" style="width:100%; padding:10px; border-radius:10px; border:1px solid #D1D5DB; margin-bottom:14px; font-size:15px;" value="gonzalovial20@gmail.com">
+              
+              <!-- Botón Continuar en la web -->
+              <button class="gestadia-user-primary red-variant" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px;" onclick="goToWebCheckout()">
+                <span>Continuar en la web</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </button>
+              <p style="font-size:11.5px; color:#6B7280; text-align:center; margin-top:8px; line-height:1.4;">
+                Se abrirá gestadia.com/checkout con tus datos y el trámite seleccionado ya rellenados.
+              </p>
+            </div>
+          </div>
+          ${renderNav()}
+        `;
+      } else if (currentScreen === '05-mensajes') {
+        html = `
+          ${renderHeader()}
+          <div class="gestadia-user-content" style="padding: 20px 16px;">
+            <div style="margin-bottom: 16px;">
+              <span style="font-size: 11.5px; font-weight: 700; color: #C0392B; text-transform: uppercase; letter-spacing: 0.5px;">Centro de Comunicaciones</span>
+              <h1 style="font-size: 24px; font-weight: 800; color: #2C2C2C; margin: 4px 0 6px;">Mensajes</h1>
+              <p style="font-size: 13.5px; color: #6B7280; line-height: 1.45;">Tus conversaciones activas con tu gestor asignado y el asistente LidIA.</p>
+            </div>
+
+            <!-- Botón / Card Nueva Consulta LidIA -->
+            <div onclick="loadScreen('02-nueva-consulta')" class="gestadia-card" style="padding: 12px 14px; margin-bottom: 16px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; border-left: 4px solid #C0392B; background: #FFFFFF;">
+              <div style="display:flex; align-items:center; gap:10px;">
+                <div style="width:38px; height:38px; border-radius:10px; background:#FDEDEC; color:#C0392B; display:flex; align-items:center; justify-content:center;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+                </div>
+                <div>
+                  <strong style="font-size:14px; color:#2C2C2C; display:block;">Nueva consulta con LidIA</strong>
+                  <span style="font-size:12px; color:#6B7280;">Diagnóstico previo y requisitos DGT en 1 min</span>
+                </div>
+              </div>
+              <span style="color:#C0392B; font-weight:bold; font-size:20px;">+</span>
+            </div>
+
+            <!-- Lista de Conversaciones Activas -->
+            <h2 style="font-size: 13px; font-weight: 700; color: #374151; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px;">Conversaciones activas</h2>
+
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+              <!-- Conversación 1: Juan Carlos Acero (Gestor Asignado) -->
+              <div onclick="loadScreen('04-chat-gestor')" class="gestadia-card" style="padding: 14px 16px; cursor: pointer; border-left: 4px solid #2C2C2C; background: #FFFFFF; position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="position: relative;">
+                      <div style="width: 40px; height: 40px; border-radius: 50%; background: #2C2C2C; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px;">
+                        JA
+                      </div>
+                      <span style="position: absolute; bottom: 0; right: 0; width: 10px; height: 10px; background: #16A34A; border: 2px solid #FFFFFF; border-radius: 50%;"></span>
+                    </div>
+                    <div>
+                      <div style="display: flex; align-items: center; gap: 6px;">
+                        <strong style="font-size: 15px; color: #2C2C2C;">Juan Carlos Acero</strong>
+                      </div>
+                      <span style="font-size: 12px; color: #6B7280;">Exp. GST-202607-97389 · Canje Perú</span>
+                    </div>
+                  </div>
+                  <div style="text-align: right;">
+                    <span style="font-size: 11.5px; color: #9CA3AF; display: block;">10:21</span>
+                    <span style="display: inline-block; width: 8px; height: 8px; background: #C0392B; border-radius: 50%; margin-top: 4px;"></span>
+                  </div>
+                </div>
+                <p style="font-size: 13px; color: #4B5563; margin: 4px 0 0; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                  Juan Carlos: ¡Excelente Gonzalo! Aquí tienes tu Autorización Provisional con CSV...
+                </p>
+              </div>
+
+              <!-- Conversación 2: LidIA (IA Gestadia) -->
+              <div onclick="loadScreen('01-inicio')" class="gestadia-card" style="padding: 14px 16px; cursor: pointer; border-left: 4px solid #C0392B; background: #FFFFFF;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: #FDEDEC; color: #C0392B; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px;">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+                    </div>
+                    <div>
+                      <div style="display: flex; align-items: center; gap: 6px;">
+                        <strong style="font-size: 15px; color: #2C2C2C;">LidIA</strong>
+                        <span style="font-size: 10px; font-weight: 700; background: #FDEDEC; color: #C0392B; padding: 1px 6px; border-radius: 4px;">IA Gestadia</span>
+                      </div>
+                      <span style="font-size: 12px; color: #6B7280;">Sondeo y Diagnóstico Previo DGT</span>
+                    </div>
+                  </div>
+                  <div style="text-align: right;">
+                    <span style="font-size: 11.5px; color: #9CA3AF;">09:45</span>
+                  </div>
+                </div>
+                <p style="font-size: 13px; color: #4B5563; margin: 4px 0 0; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                  LidIA: ¿Qué trámite de Tráfico necesitas gestionar hoy?
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 0 16px 10px;">
+            <button class="gestadia-user-primary red-variant" style="width: 100%;" onclick="toggleSheet()">
+              Hablar con un gestor
+            </button>
+          </div>
+          ${renderNav()}
+          ${renderBottomSheet()}
+        `;
+      } else if (currentScreen === '04-chat-gestor') {
+        html = `
+          <!-- Cabecera Única y Minimalista: Volver · Habla con tu gestor · Llamada -->
+          <div style="background:#181818; border-bottom:1px solid rgba(255,255,255,0.08); padding:10px 16px; display:flex; align-items:center; justify-content:space-between; flex-shrink:0;">
+            <button onclick="loadScreen('05-mensajes')" class="gestadia-icon-btn" aria-label="Volver" style="width:36px;height:36px;color:#FFFFFF;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <h2 style="font-size:16px; font-weight:700; color:#FFFFFF; margin:0; text-align:center; flex:1;">Habla con tu gestor</h2>
+            <button class="gestadia-icon-btn" style="width:36px;height:36px;background:rgba(255,255,255,0.08);color:#FFFFFF;border:1px solid rgba(255,255,255,0.1);" onclick="alert('Solicitando llamada telefónica con tu gestor a tu móvil (+34 684 46 09 71)...')" title="Solicitar llamada">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </button>
+          </div>
+
+          <!-- Conversación con Burbujas: Gestor = Negro · Usuario = Rojo -->
+          <div class="gestadia-user-content" style="padding: 14px 14px 20px; display:flex; flex-direction:column; gap:12px; background:#F7F7F7;">
+            <div style="text-align:center; margin-bottom:2px;">
+              <span style="font-size:11px; background:#E5E7EB; color:#4B5563; padding:3px 10px; border-radius:12px; font-weight:600;">
+                ✓ Expediente GST-202607-97389 · Juan Carlos Acero asignado
+              </span>
+            </div>
+
+            <!-- Burbuja 1: Gestor (Negro #2C2C2C) -->
+            <div style="max-width:85%; background:#2C2C2C; color:#FFFFFF; border-radius:16px 16px 16px 4px; padding:12px 14px; box-shadow:0 2px 6px rgba(0,0,0,0.06); align-self:flex-start;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:11px; color:#D1D5DB;">
+                <span style="font-weight:700; color:#FFFFFF;">Juan Carlos Acero</span>
+                <span>10:15</span>
+              </div>
+              <p style="font-size:14px; line-height:1.45; margin:0; color:#F3F4F6;">
+                ¡Hola Gonzalo! Soy Juan Carlos, tu gestor asignado en Gestadia. Ya he recibido el abono de tu trámite de <strong>Canje de Carnet (Perú)</strong> y estamos preparando la solicitud telemática para la DGT.
+              </p>
+            </div>
+
+            <!-- Burbuja 2: Usuario (Rojo #C0392B) -->
+            <div style="max-width:82%; background:#C0392B; color:#FFFFFF; border-radius:16px 16px 4px 16px; padding:12px 14px; box-shadow:0 2px 6px rgba(192,57,43,0.15); align-self:flex-end;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:11px; color:rgba(255,255,255,0.85);">
+                <span style="font-weight:700;">Tú</span>
+                <span>10:16</span>
+              </div>
+              <p style="font-size:14px; line-height:1.45; margin:0;">
+                ¡Hola Juan Carlos! Perfecto, ¿qué documentación necesitas que te aporte para tramitarlo?
+              </p>
+            </div>
+
+            <!-- Burbuja 3: Gestor (Negro #2C2C2C con Tarjeta de Subida) -->
+            <div style="max-width:88%; background:#2C2C2C; color:#FFFFFF; border-radius:16px 16px 16px 4px; padding:12px 14px; box-shadow:0 2px 6px rgba(0,0,0,0.06); align-self:flex-start;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:11px; color:#D1D5DB;">
+                <span style="font-weight:700; color:#FFFFFF;">Juan Carlos Acero</span>
+                <span>10:17</span>
+              </div>
+              <p style="font-size:14px; line-height:1.45; margin:0 0 10px; color:#F3F4F6;">
+                Necesito que subas estos <strong>3 documentos obligatorios</strong> para validar el convenio con las autoridades de Perú:
+              </p>
+              <div style="background:#1E1E1E; border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:10px; display:flex; flex-direction:column; gap:8px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:6px;">
+                  <span style="font-size:12px; color:#FFFFFF; font-weight:600;">1. Residencia legal (DNI/TIE)</span>
+                  <button onclick="loadScreen('07-verificacion-datos')" style="padding:4px 10px; border-radius:6px; background:#C0392B; color:white; border:none; font-size:11.5px; font-weight:700; cursor:pointer;">Subir</button>
+                </div>
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:6px;">
+                  <span style="font-size:12px; color:#FFFFFF; font-weight:600;">2. Permiso original Perú</span>
+                  <button onclick="loadScreen('07-verificacion-datos')" style="padding:4px 10px; border-radius:6px; background:#C0392B; color:white; border:none; font-size:11.5px; font-weight:700; cursor:pointer;">Subir</button>
+                </div>
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:6px;">
+                  <span style="font-size:12px; color:#FFFFFF; font-weight:600;">3. Psicotécnico oficial</span>
+                  <button onclick="loadScreen('07-verificacion-datos')" style="padding:4px 10px; border-radius:6px; background:#C0392B; color:white; border:none; font-size:11.5px; font-weight:700; cursor:pointer;">Subir</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Burbuja 4: Usuario (Rojo #C0392B) -->
+            <div style="max-width:82%; background:#C0392B; color:#FFFFFF; border-radius:16px 16px 4px 16px; padding:12px 14px; box-shadow:0 2px 6px rgba(192,57,43,0.15); align-self:flex-end;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:11px; color:rgba(255,255,255,0.85);">
+                <span style="font-weight:700;">Tú</span>
+                <span>10:19</span>
+              </div>
+              <p style="font-size:14px; line-height:1.45; margin:0;">
+                Ya he subido los 3 documentos requeridos y verificado la dirección en Paseo de la Castellana.
+              </p>
+            </div>
+
+            <!-- Burbuja 5: Gestor (Negro #2C2C2C con Justificante) -->
+            <div style="max-width:88%; background:#2C2C2C; color:#FFFFFF; border-radius:16px 16px 16px 4px; padding:12px 14px; box-shadow:0 2px 6px rgba(0,0,0,0.06); align-self:flex-start;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:11px; color:#D1D5DB;">
+                <span style="font-weight:700; color:#FFFFFF;">Juan Carlos Acero</span>
+                <span>10:21</span>
+              </div>
+              <p style="font-size:14px; line-height:1.45; margin:0 0 10px; color:#F3F4F6;">
+                ¡Excelente Gonzalo! Todo verificado y firmado digitalmente. Aquí tienes tu <strong>Autorización Provisional para Conducir oficial con CSV</strong> de la DGT para conducir legalmente desde hoy mismo:
+              </p>
+              <button onclick="alert('Descargando Permiso Provisional Oficial DGT (PDF con CSV)...')" style="width:100%; padding:10px 12px; border-radius:8px; background:#16A34A; color:white; border:none; font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Descargar Justificante Provisional (PDF)</span>
+              </button>
+            </div>
+          </div>
+
+          ${renderComposer('¿Qué necesitas?')}
+          ${renderNav()}
+        `;
+      } else if (currentScreen === '03-mis-tramites') {
+        html = `
+          ${renderHeader()}
+          <div class="gestadia-user-content" style="padding: 20px 16px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <h1 style="font-size:22px; font-weight:800; color:#2C2C2C; margin:0;">Mis Trámites</h1>
+              <span style="font-size:11.5px; font-weight:700; background:#FDEDEC; color:#C0392B; padding:3px 8px; border-radius:8px;">1 activo</span>
+            </div>
+            <p style="font-size:13.5px; color:#6B7280; margin-bottom:16px;">Estado de tus gestiones activas ante la DGT.</p>
+
+            <!-- Trámite 1: con estado especificado -->
+            <div class="gestadia-card" style="border:1.5px solid #C0392B; padding:16px; margin-bottom:14px; cursor:pointer;" onclick="loadScreen('04-chat-gestor')">
+              <div style="margin-bottom:10px;">
+                <h3 style="font-size:16.5px; font-weight:800; color:#2C2C2C; margin:0 0 3px; width:100%;">Canje de Carnet Extranjero</h3>
+                <div style="font-size:12px; color:#6B7280;">GST-202607-97389 · Perú 🇵🇪</div>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; padding-top:10px; border-top:1px solid #F3F4F6;">
+                <span style="font-size:12px; color:#6B7280;">Estado: <strong style="color:#C0392B;">Falta documentación</strong></span>
+                <span style="font-size:12.5px; font-weight:700; color:#C0392B; display:flex; align-items:center; gap:2px;">Hablar con un gestor ›</span>
+              </div>
+            </div>
+
+            <!-- Trámite 2: sin dato de estado -> muestra 'En trámite' -->
+            <div class="gestadia-card" style="padding:16px; margin-bottom:14px; cursor:pointer;" onclick="alert('Expediente en curso. Tu gestor está tramitando la solicitud.')">
+              <div style="margin-bottom:10px;">
+                <h3 style="font-size:16px; font-weight:800; color:#2C2C2C; margin:0 0 3px; width:100%;">Duplicado de Permiso de Conducir</h3>
+                <div style="font-size:12px; color:#6B7280;">GST-202610-88124</div>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; padding-top:10px; border-top:1px solid #F3F4F6;">
+                <span style="font-size:12px; color:#6B7280;">Estado: <strong style="color:#4B5563;">En trámite</strong></span>
+                <span style="font-size:12.5px; font-weight:700; color:#4B5563; display:flex; align-items:center; gap:2px;">Ver estado ›</span>
+              </div>
+            </div>
+          </div>
+          ${renderNav()}
+        `;
+      } else if (currentScreen === '07-verificacion-datos') {
+        html = `
+          <!-- Pantalla Completa de Verificación de Datos y Documentos (Dark Header) -->
+          <div style="background:#181818; border-bottom:1px solid rgba(255,255,255,0.08); padding:12px 16px; display:flex; align-items:center; gap:10px;">
+            <button onclick="loadScreen('04-chat-gestor')" class="gestadia-icon-btn" aria-label="Volver" style="color:#FFFFFF;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <div>
+              <span style="font-size:11px; font-weight:700; color:#C0392B; text-transform:uppercase;">GST-202607-97389</span>
+              <h2 style="font-size:17px; font-weight:800; color:#FFFFFF; margin:0;">Verificación de Datos y Carnet</h2>
+            </div>
+          </div>
+
+          <div class="gestadia-user-content" style="padding: 16px; background:white;">
+            <div style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:10px; padding:10px; margin-bottom:14px; font-size:12.5px; color:#4B5563;">
+              Validación antes de la presentación del trámite.
+            </div>
+
+            <h3 style="font-size:14px; font-weight:700; color:#2C2C2C; margin-bottom:8px;">1. Datos Personales y Filiación DGT</h3>
+            <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:16px;">
+              <input type="text" value="Gonzalo" placeholder="Nombre" style="width:100%; padding:9px; border-radius:8px; border:1px solid #D1D5DB; font-size:14px;">
+              <input type="text" value="Villanova Alvarez" placeholder="Apellidos" style="width:100%; padding:9px; border-radius:8px; border:1px solid #D1D5DB; font-size:14px;">
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                <input type="text" value="DNI: 47307603F" style="padding:9px; border-radius:8px; border:1px solid #D1D5DB; font-size:14px;">
+                <input type="text" value="País: Perú" disabled style="padding:9px; border-radius:8px; border:1px solid #E5E7EB; background:#F3F4F6; font-size:14px;">
+              </div>
+              <input type="email" value="gonzalovial20@gmail.com" disabled style="width:100%; padding:9px; border-radius:8px; border:1px solid #E5E7EB; background:#F3F4F6; font-size:14px;">
+              <input type="tel" value="+34 684 46 09 71" style="width:100%; padding:9px; border-radius:8px; border:1px solid #D1D5DB; font-size:14px;">
+              <input type="text" value="Calle Paseo de la castellana 143, 2A, 28046 Madrid" placeholder="Dirección de envío" style="width:100%; padding:9px; border-radius:8px; border:1px solid #D1D5DB; font-size:14px;">
+            </div>
+
+            <h3 style="font-size:14px; font-weight:700; color:#2C2C2C; margin-bottom:8px;">2. Documentación Obligatoria (máx. 10 MB)</h3>
+            <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:16px;">
+              <div style="border:1.5px dashed #D1D5DB; border-radius:10px; padding:10px 12px; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <strong style="font-size:12.5px; display:block;">1. Residencia legal (DNI/TIE)</strong>
+                  <span style="font-size:11px; color:#6B7280;">DNI, tarjeta de residencia o resguardo</span>
+                </div>
+                <button onclick="alert('Abriendo selector de archivos...')" style="padding:5px 12px; border-radius:6px; background:#2C2C2C; color:white; border:none; font-size:12px; font-weight:700;">Subir</button>
+              </div>
+
+              <div style="border:1.5px dashed #D1D5DB; border-radius:10px; padding:10px 12px; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <strong style="font-size:12.5px; display:block;">2. Permiso original Perú</strong>
+                  <span style="font-size:11px; color:#6B7280;">Fotografía legible por ambas caras</span>
+                </div>
+                <button onclick="alert('Abriendo cámara o selector...')" style="padding:5px 12px; border-radius:6px; background:#2C2C2C; color:white; border:none; font-size:12px; font-weight:700;">Subir</button>
+              </div>
+
+              <div style="border:1.5px dashed #D1D5DB; border-radius:10px; padding:10px 12px; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <strong style="font-size:12.5px; display:block;">3. Examen psicotécnico</strong>
+                  <span style="font-size:11px; color:#6B7280;">Certificado de centro autorizado</span>
+                </div>
+                <button onclick="alert('Abriendo selector de archivos...')" style="padding:5px 12px; border-radius:6px; background:#2C2C2C; color:white; border:none; font-size:12px; font-weight:700;">Subir</button>
+              </div>
+            </div>
+
+            <button class="gestadia-user-primary red-variant" style="width:100%;" onclick="alert('¡Datos confirmados y remitidos a tu gestor Juan Carlos Acero!'); loadScreen('04-chat-gestor');">
+              Validar y Enviar
+            </button>
+          </div>
+          ${renderNav()}
+        `;
+      } else if (currentScreen === '06-contacto') {
+        html = `
+          ${renderHeader()}
+          <div class="gestadia-user-content" style="padding: 24px 20px;">
+            <div style="text-align:center; padding: 40px 10px; color:#6B7280;">
+              El formulario inferior está activo sobre la pantalla de origen.
+            </div>
+          </div>
+          ${renderNav()}
+          ${renderBottomSheet()}
+        `;
+      } else if (currentScreen === '09-correo') {
+        html = `
+          <div style="height:100%; overflow-y:auto; background:#F7F7F7; padding:16px;">
+            <div style="max-width:360px; margin:0 auto; background:white; border-radius:16px; overflow:hidden; border:1px solid #E5E7EB; box-shadow:0 4px 10px rgba(0,0,0,0.05);">
+              <div style="background:#181818; padding:20px; border-bottom:3px solid #C0392B;">
+                <div class="showcase-logo" style="font-size:22px; color:#FFFFFF;">gestadia<span style="color:#C0392B;">.</span></div>
+                <div style="color:#9CA3AF; font-size:10px; font-weight:700; text-transform:uppercase; margin-top:2px;">Gestoría Administrativa DGT</div>
+              </div>
+              <div style="padding:20px;">
+                <span style="font-size:11px; font-weight:700; color:#C0392B; text-transform:uppercase;">GST-202607-97389</span>
+                <h2 style="font-size:18px; font-weight:800; color:#2C2C2C; margin:4px 0 10px;">Juan Carlos Acero ha sido asignado a tu trámite</h2>
+                <p style="font-size:13.5px; color:#4B5563; line-height:1.5; margin-bottom:14px;">
+                  Tu gestor asignado ya ha formalizado la apertura de tu expediente de Canje ante la DGT. Para continuar, por favor verifica tus datos en el portal:
+                </p>
+                <button onclick="loadScreen('04-chat-gestor')" class="gestadia-user-primary red-variant" style="width:100%; margin-bottom:14px;">
+                  Entrar al portal
+                </button>
+                <div style="font-size:11px; color:#9CA3AF; border-top:1px solid #F3F4F6; padding-top:10px;">
+                  Gestadia S.L. · Trámites DGT 100% Online.
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      root.innerHTML = html + renderNotifSheet();
+    }
+
+    // Parámetros y selección interactiva de contratación para continuar en la web
+    let selectedContractSlug = 'canje-carnet';
+    let selectedContractPrice = '210';
+    let selectedContractName = 'Canje de Carnet Extranjero';
+
+    function selectContractService(slug, price, name, el) {
+      selectedContractSlug = slug;
+      selectedContractPrice = price;
+      selectedContractName = name;
+      document.querySelectorAll('.contract-service-card').forEach(c => {
+        c.style.border = '1px solid #E5E7EB';
+      });
+      if (el) {
+        el.style.border = '2px solid #C0392B';
+      }
+    }
+
+    function goToWebCheckout() {
+      const fullName = document.getElementById('contractNombre') ? document.getElementById('contractNombre').value.trim() : 'Gonzalo Villanova Alvarez';
+      const dni = document.getElementById('contractDni') ? document.getElementById('contractDni').value.trim() : '47307603F';
+      const tel = document.getElementById('contractTel') ? document.getElementById('contractTel').value.trim() : '+34 684 46 09 71';
+      const email = document.getElementById('contractEmail') ? document.getElementById('contractEmail').value.trim() : 'gonzalovial20@gmail.com';
+      
+      let nombre = fullName;
+      let apellidos = '';
+      if (fullName.includes(' ')) {
+        const parts = fullName.split(/\s+/);
+        nombre = parts[0];
+        apellidos = parts.slice(1).join(' ');
+      }
+
+      const cleanDoc = dni.toUpperCase();
+      const tipoDoc = /^[XYZ]/i.test(cleanDoc) ? 'NIE' : 'DNI';
+
+      const params = new URLSearchParams({
+        servicio: selectedContractSlug,
+        nombre: nombre,
+        apellidos: apellidos,
+        email: email,
+        telefono: tel.replace(/\s+/g, ''),
+        numDocumento: cleanDoc,
+        dni: cleanDoc,
+        tipoDocumento: tipoDoc,
+        procedencia: 'lidia'
+      });
+      if (selectedContractSlug === 'canje-carnet') {
+        params.set('paisCanje', 'peru');
+      }
+      const targetUrl = `https://gestadia.com/checkout?${params.toString()}`;
+      window.open(targetUrl, '_blank');
+    }
+
+    // Inicialización al cargar la página
+    renderCurrentScreen();
+  </script>
+</body>
+</html>

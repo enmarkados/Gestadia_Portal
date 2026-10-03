@@ -91,7 +91,7 @@ export default function CheckoutForm({ servicio, prefill = null, procedencia = '
       {procedencia === 'lidia' && (
         <p className={styles.avisoVerifica} role="status">
           <strong>Revisa tus datos antes de pagar.</strong> Los hemos recogido en tu
-          conversación de WhatsApp y pueden contener errores — revísalos con calma,
+          conversación con LidIA y pueden contener errores — revísalos con calma,
           sobre todo el nombre y los apellidos, y corrige lo que haga falta.
         </p>
       )}

@@ -1,0 +1,12 @@
+GESTADIA · Trámites DGT Online
+
+Hola,
+
+Has solicitado acceder al área de gestión y seguimiento de trámites DGT. Para confirmar tu identidad y continuar con la tramitación segura de tu expediente, accede al siguiente enlace:
+
+https://gestadia.com/portal/verificar?token=demo_token
+
+Este enlace es de uso único y caducará en 30 minutos. Si no has solicitado este acceso, puedes ignorar este mensaje.
+
+---
+Gestadia Tramitación Digital S.L. · Colaborador Social Autorizado de la Dirección General de Tráfico (DGT).

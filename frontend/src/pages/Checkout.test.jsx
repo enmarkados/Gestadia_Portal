@@ -75,4 +75,43 @@ describe('Checkout', () => {
     await waitFor(() => expect(screen.getByText(/Tus datos/i)).toBeInTheDocument());
     expect(screen.queryByLabelText(/país del permiso/i)).not.toBeInTheDocument();
   });
+
+  it('prellena los campos del formulario a partir de los query params en la URL', async () => {
+    global.fetch = vi.fn(async (url) => {
+      if (String(url).includes('/api/servicios')) {
+        return { ok: true, json: async () => [{ slug: 'canje-carnet', nombre: 'Canje de Carnet Extranjero', descripcion: 'x', precio: 210, checklist: [], requierePais: true, requiereDireccion: true }] };
+      }
+      return { ok: true, json: async () => ({ demo: true, url: '/x' }) };
+    });
+    render(
+      <MemoryRouter initialEntries={['/checkout?servicio=canje-carnet&nombre=Gonzalo&apellidos=Villanova+Alvarez&email=gonzalovial20%40gmail.com&telefono=%2B34684460971&numDocumento=47307603F&tipoDocumento=DNI&paisCanje=peru&procedencia=lidia']}>
+        <Checkout />
+      </MemoryRouter>
+    );
+    await waitFor(() => expect(screen.getByLabelText('Nombre')).toHaveValue('Gonzalo'));
+    expect(screen.getByLabelText('Apellidos')).toHaveValue('Villanova Alvarez');
+    expect(screen.getByLabelText('Email')).toHaveValue('gonzalovial20@gmail.com');
+    expect(screen.getByLabelText('Teléfono móvil')).toHaveValue('684460971');
+    expect(screen.getByLabelText('Nº de documento')).toHaveValue('47307603F');
+    expect(screen.getByLabelText('País del permiso')).toHaveValue('peru');
+    expect(screen.getByText(/revísalos con calma/i)).toBeInTheDocument();
+  });
+
+  it('separa nombre y apellidos si solo se proporciona un nombre completo', async () => {
+    global.fetch = vi.fn(async (url) => {
+      if (String(url).includes('/api/servicios')) {
+        return { ok: true, json: async () => [{ slug: 'canje-carnet', nombre: 'Canje de Carnet Extranjero', descripcion: 'x', precio: 210, checklist: [], requierePais: true, requiereDireccion: true }] };
+      }
+      return { ok: true, json: async () => ({ demo: true, url: '/x' }) };
+    });
+    render(
+      <MemoryRouter initialEntries={['/checkout?servicio=canje-carnet&nombre=Gonzalo+Villanova+Alvarez&dni=47307603F']}>
+        <Checkout />
+      </MemoryRouter>
+    );
+    await waitFor(() => expect(screen.getByLabelText('Nombre')).toHaveValue('Gonzalo'));
+    expect(screen.getByLabelText('Apellidos')).toHaveValue('Villanova Alvarez');
+    expect(screen.getByLabelText('Nº de documento')).toHaveValue('47307603F');
+  });
 });
+

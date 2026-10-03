@@ -1,0 +1,506 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900&display=swap');
+
+:root {
+  /* Paleta Oficial Gestadia */
+  --gestadia-graphite: #2C2C2C;
+  --gestadia-graphite-dark: #1F1F1F;
+  --gestadia-graphite-light: #3F3F3F;
+  --gestadia-red: #C0392B;
+  --gestadia-red-hover: #A93226;
+  --gestadia-red-dark: #8E281D;
+  --gestadia-red-soft: #FDEDEC;
+  --gestadia-red-border: #F5C6CB;
+  --gestadia-success: #16A34A;
+  --gestadia-success-soft: #DCFCE7;
+  --gestadia-warning: #D97706;
+  --gestadia-warning-soft: #FEF3C7;
+  --gestadia-bg: #F7F7F7;
+  --gestadia-surface: #FFFFFF;
+  --gestadia-border: #E8E8E8;
+  --gestadia-border-control: #D1D5DB;
+  --gestadia-separator: #E5E7EB;
+  --gestadia-separator-soft: #F3F4F6;
+  --gestadia-text: #2C2C2C;
+  --gestadia-text-muted: #6B7280;
+  --gestadia-text-subtle: #9CA3AF;
+
+  /* Tipografía */
+  --gestadia-font-serif: "Playfair Display", Georgia, serif;
+  --gestadia-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  /* Safe Areas */
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+}
+
+/* Pantalla de Inicio / Splash de Carga */
+.gestadia-startup-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 200000;
+  background: var(--gestadia-graphite);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  color: white;
+  font-family: var(--gestadia-font-sans);
+}
+
+.gestadia-startup-logo {
+  font-family: var(--gestadia-font-serif);
+  font-size: clamp(36px, 10vw, 54px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: white;
+}
+.gestadia-startup-logo span {
+  color: var(--gestadia-red);
+}
+
+.gestadia-startup-loader {
+  width: 44px;
+  height: 44px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--gestadia-red);
+  border-radius: 50%;
+  animation: gestadiaSpin 0.9s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes gestadiaSpin {
+  to { transform: rotate(360deg); }
+}
+
+.gestadia-startup-label {
+  font-size: 14px;
+  color: #D1D5DB;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+/* Shell de Aplicación Móvil Gestadia */
+.gestadia-user-shell {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  overflow: hidden;
+  font-family: var(--gestadia-font-sans);
+  color: var(--gestadia-text);
+  background: var(--gestadia-bg);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Cabecera Móvil y Responsive */
+/* Cabecera Móvil y Responsive - Dark Header con Logo Blanco e Iconos Invertidos */
+.gestadia-user-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: #181818;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: calc(12px + var(--sat)) 20px 12px;
+  flex-shrink: 0;
+}
+
+.gestadia-brand-title {
+  font-family: var(--gestadia-font-serif);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #FFFFFF;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+.gestadia-brand-title span {
+  color: var(--gestadia-red);
+}
+
+.gestadia-brand-subtitle {
+  margin-top: 2px;
+  font-size: 11.5px;
+  line-height: 14px;
+  color: #9CA3AF;
+  font-weight: 500;
+}
+
+.gestadia-user-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.gestadia-icon-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.gestadia-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+.gestadia-icon-btn:focus-visible {
+  outline: 2px solid var(--gestadia-red);
+  outline-offset: 2px;
+}
+
+/* Área de Contenido con Scroll Propio */
+.gestadia-user-content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.gestadia-content-container {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 24px 20px;
+}
+
+/* Botones Principales de Acción */
+.gestadia-user-primary {
+  min-height: 52px;
+  padding: 13px 20px;
+  border-radius: 14px;
+  background: var(--gestadia-graphite);
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: background 0.15s, transform 0.05s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+.gestadia-user-primary:hover {
+  background: var(--gestadia-graphite-dark);
+}
+.gestadia-user-primary:active {
+  transform: scale(0.99);
+}
+.gestadia-user-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.gestadia-user-primary.red-variant {
+  background: var(--gestadia-red);
+}
+.gestadia-user-primary.red-variant:hover {
+  background: var(--gestadia-red-hover);
+}
+
+/* Dock de Navegación Inferior (3 Pestañas: Asistente, Contratar, Mis Trámites) */
+.gestadia-user-nav {
+  background: white;
+  border-top: 1px solid var(--gestadia-border);
+  display: flex;
+  justify-content: space-around;
+  flex-shrink: 0;
+  padding: 6px 24px max(10px, var(--sab));
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.gestadia-user-nav a,
+.gestadia-user-nav button.nav-item {
+  flex: 1;
+  max-width: 25%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  color: var(--gestadia-text-muted);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 8px 0 2px;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s;
+  white-space: nowrap;
+}
+
+.gestadia-user-nav a[aria-current="page"],
+.gestadia-user-nav a.active,
+.gestadia-user-nav button.nav-item.active {
+  color: var(--gestadia-graphite);
+}
+
+.gestadia-user-nav a[aria-current="page"]::before,
+.gestadia-user-nav a.active::before,
+.gestadia-user-nav button.nav-item.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 24px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--gestadia-red);
+}
+
+/* Compositor de Chat / Consulta */
+.gestadia-user-chat-input {
+  border: 1px solid var(--gestadia-border-control);
+  border-radius: 26px;
+  background: white;
+  display: flex;
+  align-items: center;
+  padding: 4px 6px 4px 14px;
+  gap: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.gestadia-user-chat-input:focus-within {
+  border-color: var(--gestadia-red);
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.12);
+}
+
+.gestadia-user-chat-input textarea {
+  flex: 1;
+  min-width: 0;
+  resize: none;
+  background: transparent;
+  border: none;
+  outline: 0;
+  padding: 8px 4px 8px 0;
+  font-size: 16px;
+  line-height: 1.4;
+  font-family: inherit;
+  color: var(--gestadia-text);
+  max-height: 120px;
+}
+
+.gestadia-send-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--gestadia-red);
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s, transform 0.05s;
+}
+.gestadia-send-btn:hover {
+  background: var(--gestadia-red-hover);
+}
+.gestadia-send-btn:active {
+  transform: scale(0.95);
+}
+.gestadia-send-btn:disabled {
+  background: #E5E7EB;
+  color: #9CA3AF;
+  cursor: not-allowed;
+}
+
+.gestadia-mic-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--gestadia-text-muted);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.15s, background 0.15s;
+}
+.gestadia-mic-btn:hover {
+  color: var(--gestadia-red);
+  background: var(--gestadia-red-soft);
+}
+
+/* Burbujas de Mensaje */
+.gestadia-user-bubble {
+  max-width: min(85%, 600px);
+  border-radius: 18px 18px 4px 18px;
+  padding: 13px 16px;
+  font-size: 15px;
+  line-height: 1.5;
+  background: var(--gestadia-graphite);
+  color: white;
+  margin-left: auto;
+  overflow-wrap: anywhere;
+}
+
+.gestadia-assistant-bubble {
+  max-width: min(88%, 620px);
+  border-radius: 18px 18px 18px 4px;
+  padding: 14px 16px;
+  font-size: 15px;
+  line-height: 1.55;
+  background: white;
+  border: 1px solid var(--gestadia-border);
+  color: var(--gestadia-text);
+  overflow-wrap: anywhere;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+.gestadia-assistant-bubble p {
+  margin-bottom: 0.65em;
+}
+.gestadia-assistant-bubble p:last-child {
+  margin-bottom: 0;
+}
+.gestadia-assistant-bubble ul,
+.gestadia-assistant-bubble ol {
+  margin: 0.5em 0 0.7em;
+  padding-left: 1.4em;
+}
+.gestadia-assistant-bubble li {
+  margin-bottom: 0.35em;
+}
+.gestadia-assistant-bubble strong {
+  font-weight: 700;
+  color: var(--gestadia-graphite-dark);
+}
+
+/* Opciones / Chips Rápidos de Respuesta */
+.gestadia-reply-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.gestadia-reply-chip {
+  min-height: 40px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: white;
+  border: 1px solid var(--gestadia-border-control);
+  color: var(--gestadia-graphite);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.gestadia-reply-chip:hover {
+  border-color: var(--gestadia-red);
+  background: var(--gestadia-red-soft);
+  color: var(--gestadia-red-dark);
+}
+
+/* Tarjetas y Badges */
+.gestadia-card {
+  background: white;
+  border: 1px solid var(--gestadia-border);
+  border-radius: 16px;
+  padding: 20px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.gestadia-card.interactive:hover {
+  border-color: #D1D5DB;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.gestadia-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  line-height: 1;
+}
+.gestadia-badge.badge-tramite {
+  background: #EFF6FF;
+  color: #1E40AF;
+  border: 1px solid #BFDBFE;
+}
+.gestadia-badge.badge-completado {
+  background: var(--gestadia-success-soft);
+  color: var(--gestadia-success);
+  border: 1px solid #BBF7D0;
+}
+.gestadia-badge.badge-pendiente {
+  background: var(--gestadia-warning-soft);
+  color: var(--gestadia-warning);
+  border: 1px solid #FDE68A;
+}
+
+/* Bottom Sheet Modal */
+.gestadia-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  animation: fadeIn 0.2s ease-out;
+}
+.gestadia-sheet-card {
+  background: white;
+  border-radius: 24px 24px 0 0;
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 16px 20px max(24px, var(--sab));
+  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.15);
+}
+.gestadia-sheet-handle {
+  width: 40px;
+  height: 4px;
+  border-radius: 2px;
+  background: #E5E7EB;
+  margin: 0 auto 16px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+/* Breakpoint Escritorio y Tablet (>= 768px) */
+@media (min-width: 768px) {
+  .gestadia-user-header {
+    padding-left: max(24px, calc((100vw - 850px) / 2));
+    padding-right: max(24px, calc((100vw - 850px) / 2));
+  }
+  .gestadia-user-nav {
+    gap: 24px;
+    justify-content: center;
+  }
+  .gestadia-user-nav a,
+  .gestadia-user-nav button.nav-item {
+    width: 200px;
+  }
+}

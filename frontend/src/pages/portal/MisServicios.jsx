@@ -44,14 +44,17 @@ export default function MisServicios() {
             return (
               <Link key={e.id} to={`/portal/mis-servicios/${e.id}`} className={styles.card}>
                 <div className={styles.cardTop}>
-                  <div>
-                    <div className={styles.cardTitle}>{e.titulo}</div>
-                    <div className={styles.cardMeta}>{e.nPedido} · contratado el {fmt(e.createdAt)}</div>
-                  </div>
-                  <span className={alerta ? `${styles.badge} ${styles.badgeAlert}` : styles.badge}>{e.estadoLabel}</span>
+                  <div className={styles.cardTitle}>{e.titulo}</div>
+                  <div className={styles.cardMeta}>{e.nPedido} · contratado el {fmt(e.createdAt)}</div>
                 </div>
                 <div className={styles.progress}>
                   <div className={styles.progressBar} style={{ width: `${e.progreso}%` }} />
+                </div>
+                <div className={styles.cardBottom}>
+                  <span className={styles.cardStatus}>
+                    Estado: <strong className={alerta ? styles.statusAlert : styles.statusNormal}>{e.estadoLabel}</strong>
+                  </span>
+                  <span className={styles.cardAction}>Ver expediente ›</span>
                 </div>
               </Link>
             );

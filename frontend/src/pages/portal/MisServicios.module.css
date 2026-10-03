@@ -11,15 +11,21 @@
 .card { display: block; background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; box-shadow: 0 4px 24px rgba(0,0,0,0.05); text-decoration: none; color: inherit; transition: box-shadow .15s, transform .15s; }
 .card:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.1); transform: translateY(-1px); }
 
-.card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+.card-top { margin-bottom: 14px; }
 .card-title { font-size: 17px; font-weight: 700; color: var(--graphite); margin-bottom: 4px; }
 .card-meta { font-size: 13px; color: #999; }
 
 .badge { flex-shrink: 0; background: #f3f3f3; color: #555; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; border-radius: 999px; padding: 6px 14px; white-space: nowrap; }
 .badge-alert { background: #fdecea; color: var(--red); }
 
-.progress { background: #eee; border-radius: 999px; height: 8px; overflow: hidden; }
+.progress { background: #eee; border-radius: 999px; height: 8px; overflow: hidden; margin-bottom: 12px; }
 .progress-bar { background: var(--red); height: 100%; border-radius: 999px; transition: width .3s; }
+
+.card-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid #f3f3f3; }
+.card-status { font-size: 13px; color: #666; }
+.status-alert { color: var(--red); }
+.status-normal { color: #4b5563; }
+.card-action { font-size: 12.5px; font-weight: 700; color: var(--red); }
 
 @media (max-width: 600px) {
   .card {

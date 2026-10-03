@@ -44,7 +44,7 @@ export default function Notificaciones() {
       {!loadError && notificaciones === null && <p className={styles.loading}>Cargando…</p>}
 
       {notificaciones && notificaciones.length === 0 && (
-        <div className={styles.emptyCard}><p>Nada por aquí todavía.</p></div>
+        <div className={styles.emptyCard}><p>Estás al día. Sin notificaciones pendientes.</p></div>
       )}
 
       {notificaciones && notificaciones.length > 0 && (
