@@ -6,7 +6,7 @@ Rama `app/main` creada desde `main`, revisión de partida `af5b515`. La entrega 
 
 ## Pruebas y builds
 
-- `npm test --prefix frontend`: **74/74 pruebas**, 26 archivos. Incluye las 40 pruebas existentes del portal y 34 de la app.
+- `npm test --prefix frontend`: **80/80 pruebas**, 27 archivos. Incluye las 40 pruebas existentes del portal y 40 de la app.
 - `npm run app:build` y `npm run mobile:sync`: build y sincronización de los proyectos correctos. El portal conserva su build independiente y también se construyó correctamente con `npm run build`.
 - Los tests comprueban acceso y registro locales sin persistir contraseñas, bloqueo de peticiones/navegación externa y reconocimiento de voz en demo, descarte de sesiones reales antiguas y cierre interno del servicio de ejemplo. El micrófono de la app no inicia un servicio de dictado en esta entrega.
 - La lógica futura de conexión tiene pruebas controladas de aislamiento de credenciales, rechazo de respuestas de sesiones antiguas, recuperación de mensajes tras errores sin reenvío automático, campos opcionales y normalización de países. No acredita una conversación real ni permite habilitarla sin las comprobaciones de la siguiente fase.
@@ -27,6 +27,8 @@ Rama `app/main` creada desde `main`, revisión de partida `af5b515`. La entrega 
 - Botones, enlaces y selección documental enfocada usan contorno rojo discontinuo. Los inputs de texto conservan el borde negro de foco; se elimina el contorno azul de los controles de la demo.
 - El micrófono muestra un aviso emergente amarillo, fuera del compositor, que se oculta a los cuatro segundos y permite cierre manual y reapertura. Verificado en ambos chats sin iniciar conexiones. El cierre del sondeo de LidIA muestra «Ver Servicios», sin «DGT».
 - La X de los paneles no muestra contorno al enfocarse. Notificaciones elimina el botón inferior «Cerrar» y mantiene la X superior, cierre exterior y Atrás/Escape.
+- Cuenta abre un panel inferior con identidad, Mi Perfil y Cerrar Sesión. El perfil replica la estructura de LIA APP: datos personales, seguridad, avisos, preferencias, borrado y Legal y soporte; mantiene el selector de demostración de Gestadia sin importar roles/DevTools de LIA. Los tests comprueban regreso del foco, preferencias persistentes sin permisos/red, contraseñas transitorias, cancelación y eliminación de datos locales sin afectar otras apps, error de almacenamiento y navegación legal sin sesión. [Detalle](PERFIL-LIA.md).
+- Mis trámites muestra «Ver trámite y documentos» en negro y elimina el enlace textual «Hablar con un gestor» de cada tarjeta. El CTA de contacto se retira de Mi Perfil, acceso y registro, incluido el acceso que aparece en Inicio después de cerrar sesión.
 
 - Imagen `gestadia-app:2026-10-03` construida para **linux/amd64**. Contenedor local en `http://127.0.0.1:8099/`; `nginx -t` correcto y `/healthz` identifica la app.
 - Configuración servida: `demoEnabled: true`, `demoOnly: true`, key vacía. `/api/health` y `/lidia/api/pluginweb/config` devuelven **503**, sin consultar upstreams.

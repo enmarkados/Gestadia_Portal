@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import LegalLinks from "./LegalLinks.jsx";
 import { useApp } from "./AppContext.jsx";
 import { demoOnly } from "./api.js";
 import Icon from "./Icon.jsx";
@@ -7,6 +8,7 @@ import Icon from "./Icon.jsx";
 export default function Login() {
   const app = useApp();
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
@@ -31,6 +33,12 @@ export default function Login() {
   return (
     <section className="auth-page">
       <p className="eyebrow">BIENVENIDO A GESTADIA</p>
+      {location.state?.deleted && (
+        <p role="status" className="success">
+          Cuenta de ejemplo borrada. Los datos del recorrido se han eliminado de
+          este dispositivo.
+        </p>
+      )}
       <h1>Tu gestoría, siempre contigo.</h1>
       <p className="muted">
         Accede a tus trámites, documentación y conversaciones en un solo lugar.
@@ -123,6 +131,7 @@ export default function Login() {
       >
         Explorar la demostración
       </button>
+      <LegalLinks compact />
     </section>
   );
 }

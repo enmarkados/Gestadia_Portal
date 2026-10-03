@@ -18,6 +18,9 @@ import Assistant from "./Assistant.jsx";
 import PlatformChat from "./PlatformChat.jsx";
 import Services from "./Services.jsx";
 import Account from "./Account.jsx";
+import AccountMenu from "./AccountMenu.jsx";
+import LegalPage from "./LegalPage.jsx";
+import { legalDocuments } from "./legalContent.js";
 import Expedientes, { ExpedienteDetalle } from "./Expedientes.jsx";
 import Messages, { ManagerChat } from "./Messages.jsx";
 import Contact from "./Contact.jsx";
@@ -40,6 +43,20 @@ export default function App() {
   const onContact = () => setSheet("contact");
   const hasNotifications = app.data.notifications.some((item) => !item.leida);
   const managerChat = location.pathname === "/mensajes/gestor";
+  const authScreen =
+    ["/acceso", "/registro"].includes(location.pathname) ||
+    (app.mode === "visitante" &&
+      (location.pathname === "/cuenta" ||
+        (location.pathname === "/" && demoOnly())));
+  const legalKind = location.pathname.startsWith("/legal/")
+    ? location.pathname.slice(7)
+    : null;
+  const legalDocument = legalDocuments[legalKind];
+  const legalBackTo = ["/cuenta", "/acceso", "/registro"].includes(
+    location.state?.from,
+  )
+    ? location.state.from
+    : "/acceso";
   const assistantChat =
     location.pathname === "/" &&
     app.mode === "demo" &&
@@ -67,7 +84,19 @@ export default function App() {
       >
         Ir al contenido
       </a>
-      {validationRoute ? (
+      {legalDocument ? (
+        <header className="legal-header">
+          <Link className="icon-btn" to={legalBackTo} aria-label="Volver">
+            <Icon name="back" />
+          </Link>
+          <div>
+            <span>
+              gestadia<b>.</b>
+            </span>
+            <p>{legalDocument.title}</p>
+          </div>
+        </header>
+      ) : validationRoute ? (
         <header className="validation-header">
           <Link
             className="icon-btn"
@@ -140,9 +169,15 @@ export default function App() {
               <Icon name="bell" />
               {hasNotifications && <span className="notification-dot" />}
             </button>
-            <Link to="/cuenta" className="icon-btn" aria-label="Mi cuenta">
+            <button
+              className="icon-btn"
+              aria-label="Mi cuenta"
+              aria-haspopup="dialog"
+              aria-expanded={sheet === "account"}
+              onClick={() => setSheet("account")}
+            >
               <Icon name="user" />
-            </Link>
+            </button>
           </div>
         </header>
       )}
@@ -195,16 +230,20 @@ export default function App() {
             <Route path="/registro" element={<Register />} />
             <Route path="/checkout-demo" element={<DemoCheckout />} />
             <Route path="/informacion" element={<DemoInfo />} />
+            {Object.keys(legalDocuments).map((kind) => (
+              <Route
+                key={kind}
+                path={`/legal/${kind}`}
+                element={<LegalPage key={kind} kind={kind} />}
+              />
+            ))}
             <Route
               path="/cuenta"
               element={
                 <Account key={`${app.mode}-${app.data.profile?.id || ""}`} />
               }
             />
-            <Route
-              path="/tramites"
-              element={<Expedientes onContact={onContact} />}
-            />
+            <Route path="/tramites" element={<Expedientes />} />
             <Route path="/tramites/:id" element={<ExpedienteDetalle />} />
             <Route
               path="/mensajes"
@@ -234,23 +273,27 @@ export default function App() {
           </Routes>
         )}
       </main>
-      {!["/acceso", "/registro"].includes(location.pathname) && (
+      {!legalDocument && !authScreen && (
         <footer className="app-footer">
-          {location.pathname !== "/servicios" && !validationRoute && (
-            <div className="footer-actions">
-              {!managerChat && !assistantChat && (
-                <button className="contact-cta" onClick={onContact}>
-                  <span>Hablar con un gestor</span>
-                </button>
-              )}
-              {location.pathname === "/" && app.mode === "demo" && (
-                <div id="lidia-composer" className="footer-lidia-composer" />
-              )}
-              {managerChat && app.mode === "demo" && app.isClient && (
-                <div id="manager-composer" className="footer-lidia-composer" />
-              )}
-            </div>
-          )}
+          {!["/servicios", "/cuenta"].includes(location.pathname) &&
+            !validationRoute && (
+              <div className="footer-actions">
+                {!managerChat && !assistantChat && (
+                  <button className="contact-cta" onClick={onContact}>
+                    <span>Hablar con un gestor</span>
+                  </button>
+                )}
+                {location.pathname === "/" && app.mode === "demo" && (
+                  <div id="lidia-composer" className="footer-lidia-composer" />
+                )}
+                {managerChat && app.mode === "demo" && app.isClient && (
+                  <div
+                    id="manager-composer"
+                    className="footer-lidia-composer"
+                  />
+                )}
+              </div>
+            )}
           <div className="dock-zone">
             <nav className="dock" aria-label="Navegación principal">
               {TABS.map(([to, label, icon]) => (
@@ -272,6 +315,7 @@ export default function App() {
         </footer>
       )}
       {sheet === "contact" && <Contact onClose={() => setSheet(null)} />}
+      {sheet === "account" && <AccountMenu onClose={() => setSheet(null)} />}
       {sheet === "notifications" && (
         <Notifications onClose={() => setSheet(null)} />
       )}

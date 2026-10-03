@@ -976,6 +976,326 @@ svg {
   font-size: 12px;
   color: #176337;
 }
+.account-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #2c2c2c;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
+.account-summary {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #f7f7f7;
+  padding: 16px;
+}
+.account-summary > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.account-summary p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+.account-menu-actions {
+  margin-top: 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.account-menu-actions button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 56px;
+  padding: 14px 16px;
+  background: #fff;
+  border: 0;
+  font-weight: 600;
+  text-align: left;
+}
+.account-menu-actions button:focus-visible {
+  outline-offset: -4px;
+}
+.account-menu-actions button > svg:last-child:not(:first-child) {
+  margin-left: auto;
+}
+.account-menu-actions button + button {
+  border-top: 1px solid var(--border);
+}
+.account-menu-actions button:hover {
+  background: #f7f7f7;
+}
+.account-menu-actions .account-logout {
+  color: #b03024;
+}
+.account-page > h1 {
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2;
+}
+.account-card {
+  padding: 0;
+  overflow: hidden;
+}
+.account-hero {
+  padding: 28px 20px;
+  text-align: center;
+  color: #fff;
+  background: #181818;
+  overflow-wrap: anywhere;
+}
+.account-hero .account-avatar {
+  width: 88px;
+  height: 88px;
+  font-size: 30px;
+  background: #383838;
+  border: 3px solid #ffffff26;
+  margin-bottom: 14px;
+}
+.account-hero h2 {
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+.account-hero p {
+  margin-bottom: 12px;
+  color: #d1d5db;
+  font-size: 14px;
+}
+.account-badge {
+  display: inline-block;
+  border-radius: 20px;
+  padding: 5px 14px;
+  background: #ffffff1c;
+  font-size: 12px;
+  font-weight: 700;
+}
+.account-body {
+  padding: 22px 20px;
+}
+.account-section + .account-section {
+  border-top: 1px solid var(--border);
+  margin-top: 28px;
+  padding-top: 28px;
+}
+.account-section-heading {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.account-section-heading > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  background: #f7f7f7;
+  border-radius: 12px;
+}
+.account-section-heading h2 {
+  margin: 0 0 6px;
+}
+.account-section-heading p {
+  margin: 0;
+}
+.account-preferences,
+.preference-explanation {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #f7f7f7;
+  padding: 16px;
+  margin: 14px 0;
+}
+.account-preferences h3 {
+  margin: 0 0 8px;
+}
+.preference-explanation p {
+  margin: 8px 0 0;
+}
+.preference-row {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+}
+.preference-row strong {
+  font-size: 14px;
+  line-height: 1.45;
+}
+.preference-switch {
+  width: 52px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  padding: 8px 0;
+  flex-shrink: 0;
+  position: relative;
+}
+.preference-switch::before {
+  content: "";
+  display: block;
+  width: 52px;
+  height: 28px;
+  border-radius: 18px;
+  background: #9ca3af;
+}
+.preference-switch[aria-checked="true"]::before {
+  background: #2c2c2c;
+}
+.preference-switch > span {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  top: 11px;
+  left: 3px;
+  box-shadow: 0 1px 3px #00000028;
+}
+.preference-switch[aria-checked="true"] > span {
+  left: 27px;
+}
+.account-deletion {
+  margin-top: 24px;
+}
+.account-deletion label {
+  display: block;
+  margin-bottom: 12px;
+}
+.account-deletion textarea {
+  display: block;
+  margin-top: 8px;
+}
+.btn.danger-btn {
+  border: 1px solid #f3c4c0;
+  color: #ad2c20;
+  background: #fff4f3;
+}
+.legal-links {
+  margin-top: 20px;
+}
+.legal-links nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.legal-links nav a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 44px;
+  flex: 1;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.legal-links:not(.compact) nav a:last-child {
+  background: #2c2c2c;
+  color: white;
+}
+.app-main > section.legal-links {
+  padding: 0;
+}
+.legal-links.compact {
+  padding: 0;
+}
+.legal-header {
+  background: #181818;
+  color: #fff;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: calc(12px + env(safe-area-inset-top, 0px)) 16px 12px;
+  flex-shrink: 0;
+}
+.legal-header .icon-btn {
+  background: #ffffff14;
+}
+.legal-header span {
+  font:
+    700 20px Georgia,
+    serif;
+}
+.legal-header b {
+  color: var(--red);
+}
+.legal-header p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #d1d5db;
+}
+.legal-intro h1 {
+  font-family: inherit;
+  font-size: 28px;
+}
+.legal-intro .eyebrow {
+  margin-top: 14px;
+}
+.legal-intro .muted {
+  margin-bottom: 12px;
+}
+.legal-intro .helper {
+  margin: 0;
+}
+.legal-document-icon {
+  display: inline-flex;
+  padding: 12px;
+  background: #f7f7f7;
+  border-radius: 14px;
+}
+.legal-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.legal-navigation a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 12px;
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 13px;
+  background: #fff;
+}
+.legal-navigation a[aria-current="page"] {
+  color: #fff;
+  background: #2c2c2c;
+  border-color: #2c2c2c;
+}
+.legal-content {
+  overflow-wrap: anywhere;
+}
+.legal-content > section + section {
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+  margin-top: 20px;
+}
+.legal-content p {
+  color: var(--muted);
+  font-size: 14px;
+}
+.legal-content section p:last-child {
+  margin-bottom: 0;
+}
 .form-card {
   display: flex;
   flex-direction: column;

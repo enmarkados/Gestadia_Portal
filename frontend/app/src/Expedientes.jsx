@@ -8,7 +8,7 @@ import {
 import { useApp } from "./AppContext.jsx";
 import { request } from "./api.js";
 import Icon from "./Icon.jsx";
-export default function Expedientes({ onContact }) {
+export default function Expedientes() {
   const { data, mode } = useApp();
   return (
     <section>
@@ -52,14 +52,11 @@ export default function Expedientes({ onContact }) {
                 Estado: <strong>{e.estadoLabel || "En trámite"}</strong>
               </p>
               <Link
-                className="btn primary"
+                className="btn dark-btn"
                 to={`/tramites/${encodeURIComponent(e.id)}`}
               >
                 Ver trámite y documentos
               </Link>
-              <button className="text-btn" onClick={onContact}>
-                Hablar con un gestor
-              </button>
             </article>
           ))}
         </div>

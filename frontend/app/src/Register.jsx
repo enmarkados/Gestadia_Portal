@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useApp } from "./AppContext.jsx";
 import Icon from "./Icon.jsx";
+import LegalLinks from "./LegalLinks.jsx";
 
 export default function Register() {
   const app = useApp();
@@ -152,6 +153,7 @@ export default function Register() {
           Iniciar sesión
         </Link>
       </p>
+      <LegalLinks compact />
     </section>
   );
 }

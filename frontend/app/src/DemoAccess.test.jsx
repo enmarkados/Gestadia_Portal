@@ -349,7 +349,8 @@ it("el registro recorre un perfil lead sin crear cuenta remota ni guardar contra
   expect(
     screen.getByRole("button", { name: "Notificaciones", exact: true }),
   ).toBeInTheDocument();
-  fireEvent.click(screen.getByRole("link", { name: "Mi cuenta" }));
+  fireEvent.click(screen.getByRole("button", { name: "Mi cuenta" }));
+  fireEvent.click(screen.getByRole("button", { name: "Mi Perfil" }));
   expect(screen.getByLabelText("Nombre")).toHaveValue("María Ejemplo");
   expect(JSON.stringify({ ...localStorage, ...sessionStorage })).not.toContain(
     "ClaveDemo123!",

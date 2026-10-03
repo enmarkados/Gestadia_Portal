@@ -99,6 +99,15 @@ export function AppProvider({ children }) {
     setData(EMPTY);
     setError("");
   }
+  function deleteDemoAccount() {
+    if (mode !== "demo")
+      throw new Error(
+        "El borrado de cuentas reales no está conectado en esta versión.",
+      );
+    // If storage cannot be erased, keep the session and report the failure.
+    localStorage.removeItem(DEMO_KEY);
+    logout();
+  }
   async function login(email, password) {
     const version = epoch.current;
     const body = await request("/api/auth/login", {
@@ -161,6 +170,7 @@ export function AppProvider({ children }) {
         refresh,
         startDemo,
         logout,
+        deleteDemoAccount,
         login,
         saveProfile,
         markRead,

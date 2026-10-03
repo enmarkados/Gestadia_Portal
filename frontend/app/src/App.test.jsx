@@ -95,10 +95,11 @@ it("el perfil lead deja la campana sin aviso y ofrece llamada sin chat de client
     }),
   );
   fireEvent.click(
-    screen.getByRole("link", {
+    screen.getByRole("button", {
       name: "Mi cuenta",
     }),
   );
+  fireEvent.click(screen.getByRole("button", { name: "Mi Perfil" }));
   fireEvent.click(
     screen.getByRole("button", {
       name: "Lead sin trámite",
@@ -156,10 +157,11 @@ it("no deja aparecer datos de una sesión anterior al cambiar a demo", async () 
   );
   mount();
   fireEvent.click(
-    screen.getByRole("link", {
+    screen.getByRole("button", {
       name: "Mi cuenta",
     }),
   );
+  fireEvent.click(screen.getByRole("button", { name: "Mi Perfil" }));
   // La expiración ocurre mientras siguen pendientes las lecturas de esa cuenta.
   act(() => {
     window.dispatchEvent(new Event("gestadia-session-expired"));
@@ -196,10 +198,11 @@ it("no deja aparecer datos de una sesión anterior al cambiar a demo", async () 
     screen.getByRole("heading", { name: "Perfil de demostración" }),
   ).toBeInTheDocument();
   fireEvent.click(
-    screen.getByRole("link", {
+    screen.getByRole("button", {
       name: "Mi cuenta",
     }),
   );
+  fireEvent.click(screen.getByRole("button", { name: "Mi Perfil" }));
   expect(screen.getByLabelText("Nombre")).toHaveValue("Alex");
   expect(screen.queryByDisplayValue("Datos de otra cuenta")).toBeNull();
 });

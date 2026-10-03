@@ -14,6 +14,7 @@ El alcance vigente, confirmado por el usuario el 3 de octubre de 2026, es una **
 - Servicios con precios del catálogo compartido del portal y revisión local del servicio elegido; no abre el checkout real ni realiza pagos.
 - Expediente de ejemplo, checklist y selección de documentos sin guardar o enviar su contenido.
 - Notificaciones, perfil, acceso y registro. Las contraseñas son transitorias y nunca se guardan.
+- Panel Cuenta y Mi Perfil con la estructura de LIA APP, conservando el selector propio de Gestadia; seguridad, preferencias locales, borrado del ejemplo y páginas públicas de privacidad, términos y soporte. [Detalle y alcance para tiendas](PERFIL-LIA.md).
 - Splash de marca para web y arranque nativo iOS/Android.
 
 ## Aislamiento

@@ -155,3 +155,27 @@
 - **Definición:** Cierre local del recorrido comercial que muestra el servicio elegido sin contratar ni realizar un pago.
 - **Alcance:** `frontend/app/src/DemoCheckout.jsx`, ruta `/checkout-demo`.
 - **Notas:** Sustituye la salida al checkout real exclusivamente en la primera versión de demostración.
+
+## Menú de cuenta
+- **Tipo:** concepto de interfaz.
+- **Definición:** Panel inferior que resume la identidad del usuario y permite abrir Mi Perfil o cerrar sesión.
+- **Alcance:** `frontend/app/src/AccountMenu.jsx`, `App.jsx`; destino `/cuenta`.
+- **Notas:** Replica la jerarquía de LIA APP sin importar su selector de roles ni DevTools. Conserva los controles propios de Gestadia.
+
+## Preferencias de cuenta de demostración
+- **Tipo:** concepto runtime.
+- **Definición:** Preferencias locales de avisos push, analítica, campañas y diagnóstico del perfil ficticio.
+- **Alcance:** `Account.jsx`, `AppContext.jsx`; objeto `data.preferences` dentro de `gestadia_app_demo_v1`.
+- **Notas:** No activan permisos del sistema ni SDK de seguimiento. Se reinician con el perfil de demostración.
+
+## Borrado de cuenta de demostración
+- **Tipo:** concepto runtime.
+- **Definición:** Eliminación del perfil, consultas, mensajes, preferencias y referencias documentales del ejemplo guardado en el dispositivo.
+- **Alcance:** `AccountDeletion.jsx`, `AppContext.jsx` (`deleteDemoAccount`), `/cuenta` y `/legal/delete-account`.
+- **Notas:** Cierra la sesión local y elimina sólo el almacenamiento de Gestadia. No sustituye el borrado de una cuenta de servidor ni acredita publicación en tiendas.
+
+## Documentos legales de la app
+- **Tipo:** concepto de interfaz.
+- **Definición:** Páginas públicas de privacidad, términos, soporte y eliminación de cuenta accesibles sin iniciar sesión.
+- **Alcance:** `legalContent.js`, `LegalPage.jsx`, `LegalLinks.jsx`; rutas `/legal/privacy`, `/legal/terms`, `/legal/support`, `/legal/delete-account`.
+- **Notas:** Estructura adaptada de LIA APP con contenido específico de Gestadia y del alcance desconectado. No importa términos o proveedores de LIA.
