@@ -1,0 +1,25 @@
+services:
+  gestadia-app:
+    image: ${GESTADIA_APP_IMAGE:-gestadia-app:local}
+    build:
+      context: .
+      dockerfile: deploy/app/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${GESTADIA_APP_PORT:-8091}:8080"
+    environment:
+      PORTAL_UPSTREAM: ${PORTAL_UPSTREAM:-https://gestadia.com}
+      PORTAL_HOST: ${PORTAL_HOST:-gestadia.com}
+      LIDIA_UPSTREAM: ${LIDIA_UPSTREAM:-https://lidia.gestadia.com}
+      LIDIA_HOST: ${LIDIA_HOST:-lidia.gestadia.com}
+      APP_CHECKOUT_URL: ${APP_CHECKOUT_URL:-https://gestadia.com}
+      APP_DEMO_ENABLED: ${APP_DEMO_ENABLED:-true}
+      APP_DEMO_ONLY: ${APP_DEMO_ONLY:-true}
+      APP_PLUGIN_KEY: ${APP_PLUGIN_KEY:-}
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

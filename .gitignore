@@ -24,3 +24,11 @@ scripts/portal-screenshots/
 .DS_Store
 */.DS_Store
 
+
+frontend/dist-app/
+output/playwright/
+artifacts/
+*.jks
+*.keystore
+*.p12
+*.mobileprovision

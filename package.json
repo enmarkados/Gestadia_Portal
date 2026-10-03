@@ -4,7 +4,16 @@
     "start": "npm start --prefix backend",
     "build": "npm run build --prefix frontend",
     "deploy": "node ftp-deploy.cjs",
-    "test": "playwright test"
+    "test": "playwright test",
+    "app:dev": "npm run dev:app --prefix frontend",
+    "app:build": "npm run build:app --prefix frontend",
+    "app:preview": "npm run preview:app --prefix frontend",
+    "mobile:sync": "npm run mobile:sync --prefix frontend",
+    "mobile:ios": "npm run mobile:ios --prefix frontend",
+    "mobile:android": "npm run mobile:android --prefix frontend",
+    "mobile:run:ios": "npm run mobile:run:ios --prefix frontend",
+    "mobile:run:android": "npm run mobile:run:android --prefix frontend",
+    "mobile:assets": "npm run mobile:assets --prefix frontend"
   },
   "dependencies": {
     "basic-ftp": "^6.0.1",

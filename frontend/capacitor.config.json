@@ -1,0 +1,17 @@
+{
+  "appId": "com.gestadia.app",
+  "appName": "Gestadia",
+  "webDir": "dist-app",
+  "backgroundColor": "#191919",
+  "loggingBehavior": "debug",
+  "server": { "androidScheme": "https" },
+  "android": { "allowMixedContent": false },
+  "plugins": {
+    "CapacitorHttp": { "enabled": true },
+    "SplashScreen": {
+      "launchAutoHide": false,
+      "backgroundColor": "#f7f7f7",
+      "showSpinner": false
+    }
+  }
+}

@@ -1,0 +1,124 @@
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useApp } from "./AppContext.jsx";
+
+export default function Register() {
+  const app = useApp();
+  const navigate = useNavigate();
+  const [form, setForm] = useState({
+    nombre: "",
+    email: "",
+    telefono: "",
+    password: "",
+    confirm: "",
+  });
+  const [error, setError] = useState("");
+  function submit(event) {
+    event.preventDefault();
+    if (form.password !== form.confirm) {
+      setError("Las contraseñas no coinciden.");
+      return;
+    }
+    app.startDemo("lead", true);
+    app.setData((old) => ({
+      ...old,
+      profile: {
+        ...old.profile,
+        nombre: form.nombre.trim(),
+        email: form.email.trim(),
+        telefono: form.telefono.trim(),
+      },
+    }));
+    setForm((old) => ({ ...old, password: "", confirm: "" }));
+    navigate("/");
+  }
+  return (
+    <section className="auth-page">
+      <p className="eyebrow">EMPIEZA CON GESTADIA</p>
+      <h1>Crea tu espacio.</h1>
+      <p className="muted">
+        Prepara tu próxima gestión y ten toda la información a mano.
+      </p>
+      <form className="card form-card" onSubmit={submit}>
+        <h2>Crear cuenta</h2>
+        <label>
+          Nombre
+          <input
+            required
+            autoComplete="given-name"
+            maxLength={100}
+            value={form.nombre}
+            onChange={(e) => setForm({ ...form, nombre: e.target.value })}
+          />
+        </label>
+        <label>
+          Email
+          <input
+            required
+            type="email"
+            autoComplete="email"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+          />
+        </label>
+        <label>
+          Teléfono <span className="helper">(opcional)</span>
+          <input
+            type="tel"
+            autoComplete="tel"
+            maxLength={30}
+            value={form.telefono}
+            onChange={(e) => setForm({ ...form, telefono: e.target.value })}
+          />
+        </label>
+        <label>
+          Contraseña
+          <input
+            required
+            type="password"
+            autoComplete="new-password"
+            aria-describedby="password-helper"
+            minLength={8}
+            maxLength={128}
+            value={form.password}
+            onChange={(e) => setForm({ ...form, password: e.target.value })}
+          />
+        </label>
+        <p id="password-helper" className="helper">
+          Al menos 8 caracteres.
+        </p>
+        <label>
+          Repetir contraseña
+          <input
+            required
+            type="password"
+            autoComplete="new-password"
+            minLength={8}
+            maxLength={128}
+            value={form.confirm}
+            onChange={(e) => setForm({ ...form, confirm: e.target.value })}
+          />
+        </label>
+        <p className="notice">
+          Registro de demostración: no crea una cuenta real ni envía datos. Las
+          contraseñas no se guardan.
+        </p>
+        {error && (
+          <p role="alert" className="error">
+            {error}
+          </p>
+        )}
+        <button className="btn primary">Crear cuenta de ejemplo</button>
+        <Link className="text-btn" to="/informacion">
+          Acerca de esta demostración
+        </Link>
+      </form>
+      <p className="auth-switch">
+        ¿Ya tienes cuenta?{" "}
+        <Link className="text-btn" to="/acceso">
+          Iniciar sesión
+        </Link>
+      </p>
+    </section>
+  );
+}

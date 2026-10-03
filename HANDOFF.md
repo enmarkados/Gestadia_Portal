@@ -146,3 +146,10 @@ https://gestadia.com/checkout?servicio={slug}&nombre={nombre}&apellidos={apellid
 - Si el nombre viene unificado (ej. `nombre=Gonzalo+Villanova+Alvarez`), `Checkout.jsx` automáticamente separa el primer término como nombre y el resto como apellidos.
 - Si el teléfono incluye prefijo internacional (ej. `+34684460971`), el formulario normaliza los 9 dígitos nacionales y conserva el prefijo.
 - El aviso superior informa: *"Revisa tus datos antes de pagar. Los hemos recogido en tu conversación con LidIA y pueden contener errores..."*.
+
+
+## 6. Primera demo web, iOS y Android en `app/main`
+
+La rama `app/main` parte de `af5b515` y añade una entrada React independiente en `frontend/app/`, basada en el handoff visual de este documento. Ver [primera versión](docs/app/PRIMERA-VERSION.md), [conexión LidIA](docs/app/INTEGRACION-LIDIA.md), [Docker/Plesk](docs/app/DOCKER-PLESK.md) y [glosario del proyecto](GLOSARIO.md).
+
+La aplicación tiene build propio (`npm run app:build`), imagen Docker, stack importable en Portainer y proyectos Capacitor para iOS/Android. La última instrucción del usuario limita la primera versión a una demo para enseñar, **sin conexiones externas**, con splash y pantallas de acceso/registro. `demoOnly` y `APP_DEMO_ONLY` están activos por defecto; checkout, llamadas y mensajes terminan localmente. Ver [móvil](docs/app/MOBILE.md) y [validación](docs/app/VALIDACION.md). La conexión real de IA/gestor, certificados de distribución, Firebase y base de datos se aplazan a la siguiente fase.

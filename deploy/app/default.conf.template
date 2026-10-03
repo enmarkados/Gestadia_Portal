@@ -1,0 +1,54 @@
+server {
+  listen 8080;
+  server_name _;
+  root /usr/share/nginx/html;
+  index index.html;
+  client_max_body_size 11m;
+  add_header X-Content-Type-Options nosniff always;
+  add_header Referrer-Policy strict-origin-when-cross-origin always;
+  add_header X-Frame-Options SAMEORIGIN always;
+
+  location = /healthz { access_log off; default_type application/json; return 200 '{"ok":true,"app":"gestadia"}'; }
+  location = /app-config.js { add_header Cache-Control "no-store"; }
+  location = /app-config.json { add_header Cache-Control "no-store"; }
+  location = /build-info.json { add_header Cache-Control "no-store"; }
+  location = /index.html { add_header Cache-Control "no-cache"; }
+  location /assets/ { try_files $uri =404; expires 1y; add_header Cache-Control "public, immutable"; }
+
+  location /api/ {
+    set $demo_only "${APP_DEMO_ONLY}";
+    if ($demo_only = "true") { return 503 '{"error":"Esta version funciona exclusivamente en demostracion."}'; }
+    resolver 127.0.0.11 valid=30s ipv6=off;
+    set $portal_upstream "${PORTAL_UPSTREAM}";
+    proxy_pass $portal_upstream$request_uri;
+    proxy_set_header Host ${PORTAL_HOST};
+    proxy_ssl_server_name on;
+    proxy_ssl_name ${PORTAL_HOST};
+    proxy_ssl_verify on;
+    proxy_ssl_trusted_certificate /etc/ssl/certs/ca-certificates.crt;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $http_x_forwarded_proto;
+    proxy_read_timeout 120s;
+    proxy_next_upstream off;
+  }
+
+  location /lidia/ {
+    set $demo_only "${APP_DEMO_ONLY}";
+    if ($demo_only = "true") { return 503 '{"error":"Esta version funciona exclusivamente en demostracion."}'; }
+    resolver 127.0.0.11 valid=30s ipv6=off;
+    set $lidia_upstream "${LIDIA_UPSTREAM}";
+    rewrite ^/lidia/(.*)$ /$1 break;
+    proxy_pass $lidia_upstream$uri$is_args$args;
+    proxy_set_header Host ${LIDIA_HOST};
+    proxy_ssl_server_name on;
+    proxy_ssl_name ${LIDIA_HOST};
+    proxy_ssl_verify on;
+    proxy_ssl_trusted_certificate /etc/ssl/certs/ca-certificates.crt;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $http_x_forwarded_proto;
+    proxy_read_timeout 180s;
+    proxy_next_upstream off;
+    proxy_buffering off;
+  }
+  location / { try_files $uri $uri/ /index.html; }
+}
