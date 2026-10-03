@@ -48,6 +48,12 @@ Capturas de splash e Inicio: `output/playwright/gestadia-ios-splash.png` y `gest
 
 Esta evidencia corresponde al **simulador**. No se ha generado una IPA para dispositivos físicos, firmado para distribución ni publicado en TestFlight/App Store.
 
+### Instalación en iPhone físico
+
+El 3 de octubre se compiló la revisión de interfaz `42d2608` para **iPhone 13 Pro Max, iOS 27.0**, dispositivo «iGonchu». Tras autorización expresa del usuario se creó/actualizó el perfil de desarrollo en el equipo de Defensa Legal Consumidores y se firmó `com.gestadia.app` **0.1.0 (1)**. `devicectl` confirma instalación y apertura; `codesign --verify --deep --strict` valida el paquete.
+
+Captura real de Gestadia abierta en el dispositivo: `output/playwright/gestadia-iphone13-instalado.png`. El usuario estaba recorriendo el sondeo de LidIA al capturarla. Esta prueba acredita instalación, arranque y render de esa conversación; las pruebas de perfil/borrado y Servicios se realizaron en web. Es una instalación de desarrollo directa, sin publicación en TestFlight/App Store.
+
 ## Android
 
 Build **0.1.0 (1)**, `com.gestadia.app`, `./gradlew assembleDebug` correcto. APK instalado y arrancado en **Pixel 8 / API 36**, emulador temporal con `-read-only -no-snapshot-load -no-snapshot-save`.
