@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useLayoutEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { SERVICIOS } from "../../../shared/servicios.js";
 import { useApp } from "./AppContext.jsx";
@@ -18,6 +18,25 @@ export default function Services() {
   });
   const service = SERVICIOS[selected] || SERVICIOS["canje-carnet"];
   const [error, setError] = useState("");
+  const selectedTitle = useRef(null);
+  const [scrollRequest, setScrollRequest] = useState(0);
+  useLayoutEffect(() => {
+    if (!scrollRequest) return;
+    const reduced = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const main = selectedTitle.current?.closest("main");
+    if (main && selectedTitle.current)
+      main.scrollTo?.({
+        top:
+          main.scrollTop +
+          selectedTitle.current.getBoundingClientRect().top -
+          main.getBoundingClientRect().top -
+          16,
+        behavior: reduced ? "instant" : "smooth",
+      });
+    selectedTitle.current?.focus({ preventScroll: true });
+  }, [selected, scrollRequest]);
   async function submit(e) {
     e.preventDefault();
     try {
@@ -35,12 +54,22 @@ export default function Services() {
     }
   }
   return (
-    <section>
+    <section className="services-page">
       <p className="eyebrow">GESTIÓN 100% ONLINE</p>
       <h1>Trámites y Gestiones DGT</h1>
       <p className="muted">
-        Elige tu servicio y revisa los datos de tu próxima gestión.
+        Servicio integral con tu gestor asignado y documentación de tu trámite.
       </p>
+      <div className="service-benefits">
+        <div>
+          <Icon name="check" size={18} />
+          Gestor asignado
+        </div>
+        <div>
+          <Icon name="check" size={18} />
+          Tasas DGT incluidas
+        </div>
+      </div>
       <div className="stack">
         {["canje-carnet", "transferencia", "duplicado-carnet"].map((slug) => {
           const s = SERVICIOS[slug];
@@ -49,22 +78,29 @@ export default function Services() {
               className={`card service ${selected === slug ? "selected" : ""}`}
               key={slug}
               aria-pressed={selected === slug}
-              onClick={() => setSelected(slug)}
+              onClick={() => {
+                setSelected(slug);
+                setScrollRequest((old) => old + 1);
+              }}
             >
               <span className="service-title">{s.nombre}</span>
               <span className="price">{s.precio} €</span>
-              <span className="helper">{s.descripcion}</span>
               <span className="service-detail">
-                Gestión completa <Icon name="check" size={16} />
+                {slug === "duplicado-carnet"
+                  ? "Permiso provisional en 24 h"
+                  : "Gestión completa · Gestor asignado"}
               </span>
+              <span className="helper">{s.descripcion}</span>
             </button>
           );
         })}
       </div>
-      <form className="card form-card" onSubmit={submit}>
-        <h2>Continuar con {service.nombre.toLowerCase()}</h2>
-        <p className="helper">Datos opcionales para preparar tu gestión.</p>
-        <ProfileFields profile={profile} setProfile={setProfile} />
+      <h2 className="selected-service-title" ref={selectedTitle} tabIndex={-1}>
+        {service.nombre}
+      </h2>
+      <form className="card form-card services-form" onSubmit={submit}>
+        <h3>Tus datos de tramitación</h3>
+        <ProfileFields profile={profile} setProfile={setProfile} compact />
         {service.requierePais && (
           <label>
             País del permiso
@@ -97,13 +133,6 @@ export default function Services() {
             </select>
           </label>
         )}
-        {mode === "demo" && (
-          <p className="notice">
-            {demoOnly()
-              ? "Demostración: no se realiza ningún pago ni se contrata un servicio."
-              : "El checkout es real. La demostración no efectúa ningún pago."}
-          </p>
-        )}
         {error && (
           <p className="error" role="alert">
             {error}
@@ -111,13 +140,28 @@ export default function Services() {
         )}
         <button className="btn primary" type="submit">
           {demoOnly() ? "Continuar con el ejemplo" : "Continuar en la web"}{" "}
-          <Icon name="arrow" size={18} />
+          <Icon name={demoOnly() ? "arrow" : "external"} size={18} />
         </button>
+        <p className="helper service-checkout-help">
+          {demoOnly()
+            ? "Revisarás el servicio y tus datos en este ejemplo, sin pagos ni contratación."
+            : "Se abrirá gestadia.com/checkout con tus datos y el trámite seleccionado ya rellenados."}
+        </p>
+        {mode === "demo" && !demoOnly() && (
+          <p className="notice">
+            El checkout es real. La demostración no efectúa ningún pago.
+          </p>
+        )}
       </form>
     </section>
   );
 }
-export function ProfileFields({ profile, setProfile, required = false }) {
+export function ProfileFields({
+  profile,
+  setProfile,
+  required = false,
+  compact = false,
+}) {
   const fields = [
     ["nombre", "Nombre", "text", "given-name"],
     ["apellidos", "Apellidos", "text", "family-name"],
@@ -129,11 +173,12 @@ export function ProfileFields({ profile, setProfile, required = false }) {
     <div className="fields">
       {fields.map(([key, label, type, autoComplete]) => (
         <label key={key}>
-          {label}
+          <span className={compact ? "sr-only" : undefined}>{label}</span>
           <input
             name={key}
             type={type}
             autoComplete={autoComplete}
+            placeholder={compact ? label : undefined}
             value={profile[key] || ""}
             required={required && key === "nombre"}
             readOnly={required && key === "email"}
@@ -147,7 +192,9 @@ export function ProfileFields({ profile, setProfile, required = false }) {
         </label>
       ))}
       <label>
-        Tipo de documento
+        <span className={compact ? "sr-only" : undefined}>
+          Tipo de documento
+        </span>
         <select
           value={profile.tipoDocumento || "DNI"}
           onChange={(e) =>

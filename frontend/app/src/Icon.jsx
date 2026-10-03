@@ -1,5 +1,7 @@
 import React from "react";
 const paths = {
+  external:
+    "M15 3h6v6M10 14 21 3M11 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6",
   settings:
     "M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8ZM9 3h6l1 3 3 1 2 5-2 5-3 1-1 3H9l-1-3-3-1-2-5 2-5 3-1Z",
   logout: "M9 3H4v18h5M10 12h11m-4-4 4 4-4 4",
