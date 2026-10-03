@@ -1,5 +1,41 @@
 # Glosario de Gestadia Portal
 
+## Canal APP
+- **Tipo:** concepto runtime propuesto.
+- **Definición:** Canal propio de LidIA para las conversaciones originadas en Gestadia App, con identidad y sesiones independientes de Web y WhatsApp.
+- **Alcance:** preparación en `docs/integraciones/2026-10-03-app-lidia-backend-preparacion.md`; implementación futura coordinada con Gestadia_LidIA.
+- **Notas:** Solicitado por el usuario el 03/10/2026. No está creado ni activado. Reutilizar el motor de conversación y soporte humano no implica reutilizar credenciales ni sesiones de otros canales.
+
+## VinculoLidia
+- **Tipo:** entidad propuesta.
+- **Definición:** Asociación comprobada entre una cuenta del portal, su identidad en un proyecto de LidIA y, cuando exista, su ficha de CRM.
+- **Alcance:** diseño en `docs/integraciones/2026-10-03-app-lidia-backend-preparacion.md`; candidata para `backend/prisma/schema.prisma` y el adaptador APP de LidIA.
+- **Notas:** No implementada. Un teléfono introducido o coincidente no autoriza a vincular historias privadas. Reutiliza `ClientKey` de LidIA cuando esté resuelta y conserva la cuenta al convertir un Lead en Contact.
+
+## ConversacionApp
+- **Tipo:** entidad propuesta.
+- **Definición:** Referencia del portal a una conversación de LidIA perteneciente a una cuenta y destinada a un sondeo o a atención humana, opcionalmente asociada a un expediente.
+- **Alcance:** diseño en `docs/integraciones/2026-10-03-app-lidia-backend-preparacion.md`; candidata para `backend/prisma/schema.prisma` y la API de conversaciones.
+- **Notas:** No implementada. Guarda pertenencia y correlación, no una copia del historial. Una transferencia a soporte mantiene la misma sesión; sondeo y atención son contextos de interfaz diferentes.
+
+## EventoIntegracion
+- **Tipo:** entidad propuesta.
+- **Definición:** Registro durable de una notificación entrante y de su procesamiento para que la repetición o concurrencia no duplique altas ni efectos.
+- **Alcance:** diseño en `docs/integraciones/2026-10-03-app-lidia-backend-preparacion.md`; candidata para `backend/prisma/schema.prisma` y recepción de eventos CRM/pago.
+- **Notas:** No implementada. Es una bandeja de entrada; `LidiaEvento` sigue siendo la cola de salida del contrato de pagos 1.0.
+
+## Habilitación de expediente
+- **Tipo:** concepto de negocio propuesto.
+- **Definición:** Evidencia que permite a un cliente gestionar un expediente, originada por pago confirmado o por un trato de Zoho comprobado como Cerrado ganado.
+- **Alcance:** diseño en `docs/integraciones/2026-10-03-app-lidia-backend-preparacion.md`; futuras reglas de alta y lectura del perfil comercial.
+- **Notas:** El usuario indicó ambos orígenes. Un trato ganado sin prueba de cobro no genera una fecha, referencia ni método de pago ficticios; iniciar un checkout o crear un expediente pendiente no convierte por sí solo al usuario en cliente.
+
+## Capa API de la app
+- **Tipo:** decisión de arquitectura propuesta.
+- **Definición:** Interfaz del backend de Gestadia que autentica a la cuenta de la app, comprueba el acceso a sus expedientes y media su comunicación con LidIA.
+- **Alcance:** preparación en `docs/integraciones/2026-10-03-app-lidia-backend-preparacion.md`; backend existente `backend/src/` y consumidor `frontend/app/src/api.js`.
+- **Notas:** Se apoya en las tablas y servicios del portal. La app no recibe credenciales administrativas ni obtiene identidad verificada a partir de un teléfono o visitorId declarados.
+
 ## GestadiaApp
 - **Tipo:** concepto runtime.
 - **Definición:** Aplicación web móvil de Gestadia basada en el handoff aprobado, con navegación propia y acceso a los servicios del portal.

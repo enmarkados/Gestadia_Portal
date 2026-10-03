@@ -1,12 +1,12 @@
 # Conexión futura de Gestadia App con LidIA
 
-**Desactivada en la primera versión.** La última instrucción del usuario es entregar una demo sin conexiones externas. Este documento conserva el contrato contrastado para la siguiente fase; no acredita integración publicada.
+**Desactivada en la primera versión instalada.** El 03/10/2026 el usuario ha autorizado preparar el backend conectado, con canal APP propio y alta por pago o Zoho Cerrado ganado. La arquitectura propuesta y sus evidencias están en [preparación APP](../integraciones/2026-10-03-app-lidia-backend-preparacion.md). Este documento conserva el adaptador PluginWeb anterior como referencia; no acredita integración publicada ni es el contrato de identidad APP.
 
 Contrato contrastado el 3 de octubre de 2026 con `PluginWebController.cs`, `PluginWebDtos.cs`, `wwwroot/pluginweb/chat.js` y el equipo del chat «Avance del experimento MDVP». Lectura de código; no se ha cambiado la plataforma externa.
 
-## Primera conexión
+## Adaptador PluginWeb anterior (referencia)
 
-La app usa la API de PluginWeb con su propia interfaz React. IA y gestor comparten una sesión: los mensajes `isUser` se pintan en rojo, `isSupport` en grafito y el resto en blanco. No se crean sesiones paralelas para el gestor. Cambiar la pestaña de Mensajes no solicita un handover ni crea otro chat.
+El adaptador existente usa la API de PluginWeb con su propia interfaz React. IA y soporte comparten una sesión de plataforma. El diseño visual vigente muestra los mensajes del cliente en negro suave en LidIA y en rojo en el chat del gestor. Cambiar la pestaña de Mensajes no solicita por sí solo un handover. El contrato APP propuesto mantiene contextos de sondeo y atención, conservando una misma sesión cuando se transfiere a humano dentro de una conversación.
 
 La key pública `lw_…` se configura con `APP_PLUGIN_KEY`. La URL base y host TLS se configuran con `LIDIA_UPSTREAM` y `LIDIA_HOST`. El navegador consume `/lidia/api/pluginweb/...`, que Nginx envía a la plataforma. La key deberá permitir `https://app.gestadia.com` y los orígenes nativos `capacitor://localhost` (iOS) y `https://localhost` (Android), sujetos a la configuración definitiva.
 

@@ -2,6 +2,14 @@
 
 Índice de la documentación de integraciones con sistemas externos.
 
+## Gestadia App — preparación del backend (03/10/2026)
+
+[Diseño propuesto y evidencias](2026-10-03-app-lidia-backend-preparacion.md):
+API de cuenta, canal APP autenticado en LidIA, sondeo/atención humana y alta
+única por pago o Zoho Cerrado ganado. El usuario ha autorizado preparar esta
+nueva fase; la app instalada conserva su modo demo. No acredita código de
+backend nuevo, canales activados ni conexiones probadas en producción.
+
 ## LidIA — pago del canje desde WhatsApp (contrato 1.0, en producción)
 
 El agente conversacional de LidIA cualifica al cliente por WhatsApp y, cuando
