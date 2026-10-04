@@ -2,6 +2,8 @@
 
 **Desactivada en la primera versión instalada.** El 03/10/2026 el usuario ha autorizado preparar el backend conectado, con canal APP propio y alta por pago o Zoho Cerrado ganado. La arquitectura propuesta y sus evidencias están en [preparación APP](../integraciones/2026-10-03-app-lidia-backend-preparacion.md). Este documento conserva el adaptador PluginWeb anterior como referencia; no acredita integración publicada ni es el contrato de identidad APP.
 
+El 04/10 se incorpora la [respuesta original de LidIA](../integraciones/2026-10-04-respuesta-contrato-app-lidia.md) y la [revisión Portal](../integraciones/2026-10-04-observaciones-portal-contrato-app-lidia.md). La propuesta usa HMAC S2S por petición y asociaciones durables, sin bearer de conversación. La revisión favorece la arquitectura y deja O1–O8 pendientes de acuerdo; no autoriza implementación o activación. La configuración efectiva del 119 y el aislamiento DEV siguen por comprobar.
+
 Contrato contrastado el 3 de octubre de 2026 con `PluginWebController.cs`, `PluginWebDtos.cs`, `wwwroot/pluginweb/chat.js` y el equipo del chat «Avance del experimento MDVP». Lectura de código; no se ha cambiado la plataforma externa.
 
 ## Adaptador PluginWeb anterior (referencia)

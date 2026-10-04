@@ -2,6 +2,20 @@
 
 Índice de la documentación de integraciones con sistemas externos.
 
+## Gestadia App — revisión de contratos con LidIA (04/10/2026)
+
+- [Respuesta original de LidIA](2026-10-04-respuesta-contrato-app-lidia.md),
+  copiada íntegra del repositorio LidIA. Sus enlaces relativos se interpretan
+  en ese repositorio; la procedencia y hash están en la revisión Portal.
+- [Observaciones y conformidad técnica Portal](2026-10-04-observaciones-portal-contrato-app-lidia.md):
+  valoración favorable de arquitectura, con O1–O8 pendientes sobre firma,
+  revocación, recuperación, correlación, pago/ganado, productor Zoho y adenda.
+- [Glosario Portal](../../GLOSARIO.md), ampliado con la nomenclatura propuesta.
+
+Son documentos para acuerdo. No autorizan implementación, despliegue ni
+activación de canales. Agente 119 y aislamiento DEV siguen sin comprobación
+efectiva; la aplicación instalada conserva su modo demo.
+
 ## Gestadia App — preparación del backend (03/10/2026)
 
 [Diseño propuesto y evidencias](2026-10-03-app-lidia-backend-preparacion.md):

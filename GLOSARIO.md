@@ -221,3 +221,76 @@
 - **Definición:** Elección de una tarjeta del catálogo que desplaza la vista al nombre del servicio elegido y al formulario de tramitación.
 - **Alcance:** `Services.jsx` (`selectedTitle`, `scrollRequest`), clases `services-page` y `services-form`; `ProfileFields` admite presentación `compact`.
 - **Notas:** Conserva los campos y precios del catálogo compartido; el formato compacto oculta visualmente las etiquetas pero mantiene sus nombres accesibles. Respeta la preferencia del sistema de reducir movimiento.
+
+## Revisión del contrato APP (04/10/2026)
+
+Las entradas siguientes describen propuestas importadas de LidIA y observaciones
+del Portal. No acreditan implementación ni aprobación del contrato. Fuentes:
+[respuesta original](docs/integraciones/2026-10-04-respuesta-contrato-app-lidia.md)
+y [revisión Portal](docs/integraciones/2026-10-04-observaciones-portal-contrato-app-lidia.md).
+
+### Agente operativo APP dedicado
+- **Tipo:** decisión de arquitectura propuesta.
+- **Definición:** Agente configurado para el canal APP que comparte las reglas de canje con el agente existente y tiene capacidades y destinos propios.
+- **Alcance:** respuesta LidIA, §2; revisión Portal, §2. Implementación futura en Gestadia_LidIA, sin id asignado.
+- **Notas:** Recomendación técnica pendiente de acuerdo. Se descarta como primera opción heredar todas las conexiones del 119 o duplicar íntegramente el motor de canje.
+
+### Firma APP S2S (`gestadia-app-s2s-v1`, `app-v1`)
+- **Tipo:** concepto de protocolo propuesto.
+- **Definición:** Autenticación servidor a servidor de una petición APP mediante HMAC-SHA256 que vincula integración, sujeto, operación y cuerpo. Los dos literales identifican respectivamente la representación firmada y la cabecera de firma.
+- **Alcance:** respuesta LidIA, §3; revisión Portal, O1. Futuro adaptador APP en ambos servidores; no existe actualmente.
+- **Notas:** Las cabeceras propuestas son `X-Gestadia-Key-Id`, `X-Gestadia-Timestamp`, `X-Gestadia-Nonce`, `X-Gestadia-Subject` y `X-Gestadia-Signature`. Sustituye en esta propuesta el bearer de conversación opcional del borrador del 03/10; no cambia la firma del checkout 1.0.
+
+### `portal_user_id`
+- **Tipo:** propiedad contractual propuesta.
+- **Definición:** Identificador estable de la cuenta Portal autenticada que es sujeto de una conversación APP. No acredita por sí mismo identidad civil ni pertenencia a una ficha CRM.
+- **Alcance:** `User.id` en `backend/prisma/schema.prisma`; DTO APP propuestos en respuesta LidIA, §3, y revisión Portal, O4.
+- **Notas:** Lo obtiene el servidor de la sesión validada; no se identifica al usuario por un teléfono, email o `visitorId` declarado por el móvil.
+
+### `case_ref`
+- **Tipo:** propiedad contractual propuesta.
+- **Definición:** Referencia de un expediente Portal cuya pertenencia a la cuenta se ha comprobado antes de asociarlo a una conversación.
+- **Alcance:** respuesta LidIA, §3; revisión Portal, O4. Se propone usar `Expediente.id` en el futuro contrato APP.
+- **Notas:** No es una credencial ni un id de Zoho suministrado por el cliente. Su ausencia permite sondeo gratuito; atención de gestor exige el contexto autorizado que se acuerde.
+
+### `client_key` APP / `ClientKey` interno
+- **Tipo:** propiedad propuesta / concepto runtime existente en LidIA.
+- **Definición:** `client_key` sería un alias aleatorio de una asociación CRM comprobada y revocable para una cuenta y un ámbito APP. `ClientKey` interno conserva la agrupación actual de fichas de LidIA.
+- **Alcance:** respuesta LidIA, §4; revisión Portal, O4. El alias aún no existe; el interno se describe en `ClientKeyLinker` de Gestadia_LidIA.
+- **Notas:** Según la respuesta, el interno tiene formato `{module}:{recordId}` y carece hoy del scope/revocación necesarios. Esta distinción precisa la intención histórica de `VinculoLidia`: no exportar ese valor como alias opaco ni tratarlo como permiso.
+
+### `revocation_version`
+- **Tipo:** propiedad contractual propuesta.
+- **Definición:** Versión durable de una revocación aplicada a la cuenta APP o a su vínculo CRM. Permite acreditar el resultado sin reactivar permisos al reintentar.
+- **Alcance:** respuesta LidIA, §3, ruta propuesta `/subjects/{portalUserId}/revocations`; revisión Portal, O2. No existe actualmente.
+- **Notas:** Los scopes `account` y `crm_link` separan bloqueo APP y retirada del vínculo privado. Logout de un dispositivo no es revocación global; borrado físico y reactivación quedan fuera de esta operación.
+
+### `turn_id`, `presentation_id`, `action_id`
+- **Tipo:** propiedades contractuales propuestas.
+- **Definición:** Identifican respectivamente un turno estable, una presentación de opciones y una opción permitida dentro de ella. Vinculan la recepción y ejecución a una conversación autorizada.
+- **Alcance:** respuesta LidIA, §3; revisión Portal, O3. Futuros DTO de turnos y timeline.
+- **Notas:** No permiten elegir tools ni instrucciones. Cambiar la clave idempotente no repite un turno ni una acción ya consumida.
+
+### `state_revision` y `turn_statuses`
+- **Tipo:** propiedades contractuales propuestas.
+- **Definición:** La revisión identifica cambios observables del estado de conversación; los recibos de turnos permiten conocer su procesamiento sin deducirlo del texto de respuesta.
+- **Alcance:** respuesta LidIA, §3; revisión Portal, O3. Futuro timeline APP.
+- **Notas:** Deben observarse cambios de soporte sin mensajes nuevos; queda pendiente concretar filtrado, paginación y retención de recibos.
+
+### `outcome_unknown`
+- **Tipo:** estado contractual propuesto.
+- **Definición:** Resultado de una operación externa cuya ejecución no puede confirmarse tras un fallo o timeout.
+- **Alcance:** respuesta LidIA, §3; revisión Portal, O3 y O5. Futuros recibos y reconciliación.
+- **Notas:** Exige comprobar el efecto antes de reintentarlo; no es una autorización para repetir una mutación ni una afirmación de que falló.
+
+### `crm.deal.stage_changed.v1` y `source_revision`
+- **Tipo:** nombre de evento / propiedad contractual propuestos.
+- **Definición:** Evento que comunica una etapa comprobada de un trato Zoho; su revisión identifica el orden de los cambios en el origen.
+- **Alcance:** respuesta LidIA, §7; revisión Portal, O5 y O6. Futuro adaptador CRM e inbox Portal.
+- **Notas:** No es `payment.succeeded` ni una fase documental. El productor y el mecanismo de revisión están pendientes; `Modified_Time` y un hash de snapshot no acreditan por sí solos ese orden.
+
+### Adenda checkout APP (`origin_channel: APP`)
+- **Tipo:** decisión contractual / propiedad propuestas.
+- **Definición:** Ampliación separada del contrato de cobro que liga una operación iniciada desde APP a cuenta, conversación, oferta y correlación verificadas.
+- **Alcance:** respuesta LidIA, §6; revisión Portal, O7. Futuros adaptadores de checkout y callback.
+- **Notas:** No abre el guard WhatsApp del contrato 1.0. Consentimiento, esquema de callbacks y requisitos CRM deben acordarse antes de implementar.
