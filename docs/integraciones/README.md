@@ -2,6 +2,21 @@
 
 Índice de la documentación de integraciones con sistemas externos.
 
+## Gestadia App — respuesta y contraste O1–O8 (05/10/2026)
+
+- [Respuesta LidIA](2026-10-05-respuesta-lidia-observaciones-o1-o8.md),
+  [anexo de firma](2026-10-05-app-s2s-anexo-firma.md),
+  [anexo DTO](2026-10-05-app-anexo-dtos.md),
+  [vectores](fixtures/app-s2s-v1-vectors.json) y
+  [JSON Schema](fixtures/app-v1-dtos.schema.json): copias exactas recibidas.
+- [Revisión Portal del 05/10](2026-10-05-revision-portal-respuesta-lidia-o1-o8.md):
+  cuatro vectores contrastados offline y valoración por punto. Quedan R1–R5
+  de vínculo/cardinalidad, semántica Zoho, checkout y retención.
+
+No hay cierre del contrato conjunto ni autorización de implementación o
+pruebas conectadas. El evento de instantánea Zoho es una alternativa pendiente
+de decisión; agente 119 y aislamiento DEV siguen sin evidencia efectiva.
+
 ## Gestadia App — revisión de contratos con LidIA (04/10/2026)
 
 - [Respuesta original de LidIA](2026-10-04-respuesta-contrato-app-lidia.md),

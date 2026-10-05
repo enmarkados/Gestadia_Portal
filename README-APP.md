@@ -17,6 +17,7 @@ Entrada: `frontend/app/`. Build: `frontend/dist-app/`. El portal conserva su bui
 - [Conexión con la plataforma LidIA y gestor](docs/app/INTEGRACION-LIDIA.md)
 - [Preparación del backend APP, identidad y alta por pago/Zoho](docs/integraciones/2026-10-03-app-lidia-backend-preparacion.md)
 - [Respuesta técnica de LidIA y revisión Portal del contrato APP](docs/integraciones/2026-10-04-observaciones-portal-contrato-app-lidia.md)
+- [Respuesta O1–O8 y contraste Portal de firma/DTO (05/10)](docs/integraciones/2026-10-05-revision-portal-respuesta-lidia-o1-o8.md)
 - [Publicación Docker, Portainer y Plesk](docs/app/DOCKER-PLESK.md)
 - [Validación y pendientes](docs/app/VALIDACION.md)
 - [Proyectos iOS y Android](docs/app/MOBILE.md)

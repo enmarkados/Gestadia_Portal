@@ -294,3 +294,70 @@ y [revisión Portal](docs/integraciones/2026-10-04-observaciones-portal-contrato
 - **Definición:** Ampliación separada del contrato de cobro que liga una operación iniciada desde APP a cuenta, conversación, oferta y correlación verificadas.
 - **Alcance:** respuesta LidIA, §6; revisión Portal, O7. Futuros adaptadores de checkout y callback.
 - **Notas:** No abre el guard WhatsApp del contrato 1.0. Consentimiento, esquema de callbacks y requisitos CRM deben acordarse antes de implementar.
+
+## Precisión contractual recibida el 05/10/2026
+
+Propuestas aún pendientes de acuerdo. Fuentes: [respuesta LidIA O1–O8](docs/integraciones/2026-10-05-respuesta-lidia-observaciones-o1-o8.md),
+[anexo de firma](docs/integraciones/2026-10-05-app-s2s-anexo-firma.md),
+[anexo DTO](docs/integraciones/2026-10-05-app-anexo-dtos.md) y
+[revisión Portal](docs/integraciones/2026-10-05-revision-portal-respuesta-lidia-o1-o8.md).
+
+### `integration_id`
+- **Tipo:** propiedad de identidad técnica propuesta.
+- **Definición:** Identidad durable de la integración S2S, independiente de la clave que firma una petición.
+- **Alcance:** anexo de firma del 05/10, §4; futuros adaptadores Portal/LidIA.
+- **Notas:** La rotación cambia `key_id`, no el ámbito de idempotencia. No equivale a una cuenta APP ni permite seleccionar otro entorno.
+
+### JCS
+- **Tipo:** concepto de protocolo.
+- **Definición:** JSON Canonicalization Scheme, representación determinista de JSON descrita en RFC 8785 para obtener una huella semántica reproducible.
+- **Alcance:** anexo de firma del 05/10, §4; fixtures `docs/integraciones/fixtures/app-s2s-v1-vectors.json`.
+- **Notas:** Se propone para el DTO validado, con las normalizaciones previas acordadas; la firma HTTP sigue usando el cuerpo crudo. Los vectores no acreditan por sí solos un canonicalizador general.
+
+### Atestación de vínculo CRM / `crm-links`
+- **Tipo:** concepto contractual / ruta propuestas.
+- **Definición:** Asociación acreditada y versionada que Portal comunica a LidIA entre cuenta, expediente, contacto y trato dentro de una organización y ámbito autorizados.
+- **Alcance:** respuesta O4 del 05/10; ruta propuesta `/api/integrations/lidia/app/v1/subjects/{portalUserId}/crm-links`, aún sin DTO consolidado.
+- **Notas:** No se crea por enviar `client_key` en `/sessions`. El contrato debe fijar permisos, revisión, conflictos y asignación del alias; no hay endpoint implementado.
+
+### `crm.deal.snapshot_observed.v1`
+- **Tipo:** nombre de evento propuesto.
+- **Definición:** Observación autenticada de una instantánea de trato Zoho, sin afirmar que contiene todas sus transiciones históricas.
+- **Alcance:** respuesta O6 del 05/10; DTO `CrmSnapshotEvent` en `docs/integraciones/fixtures/app-v1-dtos.schema.json`.
+- **Notas:** Alternativa pendiente de aprobación al evento `crm.deal.stage_changed.v1`. En esta variante `source_revision` es una huella identificadora, no un ordinal; precisa la definición histórica del glosario para este nuevo evento.
+
+### `observed_at` y `source_modified_at`
+- **Tipo:** propiedades contractuales propuestas.
+- **Definición:** Fechas de observación del adaptador y de modificación informada por el origen CRM, respectivamente.
+- **Alcance:** respuesta O6 del 05/10 y DTO `CrmSnapshotEvent`.
+- **Notas:** `source_modified_at` puede ser null; ninguna de las dos fechas demuestra por sí sola una secuencia exhaustiva de cambios de etapa.
+
+### `processing_revision`
+- **Tipo:** propiedad contractual propuesta.
+- **Definición:** Contador local del procesamiento de observaciones CRM y de las decisiones de reconciliación.
+- **Alcance:** respuesta O6 del 05/10; futuro reconciliador Portal.
+- **Notas:** No es `source_revision` ni prueba el orden de transiciones en Zoho.
+
+### `receipt_revision`, `result_revision` y `presentation_revision`
+- **Tipo:** propiedades contractuales propuestas.
+- **Definición:** Revisiones durables del recibo de operación, evaluación del sondeo y presentación de acciones, respectivamente.
+- **Alcance:** respuesta O3 del 05/10 y anexo DTO; futuros recibos y timeline APP.
+- **Notas:** Strings decimales. Sus cambios aumentan la revisión pública pertinente; no sustituyen la revisión global de conversación `state_revision`.
+
+### `enforcement_deadline`, `enforcement_status` y t0
+- **Tipo:** propiedades contractuales / referencia temporal propuestas.
+- **Definición:** Plazo y estado comunicado de propagación de una revocación; t0 es su commit en la base autoritativa LidIA.
+- **Alcance:** respuesta O2 del 05/10 y DTO `RevocationResponse`.
+- **Notas:** El objetivo de 60 segundos cuenta desde t0, no desde el clic Portal. `propagating` y ACK 200 acreditan persistencia; no efectividad universal. Portal tiene su propio bloqueo inmediato y salida durable.
+
+### Identidad económica del pago
+- **Tipo:** concepto contractual propuesto.
+- **Definición:** Identidad que distingue un cobro por proveedor, cuenta del proveedor, entorno e identificador de pago (`provider_payment_id`).
+- **Alcance:** respuesta O5 del 05/10; `CheckoutCallback` y revisión Portal R4.
+- **Notas:** `event_id` identifica el transporte y no reemplaza esta identidad. Debe fijarse cómo conoce el receptor la cuenta del proveedor antes de dar por cerrado el callback.
+
+### `origin=app`
+- **Tipo:** propiedad contractual propuesta.
+- **Definición:** Identificador de origen que LidIA propone para la futura solicitud de checkout APP.
+- **Alcance:** respuesta O7 del 05/10; DTO de solicitud pendiente de consolidación.
+- **Notas:** Es una variante de naming frente a `origin_channel: APP` del borrador previo. Acordar un único nombre y valor en el contrato final; no asumir equivalencia automática en implementaciones.

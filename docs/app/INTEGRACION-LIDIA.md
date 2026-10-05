@@ -6,6 +6,8 @@ El 04/10 se incorpora la [respuesta original de LidIA](../integraciones/2026-10-
 
 Contrato contrastado el 3 de octubre de 2026 con `PluginWebController.cs`, `PluginWebDtos.cs`, `wwwroot/pluginweb/chat.js` y el equipo del chat «Avance del experimento MDVP». Lectura de código; no se ha cambiado la plataforma externa.
 
+El 05/10 se incorpora la [respuesta O1–O8 con anexos](../integraciones/2026-10-05-respuesta-lidia-observaciones-o1-o8.md) y el [contraste Portal](../integraciones/2026-10-05-revision-portal-respuesta-lidia-o1-o8.md). Los cuatro vectores de firma coinciden offline; vínculo CRM/cardinalidad, alternativa de instantáneas Zoho, solicitud de checkout y retención siguen pendientes de cierre. Son propuestas documentales; no hay adaptadores APP implementados ni pruebas conectadas.
+
 ## Adaptador PluginWeb anterior (referencia)
 
 El adaptador existente usa la API de PluginWeb con su propia interfaz React. IA y soporte comparten una sesión de plataforma. El diseño visual vigente muestra los mensajes del cliente en negro suave en LidIA y en rojo en el chat del gestor. Cambiar la pestaña de Mensajes no solicita por sí solo un handover. El contrato APP propuesto mantiene contextos de sondeo y atención, conservando una misma sesión cuando se transfiere a humano dentro de una conversación.
