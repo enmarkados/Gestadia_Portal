@@ -2,6 +2,16 @@
 
 Índice de la documentación de integraciones con sistemas externos.
 
+## Gestadia App — cierre conversacional separado de Zoho (05/10/2026)
+
+- [Ajuste recibido de LidIA](2026-10-05-ajuste-alcance-conversacional-app.md):
+  copia exacta, con identidad mínima de cuenta y actualización de contexto por
+  conversación. Zoho, ganado/pago y checkout quedan fuera de este cierre.
+- [Contraste Portal](2026-10-05-revision-portal-alcance-conversacional-app.md):
+  conformidad con alcance y `User.id`; evidencia de verificación/estado todavía
+  por preparar, referencias ficticias de asignación y precisiones de contexto,
+  recuperación y retención. Sin implementación ni pruebas conectadas.
+
 ## Gestadia App — responsabilidades vigentes
 
 [Reparto aclarado por el usuario](../app/RESPONSABILIDADES-INTEGRACION.md):
@@ -31,7 +41,8 @@ contrato; no se ha implementado ni activado la integración.
   cuatro vectores contrastados offline y valoración por punto. Quedan R1–R5
   de vínculo/cardinalidad, semántica Zoho, checkout y retención.
 
-No hay cierre del contrato conjunto ni autorización de implementación o
+Esta revisión es histórica; el ajuste conversacional anterior retira Zoho y
+checkout de sus dependencias de cierre. No hay autorización de implementación o
 pruebas conectadas. La decisión vigente descarta la instantánea como disparador
 de alta; agente 119 y aislamiento DEV siguen sin evidencia efectiva.
 

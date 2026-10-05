@@ -395,3 +395,38 @@ Fuente: [decisión de negocio Zoho y acceso](docs/integraciones/2026-10-05-decis
 - **Definición:** Automatizaciones de Zoho que comunican mediante POST al backend Portal los datos de los hechos CRM relevantes para el acceso y los trámites. Su configuración corresponde al responsable de Zoho; LidIA interviene en las conversaciones.
 - **Alcance:** [responsabilidades vigentes](docs/app/RESPONSABILIDADES-INTEGRACION.md); futuros flujos Zoho y receptor API Portal.
 - **Notas:** El contrato de estos POST se acuerda entre Portal y el responsable de los flujos Zoho. La coordinación con LidIA se limita a la integración conversacional y al contexto de cuenta validado que ésta necesite.
+
+## Contexto conversacional propuesto por LidIA (05/10/2026)
+
+Fuente: [ajuste de alcance recibido](docs/integraciones/2026-10-05-ajuste-alcance-conversacional-app.md).
+Es una propuesta contractual; no representa campos ni rutas ya implementados.
+
+### `ConversationContextRequest`
+- **Tipo:** DTO / ruta contractual propuestos.
+- **Definición:** Atestación del backend sobre permisos y asignaciones válidos para una conversación de una cuenta. Se comunica a LidIA para actualizar el contexto sin crear otra sesión ni solicitar atención automáticamente.
+- **Alcance:** ajuste LidIA del 05/10, §2; ruta propuesta `/api/integrations/lidia/app/v1/sessions/{conversationId}/context`.
+- **Notas:** Separa el contexto conversacional del contrato Zoho→Portal y del checkout. Requiere adenda de esquema, respuesta y autorización, conservando los anexos anteriores como histórico.
+
+### `context_revision` y `validated_at`
+- **Tipo:** propiedades contractuales propuestas.
+- **Definición:** Revisión monotónica del contexto emitida por Portal para una conversación y fecha en la que el backend acreditó ese contexto, respectivamente.
+- **Alcance:** `ConversationContextRequest` en el ajuste LidIA del 05/10; futuros adaptadores Portal/LidIA.
+- **Notas:** La revisión ordena contextos; la fecha es informativa. Ninguna acredita una secuencia de etapas Zoho ni la fecha de verificación del correo.
+
+### `commercial_assignment_ref` y `manager_assignment_ref`
+- **Tipo:** referencias contractuales propuestas.
+- **Definición:** Identidades estables de asignaciones comercial y gestor acreditadas por el backend para un contexto conversacional. LidIA las resuelve mediante un mapping autorizado de su integración.
+- **Alcance:** `ConversationContextRequest`; futuro registro de asignaciones Portal y mapping de operadores LidIA.
+- **Notas:** Admiten null. No son un email, un nombre visible, el operador elegido por el móvil ni una afirmación de que Zoho Owner sea el gestor. Los ejemplos recibidos son ficticios.
+
+### `permissions` del contexto conversacional
+- **Tipo:** propiedad contractual propuesta.
+- **Definición:** Conjunto de capacidades que Portal acredita para una conversación: `sondeo`, `history`, `case_context`, `commercial_handoff`, `manager_handoff` y `support_handoff`.
+- **Alcance:** `ConversationContextRequest`; futura autorización Portal y aplicación de permisos LidIA.
+- **Notas:** Se intersecta con el ámbito permitido por la integración y con el ciclo de revocación. El cuerpo móvil no lo amplía; no representa acceso a todos los expedientes de la cuenta.
+
+### `context_conflict` y `stale_context`
+- **Tipo:** códigos de error contractuales propuestos.
+- **Definición:** Rechazos de una actualización por contenido incompatible con la misma revisión y por revisión inferior a la confirmada, respectivamente.
+- **Alcance:** respuesta de la futura operación `context` en el ajuste LidIA del 05/10; HTTP 409.
+- **Notas:** No reejecutan ni restauran un contexto antiguo. Su catálogo y esquema se consolidarán en la adenda conversacional.
