@@ -3,6 +3,9 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { appConversationConfig } from './config.js';
+import { db } from './db.js';
+import { createAppRouter } from './app/routes.js';
 import { config } from './config.js';
 import { leadsRouter } from './routes/leads.js';
 import { checkoutRouter } from './routes/checkout.js';
@@ -24,6 +27,7 @@ export function createApp() {
   // Los webhooks de Stripe necesitan el body en crudo → se montan ANTES del json()
   // (y NO se limitan por rate: son de Stripe, no del usuario).
   app.use(webhooksRouter);
+  app.use('/api/app/v1', createAppRouter({ db, config: appConversationConfig() }));
   app.use(express.json({ limit: '1mb' }));
 
   // Rate limiting (solo /api): frena fuerza bruta en login y spam en formularios.

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useApp } from "./AppContext.jsx";
+import { conversationsEnabled } from "./conversationApi.js";
 import Icon from "./Icon.jsx";
 import LegalLinks from "./LegalLinks.jsx";
 
@@ -36,6 +37,21 @@ export default function Register() {
     setForm((old) => ({ ...old, password: "", confirm: "" }));
     navigate("/");
   }
+  if (conversationsEnabled())
+    return (
+      <section className="auth-page">
+        <h1>Tu cuenta Gestadia</h1>
+        <p>
+          Usa el acceso compartido con tu portal. Si has recibido una
+          invitación, verifica el correo y crea tu contraseña mediante ese
+          enlace.
+        </p>
+        <Link className="btn primary" to="/acceso">
+          Iniciar sesión
+        </Link>
+        <LegalLinks compact />
+      </section>
+    );
   return (
     <section className="auth-page">
       <p className="eyebrow">EMPIEZA CON GESTADIA</p>

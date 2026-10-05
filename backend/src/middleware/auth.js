@@ -19,6 +19,7 @@ export async function requireAuth(req, res, next) {
     }
     const payload = jwt.verify(token, config.jwtSecret);
     const user = await db.user.findUnique({ where: { id: payload.sub } });
+    if (user?.accountStatus && user.accountStatus !== 'active') return res.status(403).json({ error: 'Cuenta no disponible' });
     if (!user) return res.status(401).json({ error: 'Sesión no válida' });
     req.user = user;
     next();

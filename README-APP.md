@@ -11,6 +11,8 @@ npm run app:preview
 npm test --prefix frontend
 ```
 
+La nueva [API conversacional APP](docs/integraciones/2026-10-05-entrega-portal-conversaciones-app.md) está implementada en la rama de desarrollo `codex/app-conversaciones-backend`, con cuenta validada, sesiones de dispositivo, S2S y recuperación. Ambos flags siguen desactivados; no cambia la demo publicada/instalada. Pruebas aisladas: `node scripts/test-app-conversations.mjs`. [Acta y reparto aceptado](docs/integraciones/2026-10-05-acta-inicio-conversacional.md).
+
 Entrada: `frontend/app/`. Build: `frontend/dist-app/`. El portal conserva su build propio en `frontend/dist/`.
 
 - [Alcance](docs/app/PRIMERA-VERSION.md)

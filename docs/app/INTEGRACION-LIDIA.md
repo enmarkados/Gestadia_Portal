@@ -1,22 +1,12 @@
-# Conexión futura de Gestadia App con LidIA
+# Integración conversacional Gestadia APP ↔ LidIA
 
-**Responsabilidades vigentes:** los flujos Zoho postean sus datos directamente a la API del backend Gestadia. El backend resuelve acceso y trámites; LidIA interviene en las conversaciones. El contrato Zoho→Portal se acuerda con el responsable de los flujos Zoho. Ver [reparto y coordinación](RESPONSABILIDADES-INTEGRACION.md), que corrige la atribución anterior a LidIA de coordinar esos flujos.
+**Estado vigente (05/10/2026):** contrato aceptado por ambos equipos y autorización humana para implementar en worktrees propios. Portal prepara API, cuenta/dispositivo, asociaciones, contexto/revocación y UI en `codex/app-conversaciones-backend`. [Entrega técnica, rutas, configuración y pruebas](../integraciones/2026-10-05-entrega-portal-conversaciones-app.md) · [Acta](../integraciones/2026-10-05-acta-inicio-conversacional.md) · [Glosario](../../GLOSARIO.md).
 
-**Contrato conversacional en revisión:** se recibe el [ajuste de LidIA](../integraciones/2026-10-05-ajuste-alcance-conversacional-app.md) y se deja el [contraste Portal](../integraciones/2026-10-05-revision-portal-alcance-conversacional-app.md). El alcance queda separado de Zoho, ganado/pago, cardinalidad trato–expediente y checkout. `User.id` es la identidad compartida; la atestación de cuenta, actualización S2S de contexto, asignaciones y retención requieren la adenda indicada. Los anexos O1–O8 se conservan como histórico; no todos sus bloqueos pertenecen ahora al contrato conversacional.
+Flags desactivados; no desplegado ni conectado al agente real. La app instalada sigue demo. La API autenticada nueva usa `/api/app/v1` y cliente S2S dedicado; al habilitarla no inicia PluginWeb ni usa su identidad anónima como fallback. El sondeo gratuito requiere cuenta validada, sin CRM; atención humana comparte la conversación en LidIA, con permisos/asignación acreditados por Portal.
 
-Se contrasta la [adenda conversacional 1.1](../integraciones/2026-10-05-adenda-contexto-conversacional-v1-1.md) con [conformidad técnica Portal](../integraciones/2026-10-05-conformidad-portal-adenda-contexto-v1-1.md): request/response de contexto, credenciales de atestación, replay con permisos actuales y aislamiento de casos. Seis vectores coinciden offline en Node/Python. La precisión editorial y política de historial/purga siguen pendientes; no hay integración activada ni pruebas conectadas.
+Los flujos Zoho postean directamente a Portal y habilitan cuenta/trámite. Ganado conserva su evento obligatorio, separado del contrato conversacional. [Responsabilidades](RESPONSABILIDADES-INTEGRACION.md), [decisión ganado](../integraciones/2026-10-05-decision-negocio-zoho-ganado-y-acceso.md) y [propuesta acceso anticipado](2026-10-05-propuesta-acceso-conversion-crm.md) siguen vigentes. Sus receptores y disparadores no se implementan en este bloque.
 
-**Desactivada en la primera versión instalada.** El 03/10/2026 el usuario ha autorizado preparar el backend conectado, con canal APP propio y alta por pago o Zoho Cerrado ganado. La arquitectura propuesta y sus evidencias están en [preparación APP](../integraciones/2026-10-03-app-lidia-backend-preparacion.md). Este documento conserva el adaptador PluginWeb anterior como referencia; no acredita integración publicada ni es el contrato de identidad APP.
-
-El 04/10 se incorpora la [respuesta original de LidIA](../integraciones/2026-10-04-respuesta-contrato-app-lidia.md) y la [revisión Portal](../integraciones/2026-10-04-observaciones-portal-contrato-app-lidia.md). La propuesta usa HMAC S2S por petición y asociaciones durables, sin bearer de conversación. La revisión favorece la arquitectura y deja O1–O8 pendientes de acuerdo; no autoriza implementación o activación. La configuración efectiva del 119 y el aislamiento DEV siguen por comprobar.
-
-Contrato contrastado el 3 de octubre de 2026 con `PluginWebController.cs`, `PluginWebDtos.cs`, `wwwroot/pluginweb/chat.js` y el equipo del chat «Avance del experimento MDVP». Lectura de código; no se ha cambiado la plataforma externa.
-
-El 05/10 se incorpora la [respuesta O1–O8 con anexos](../integraciones/2026-10-05-respuesta-lidia-observaciones-o1-o8.md) y el [contraste Portal](../integraciones/2026-10-05-revision-portal-respuesta-lidia-o1-o8.md). Los cuatro vectores de firma coinciden offline; vínculo CRM/cardinalidad, transporte del evento Zoho, solicitud de checkout y retención siguen pendientes de cierre. Son propuestas documentales; no hay adaptadores APP implementados ni pruebas conectadas.
-
-La [decisión posterior de negocio](../integraciones/2026-10-05-decision-negocio-zoho-ganado-y-acceso.md) corrige O6/R3: Zoho debe enviar un POST al entrar en Cerrado ganado para crear o vincular el acceso de cliente compartido Portal/APP. Hablar desde la app puede ocurrir antes; al llegar el evento se cruza con esa cuenta, conservando credenciales e historial. La instantánea posterior no sustituye la ocurrencia. La regla de negocio está confirmada; su contrato técnico y ejecución siguen pendientes.
-
-Como opción adicional para revisar con el responsable de los flujos Zoho, se documenta el [acceso anticipado al convertir el lead en contacto y trato](2026-10-05-propuesta-acceso-conversion-crm.md): pedir o confirmar el correo, crear o reutilizar la cuenta y avisar al usuario para que pueda conversar. Ganado mantiene su POST para habilitar el trámite sobre la misma cuenta. Esta opción sigue propuesta, sin implementación ni activación; el reparto vigente está en la página de responsabilidades.
+Se aplican anexos [S2S](../integraciones/2026-10-05-app-s2s-anexo-firma.md), [DTO](../integraciones/2026-10-05-app-anexo-dtos.md) y [contexto1.1](../integraciones/2026-10-05-adenda-contexto-conversacional-v1-1.md). La entrega concreta documenta el cierre de replay/retención y cursor de cola acordados; los documentos fechados anteriores conservan su revisión histórica. Agente119, aislamiento efectivo DEV y conversación real permanecen pendientes de comprobación autorizada.
 
 ## Adaptador PluginWeb anterior (referencia)
 
@@ -50,7 +40,7 @@ El equipo recomienda Public Chat v1 cuando el usuario viene de un handoff WhatsA
 
 Los adjuntos de LidIA exigen Identity o un token HMAC limitado a un contacto; el token de PluginWeb/Public Chat no basta. La primera app permite aportar documentos al expediente mediante la API existente del portal, sin enviarlos al chat.
 
-## Pendientes externos
+## Pendientes del adaptador anterior (referencia)
 
 - Confirmar la key pública del agente Gestadia y `AllowedOrigins`.
 - Confirmar las bases efectivas PRO/DEV. El equipo encontró referencias a `lidia.vozenter360.com` (PRO) y `lidia.devvozenter.com` (DEV), sin acreditar la configuración servida.

@@ -6,9 +6,13 @@ import {
   Link,
   useLocation,
   useMatch,
+  useNavigate,
 } from "react-router-dom";
 import { useApp } from "./AppContext.jsx";
 import { demoEnabled, demoOnly } from "./api.js";
+import AppConversation from "./AppConversation.jsx";
+import ConnectedMessages, { ConversationHome } from "./ConnectedMessages.jsx";
+import { conversationsEnabled } from "./conversationApi.js";
 import Login from "./Login.jsx";
 import Register from "./Register.jsx";
 import DemoCheckout from "./DemoCheckout.jsx";
@@ -34,6 +38,8 @@ const TABS = [
 export default function App() {
   const app = useApp();
   const location = useLocation();
+  const navigate = useNavigate();
+  const connected = conversationsEnabled();
   const [sheet, setSheet] = useState(null);
   const [assistantReset, setAssistantReset] = useState(0);
   useLayoutEffect(() => {
@@ -58,10 +64,17 @@ export default function App() {
     ? location.state.from
     : "/acceso";
   const assistantChat =
-    location.pathname === "/" &&
-    app.mode === "demo" &&
-    !!app.data.assistantState?.messages?.length;
+    (connected &&
+      app.mode === "real" &&
+      location.pathname === "/lidia/conversacion") ||
+    (location.pathname === "/" &&
+      app.mode === "demo" &&
+      !!app.data.assistantState?.messages?.length);
   function returnToLidIA() {
+    if (connected && app.mode !== "demo") {
+      navigate("/");
+      return;
+    }
     app.setData((old) => ({
       ...old,
       assistantState: { topic: null, answers: {}, messages: [] },
@@ -139,7 +152,11 @@ export default function App() {
           >
             <Icon name="back" size={20} />
           </Link>
-          <h1>Habla con tu gestor</h1>
+          <h1>
+            {connected && app.mode !== "demo" && !app.isClient
+              ? "Habla con Gestadia"
+              : "Habla con tu gestor"}
+          </h1>
           <button
             className="icon-btn"
             aria-label="Solicitar llamada"
@@ -217,8 +234,20 @@ export default function App() {
                   <Assistant key={assistantReset} onContact={onContact} />
                 ) : demoOnly() ? (
                   <Login />
+                ) : connected ? (
+                  <ConversationHome />
                 ) : (
                   <PlatformChat onContact={onContact} />
+                )
+              }
+            />
+            <Route
+              path="/lidia/conversacion"
+              element={
+                connected ? (
+                  <AppConversation purpose="sondeo" />
+                ) : (
+                  <Link to="/">Volver a LidIA</Link>
                 )
               }
             />
@@ -247,13 +276,21 @@ export default function App() {
             <Route path="/tramites/:id" element={<ExpedienteDetalle />} />
             <Route
               path="/mensajes"
-              element={<Messages onContact={onContact} />}
+              element={
+                connected && app.mode === "real" ? (
+                  <ConnectedMessages key={app.data.profile?.id} />
+                ) : (
+                  <Messages onContact={onContact} />
+                )
+              }
             />
             <Route
               path="/mensajes/gestor"
               element={
                 app.mode === "demo" ? (
                   <ManagerChat onContact={onContact} />
+                ) : connected ? (
+                  <AppConversation purpose="atencion" />
                 ) : (
                   <PlatformChat onContact={onContact} manager />
                 )
@@ -283,15 +320,18 @@ export default function App() {
                     <span>Hablar con un gestor</span>
                   </button>
                 )}
-                {location.pathname === "/" && app.mode === "demo" && (
+                {((location.pathname === "/" && app.mode === "demo") ||
+                  (connected && assistantChat)) && (
                   <div id="lidia-composer" className="footer-lidia-composer" />
                 )}
-                {managerChat && app.mode === "demo" && app.isClient && (
-                  <div
-                    id="manager-composer"
-                    className="footer-lidia-composer"
-                  />
-                )}
+                {managerChat &&
+                  ((app.mode === "demo" && app.isClient) ||
+                    (connected && app.mode === "real")) && (
+                    <div
+                      id="manager-composer"
+                      className="footer-lidia-composer"
+                    />
+                  )}
               </div>
             )}
           <div className="dock-zone">
@@ -304,7 +344,9 @@ export default function App() {
                   onClick={
                     to === "/" && assistantChat ? returnToLidIA : undefined
                   }
-                  className={({ isActive }) => (isActive ? "active" : "")}
+                  className={({ isActive }) =>
+                    isActive || (to === "/" && assistantChat) ? "active" : ""
+                  }
                 >
                   <Icon name={icon} size={21} />
                   <span>{label}</span>

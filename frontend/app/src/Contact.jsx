@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "./AppContext.jsx";
 import { demoOnly } from "./api.js";
+import { conversationsEnabled } from "./conversationApi.js";
 import Sheet from "./Sheet.jsx";
 import Icon from "./Icon.jsx";
 export default function Contact({ onClose }) {
@@ -23,6 +24,21 @@ export default function Contact({ onClose }) {
     }
     setSent(true);
   }
+  if (mode === "real" && conversationsEnabled())
+    return (
+      <Sheet title="Atención Gestadia" onClose={onClose}>
+        <p>Consulta con el equipo desde la conversación de atención.</p>
+        <button
+          className="btn dark-btn"
+          onClick={() => {
+            onClose();
+            navigate("/mensajes/gestor");
+          }}
+        >
+          Abrir conversación de atención
+        </button>
+      </Sheet>
+    );
   return (
     <Sheet
       title="Hablar con un gestor"

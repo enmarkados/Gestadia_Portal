@@ -504,3 +504,28 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Alcance:** backend/src/app/conversations.js; backend/src/app/s2s.js.
 - **Notas:** La UI no firma ni elige proyectos/agentes. La integración queda deshabilitada por defecto.
 
+
+### `scopeKey`, `scopeId`, `remoteId`, `syncedRevision`
+- **Tipo:** propiedades de persistencia APP.
+- **Definición:** Ámbito estable de propósito/caso, ámbito local de idempotencia, identificador público remoto LidIA y última revisión de contexto confirmada por LidIA.
+- **Alcance:** modelos AppConversation/AppOperation; backend/src/app/store.js.
+- **Notas:** El ámbito no cambia por dispositivo ni rotación de credencial; remoteId no es el id interno de ChatSession. syncedRevision no prueba propagación universal.
+
+### `gestadia_app_conversation_v1`
+- **Tipo:** decisión naming de almacenamiento móvil.
+- **Definición:** Prefijo de envíos pendientes locales separados por cuenta y conversación.
+- **Alcance:** frontend/app/src/conversationApi.js.
+- **Notas:** Conserva el mismo turn_id/key para recuperación explícita, se limpia al salir/cambiar de cuenta; no guarda credenciales S2S ni resultados privados de herramientas.
+
+### Prueba APP aislada
+- **Tipo:** concepto de verificación.
+- **Definición:** Suite reproducible con MySQL efímero local, autoridad/API reales y límite LidIA sustituido por fixtures controlados.
+- **Alcance:** scripts/test-app-conversations.mjs; backend/src/app/*.test.js y frontend/app/src/*Conversation*.test.*.
+- **Notas:** No lee .env ni usa conexiones/credenciales reales, no acredita E2E con agente o despliegue publicado.
+
+### `AppConversation.stateRevision`
+
+- **Tipo:** propiedad Prisma / concepto runtime.
+- **Definición:** mayor revisión pública LidIA observada de una conversación; impide que respuestas de estado anteriores sustituyan el estado confirmado.
+- **Alcance:** backend/prisma/schema.prisma y backend/src/app/conversations.js.
+- **Notas:** String decimal comparado con BigInt; distinto de contextRevision/syncedRevision y receipt_revision. No convertir a Number.

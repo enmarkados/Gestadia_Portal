@@ -2,8 +2,9 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { db } from './db.js';
 
-// Estos tests escriben en la BD configurada en .env (que puede ser la real):
-// cada uno limpia sus propias filas al terminar, pase o falle.
+// Sólo la BBDD local efímera creada por scripts/test-app-conversations.mjs.
+const testDbUrl = new URL(process.env.DATABASE_URL || 'http://invalid');
+if (testDbUrl.hostname !== '127.0.0.1' || testDbUrl.pathname !== '/gestadia_app_test') throw new Error('Test DB must be the isolated local container');
 async function limpiar(userId) {
   const exps = await db.expediente.findMany({ where: { userId }, select: { id: true } });
   const ids = exps.map((e) => e.id);

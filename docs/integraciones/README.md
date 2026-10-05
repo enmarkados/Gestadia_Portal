@@ -2,6 +2,10 @@
 
 Índice de la documentación de integraciones con sistemas externos.
 
+## Gestadia App — implementación conversacional desactivada (05/10/2026)
+
+[Entrega Portal](2026-10-05-entrega-portal-conversaciones-app.md): API `/api/app/v1`, identidad, asociaciones/claims, contexto/revocación y consumidor APP, con pruebas MySQL local. [Acta de autorización y conformidad mutua](2026-10-05-acta-inicio-conversacional.md) y [plan/evidencia](../superpowers/plans/2026-10-05-app-conversaciones-portal.md). Esta fase posterior resuelve los cierres conversacionales pendientes abajo; las revisiones históricas conservan su fecha/alcance. No cambia Zoho/checkout ni acredita despliegue, activación o runtime119.
+
 ## Gestadia App — adenda conversacional 1.1 contrastada (05/10/2026)
 
 - [Adenda recibida](2026-10-05-adenda-contexto-conversacional-v1-1.md),
