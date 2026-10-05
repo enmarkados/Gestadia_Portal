@@ -2,6 +2,16 @@
 
 Índice de la documentación de integraciones con sistemas externos.
 
+## Gestadia App — decisión de negocio Zoho y acceso (05/10/2026)
+
+[Decisión vigente y mensaje para LidIA](2026-10-05-decision-negocio-zoho-ganado-y-acceso.md):
+Zoho debe postear al entrar en Cerrado ganado para crear o vincular el acceso
+compartido Portal/APP. Hablar desde la app puede preceder al alta comercial;
+el evento se cruza con la cuenta existente conservando credenciales e historial.
+Descarta la instantánea como sustituto del disparador de alta (O6/R3), sin
+alterar los documentos históricos. El transporte y la correlación requieren
+contrato; no se ha implementado ni activado la integración.
+
 ## Gestadia App — respuesta y contraste O1–O8 (05/10/2026)
 
 - [Respuesta LidIA](2026-10-05-respuesta-lidia-observaciones-o1-o8.md),
@@ -14,8 +24,8 @@
   de vínculo/cardinalidad, semántica Zoho, checkout y retención.
 
 No hay cierre del contrato conjunto ni autorización de implementación o
-pruebas conectadas. El evento de instantánea Zoho es una alternativa pendiente
-de decisión; agente 119 y aislamiento DEV siguen sin evidencia efectiva.
+pruebas conectadas. La decisión vigente descarta la instantánea como disparador
+de alta; agente 119 y aislamiento DEV siguen sin evidencia efectiva.
 
 ## Gestadia App — revisión de contratos con LidIA (04/10/2026)
 

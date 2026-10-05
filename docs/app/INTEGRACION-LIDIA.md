@@ -6,7 +6,9 @@ El 04/10 se incorpora la [respuesta original de LidIA](../integraciones/2026-10-
 
 Contrato contrastado el 3 de octubre de 2026 con `PluginWebController.cs`, `PluginWebDtos.cs`, `wwwroot/pluginweb/chat.js` y el equipo del chat «Avance del experimento MDVP». Lectura de código; no se ha cambiado la plataforma externa.
 
-El 05/10 se incorpora la [respuesta O1–O8 con anexos](../integraciones/2026-10-05-respuesta-lidia-observaciones-o1-o8.md) y el [contraste Portal](../integraciones/2026-10-05-revision-portal-respuesta-lidia-o1-o8.md). Los cuatro vectores de firma coinciden offline; vínculo CRM/cardinalidad, alternativa de instantáneas Zoho, solicitud de checkout y retención siguen pendientes de cierre. Son propuestas documentales; no hay adaptadores APP implementados ni pruebas conectadas.
+El 05/10 se incorpora la [respuesta O1–O8 con anexos](../integraciones/2026-10-05-respuesta-lidia-observaciones-o1-o8.md) y el [contraste Portal](../integraciones/2026-10-05-revision-portal-respuesta-lidia-o1-o8.md). Los cuatro vectores de firma coinciden offline; vínculo CRM/cardinalidad, transporte del evento Zoho, solicitud de checkout y retención siguen pendientes de cierre. Son propuestas documentales; no hay adaptadores APP implementados ni pruebas conectadas.
+
+La [decisión posterior de negocio](../integraciones/2026-10-05-decision-negocio-zoho-ganado-y-acceso.md) corrige O6/R3: Zoho debe enviar un POST al entrar en Cerrado ganado para crear o vincular el acceso de cliente compartido Portal/APP. Hablar desde la app puede ocurrir antes; al llegar el evento se cruza con esa cuenta, conservando credenciales e historial. La instantánea posterior no sustituye la ocurrencia. La regla de negocio está confirmada; su contrato técnico y ejecución siguen pendientes.
 
 ## Adaptador PluginWeb anterior (referencia)
 

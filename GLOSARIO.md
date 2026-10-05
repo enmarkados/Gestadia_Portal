@@ -361,3 +361,25 @@ Propuestas aún pendientes de acuerdo. Fuentes: [respuesta LidIA O1–O8](docs/i
 - **Definición:** Identificador de origen que LidIA propone para la futura solicitud de checkout APP.
 - **Alcance:** respuesta O7 del 05/10; DTO de solicitud pendiente de consolidación.
 - **Notas:** Es una variante de naming frente a `origin_channel: APP` del borrador previo. Acordar un único nombre y valor en el contrato final; no asumir equivalencia automática en implementaciones.
+
+## Precisión de negocio: ganado y acceso (05/10/2026)
+
+Fuente: [decisión de negocio Zoho y acceso](docs/integraciones/2026-10-05-decision-negocio-zoho-ganado-y-acceso.md).
+
+### Entrada a Cerrado ganado
+- **Tipo:** concepto de negocio / evento runtime requerido.
+- **Definición:** Ocurrencia del cambio de un trato Zoho a Cerrado ganado que el CRM debe comunicar al Portal mediante POST. Dispara el alta comercial o la vinculación con una cuenta existente.
+- **Alcance:** decisión de negocio del 05/10, §§1–3; futuro productor CRM y receptor Portal. `crm.deal.stage_changed.v1` sigue como nombre contractual propuesto.
+- **Notas:** Descarta `crm.deal.snapshot_observed.v1` como sustituto del disparador de alta; una instantánea puede ayudar a reconciliar. Exige conservar la ocurrencia y su identidad en los reintentos, sin exigir una secuencia completa y ordenada de todas las etapas como requisito del alta.
+
+### Acceso conversacional previo
+- **Tipo:** concepto de negocio.
+- **Definición:** Uso de la app para hablar con LidIA o con atención humana antes de que el trato sea ganado. La cuenta y las conversaciones pueden existir sin expediente habilitado.
+- **Alcance:** decisión de negocio del 05/10, §§1–2; futuras API de cuenta y conversaciones APP.
+- **Notas:** Hablar no otorga permisos de cliente sobre trámites; al recibir ganado se correlaciona la misma identidad sin perder historial.
+
+### Alta comercial de cuenta
+- **Tipo:** concepto de negocio / decisión de identidad.
+- **Definición:** Creación o habilitación del acceso de cliente compartido por Gestadia Portal y la app al recibir evidencia comercial válida. Si ya existe una cuenta, se vincula el trámite a esa cuenta conservando sus credenciales.
+- **Alcance:** decisión de negocio del 05/10, §§1–4; futuro reconciliador Portal sobre `User` y `Expediente`.
+- **Notas:** No crea credenciales separadas para APP ni reinicia la contraseña de una cuenta previa. El evento ganado y el pago se correlacionan para evitar altas y bienvenidas duplicadas.
