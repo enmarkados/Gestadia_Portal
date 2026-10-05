@@ -2,6 +2,19 @@
 
 Índice de la documentación de integraciones con sistemas externos.
 
+## Gestadia App — adenda conversacional 1.1 contrastada (05/10/2026)
+
+- [Adenda recibida](2026-10-05-adenda-contexto-conversacional-v1-1.md),
+  [esquema](fixtures/app-context-v1-1.schema.json) y
+  [vectores](fixtures/app-context-v1-1-vectors.json): copias exactas nuevas.
+- [Conformidad técnica Portal](2026-10-05-conformidad-portal-adenda-contexto-v1-1.md):
+  seis vectores recalculados Node/Python; comprobación limitada del perfil de
+  esquema. Precisión editorial de replay y política de historial/purga pendientes.
+  No acredita validadores generales, API, proxy ni revocación distribuida.
+
+Se mantiene el cierre conversacional separado de Zoho/checkout y la revisión
+documental, sin autorización de implementación o activación.
+
 ## Gestadia App — cierre conversacional separado de Zoho (05/10/2026)
 
 - [Ajuste recibido de LidIA](2026-10-05-ajuste-alcance-conversacional-app.md):

@@ -1,0 +1,490 @@
+{
+  "fixture_schema_version": "1.0",
+  "addendum_revision": "1.1",
+  "purpose": "Public offline cryptographic/schema fixtures; stateful cases are future adapter acceptance specifications.",
+  "clock_unix": "1791158400",
+  "keys_hex": {
+    "fixture-context-old": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "fixture-context-new": "202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f"
+  },
+  "fixture_credential_capabilities": [
+    "app.context.attest"
+  ],
+  "positives": [
+    {
+      "id": "context-grant-9",
+      "domain": "gestadia-app-s2s-v1",
+      "audience": "lidia:gestadia:dev:app",
+      "integration_id": "fixture-integration-stable",
+      "key_id": "fixture-context-old",
+      "timestamp": "1791158400",
+      "nonce": "000102030405060708090a0b0c0d0e0f",
+      "method": "POST",
+      "encoded_path": "/api/integrations/lidia/app/v1/sessions/22222222-2222-4222-8222-222222222222/context",
+      "canonical_query": "",
+      "subject": "11111111-1111-4111-8111-111111111111",
+      "idempotency_key": "fixture-context-grant-09",
+      "request": {
+        "schema_version": "1.0",
+        "portal_user_id": "11111111-1111-4111-8111-111111111111",
+        "context_revision": "9",
+        "validated_at": "2026-10-05T10:00:00.000Z",
+        "permissions": [
+          "history",
+          "case_context",
+          "commercial_handoff",
+          "manager_handoff"
+        ],
+        "case_ref": "66666666-6666-4666-8666-666666666666",
+        "commercial_assignment_ref": "assignment-commercial-01",
+        "manager_assignment_ref": "assignment-manager-01",
+        "correlation_id": "fixture-context-grant"
+      },
+      "body_base64": "eyJzY2hlbWFfdmVyc2lvbiI6IjEuMCIsInBvcnRhbF91c2VyX2lkIjoiMTExMTExMTEtMTExMS00MTExLTgxMTEtMTExMTExMTExMTExIiwiY29udGV4dF9yZXZpc2lvbiI6IjkiLCJ2YWxpZGF0ZWRfYXQiOiIyMDI2LTEwLTA1VDEwOjAwOjAwLjAwMFoiLCJwZXJtaXNzaW9ucyI6WyJoaXN0b3J5IiwiY2FzZV9jb250ZXh0IiwiY29tbWVyY2lhbF9oYW5kb2ZmIiwibWFuYWdlcl9oYW5kb2ZmIl0sImNhc2VfcmVmIjoiNjY2NjY2NjYtNjY2Ni00NjY2LTg2NjYtNjY2NjY2NjY2NjY2IiwiY29tbWVyY2lhbF9hc3NpZ25tZW50X3JlZiI6ImFzc2lnbm1lbnQtY29tbWVyY2lhbC0wMSIsIm1hbmFnZXJfYXNzaWdubWVudF9yZWYiOiJhc3NpZ25tZW50LW1hbmFnZXItMDEiLCJjb3JyZWxhdGlvbl9pZCI6ImZpeHR1cmUtY29udGV4dC1ncmFudCJ9",
+      "body_sha256": "ff1bd151c14ded1a9a5ce92633e85005fc84e96e49ee7345a7f61e9a9b9e12df",
+      "canonical": "gestadia-app-s2s-v1\nlidia:gestadia:dev:app\nfixture-context-old\n1791158400\n000102030405060708090a0b0c0d0e0f\nPOST\n/api/integrations/lidia/app/v1/sessions/22222222-2222-4222-8222-222222222222/context\n\n11111111-1111-4111-8111-111111111111\nfixture-context-grant-09\nff1bd151c14ded1a9a5ce92633e85005fc84e96e49ee7345a7f61e9a9b9e12df",
+      "canonical_utf8_base64": "Z2VzdGFkaWEtYXBwLXMycy12MQpsaWRpYTpnZXN0YWRpYTpkZXY6YXBwCmZpeHR1cmUtY29udGV4dC1vbGQKMTc5MTE1ODQwMAowMDAxMDIwMzA0MDUwNjA3MDgwOTBhMGIwYzBkMGUwZgpQT1NUCi9hcGkvaW50ZWdyYXRpb25zL2xpZGlhL2FwcC92MS9zZXNzaW9ucy8yMjIyMjIyMi0yMjIyLTQyMjItODIyMi0yMjIyMjIyMjIyMjIvY29udGV4dAoKMTExMTExMTEtMTExMS00MTExLTgxMTEtMTExMTExMTExMTExCmZpeHR1cmUtY29udGV4dC1ncmFudC0wOQpmZjFiZDE1MWMxNGRlZDFhOWE1Y2U5MjYzM2U4NTAwNWZjODRlOTZlNDllZTczNDVhN2Y2MWU5YTliOWUxMmRm",
+      "signature": "5ffa29ac0e350a6ad4bff38f3782e6b4ee653789194e1487f1e4c76ba7fcade1",
+      "semantic_canonical": "{\"conversation_id\":\"22222222-2222-4222-8222-222222222222\",\"dto\":{\"case_ref\":\"66666666-6666-4666-8666-666666666666\",\"commercial_assignment_ref\":\"assignment-commercial-01\",\"context_revision\":\"9\",\"manager_assignment_ref\":\"assignment-manager-01\",\"permissions\":[\"case_context\",\"commercial_handoff\",\"history\",\"manager_handoff\"],\"portal_user_id\":\"11111111-1111-4111-8111-111111111111\",\"schema_version\":\"1.0\",\"validated_at\":\"2026-10-05T10:00:00.000Z\"},\"operation\":\"context\",\"subject\":\"11111111-1111-4111-8111-111111111111\"}",
+      "semantic_sha256": "529aa77466920d6465081c5c947dbed04074e38c9f1c4a7d3051ef030690c895"
+    },
+    {
+      "id": "context-grant-reordered",
+      "domain": "gestadia-app-s2s-v1",
+      "audience": "lidia:gestadia:dev:app",
+      "integration_id": "fixture-integration-stable",
+      "key_id": "fixture-context-old",
+      "timestamp": "1791158400",
+      "nonce": "101112131415161718191a1b1c1d1e1f",
+      "method": "POST",
+      "encoded_path": "/api/integrations/lidia/app/v1/sessions/22222222-2222-4222-8222-222222222222/context",
+      "canonical_query": "",
+      "subject": "11111111-1111-4111-8111-111111111111",
+      "idempotency_key": "fixture-context-grant-09",
+      "request": {
+        "schema_version": "1.0",
+        "portal_user_id": "11111111-1111-4111-8111-111111111111",
+        "context_revision": "9",
+        "validated_at": "2026-10-05T10:00:00.000Z",
+        "permissions": [
+          "manager_handoff",
+          "commercial_handoff",
+          "case_context",
+          "history"
+        ],
+        "case_ref": "66666666-6666-4666-8666-666666666666",
+        "commercial_assignment_ref": "assignment-commercial-01",
+        "manager_assignment_ref": "assignment-manager-01",
+        "correlation_id": "fixture-context-reordered"
+      },
+      "body_base64": "eyJzY2hlbWFfdmVyc2lvbiI6IjEuMCIsInBvcnRhbF91c2VyX2lkIjoiMTExMTExMTEtMTExMS00MTExLTgxMTEtMTExMTExMTExMTExIiwiY29udGV4dF9yZXZpc2lvbiI6IjkiLCJ2YWxpZGF0ZWRfYXQiOiIyMDI2LTEwLTA1VDEwOjAwOjAwLjAwMFoiLCJwZXJtaXNzaW9ucyI6WyJtYW5hZ2VyX2hhbmRvZmYiLCJjb21tZXJjaWFsX2hhbmRvZmYiLCJjYXNlX2NvbnRleHQiLCJoaXN0b3J5Il0sImNhc2VfcmVmIjoiNjY2NjY2NjYtNjY2Ni00NjY2LTg2NjYtNjY2NjY2NjY2NjY2IiwiY29tbWVyY2lhbF9hc3NpZ25tZW50X3JlZiI6ImFzc2lnbm1lbnQtY29tbWVyY2lhbC0wMSIsIm1hbmFnZXJfYXNzaWdubWVudF9yZWYiOiJhc3NpZ25tZW50LW1hbmFnZXItMDEiLCJjb3JyZWxhdGlvbl9pZCI6ImZpeHR1cmUtY29udGV4dC1yZW9yZGVyZWQifQ==",
+      "body_sha256": "3c0525dfb23356adc5535b61454fe0873dbc2c263c19fe2b150b78efb0a805f4",
+      "canonical": "gestadia-app-s2s-v1\nlidia:gestadia:dev:app\nfixture-context-old\n1791158400\n101112131415161718191a1b1c1d1e1f\nPOST\n/api/integrations/lidia/app/v1/sessions/22222222-2222-4222-8222-222222222222/context\n\n11111111-1111-4111-8111-111111111111\nfixture-context-grant-09\n3c0525dfb23356adc5535b61454fe0873dbc2c263c19fe2b150b78efb0a805f4",
+      "canonical_utf8_base64": "Z2VzdGFkaWEtYXBwLXMycy12MQpsaWRpYTpnZXN0YWRpYTpkZXY6YXBwCmZpeHR1cmUtY29udGV4dC1vbGQKMTc5MTE1ODQwMAoxMDExMTIxMzE0MTUxNjE3MTgxOTFhMWIxYzFkMWUxZgpQT1NUCi9hcGkvaW50ZWdyYXRpb25zL2xpZGlhL2FwcC92MS9zZXNzaW9ucy8yMjIyMjIyMi0yMjIyLTQyMjItODIyMi0yMjIyMjIyMjIyMjIvY29udGV4dAoKMTExMTExMTEtMTExMS00MTExLTgxMTEtMTExMTExMTExMTExCmZpeHR1cmUtY29udGV4dC1ncmFudC0wOQozYzA1MjVkZmIyMzM1NmFkYzU1MzViNjE0NTRmZTA4NzNkYmMyYzI2M2MxOWZlMmIxNTBiNzhlZmIwYTgwNWY0",
+      "signature": "1dc6890599d3d9f7c3e5f41bc34cbcbd7319620a6f6b0bbb459071257c5ca398",
+      "semantic_canonical": "{\"conversation_id\":\"22222222-2222-4222-8222-222222222222\",\"dto\":{\"case_ref\":\"66666666-6666-4666-8666-666666666666\",\"commercial_assignment_ref\":\"assignment-commercial-01\",\"context_revision\":\"9\",\"manager_assignment_ref\":\"assignment-manager-01\",\"permissions\":[\"case_context\",\"commercial_handoff\",\"history\",\"manager_handoff\"],\"portal_user_id\":\"11111111-1111-4111-8111-111111111111\",\"schema_version\":\"1.0\",\"validated_at\":\"2026-10-05T10:00:00.000Z\"},\"operation\":\"context\",\"subject\":\"11111111-1111-4111-8111-111111111111\"}",
+      "semantic_sha256": "529aa77466920d6465081c5c947dbed04074e38c9f1c4a7d3051ef030690c895"
+    },
+    {
+      "id": "context-withdraw-10",
+      "domain": "gestadia-app-s2s-v1",
+      "audience": "lidia:gestadia:dev:app",
+      "integration_id": "fixture-integration-stable",
+      "key_id": "fixture-context-old",
+      "timestamp": "1791158400",
+      "nonce": "202122232425262728292a2b2c2d2e2f",
+      "method": "POST",
+      "encoded_path": "/api/integrations/lidia/app/v1/sessions/22222222-2222-4222-8222-222222222222/context",
+      "canonical_query": "",
+      "subject": "11111111-1111-4111-8111-111111111111",
+      "idempotency_key": "fixture-context-withdraw-10",
+      "request": {
+        "schema_version": "1.0",
+        "portal_user_id": "11111111-1111-4111-8111-111111111111",
+        "context_revision": "10",
+        "validated_at": "2026-10-05T10:00:05.000Z",
+        "permissions": [],
+        "case_ref": null,
+        "commercial_assignment_ref": null,
+        "manager_assignment_ref": null,
+        "correlation_id": "fixture-context-withdraw"
+      },
+      "body_base64": "eyJzY2hlbWFfdmVyc2lvbiI6IjEuMCIsInBvcnRhbF91c2VyX2lkIjoiMTExMTExMTEtMTExMS00MTExLTgxMTEtMTExMTExMTExMTExIiwiY29udGV4dF9yZXZpc2lvbiI6IjEwIiwidmFsaWRhdGVkX2F0IjoiMjAyNi0xMC0wNVQxMDowMDowNS4wMDBaIiwicGVybWlzc2lvbnMiOltdLCJjYXNlX3JlZiI6bnVsbCwiY29tbWVyY2lhbF9hc3NpZ25tZW50X3JlZiI6bnVsbCwibWFuYWdlcl9hc3NpZ25tZW50X3JlZiI6bnVsbCwiY29ycmVsYXRpb25faWQiOiJmaXh0dXJlLWNvbnRleHQtd2l0aGRyYXcifQ==",
+      "body_sha256": "2018ad3c0f28a44df49241041527c12ee957218c2ba3bb423a5e119902b8daa7",
+      "canonical": "gestadia-app-s2s-v1\nlidia:gestadia:dev:app\nfixture-context-old\n1791158400\n202122232425262728292a2b2c2d2e2f\nPOST\n/api/integrations/lidia/app/v1/sessions/22222222-2222-4222-8222-222222222222/context\n\n11111111-1111-4111-8111-111111111111\nfixture-context-withdraw-10\n2018ad3c0f28a44df49241041527c12ee957218c2ba3bb423a5e119902b8daa7",
+      "canonical_utf8_base64": "Z2VzdGFkaWEtYXBwLXMycy12MQpsaWRpYTpnZXN0YWRpYTpkZXY6YXBwCmZpeHR1cmUtY29udGV4dC1vbGQKMTc5MTE1ODQwMAoyMDIxMjIyMzI0MjUyNjI3MjgyOTJhMmIyYzJkMmUyZgpQT1NUCi9hcGkvaW50ZWdyYXRpb25zL2xpZGlhL2FwcC92MS9zZXNzaW9ucy8yMjIyMjIyMi0yMjIyLTQyMjItODIyMi0yMjIyMjIyMjIyMjIvY29udGV4dAoKMTExMTExMTEtMTExMS00MTExLTgxMTEtMTExMTExMTExMTExCmZpeHR1cmUtY29udGV4dC13aXRoZHJhdy0xMAoyMDE4YWQzYzBmMjhhNDRkZjQ5MjQxMDQxNTI3YzEyZWU5NTcyMThjMmJhM2JiNDIzYTVlMTE5OTAyYjhkYWE3",
+      "signature": "868afef0ccb4d34d8237e5bb539a3ceb2de689e407a087a21670cd138b1c42cd",
+      "semantic_canonical": "{\"conversation_id\":\"22222222-2222-4222-8222-222222222222\",\"dto\":{\"case_ref\":null,\"commercial_assignment_ref\":null,\"context_revision\":\"10\",\"manager_assignment_ref\":null,\"permissions\":[],\"portal_user_id\":\"11111111-1111-4111-8111-111111111111\",\"schema_version\":\"1.0\",\"validated_at\":\"2026-10-05T10:00:05.000Z\"},\"operation\":\"context\",\"subject\":\"11111111-1111-4111-8111-111111111111\"}",
+      "semantic_sha256": "b97a5c337fedd57b50965989bc398ed9decd52addc6099248f3865aded8eacbd"
+    },
+    {
+      "id": "context-retry-9-after-10",
+      "domain": "gestadia-app-s2s-v1",
+      "audience": "lidia:gestadia:dev:app",
+      "integration_id": "fixture-integration-stable",
+      "key_id": "fixture-context-old",
+      "timestamp": "1791158400",
+      "nonce": "303132333435363738393a3b3c3d3e3f",
+      "method": "POST",
+      "encoded_path": "/api/integrations/lidia/app/v1/sessions/22222222-2222-4222-8222-222222222222/context",
+      "canonical_query": "",
+      "subject": "11111111-1111-4111-8111-111111111111",
+      "idempotency_key": "fixture-context-grant-09",
+      "request": {
+        "schema_version": "1.0",
+        "portal_user_id": "11111111-1111-4111-8111-111111111111",
+        "context_revision": "9",
+        "validated_at": "2026-10-05T10:00:00.000Z",
+        "permissions": [
+          "history",
+          "case_context",
+          "commercial_handoff",
+          "manager_handoff"
+        ],
+        "case_ref": "66666666-6666-4666-8666-666666666666",
+        "commercial_assignment_ref": "assignment-commercial-01",
+        "manager_assignment_ref": "assignment-manager-01",
+        "correlation_id": "fixture-context-retry-09"
+      },
+      "state_precondition": "Operation grant-9 exists under same key; current context is withdraw-10; account active, context-attestation credential.",
+      "expected_http": 200,
+      "expected_current_context_revision": "10",
+      "expected_effective_permissions": [],
+      "expected_mutation": false,
+      "body_base64": "eyJzY2hlbWFfdmVyc2lvbiI6IjEuMCIsInBvcnRhbF91c2VyX2lkIjoiMTExMTExMTEtMTExMS00MTExLTgxMTEtMTExMTExMTExMTExIiwiY29udGV4dF9yZXZpc2lvbiI6IjkiLCJ2YWxpZGF0ZWRfYXQiOiIyMDI2LTEwLTA1VDEwOjAwOjAwLjAwMFoiLCJwZXJtaXNzaW9ucyI6WyJoaXN0b3J5IiwiY2FzZV9jb250ZXh0IiwiY29tbWVyY2lhbF9oYW5kb2ZmIiwibWFuYWdlcl9oYW5kb2ZmIl0sImNhc2VfcmVmIjoiNjY2NjY2NjYtNjY2Ni00NjY2LTg2NjYtNjY2NjY2NjY2NjY2IiwiY29tbWVyY2lhbF9hc3NpZ25tZW50X3JlZiI6ImFzc2lnbm1lbnQtY29tbWVyY2lhbC0wMSIsIm1hbmFnZXJfYXNzaWdubWVudF9yZWYiOiJhc3NpZ25tZW50LW1hbmFnZXItMDEiLCJjb3JyZWxhdGlvbl9pZCI6ImZpeHR1cmUtY29udGV4dC1yZXRyeS0wOSJ9",
+      "body_sha256": "bed92ebe23ec34b95938c11622ce9a34aaca8f137dee99128695ac9af7046db7",
+      "canonical": "gestadia-app-s2s-v1\nlidia:gestadia:dev:app\nfixture-context-old\n1791158400\n303132333435363738393a3b3c3d3e3f\nPOST\n/api/integrations/lidia/app/v1/sessions/22222222-2222-4222-8222-222222222222/context\n\n11111111-1111-4111-8111-111111111111\nfixture-context-grant-09\nbed92ebe23ec34b95938c11622ce9a34aaca8f137dee99128695ac9af7046db7",
+      "canonical_utf8_base64": "Z2VzdGFkaWEtYXBwLXMycy12MQpsaWRpYTpnZXN0YWRpYTpkZXY6YXBwCmZpeHR1cmUtY29udGV4dC1vbGQKMTc5MTE1ODQwMAozMDMxMzIzMzM0MzUzNjM3MzgzOTNhM2IzYzNkM2UzZgpQT1NUCi9hcGkvaW50ZWdyYXRpb25zL2xpZGlhL2FwcC92MS9zZXNzaW9ucy8yMjIyMjIyMi0yMjIyLTQyMjItODIyMi0yMjIyMjIyMjIyMjIvY29udGV4dAoKMTExMTExMTEtMTExMS00MTExLTgxMTEtMTExMTExMTExMTExCmZpeHR1cmUtY29udGV4dC1ncmFudC0wOQpiZWQ5MmViZTIzZWMzNGI5NTkzOGMxMTYyMmNlOWEzNGFhY2E4ZjEzN2RlZTk5MTI4Njk1YWM5YWY3MDQ2ZGI3",
+      "signature": "97ced1459d64c525b7acd06a05aabe8f723efe41aa232400d0df066635718842",
+      "semantic_canonical": "{\"conversation_id\":\"22222222-2222-4222-8222-222222222222\",\"dto\":{\"case_ref\":\"66666666-6666-4666-8666-666666666666\",\"commercial_assignment_ref\":\"assignment-commercial-01\",\"context_revision\":\"9\",\"manager_assignment_ref\":\"assignment-manager-01\",\"permissions\":[\"case_context\",\"commercial_handoff\",\"history\",\"manager_handoff\"],\"portal_user_id\":\"11111111-1111-4111-8111-111111111111\",\"schema_version\":\"1.0\",\"validated_at\":\"2026-10-05T10:00:00.000Z\"},\"operation\":\"context\",\"subject\":\"11111111-1111-4111-8111-111111111111\"}",
+      "semantic_sha256": "529aa77466920d6465081c5c947dbed04074e38c9f1c4a7d3051ef030690c895"
+    },
+    {
+      "id": "context-key-rotation",
+      "domain": "gestadia-app-s2s-v1",
+      "audience": "lidia:gestadia:dev:app",
+      "integration_id": "fixture-integration-stable",
+      "key_id": "fixture-context-new",
+      "timestamp": "1791158400",
+      "nonce": "404142434445464748494a4b4c4d4e4f",
+      "method": "POST",
+      "encoded_path": "/api/integrations/lidia/app/v1/sessions/22222222-2222-4222-8222-222222222222/context",
+      "canonical_query": "",
+      "subject": "11111111-1111-4111-8111-111111111111",
+      "idempotency_key": "fixture-context-grant-09",
+      "request": {
+        "schema_version": "1.0",
+        "portal_user_id": "11111111-1111-4111-8111-111111111111",
+        "context_revision": "9",
+        "validated_at": "2026-10-05T10:00:00.000Z",
+        "permissions": [
+          "history",
+          "case_context",
+          "commercial_handoff",
+          "manager_handoff"
+        ],
+        "case_ref": "66666666-6666-4666-8666-666666666666",
+        "commercial_assignment_ref": "assignment-commercial-01",
+        "manager_assignment_ref": "assignment-manager-01",
+        "correlation_id": "fixture-context-grant"
+      },
+      "body_base64": "eyJzY2hlbWFfdmVyc2lvbiI6IjEuMCIsInBvcnRhbF91c2VyX2lkIjoiMTExMTExMTEtMTExMS00MTExLTgxMTEtMTExMTExMTExMTExIiwiY29udGV4dF9yZXZpc2lvbiI6IjkiLCJ2YWxpZGF0ZWRfYXQiOiIyMDI2LTEwLTA1VDEwOjAwOjAwLjAwMFoiLCJwZXJtaXNzaW9ucyI6WyJoaXN0b3J5IiwiY2FzZV9jb250ZXh0IiwiY29tbWVyY2lhbF9oYW5kb2ZmIiwibWFuYWdlcl9oYW5kb2ZmIl0sImNhc2VfcmVmIjoiNjY2NjY2NjYtNjY2Ni00NjY2LTg2NjYtNjY2NjY2NjY2NjY2IiwiY29tbWVyY2lhbF9hc3NpZ25tZW50X3JlZiI6ImFzc2lnbm1lbnQtY29tbWVyY2lhbC0wMSIsIm1hbmFnZXJfYXNzaWdubWVudF9yZWYiOiJhc3NpZ25tZW50LW1hbmFnZXItMDEiLCJjb3JyZWxhdGlvbl9pZCI6ImZpeHR1cmUtY29udGV4dC1ncmFudCJ9",
+      "body_sha256": "ff1bd151c14ded1a9a5ce92633e85005fc84e96e49ee7345a7f61e9a9b9e12df",
+      "canonical": "gestadia-app-s2s-v1\nlidia:gestadia:dev:app\nfixture-context-new\n1791158400\n404142434445464748494a4b4c4d4e4f\nPOST\n/api/integrations/lidia/app/v1/sessions/22222222-2222-4222-8222-222222222222/context\n\n11111111-1111-4111-8111-111111111111\nfixture-context-grant-09\nff1bd151c14ded1a9a5ce92633e85005fc84e96e49ee7345a7f61e9a9b9e12df",
+      "canonical_utf8_base64": "Z2VzdGFkaWEtYXBwLXMycy12MQpsaWRpYTpnZXN0YWRpYTpkZXY6YXBwCmZpeHR1cmUtY29udGV4dC1uZXcKMTc5MTE1ODQwMAo0MDQxNDI0MzQ0NDU0NjQ3NDg0OTRhNGI0YzRkNGU0ZgpQT1NUCi9hcGkvaW50ZWdyYXRpb25zL2xpZGlhL2FwcC92MS9zZXNzaW9ucy8yMjIyMjIyMi0yMjIyLTQyMjItODIyMi0yMjIyMjIyMjIyMjIvY29udGV4dAoKMTExMTExMTEtMTExMS00MTExLTgxMTEtMTExMTExMTExMTExCmZpeHR1cmUtY29udGV4dC1ncmFudC0wOQpmZjFiZDE1MWMxNGRlZDFhOWE1Y2U5MjYzM2U4NTAwNWZjODRlOTZlNDllZTczNDVhN2Y2MWU5YTliOWUxMmRm",
+      "signature": "098add922fd8d719ee562a031e7eebb00705242ca5342df4b915519c116cdd0e",
+      "semantic_canonical": "{\"conversation_id\":\"22222222-2222-4222-8222-222222222222\",\"dto\":{\"case_ref\":\"66666666-6666-4666-8666-666666666666\",\"commercial_assignment_ref\":\"assignment-commercial-01\",\"context_revision\":\"9\",\"manager_assignment_ref\":\"assignment-manager-01\",\"permissions\":[\"case_context\",\"commercial_handoff\",\"history\",\"manager_handoff\"],\"portal_user_id\":\"11111111-1111-4111-8111-111111111111\",\"schema_version\":\"1.0\",\"validated_at\":\"2026-10-05T10:00:00.000Z\"},\"operation\":\"context\",\"subject\":\"11111111-1111-4111-8111-111111111111\"}",
+      "semantic_sha256": "529aa77466920d6465081c5c947dbed04074e38c9f1c4a7d3051ef030690c895"
+    },
+    {
+      "id": "context-large-revision",
+      "domain": "gestadia-app-s2s-v1",
+      "audience": "lidia:gestadia:dev:app",
+      "integration_id": "fixture-integration-stable",
+      "key_id": "fixture-context-old",
+      "timestamp": "1791158400",
+      "nonce": "505152535455565758595a5b5c5d5e5f",
+      "method": "POST",
+      "encoded_path": "/api/integrations/lidia/app/v1/sessions/22222222-2222-4222-8222-222222222222/context",
+      "canonical_query": "",
+      "subject": "11111111-1111-4111-8111-111111111111",
+      "idempotency_key": "fixture-context-large-revision",
+      "request": {
+        "schema_version": "1.0",
+        "portal_user_id": "11111111-1111-4111-8111-111111111111",
+        "context_revision": "9007199254740993",
+        "validated_at": "2026-10-05T10:00:05.000Z",
+        "permissions": [],
+        "case_ref": null,
+        "commercial_assignment_ref": null,
+        "manager_assignment_ref": null,
+        "correlation_id": "fixture-context-large"
+      },
+      "body_base64": "eyJzY2hlbWFfdmVyc2lvbiI6IjEuMCIsInBvcnRhbF91c2VyX2lkIjoiMTExMTExMTEtMTExMS00MTExLTgxMTEtMTExMTExMTExMTExIiwiY29udGV4dF9yZXZpc2lvbiI6IjkwMDcxOTkyNTQ3NDA5OTMiLCJ2YWxpZGF0ZWRfYXQiOiIyMDI2LTEwLTA1VDEwOjAwOjA1LjAwMFoiLCJwZXJtaXNzaW9ucyI6W10sImNhc2VfcmVmIjpudWxsLCJjb21tZXJjaWFsX2Fzc2lnbm1lbnRfcmVmIjpudWxsLCJtYW5hZ2VyX2Fzc2lnbm1lbnRfcmVmIjpudWxsLCJjb3JyZWxhdGlvbl9pZCI6ImZpeHR1cmUtY29udGV4dC1sYXJnZSJ9",
+      "body_sha256": "d3977bb153046f224f062f55602fd3a9774ce97fb05d7ea19edc25634fa4dcda",
+      "canonical": "gestadia-app-s2s-v1\nlidia:gestadia:dev:app\nfixture-context-old\n1791158400\n505152535455565758595a5b5c5d5e5f\nPOST\n/api/integrations/lidia/app/v1/sessions/22222222-2222-4222-8222-222222222222/context\n\n11111111-1111-4111-8111-111111111111\nfixture-context-large-revision\nd3977bb153046f224f062f55602fd3a9774ce97fb05d7ea19edc25634fa4dcda",
+      "canonical_utf8_base64": "Z2VzdGFkaWEtYXBwLXMycy12MQpsaWRpYTpnZXN0YWRpYTpkZXY6YXBwCmZpeHR1cmUtY29udGV4dC1vbGQKMTc5MTE1ODQwMAo1MDUxNTI1MzU0NTU1NjU3NTg1OTVhNWI1YzVkNWU1ZgpQT1NUCi9hcGkvaW50ZWdyYXRpb25zL2xpZGlhL2FwcC92MS9zZXNzaW9ucy8yMjIyMjIyMi0yMjIyLTQyMjItODIyMi0yMjIyMjIyMjIyMjIvY29udGV4dAoKMTExMTExMTEtMTExMS00MTExLTgxMTEtMTExMTExMTExMTExCmZpeHR1cmUtY29udGV4dC1sYXJnZS1yZXZpc2lvbgpkMzk3N2JiMTUzMDQ2ZjIyNGYwNjJmNTU2MDJmZDNhOTc3NGNlOTdmYjA1ZDdlYTE5ZWRjMjU2MzRmYTRkY2Rh",
+      "signature": "0eb9479d13f499bba32a5f2c8d89241584b686a246d46c93b77f637a404ad158",
+      "semantic_canonical": "{\"conversation_id\":\"22222222-2222-4222-8222-222222222222\",\"dto\":{\"case_ref\":null,\"commercial_assignment_ref\":null,\"context_revision\":\"9007199254740993\",\"manager_assignment_ref\":null,\"permissions\":[],\"portal_user_id\":\"11111111-1111-4111-8111-111111111111\",\"schema_version\":\"1.0\",\"validated_at\":\"2026-10-05T10:00:05.000Z\"},\"operation\":\"context\",\"subject\":\"11111111-1111-4111-8111-111111111111\"}",
+      "semantic_sha256": "1ed8733c09fa7b48b37d84520d4daeb822fd8cb62dccf9b930b079a8435044d8"
+    }
+  ],
+  "response_examples": [
+    {
+      "schema_version": "1.0",
+      "conversation_id": "22222222-2222-4222-8222-222222222222",
+      "operation_id": "77777777-7777-4777-8777-777777777777",
+      "context_revision": "9",
+      "current_context_revision": "10",
+      "state_revision": "22",
+      "persisted": true,
+      "replayed": true,
+      "effective_permissions": [],
+      "applied_at": "2026-10-05T10:00:00.000Z",
+      "enforcement_deadline": "2026-10-05T10:01:05.000Z",
+      "enforcement_status": "propagating",
+      "correlation_id": "context-retry-09"
+    }
+  ],
+  "negative_specifications": [
+    {
+      "id": "duplicate-permission",
+      "request": {
+        "schema_version": "1.0",
+        "portal_user_id": "11111111-1111-4111-8111-111111111111",
+        "context_revision": "9",
+        "validated_at": "2026-10-05T10:00:00.000Z",
+        "permissions": [
+          "history",
+          "history"
+        ],
+        "case_ref": "66666666-6666-4666-8666-666666666666",
+        "commercial_assignment_ref": "assignment-commercial-01",
+        "manager_assignment_ref": "assignment-manager-01",
+        "correlation_id": "fixture-context-grant"
+      },
+      "expected_http": 400,
+      "expected_code": "invalid_context",
+      "kind": "schema"
+    },
+    {
+      "id": "noncanonical-revision",
+      "request": {
+        "schema_version": "1.0",
+        "portal_user_id": "11111111-1111-4111-8111-111111111111",
+        "context_revision": "09",
+        "validated_at": "2026-10-05T10:00:00.000Z",
+        "permissions": [
+          "history",
+          "case_context",
+          "commercial_handoff",
+          "manager_handoff"
+        ],
+        "case_ref": "66666666-6666-4666-8666-666666666666",
+        "commercial_assignment_ref": "assignment-commercial-01",
+        "manager_assignment_ref": "assignment-manager-01",
+        "correlation_id": "fixture-context-grant"
+      },
+      "expected_http": 400,
+      "expected_code": "invalid_context",
+      "kind": "schema"
+    },
+    {
+      "id": "manager-without-case",
+      "request": {
+        "schema_version": "1.0",
+        "portal_user_id": "11111111-1111-4111-8111-111111111111",
+        "context_revision": "9",
+        "validated_at": "2026-10-05T10:00:00.000Z",
+        "permissions": [
+          "history",
+          "case_context",
+          "commercial_handoff",
+          "manager_handoff"
+        ],
+        "case_ref": null,
+        "commercial_assignment_ref": "assignment-commercial-01",
+        "manager_assignment_ref": "assignment-manager-01",
+        "correlation_id": "fixture-context-grant"
+      },
+      "expected_http": 400,
+      "expected_code": "invalid_context",
+      "kind": "schema"
+    },
+    {
+      "id": "withdrawal-with-assignment",
+      "request": {
+        "schema_version": "1.0",
+        "portal_user_id": "11111111-1111-4111-8111-111111111111",
+        "context_revision": "10",
+        "validated_at": "2026-10-05T10:00:05.000Z",
+        "permissions": [],
+        "case_ref": null,
+        "commercial_assignment_ref": "assignment-commercial-01",
+        "manager_assignment_ref": null,
+        "correlation_id": "fixture-context-withdraw"
+      },
+      "expected_http": 400,
+      "expected_code": "invalid_context",
+      "kind": "schema"
+    },
+    {
+      "id": "turn-key-cannot-attest",
+      "base": "context-grant-9",
+      "precondition": "Key valid, only app.turns.write capability.",
+      "expected_http": 403,
+      "expected_code": "capability_denied",
+      "kind": "authorization"
+    },
+    {
+      "id": "revoked-account-replay",
+      "base": "context-retry-9-after-10",
+      "precondition": "Account revocation committed and enforced; same previously admitted operation.",
+      "expected_http": 403,
+      "expected_code": "capability_denied",
+      "kind": "authorization"
+    },
+    {
+      "id": "stale-unclaimed-key",
+      "request": {
+        "schema_version": "1.0",
+        "portal_user_id": "11111111-1111-4111-8111-111111111111",
+        "context_revision": "9",
+        "validated_at": "2026-10-05T10:00:00.000Z",
+        "permissions": [
+          "history",
+          "case_context",
+          "commercial_handoff",
+          "manager_handoff"
+        ],
+        "case_ref": "66666666-6666-4666-8666-666666666666",
+        "commercial_assignment_ref": "assignment-commercial-01",
+        "manager_assignment_ref": "assignment-manager-01",
+        "correlation_id": "fixture-context-grant"
+      },
+      "precondition": "First admitted revision was 10; no revision-9 operation/hash ever admitted; fresh key.",
+      "expected_http": 409,
+      "expected_code": "stale_context",
+      "kind": "ledger"
+    },
+    {
+      "id": "same-revision-different-hash",
+      "request": {
+        "schema_version": "1.0",
+        "portal_user_id": "11111111-1111-4111-8111-111111111111",
+        "context_revision": "9",
+        "validated_at": "2026-10-05T10:00:00.000Z",
+        "permissions": [
+          "history"
+        ],
+        "case_ref": "66666666-6666-4666-8666-666666666666",
+        "commercial_assignment_ref": "assignment-commercial-01",
+        "manager_assignment_ref": "assignment-manager-01",
+        "correlation_id": "fixture-context-grant"
+      },
+      "precondition": "Revision 9 already known with grant hash.",
+      "expected_http": 409,
+      "expected_code": "context_conflict",
+      "kind": "ledger"
+    },
+    {
+      "id": "same-key-different-revision",
+      "base": "context-withdraw-10",
+      "precondition": "Reuse grant-9 key, not withdrawal key.",
+      "expected_http": 409,
+      "expected_code": "idempotency_conflict",
+      "kind": "ledger"
+    },
+    {
+      "id": "case-A-to-B-after-withdrawal",
+      "request": {
+        "schema_version": "1.0",
+        "portal_user_id": "11111111-1111-4111-8111-111111111111",
+        "context_revision": "11",
+        "validated_at": "2026-10-05T10:00:00.000Z",
+        "permissions": [
+          "history",
+          "case_context",
+          "commercial_handoff",
+          "manager_handoff"
+        ],
+        "case_ref": "88888888-8888-4888-8888-888888888888",
+        "commercial_assignment_ref": "assignment-commercial-01",
+        "manager_assignment_ref": "assignment-manager-01",
+        "correlation_id": "fixture-context-grant"
+      },
+      "precondition": "bound_case_ref=case A; current case_ref null after revision 10.",
+      "expected_http": 409,
+      "expected_code": "case_context_conflict",
+      "kind": "case_binding"
+    },
+    {
+      "id": "retired-context-replay",
+      "base": "context-grant-9",
+      "precondition": "Authorized scope; original key/hash retained as tombstone, detail removed.",
+      "expected_http": 410,
+      "expected_code": "operation_retired",
+      "kind": "retention"
+    },
+    {
+      "id": "retired-session-start-replay",
+      "precondition": "Original create-session key/hash -> retired conversation marker; valid authorization.",
+      "expected_http": 410,
+      "expected_code": "operation_retired",
+      "expected_new_sessions": 0,
+      "kind": "retention"
+    },
+    {
+      "id": "retired-handoff-replay",
+      "precondition": "Original handoff key/hash/consumed effect kept as tombstone; turn_id remains null.",
+      "expected_http": 410,
+      "expected_code": "operation_retired",
+      "expected_new_handoffs": 0,
+      "kind": "retention"
+    },
+    {
+      "id": "concurrent-10-11",
+      "precondition": "Two valid distinct keys/revisions serialize on same conversation; final maximum 11.",
+      "expected_final_revision": "11",
+      "expected_older_overwrite": false,
+      "kind": "concurrency"
+    },
+    {
+      "id": "closed-context-update",
+      "precondition": "Closed retained conversation, valid higher revision/account/context credential.",
+      "expected_http": 200,
+      "expected_reopened": false,
+      "expected_new_turns": 0,
+      "kind": "lifecycle"
+    }
+  ],
+  "semantic_assertions": [
+    {
+      "left": "context-grant-9",
+      "right": "context-grant-reordered",
+      "same_semantic_hash": true,
+      "different_body_sha256": true,
+      "different_signature": true
+    },
+    {
+      "left": "context-grant-9",
+      "right": "context-key-rotation",
+      "same_integration_id": true,
+      "same_idempotency_key": true,
+      "same_semantic_hash": true,
+      "different_signature": true
+    }
+  ],
+  "numeric_comparison_examples": [
+    {
+      "left": "9",
+      "right": "10",
+      "expected": -1
+    },
+    {
+      "left": "9007199254740992",
+      "right": "9007199254740993",
+      "expected": -1
+    }
+  ]
+}

@@ -430,3 +430,32 @@ Es una propuesta contractual; no representa campos ni rutas ya implementados.
 - **Definición:** Rechazos de una actualización por contenido incompatible con la misma revisión y por revisión inferior a la confirmada, respectivamente.
 - **Alcance:** respuesta de la futura operación `context` en el ajuste LidIA del 05/10; HTTP 409.
 - **Notas:** No reejecutan ni restauran un contexto antiguo. Su catálogo y esquema se consolidarán en la adenda conversacional.
+
+## Precisiones de la adenda conversacional 1.1 (05/10/2026)
+
+Fuente: [adenda recibida](docs/integraciones/2026-10-05-adenda-contexto-conversacional-v1-1.md).
+La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
+
+### Capacidades de credencial APP
+- **Tipo:** conceptos de autorización / capacidades server-side propuestas.
+- **Definición:** Facultades de una credencial de integración: `app.sessions.write` inicia y atestigua identidad; `app.timeline.read` lee; `app.turns.write` admite turnos; `app.handoff.request` solicita atención; `app.context.attest` atestigua contexto; `app.subjects.revoke` aplica revocaciones.
+- **Alcance:** adenda 1.1, §2; futura configuración de claves y autorización LidIA.
+- **Notas:** Distintas de `permissions` de la conversación. Firma válida o clave de turnos no conceden facultad para ampliar contexto. Son propuestas, no claves aprovisionadas.
+
+### `current_context_revision`, `replayed` y `applied_at`
+- **Tipo:** propiedades de respuesta propuestas.
+- **Definición:** Revisión actualmente confirmada del contexto, indicador de recuperación sin nueva mutación y fecha del commit original de la operación recuperada, respectivamente.
+- **Alcance:** `ConversationContextResponse` en `docs/integraciones/fixtures/app-context-v1-1.schema.json`.
+- **Notas:** En replay, `context_revision` identifica la operación original; permisos, estado y deadline se reconstruyen con el contexto vigente. No se devuelve un ACK cacheado que restituya permisos antiguos.
+
+### `bound_case_ref`
+- **Tipo:** concepto runtime / propiedad interna propuestos.
+- **Definición:** Primer caso privado ligado de forma durable a una conversación; conserva ese ámbito incluso cuando el contexto visible retire `case_ref` a null.
+- **Alcance:** adenda 1.1, §5; futura persistencia LidIA de contexto conversacional.
+- **Notas:** Impide reutilizar el historial del caso A para B. No es una propiedad del request ni una relación hoy implementada en Portal.
+
+### `case_context_conflict` y `operation_retired`
+- **Tipo:** códigos de error contractuales propuestos.
+- **Definición:** Conflicto al intentar ligar a otro caso una conversación ya vinculada y reconocimiento de una operación cuyo detalle fue retirado, respectivamente.
+- **Alcance:** adenda 1.1, §§3 y 6; `ContextError`. HTTP 409 y 410 respectivamente.
+- **Notas:** No habilitan otro caso ni repiten efectos. Las marcas de operación mantienen identidad/huella aun sin el detalle; la política de purga sigue pendiente.
