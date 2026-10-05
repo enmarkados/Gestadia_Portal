@@ -285,3 +285,87 @@ it("un retry rechazado libera el pendiente sin cambiar la identidad del turno or
   );
   expect(screen.queryByRole("button", { name: "Recuperar envío" })).toBeNull();
 });
+
+it("handoff completed y requested muestra solicitud pendiente, no operador atendiendo", async () => {
+  let requested = false;
+  const original = global.fetch;
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async (url, opts) => {
+      if (url.endsWith("/handoff")) {
+        requested = true;
+        return {
+          ok: true,
+          status: 202,
+          json: async () => ({
+            id: "handoff-op",
+            status: "admitted",
+            receipt: {
+              status: "completed",
+              result: { handoff_status: "requested" },
+            },
+          }),
+        };
+      }
+      if (url.includes("/timeline")) {
+        const body = timeline();
+        if (requested)
+          body.support = { status: "requested", operator_display_name: null };
+        return { ok: true, status: 200, json: async () => body };
+      }
+      return original(url, opts);
+    }),
+  );
+  mount();
+  await screen.findByText("Selecciona una opción");
+  fireEvent.click(screen.getByRole("button", { name: "Solicitar soporte" }));
+  await screen.findByText(
+    "Solicitud de atención recibida. Pendiente de asignación.",
+  );
+  expect(screen.queryByRole("button", { name: "Recuperar envío" })).toBeNull();
+  expect(
+    screen.getByRole("button", { name: "Enviar consulta" }),
+  ).toBeInTheDocument();
+  expect(screen.queryByText("Juan Carlos Acero")).toBeNull();
+});
+it("identity_link_required muestra vínculo pendiente y no deriva a otro destino", async () => {
+  const original = global.fetch;
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async (url, opts) => {
+      if (url.includes("/timeline")) {
+        const body = timeline();
+        body.permissions = ["history", "sondeo", "commercial_handoff"];
+        return { ok: true, status: 200, json: async () => body };
+      }
+      if (url.endsWith("/handoff")) {
+        calls.push({ url, opts });
+        return {
+          ok: true,
+          status: 202,
+          json: async () => ({
+            id: "handoff-op",
+            status: "failed",
+            error_code: "identity_link_required",
+          }),
+        };
+      }
+      return original(url, opts);
+    }),
+  );
+  mount();
+  await screen.findByText("Selecciona una opción");
+  fireEvent.click(
+    screen.getByRole("button", { name: "Hablar con un comercial" }),
+  );
+  await screen.findByText(/primero necesitamos vincular tu cuenta/i);
+  expect(screen.queryByRole("button", { name: "Recuperar envío" })).toBeNull();
+  expect(
+    screen.getByRole("button", { name: "Enviar consulta" }),
+  ).toBeInTheDocument();
+  expect(
+    calls
+      .filter((c) => c.url.endsWith("/handoff"))
+      .map((c) => JSON.parse(c.opts.body).target_kind),
+  ).toEqual(["commercial"]);
+});

@@ -2,6 +2,10 @@
 
 Índice de la documentación de integraciones con sistemas externos.
 
+## Gestadia App — atención humana contrastada (05/10/2026)
+
+[Compatibilidad de handoff y vínculo](2026-10-05-compatibilidad-atencion-app.md): recibo completed/requested, error409 identity_link_required y ausencia de fallback. Contraste local de contrato/proxy/UI; sin E2E conectado ni activación.
+
 ## Gestadia App — implementación conversacional desactivada (05/10/2026)
 
 [Entrega Portal](2026-10-05-entrega-portal-conversaciones-app.md): API `/api/app/v1`, identidad, asociaciones/claims, contexto/revocación y consumidor APP, con pruebas MySQL local. [Acta de autorización y conformidad mutua](2026-10-05-acta-inicio-conversacional.md) y [plan/evidencia](../superpowers/plans/2026-10-05-app-conversaciones-portal.md). Esta fase posterior resuelve los cierres conversacionales pendientes abajo; las revisiones históricas conservan su fecha/alcance. No cambia Zoho/checkout ni acredita despliegue, activación o runtime119.

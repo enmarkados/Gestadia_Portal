@@ -73,3 +73,5 @@ Rama `codex/app-conversaciones-backend`, worktree propio desde `app/main` a9cd57
 - Entrega actual en `docs/integraciones/2026-10-05-entrega-portal-conversaciones-app.md`; README/glosario/índices actualizados. Compartida ruta con equipo LidIA. Fuente informa endpoints iniciales locales y sigue implementando turnos/sondeo/handoff; no hay E2E cruzado acreditado.
 - Fuera de bloque: alta libre/correo real, receptores/disparadores Zoho, writer operativo grants/asignación/bloqueo y borrado real de cuenta. Preparar antes de activación; no simular esos efectos con la UI demo.
 - Flags backend/APP false por defecto. No merge, deploy, activación, instalación nueva móvil, BBDD existente ni llamadas reales. Rama/worktree propios conservados para revisar.
+
+- Contraste posterior de atención comunicado por LidIA: HTTP202 con handoff completed/requested y409 identity_link_required sin destino alternativo. Se añade aviso UI explícito y cinco tests de contrato/S2S/proxy/UI; suite aislada completa **97backend/93frontend/build**. Detalle en `docs/integraciones/2026-10-05-compatibilidad-atencion-app.md`. Continúa desactivada; no sustituye prueba conjunta real.

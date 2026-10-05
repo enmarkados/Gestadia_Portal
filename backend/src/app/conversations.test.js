@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { AppIdentity } from "./identity.js";
+import { AppProblem } from "./problem.js";
 import { AppConversationService } from "./conversations.js";
 import {
   setConversationAccess,
@@ -498,13 +499,11 @@ test("retry explícito de turno admitido en cerrada sólo recupera el recibo", a
   const a = await f
     .service()
     .start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
-  const op = await f
-    .service()
-    .turn(f.a, a.conversation.id, {
-      turn_id: crypto.randomUUID(),
-      kind: "text",
-      text: "Consulta",
-    });
+  const op = await f.service().turn(f.a, a.conversation.id, {
+    turn_id: crypto.randomUUID(),
+    kind: "text",
+    text: "Consulta",
+  });
   f.remote.closed = true;
   await f.service().timeline(f.a, a.conversation.id);
   assert.equal((await f.service().retry(f.a, op.id)).id, op.id);
@@ -552,13 +551,11 @@ test("dos retries concurrentes no degradan una confirmación por un timeout post
     .service()
     .start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
   f.remote.lost = true;
-  const op = await f
-    .service()
-    .turn(f.a, a.conversation.id, {
-      turn_id: crypto.randomUUID(),
-      kind: "text",
-      text: "Consulta",
-    });
+  const op = await f.service().turn(f.a, a.conversation.id, {
+    turn_id: crypto.randomUUID(),
+    kind: "text",
+    text: "Consulta",
+  });
   let entered,
     release,
     calls = 0;
@@ -587,13 +584,11 @@ test("recibo confirmado de revisión mayor no se degrada por una respuesta anter
     .service()
     .start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
   f.remote.lost = true;
-  const op = await f
-    .service()
-    .turn(f.a, a.conversation.id, {
-      turn_id: crypto.randomUUID(),
-      kind: "text",
-      text: "Consulta",
-    });
+  const op = await f.service().turn(f.a, a.conversation.id, {
+    turn_id: crypto.randomUUID(),
+    kind: "text",
+    text: "Consulta",
+  });
   let entered,
     release,
     calls = 0;
@@ -719,4 +714,40 @@ test("revocación llegada durante lote de contextos se entrega antes del grupo s
   await draining;
   const index = calls.indexOf("revocation");
   assert.ok(index >= 0 && index <= 4, JSON.stringify(calls));
+});
+
+test("proxy de handoff comercial conserva identity_link_required como rechazo definitivo", async (t) => {
+  const f = await fixture(t);
+  await setConversationAccess(db, f.u.id, "sondeo", null, {
+    permissions: ["history", "sondeo", "commercial_handoff"],
+    manager_assignment_ref: null,
+    commercial_assignment_ref: null,
+    validated_at: now(),
+    valid_until: new Date(Date.now() + 60000).toISOString(),
+    source_ref: "test-authority",
+  });
+  const a = await f
+    .service()
+    .start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
+  let calls = 0;
+  const original = f.remote.call.bind(f.remote);
+  f.remote.call = async (...args) => {
+    if (args[0] === "handoff") {
+      calls++;
+      throw new AppProblem(409, "identity_link_required");
+    }
+    return original(...args);
+  };
+  const op = await f
+    .service()
+    .handoff(
+      f.a,
+      a.conversation.id,
+      { target_kind: "commercial", reason: "Solicitar asesoramiento" },
+      crypto.randomUUID(),
+    );
+  assert.equal(op.status, "failed");
+  assert.equal(op.error_code, "identity_link_required");
+  assert.equal(op.receipt, null);
+  assert.equal(calls, 1);
 });

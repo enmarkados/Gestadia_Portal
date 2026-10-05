@@ -12,6 +12,8 @@ import {
 import ChatComposer from "./ChatComposer.jsx";
 const pendingStatuses = new Set(["prepared", "outcome_unknown"]);
 const messages = {
+  identity_link_required:
+    "Para solicitar atención, primero necesitamos vincular tu cuenta con el equipo de Gestadia.",
   identity_verification_required:
     "Verifica tu cuenta mediante el enlace enviado a tu correo.",
   capability_denied:

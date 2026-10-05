@@ -129,3 +129,76 @@ test("cliente deshabilitado no hace HTTP; errores externos nunca exponen el body
   );
   assert.equal(calls, 1);
 });
+
+test("handoff completed con requested valida el recibo sin acreditar operador", () => {
+  const date = "2026-10-05T10:15:00.000Z";
+  const receipt = {
+    schema_version: "1.0",
+    operation_id: "22222222-2222-4222-8222-222222222222",
+    operation: "handoff",
+    conversation_id: "session-1",
+    turn_id: null,
+    status: "completed",
+    receipt_revision: "2",
+    state_revision: "3",
+    accepted_at: date,
+    updated_at: date,
+    completed_at: date,
+    retained_until: "2026-11-04T10:15:00.000Z",
+    result: {
+      message_ids: [],
+      presentation_ids: [],
+      sondeo_result_id: null,
+      sondeo_result_revision: null,
+      handoff_status: "requested",
+    },
+    error: null,
+    retry_after_seconds: null,
+  };
+  assert.equal(validateContract("Receipt", receipt, { response: true }), true);
+  assert.equal(receipt.result.handoff_status, "requested");
+});
+test("409 identity_link_required conserva código y oculta detalle privado sin fallback", async () => {
+  let calls = 0;
+  const client = new AppS2SClient(
+    {
+      enabled: true,
+      baseUrl: "https://lidia.test",
+      audience: "lidia:test:dev:app",
+      integrationId: "test",
+      keys: {
+        handoff: {
+          keyId: "handoff-test",
+          secretBase64: Buffer.alloc(32, 1).toString("base64"),
+        },
+      },
+    },
+    {
+      fetchImpl: async () => {
+        calls++;
+        return new Response(
+          JSON.stringify({
+            code: "identity_link_required",
+            detail: "PRIVATE_LINK_DATA",
+          }),
+          { status: 409 },
+        );
+      },
+    },
+  );
+  await assert.rejects(
+    client.call(
+      "handoff",
+      "POST",
+      "/sessions/session-1/handoff",
+      "11111111-1111-4111-8111-111111111111",
+      { target_kind: "commercial" },
+      { idempotencyKey: "commercial-request-1" },
+    ),
+    (e) =>
+      e.status === 409 &&
+      e.code === "identity_link_required" &&
+      !e.message.includes("PRIVATE_LINK_DATA"),
+  );
+  assert.equal(calls, 1);
+});

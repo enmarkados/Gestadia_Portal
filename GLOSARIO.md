@@ -529,3 +529,17 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** mayor revisión pública LidIA observada de una conversación; impide que respuestas de estado anteriores sustituyan el estado confirmado.
 - **Alcance:** backend/prisma/schema.prisma y backend/src/app/conversations.js.
 - **Notas:** String decimal comparado con BigInt; distinto de contextRevision/syncedRevision y receipt_revision. No convertir a Number.
+
+### `identity_link_required`
+
+- **Tipo:** código de problema / concepto runtime.
+- **Definición:** rechazo conversacional definitivo por falta de un vínculo de identidad necesario para el destino solicitado; no concede asignación ni activa un destino alternativo.
+- **Alcance:** contrato APP LidIA, backend/src/app/s2s.js y frontend/app/src/AppConversation.jsx.
+- **Notas:** Se conserva el código409 y se libera el envío pendiente. La APP informa de la vinculación pendiente; no crea un vínculo CRM mediante datos declarados.
+
+### `Receipt.result.handoff_status`
+
+- **Tipo:** propiedad DTO / concepto runtime.
+- **Definición:** estado de atención humana acreditado por LidIA, separado del estado de procesamiento del recibo. Un recibo completed con requested confirma que la solicitud quedó registrada y sigue pendiente de asignación.
+- **Alcance:** contrato DTO APP y backend/src/app/contracts/app-v1-dtos.schema.json; proyección/UI AppConversation.
+- **Notas:** completed no significa operador atendiendo. Nombre de operador únicamente con estado assigned/in_support confirmado por timeline.
