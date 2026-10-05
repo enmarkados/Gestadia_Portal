@@ -383,3 +383,9 @@ Fuente: [decisión de negocio Zoho y acceso](docs/integraciones/2026-10-05-decis
 - **Definición:** Creación o habilitación del acceso de cliente compartido por Gestadia Portal y la app al recibir evidencia comercial válida. Si ya existe una cuenta, se vincula el trámite a esa cuenta conservando sus credenciales.
 - **Alcance:** decisión de negocio del 05/10, §§1–4; futuro reconciliador Portal sobre `User` y `Expediente`.
 - **Notas:** No crea credenciales separadas para APP ni reinicia la contraseña de una cuenta previa. El evento ganado y el pago se correlacionan para evitar altas y bienvenidas duplicadas.
+
+### Acceso anticipado por conversión CRM
+- **Tipo:** concepto de negocio propuesto / decisión de identidad pendiente.
+- **Definición:** Creación o vinculación del acceso compartido Portal/APP cuando un lead se convierte en contacto y trato, solicitando el correo y avisando al usuario. Permite conversar antes del alta comercial del trámite.
+- **Alcance:** [propuesta APP del 05/10](docs/app/2026-10-05-propuesta-acceso-conversion-crm.md); futuros flujos CRM, cuenta Portal y conversaciones APP, sin código implementado.
+- **Notas:** Alternativa adicional para revisión; no sustituye el POST de Cerrado ganado ni habilita permisos de cliente sobre un trámite por la mera conversión. Reutiliza la cuenta y las credenciales existentes.

@@ -10,6 +10,8 @@ El 05/10 se incorpora la [respuesta O1–O8 con anexos](../integraciones/2026-10
 
 La [decisión posterior de negocio](../integraciones/2026-10-05-decision-negocio-zoho-ganado-y-acceso.md) corrige O6/R3: Zoho debe enviar un POST al entrar en Cerrado ganado para crear o vincular el acceso de cliente compartido Portal/APP. Hablar desde la app puede ocurrir antes; al llegar el evento se cruza con esa cuenta, conservando credenciales e historial. La instantánea posterior no sustituye la ocurrencia. La regla de negocio está confirmada; su contrato técnico y ejecución siguen pendientes.
 
+Como opción adicional para revisar, se documenta el [acceso anticipado al convertir el lead en contacto y trato](2026-10-05-propuesta-acceso-conversion-crm.md): pedir o confirmar el correo, crear o reutilizar la cuenta y avisar al usuario para que pueda conversar. Ganado mantiene su POST para habilitar el trámite sobre la misma cuenta. Esta opción sigue propuesta, sin implementación ni activación.
+
 ## Adaptador PluginWeb anterior (referencia)
 
 El adaptador existente usa la API de PluginWeb con su propia interfaz React. IA y soporte comparten una sesión de plataforma. El diseño visual vigente muestra los mensajes del cliente en negro suave en LidIA y en rojo en el chat del gestor. Cambiar la pestaña de Mensajes no solicita por sí solo un handover. El contrato APP propuesto mantiene contextos de sondeo y atención, conservando una misma sesión cuando se transfiere a humano dentro de una conversación.
