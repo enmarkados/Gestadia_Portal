@@ -2,9 +2,17 @@
 
 Índice de la documentación de integraciones con sistemas externos.
 
+## Gestadia App — responsabilidades vigentes
+
+[Reparto aclarado por el usuario](../app/RESPONSABILIDADES-INTEGRACION.md):
+los flujos Zoho postean al backend Gestadia, que gestiona cuenta y trámites;
+LidIA interviene en las conversaciones. El contrato del POST se trabaja con
+el responsable de los flujos Zoho. Esta aclaración corrige los destinatarios
+de los mensajes históricos que atribuían esa coordinación al equipo LidIA.
+
 ## Gestadia App — decisión de negocio Zoho y acceso (05/10/2026)
 
-[Decisión vigente y mensaje para LidIA](2026-10-05-decision-negocio-zoho-ganado-y-acceso.md):
+[Decisión de negocio de ganado](2026-10-05-decision-negocio-zoho-ganado-y-acceso.md):
 Zoho debe postear al entrar en Cerrado ganado para crear o vincular el acceso
 compartido Portal/APP. Hablar desde la app puede preceder al alta comercial;
 el evento se cruza con la cuenta existente conservando credenciales e historial.

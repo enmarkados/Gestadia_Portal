@@ -14,6 +14,7 @@ npm test --prefix frontend
 Entrada: `frontend/app/`. Build: `frontend/dist-app/`. El portal conserva su build propio en `frontend/dist/`.
 
 - [Alcance](docs/app/PRIMERA-VERSION.md)
+- [Responsabilidades vigentes: flujos Zoho, backend Gestadia y conversaciones LidIA](docs/app/RESPONSABILIDADES-INTEGRACION.md)
 - [Conexión con la plataforma LidIA y gestor](docs/app/INTEGRACION-LIDIA.md)
 - [Preparación del backend APP, identidad y alta por pago/Zoho](docs/integraciones/2026-10-03-app-lidia-backend-preparacion.md)
 - [Respuesta técnica de LidIA y revisión Portal del contrato APP](docs/integraciones/2026-10-04-observaciones-portal-contrato-app-lidia.md)

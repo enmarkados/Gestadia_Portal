@@ -1,5 +1,7 @@
 # Conexión futura de Gestadia App con LidIA
 
+**Responsabilidades vigentes:** los flujos Zoho postean sus datos directamente a la API del backend Gestadia. El backend resuelve acceso y trámites; LidIA interviene en las conversaciones. El contrato Zoho→Portal se acuerda con el responsable de los flujos Zoho. Ver [reparto y coordinación](RESPONSABILIDADES-INTEGRACION.md), que corrige la atribución anterior a LidIA de coordinar esos flujos.
+
 **Desactivada en la primera versión instalada.** El 03/10/2026 el usuario ha autorizado preparar el backend conectado, con canal APP propio y alta por pago o Zoho Cerrado ganado. La arquitectura propuesta y sus evidencias están en [preparación APP](../integraciones/2026-10-03-app-lidia-backend-preparacion.md). Este documento conserva el adaptador PluginWeb anterior como referencia; no acredita integración publicada ni es el contrato de identidad APP.
 
 El 04/10 se incorpora la [respuesta original de LidIA](../integraciones/2026-10-04-respuesta-contrato-app-lidia.md) y la [revisión Portal](../integraciones/2026-10-04-observaciones-portal-contrato-app-lidia.md). La propuesta usa HMAC S2S por petición y asociaciones durables, sin bearer de conversación. La revisión favorece la arquitectura y deja O1–O8 pendientes de acuerdo; no autoriza implementación o activación. La configuración efectiva del 119 y el aislamiento DEV siguen por comprobar.
@@ -10,7 +12,7 @@ El 05/10 se incorpora la [respuesta O1–O8 con anexos](../integraciones/2026-10
 
 La [decisión posterior de negocio](../integraciones/2026-10-05-decision-negocio-zoho-ganado-y-acceso.md) corrige O6/R3: Zoho debe enviar un POST al entrar en Cerrado ganado para crear o vincular el acceso de cliente compartido Portal/APP. Hablar desde la app puede ocurrir antes; al llegar el evento se cruza con esa cuenta, conservando credenciales e historial. La instantánea posterior no sustituye la ocurrencia. La regla de negocio está confirmada; su contrato técnico y ejecución siguen pendientes.
 
-Como opción adicional para revisar, se documenta el [acceso anticipado al convertir el lead en contacto y trato](2026-10-05-propuesta-acceso-conversion-crm.md): pedir o confirmar el correo, crear o reutilizar la cuenta y avisar al usuario para que pueda conversar. Ganado mantiene su POST para habilitar el trámite sobre la misma cuenta. Esta opción sigue propuesta, sin implementación ni activación.
+Como opción adicional para revisar con el responsable de los flujos Zoho, se documenta el [acceso anticipado al convertir el lead en contacto y trato](2026-10-05-propuesta-acceso-conversion-crm.md): pedir o confirmar el correo, crear o reutilizar la cuenta y avisar al usuario para que pueda conversar. Ganado mantiene su POST para habilitar el trámite sobre la misma cuenta. Esta opción sigue propuesta, sin implementación ni activación; el reparto vigente está en la página de responsabilidades.
 
 ## Adaptador PluginWeb anterior (referencia)
 
