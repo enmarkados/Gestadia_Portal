@@ -2,6 +2,10 @@
 
 Índice de la documentación de integraciones con sistemas externos.
 
+## Gestadia App — muestras de servicios contrastadas offline (05/10/2026)
+
+[Contraste de seis respuestas LidIA](2026-10-05-contraste-muestras-servicios-app.md): esquemas exactos, recorrido de proyección/recuperación y consumidor UI. Atribución histórica separada del operador actual. No acredita conexión real ni routing efectivo.
+
 ## Gestadia App — atención humana contrastada (05/10/2026)
 
 [Compatibilidad de handoff y vínculo](2026-10-05-compatibilidad-atencion-app.md): recibo completed/requested, error409 identity_link_required y ausencia de fallback. Contraste local de contrato/proxy/UI; sin E2E conectado ni activación.

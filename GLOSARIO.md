@@ -543,3 +543,10 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** estado de atención humana acreditado por LidIA, separado del estado de procesamiento del recibo. Un recibo completed con requested confirma que la solicitud quedó registrada y sigue pendiente de asignación.
 - **Alcance:** contrato DTO APP y backend/src/app/contracts/app-v1-dtos.schema.json; proyección/UI AppConversation.
 - **Notas:** completed no significa operador atendiendo. Nombre de operador únicamente con estado assigned/in_support confirmado por timeline.
+
+### `Support.operator_display_name`
+
+- **Tipo:** propiedad DTO / concepto runtime.
+- **Definición:** nombre público del operador actualmente asignado a la conversación, acreditado por el estado de soporte de LidIA. No identifica al autor de cada mensaje histórico.
+- **Alcance:** contrato APP Support/Timeline, backend/src/app/contracts/app-v1-dtos.schema.json y frontend/app/src/AppConversation.jsx.
+- **Notas:** Mostrar aparte solo assigned/in_support; mensajes operator se presentan como Equipo Gestadia mientras Message no tenga atribución por elemento acordada.

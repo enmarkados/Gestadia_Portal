@@ -202,3 +202,16 @@ test("409 identity_link_required conserva código y oculta detalle privado sin f
   );
   assert.equal(calls, 1);
 });
+
+// Received samples from local LidIA services; fixture data, never a connected runtime.
+const serviceSamples = fixture("app-v1-service-samples.json");
+for (const [name, response] of Object.entries(serviceSamples.responses)) {
+  const contract = name === "ContextAck" ? "ConversationContextResponse" : name;
+  test(`muestra de servicio LidIA valida ${name}`, () => {
+    assert.equal(serviceSamples.fixture_only, true);
+    assert.equal(
+      validateContract(contract, response, { response: true }),
+      true,
+    );
+  });
+}

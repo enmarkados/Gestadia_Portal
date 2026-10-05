@@ -450,12 +450,8 @@ function ConversationBody({ purpose }) {
                 <strong>
                   {m.role === "user"
                     ? "Tú"
-                    : m.role === "operator" &&
-                        ["assigned", "in_support"].includes(
-                          timeline?.support?.status,
-                        )
-                      ? timeline.support.operator_display_name ||
-                        "Equipo Gestadia"
+                    : m.role === "operator"
+                      ? "Equipo Gestadia"
                       : "Gestadia"}
                 </strong>
                 <span className="bubble-time">
@@ -516,6 +512,12 @@ function ConversationBody({ purpose }) {
           </ul>
         </div>
       )}
+      {["assigned", "in_support"].includes(timeline?.support?.status) &&
+        timeline.support.operator_display_name && (
+          <p role="status">
+            Te atiende {timeline.support.operator_display_name}.
+          </p>
+        )}
       {timeline?.support?.status === "requested" && (
         <p role="status">
           Solicitud de atención recibida. Pendiente de asignación.

@@ -11,6 +11,7 @@ import { MemoryRouter } from "react-router-dom";
 import { AppProvider } from "./AppContext.jsx";
 import AppConversation from "./AppConversation.jsx";
 import { setToken } from "./api.js";
+import serviceSamples from "../../../docs/integraciones/fixtures/app-v1-service-samples.json";
 const id = "11111111-1111-4111-8111-111111111111";
 let calls, failSend, closed, actionBody;
 const timeline = () => ({
@@ -368,4 +369,78 @@ it("identity_link_required muestra vínculo pendiente y no deriva a otro destino
       .filter((c) => c.url.endsWith("/handoff"))
       .map((c) => JSON.parse(c.opts.body).target_kind),
   ).toEqual(["commercial"]);
+});
+
+it("renderiza muestra LidIA y conserva identidad/revisión de acción emitida por el servicio", async () => {
+  const clock = vi
+    .spyOn(Date, "now")
+    .mockReturnValue(Date.parse("2026-10-05T10:05:00.000Z"));
+  const original = global.fetch;
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async (url, opts) => {
+      if (url.includes("/timeline")) {
+        const body = structuredClone(serviceSamples.responses.Timeline);
+        delete body.effective_agent;
+        body.conversation_id = "local-1";
+        body.permissions = ["history", "sondeo"];
+        body.pending_operations = [];
+        return { ok: true, status: 200, json: async () => body };
+      }
+      return original(url, opts);
+    }),
+  );
+  try {
+    mount();
+    await screen.findByText("Respuesta local");
+    expect(screen.getByText("Argentina")).toBeInTheDocument();
+    expect(screen.getByText("Sondeo en curso.")).toBeInTheDocument();
+    expect(screen.queryByText("Canje APP test")).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "Sí", exact: true }));
+    const presentation =
+      serviceSamples.responses.Timeline.items[1].presentation;
+    await waitFor(() =>
+      expect(actionBody).toMatchObject({
+        kind: "action",
+        presentation_id: presentation.presentation_id,
+        presentation_revision: presentation.presentation_revision,
+        action_id: presentation.actions[0].action_id,
+      }),
+    );
+  } finally {
+    clock.mockRestore();
+  }
+});
+
+it("cambio de operador no atribuye mensajes históricos al operador actual", async () => {
+  const original = global.fetch;
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async (url, opts) => {
+      if (url.includes("/timeline")) {
+        const body = timeline();
+        body.items.push({
+          message_id: "old-operator-message",
+          sequence: "2",
+          role: "operator",
+          text: "Mensaje de un operador anterior",
+          occurred_at: "2026-10-05T09:00:00.000Z",
+          presentation: null,
+        });
+        body.support = {
+          status: "assigned",
+          operator_display_name: "Nueva Gestora",
+          assigned_at: "2026-10-05T10:00:00.000Z",
+        };
+        return { ok: true, status: 200, json: async () => body };
+      }
+      return original(url, opts);
+    }),
+  );
+  mount();
+  const historic = await screen.findByText("Mensaje de un operador anterior");
+  expect(historic.closest(".bubble").querySelector("strong").textContent).toBe(
+    "Equipo Gestadia",
+  );
+  expect(screen.getByText("Te atiende Nueva Gestora.")).toBeInTheDocument();
 });

@@ -1,0 +1,210 @@
+{
+  "fixture_only": true,
+  "source": "LidIA local services, SQLite and fake model boundary, 2026-10-05",
+  "responses": {
+    "ContextAck": {
+      "conversation_id": "a4d223a8-0624-41bb-a2e7-d81bb3a87a41",
+      "operation_id": "eb030199-8ff1-41ac-8258-94e12e5cd051",
+      "context_revision": "1",
+      "current_context_revision": "1",
+      "state_revision": "1",
+      "replayed": false,
+      "effective_permissions": [
+        "history",
+        "sondeo"
+      ],
+      "applied_at": "2026-10-05T10:00:00.000Z",
+      "enforcement_deadline": "2026-10-05T10:01:00.000Z",
+      "correlation_id": "context",
+      "schema_version": "1.0",
+      "persisted": true,
+      "enforcement_status": "propagating"
+    },
+    "Error": {
+      "type": "urn:lidia:app:error:conversation_not_found",
+      "title": "Error APP",
+      "status": 404,
+      "code": "conversation_not_found",
+      "detail": "La solicitud APP no se puede completar.",
+      "correlation_id": "0HNP346N5FL2G",
+      "retryable": false
+    },
+    "Receipt": {
+      "schema_version": "1.0",
+      "operation_id": "781f42d2-26b5-4a3e-bfad-d02bcb6f1d89",
+      "operation": "turn",
+      "conversation_id": "a4d223a8-0624-41bb-a2e7-d81bb3a87a41",
+      "turn_id": "33333333-3333-4333-8333-333333333333",
+      "status": "accepted",
+      "receipt_revision": "1",
+      "state_revision": "2",
+      "accepted_at": "2026-10-05T10:00:00.000Z",
+      "updated_at": "2026-10-05T10:00:00.000Z",
+      "completed_at": null,
+      "retained_until": "2026-11-04T10:00:00.000Z",
+      "result": null,
+      "error": null,
+      "retry_after_seconds": 1
+    },
+    "ReceiptLookup": {
+      "schema_version": "1.0",
+      "conversation_id": "a4d223a8-0624-41bb-a2e7-d81bb3a87a41",
+      "state_revision": "4",
+      "receipt": {
+        "schema_version": "1.0",
+        "operation_id": "781f42d2-26b5-4a3e-bfad-d02bcb6f1d89",
+        "operation": "turn",
+        "conversation_id": "a4d223a8-0624-41bb-a2e7-d81bb3a87a41",
+        "turn_id": "33333333-3333-4333-8333-333333333333",
+        "status": "completed",
+        "receipt_revision": "3",
+        "state_revision": "4",
+        "accepted_at": "2026-10-05T10:00:00.000Z",
+        "updated_at": "2026-10-05T10:00:00.000Z",
+        "completed_at": "2026-10-05T10:00:00.000Z",
+        "retained_until": "2026-11-04T10:00:00.000Z",
+        "result": {
+          "message_ids": [
+            "586adaf5-9c7c-47fd-b8a6-733f50f69c06"
+          ],
+          "presentation_ids": [
+            "d6a870d8-ee37-4bd8-9543-068b8dc65319"
+          ],
+          "sondeo_result_id": "00bf6ec7-8074-4f06-9d83-a6584d657812",
+          "sondeo_result_revision": "1",
+          "handoff_status": null
+        },
+        "error": null,
+        "retry_after_seconds": null
+      }
+    },
+    "SessionResponse": {
+      "schema_version": "1.0",
+      "conversation_id": "a4d223a8-0624-41bb-a2e7-d81bb3a87a41",
+      "lidia_session_id": "a4d223a8-0624-41bb-a2e7-d81bb3a87a41",
+      "purpose": "sondeo",
+      "status": "active",
+      "effective_agent": {
+        "id": 201,
+        "display_name": "Canje APP test",
+        "instruction_version": "fixture-v1"
+      },
+      "capabilities": [
+        "history",
+        "sondeo"
+      ],
+      "cursor": null,
+      "state_revision": "0"
+    },
+    "Timeline": {
+      "schema_version": "1.0",
+      "conversation_id": "a4d223a8-0624-41bb-a2e7-d81bb3a87a41",
+      "items": [
+        {
+          "message_id": "bab94de0-b581-4ec1-99b3-adc70b27f615",
+          "sequence": "1",
+          "occurred_at": "2026-10-05T10:00:00.000Z",
+          "role": "user",
+          "text": "Argentina",
+          "presentation": null
+        },
+        {
+          "message_id": "586adaf5-9c7c-47fd-b8a6-733f50f69c06",
+          "sequence": "2",
+          "occurred_at": "2026-10-05T10:00:00.000Z",
+          "role": "assistant",
+          "text": "Respuesta local",
+          "presentation": {
+            "presentation_id": "d6a870d8-ee37-4bd8-9543-068b8dc65319",
+            "presentation_revision": "2",
+            "kind": "single_choice",
+            "title": "Pregunta",
+            "description": null,
+            "expires_at": "2026-10-05T10:10:00.000Z",
+            "actions": [
+              {
+                "action_id": "c15a05aa-6e44-4189-b9b6-dc7b680f02cf",
+                "label": "Sí",
+                "enabled": true,
+                "disabled_reason": null,
+                "expires_at": "2026-10-05T10:10:00.000Z"
+              },
+              {
+                "action_id": "0c9fb097-88aa-4a05-9937-bd9b925d289d",
+                "label": "No",
+                "enabled": true,
+                "disabled_reason": null,
+                "expires_at": "2026-10-05T10:10:00.000Z"
+              }
+            ]
+          }
+        }
+      ],
+      "next_cursor": "WyJmaXh0dXJlLWFwaS1zY29wZSIsIjExMTExMTExLTExMTEtNDExMS04MTExLTExMTExMTExMTExMSIsImE0ZDIyM2E4LTA2MjQtNDFiYi1hMmU3LWQ4MWJiM2E4N2E0MSIsIjIiXQ.8c4f472aa41f4fcd6bf568a91631a3c408174610a01b27ebb7e79f712b980e1f",
+      "has_more": false,
+      "conversation_status": "active",
+      "effective_agent": {
+        "id": 201,
+        "display_name": "Canje APP test",
+        "instruction_version": "fixture-v1"
+      },
+      "support": {
+        "status": "none",
+        "operator_display_name": null,
+        "requested_at": null,
+        "assigned_at": null,
+        "attended_at": null,
+        "updated_at": "2026-10-05T10:00:00.000Z"
+      },
+      "turn_statuses": [
+        {
+          "schema_version": "1.0",
+          "operation_id": "781f42d2-26b5-4a3e-bfad-d02bcb6f1d89",
+          "operation": "turn",
+          "conversation_id": "a4d223a8-0624-41bb-a2e7-d81bb3a87a41",
+          "turn_id": "33333333-3333-4333-8333-333333333333",
+          "status": "completed",
+          "receipt_revision": "3",
+          "state_revision": "4",
+          "accepted_at": "2026-10-05T10:00:00.000Z",
+          "updated_at": "2026-10-05T10:00:00.000Z",
+          "completed_at": "2026-10-05T10:00:00.000Z",
+          "retained_until": "2026-11-04T10:00:00.000Z",
+          "result": {
+            "message_ids": [
+              "586adaf5-9c7c-47fd-b8a6-733f50f69c06"
+            ],
+            "presentation_ids": [
+              "d6a870d8-ee37-4bd8-9543-068b8dc65319"
+            ],
+            "sondeo_result_id": "00bf6ec7-8074-4f06-9d83-a6584d657812",
+            "sondeo_result_revision": "1",
+            "handoff_status": null
+          },
+          "error": null,
+          "retry_after_seconds": null
+        }
+      ],
+      "sondeo": {
+        "schema_version": "1.0",
+        "result_id": "00bf6ec7-8074-4f06-9d83-a6584d657812",
+        "result_revision": "1",
+        "ruleset_ref": "canje-country-resolver",
+        "ruleset_version": "15828edb0",
+        "status": "collecting",
+        "evaluated_at": null,
+        "summary": "Sondeo en curso.",
+        "requirements": [
+          {
+            "requirement_id": "issuing_country",
+            "label": "País emisor del permiso",
+            "status": "unknown",
+            "evidence_message_ids": []
+          }
+        ],
+        "next_step": "continue"
+      },
+      "state_revision": "4"
+    }
+  }
+}

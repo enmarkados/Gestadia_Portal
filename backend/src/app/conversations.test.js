@@ -1,5 +1,6 @@
 import { test, after } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { AppIdentity } from "./identity.js";
@@ -750,4 +751,72 @@ test("proxy de handoff comercial conserva identity_link_required como rechazo de
   assert.equal(op.error_code, "identity_link_required");
   assert.equal(op.receipt, null);
   assert.equal(calls, 1);
+});
+
+test("respuestas locales LidIA atraviesan asociación, contexto, turno y proyección Portal", async (t) => {
+  const f = await fixture(t);
+  const samples = JSON.parse(
+    readFileSync(
+      new URL(
+        "../../../docs/integraciones/fixtures/app-v1-service-samples.json",
+        import.meta.url,
+      ),
+    ),
+  ).responses;
+  const remote = {
+    call: async (cap, method, path, subject, dto, opts = {}) => {
+      let body;
+      if (cap === "session") body = samples.SessionResponse;
+      else if (cap === "context")
+        body = { ...samples.ContextAck, correlation_id: dto.correlation_id };
+      else if (cap === "turn") body = samples.Receipt;
+      else if (cap === "timeline")
+        body = opts.query?.turn_id ? samples.ReceiptLookup : samples.Timeline;
+      else throw new Error(`Unsupported fixture ${cap}`);
+      return {
+        status: cap === "turn" ? 202 : 200,
+        data: structuredClone(body),
+      };
+    },
+  };
+  const service = new AppConversationService(db, remote, {
+    ...config,
+    generalSupport: false,
+  });
+  const start = await service.start(
+    f.a,
+    { purpose: "sondeo" },
+    crypto.randomUUID(),
+  );
+  assert.notEqual(
+    start.conversation.id,
+    samples.SessionResponse.conversation_id,
+  );
+  assert.equal(JSON.stringify(start).includes("effective_agent"), false);
+  const turn = await service.turn(f.a, start.conversation.id, {
+    turn_id: samples.Receipt.turn_id,
+    kind: "text",
+    text: "Argentina",
+  });
+  assert.equal(turn.receipt.status, "accepted");
+  const timeline = await service.timeline(f.a, start.conversation.id);
+  assert.equal(timeline.conversation_id, start.conversation.id);
+  assert.deepEqual(timeline.items, samples.Timeline.items);
+  assert.deepEqual(timeline.sondeo, samples.Timeline.sondeo);
+  assert.equal(timeline.has_more, false);
+  assert.equal(timeline.next_cursor, samples.Timeline.next_cursor);
+  assert.equal(
+    timeline.turn_statuses[0].conversation_id,
+    start.conversation.id,
+  );
+  assert.equal(Object.hasOwn(timeline, "effective_agent"), false);
+  const lookup = await service.timeline(f.b, start.conversation.id, {
+    turn_id: samples.Receipt.turn_id,
+  });
+  assert.equal(lookup.receipt.status, "completed");
+  assert.equal(lookup.receipt.conversation_id, start.conversation.id);
+  assert.equal(
+    (await service.operation(f.b, turn.id)).receipt.receipt_revision,
+    "3",
+  );
 });
