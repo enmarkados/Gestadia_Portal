@@ -550,3 +550,10 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** nombre público del operador actualmente asignado a la conversación, acreditado por el estado de soporte de LidIA. No identifica al autor de cada mensaje histórico.
 - **Alcance:** contrato APP Support/Timeline, backend/src/app/contracts/app-v1-dtos.schema.json y frontend/app/src/AppConversation.jsx.
 - **Notas:** Mostrar aparte solo assigned/in_support; mensajes operator se presentan como Equipo Gestadia mientras Message no tenga atribución por elemento acordada.
+
+### `routing_unavailable`
+
+- **Tipo:** código de problema / concepto runtime.
+- **Definición:** rechazo por ausencia de un destino de atención configurado y elegible para la solicitud vigente. No asigna operador ni confirma una transferencia.
+- **Alcance:** contrato APP LidIA, backend/src/app/s2s.js y frontend/app/src/AppConversation.jsx.
+- **Notas:** Preservar el rechazo409 y liberar pendiente; nunca elegir otra cola o persona como fallback.

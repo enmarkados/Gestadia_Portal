@@ -215,3 +215,22 @@ for (const [name, response] of Object.entries(serviceSamples.responses)) {
     );
   });
 }
+
+const finalServiceSamples = fixture("app-v1-service-samples-v2.json");
+const sampleContracts = {
+  ContextAck: "ConversationContextResponse",
+  HandoffReceipt: "Receipt",
+  SupportTimeline: "Timeline",
+  RoutingError: "Error",
+};
+for (const [name, response] of Object.entries(finalServiceSamples.responses)) {
+  test(`muestra final LidIA valida ${name}`, () => {
+    assert.equal(finalServiceSamples.fixture_only, true);
+    assert.equal(
+      validateContract(sampleContracts[name] || name, response, {
+        response: true,
+      }),
+      true,
+    );
+  });
+}

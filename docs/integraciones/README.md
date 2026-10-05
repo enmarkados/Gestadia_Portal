@@ -2,6 +2,10 @@
 
 Índice de la documentación de integraciones con sistemas externos.
 
+## Gestadia App — conformidad final de nueve muestras (05/10/2026)
+
+[Conformidad offline de atención/routing](2026-10-05-conformidad-final-muestras-app.md): versión final conservada aparte del fixture anterior, DTO/proxy/UI compatibles, rechazo sin fallback y transferencia explícita. No acredita conexión desplegada ni activación.
+
 ## Gestadia App — muestras de servicios contrastadas offline (05/10/2026)
 
 [Contraste de seis respuestas LidIA](2026-10-05-contraste-muestras-servicios-app.md): esquemas exactos, recorrido de proyección/recuperación y consumidor UI. Atribución histórica separada del operador actual. No acredita conexión real ni routing efectivo.

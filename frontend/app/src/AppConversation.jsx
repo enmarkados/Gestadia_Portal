@@ -12,6 +12,8 @@ import {
 import ChatComposer from "./ChatComposer.jsx";
 const pendingStatuses = new Set(["prepared", "outcome_unknown"]);
 const messages = {
+  routing_unavailable:
+    "No hay un destino de atención disponible para esta solicitud.",
   identity_link_required:
     "Para solicitar atención, primero necesitamos vincular tu cuenta con el equipo de Gestadia.",
   identity_verification_required:

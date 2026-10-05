@@ -12,6 +12,7 @@ import { AppProvider } from "./AppContext.jsx";
 import AppConversation from "./AppConversation.jsx";
 import { setToken } from "./api.js";
 import serviceSamples from "../../../docs/integraciones/fixtures/app-v1-service-samples.json";
+import finalServiceSamples from "../../../docs/integraciones/fixtures/app-v1-service-samples-v2.json";
 const id = "11111111-1111-4111-8111-111111111111";
 let calls, failSend, closed, actionBody;
 const timeline = () => ({
@@ -443,4 +444,60 @@ it("cambio de operador no atribuye mensajes históricos al operador actual", asy
     "Equipo Gestadia",
   );
   expect(screen.getByText("Te atiende Nueva Gestora.")).toBeInTheDocument();
+});
+
+it("atención local LidIA muestra Segundo como actual sin atribuirle la historia", async () => {
+  const original = global.fetch;
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async (url, opts) => {
+      if (url.includes("/timeline")) {
+        const body = structuredClone(
+          finalServiceSamples.responses.SupportTimeline,
+        );
+        delete body.effective_agent;
+        body.conversation_id = "local-1";
+        body.permissions = ["history"];
+        body.pending_operations = [];
+        return { ok: true, status: 200, json: async () => body };
+      }
+      return original(url, opts);
+    }),
+  );
+  mount();
+  const operator = await screen.findByText("Continúo");
+  expect(operator.closest(".bubble").querySelector("strong").textContent).toBe(
+    "Equipo Gestadia",
+  );
+  expect(screen.getByText("Te atiende Segundo.")).toBeInTheDocument();
+  expect(screen.queryByText("Canje APP test")).toBeNull();
+});
+it("routing_error local LidIA libera el pendiente, informa y no deriva a otro destino", async () => {
+  const original = global.fetch;
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async (url, opts) => {
+      if (url.endsWith("/handoff")) {
+        calls.push({ url, opts });
+        return {
+          ok: false,
+          status: 409,
+          json: async () =>
+            structuredClone(finalServiceSamples.responses.RoutingError),
+        };
+      }
+      return original(url, opts);
+    }),
+  );
+  mount();
+  await screen.findByText("Selecciona una opción");
+  fireEvent.click(screen.getByRole("button", { name: "Solicitar soporte" }));
+  await screen.findByText(
+    "No hay un destino de atención disponible para esta solicitud.",
+  );
+  expect(screen.queryByRole("button", { name: "Recuperar envío" })).toBeNull();
+  expect(calls.filter((c) => c.url.endsWith("/handoff"))).toHaveLength(1);
+  expect(
+    sessionStorage.getItem(`gestadia_app_conversation_v1:${id}:local-1`),
+  ).toBeNull();
 });

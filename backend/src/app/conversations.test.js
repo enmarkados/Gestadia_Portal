@@ -5,6 +5,7 @@ import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { AppIdentity } from "./identity.js";
 import { AppProblem } from "./problem.js";
+import { AppS2SClient } from "./s2s.js";
 import { AppConversationService } from "./conversations.js";
 import {
   setConversationAccess,
@@ -818,5 +819,105 @@ test("respuestas locales LidIA atraviesan asociación, contexto, turno y proyecc
   assert.equal(
     (await service.operation(f.b, turn.id)).receipt.receipt_revision,
     "3",
+  );
+});
+
+const finalSamples = JSON.parse(
+  readFileSync(
+    new URL(
+      "../../../docs/integraciones/fixtures/app-v1-service-samples-v2.json",
+      import.meta.url,
+    ),
+  ),
+).responses;
+test("handoff local LidIA conserva completed/requested y routing_error no activa fallback", async (t) => {
+  const f = await fixture(t),
+    original = f.remote.call.bind(f.remote);
+  let reject = false,
+    httpCalls = 0;
+  const errorClient = new AppS2SClient(
+    {
+      enabled: true,
+      baseUrl: "https://lidia.test",
+      audience: "test:app",
+      integrationId: "fixture-local",
+      keys: {
+        handoff: {
+          keyId: "test",
+          secretBase64: Buffer.alloc(32, 1).toString("base64"),
+        },
+      },
+    },
+    {
+      fetchImpl: async () => {
+        httpCalls++;
+        return new Response(JSON.stringify(finalSamples.RoutingError), {
+          status: 409,
+        });
+      },
+    },
+  );
+  f.remote.call = async (...args) => {
+    if (args[0] === "handoff")
+      return reject
+        ? errorClient.call(...args)
+        : { status: 202, data: structuredClone(finalSamples.HandoffReceipt) };
+    const response = await original(...args);
+    // Synthetic initializer binds this independent received receipt to its own test association.
+    if (args[0] === "session")
+      response.data.conversation_id =
+        finalSamples.HandoffReceipt.conversation_id;
+    return response;
+  };
+  const a = await f
+    .service()
+    .start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
+  const dto = { target_kind: "support", reason: "Solicitar atención" };
+  const success = await f
+    .service()
+    .handoff(f.a, a.conversation.id, dto, crypto.randomUUID());
+  assert.equal(success.status, "admitted");
+  assert.equal(success.receipt.turn_id, null);
+  assert.equal(success.receipt.status, "completed");
+  assert.equal(success.receipt.result.handoff_status, "requested");
+  assert.equal(success.receipt.conversation_id, a.conversation.id);
+  reject = true;
+  const denied = await f
+    .service()
+    .handoff(f.b, a.conversation.id, dto, crypto.randomUUID());
+  assert.equal(denied.status, "failed");
+  assert.equal(denied.error_code, "routing_unavailable");
+  assert.equal(httpCalls, 1);
+});
+test("timeline de atención LidIA proyecta operador actual y misma asociación local", async (t) => {
+  const f = await fixture(t),
+    original = f.remote.call.bind(f.remote);
+  f.remote.call = async (...args) => {
+    if (args[0] === "timeline")
+      return {
+        status: 200,
+        data: structuredClone(finalSamples.SupportTimeline),
+      };
+    const response = await original(...args);
+    if (args[0] === "session")
+      response.data.conversation_id =
+        finalSamples.SupportTimeline.conversation_id;
+    return response;
+  };
+  const a = await f
+    .service()
+    .start(f.a, { purpose: "atencion" }, crypto.randomUUID());
+  const first = await f.service().timeline(f.a, a.conversation.id),
+    other = await f.service().timeline(f.b, a.conversation.id);
+  assert.equal(first.conversation_id, a.conversation.id);
+  assert.equal(other.conversation_id, a.conversation.id);
+  assert.equal(first.conversation_status, "in_support");
+  assert.equal(first.support.operator_display_name, "Segundo");
+  assert.equal(first.items[0].role, "operator");
+  assert.equal(Object.hasOwn(first, "effective_agent"), false);
+  assert.equal(
+    (await db.appConversation.findUnique({ where: { id: a.conversation.id } }))
+      .stateRevision,
+    "8",
   );
 });
