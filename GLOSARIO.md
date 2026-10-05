@@ -459,3 +459,48 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** Conflicto al intentar ligar a otro caso una conversación ya vinculada y reconocimiento de una operación cuyo detalle fue retirado, respectivamente.
 - **Alcance:** adenda 1.1, §§3 y 6; `ContextError`. HTTP 409 y 410 respectivamente.
 - **Notas:** No habilitan otro caso ni repiten efectos. Las marcas de operación mantienen identidad/huella aun sin el detalle; la política de purga sigue pendiente.
+
+## Implementación conversacional Portal (05/10/2026)
+
+### `AppDeviceSession`
+- **Tipo:** entidad Prisma.
+- **Definición:** Sesión revocable de un dispositivo de la APP ligada a la cuenta compartida; conserva la huella del token, nunca su valor.
+- **Alcance:** backend/prisma/schema.prisma; backend/src/app/identity.js.
+- **Notas:** Se mantiene la autenticación JWT del Portal existente; la sesión APP tiene su propio ciclo de vida.
+
+### `AppConversation`
+- **Tipo:** entidad Prisma.
+- **Definición:** Asociación durable entre cuenta, integración, propósito y ámbito de expediente y la conversación pública LidIA.
+- **Alcance:** backend/prisma/schema.prisma; backend/src/app/conversations.js.
+- **Notas:** No depende de cookies, no se reasigna entre cuentas/casos, no guarda ids internos de agente.
+
+### `AppOperation`
+- **Tipo:** entidad Prisma / outbox.
+- **Definición:** Claim durable de una petición APP con su identidad, huella y resultado pendiente o conocido.
+- **Alcance:** backend/prisma/schema.prisma; backend/src/app/store.js.
+- **Notas:** Se persiste antes de HTTP; la pérdida de respuesta conserva la misma operación/key. También transporta contexto y revocación.
+
+### `AppConversationAccess`
+- **Tipo:** entidad Prisma.
+- **Definición:** Evidencia vigente de permisos y asignaciones acreditadas por la autoridad Portal para un ámbito de conversación.
+- **Alcance:** backend/prisma/schema.prisma; backend/src/app/lifecycle.js.
+- **Notas:** Sólo escritores internos; no se deduce gestor desde Owner ni desde ids enviados por móvil.
+
+### `accountStatus, accountVerifiedAt, accountVerificationMethod`
+- **Tipo:** propiedades User.
+- **Definición:** Estado de cuenta y evidencia fechada del consumo de un mecanismo de verificación de cuenta.
+- **Alcance:** backend/prisma/schema.prisma; backend/src/routes/auth.js.
+- **Notas:** No se rellena desde emailVerified histórico, createdAt ni desde un login.
+
+### `conversationsEnabled`
+- **Tipo:** configuración pública.
+- **Definición:** Selector del consumidor APP que utiliza la API conversacional autenticada de Portal.
+- **Alcance:** frontend/app/public/app-config.js; frontend/app/src/conversationApi.js.
+- **Notas:** False por defecto; no contiene agentes, destinos LidIA o secretos.
+
+### `AppConversationService / AppS2SClient`
+- **Tipo:** conceptos runtime / decisión naming.
+- **Definición:** Servicio Portal de autoridad y recuperación; cliente servidor a servidor firmado que ejecuta sólo las rutas del contrato APP.
+- **Alcance:** backend/src/app/conversations.js; backend/src/app/s2s.js.
+- **Notas:** La UI no firma ni elige proyectos/agentes. La integración queda deshabilitada por defecto.
+
