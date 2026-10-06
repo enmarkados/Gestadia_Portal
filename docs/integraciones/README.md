@@ -142,3 +142,7 @@ que LidIA ya había creado y le notifica el pago con eventos firmados.
 - Los PNT y este índice **sí se actualizan**: describen el estado actual.
 - **Ningún documento contiene secretos.** Claves y URLs de credenciales viven
   en el `.env` (git-ignored) y se intercambian por canal seguro.
+
+## Conversaciones APP — prueba conectada local
+
+- [Prueba local APP / Portal / LidIA del 06/10/2026](2026-10-06-prueba-local-app-portal-lidia.md): 61 comprobaciones HTTP/API, flujo de navegador y corrección de recarga; modelo determinista y bases temporales.

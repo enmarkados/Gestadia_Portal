@@ -407,11 +407,11 @@ function ConversationBody({ purpose }) {
           <p>{error}</p>
           <button
             className="text-btn"
-            onClick={() =>
-              conversation?.ready
-                ? load(conversation.id).catch(showError)
-                : begin()
-            }
+            onClick={() => {
+              setError("");
+              if (conversation?.ready) load(conversation.id).catch(showError);
+              else begin();
+            }}
           >
             Volver a cargar
           </button>

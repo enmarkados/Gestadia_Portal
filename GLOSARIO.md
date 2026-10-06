@@ -557,3 +557,10 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** rechazo por ausencia de un destino de atención configurado y elegible para la solicitud vigente. No asigna operador ni confirma una transferencia.
 - **Alcance:** contrato APP LidIA, backend/src/app/s2s.js y frontend/app/src/AppConversation.jsx.
 - **Notas:** Preservar el rechazo409 y liberar pendiente; nunca elegir otra cola o persona como fallback.
+
+### Prueba local integrada APP / Portal / LidIA
+
+- **Tipo:** concepto de verificación.
+- **Definición:** Prueba con las interfaces y las API reales conectadas por HTTP/HTTPS en loopback, bases temporales propias y cuentas ficticias. El límite de modelo de LidIA se sustituye por uno determinista identificado.
+- **Alcance:** docs/integraciones/2026-10-06-prueba-local-app-portal-lidia.md y su evidencia; procesos/configuración efímera fuera del código de producción.
+- **Notas:** Diferente de la suite con respuestas LidIA simuladas; no acredita agente 119, producción, Zoho, modelo real ni instalación física.

@@ -1,0 +1,429 @@
+{
+  "fixture_only": true,
+  "date": "2026-10-06",
+  "portal_base_sha": "dbc2522fc4ba5242b62b800c35f29b4a65c11631",
+  "lidia_source_sha": "6531d3299f358cf3355618d75cf9f9f40f095a9a",
+  "lidia_binary_sha256": "6dcff31c86111907600a5c08c5e644303119b8aac9e15d62e9ab5c5610928e0e",
+  "boundary": "Real local HTTP/TLS, API/controllers/services/worker and databases; deterministic LidIA model",
+  "runtime_urls": {
+    "app": "http://127.0.0.1:5174",
+    "portal": "http://127.0.0.1:5173",
+    "portal_api": "http://127.0.0.1:3001",
+    "lidia": "https://127.0.0.1:7443"
+  },
+  "assertions_passed": 61,
+  "groups": {
+    "identity": [
+      {
+        "name": "Login APP deviceA",
+        "passed": true
+      },
+      {
+        "name": "Login APP deviceB",
+        "passed": true
+      },
+      {
+        "name": "Login APP otherUser",
+        "passed": true
+      },
+      {
+        "name": "Ambos dispositivos propios listados",
+        "passed": true
+      },
+      {
+        "name": "Perfil real obtenido con token APP",
+        "passed": true
+      },
+      {
+        "name": "Cuenta sin prueba de identidad sigue rechazada",
+        "passed": true
+      }
+    ],
+    "invitation": [
+      {
+        "name": "Invitacion: login previo bloqueado",
+        "passed": true
+      },
+      {
+        "name": "Invitacion: consumo HTTP real",
+        "passed": true
+      },
+      {
+        "name": "Invitacion: prueba fechada persistida",
+        "passed": true
+      },
+      {
+        "name": "Invitacion: reutilizacion denegada",
+        "passed": true
+      },
+      {
+        "name": "Invitacion: login APP habilitado",
+        "passed": true
+      },
+      {
+        "name": "Invitacion: JWT legacy rechazado APP",
+        "passed": true
+      }
+    ],
+    "guards": [
+      {
+        "name": "API conversaciones exige autenticacion",
+        "passed": true
+      },
+      {
+        "name": "Cliente no puede elegir agente en login",
+        "passed": true
+      },
+      {
+        "name": "Cliente no puede otorgarse permisos",
+        "passed": true
+      },
+      {
+        "name": "JSON malformado rechazado",
+        "passed": true
+      },
+      {
+        "name": "UTF8 invalido rechazado",
+        "passed": true
+      },
+      {
+        "name": "Body mayor que32KiB rechazado",
+        "passed": true
+      },
+      {
+        "name": "Solicitud revocacion ajena no revela existencia",
+        "passed": true
+      },
+      {
+        "name": "Dispositivo ajeno sigue activo",
+        "passed": true
+      }
+    ],
+    "transport": [
+      {
+        "name": "Creacion HTTP real Portal a LidIA",
+        "passed": true
+      },
+      {
+        "name": "Repetir inicio conserva asociacion y operacion",
+        "passed": true
+      },
+      {
+        "name": "Segundo dispositivo recupera misma asociacion",
+        "passed": true
+      },
+      {
+        "name": "Timeline real con contexto firmado sincronizado",
+        "passed": true
+      },
+      {
+        "name": "Otro usuario no accede a conversacion",
+        "passed": true
+      },
+      {
+        "name": "Turno admitido por servicios reales",
+        "passed": true
+      },
+      {
+        "name": "Repetir turn_id no crea otra operacion",
+        "passed": true
+      },
+      {
+        "name": "Conflicto de turno rechazado",
+        "passed": true
+      },
+      {
+        "name": "Worker real completa recibo y conserva un mensaje cliente",
+        "passed": true
+      },
+      {
+        "name": "Recuperar recibo completado no reenvia efecto",
+        "passed": true
+      },
+      {
+        "name": "Recibo exacto recuperado por turn_id",
+        "passed": true
+      },
+      {
+        "name": "Checkpoint valido sin paginas pendientes",
+        "passed": true
+      }
+    ],
+    "case_access": [
+      {
+        "name": "Atencion privada creada con permisos de autoridad",
+        "passed": true,
+        "details": {
+          "status": 200,
+          "data": {
+            "conversation": {
+              "id": "ef8744e1-11a6-4c05-a49b-a52d44165e4c",
+              "purpose": "atencion",
+              "case_ref": "20000000-0000-4000-8000-000000000001",
+              "status": "active",
+              "ready": true,
+              "created_at": "2026-10-06T07:39:26.413Z"
+            },
+            "operation": null
+          }
+        }
+      },
+      {
+        "name": "Contexto de expediente autorizado sincronizado",
+        "passed": true,
+        "details": {
+          "status": 200,
+          "code": null
+        }
+      },
+      {
+        "name": "Expediente privado denegado a otra cuenta",
+        "passed": true
+      },
+      {
+        "name": "Otra cuenta no crea asociacion al expediente ajeno",
+        "passed": true
+      }
+    ],
+    "manager_attention": [
+      {
+        "name": "Handoff manager por permisos vigentes y mapping real",
+        "passed": true,
+        "details": {
+          "status": 202,
+          "data": {
+            "id": "005c44d8-c691-4bbf-a4b1-342436210d31",
+            "operation": "handoff",
+            "status": "admitted",
+            "error_code": null,
+            "receipt": {
+              "error": null,
+              "result": {
+                "message_ids": [],
+                "handoff_status": "requested",
+                "presentation_ids": [],
+                "sondeo_result_id": null,
+                "sondeo_result_revision": null
+              },
+              "status": "completed",
+              "turn_id": null,
+              "operation": "handoff",
+              "updated_at": "2026-10-06T07:41:09.391Z",
+              "accepted_at": "2026-10-06T07:41:09.391Z",
+              "completed_at": "2026-10-06T07:41:09.391Z",
+              "operation_id": "19988913-7a55-48bf-8759-99e87d3f78be",
+              "retained_until": "2026-11-05T07:41:09.391Z",
+              "schema_version": "1.0",
+              "state_revision": "2",
+              "conversation_id": "ef8744e1-11a6-4c05-a49b-a52d44165e4c",
+              "receipt_revision": "1",
+              "retry_after_seconds": null
+            }
+          }
+        }
+      },
+      {
+        "name": "Solicitud no acredita operador atendiendo",
+        "passed": true,
+        "details": {
+          "status": 200,
+          "support": {
+            "status": "requested",
+            "operator_display_name": null,
+            "requested_at": "2026-10-06T07:41:09.391Z",
+            "assigned_at": null,
+            "attended_at": null,
+            "updated_at": "2026-10-06T07:39:26.447Z"
+          }
+        }
+      },
+      {
+        "name": "Operador comercial no toma asignacion gestor",
+        "passed": true,
+        "details": {
+          "status": 403,
+          "data": {
+            "code": "capability_denied"
+          }
+        }
+      },
+      {
+        "name": "Gestor correcto toma misma sesion",
+        "passed": true,
+        "details": {
+          "status": 200,
+          "data": {
+            "ok": true,
+            "fixture_only": true
+          }
+        }
+      },
+      {
+        "name": "Respuesta humana por AppSupportService real",
+        "passed": true,
+        "details": {
+          "status": 200,
+          "data": {
+            "ok": true,
+            "fixture_only": true
+          }
+        }
+      },
+      {
+        "name": "Repetir respuesta humana admite mismo recibo",
+        "passed": true
+      },
+      {
+        "name": "Timeline humano recuperable sin duplicado",
+        "passed": true,
+        "details": {
+          "support": {
+            "status": "in_support",
+            "operator_display_name": "Operador local manager",
+            "requested_at": "2026-10-06T07:41:09.391Z",
+            "assigned_at": null,
+            "attended_at": "2026-10-06T07:41:09.646Z",
+            "updated_at": "2026-10-06T07:41:09.694Z"
+          },
+          "items": 1
+        }
+      }
+    ],
+    "ui_delivery": [
+      {
+        "name": "Mensaje enviado UI aparece en segundo dispositivo",
+        "passed": true
+      },
+      {
+        "name": "Atencion humana no genera respuesta IA",
+        "passed": true
+      }
+    ],
+    "withdrawal": [
+      {
+        "name": "Operador tenia lectura antes de retirada",
+        "passed": true
+      },
+      {
+        "name": "Portal deniega inmediatamente tras retirada",
+        "passed": true,
+        "details": {
+          "status": 403,
+          "code": "capability_denied"
+        }
+      },
+      {
+        "name": "Outbox retirada llega a LidIA y niega lectura operador",
+        "passed": true,
+        "details": {
+          "status": 403,
+          "elapsedSeconds": 16.29,
+          "code": "capability_denied"
+        }
+      }
+    ],
+    "closure": [
+      {
+        "name": "Conversacion separada de segunda cuenta",
+        "passed": true
+      },
+      {
+        "name": "Contexto segunda cuenta autorizado",
+        "passed": true
+      },
+      {
+        "name": "Handoff comercial segunda cuenta admitido",
+        "passed": true
+      },
+      {
+        "name": "Comercial toma sesion segunda cuenta",
+        "passed": true
+      },
+      {
+        "name": "Cierre real por operador correcto",
+        "passed": true
+      },
+      {
+        "name": "Lectura autorizada mantiene estado cerrado",
+        "passed": true,
+        "details": {
+          "status": 200,
+          "state": "closed"
+        }
+      },
+      {
+        "name": "Turno nuevo denegado en sesion cerrada",
+        "passed": true
+      },
+      {
+        "name": "Handoff nuevo no reabre cerrada",
+        "passed": true
+      }
+    ],
+    "revocation": [
+      {
+        "name": "Lectura S2S permitida antes de bloquear cuenta",
+        "passed": true
+      },
+      {
+        "name": "Bloqueo invalida sesiones locales inmediatamente",
+        "passed": true
+      },
+      {
+        "name": "Cuenta bloqueada no inicia nueva sesion",
+        "passed": true
+      },
+      {
+        "name": "Revocacion durable bloquea lectura S2S en LidIA",
+        "passed": true,
+        "details": {
+          "elapsedSeconds": 6.96,
+          "code": "capability_denied"
+        }
+      },
+      {
+        "name": "Cuenta cliente de demostracion sigue activa",
+        "passed": true
+      }
+    ]
+  },
+  "suites": {
+    "backend": {
+      "passed": 115,
+      "failures": 0
+    },
+    "frontend_after_fix": {
+      "passed": 98,
+      "failures": 0
+    },
+    "app_build": "passed"
+  },
+  "browser": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "client_human_bubble_rgb": [
+      192,
+      57,
+      43
+    ],
+    "client_lidia_bubble_rgb": [
+      56,
+      56,
+      56
+    ],
+    "private_messages_hidden_on_withdrawal": true,
+    "reload_warning_reproduced_before_fix": true,
+    "reload_warning_absent_after_fix": true,
+    "profile_persisted_app_and_portal": true,
+    "back_to_lidia_button_clicked": true
+  },
+  "not_verified": [
+    "production_agent_119",
+    "external_model",
+    "CRM_Zoho_or_payment_events",
+    "physical_iPhone_build",
+    "production_deployment"
+  ]
+}

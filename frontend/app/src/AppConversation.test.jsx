@@ -188,6 +188,30 @@ it("la pérdida de autorización oculta el historial ya cargado", async () => {
   await screen.findByText(/permisos actuales/i, {}, { timeout: 4500 });
   expect(screen.queryByText("Selecciona una opción")).toBeNull();
 });
+it("volver a cargar tras restaurar permisos retira el aviso anterior", async () => {
+  mount();
+  await screen.findByText("Selecciona una opción");
+  const original = global.fetch;
+  let allowed = false;
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async (url, opts) =>
+      url.includes("/timeline") && !allowed
+        ? {
+            ok: false,
+            status: 403,
+            json: async () => ({ code: "capability_denied" }),
+          }
+        : original(url, opts),
+    ),
+  );
+  await screen.findByText(/permisos actuales/i, {}, { timeout: 4500 });
+  expect(screen.queryByText("Selecciona una opción")).toBeNull();
+  allowed = true;
+  fireEvent.click(screen.getByRole("button", { name: "Volver a cargar" }));
+  await screen.findByText("Selecciona una opción");
+  expect(screen.queryByRole("alert")).toBeNull();
+});
 it("handoff perdido se recupera con la misma key, sin reenviar la solicitud al recargar", async () => {
   const original = global.fetch;
   vi.stubGlobal(
