@@ -48,7 +48,7 @@ Evidencia RED: `/tmp/gestadia-app-local-e2e-20261006/refresh-red.log`. Suite com
 
 ## Aplicaciones disponibles y parada
 
-Las páginas están abiertas y la cuenta `cliente.local@example.test` conserva conversaciones de sondeo y gestor en atención, con permisos restaurados. Contraseña ficticia y exclusiva de esta base local: `GestadiaLocal2026!`. Una cuenta separada `otro.local@example.test` queda bloqueada deliberadamente por la prueba. No usar estos accesos fuera del entorno local.
+Las páginas están abiertas y la cuenta `cliente.local@example.test` conserva conversaciones de sondeo y gestor en atención, con permisos restaurados. El acceso de prueba se facilita al usuario; la contraseña no se incluye en documentación de coordinación. Una cuenta separada `otro.local@example.test` queda bloqueada deliberadamente por la prueba. No usar estos accesos fuera del entorno local.
 
 Los procesos/configuración de esta ejecución viven en `/tmp/gestadia-app-local-e2e-20261006` (Portal) y `/tmp/gestadia-app-local-20261006` (LidIA). No se ha modificado el app-config.js público versionado ni sus flags por defecto. Los servicios se dejan corriendo porque el usuario pidió probarlos; la base es temporal y se pierde al parar su contenedor.
 
