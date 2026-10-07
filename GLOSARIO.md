@@ -606,3 +606,10 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** Agente con identidad propia derivado de la configuración de LidIA Canje v4, cuyo proyecto, instrucción y modelo efectivo se acreditan para el canal APP. Su ejecución y autoridad permanecen separadas de las conversaciones del 119 original y del fixture local.
 - **Alcance:** docs/integraciones/2026-10-07-adenda-agente-app-y-transicion.md; configuración Portal `appConversationConfig` y `AppS2SClient`; agente/proyecto/instrucción e integración administrados en LidIA.
 - **Notas:** Clon autorizado por el usuario después de la preparación literal 119. No significa reutilizar WhatsApp, Zoho, herramientas globales ni asociaciones antiguas; ID definitivo y nombre de proyecto los confirma LidIA.
+
+### `gestadia-app-pro-local-validation`
+
+- **Tipo:** identificador de integración y audiencia S2S de prueba.
+- **Definición:** Ámbito acordado para conectar un consumidor Portal/APP local separado con el agente APP dedicado de LidIA en PRO. No identifica el fixture determinista ni una cuenta de cliente real.
+- **Alcance:** documentación de preparación PRO del 07/10/2026, configuración privada `APP_LIDIA_INTEGRATION_ID`/`APP_LIDIA_AUDIENCE` y `AppIntegration` administrado por LidIA; no va en el móvil como selector.
+- **Notas:** Origen acordado `https://lidia.gestadia.com`, permisos iniciales sondeo/history y base/cuenta/asociaciones nuevas. La validez, claves e IDs de agente/proyecto siguen sujetos a configuración efectiva de la fuente.

@@ -160,3 +160,7 @@ que LidIA ya había creado y le notifica el pago con eventos firmados.
 ## APP con agente dedicado basado en 119 — adenda 07/10/2026
 
 - [Alcance autorizado, respaldo Portal verificado y checklist de transición](2026-10-07-adenda-agente-app-y-transicion.md): el usuario permite clonar119 y exige Playground; redeploy LidIA condicionado a copias de código y BBDD. Configuración original contrastada en panel; destino/ejecución real pendientes. Conserva el fixture y no despliega Portal producción por separado.
+
+## Consumidor local APP frente a LidIA PRO — preparación 07/10/2026
+
+- [Namespace acordado y base/cuenta nuevas](2026-10-07-preparacion-portal-validacion-pro.md): consumidor preparado aparte del fixture, sin conexión ni turno hasta confirmar configuración fuente y Playground.
