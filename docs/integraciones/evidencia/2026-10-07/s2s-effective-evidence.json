@@ -1,0 +1,23 @@
+{
+  "verifiedAtUtc": "2026-10-07T14:53:47Z",
+  "containerId": "9809f966222735ad27233e19dfbaf0ebc56210bb7812525cf3722685eb869409",
+  "image": "sha256:2cc558e2cce8c39f2d089c6f0367d2432f5a6242750a6c0741da3730171a17fa",
+  "health": "healthy",
+  "appEnabled": true,
+  "mergeSha": "b63b89dd64becbc9a221d3a1491c2385381add4b",
+  "build": "V1.708-app-config-persistente",
+  "configSha256": "c5c137dd9fff6684037fd6cde8d0656d0a530dbc6be47fc0a07412541c7ca777",
+  "configMode": "600",
+  "configOwnerUid": 1654,
+  "projectId": 103,
+  "agentId": 122,
+  "instructionId": 10116,
+  "unsignedHttp": 401,
+  "unsignedCode": "invalid_integration_auth",
+  "portalAuthorityValidUntil": "2026-10-08T14:53:47Z",
+  "permissions": [
+    "sondeo",
+    "history"
+  ],
+  "authenticatedS2s": "pending Portal verification"
+}

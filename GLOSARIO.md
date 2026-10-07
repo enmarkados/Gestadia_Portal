@@ -627,3 +627,17 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** Horizonte acordado para la autoridad de la cuenta ficticia que permite probar el circuito APP contra LidIA PRO. No describe la caducidad de claves HMAC ni prueba que el servicio esté desplegado o aislado.
 - **Alcance:** entrega privada `s2s-portal-private.json`, lanzadores efímeros fuera del repositorio y docs/app/INTEGRACION-LIDIA.md; el permiso efectivo se registra en Portal y se entrega mediante el contrato de contexto.
 - **Notas:** Se comprueba antes de arrancar y crear el grant; no añade una propiedad pública al contrato APP. Las claves v1 requieren retirada o desactivación explícita por la fuente.
+
+### Sujeto desechable de revocación APP
+
+- **Tipo:** concepto operativo de validación.
+- **Definición:** Segunda cuenta ficticia independiente usada exclusivamente para comprobar la retirada de acceso APP sin deshabilitar la cuenta principal de la demostración. Comparte el techo sondeo/historial y el vencimiento autorizado, sin datos reales ni permisos CRM.
+- **Alcance:** prueba local Portal contra la integración `gestadia-app-pro-local-validation`; lanzadores privados y docs/app/INTEGRACION-LIDIA.md. Reutiliza las entidades de cuenta y autoridad existentes, sin introducir una entidad de producto.
+- **Notas:** Se descarta revocar irreversiblemente el sujeto principal al cerrar la comprobación: permanece disponible dentro del plazo autorizado. Las credenciales auxiliares se guardan fuera de Git. Estado final de esta fase: propuesta no ejecutada. La revisión automática rechazó crear un segundo sujeto; no existe cuenta, grant ni conversación remota auxiliar. La prueba solicitada se limitó después a un turno del sujeto principal con instrucciones originales.
+
+### Consumidor local de prueba de canal con copia literal
+
+- **Tipo:** concepto operativo de validación.
+- **Definición:** Backend/frontend locales temporales con base vacía que reproducen la identidad y permiso del sujeto principal ya autorizado para iniciar una nueva conversación sin reutilizar el historial anterior. Prueba una petición textual con instrucción y modelo copiados del 119, conservando la política de transporte APP.
+- **Alcance:** configuración privada en `/private/tmp/gestadia-portal-literal-channel-20261007`, base local `gestadia_app_literal_test`, puertos 3003/5176 y docs/app/INTEGRACION-LIDIA.md. No cambia el producto ni crea otra identidad en LidIA.
+- **Notas:** Misma integración, capacidades, claves y vencimiento de la cuenta principal; se conservan 5175 y su historial. La prueba no acredita equivalencia de herramientas, automatizaciones ni runtime WhatsApp.
