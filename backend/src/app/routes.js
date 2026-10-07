@@ -131,6 +131,10 @@ export function createAppRouter({
       res.status(data.conversation.ready ? 200 : 202).json(data);
     }),
   );
+  router.patch(
+    "/conversations/:id",
+    run(async (req, res) => res.json(await service.rename(req.appToken, req.params.id, req.body))),
+  );
   router.get(
     "/conversations/:id/timeline",
     run(async (req, res) =>

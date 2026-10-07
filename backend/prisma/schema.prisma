@@ -162,6 +162,9 @@ model AppConversation {
   scopeKey String @db.VarChar(64)
   purpose String @db.VarChar(16)
   caseId String?
+  title           String? @db.VarChar(120)
+  remoteCreatedAt DateTime?
+  lastMessageAt   DateTime?
   remoteId String? @db.VarChar(128)
   stateRevision String @default("0") @db.VarChar(20)
   status String @default("pending") @db.VarChar(32)
@@ -172,7 +175,7 @@ model AppConversation {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   operations AppOperation[]
-  @@unique([userId, integrationId, scopeKey])
+  @@index([userId, integrationId, scopeKey])
   @@unique([integrationId, remoteId])
 }
 model AppOperation {

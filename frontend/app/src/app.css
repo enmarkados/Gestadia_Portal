@@ -2086,3 +2086,33 @@ select:focus {
   opacity: 0.8;
   margin-bottom: 6px;
 }
+
+
+/* Connected conversation history */
+.messages-title-row, .conversation-card-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.connected-messages .messages-title-row h1 { margin-bottom: .5rem; }
+.messages-title-row .text-btn { margin-top: .5rem; }
+.new-conversation-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin: 1.5rem 0; }
+.new-conversation-links .option { margin: 0; padding: 1rem; }
+.conversation-search { display: grid; gap: .5rem; margin-bottom: 1.5rem; font-weight: 600; }
+.conversation-search input { font-weight: 400; }
+.conversation-card { min-width: 0; }
+.conversation-link { color: #2b2b2b; text-decoration: none; min-width: 0; overflow-wrap: anywhere; }
+.conversation-link strong { display: block; font-size: 1.05rem; }
+.conversation-interlocutor { display: block; margin-top: .3rem; font-size: .85rem; }
+.conversation-status { flex-shrink: 0; padding: .3rem .6rem; border-radius: 999px; font-size: .75rem; font-weight: 600; background: #eaf5ee; color: #22623d; }
+.conversation-status.closed { background: #f0f0f0; color: #555; }
+.conversation-status.unknown { background: #fff4dc; color: #785715; }
+.conversation-dates { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin: 1rem 0; }
+.conversation-dates dt { color: #6b7280; font-size: .75rem; margin-bottom: .25rem; }
+.conversation-dates dd { margin: 0; font-size: .85rem; }
+.conversation-rename-trigger { color: #2b2b2b; font-size: .85rem; }
+.conversation-rename { margin-top: 1rem; border-top: 1px solid #e5e7eb; padding-top: 1rem; }
+.conversation-rename label { display: grid; gap: .5rem; }
+.conversation-rename .muted { font-size: .8rem; }
+.conversation-rename-actions { display: flex; align-items: center; gap: 1rem; }
+.conversation-rename-actions .btn { width: auto; padding: .7rem 1rem; }
+@media (max-width: 420px) {
+  .new-conversation-links { grid-template-columns: 1fr; }
+  .conversation-card-heading { flex-wrap: wrap; }
+}

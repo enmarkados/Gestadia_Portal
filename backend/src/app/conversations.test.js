@@ -53,8 +53,11 @@ class Remote {
     this.beforeReturn = null;
     this.contexts = [];
     this.closed = false;
+    this.metadata = {};
+    this.timelineUnavailable = false;
   }
   async call(cap, method, path, subject, dto, opts = {}) {
+    if (path.endsWith("/timeline") && this.timelineUnavailable) throw new AppProblem(503, "runtime_unavailable");
     let r = this.operations.get(opts.idempotencyKey);
     if (!r) {
       if (path === "/sessions") {
@@ -63,6 +66,7 @@ class Remote {
           status: 201,
           data: {
             schema_version: "1.0",
+            ...this.metadata,
             conversation_id: crypto.randomUUID(),
             lidia_session_id: "PRIVATE_INTERNAL",
             purpose: dto.purpose,
@@ -133,6 +137,7 @@ class Remote {
           data: {
             schema_version: "1.0",
             conversation_id: path.split("/")[2],
+            ...this.metadata,
             items: [],
             next_cursor: null,
             has_more: false,
@@ -1003,4 +1008,72 @@ test("una revisión que pierde confirmación durante la llamada no supera el con
     throw new AppProblem(409, "stale_context");
   } }, config, op);
   assert.equal((await db.appOperation.findUnique({ where: { id: op.id } })).status, "outcome_unknown");
+});
+
+
+test("nombre por cuenta persiste entre dispositivos sin alterar última actividad ni exponer otro chat", async (t) => {
+  const f = await fixture(t), other = await fixture(t);
+  f.remote.metadata = { created_at: "2026-10-07T10:00:00.000Z", last_message_at: "2026-10-07T10:05:00.000Z" };
+  const a = await f.service().start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
+  const renamed = await f.service().rename(f.a, a.conversation.id, { title: "  Mi canje de Peru\u0301  " });
+  assert.equal(renamed.title, "Mi canje de Perú");
+  const row = (await f.service().list(f.b))[0];
+  assert.equal(row.title, "Mi canje de Perú");
+  assert.equal(row.last_message_at, "2026-10-07T10:05:00.000Z");
+  assert.equal(row.created_at, "2026-10-07T10:00:00.000Z");
+  assert.equal(row.metadata_ready, true);
+  await assert.rejects(f.service().rename(other.a, a.conversation.id, { title: "Robado" }), { code: "conversation_not_found" });
+  for (const body of [{ title: " " }, { title: "x".repeat(121) }, { title: "línea\nprivada" }, { title: "\ud800" }, { title: "Bien", operator_id: "privado" }])
+    await assert.rejects(f.service().rename(f.a, a.conversation.id, body), { code: "invalid_payload" });
+  await f.service().rename(f.a, a.conversation.id, { title: null });
+  assert.equal((await f.service().list(f.b))[0].title, null);
+});
+
+test("fallo de metadatos conserva fechas confirmadas pero no acredita estado vigente ni ausencia de mensajes", async (t) => {
+  const f = await fixture(t);
+  f.remote.metadata = { created_at: "2026-10-07T10:00:00.000Z", last_message_at: "2026-10-07T10:05:00.000Z" };
+  const a = await f.service().start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
+  f.remote.closed = true;
+  assert.equal((await f.service().list(f.a))[0].status, "closed");
+  f.remote.timelineUnavailable = true;
+  const row = (await f.service().list(f.a))[0];
+  assert.equal(row.metadata_ready, false);
+  assert.equal(row.status, "closed");
+  assert.equal(row.last_message_at, "2026-10-07T10:05:00.000Z");
+  assert.equal(row.created_at, "2026-10-07T10:00:00.000Z");
+  assert.equal(row.id, a.conversation.id);
+});
+
+test("cierre remoto abre otra sesión entre dos dispositivos sin reabrir ni perder idempotencia histórica", async (t) => {
+  const f = await fixture(t), key = crypto.randomUUID();
+  const old = await f.service().start(f.a, { purpose: "sondeo" }, key);
+  const oldRemote = (await db.appConversation.findUnique({ where: { id: old.conversation.id } })).remoteId;
+  const original = f.remote.call.bind(f.remote);
+  f.remote.call = async (...args) => {
+    const r = await original(...args);
+    if (args[2] === `/sessions/${oldRemote}/timeline`)
+      r.data.conversation_status = "closed";
+    return r;
+  };
+  const [a,b] = await Promise.all([
+    f.service().start(f.a, { purpose: "sondeo" }, crypto.randomUUID()),
+    f.service().start(f.b, { purpose: "sondeo" }, crypto.randomUUID()),
+  ]);
+  assert.notEqual(a.conversation.id, old.conversation.id);
+  assert.equal(a.conversation.id, b.conversation.id);
+  assert.equal(f.remote.sessionCount, 2);
+  const replay = await f.service().start(f.b, { purpose: "sondeo" }, key);
+  assert.equal(replay.conversation.id, old.conversation.id);
+  assert.equal(replay.conversation.status, "closed");
+  assert.equal((await f.service().list(f.b)).length, 2);
+  const rows = await db.appConversation.findMany({ where: { userId: f.u.id } });
+  assert.equal(rows[0].scopeKey, rows[1].scopeKey);
+});
+
+test("fuente indisponible bloquea nueva sesión en vez de suponer el cierre", async (t) => {
+  const f = await fixture(t);
+  await f.service().start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
+  f.remote.timelineUnavailable = true;
+  await assert.rejects(f.service().start(f.b, { purpose: "sondeo" }, crypto.randomUUID()), { code: "runtime_unavailable" });
+  assert.equal(f.remote.sessionCount, 1);
 });

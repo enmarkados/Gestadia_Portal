@@ -47,7 +47,7 @@ function ConversationBody({ purpose }) {
   }, [purpose]);
   const { mode, data } = useApp(),
     userId = data.profile?.id;
-  const [search] = useSearchParams();
+  const [search, setSearch] = useSearchParams();
   const caseRef = search.get("caso") || null;
   const [conversation, setConversation] = useState(null),
     [items, setItems] = useState([]),
@@ -188,7 +188,10 @@ function ConversationBody({ purpose }) {
             x.purpose === purpose &&
             (chosen ? x.id === chosen : x.case_ref === caseRef),
         );
-        if (!c) return;
+        if (!c) {
+          if (chosen) showError({ code: "conversation_not_found" });
+          return;
+        }
         setConversation(c);
         if (!c.ready) {
           const started = await conversationApi.start(
@@ -246,6 +249,10 @@ function ConversationBody({ purpose }) {
     try {
       const r = await conversationApi.start(purpose, caseRef, startKey.current);
       if (version !== generation.current) return;
+      if (conversation && conversation.id !== r.conversation.id) {
+        setSearch({ conversacion: r.conversation.id, ...(caseRef ? { caso: caseRef } : {}) });
+        return;
+      }
       setConversation(r.conversation);
       setPending(pendingStatuses.has(r.operation?.status) ? r.operation : null);
       if (r.conversation.ready) await load(r.conversation.id, version);
@@ -559,9 +566,14 @@ function ConversationBody({ purpose }) {
         </p>
       )}
       {closed && (
-        <p role="status">
-          Esta conversación está cerrada. Puedes consultar su historial.
-        </p>
+        <div className="card">
+          <p role="status">Esta conversación está cerrada. Puedes consultar su historial.</p>
+          <button className="btn dark" disabled={busy || !!pending} onClick={() => {
+            if (busyRef.current) return;
+            startKey.current = crypto.randomUUID();
+            begin();
+          }}>Nueva conversación</button>
+        </div>
       )}
       {pending && (
         <div className="card" role="status">
@@ -591,7 +603,7 @@ function ConversationBody({ purpose }) {
                     ? "Hablar con mi gestor"
                     : target === "commercial"
                       ? "Hablar con un comercial"
-                      : "Solicitar soporte"}
+                      : purpose === "atencion" ? "Solicitar atención" : "Solicitar soporte"}
                 </button>
               ))}
           </div>

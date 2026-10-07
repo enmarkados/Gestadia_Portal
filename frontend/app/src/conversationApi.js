@@ -29,6 +29,9 @@ const post = (path, body, extra = {}) =>
   call(path, { method: "POST", body: JSON.stringify(body), ...extra });
 export const conversationApi = {
   list: () => call("/conversations"),
+  rename: (id, title) => call(`/conversations/${encodeURIComponent(id)}`, {
+    method: "PATCH", body: JSON.stringify({ title }),
+  }),
   start: (purpose, caseRef, key) =>
     post(
       "/conversations",

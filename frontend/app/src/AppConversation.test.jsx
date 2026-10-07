@@ -660,3 +660,26 @@ it("conserva el recibo terminal de la primera página y libera el envío pendien
   expect(sessionStorage.getItem(`gestadia_app_conversation_v1:${id}:local-1`)).toBeNull();
   expect(calls.filter(c => c.url.endsWith("/turns"))).toHaveLength(1);
 });
+
+
+it("nueva conversación tras cierre remonta el historial sin reutilizar cursor ni mensajes anteriores", async () => {
+  closed = true;
+  const original = global.fetch; let started = false;
+  vi.stubGlobal("fetch", vi.fn(async (url, opts = {}) => {
+    if (url === "/api/app/v1/conversations" && opts.method === "POST") {
+      started = true;
+      return { ok: true, status: 200, json: async () => ({ conversation: { id: "new-chat", purpose: "sondeo", case_ref: null, ready: true, status: "active" }, operation: null }) };
+    }
+    if (url === "/api/app/v1/conversations" && started)
+      return { ok: true, status: 200, json: async () => ({ conversations: [{ id: "local-1", purpose: "sondeo", case_ref: null, ready: true, status: "closed" }, { id: "new-chat", purpose: "sondeo", case_ref: null, ready: true, status: "active" }] }) };
+    if (url.includes("/new-chat/timeline")) {
+      expect(url).not.toContain("tail-1");
+      return { ok: true, status: 200, json: async () => ({ ...timeline(), conversation_id: "new-chat", items: [], next_cursor: null, conversation_status: "active" }) };
+    }
+    return original(url, opts);
+  }));
+  mount(); await screen.findByText(/conversación está cerrada/i);
+  fireEvent.click(screen.getByRole("button", { name: "Nueva conversación" }));
+  await waitFor(() => expect(screen.queryByText("Selecciona una opción")).toBeNull());
+  expect(screen.getByRole("button", { name: "Enviar consulta" })).toBeInTheDocument();
+});

@@ -62,14 +62,55 @@ export class AppConversationService {
     });
   }
   async list(token) {
-    return this.authorized(token, async (tx, user) =>
-      (
-        await tx.appConversation.findMany({
-          where: { userId: user.id, integrationId: this.config.integrationId },
-          orderBy: { createdAt: "desc" },
-        })
-      ).map(conversationView),
+    const candidates = await this.authorized(token, (tx, user) =>
+      tx.appConversation.findMany({
+        where: { userId: user.id, integrationId: this.config.integrationId },
+        orderBy: { createdAt: "desc" },
+      }),
     );
+    const confirmed = new Set();
+    let next = 0;
+    await Promise.all(Array.from({ length: Math.min(4, candidates.length) }, async () => {
+      while (next < candidates.length) {
+        const c = candidates[next++];
+        if (!c.remoteId) continue;
+        try {
+          const t = await this.timeline(token, c.id, { limit: "1" });
+          if (t.metadata_ready) confirmed.add(c.id);
+        } catch {
+          // Keep previously confirmed values; never claim the cached status is current.
+        }
+      }
+    }));
+    return this.authorized(token, async (tx, user) => {
+      const rows = await tx.appConversation.findMany({
+        where: { userId: user.id, integrationId: this.config.integrationId },
+        orderBy: [{ lastMessageAt: "desc" }, { createdAt: "desc" }],
+      });
+      const result = [];
+      for (const row of rows) {
+        try { await ownedConversation(tx, row.id, user.id, this.config.integrationId); }
+        catch (e) { if (e.code === "conversation_not_found") continue; throw e; }
+        result.push(conversationView(row, confirmed.has(row.id)));
+      }
+      return result;
+    });
+  }
+  async rename(token, id, input) {
+    if (!input || Object.keys(input).length !== 1 || !Object.hasOwn(input, "title"))
+      throw new AppProblem(400, "invalid_payload");
+    let title = input.title;
+    if (title !== null) {
+      if (typeof title !== "string" || !title.isWellFormed() || /\p{Cc}/u.test(title))
+        throw new AppProblem(400, "invalid_payload");
+      title = title.trim().normalize("NFC");
+      if (!title || [...title].length > 120) throw new AppProblem(400, "invalid_payload");
+    }
+    return this.authorized(token, async (tx, user) => {
+      const c = await ownedConversation(tx, id, user.id, this.config.integrationId);
+      requireAccess(c, await currentAccess(tx, c, user, this.config));
+      return conversationView(await tx.appConversation.update({ where: { id }, data: { title } }));
+    });
   }
   async start(token, input, key) {
     if (
@@ -80,6 +121,23 @@ export class AppConversationService {
       !IDEM.test(key || "")
     )
       throw new AppProblem(400, "invalid_payload");
+    // Refresh the candidate before choosing between resuming it and opening a new session.
+    // Replay of an old idempotency key keeps its original historical association.
+    const candidate = await this.authorized(token, async (tx, user) => {
+      const previous = await tx.appOperation.findUnique({
+        where: { userId_integrationId_scopeId_kind_idempotencyKey: {
+          userId: user.id, integrationId: this.config.integrationId, scopeId: "",
+          kind: "session", idempotencyKey: key,
+        } },
+      });
+      if (previous) return null;
+      return tx.appConversation.findFirst({
+        where: { userId: user.id, integrationId: this.config.integrationId,
+          scopeKey: scopeKey(input.purpose, input.case_ref || null), status: { not: "closed" } },
+        orderBy: { createdAt: "desc" },
+      });
+    });
+    if (candidate?.remoteId) await this.timeline(token, candidate.id, { limit: "1" });
     const state = await this.authorized(token, async (tx, user) => {
       const caseId = input.case_ref || null;
       if (
@@ -125,14 +183,10 @@ export class AppConversationService {
         return { conversation, operation: previous, created: false };
       }
       const scope = scopeKey(input.purpose, caseId);
-      let c = await tx.appConversation.findUnique({
-        where: {
-          userId_integrationId_scopeKey: {
-            userId: user.id,
-            integrationId: this.config.integrationId,
-            scopeKey: scope,
-          },
-        },
+      let c = await tx.appConversation.findFirst({
+        where: { userId: user.id, integrationId: this.config.integrationId,
+          scopeKey: scope, status: { not: "closed" } },
+        orderBy: { createdAt: "desc" },
       });
       if (c) requireAccess(c, await currentAccess(tx, c, user, this.config));
       if (c?.remoteId)
@@ -285,7 +339,13 @@ export class AppConversationService {
         where: { id },
         data: {
           stateRevision: r.data.state_revision,
-          ...(query.turn_id ? {} : { status: r.data.conversation_status }),
+          ...(query.turn_id ? {} : {
+            status: r.data.conversation_status,
+            ...(r.data.created_at !== undefined ? { remoteCreatedAt: new Date(r.data.created_at) } : {}),
+            ...(Object.hasOwn(r.data, "last_message_at") ? {
+              lastMessageAt: r.data.last_message_at === null ? null : new Date(r.data.last_message_at),
+            } : {}),
+          }),
         },
       });
       if (query.turn_id)
@@ -309,6 +369,9 @@ export class AppConversationService {
         next_cursor: r.data.next_cursor,
         has_more: r.data.has_more,
         conversation_status: r.data.conversation_status,
+        created_at: r.data.created_at ?? (current.remoteCreatedAt || current.createdAt).toISOString(),
+        last_message_at: r.data.last_message_at ?? null,
+        metadata_ready: r.data.created_at !== undefined && Object.hasOwn(r.data, "last_message_at"),
         support: r.data.support,
         turn_statuses: r.data.turn_statuses.map((receipt) =>
           receiptView(receipt, id),
@@ -558,6 +621,10 @@ export class AppConversationService {
                 remoteId: r.data.conversation_id,
                 status: r.data.status,
                 stateRevision: r.data.state_revision,
+                ...(r.data.created_at !== undefined ? { remoteCreatedAt: new Date(r.data.created_at) } : {}),
+                ...(Object.hasOwn(r.data, "last_message_at") ? {
+                  lastMessageAt: r.data.last_message_at === null ? null : new Date(r.data.last_message_at),
+                } : {}),
               },
             });
         }

@@ -174,14 +174,17 @@ export async function queueContext(tx, c, user, config) {
   }
   return { conversation: c, access };
 }
-export function conversationView(c) {
+export function conversationView(c, metadataReady = false) {
   return {
     id: c.id,
     purpose: c.purpose,
     case_ref: c.caseId,
     status: c.status,
     ready: !!c.remoteId,
-    created_at: c.createdAt.toISOString(),
+    title: c.title ?? null,
+    created_at: (c.remoteCreatedAt || c.createdAt).toISOString(),
+    last_message_at: c.lastMessageAt?.toISOString() ?? null,
+    metadata_ready: metadataReady,
   };
 }
 export function receiptView(receipt, id) {
