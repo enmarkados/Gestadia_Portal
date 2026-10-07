@@ -547,17 +547,6 @@ function ConversationBody({ purpose }) {
           </div>
         ))}
       </div>
-      {timeline?.sondeo && (
-        <div className="card">
-          <h2>Tu sondeo</h2>
-          <p>{timeline.sondeo.summary}</p>
-          <ul>
-            {timeline.sondeo.requirements.map((r) => (
-              <li key={r.requirement_id}>{r.label}</li>
-            ))}
-          </ul>
-        </div>
-      )}
       {["assigned", "in_support"].includes(timeline?.support?.status) &&
         timeline.support.operator_display_name && (
           <p role="status">

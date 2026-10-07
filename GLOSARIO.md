@@ -641,3 +641,36 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** Backend/frontend locales temporales con base vacía que reproducen la identidad y permiso del sujeto principal ya autorizado para iniciar una nueva conversación sin reutilizar el historial anterior. Prueba una petición textual con instrucción y modelo copiados del 119, conservando la política de transporte APP.
 - **Alcance:** configuración privada en `/private/tmp/gestadia-portal-literal-channel-20261007`, base local `gestadia_app_literal_test`, puertos 3003/5176 y docs/app/INTEGRACION-LIDIA.md. No cambia el producto ni crea otra identidad en LidIA.
 - **Notas:** Misma integración, capacidades, claves y vencimiento de la cuenta principal; se conservan 5175 y su historial. La prueba no acredita equivalencia de herramientas, automatizaciones ni runtime WhatsApp.
+
+### Nombre personalizado de conversación
+
+- **Tipo:** concepto de presentación y propiedad de cuenta propuesta.
+- **Definición:** Nombre elegido por el propietario para identificar una conversación en Mensajes, independiente de los mensajes y de la identidad del agente u operador.
+- **Alcance:** ampliación prevista de AppConversation en Portal, su API `/api/app/v1` y frontend/app/src/ConnectedMessages.jsx; diseño docs/integraciones/2026-10-07-mensajes-y-ciclo-gestor.md.
+- **Notas:** Se conserva entre dispositivos y no se guarda únicamente en caché móvil. Diseño pendiente de revisión conjunta antes de implementar campos/endpoints nuevos.
+
+### Metadatos autoritativos de conversación
+
+- **Tipo:** concepto de contrato conversacional propuesto.
+- **Definición:** Estado vigente y fecha del último mensaje acreditados por LidIA para presentar la conversación en el listado, sin descargar ni indexar todo su contenido. Una actualización técnica no constituye un mensaje.
+- **Alcance:** contrato APP Portal↔LidIA y listado de Mensajes; diseño docs/integraciones/2026-10-07-mensajes-y-ciclo-gestor.md.
+- **Notas:** La creación local del chat procede de AppConversation.createdAt. La ausencia confirmada de mensajes y un fallo de lectura se presentan de forma distinta; fechas/estado nuevos requieren acuerdo del contrato.
+
+
+### `title` de AppConversation
+- **Tipo:** propiedad / decisión de naming.
+- **Definición:** nombre personalizado opcional de un chat, propiedad de su cuenta Portal. No altera el interlocutor ni el contenido.
+- **Alcance:** backend Prisma `AppConversation`, servicio/ruta APP y listado `ConnectedMessages`.
+- **Notas:** se descarta persistencia sólo en el dispositivo para conservarlo entre sesiones y dispositivos.
+
+### `remoteCreatedAt` / `lastMessageAt`
+- **Tipo:** propiedades de persistencia / concepto runtime.
+- **Definición:** creación de sesión y último mensaje visible confirmados por LidIA. La última actividad no se sustituye por una actualización de contexto o título.
+- **Alcance:** Prisma `AppConversation`; servicio APP y campos S2S `created_at` / `last_message_at`.
+- **Notas:** nullable durante compatibilidad o sesión pendiente; se conserva el valor confirmado ante fallos.
+
+### `metadata_ready`
+- **Tipo:** propiedad de proyección APP.
+- **Definición:** indica que fechas y estado de una conversación se confirmaron con la fuente en la consulta actual del listado. Permite distinguir ausencia de mensajes de metadatos no actualizados.
+- **Alcance:** backend `conversationView` / `AppConversationService.list`, frontend `ConnectedMessages`.
+- **Notas:** no se infiere del `updatedAt` local ni de una respuesta antigua en caché.

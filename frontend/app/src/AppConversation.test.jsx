@@ -418,8 +418,8 @@ it("renderiza muestra LidIA y conserva identidad/revisión de acción emitida po
   try {
     mount();
     await screen.findByText("Respuesta local");
-    expect(screen.getByText("Argentina")).toBeInTheDocument();
-    expect(screen.getByText("Sondeo en curso.")).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Tu sondeo" })).toBeNull();
+    expect(screen.queryByText("Sondeo en curso.")).toBeNull();
     expect(screen.queryByText("Canje APP test")).toBeNull();
     fireEvent.click(screen.getByRole("button", { name: "Sí", exact: true }));
     const presentation =

@@ -234,3 +234,29 @@ for (const [name, response] of Object.entries(finalServiceSamples.responses)) {
     );
   });
 }
+
+
+test("metadatos aditivos admiten UTC y null sin aceptar fechas inválidas ni campos privados", () => {
+  const session = {
+    schema_version: "1.0", conversation_id: "session-meta", lidia_session_id: "private",
+    purpose: "sondeo", status: "active",
+    effective_agent: { id: 119, display_name: "LidIA", instruction_version: "test" },
+    capabilities: ["history", "sondeo"], cursor: null, state_revision: "1",
+  };
+  const timeline = {
+    schema_version: "1.0", conversation_id: "session-meta", items: [], next_cursor: null,
+    has_more: false, conversation_status: "closed", effective_agent: session.effective_agent,
+    support: { status: "none", operator_display_name: null, requested_at: null,
+      assigned_at: null, attended_at: null, updated_at: "2026-10-07T12:00:00.000Z" },
+    turn_statuses: [], sondeo: null, state_revision: "2",
+  };
+  for (const [name, old] of [["SessionResponse", session], ["Timeline", timeline]]) {
+    assert.equal(validateContract(name, old, { response: true }), true);
+    const meta = { ...old, created_at: "2026-10-07T12:00:00.1234567Z", last_message_at: null };
+    assert.equal(validateContract(name, meta, { response: true }), true);
+    assert.equal(validateContract(name, { ...meta, last_message_at: "2026-10-07T12:05:00.000Z" }, { response: true }), true);
+    for (const bad of [{ created_at: "invalid" }, { created_at: "2026-10-07T12:00:00+02:00" },
+      { last_message_at: "invalid" }, { operator_id: "private" }])
+      assert.throws(() => validateContract(name, { ...meta, ...bad }, { response: true }), { code: "invalid_upstream_response" });
+  }
+});
