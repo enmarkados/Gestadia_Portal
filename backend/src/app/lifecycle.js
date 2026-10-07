@@ -206,6 +206,34 @@ export async function deliverLifecycle(db, client, config, op) {
       });
       if (["admitted", "superseded", "retired"].includes(current.status))
         return;
+      if (
+        op.kind === "context" &&
+        e instanceof AppProblem &&
+        e.status === 409 &&
+        e.code === "stale_context"
+      ) {
+        const confirmed = await tx.appConversation.findUnique({
+          where: { id: c.id },
+        });
+        if (
+          confirmed?.remoteId === c.remoteId &&
+          confirmed.userId === op.userId &&
+          confirmed.integrationId === op.integrationId &&
+          confirmed.contextRevision === confirmed.syncedRevision &&
+          BigInt(confirmed.syncedRevision) > BigInt(op.request.context_revision)
+        ) {
+          // Preserve the rejected operation; the newer context is confirmed.
+          await tx.appOperation.update({
+            where: { id: op.id },
+            data: {
+              status: "superseded",
+              errorCode: "stale_context",
+              httpStatus: 409,
+            },
+          });
+          return;
+        }
+      }
       await tx.appOperation.update({
         where: { id: op.id },
         data: {

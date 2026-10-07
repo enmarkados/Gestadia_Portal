@@ -146,3 +146,7 @@ que LidIA ya había creado y le notifica el pago con eventos firmados.
 ## Conversaciones APP — prueba conectada local
 
 - [Prueba local APP / Portal / LidIA del 06/10/2026](2026-10-06-prueba-local-app-portal-lidia.md): 61 comprobaciones HTTP/API, flujo de navegador y corrección de recarga; modelo determinista y bases temporales.
+
+## Perfil Portal y comprobación integrada local — 07/10/2026
+
+- [Diseño del perfil, recuperación de contexto y diagnóstico efectivo](2026-10-07-perfil-y-comprobacion-local.md): navegador móvil/escritorio, regresiones y worker conectado; diagnóstico de la cuenta primaria con horizonte conjunto. No renueva acceso ni activa canales.

@@ -63,6 +63,7 @@ function ConversationBody({ purpose }) {
     busyRef = useRef(false),
     loadingRef = useRef(false),
     stateRevision = useRef("0"),
+    terminalReceipts = useRef(new Set()),
     end = useRef(null);
   const showError = (e) => {
     setError(
@@ -77,7 +78,7 @@ function ConversationBody({ purpose }) {
     if (loadingRef.current) return;
     loadingRef.current = true;
     try {
-      const result = await conversationApi.timeline(
+      let result = await conversationApi.timeline(
         id,
         cursor.current
           ? { cursor: cursor.current, limit: "50" }
@@ -90,11 +91,49 @@ function ConversationBody({ purpose }) {
       )
         throw new Error("Formato inesperado");
       if (BigInt(result.state_revision) < BigInt(stateRevision.current)) return;
+      const terminalKeys = (page) => (page.turn_statuses || [])
+        .filter((r) => ["completed", "failed"].includes(r.status))
+        .map((r) => `${r.turn_id}:${r.status}`);
+      const observedTerminals = terminalKeys(result);
+      let replaceHistory = false;
+      if (
+        cursor.current &&
+        (BigInt(result.state_revision) > BigInt(stateRevision.current) ||
+          observedTerminals.some((key) => !terminalReceipts.current.has(key)))
+      ) {
+        // Incremental pages omit prior presentations whose actions changed.
+        const refreshed = [], visited = new Set(),
+          receipts = new Map((result.turn_statuses || []).map((r) => [r.turn_id, r]));
+        let next = null, snapshotRevision = null;
+        do {
+          visited.add(next);
+          const page = await conversationApi.timeline(
+            id, next ? { cursor: next, limit: "50" } : { limit: "50" },
+          );
+          if (version !== generation.current) return;
+          if (
+            !Array.isArray(page.items) || !Array.isArray(page.pending_operations) ||
+            BigInt(page.state_revision) < BigInt(result.state_revision) ||
+            (snapshotRevision !== null && page.state_revision !== snapshotRevision)
+          ) throw new Error("Snapshot de conversación no confirmado");
+          snapshotRevision = page.state_revision;
+          refreshed.push(...page.items);
+          for (const receipt of page.turn_statuses || []) receipts.set(receipt.turn_id, receipt);
+          observedTerminals.push(...terminalKeys(page));
+          result = page;
+          next = page.has_more ? page.next_cursor : null;
+          if (page.has_more && (!next || visited.has(next)))
+            throw new Error("Paginación de conversación sin avance");
+        } while (next);
+        result = { ...result, items: refreshed, turn_statuses: [...receipts.values()] };
+        replaceHistory = true;
+      }
+      for (const key of observedTerminals) terminalReceipts.current.add(key);
       stateRevision.current = result.state_revision;
       cursor.current = result.next_cursor || null;
       setTimeline(result);
       setItems((old) => {
-        const map = new Map(old.map((m) => [m.message_id, m]));
+        const map = new Map((replaceHistory ? [] : old).map((m) => [m.message_id, m]));
         for (const m of result.items) map.set(m.message_id, m);
         return [...map.values()].sort((a, b) =>
           BigInt(a.sequence) < BigInt(b.sequence)
@@ -133,6 +172,7 @@ function ConversationBody({ purpose }) {
     setBusy(false);
     loadingRef.current = false;
     stateRevision.current = "0";
+    terminalReceipts.current.clear();
     cursor.current = null;
     startKey.current = crypto.randomUUID();
     if (mode !== "real" || !userId || !conversationsEnabled()) return;
@@ -259,7 +299,11 @@ function ConversationBody({ purpose }) {
         rememberPending(userId, conversation.id, saved);
         setPending(saved);
       }
-      await load(conversation.id, version);
+      try {
+        await load(conversation.id, version);
+      } catch (e) {
+        if (version === generation.current) showError(e);
+      }
     } catch (e) {
       if (version === generation.current) {
         if (e.status >= 400 && e.status < 500) {

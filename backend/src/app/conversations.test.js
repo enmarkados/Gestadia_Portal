@@ -1,7 +1,7 @@
 import { test, after } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { AppIdentity } from "./identity.js";
 import { AppProblem } from "./problem.js";
@@ -11,6 +11,7 @@ import {
   setConversationAccess,
   revokeAccount,
   drainLifecycle,
+  deliverLifecycle,
 } from "./lifecycle.js";
 const url = new URL(process.env.DATABASE_URL || "http://invalid");
 if (url.hostname !== "127.0.0.1" || url.pathname !== "/gestadia_app_test")
@@ -920,4 +921,86 @@ test("timeline de atención LidIA proyecta operador actual y misma asociación l
       .stateRevision,
     "8",
   );
+});
+
+async function staleContextFixture(t) {
+  const f = await fixture(t);
+  const grant = {
+    permissions: ["history", "sondeo"], validated_at: now(),
+    valid_until: new Date(Date.now() + 60000).toISOString(), source_ref: "local-stale-context",
+  };
+  await setConversationAccess(db, f.u.id, "sondeo", null, grant);
+  const a = await f.service().start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
+  await f.service().timeline(f.a, a.conversation.id);
+  const initial = await db.appOperation.findFirst({ where: { conversationId: a.conversation.id, kind: "context", status: "admitted" }, orderBy: { createdAt: "asc" } });
+  assert.ok(initial);
+  await setConversationAccess(db, f.u.id, "sondeo", null, { ...grant, permissions: ["history"], validated_at: now() });
+  await f.service().timeline(f.a, a.conversation.id);
+  const current = await db.appConversation.findUnique({ where: { id: a.conversation.id } });
+  assert.ok(BigInt(current.syncedRevision) > BigInt(initial.request.context_revision));
+  assert.equal(current.contextRevision, current.syncedRevision);
+  const op = await db.appOperation.update({ where: { id: initial.id }, data: { status: "outcome_unknown", response: Prisma.DbNull, httpStatus: null } });
+  return { f, current, op };
+}
+test("un contexto incierto rechazado como obsoleto se conserva superseded tras confirmar uno mayor", async (t) => {
+  const { f, current, op } = await staleContextFixture(t);
+  const rejecting = { call: async () => { throw new AppProblem(409, "stale_context"); } };
+  await deliverLifecycle(db, rejecting, config, op);
+  const retained = await db.appOperation.findUnique({ where: { id: op.id } });
+  assert.equal(retained.status, "superseded");
+  assert.equal(retained.errorCode, "stale_context");
+  assert.equal(retained.httpStatus, 409);
+  assert.equal(retained.response, null);
+  assert.deepEqual(retained.request, op.request);
+  assert.equal(retained.idempotencyKey, op.idempotencyKey);
+  assert.equal(retained.retainedUntil.toISOString(), op.retainedUntil.toISOString());
+  const conversation = await db.appConversation.findUnique({ where: { id: current.id } });
+  assert.equal(conversation.contextRevision, current.contextRevision);
+  assert.equal(conversation.syncedRevision, current.syncedRevision);
+  assert.deepEqual(conversation.context.permissions, ["history"]);
+  assert.ok(await db.appConversationAccess.findFirst({ where: { userId: f.u.id } }));
+});
+test("un contexto incierto no se descarta antes de confirmar la revisión superior", async (t) => {
+  const { current, op } = await staleContextFixture(t);
+  await db.appConversation.update({ where: { id: current.id }, data: { syncedRevision: op.request.context_revision } });
+  let calls = 0;
+  await deliverLifecycle(db, { call: async () => { calls++; throw new AppProblem(409, "stale_context"); } }, config, op);
+  assert.equal(calls, 0);
+  assert.equal((await db.appOperation.findUnique({ where: { id: op.id } })).status, "outcome_unknown");
+});
+test("un fallo de transporte no clasifica una operación incierta como contexto sustituido", async (t) => {
+  const { op } = await staleContextFixture(t);
+  await deliverLifecycle(db, { call: async () => { throw new AppProblem(503, "outcome_unknown"); } }, config, op);
+  assert.equal((await db.appOperation.findUnique({ where: { id: op.id } })).status, "outcome_unknown");
+});
+test("stale_context nunca retira la entrega de una revocación de cuenta", async (t) => {
+  const { f } = await staleContextFixture(t);
+  await revokeAccount(db, f.u.id, config, "account_disabled");
+  const op = await db.appOperation.findFirst({ where: { userId: f.u.id, kind: "revocation" } });
+  await deliverLifecycle(db, { call: async () => { throw new AppProblem(409, "stale_context"); } }, config, op);
+  assert.equal((await db.appOperation.findUnique({ where: { id: op.id } })).status, "outcome_unknown");
+  assert.equal((await db.user.findUnique({ where: { id: f.u.id } })).accountStatus, "disabled");
+});
+
+test("la confirmación de otra asociación remota no sustituye una operación del vínculo anterior", async (t) => {
+  const { current, op } = await staleContextFixture(t);
+  await deliverLifecycle(db, { call: async () => {
+    await db.appConversation.update({ where: { id: current.id }, data: { remoteId: crypto.randomUUID() } });
+    throw new AppProblem(409, "stale_context");
+  } }, config, op);
+  assert.equal((await db.appOperation.findUnique({ where: { id: op.id } })).status, "outcome_unknown");
+});
+test("un stale_context con HTTP no definitivo conserva la incertidumbre", async (t) => {
+  const { op } = await staleContextFixture(t);
+  await deliverLifecycle(db, { call: async () => { throw new AppProblem(503, "stale_context"); } }, config, op);
+  assert.equal((await db.appOperation.findUnique({ where: { id: op.id } })).status, "outcome_unknown");
+});
+
+test("una revisión que pierde confirmación durante la llamada no supera el contexto incierto", async (t) => {
+  const { current, op } = await staleContextFixture(t);
+  await deliverLifecycle(db, { call: async () => {
+    await db.appConversation.update({ where: { id: current.id }, data: { syncedRevision: op.request.context_revision } });
+    throw new AppProblem(409, "stale_context");
+  } }, config, op);
+  assert.equal((await db.appOperation.findUnique({ where: { id: op.id } })).status, "outcome_unknown");
 });

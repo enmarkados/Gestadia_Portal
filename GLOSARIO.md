@@ -564,3 +564,31 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** Prueba con las interfaces y las API reales conectadas por HTTP/HTTPS en loopback, bases temporales propias y cuentas ficticias. El límite de modelo de LidIA se sustituye por uno determinista identificado.
 - **Alcance:** docs/integraciones/2026-10-06-prueba-local-app-portal-lidia.md y su evidencia; procesos/configuración efímera fuera del código de producción.
 - **Notas:** Diferente de la suite con respuestas LidIA simuladas; no acredita agente 119, producción, Zoho, modelo real ni instalación física.
+
+### Comprobación previa local APP / Portal (`app-local-preflight`)
+
+- **Tipo:** concepto operativo de verificación.
+- **Definición:** Lectura de la autoridad, sesiones, sincronización y operaciones pendientes de una cuenta de prueba, junto al diagnóstico local de LidIA. Su resultado indica la vigencia más corta observada; no crea ni renueva acceso.
+- **Alcance:** scripts/app-local-preflight.mjs, scripts/app-local-preflight.test.mjs y docs/integraciones/2026-10-07-perfil-y-comprobacion-local.md.
+- **Notas:** Se rechaza dar el entorno por listo sólo porque responda HTTP o porque un fichero declare una fecha futura; se exige el diagnóstico efectivo de la fuente.
+
+### `ready_until` / `observed_horizon_until` (diagnóstico local)
+
+- **Tipo:** propiedades de diagnóstico operativo.
+- **Definición:** `observed_horizon_until` es el menor vencimiento observado entre autoridad Portal y validez LidIA efectivamente comprobada. `ready_until` sólo lo expone como vigencia utilizable si pasan todas las comprobaciones, incluida la cola de contexto/revocación.
+- **Alcance:** scripts/app-local-preflight.mjs y su salida JSON; no son propiedades de las API de producto.
+- **Notas:** El plazo de Portal por sí solo se muestra aparte y nunca acredita vigencia de todo el circuito.
+
+### Contexto incierto superado por una revisión confirmada
+
+- **Tipo:** decisión de estado runtime.
+- **Definición:** Una operación de contexto con respuesta explícita HTTP409 `stale_context` puede quedar `superseded` si la misma conversación tiene una revisión superior ya sincronizada. Se conserva el rechazo; no se afirma que la operación antigua se admitiese.
+- **Alcance:** backend/src/app/lifecycle.js, `deliverLifecycle`; regresiones en backend/src/app/conversations.test.js.
+- **Notas:** La prueba se relee dentro de la transacción de cuenta. No se aplica a fallos de red, otras respuestas HTTP, revocaciones, conversaciones sustituidas ni revisiones superiores sin confirmar; no introduce un estado nuevo.
+
+### Relectura autoritativa de presentaciones en APP
+
+- **Tipo:** decisión de proyección UI.
+- **Definición:** El historial incremental no vuelve a entregar los mensajes anteriores cuando sus opciones se invalidan. La APP relee el snapshot paginado al avanzar la revisión de estado o aparecer un recibo terminal nuevo, para actualizar esas opciones y el historial con el DTO autorizado vigente.
+- **Alcance:** frontend/app/src/AppConversation.jsx y sus regresiones; contrato Timeline de LidIA sin modificar.
+- **Notas:** Se descarta reactivar acciones antiguas desde caché o inferir éxito de un envío. El snapshot completo reemplaza la caché, incluida la retirada de mensajes omitidos; se acumulan recibos de todas las páginas por turno/estado. No se acepta una revisión distinta entre páginas ni un cursor repetido como lectura completa; un fallo de historial no convierte un envío admitido en incierto.

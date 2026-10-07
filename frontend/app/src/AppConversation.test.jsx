@@ -525,3 +525,138 @@ it("routing_error local LidIA libera el pendiente, informa y no deriva a otro de
     sessionStorage.getItem(`gestadia_app_conversation_v1:${id}:local-1`),
   ).toBeNull();
 });
+
+it("actualiza las acciones anteriores desde un snapshot paginado al avanzar el historial incremental", async () => {
+  const original = global.fetch;
+  let sent = false;
+  const oldMessage = () => ({
+    ...timeline().items[0],
+    presentation: { ...timeline().items[0].presentation, actions: [{ ...timeline().items[0].presentation.actions[0], enabled: false, disabled_reason: "superseded" }] },
+  });
+  const newMessage = () => ({
+    ...timeline().items[0], message_id: "m3", sequence: "3", text: "Nueva pregunta",
+    presentation: {
+      ...timeline().items[0].presentation, presentation_id: "p3", presentation_revision: "3",
+      actions: [{ ...timeline().items[0].presentation.actions[0], action_id: "country", label: "Argentina" }],
+    },
+  });
+  vi.stubGlobal("fetch", vi.fn(async (url, opts) => {
+    if (url.endsWith("/turns")) sent = true;
+    if (!url.includes("/timeline")) return original(url, opts);
+    calls.push({ url, opts });
+    const body = timeline();
+    if (sent) {
+      body.state_revision = "3";
+      if (url.includes("cursor=")) { body.items = [newMessage()]; body.next_cursor = "tail-3"; }
+      else { body.items = [oldMessage()]; body.has_more = true; body.next_cursor = "first-1"; }
+    }
+    return { ok: true, status: 200, json: async () => body };
+  }));
+  mount();
+  await screen.findByText("Selecciona una opción");
+  expect(screen.getByRole("button", { name: "Sí", exact: true })).toBeEnabled();
+  fireEvent.change(screen.getByLabelText("Tu consulta"), { target: { value: "Continúo el sondeo" } });
+  fireEvent.click(screen.getByRole("button", { name: "Enviar consulta" }));
+  await screen.findByText("Nueva pregunta");
+  await waitFor(() => expect(screen.getByRole("button", { name: "Argentina", exact: true })).toBeEnabled());
+  expect(screen.getByText("Selecciona una opción")).toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "Sí", exact: true })).toBeDisabled();
+  expect(calls.filter(c => c.url.endsWith("/turns"))).toHaveLength(1);
+  expect(calls.some(c => c.url.includes("cursor=first-1"))).toBe(true);
+});
+it("refresca una acción consumida aunque el incremental no contenga otra presentación", async () => {
+  const original = global.fetch;
+  let sent = false;
+  vi.stubGlobal("fetch", vi.fn(async (url, opts) => {
+    if (url.endsWith("/turns")) sent = true;
+    if (!url.includes("/timeline")) return original(url, opts);
+    const body = timeline();
+    if (sent) {
+      body.turn_statuses = [{ turn_id: actionBody.turn_id, status: "failed" }];
+      if (url.includes("cursor=")) body.items = [];
+      else body.items[0].presentation.actions[0] = { ...body.items[0].presentation.actions[0], enabled: false, disabled_reason: "consumed" };
+    }
+    return { ok: true, status: 200, json: async () => body };
+  }));
+  mount();
+  await screen.findByText("Selecciona una opción");
+  fireEvent.click(screen.getByRole("button", { name: "Sí", exact: true }));
+  await waitFor(() => expect(calls.filter(c => c.url.endsWith("/turns"))).toHaveLength(1));
+  await waitFor(() => expect(screen.getByRole("button", { name: "Sí", exact: true })).toHaveAttribute("title", "consumed"));
+  expect(screen.getByRole("button", { name: "Sí", exact: true })).toBeDisabled();
+  expect(screen.getByText("Selecciona una opción")).toBeInTheDocument();
+});
+it("no publica opciones de un snapshot que cambia de revisión durante la paginación", async () => {
+  const original = global.fetch;
+  let reads = 0;
+  vi.stubGlobal("fetch", vi.fn(async (url, opts) => {
+    if (!url.includes("/timeline")) return original(url, opts);
+    const body = timeline();
+    const count = ++reads;
+    if (count > 1) {
+      body.state_revision = count >= 4 ? "4" : "3";
+      if (count === 3) { body.has_more = true; body.next_cursor = "page-1"; }
+      else body.items = [{ ...body.items[0], message_id: "m3", sequence: "3" }];
+    }
+    return { ok: true, status: 200, json: async () => body };
+  }));
+  mount();
+  await screen.findByText("Selecciona una opción");
+  fireEvent.change(screen.getByLabelText("Tu consulta"), { target: { value: "Actualiza" } });
+  fireEvent.click(screen.getByRole("button", { name: "Enviar consulta" }));
+  await screen.findByRole("alert");
+  expect(screen.queryByRole("button", { name: "Sí", exact: true })).toBeNull();
+  expect(screen.getByRole("button", { name: "Volver a cargar" })).toBeEnabled();
+});
+it("el snapshot autorizado retira del historial un mensaje que ya no devuelve la fuente", async () => {
+  const original = global.fetch;
+  let sent = false;
+  vi.stubGlobal("fetch", vi.fn(async (url, opts) => {
+    if (url.endsWith("/turns")) sent = true;
+    if (!url.includes("/timeline")) return original(url, opts);
+    const body = timeline();
+    if (sent) {
+      body.state_revision = "3";
+      body.items = [{ ...body.items[0], message_id: "m3", sequence: "3", text: "Historia autorizada actual", presentation: null }];
+    }
+    return { ok: true, status: 200, json: async () => body };
+  }));
+  mount();
+  await screen.findByText("Selecciona una opción");
+  fireEvent.change(screen.getByLabelText("Tu consulta"), { target: { value: "Actualiza contexto" } });
+  fireEvent.click(screen.getByRole("button", { name: "Enviar consulta" }));
+  await screen.findByText("Historia autorizada actual");
+  expect(screen.queryByText("Selecciona una opción")).toBeNull();
+});
+it("conserva el recibo terminal de la primera página y libera el envío pendiente al completar el snapshot", async () => {
+  const original = global.fetch;
+  let sent = null;
+  vi.stubGlobal("fetch", vi.fn(async (url, opts) => {
+    if (url.endsWith("/turns")) {
+      sent = JSON.parse(opts.body); calls.push({ url, opts });
+      return { ok: true, status: 200, json: async () => ({ id: "op-lost", status: "outcome_unknown", receipt: null }) };
+    }
+    if (!url.includes("/timeline")) return original(url, opts);
+    const body = timeline();
+    if (sent) {
+      body.state_revision = "3";
+      if (url.includes("cursor=page-1")) {
+        body.items = [{ ...body.items[0], message_id: "m3", sequence: "3", text: "Última página", presentation: null }];
+        body.next_cursor = "tail-3";
+      } else {
+        body.turn_statuses = [{ turn_id: sent.turn_id, status: "failed" }];
+        if (url.includes("cursor=")) body.items = [];
+        else { body.has_more = true; body.next_cursor = "page-1"; }
+      }
+    }
+    return { ok: true, status: 200, json: async () => body };
+  }));
+  mount();
+  await screen.findByText("Selecciona una opción");
+  fireEvent.change(screen.getByLabelText("Tu consulta"), { target: { value: "Envío con confirmación recuperada" } });
+  fireEvent.click(screen.getByRole("button", { name: "Enviar consulta" }));
+  await screen.findByText("Última página");
+  await waitFor(() => expect(screen.queryByText(/sin confirmación/i)).toBeNull());
+  expect(sessionStorage.getItem(`gestadia_app_conversation_v1:${id}:local-1`)).toBeNull();
+  expect(calls.filter(c => c.url.endsWith("/turns"))).toHaveLength(1);
+});

@@ -1,0 +1,154 @@
+{
+  "fixture_only": true,
+  "scope": "primary_fixture_account",
+  "checked_at": "2026-10-07T09:23:38.833Z",
+  "ready": true,
+  "ready_until": "2026-10-08T00:00:00.000Z",
+  "observed_horizon_until": "2026-10-08T00:00:00.000Z",
+  "portal_authority_valid_until": "2026-10-08T08:27:45.350Z",
+  "remaining_seconds": 52581,
+  "minimum_validity_seconds": 900,
+  "permissions_renewed": false,
+  "warnings": [],
+  "checks": [
+    {
+      "name": "account_active_verified",
+      "ok": true
+    },
+    {
+      "name": "authority_present",
+      "ok": true
+    },
+    {
+      "name": "authority_valid",
+      "ok": true
+    },
+    {
+      "name": "authority_mapping_valid",
+      "ok": true
+    },
+    {
+      "name": "case_ownership",
+      "ok": true
+    },
+    {
+      "name": "conversations_present_and_synced",
+      "ok": true
+    },
+    {
+      "name": "conversations_have_authority",
+      "ok": true
+    },
+    {
+      "name": "device_session_available",
+      "ok": true
+    },
+    {
+      "name": "lifecycle_outbox_drained",
+      "ok": true
+    },
+    {
+      "name": "portal_runtime_isolated",
+      "ok": true
+    },
+    {
+      "name": "lidia_effective_runtime_verified",
+      "ok": true
+    },
+    {
+      "name": "lidia_horizon_present_and_valid",
+      "ok": true
+    }
+  ],
+  "account": {
+    "active": true,
+    "verified": true
+  },
+  "grants": [
+    {
+      "purpose": "atencion",
+      "case_scoped": false,
+      "valid_until": "2026-10-08T08:27:45.350Z",
+      "remaining_seconds": 83046,
+      "permissions_count": 3,
+      "mapping_present": true
+    },
+    {
+      "purpose": "atencion",
+      "case_scoped": true,
+      "valid_until": "2026-10-08T08:27:45.350Z",
+      "remaining_seconds": 83046,
+      "permissions_count": 4,
+      "mapping_present": true
+    },
+    {
+      "purpose": "sondeo",
+      "case_scoped": false,
+      "valid_until": "2026-10-08T08:27:45.350Z",
+      "remaining_seconds": 83046,
+      "permissions_count": 4,
+      "mapping_present": true
+    }
+  ],
+  "conversations": [
+    {
+      "purpose": "atencion",
+      "case_scoped": true,
+      "status": "in_support",
+      "context_revision": "7",
+      "synced_revision": "7",
+      "synchronized": true
+    },
+    {
+      "purpose": "sondeo",
+      "case_scoped": false,
+      "status": "active",
+      "context_revision": "5",
+      "synced_revision": "5",
+      "synchronized": true
+    }
+  ],
+  "active_device_sessions": 7,
+  "lifecycle_outbox": {
+    "pending": 0,
+    "latest": {
+      "kind": "context",
+      "status": "superseded",
+      "errorCode": "stale_context",
+      "updatedAt": "2026-10-07T09:23:37.855Z"
+    }
+  },
+  "portal_runtime": {
+    "ready": true,
+    "owned_backend_running": true,
+    "app_enabled_at_startup": true,
+    "stripe_disabled": true,
+    "zoho_disabled": true,
+    "smtp_disabled": true,
+    "legacy_lidia_disabled_at_startup": true,
+    "evidence": "live_health_for_stripe_zoho_smtp_and_owned_backend_startup_log_for_app_legacy"
+  },
+  "lidia_runtime_ready": true,
+  "lidia_validity": {
+    "ca.crt": {
+      "valid_until": "2026-10-09T07:38:57.000Z",
+      "remaining_seconds": 166518
+    },
+    "server.crt": {
+      "valid_until": "2026-10-09T07:26:40.000Z",
+      "remaining_seconds": 165781
+    },
+    "route:commercial": {
+      "valid_until": "2026-10-08T00:00:00.000Z",
+      "remaining_seconds": 52581
+    },
+    "route:manager": {
+      "valid_until": "2026-10-08T00:00:00.000Z",
+      "remaining_seconds": 52581
+    },
+    "route:support": {
+      "valid_until": "2026-10-08T00:00:00.000Z",
+      "remaining_seconds": 52581
+    }
+  }
+}
