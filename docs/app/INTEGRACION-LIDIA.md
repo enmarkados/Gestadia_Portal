@@ -18,7 +18,9 @@ Origen, integrationId y audiencia acordados: `https://lidia.gestadia.com`, `gest
 
 La primera autoridad sólo permite `sondeo` y `history`, sin expediente/asignaciones. El lanzador temporal permite `/api/app/v1/`, salud y las lecturas autenticadas GET `/api/me`, `/api/expedientes`, `/api/notificaciones` necesarias para AppContext; bloquea otras rutas y efectos. Es un ajuste de la preparación privada, no un cambio del producto ni una conexión ya iniciada. Mantiene TLS normal y bloquea Stripe/Zoho/SMTP/PluginWeb/checkout.
 
-**Pendiente:** resultado Playground del clon, commit/imagen/migraciones/configuración efectiva del runtime APP, entrega privada de claves y vencimiento. Después: grant mínimo en la nueva base, arranque separado y turno real desde APP con recibo/respuesta y recuperación de historial. Playground y APP son comprobaciones distintas; sólo el segundo acredita el runner/canal APP. Atención comercial/gestor necesita mapeos nuevos y prueba posterior. Producción Portal no se redespliega por separado.
+LidIA comunica Playground completado con dos turnos reales: sesión `ca4ba868-7d21-4b89-b0cc-ae16c7624455`, agente 122/proyecto 103, ambos `Success=1`; trazabilidad SQL del proveedor Anthropic y modelo ejecutado `claude-haiku-4-5-20251001`. El sondeo pregunta por vigencia y residencia. Se distingue el alias configurado `claude-haiku-4-5` del modelo de ejecución informado. La prueba corresponde a Playground; acta/captura o extracto sanitizado solicitado a la fuente.
+
+**Pendiente:** commit/imagen/migraciones/configuración efectiva del runtime APP, entrega privada de claves y vencimiento. Después: grant mínimo en la nueva base, arranque separado y turno real desde APP con recibo/respuesta y recuperación de historial. Playground y APP son comprobaciones distintas; sólo el segundo acredita el runner/canal APP. Atención comercial/gestor necesita mapeos nuevos y prueba posterior. Producción Portal no se redespliega por separado.
 
 ## Adaptador PluginWeb anterior (referencia)
 
