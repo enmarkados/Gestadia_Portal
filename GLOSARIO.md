@@ -592,3 +592,10 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** El historial incremental no vuelve a entregar los mensajes anteriores cuando sus opciones se invalidan. La APP relee el snapshot paginado al avanzar la revisión de estado o aparecer un recibo terminal nuevo, para actualizar esas opciones y el historial con el DTO autorizado vigente.
 - **Alcance:** frontend/app/src/AppConversation.jsx y sus regresiones; contrato Timeline de LidIA sin modificar.
 - **Notas:** Se descarta reactivar acciones antiguas desde caché o inferir éxito de un envío. El snapshot completo reemplaza la caché, incluida la retirada de mensajes omitidos; se acumulan recibos de todas las páginas por turno/estado. No se acepta una revisión distinta entre páginas ni un cursor repetido como lectura completa; un fallo de historial no convierte un envío admitido en incierto.
+
+### Prueba APP con el agente 119 real
+
+- **Tipo:** concepto de verificación.
+- **Definición:** Conversación iniciada desde la APP cuyo agente119, instrucción y modelo efectivo están acreditados por el runtime fuente, con respuesta del proveedor real. Se registra aparte de la prueba con agente902 y modelo determinista.
+- **Alcance:** docs/integraciones/2026-10-07-preparacion-agente-119-real.md; consumidor existente backend/src/config.js y backend/src/app/s2s.js mediante su configuración APP.
+- **Notas:** El móvil no selecciona agente/proyecto/modelo. Un cambio de destino exige separar las asociaciones remotas anteriores y documentar el entorno efectivo; cambiar una etiqueta o copiar un identificador no acredita la ejecución real.

@@ -152,3 +152,7 @@ que LidIA ya había creado y le notifica el pago con eventos firmados.
 - [Diseño del perfil, recuperación de contexto y diagnóstico efectivo](2026-10-07-perfil-y-comprobacion-local.md): navegador móvil/escritorio, regresiones y worker conectado; diagnóstico de la cuenta primaria con horizonte conjunto. No renueva acceso ni activa canales.
 
 - [Cierre visual coordinado](2026-10-07-cierre-visual-conversaciones.md): LidIA confirma recibo/respuesta y retirada automática de opciones anteriores en la APP, sin recarga ni reenvío.
+
+## APP con agente119 real — preparación 07/10/2026
+
+- [Compatibilidad Portal y transición pendiente](2026-10-07-preparacion-agente-119-real.md): requisito humano nuevo, origen/firma/autoridad necesarios y separación del fixture. Todavía no acredita un turno con119.
