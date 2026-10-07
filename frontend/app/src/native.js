@@ -60,7 +60,7 @@ export async function openExternal(url) {
   if (globalThis.GESTADIA_APP_CONFIG?.demoOnly)
     throw new Error("La demo no abre conexiones externas.");
   if (isNative()) await Browser.open({ url });
-  else window.location.assign(url);
+  else window.open(url, "_blank", "noopener,noreferrer");
 }
 
 export function setupNativeNavigation() {
@@ -70,6 +70,11 @@ export function setupNativeNavigation() {
     if (dialog) {
       if (dialog.dispatchEvent(new Event("cancel", { cancelable: true })))
         dialog.close();
+      return;
+    }
+    const back = document.querySelector("[data-app-back]");
+    if (back) {
+      back.click();
       return;
     }
     if (window.location.hash && window.location.hash !== "#/") {

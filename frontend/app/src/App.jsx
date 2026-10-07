@@ -14,6 +14,7 @@ import AppConversation from "./AppConversation.jsx";
 import ConnectedMessages, { ConversationHome } from "./ConnectedMessages.jsx";
 import { conversationsEnabled } from "./conversationApi.js";
 import Login from "./Login.jsx";
+import { backNavigation, accessState, navigationState } from "./navigation.js";
 import Register from "./Register.jsx";
 import DemoCheckout from "./DemoCheckout.jsx";
 import DemoInfo from "./DemoInfo.jsx";
@@ -59,15 +60,38 @@ export default function App() {
     ? location.pathname.slice(7)
     : null;
   const legalDocument = legalDocuments[legalKind];
-  const legalBackTo = ["/cuenta", "/acceso", "/registro"].includes(
-    location.state?.from,
-  )
-    ? location.state.from
-    : "/acceso";
+  const back = backNavigation(
+    location,
+    legalDocument
+      ? "/acceso"
+      : location.pathname.startsWith("/tramites/")
+        ? "/tramites"
+        : managerChat
+          ? "/mensajes"
+          : location.pathname === "/checkout-demo"
+            ? "/servicios"
+            : "/",
+  );
+  const secondaryScreen = ![
+    "/",
+    "/tramites",
+    "/mensajes",
+    "/servicios",
+  ].includes(location.pathname);
+  const contextualBack = (
+    <Link
+      className="icon-btn"
+      data-app-back
+      to={back.to}
+      state={back.state}
+      replace
+      aria-label={back.label}
+    >
+      <Icon name="back" size={22} />
+    </Link>
+  );
   const assistantChat =
-    (connected &&
-      app.mode === "real" &&
-      location.pathname === "/lidia/conversacion") ||
+    (connected && location.pathname === "/lidia/conversacion") ||
     (location.pathname === "/" &&
       app.mode === "demo" &&
       !!app.data.assistantState?.messages?.length);
@@ -100,7 +124,14 @@ export default function App() {
       </a>
       {legalDocument ? (
         <header className="legal-header">
-          <Link className="icon-btn" to={legalBackTo} aria-label="Volver">
+          <Link
+            className="icon-btn"
+            data-app-back
+            to={back.to}
+            state={back.state}
+            replace
+            aria-label="Volver"
+          >
             <Icon name="back" />
           </Link>
           <div>
@@ -112,13 +143,7 @@ export default function App() {
         </header>
       ) : validationRoute ? (
         <header className="validation-header">
-          <Link
-            className="icon-btn"
-            to="/mensajes/gestor"
-            aria-label="Volver al chat del gestor"
-          >
-            <Icon name="back" size={22} />
-          </Link>
+          {contextualBack}
           <div>
             {validationExpediente && (
               <span>{validationExpediente.nPedido}</span>
@@ -128,13 +153,22 @@ export default function App() {
         </header>
       ) : assistantChat ? (
         <header className="manager-chat-header">
-          <button
-            className="icon-btn"
-            aria-label="Volver a LidIA"
-            onClick={returnToLidIA}
-          >
-            <Icon name="back" size={20} />
-          </button>
+          {app.mode === "demo" && location.pathname === "/" ? (
+            <button
+              className="icon-btn"
+              data-app-back
+              aria-label={back.label}
+              onClick={() => {
+                returnToLidIA();
+                if (back.to !== "/")
+                  navigate(back.to, { state: back.state, replace: true });
+              }}
+            >
+              <Icon name="back" size={20} />
+            </button>
+          ) : (
+            contextualBack
+          )}
           <h1>Habla con LidIA</h1>
           <button
             className="icon-btn"
@@ -146,13 +180,7 @@ export default function App() {
         </header>
       ) : managerChat ? (
         <header className="manager-chat-header">
-          <Link
-            className="icon-btn"
-            to="/mensajes"
-            aria-label="Volver a mensajes"
-          >
-            <Icon name="back" size={20} />
-          </Link>
+          {contextualBack}
           <h1>
             {connected && app.mode !== "demo" && !app.isClient
               ? "Habla con Gestadia"
@@ -168,6 +196,8 @@ export default function App() {
         </header>
       ) : (
         <header className="app-header">
+          {(secondaryScreen || (authScreen && location.pathname !== "/")) &&
+            contextualBack}
           <Link to="/" className="brand" aria-label="Gestadia, inicio">
             <span>
               gestadia<b>.</b>
@@ -218,7 +248,9 @@ export default function App() {
                 Reintentar
               </button>
             ) : (
-              <Link to="/cuenta">Entrar al portal</Link>
+              <Link to="/acceso" state={accessState(location)}>
+                Entrar al portal
+              </Link>
             )}
           </div>
         )}
@@ -281,7 +313,9 @@ export default function App() {
                 connected && app.mode !== "demo" ? (
                   app.mode === "real" ? (
                     <ConnectedMessages key={app.data.profile?.id} />
-                  ) : <Login />
+                  ) : (
+                    <Login />
+                  )
                 ) : (
                   <Messages onContact={onContact} />
                 )
@@ -344,6 +378,11 @@ export default function App() {
                   key={to}
                   to={to}
                   end={to === "/"}
+                  state={
+                    to === "/mensajes" && connected && app.mode === "visitante"
+                      ? navigationState(location)
+                      : null
+                  }
                   onClick={
                     to === "/" && assistantChat ? returnToLidIA : undefined
                   }

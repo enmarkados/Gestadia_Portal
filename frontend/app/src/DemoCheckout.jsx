@@ -3,9 +3,12 @@ import { Link, useLocation } from "react-router-dom";
 import { SERVICIOS } from "../../../shared/servicios.js";
 import { PAISES } from "../../../shared/paises-canje.js";
 import { countryKey } from "./api.js";
+import { backNavigation } from "./navigation.js";
 
 export default function DemoCheckout() {
-  const { state } = useLocation();
+  const location = useLocation();
+  const { state } = location;
+  const back = backNavigation(location, "/servicios");
   const service = SERVICIOS[state?.service] || SERVICIOS["canje-carnet"];
   const profile = state?.profile || {};
   return (
@@ -39,7 +42,7 @@ export default function DemoCheckout() {
         <Link className="btn primary" to="/">
           Volver a la app
         </Link>
-        <Link className="text-btn" to="/servicios">
+        <Link className="text-btn" to={back.to} state={back.state} replace>
           Revisar otros servicios
         </Link>
       </div>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { navigationState } from "./navigation.js";
 import { useApp } from "./AppContext.jsx";
 import { demoOnly } from "./api.js";
 import { conversationsEnabled } from "./conversationApi.js";
@@ -8,6 +9,7 @@ import Icon from "./Icon.jsx";
 export default function Contact({ onClose }) {
   const { isClient, mode, data } = useApp();
   const navigate = useNavigate();
+  const location = useLocation();
   const [form, setForm] = useState({
     nombre: [data.profile?.nombre, data.profile?.apellidos]
       .filter(Boolean)
@@ -32,7 +34,7 @@ export default function Contact({ onClose }) {
           className="btn dark-btn"
           onClick={() => {
             onClose();
-            navigate("/mensajes/gestor");
+            navigate("/mensajes/gestor", { state: navigationState(location) });
           }}
         >
           Abrir conversación de atención
@@ -76,7 +78,7 @@ export default function Contact({ onClose }) {
                 className="btn dark-btn contact-chat"
                 onClick={() => {
                   onClose();
-                  navigate("/mensajes/gestor");
+                  navigate("/mensajes/gestor", { state: navigationState(location) });
                 }}
               >
                 <Icon name="message" size={20} />

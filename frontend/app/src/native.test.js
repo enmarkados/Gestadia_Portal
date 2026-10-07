@@ -1,6 +1,7 @@
 import { beforeEach, afterEach, it, expect, vi } from "vitest";
 const bridge = vi.hoisted(() => ({
   platform: "android",
+  native: true,
   get: vi.fn(),
   open: vi.fn(),
   exit: vi.fn(),
@@ -9,7 +10,7 @@ const bridge = vi.hoisted(() => ({
 }));
 vi.mock("@capacitor/core", () => ({
   Capacitor: {
-    isNativePlatform: () => true,
+    isNativePlatform: () => bridge.native,
     getPlatform: () => bridge.platform,
   },
   CapacitorHttp: { get: bridge.get },
@@ -35,6 +36,7 @@ import {
 let remove;
 beforeEach(() => {
   vi.clearAllMocks();
+  bridge.native = true;
   window.GESTADIA_APP_CONFIG = { demoOnly: true };
   window.location.hash = "#/";
 });
@@ -42,6 +44,7 @@ afterEach(() => {
   remove?.();
   remove = null;
   document.body.innerHTML = "";
+  vi.restoreAllMocks();
 });
 it("el arranque nativo de la demo no carga configuración externa ni abre navegador", async () => {
   await loadNativeConfig();
@@ -78,4 +81,29 @@ it("Atrás cierra primero el diálogo sin salir de la app", () => {
   expect(bridge.exit).not.toHaveBeenCalled();
   bridge.listeners.backButton();
   expect(bridge.exit).toHaveBeenCalledOnce();
+});
+
+it("Atrás nativo ejecuta el retorno visible antes del historial o de salir", () => {
+  remove = setupNativeNavigation();
+  const back = document.createElement("button");
+  back.setAttribute("data-app-back", "");
+  const click = vi.fn();
+  back.addEventListener("click", click);
+  document.body.append(back);
+  bridge.listeners.backButton();
+  expect(click).toHaveBeenCalledOnce();
+  expect(bridge.exit).not.toHaveBeenCalled();
+});
+
+it("el checkout web abre otra pestaña y conserva la APP para volver", async () => {
+  bridge.native = false;
+  window.GESTADIA_APP_CONFIG = { demoOnly: false };
+  const open = vi.spyOn(window, "open").mockImplementation(() => null);
+  await openExternal("https://gestadia.com/checkout?servicio=transferencia");
+  expect(open).toHaveBeenCalledWith(
+    "https://gestadia.com/checkout?servicio=transferencia",
+    "_blank",
+    "noopener,noreferrer",
+  );
+  expect(bridge.open).not.toHaveBeenCalled();
 });

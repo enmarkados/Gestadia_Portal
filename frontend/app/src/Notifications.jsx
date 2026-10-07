@@ -1,9 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { navigationState } from "./navigation.js";
 import { useApp } from "./AppContext.jsx";
 import Sheet from "./Sheet.jsx";
 import Icon from "./Icon.jsx";
 export default function Notifications({ onClose }) {
+  const location = useLocation();
   const { data, mode, isClient } = useApp();
   const pending = data.notifications.filter((item) => !item.leida).length;
   const expediente = data.expedientes[0];
@@ -69,7 +71,7 @@ export default function Notifications({ onClose }) {
               {item.expedienteId && (
                 <Link
                   className="notification-action"
-                  to={`/tramites/${encodeURIComponent(item.expedienteId)}`}
+                  to={`/tramites/${encodeURIComponent(item.expedienteId)}`} state={navigationState(location)}
                   onClick={onClose}
                 >
                   Subir documentación ahora ›

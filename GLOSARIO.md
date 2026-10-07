@@ -681,3 +681,31 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** prepara el redimensionamiento nativo del WebView de iOS al mostrar el teclado para conservar la cabecera y el compositor dentro de la superficie visible.
 - **Alcance:** APP, `frontend/app/src/native.js`, `main.jsx`; plugin oficial `@capacitor/keyboard` y configuración Capacitor.
 - **Notas:** se usa `KeyboardResize.Native` sólo en iOS; Android conserva su ajuste nativo. Se descartó desactivar `WebView.scrollView`, porque la prueba en simulador bloqueó también los gestos de desplazamiento del perfil.
+
+## Contexto de navegación APP (`from`, `fromState`)
+
+- **Tipo:** concepto runtime / propiedades del estado del router.
+- **Definición:** origen interno completo de una pantalla secundaria y contexto necesario para restituir su recorrido al volver. Incluye los parámetros que identifican conversación, documento o servicio.
+- **Alcance:** APP, `frontend/app/src/navigation.js` y enlaces/cabeceras; [mapa de pantallas](docs/app/NAVEGACION.md).
+- **Notas:** no se sustituye por un `history.back()` ciego: una entrada directa o un enlace externo puede carecer de historial interno. Las pestañas principales no construyen una pila de orígenes.
+
+## Continuación de acceso APP (`returnTo`, `returnState`)
+
+- **Tipo:** concepto runtime / propiedades del estado del router.
+- **Definición:** pantalla interna solicitada antes del acceso y su contexto de retorno. Se conserva al alternar acceso/registro y consultar información legal.
+- **Alcance:** APP, `navigation.js`, `Login.jsx`, `Register.jsx`, accesos desde Trámites y conversación.
+- **Notas:** se descarta el envío incondicional al inicio tras iniciar sesión; una entrada directa al acceso sí continúa al inicio. No contiene credenciales.
+
+## Borrador de Servicios (`serviceDraft`)
+
+- **Tipo:** propiedad de presentación del estado del router.
+- **Definición:** datos de tramitación introducidos en Servicios que se restablecen al volver de la revisión del checkout de demostración.
+- **Alcance:** APP, `Services.jsx`, `DemoCheckout.jsx`; memoria de navegación de la pestaña.
+- **Notas:** no se persiste en almacenamiento ni cambia el checkout real; evita perder campos al remontar el formulario.
+
+## Acción visible de retorno (`data-app-back`)
+
+- **Tipo:** atributo de interfaz / decisión de navegación nativa.
+- **Definición:** control de cabecera que expresa el retorno contextual de la pantalla actual. El botón Atrás de Android utiliza esta misma acción después de cerrar cualquier diálogo abierto.
+- **Alcance:** APP, `App.jsx`, `native.js`.
+- **Notas:** se conserva el cierre de diálogos como primera acción; sólo en el inicio sin diálogo ni retorno se permite salir de la app.

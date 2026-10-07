@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { navigationState } from "./navigation.js";
 import { conversationApi } from "./conversationApi.js";
 export function ConversationHome() {
+  const location = useLocation();
   return (
     <section className="assistant-page">
       <h1>¿Qué trámite de Tráfico necesitas gestionar hoy?</h1>
@@ -9,7 +11,7 @@ export function ConversationHome() {
         Consulta con LidIA los requisitos de tu canje y recupera tus
         conversaciones.
       </p>
-      <Link className="card option" to="/lidia/conversacion">
+      <Link className="card option" to="/lidia/conversacion" state={navigationState(location)}>
         Abrir conversación con LidIA <span aria-hidden="true">›</span>
       </Link>
     </section>
@@ -21,6 +23,7 @@ const dateText = (s) => new Date(s).toLocaleString("es-ES", {
   day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit",
 });
 export default function ConnectedMessages() {
+  const location = useLocation();
   const [rows, setRows] = useState([]), [error, setError] = useState(""),
     [loading, setLoading] = useState(true), [query, setQuery] = useState(""),
     [editing, setEditing] = useState(null), [title, setTitle] = useState(""),
@@ -57,8 +60,8 @@ export default function ConnectedMessages() {
       </div>
       <p className="muted">Tus conversaciones con LidIA y el equipo de Gestadia.</p>
       <div className="new-conversation-links">
-        <Link className="card option" to="/lidia/conversacion">Consulta con LidIA <span aria-hidden="true">›</span></Link>
-        <Link className="card option" to="/mensajes/gestor">Atención Gestadia <span aria-hidden="true">›</span></Link>
+        <Link className="card option" to="/lidia/conversacion" state={navigationState(location)}>Consulta con LidIA <span aria-hidden="true">›</span></Link>
+        <Link className="card option" to="/mensajes/gestor" state={navigationState(location)}>Atención Gestadia <span aria-hidden="true">›</span></Link>
       </div>
       <label className="conversation-search">
         <span>Buscar conversaciones</span>
@@ -74,7 +77,7 @@ export default function ConnectedMessages() {
             : c.status === "waiting_for_support" ? "Pendiente de atención" : c.status === "in_support" ? "En atención" : "Abierta";
           return <article className="card conversation-card" key={c.id}>
             <div className="conversation-card-heading">
-              <Link className="conversation-link" to={`${c.purpose === "sondeo" ? "/lidia/conversacion" : "/mensajes/gestor"}?conversacion=${encodeURIComponent(c.id)}${c.case_ref ? "&caso=" + encodeURIComponent(c.case_ref) : ""}`}>
+              <Link className="conversation-link" state={navigationState(location)} to={`${c.purpose === "sondeo" ? "/lidia/conversacion" : "/mensajes/gestor"}?conversacion=${encodeURIComponent(c.id)}${c.case_ref ? "&caso=" + encodeURIComponent(c.case_ref) : ""}`}>
                 <strong>{name}</strong>
                 {c.title && <span className="muted conversation-interlocutor">{interlocutor(c)}</span>}
               </Link>

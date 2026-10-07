@@ -28,6 +28,7 @@ Entrada: `frontend/app/`. Build: `frontend/dist-app/`. El portal conserva su bui
 - [Publicación Docker, Portainer y Plesk](docs/app/DOCKER-PLESK.md)
 - [Validación y pendientes](docs/app/VALIDACION.md)
 - [Proyectos iOS y Android](docs/app/MOBILE.md)
+- [Mapa de pantallas y navegación contextual](docs/app/NAVEGACION.md)
 - [Glosario](GLOSARIO.md)
 
 Para probar Docker localmente: `docker compose -f compose.app.yml up --build -d`. El contenedor expone la app en `127.0.0.1:8091`. El stack para Portainer está en `deploy/app/portainer-stack.yml`.

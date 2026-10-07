@@ -97,6 +97,7 @@ svg {
   overflow: hidden;
 }
 .app-header {
+  gap: 12px;
   background: #181818;
   color: white;
   padding: calc(12px + env(safe-area-inset-top)) 20px 13px;
@@ -106,6 +107,8 @@ svg {
   flex-shrink: 0;
 }
 .brand {
+  margin-right: auto;
+  min-width: 0;
   display: flex;
   flex-direction: column;
 }
@@ -126,6 +129,7 @@ svg {
   margin-top: 2px;
 }
 .header-actions {
+  flex-shrink: 0;
   display: flex;
   gap: 8px;
 }

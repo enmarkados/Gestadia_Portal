@@ -1,7 +1,8 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useLocation } from "react-router-dom";
 import { useApp } from "./AppContext.jsx";
+import { accessState } from "./navigation.js";
 import {
   conversationApi,
   rememberPending,
@@ -48,6 +49,7 @@ function ConversationBody({ purpose }) {
   const { mode, data } = useApp(),
     userId = data.profile?.id;
   const [search, setSearch] = useSearchParams();
+  const location = useLocation();
   const caseRef = search.get("caso") || null;
   const [conversation, setConversation] = useState(null),
     [items, setItems] = useState([]),
@@ -250,7 +252,7 @@ function ConversationBody({ purpose }) {
       const r = await conversationApi.start(purpose, caseRef, startKey.current);
       if (version !== generation.current) return;
       if (conversation && conversation.id !== r.conversation.id) {
-        setSearch({ conversacion: r.conversation.id, ...(caseRef ? { caso: caseRef } : {}) });
+        setSearch({ conversacion: r.conversation.id, ...(caseRef ? { caso: caseRef } : {}) }, { state: location.state, replace: true });
         return;
       }
       setConversation(r.conversation);
@@ -437,7 +439,7 @@ function ConversationBody({ purpose }) {
       <section className="empty">
         <h1>Habla con LidIA</h1>
         <p>Entra con tu cuenta para recuperar tus conversaciones.</p>
-        <Link className="btn primary" to="/acceso">
+        <Link className="btn primary" to="/acceso" state={accessState(location)}>
           Iniciar sesión
         </Link>
       </section>

@@ -4,12 +4,15 @@ import {
   useParams,
   useSearchParams,
   useNavigate,
+  useLocation,
 } from "react-router-dom";
 import { useApp } from "./AppContext.jsx";
 import { request } from "./api.js";
 import Icon from "./Icon.jsx";
+import { accessState, navigationState } from "./navigation.js";
 export default function Expedientes() {
   const { data, mode } = useApp();
+  const location = useLocation();
   return (
     <section>
       <p className="eyebrow">TU GESTORÍA, CONTIGO</p>
@@ -32,7 +35,8 @@ export default function Expedientes() {
           </p>
           <Link
             className="btn primary"
-            to={mode === "visitante" ? "/cuenta" : "/servicios"}
+            to={mode === "visitante" ? "/acceso" : "/servicios"}
+            state={mode === "visitante" ? accessState(location) : null}
           >
             {mode === "visitante" ? "Entrar al portal" : "Ver servicios"}
           </Link>
@@ -53,7 +57,7 @@ export default function Expedientes() {
               </p>
               <Link
                 className="btn dark-btn"
-                to={`/tramites/${encodeURIComponent(e.id)}`}
+                to={`/tramites/${encodeURIComponent(e.id)}`} state={navigationState(location)}
               >
                 Ver trámite y documentos
               </Link>
@@ -67,6 +71,7 @@ export default function Expedientes() {
 export function ExpedienteDetalle() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const [params] = useSearchParams();
   const selectedDocument = params.get("documento");
   const { mode, data, setData } = useApp();
@@ -120,7 +125,7 @@ export function ExpedienteDetalle() {
         },
       ],
     }));
-    navigate("/mensajes/gestor");
+    navigate("/mensajes/gestor", { state: navigationState(location) });
   }
   useEffect(() => {
     if (!detail || !selectedDocument) return;
@@ -213,7 +218,7 @@ export function ExpedienteDetalle() {
     return (
       <section>
         <h1>Tu trámite</h1>
-        <Link className="btn primary" to="/cuenta">
+        <Link className="btn primary" to="/acceso" state={accessState(location)}>
           Entrar al portal
         </Link>
       </section>
