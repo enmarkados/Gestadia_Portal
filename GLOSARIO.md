@@ -620,3 +620,10 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** Instancias dedicadas del agente122 y proyecto103 provisionadas por LidIA para separar las conversaciones APP de las del119 original. La instrucción10116 propia y el modelo explícito pertenecen a ese destino; crear las instancias no acredita el despliegue del canal ni una respuesta real.
 - **Alcance:** administración/BBDD LidIA; docs/app/INTEGRACION-LIDIA.md y configuración privada de la prueba `gestadia-app-pro-local-validation`. No son selectores elegibles desde el móvil.
 - **Notas:** Procedencia, versión/hash de instrucción y restricciones se registran en el documento vigente. El usuario autorizó el clon y Playground; se conservan originales y fixture como ámbitos distintos.
+
+### `validUntil` (preparación privada de prueba APP)
+
+- **Tipo:** propiedad de configuración operativa de prueba.
+- **Definición:** Horizonte acordado para la autoridad de la cuenta ficticia que permite probar el circuito APP contra LidIA PRO. No describe la caducidad de claves HMAC ni prueba que el servicio esté desplegado o aislado.
+- **Alcance:** entrega privada `s2s-portal-private.json`, lanzadores efímeros fuera del repositorio y docs/app/INTEGRACION-LIDIA.md; el permiso efectivo se registra en Portal y se entrega mediante el contrato de contexto.
+- **Notas:** Se comprueba antes de arrancar y crear el grant; no añade una propiedad pública al contrato APP. Las claves v1 requieren retirada o desactivación explícita por la fuente.
