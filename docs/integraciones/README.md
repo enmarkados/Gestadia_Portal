@@ -156,3 +156,7 @@ que LidIA ya había creado y le notifica el pago con eventos firmados.
 ## APP con agente119 real — preparación 07/10/2026
 
 - [Compatibilidad Portal y transición pendiente](2026-10-07-preparacion-agente-119-real.md): requisito humano nuevo, origen/firma/autoridad necesarios y separación del fixture. Todavía no acredita un turno con119.
+
+## APP con agente dedicado basado en 119 — adenda 07/10/2026
+
+- [Alcance autorizado, respaldo Portal verificado y checklist de transición](2026-10-07-adenda-agente-app-y-transicion.md): el usuario permite clonar119 y exige Playground; redeploy LidIA condicionado a copias de código y BBDD. Configuración original contrastada en panel; destino/ejecución real pendientes. Conserva el fixture y no despliega Portal producción por separado.

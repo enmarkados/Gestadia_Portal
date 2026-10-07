@@ -599,3 +599,10 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** Conversación iniciada desde la APP cuyo agente119, instrucción y modelo efectivo están acreditados por el runtime fuente, con respuesta del proveedor real. Se registra aparte de la prueba con agente902 y modelo determinista.
 - **Alcance:** docs/integraciones/2026-10-07-preparacion-agente-119-real.md; consumidor existente backend/src/config.js y backend/src/app/s2s.js mediante su configuración APP.
 - **Notas:** El móvil no selecciona agente/proyecto/modelo. Un cambio de destino exige separar las asociaciones remotas anteriores y documentar el entorno efectivo; cambiar una etiqueta o copiar un identificador no acredita la ejecución real.
+
+### Agente APP dedicado basado en 119
+
+- **Tipo:** concepto de integración y decisión de aislamiento.
+- **Definición:** Agente con identidad propia derivado de la configuración de LidIA Canje v4, cuyo proyecto, instrucción y modelo efectivo se acreditan para el canal APP. Su ejecución y autoridad permanecen separadas de las conversaciones del 119 original y del fixture local.
+- **Alcance:** docs/integraciones/2026-10-07-adenda-agente-app-y-transicion.md; configuración Portal `appConversationConfig` y `AppS2SClient`; agente/proyecto/instrucción e integración administrados en LidIA.
+- **Notas:** Clon autorizado por el usuario después de la preparación literal 119. No significa reutilizar WhatsApp, Zoho, herramientas globales ni asociaciones antiguas; ID definitivo y nombre de proyecto los confirma LidIA.
