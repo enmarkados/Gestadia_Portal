@@ -723,3 +723,17 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** iconos vectoriales de la biblioteca oficial Lucide para búsqueda, actualización, edición y acceso a conversaciones.
 - **Alcance:** `frontend/package.json`, `frontend/app/src/ConnectedMessages.jsx`.
 - **Notas:** trazo coherente con el sistema visual existente; se evita dibujar iconos propios o añadir imágenes decorativas.
+
+## Sistema visual APP
+
+- **Tipo:** concepto de interfaz / tokens de presentación.
+- **Definición:** escala común de colores, tipografía, espacios, superficies y controles para las pantallas de Gestadia APP. Distingue bienvenida, operación y conversación manteniendo la misma identidad.
+- **Alcance:** `frontend/app/src/app.css`, pantallas y hojas APP; `docs/app/PLAN-DISENO-APP.md`.
+- **Notas:** conserva las referencias aprobadas; no sustituye el marco Capacitor ni introduce otro tema.
+
+## Lucide React en APP
+
+- **Tipo:** dependencia de presentación / decisión de nomenclatura.
+- **Definición:** biblioteca oficial de iconos utilizada tanto en Mensajes como en el adaptador compartido Icon de la APP.
+- **Alcance:** `frontend/app/src/Icon.jsx`, `ConnectedMessages.jsx`, `frontend/package.json`.
+- **Notas:** amplía el alcance de «Lucide React en Mensajes»; conserva los nombres del adaptador existente para evitar cambios en sus consumidores.

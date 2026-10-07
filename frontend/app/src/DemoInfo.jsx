@@ -4,7 +4,7 @@ import { backNavigation } from "./navigation.js";
 export default function DemoInfo() {
   const back = backNavigation(useLocation());
   return (
-    <section>
+    <section className="workspace-page">
       <p className="eyebrow">GESTADIA · PRIMERA VERSIÓN</p>
       <h1>Explora la demostración</h1>
       <div className="card form-card">

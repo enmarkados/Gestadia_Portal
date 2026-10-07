@@ -79,8 +79,23 @@ it("acceso conectado usa sesión APP y el chat no inicia PluginWeb ni muestra un
 });
 
 it("Mensajes sin sesión pide acceso y no muestra conversaciones de demostración", () => {
-  render(<MemoryRouter initialEntries={["/mensajes"]}><AppProvider><PluginWebProvider enabled={false}><App /></PluginWebProvider></AppProvider></MemoryRouter>);
-  expect(screen.getByRole("heading", { name: "Iniciar sesión" })).toBeInTheDocument();
+  render(
+    <MemoryRouter initialEntries={["/mensajes"]}>
+      <AppProvider>
+        <PluginWebProvider enabled={false}>
+          <App />
+        </PluginWebProvider>
+      </AppProvider>
+    </MemoryRouter>,
+  );
+  expect(
+    screen.getByRole("heading", { name: "Iniciar sesión" }),
+  ).toBeInTheDocument();
   expect(screen.queryByText("CONVERSACIONES ACTIVAS")).toBeNull();
-  expect(screen.queryByRole("button", { name: "Hablar con un gestor" })).toBeNull();
+  expect(
+    screen.queryByRole("button", { name: "Explorar la demostración" }),
+  ).toBeNull();
+  expect(
+    screen.queryByRole("button", { name: "Hablar con un gestor" }),
+  ).toBeNull();
 });

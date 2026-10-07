@@ -336,7 +336,7 @@ export default function App() {
             <Route
               path="*"
               element={
-                <section>
+                <section className="workspace-page empty">
                   <h1>Esta pantalla no está disponible</h1>
                   <Link className="btn primary" to="/">
                     Volver al inicio
@@ -349,7 +349,12 @@ export default function App() {
       </main>
       {!legalDocument && !authScreen && (
         <footer className="app-footer">
-          {!["/servicios", "/cuenta"].includes(location.pathname) &&
+          {![
+            "/servicios",
+            "/cuenta",
+            "/checkout-demo",
+            "/informacion",
+          ].includes(location.pathname) &&
             !(
               location.pathname === "/mensajes" &&
               connected &&

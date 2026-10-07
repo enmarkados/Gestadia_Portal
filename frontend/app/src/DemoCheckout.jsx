@@ -12,7 +12,7 @@ export default function DemoCheckout() {
   const service = SERVICIOS[state?.service] || SERVICIOS["canje-carnet"];
   const profile = state?.profile || {};
   return (
-    <section>
+    <section className="workspace-page">
       <p className="eyebrow">TU PRÓXIMA GESTIÓN</p>
       <h1>Revisa tu servicio</h1>
       <div className="card form-card">

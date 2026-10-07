@@ -229,3 +229,23 @@ it("el checkout abierto directamente ofrece Servicios como retorno", () => {
     "/servicios",
   );
 });
+
+it("Perfil conectado no solicita contraseñas para una operación que no está disponible", async () => {
+  start({ pathname: "/acceso", state: { returnTo: "/cuenta" } });
+  await signIn();
+  await screen.findByRole("heading", { name: "Mi Perfil" });
+  expect(screen.queryByLabelText("Contraseña actual")).toBeNull();
+  expect(
+    screen.queryByRole("button", { name: "Cambiar contraseña" }),
+  ).toBeNull();
+  const recover = screen.getByRole("link", { name: "Recuperar acceso" });
+  expect(recover).toHaveAttribute(
+    "href",
+    "https://gestadia.com/portal/recuperar",
+  );
+  expect(recover).toHaveAttribute("target", "_blank");
+  expect(screen.getByRole("switch", { name: "Avisos push" })).toBeDisabled();
+  expect(
+    screen.getByText(/Los avisos push aún no están disponibles/),
+  ).toBeInTheDocument();
+});

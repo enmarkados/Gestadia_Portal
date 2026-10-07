@@ -4,6 +4,12 @@
   color: #2c2c2c;
   background: #f7f7f7;
   font-synthesis: none;
+  --ink: #2c2c2c;
+  --brand-dark: #181818;
+  --surface: #ffffff;
+  --page: #f7f7f7;
+  --radius: 14px;
+  --tap: 44px;
   --red: #c0392b;
   --border: #e5e7eb;
   --muted: #636b78;
@@ -28,6 +34,11 @@ input,
 textarea,
 select {
   font: inherit;
+}
+input,
+textarea,
+select {
+  font-weight: 400;
 }
 button,
 a,
@@ -67,8 +78,8 @@ p {
 }
 h1 {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 32px;
-  line-height: 1.16;
+  font-size: 28px;
+  line-height: 1.2;
   letter-spacing: -0.6px;
   margin-bottom: 14px;
 }
@@ -98,7 +109,7 @@ svg {
 }
 .app-header {
   gap: 12px;
-  background: #181818;
+  background: var(--brand-dark);
   color: white;
   padding: calc(12px + env(safe-area-inset-top)) 20px 13px;
   display: flex;
@@ -107,6 +118,8 @@ svg {
   flex-shrink: 0;
 }
 .brand {
+  min-height: var(--tap);
+  justify-content: center;
   margin-right: auto;
   min-width: 0;
   display: flex;
@@ -211,7 +224,7 @@ svg {
   width: min(480px, calc(100vw - 32px));
   padding: 14px;
   border: 1px solid #eab308;
-  border-radius: 14px;
+  border-radius: var(--radius);
   background: #fef3c7;
   color: #713f12;
   box-shadow: 0 6px 24px #00000024;
@@ -227,8 +240,8 @@ svg {
   line-height: 1.45;
 }
 .warning-toast .icon-btn {
-  width: 26px;
-  height: 26px;
+  width: var(--tap);
+  height: var(--tap);
   border-radius: 6px;
 }
 .footer-actions {
@@ -248,7 +261,7 @@ svg {
   color: #fff;
   background: var(--red);
   border: 0;
-  border-radius: 14px;
+  border-radius: var(--radius);
   width: 100%;
   max-width: 720px;
   margin: 0 auto 8px;
@@ -297,14 +310,14 @@ svg {
 }
 .muted {
   color: var(--muted);
-  font-size: 15px;
+  font-size: 14px;
 }
 .eyebrow {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 1.2px;
-  color: #737985;
-  margin-bottom: 12px;
+  color: var(--muted);
+  margin-bottom: 8px;
 }
 .helper {
   font-size: 13px;
@@ -321,14 +334,14 @@ svg {
 .stack {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 16px;
 }
 .card {
   background: white;
   border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 18px;
+  border-radius: var(--radius);
+  padding: 16px;
   min-width: 0;
 }
 .option {
@@ -338,9 +351,9 @@ svg {
   gap: 14px;
   text-align: left;
   font-size: 15px;
-  min-height: 64px;
+  min-height: 52px;
   width: 100%;
-  font-weight: 500;
+  font-weight: 600;
 }
 .option svg {
   color: var(--red);
@@ -424,7 +437,7 @@ svg {
   flex-shrink: 0;
   padding: calc(10px + env(safe-area-inset-top, 0px)) 16px 10px;
   color: #fff;
-  background: #181818;
+  background: var(--brand-dark);
   border-bottom: 1px solid #ffffff14;
 }
 .manager-chat-header h1 {
@@ -437,8 +450,8 @@ svg {
   text-align: center;
 }
 .manager-chat-header .icon-btn {
-  width: 36px;
-  height: 36px;
+  width: var(--tap);
+  height: var(--tap);
   background: #ffffff14;
   border: 1px solid #ffffff1a;
   border-radius: 11px;
@@ -588,6 +601,9 @@ svg {
   font-size: 11.5px;
   font-weight: 700;
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
 }
 .selected-document {
   border-color: var(--red);
@@ -652,13 +668,13 @@ svg {
   gap: 10px;
   flex-shrink: 0;
   padding: calc(12px + env(safe-area-inset-top, 0px)) 16px 12px;
-  background: #181818;
+  background: var(--brand-dark);
   color: #fff;
   border-bottom: 1px solid #ffffff14;
 }
 .validation-header .icon-btn {
-  width: 38px;
-  height: 38px;
+  width: var(--tap);
+  height: var(--tap);
   background: #ffffff14;
   border: 1px solid #ffffff1a;
   border-radius: 11px;
@@ -708,11 +724,11 @@ svg {
   margin-bottom: 16px;
 }
 .validation-fields input {
-  padding: 9px;
-  min-height: 0;
+  padding: 11px 12px;
+  min-height: 46px;
   border: 1px solid #d1d5db;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 16px;
 }
 .validation-fields input[readonly] {
   border-color: #e5e7eb;
@@ -752,17 +768,18 @@ svg {
   flex-shrink: 0;
   width: auto;
   margin: 0;
-  min-height: 28px;
-  padding: 5px 12px;
+  min-height: var(--tap);
+  padding: 10px 12px;
   border: 0;
   border-radius: 6px;
   font-size: 12px;
   font-weight: 700;
+  min-width: 64px;
 }
 .validation-submit {
   margin: 0;
   min-height: 52px;
-  border-radius: 14px;
+  border-radius: var(--radius);
   font-size: 16px;
   font-weight: 700;
   box-shadow: 0 2px 4px #00000014;
@@ -802,8 +819,8 @@ svg {
 .footer-lidia-composer textarea {
   flex: 1;
   min-width: 0;
-  min-height: 0;
-  height: calc(1.4em + 16px);
+  min-height: var(--tap);
+  height: var(--tap);
   max-height: 120px;
   resize: none;
   padding: 8px 4px 8px 0;
@@ -819,8 +836,8 @@ svg {
 }
 .footer-lidia-composer .icon-btn,
 .footer-lidia-composer .send-btn {
-  width: 40px;
-  height: 40px;
+  width: var(--tap);
+  height: var(--tap);
   border-radius: 50%;
 }
 .footer-lidia-composer .icon-btn {
@@ -869,7 +886,8 @@ svg {
   border-color: #d5d7dc;
   color: #2c2c2c;
 }
-.btn.dark-btn {
+.btn.dark-btn,
+.btn.dark {
   background: #2c2c2c;
   color: white;
 }
@@ -908,8 +926,8 @@ svg {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 34px 22px;
-  gap: 12px;
+  padding: 24px 16px;
+  gap: 10px;
 }
 .empty h2,
 .empty h3,
@@ -996,11 +1014,11 @@ svg {
 .account-summary {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
   border: 1px solid var(--border);
-  border-radius: 14px;
-  background: #f7f7f7;
-  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--page);
+  padding: 14px;
 }
 .account-summary > div {
   min-width: 0;
@@ -1014,7 +1032,7 @@ svg {
 .account-menu-actions {
   margin-top: 16px;
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: var(--radius);
   overflow: hidden;
 }
 .account-menu-actions button {
@@ -1022,12 +1040,13 @@ svg {
   align-items: center;
   gap: 12px;
   width: 100%;
-  min-height: 56px;
-  padding: 14px 16px;
+  min-height: 52px;
+  padding: 12px 14px;
   background: #fff;
   border: 0;
   font-weight: 600;
   text-align: left;
+  font-size: 14px;
 }
 .account-menu-actions button:focus-visible {
   outline-offset: -4px;
@@ -1047,70 +1066,76 @@ svg {
 .account-page > h1 {
   font-family: inherit;
   font-weight: 700;
-  font-size: 28px;
+  font-size: 25px;
   line-height: 1.2;
+  margin-bottom: 16px;
 }
 .account-card {
   padding: 0;
   overflow: hidden;
 }
 .account-hero {
-  padding: 28px 20px;
-  text-align: center;
+  padding: 16px;
+  text-align: left;
   color: #fff;
-  background: #181818;
+  background: var(--brand-dark);
   overflow-wrap: anywhere;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
 }
 .account-hero .account-avatar {
-  width: 88px;
-  height: 88px;
-  font-size: 30px;
+  width: 48px;
+  height: 48px;
+  font-size: 18px;
   background: #383838;
-  border: 3px solid #ffffff26;
-  margin-bottom: 14px;
+  border: 1px solid #ffffff26;
+  margin-bottom: 0;
 }
 .account-hero h2 {
-  font-size: 24px;
-  margin-bottom: 6px;
+  font-size: 17px;
+  margin-bottom: 4px;
 }
 .account-hero p {
-  margin-bottom: 12px;
+  margin-bottom: 6px;
   color: #d1d5db;
-  font-size: 14px;
+  font-size: 12px;
 }
 .account-badge {
   display: inline-block;
-  border-radius: 20px;
-  padding: 5px 14px;
+  border-radius: 6px;
+  padding: 3px 8px;
   background: #ffffff1c;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
 }
 .account-body {
-  padding: 22px 20px;
+  padding: 18px 16px;
 }
 .account-section + .account-section {
   border-top: 1px solid var(--border);
-  margin-top: 28px;
-  padding-top: 28px;
+  margin-top: 22px;
+  padding-top: 22px;
 }
 .account-section-heading {
   display: flex;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 .account-section-heading > span {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   flex-shrink: 0;
   background: #f7f7f7;
-  border-radius: 12px;
+  border-radius: 10px;
 }
 .account-section-heading h2 {
   margin: 0 0 6px;
+  font-size: 17px;
 }
 .account-section-heading p {
   margin: 0;
@@ -1202,7 +1227,7 @@ svg {
 .services-page > h1 {
   font-family: inherit;
   font-weight: 750;
-  font-size: 27px;
+  font-size: 25px;
   letter-spacing: -0.6px;
 }
 .services-page > .eyebrow {
@@ -1210,8 +1235,8 @@ svg {
   margin-bottom: 8px;
 }
 .services-page > .muted {
-  font-size: 15px;
-  margin-bottom: 20px;
+  font-size: 14px;
+  margin-bottom: 16px;
 }
 .service-benefits {
   display: grid;
@@ -1226,9 +1251,9 @@ svg {
   background: #fff;
   border: 1px solid var(--border);
   border-radius: 11px;
-  padding: 12px 10px;
-  min-height: 50px;
-  font-size: 13px;
+  padding: 10px;
+  min-height: 48px;
+  font-size: 12px;
   line-height: 1.4;
   font-weight: 650;
 }
@@ -1236,17 +1261,17 @@ svg {
   color: #12853d;
 }
 .services-page .service {
-  border-radius: 18px;
-  padding: 16px;
+  border-radius: var(--radius);
+  padding: 14px;
   gap: 4px 10px;
   border: 1px solid var(--border);
 }
 .services-page .service.selected {
   border: 2px solid var(--red);
-  padding: 15px;
+  padding: 13px;
 }
 .services-page .service-title {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 750;
   letter-spacing: -0.3px;
 }
@@ -1261,17 +1286,17 @@ svg {
 }
 .services-page .service .helper {
   margin-top: 2px;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.45;
 }
 .selected-service-title {
   margin: 24px 0 12px;
   scroll-margin-top: 20px;
-  font-size: 20px;
+  font-size: 19px;
 }
 .services-page .services-form {
-  padding: 20px;
-  border-radius: 18px;
+  padding: 16px;
+  border-radius: var(--radius);
   margin-top: 0;
   gap: 10px;
 }
@@ -1292,7 +1317,7 @@ svg {
 .services-form .btn.primary {
   margin-top: 6px;
   min-height: 54px;
-  border-radius: 14px;
+  border-radius: var(--radius);
   font-weight: 750;
   box-shadow: 0 2px 5px #00000014;
 }
@@ -1348,7 +1373,7 @@ svg {
   padding: 0;
 }
 .legal-header {
-  background: #181818;
+  background: var(--brand-dark);
   color: #fff;
   display: flex;
   gap: 12px;
@@ -1374,7 +1399,7 @@ svg {
 }
 .legal-intro h1 {
   font-family: inherit;
-  font-size: 28px;
+  font-size: 25px;
 }
 .legal-intro .eyebrow {
   margin-top: 14px;
@@ -1387,9 +1412,9 @@ svg {
 }
 .legal-document-icon {
   display: inline-flex;
-  padding: 12px;
+  padding: 8px;
   background: #f7f7f7;
-  border-radius: 14px;
+  border-radius: 10px;
 }
 .legal-navigation {
   display: flex;
@@ -1431,8 +1456,8 @@ svg {
 .form-card {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  margin: 24px 0;
+  gap: 12px;
+  margin: 18px 0;
 }
 .form-card h2,
 .form-card p {
@@ -1440,7 +1465,7 @@ svg {
 }
 .fields {
   display: grid;
-  gap: 14px;
+  gap: 12px;
 }
 label {
   display: flex;
@@ -1489,11 +1514,12 @@ input[readonly] {
   border: 0;
   border-radius: 24px 24px 0 0;
   margin: 0 auto;
-  padding: 16px 20px max(24px, env(safe-area-inset-bottom));
+  padding: 14px 16px max(20px, env(safe-area-inset-bottom));
   color: #2c2c2c;
   overflow: auto;
   background: #fff;
   box-shadow: 0 -8px 40px #0002;
+  scrollbar-gutter: stable;
 }
 .sheet[open] {
   animation: sheet-slide-up 0.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1528,9 +1554,9 @@ input[readonly] {
   font-size: 18px;
   font-weight: 800;
 }
-.sheet-head > .icon-btn:focus,
 .sheet-head > .icon-btn:focus-visible {
   outline: none;
+  background: #e2e4e7;
 }
 .sheet-title-group {
   display: flex;
@@ -1562,7 +1588,7 @@ input[readonly] {
 }
 .notification-counter {
   margin: 2px 0 0;
-  color: #16a34a;
+  color: #176337;
   font-size: 12px;
   font-weight: 700;
 }
@@ -1590,7 +1616,7 @@ input[readonly] {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  color: #9ca3af;
+  color: var(--muted);
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
@@ -1625,6 +1651,9 @@ input[readonly] {
   color: var(--red);
   font-size: 12px;
   font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
 }
 .notification-empty {
   padding: 28px 16px;
@@ -1641,7 +1670,7 @@ input[readonly] {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  color: #16a34a;
+  color: #176337;
   background: #f0fdf4;
 }
 .notification-empty h3 {
@@ -1662,7 +1691,7 @@ input[readonly] {
 }
 .notification-close {
   min-height: 52px;
-  border-radius: 14px;
+  border-radius: var(--radius);
   font-size: 16px;
   font-weight: 700;
 }
@@ -1685,7 +1714,7 @@ input[readonly] {
   font-size: 16px;
   font-weight: 700;
   min-height: 52px;
-  border-radius: 14px;
+  border-radius: var(--radius);
   margin: 0 0 12px;
 }
 .contact-divider {
@@ -1701,18 +1730,18 @@ input[readonly] {
 }
 .contact-form input {
   width: 100%;
-  min-height: 44px;
+  min-height: 46px;
   padding: 10px 12px;
   border: 1px solid #d1d5db;
   border-radius: 10px;
-  font-size: 15px;
+  font-size: 16px;
 }
 .contact-form .btn {
   min-height: 52px;
   font-size: 16px;
   font-weight: 700;
   margin: 4px 0 0;
-  border-radius: 14px;
+  border-radius: var(--radius);
   box-shadow: 0 2px 4px #00000014;
 }
 .sr-only {
@@ -1727,7 +1756,7 @@ input[readonly] {
   border: 0;
 }
 .app-main > .messages-page {
-  padding: 20px 16px;
+  padding: 20px 16px 24px;
 }
 .messages-page .eyebrow {
   color: var(--red);
@@ -1751,7 +1780,7 @@ input[readonly] {
   display: flex;
   align-items: center;
   gap: 10px;
-  border-left: 4px solid var(--red);
+  border-left: 1px solid var(--border);
   padding: 12px 14px;
   margin-bottom: 16px;
 }
@@ -1790,11 +1819,11 @@ input[readonly] {
   gap: 10px;
 }
 .message-thread {
-  padding: 14px 16px;
-  border-left: 4px solid var(--red);
+  padding: 12px 14px;
+  border-left: 1px solid var(--border);
 }
 .manager-thread {
-  border-left-color: #2c2c2c;
+  border-left-color: var(--border);
 }
 .thread-heading {
   display: flex;
@@ -1803,9 +1832,9 @@ input[readonly] {
   margin-bottom: 6px;
 }
 .message-thread .avatar {
-  width: 40px;
-  height: 40px;
-  font-size: 14px;
+  width: 34px;
+  height: 34px;
+  font-size: 12px;
   font-weight: 800;
   border-radius: 50%;
 }
@@ -1847,30 +1876,31 @@ input[readonly] {
   text-overflow: ellipsis;
 }
 .assistant-page > h1 {
-  font-size: 27px;
-  font-weight: 800;
+  font-size: 28px;
+  font-weight: 700;
   line-height: 1.15;
   letter-spacing: 0;
   margin-bottom: 10px;
+  font-family: Georgia, "Times New Roman", serif;
 }
 .app-main > .assistant-page {
-  padding: 24px 20px;
+  padding: 22px 16px;
 }
 .assistant-page > .muted {
-  font-size: 14.5px;
+  font-size: 14px;
   line-height: 1.5;
-  margin-bottom: 24px;
-  color: #6b7280;
+  margin-bottom: 20px;
+  color: var(--muted);
 }
 .assistant-page > .stack {
   gap: 10px;
   margin-bottom: 24px;
 }
 .assistant-page .option {
-  padding: 14px 16px;
-  font-size: 14.5px;
+  padding: 14px;
+  font-size: 14px;
   font-weight: 600;
-  min-height: 0;
+  min-height: 52px;
   border-color: #e8e8e8;
 }
 .probe-chevron {
@@ -2018,7 +2048,7 @@ select:focus {
 }
 @media (min-width: 700px) {
   .app-main > section {
-    padding: 36px 32px;
+    padding: 28px 24px;
   }
   .app-header {
     padding-left: 32px;
@@ -2034,7 +2064,7 @@ select:focus {
     padding: 21px;
   }
   h1 {
-    font-size: 36px;
+    font-size: 32px;
   }
   .app-shell {
     border-left: 1px solid var(--border);
@@ -2043,7 +2073,7 @@ select:focus {
 }
 @media (max-width: 360px) {
   .app-main > section {
-    padding: 22px 14px;
+    padding: 20px 14px;
   }
   h1 {
     font-size: 28px;
@@ -2234,7 +2264,7 @@ select:focus {
 .conversation-card {
   min-width: 0;
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: var(--radius);
   background: #fff;
 }
 .conversation-row {
@@ -2415,7 +2445,7 @@ select:focus {
 .messages-empty {
   padding: 24px 16px;
   border: 1px dashed #c8ccd3;
-  border-radius: 14px;
+  border-radius: var(--radius);
   color: var(--muted);
   text-align: center;
 }
@@ -2440,5 +2470,107 @@ select:focus {
   }
   .new-conversation-links a {
     font-size: 13px;
+  }
+}
+
+/* Shared operational screen roles; welcome and chat retain their own hierarchy. */
+.app-main > .workspace-page {
+  padding: 20px 16px 24px;
+}
+.workspace-page > h1,
+.messages-page > h1 {
+  font-family: inherit;
+  font-size: 25px;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  font-weight: 750;
+  margin-bottom: 10px;
+}
+.workspace-page > .muted {
+  margin-bottom: 18px;
+}
+.workspace-page .expediente h2 {
+  font-size: 18px;
+}
+.account-section .form-card {
+  margin-bottom: 0;
+}
+.legal-intro {
+  margin-bottom: 16px;
+}
+.legal-content h2 {
+  font-size: 17px;
+}
+.legal-page > .btn {
+  margin-top: 18px;
+}
+.auth-page .form-card {
+  padding: 16px;
+}
+.validation-fields label {
+  gap: 5px;
+  font-size: 12px;
+}
+.validation-document-fields {
+  align-items: end;
+}
+.validation-documents .document > div {
+  min-width: 0;
+}
+.assistant-chat-page .bubble > .stack {
+  margin-top: 12px;
+  margin-bottom: 0;
+}
+.conversation + .chips {
+  margin-top: 14px;
+}
+.composer:focus-within {
+  border-color: #000;
+  box-shadow: 0 0 0 1px #000;
+}
+.composer textarea {
+  outline: 0;
+}
+.sheet-head > .icon-btn:hover {
+  background: #e8eaed;
+}
+@media (min-width: 700px) {
+  .app-main > .workspace-page,
+  .app-main > .account-page,
+  .app-main > .services-page,
+  .app-main > .legal-page,
+  .app-main > .auth-page {
+    padding: 28px 24px;
+  }
+  .app-main > .assistant-page {
+    padding: 28px 24px;
+  }
+  .account-body {
+    padding: 20px;
+  }
+}
+@media (max-width: 360px) {
+  .workspace-page > h1,
+  .services-page > h1,
+  .account-page > h1 {
+    font-size: 24px;
+  }
+  .app-header {
+    gap: 8px;
+  }
+  .brand > span {
+    font-size: 22px;
+  }
+  .brand small {
+    font-size: 10px;
+  }
+  .header-actions {
+    gap: 5px;
+  }
+  .validation-header h1 {
+    font-size: 15px;
+  }
+  .manager-chat-header h1 {
+    font-size: 15px;
   }
 }

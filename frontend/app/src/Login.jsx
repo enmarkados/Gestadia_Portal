@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import LegalLinks from "./LegalLinks.jsx";
 import { useApp } from "./AppContext.jsx";
-import { demoOnly } from "./api.js";
+import { demoOnly, demoEnabled } from "./api.js";
 import Icon from "./Icon.jsx";
 import { accessDestination, authFlowState } from "./navigation.js";
 
@@ -130,16 +130,21 @@ export default function Login() {
           Crear cuenta
         </Link>
       </p>
-      <button
-        className="btn secondary"
-        onClick={() => {
-          app.startDemo();
-          const destination = accessDestination(location);
-          navigate(destination.to, { state: destination.state, replace: true });
-        }}
-      >
-        Explorar la demostración
-      </button>
+      {demoEnabled() && (
+        <button
+          className="btn secondary"
+          onClick={() => {
+            app.startDemo();
+            const destination = accessDestination(location);
+            navigate(destination.to, {
+              state: destination.state,
+              replace: true,
+            });
+          }}
+        >
+          Explorar la demostración
+        </button>
+      )}
       <LegalLinks compact />
     </section>
   );

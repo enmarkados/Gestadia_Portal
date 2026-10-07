@@ -71,6 +71,23 @@ function PasswordSettings() {
       "Ejemplo completado. No se ha cambiado una contraseña real ni se ha guardado la contraseña escrita.",
     );
   }
+  if (mode !== "demo")
+    return (
+      <div>
+        <p className="helper">
+          El cambio de contraseña desde la app aún no está disponible. Puedes
+          recuperar tu acceso desde el portal.
+        </p>
+        <a
+          className="text-btn"
+          href="https://gestadia.com/portal/recuperar"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Recuperar acceso
+        </a>
+      </div>
+    );
   return (
     <form className="form-card" onSubmit={submit}>
       <p className="helper">
@@ -204,11 +221,13 @@ export default function Account() {
       <div className="card account-card">
         <div className="account-hero">
           <AccountAvatar profile={savedProfile} />
-          <h2>{name || "Usuario Gestadia"}</h2>
-          <p>{savedProfile?.email || "Perfil de ejemplo"}</p>
-          <span className="account-badge">
-            {app.isClient ? "Cliente" : "Lead"}
-          </span>
+          <div>
+            <h2>{name || "Usuario Gestadia"}</h2>
+            <p>{savedProfile?.email || "Perfil de ejemplo"}</p>
+            <span className="account-badge">
+              {app.isClient ? "Cliente" : "Lead"}
+            </span>
+          </div>
         </div>
         <div className="account-body">
           <section className="account-section">
@@ -262,9 +281,9 @@ export default function Account() {
                   : "Desactivados"}
               </strong>
               <p className="helper">
-                Los avisos push no están conectados en esta demo. Esta
-                preferencia no solicita permisos a iOS o Android ni registra el
-                dispositivo.
+                {app.mode === "demo"
+                  ? "Esta preferencia sólo se guarda en el ejemplo. No solicita permisos ni registra el dispositivo."
+                  : "Los avisos push aún no están disponibles. Se podrán activar cuando conectemos las notificaciones del móvil."}
               </p>
             </div>
           </section>
@@ -275,8 +294,9 @@ export default function Account() {
             <div className="account-preferences">
               <h3>Preferencias de privacidad</h3>
               <p className="helper">
-                La demo no recoge analítica, campañas ni diagnósticos remotos.
-                Estos ajustes sólo se guardan como parte del ejemplo.
+                {app.mode === "demo"
+                  ? "Estos ajustes sólo se guardan en el ejemplo. No activan medición ni diagnósticos remotos."
+                  : "Estas preferencias aún no están disponibles en la app conectada."}
               </p>
               {[
                 ["analytics", "Analítica de producto"],
