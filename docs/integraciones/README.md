@@ -150,3 +150,5 @@ que LidIA ya había creado y le notifica el pago con eventos firmados.
 ## Perfil Portal y comprobación integrada local — 07/10/2026
 
 - [Diseño del perfil, recuperación de contexto y diagnóstico efectivo](2026-10-07-perfil-y-comprobacion-local.md): navegador móvil/escritorio, regresiones y worker conectado; diagnóstico de la cuenta primaria con horizonte conjunto. No renueva acceso ni activa canales.
+
+- [Cierre visual coordinado](2026-10-07-cierre-visual-conversaciones.md): LidIA confirma recibo/respuesta y retirada automática de opciones anteriores en la APP, sin recarga ni reenvío.
