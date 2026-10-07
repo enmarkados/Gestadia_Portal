@@ -709,3 +709,17 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** control de cabecera que expresa el retorno contextual de la pantalla actual. El botón Atrás de Android utiliza esta misma acción después de cerrar cualquier diálogo abierto.
 - **Alcance:** APP, `App.jsx`, `native.js`.
 - **Notas:** se conserva el cierre de diálogos como primera acción; sólo en el inicio sin diálogo ni retorno se permite salir de la app.
+
+## Listado compacto de Mensajes
+
+- **Tipo:** concepto de interfaz / decisión de presentación.
+- **Definición:** lista de conversaciones con nombre, interlocutor, estado y fechas de creación y último mensaje en una fila pequeña. La edición del nombre se despliega sólo en la fila seleccionada.
+- **Alcance:** APP, `frontend/app/src/ConnectedMessages.jsx`, `app.css` y navegación de `App.jsx`.
+- **Notas:** sustituye las tarjetas extensas y los accesos duplicados; conserva el contrato de conversaciones, los estados confirmados y el retorno contextual.
+
+## Lucide React en Mensajes
+
+- **Tipo:** dependencia de presentación / biblioteca de iconos.
+- **Definición:** iconos vectoriales de la biblioteca oficial Lucide para búsqueda, actualización, edición y acceso a conversaciones.
+- **Alcance:** `frontend/package.json`, `frontend/app/src/ConnectedMessages.jsx`.
+- **Notas:** trazo coherente con el sistema visual existente; se evita dibujar iconos propios o añadir imágenes decorativas.

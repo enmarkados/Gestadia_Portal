@@ -140,3 +140,7 @@ Verificación de la corrección:
 [Acceso web con retorno a Trámites](evidencias/2026-10-07-navegacion/web-acceso-tramites.jpg) · [Atrás en acceso iOS](evidencias/2026-10-07-navegacion/ios-acceso-con-atras.jpg) · [Trámites y menú recuperados en iOS](evidencias/2026-10-07-navegacion/ios-retorno-tramites.jpg).
 
 El checkout externo se verifica mediante prueba del destino y de la apertura separada, sin contratar ni pagar. El expediente desde notificaciones y la apertura del chat recién creado conservan el contexto por código; no se añade una afirmación de ejecución remota de esos recorridos. Las configuraciones públicas de compilación nativa siguen apuntando sólo al entorno local ya aprobado; la configuración versionada por defecto no se activa para producción.
+
+### Presentación de Mensajes
+
+El listado conectado utiliza filas compactas. Los accesos «Consulta con LidIA» y «Atención Gestadia» mantienen el origen `/mensajes` y no crean sesiones al pulsarlos: el flujo de selección conserva su comportamiento. Esta pantalla muestra únicamente el dock inferior, sin el botón fijo de contacto duplicado. Renombrar se despliega en la fila seleccionada y devuelve el foco al lápiz al guardar o cancelar.

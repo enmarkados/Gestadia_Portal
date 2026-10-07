@@ -34,3 +34,5 @@ Entrada: `frontend/app/`. Build: `frontend/dist-app/`. El portal conserva su bui
 Para probar Docker localmente: `docker compose -f compose.app.yml up --build -d`. El contenedor expone la app en `127.0.0.1:8091`. El stack para Portainer está en `deploy/app/portainer-stack.yml`.
 
 Los proyectos nativos empaquetan el mismo frontend con Capacitor. Ejecutar `npm run mobile:sync` antes de compilar. No necesitan Firebase, una base de datos o cuentas de plataforma para presentar la demo. Firma para dispositivos iOS, App Store y Google Play, cuentas reales y conexión con LidIA quedan para una fase posterior.
+
+Diseño de Mensajes y comprobaciones de la lista compacta: [Mensajes](docs/app/MENSAJES-DISENO.md).

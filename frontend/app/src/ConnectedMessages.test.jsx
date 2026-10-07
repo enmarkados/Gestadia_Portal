@@ -59,3 +59,27 @@ it("rechazo al guardar conserva el nombre confirmado y el borrador", async () =>
   expect(screen.getByRole("textbox")).toHaveValue("Otro nombre");
   expect(screen.getByRole("link", { name: /Mi canje de Perú/ })).toBeInTheDocument();
 });
+
+it("limpia la búsqueda y devuelve el foco al buscador sin alterar conversaciones", async () => {
+  mount(); await screen.findByRole("link", { name: /Mi canje de Perú/ });
+  fireEvent.change(screen.getByRole("searchbox"), { target: { value: "no existe" } });
+  expect(screen.getByRole("status")).toHaveTextContent("No hay conversaciones que coincidan.");
+  fireEvent.click(screen.getByRole("button", { name: "Limpiar búsqueda" }));
+  expect(screen.getByRole("searchbox")).toHaveValue("");
+  expect(screen.getByRole("searchbox")).toHaveFocus();
+  expect(screen.getByRole("link", { name: /Mi canje de Perú/ })).toBeInTheDocument();
+  expect(patches).toEqual([]);
+});
+it("despliega sólo el nombre seleccionado y cancelar restituye foco y nombre", async () => {
+  mount(); const edit = await screen.findByRole("button", { name: "Renombrar Mi canje de Perú" });
+  fireEvent.click(edit);
+  expect(edit).toHaveAttribute("aria-expanded", "true");
+  expect(screen.getByRole("textbox", { name: "Nombre de la conversación" })).toHaveFocus();
+  fireEvent.change(screen.getByRole("textbox"), { target: { value: "Borrador sin guardar" } });
+  fireEvent.click(screen.getByRole("button", { name: "Cancelar" }));
+  expect(screen.queryByRole("textbox")).toBeNull();
+  expect(edit).toHaveFocus();
+  expect(edit).toHaveAttribute("aria-expanded", "false");
+  expect(screen.getByRole("link", { name: /Mi canje de Perú/ })).toBeInTheDocument();
+  expect(patches).toEqual([]);
+});

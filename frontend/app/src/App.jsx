@@ -350,6 +350,11 @@ export default function App() {
       {!legalDocument && !authScreen && (
         <footer className="app-footer">
           {!["/servicios", "/cuenta"].includes(location.pathname) &&
+            !(
+              location.pathname === "/mensajes" &&
+              connected &&
+              app.mode === "real"
+            ) &&
             !validationRoute && (
               <div className="footer-actions">
                 {!managerChat && !assistantChat && (
