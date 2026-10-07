@@ -613,3 +613,10 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** Ámbito acordado para conectar un consumidor Portal/APP local separado con el agente APP dedicado de LidIA en PRO. No identifica el fixture determinista ni una cuenta de cliente real.
 - **Alcance:** documentación de preparación PRO del 07/10/2026, configuración privada `APP_LIDIA_INTEGRATION_ID`/`APP_LIDIA_AUDIENCE` y `AppIntegration` administrado por LidIA; no va en el móvil como selector.
 - **Notas:** Origen acordado `https://lidia.gestadia.com`, permisos iniciales sondeo/history y base/cuenta/asociaciones nuevas. La validez, claves e IDs de agente/proyecto siguen sujetos a configuración efectiva de la fuente.
+
+### `LidIA Canje APP` / `Gestadia APP` (`gestadia-app`)
+
+- **Tipo:** identidad de agente/proyecto runtime en LidIA.
+- **Definición:** Instancias dedicadas del agente122 y proyecto103 provisionadas por LidIA para separar las conversaciones APP de las del119 original. La instrucción10116 propia y el modelo explícito pertenecen a ese destino; crear las instancias no acredita el despliegue del canal ni una respuesta real.
+- **Alcance:** administración/BBDD LidIA; docs/app/INTEGRACION-LIDIA.md y configuración privada de la prueba `gestadia-app-pro-local-validation`. No son selectores elegibles desde el móvil.
+- **Notas:** Procedencia, versión/hash de instrucción y restricciones se registran en el documento vigente. El usuario autorizó el clon y Playground; se conservan originales y fixture como ámbitos distintos.
