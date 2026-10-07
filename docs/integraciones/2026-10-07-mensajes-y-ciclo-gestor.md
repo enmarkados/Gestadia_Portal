@@ -1,6 +1,6 @@
 # Mensajes y ciclo real con gestor — diseño del 07/10/2026
 
-Estado: reparto y adenda aceptados por Portal y LidIA el 07/10/2026, conforme a la delegación del usuario para coordinar, acordar y empezar. Implementación y aceptación del ciclo pendientes. No acredita funciones implementadas ni ciclo real validado. [Documento vigente](../app/INTEGRACION-LIDIA.md) · [Glosario](../../GLOSARIO.md).
+Estado: reparto y adenda aceptados por Portal y LidIA el 07/10/2026, conforme a la delegación del usuario para coordinar, acordar y empezar. Implementación del listado/API completada y subida en d204de1. Ciclo de atención de cuenta comprobado en iOS; aceptación Android y aceptación global de la app pendientes. Evidencias y límites: [validación nativa](2026-10-07-validacion-nativa-mensajes.md). [Documento vigente](../app/INTEGRACION-LIDIA.md) · [Glosario](../../GLOSARIO.md).
 
 ## Petición y aceptación
 

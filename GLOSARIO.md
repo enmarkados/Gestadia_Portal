@@ -674,3 +674,10 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** indica que fechas y estado de una conversación se confirmaron con la fuente en la consulta actual del listado. Permite distinguir ausencia de mensajes de metadatos no actualizados.
 - **Alcance:** backend `conversationView` / `AppConversationService.list`, frontend `ConnectedMessages`.
 - **Notas:** no se infiere del `updatedAt` local ni de una respuesta antigua en caché.
+
+## setupNativeKeyboard
+
+- **Tipo:** concepto runtime / función de arranque nativo.
+- **Definición:** prepara el redimensionamiento nativo del WebView de iOS al mostrar el teclado para conservar la cabecera y el compositor dentro de la superficie visible.
+- **Alcance:** APP, `frontend/app/src/native.js`, `main.jsx`; plugin oficial `@capacitor/keyboard` y configuración Capacitor.
+- **Notas:** se usa `KeyboardResize.Native` sólo en iOS; Android conserva su ajuste nativo. Se descartó desactivar `WebView.scrollView`, porque la prueba en simulador bloqueó también los gestos de desplazamiento del perfil.

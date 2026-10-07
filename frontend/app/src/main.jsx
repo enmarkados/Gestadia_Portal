@@ -7,6 +7,7 @@ import App from "./App.jsx";
 import {
   loadNativeConfig,
   setupNativeNavigation,
+  setupNativeKeyboard,
   finishSplash,
 } from "./native.js";
 import { conversationsEnabled } from "./conversationApi.js";
@@ -58,6 +59,7 @@ function ConnectedApp() {
   );
 }
 await loadNativeConfig();
+await setupNativeKeyboard();
 setupNativeNavigation();
 createRoot(document.getElementById("root")).render(
   <ErrorBoundary>

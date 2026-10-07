@@ -77,3 +77,10 @@ it("acceso conectado usa sesión APP y el chat no inicia PluginWeb ni muestra un
   expect(calls.some((x) => String(x.url).includes("/lidia/"))).toBe(false);
   expect(screen.queryByText("Juan Carlos Acero")).toBeNull();
 });
+
+it("Mensajes sin sesión pide acceso y no muestra conversaciones de demostración", () => {
+  render(<MemoryRouter initialEntries={["/mensajes"]}><AppProvider><PluginWebProvider enabled={false}><App /></PluginWebProvider></AppProvider></MemoryRouter>);
+  expect(screen.getByRole("heading", { name: "Iniciar sesión" })).toBeInTheDocument();
+  expect(screen.queryByText("CONVERSACIONES ACTIVAS")).toBeNull();
+  expect(screen.queryByRole("button", { name: "Hablar con un gestor" })).toBeNull();
+});

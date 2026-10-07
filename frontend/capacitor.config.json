@@ -4,14 +4,24 @@
   "webDir": "dist-app",
   "backgroundColor": "#181818",
   "loggingBehavior": "debug",
-  "server": { "androidScheme": "https" },
-  "android": { "allowMixedContent": false },
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false
+  },
   "plugins": {
-    "CapacitorHttp": { "enabled": true },
+    "CapacitorHttp": {
+      "enabled": true
+    },
     "SplashScreen": {
       "launchAutoHide": false,
       "backgroundColor": "#181818",
       "showSpinner": false
+    },
+    "Keyboard": {
+      "resize": "native",
+      "resizeOnFullScreen": true
     }
   }
 }

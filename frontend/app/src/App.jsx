@@ -53,7 +53,8 @@ export default function App() {
     ["/acceso", "/registro"].includes(location.pathname) ||
     (app.mode === "visitante" &&
       (location.pathname === "/cuenta" ||
-        (location.pathname === "/" && demoOnly())));
+        (location.pathname === "/" && demoOnly()) ||
+        (connected && location.pathname === "/mensajes")));
   const legalKind = location.pathname.startsWith("/legal/")
     ? location.pathname.slice(7)
     : null;
@@ -277,8 +278,10 @@ export default function App() {
             <Route
               path="/mensajes"
               element={
-                connected && app.mode === "real" ? (
-                  <ConnectedMessages key={app.data.profile?.id} />
+                connected && app.mode !== "demo" ? (
+                  app.mode === "real" ? (
+                    <ConnectedMessages key={app.data.profile?.id} />
+                  ) : <Login />
                 ) : (
                   <Messages onContact={onContact} />
                 )

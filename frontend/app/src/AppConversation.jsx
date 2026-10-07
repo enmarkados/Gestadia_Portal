@@ -592,7 +592,10 @@ function ConversationBody({ purpose }) {
         <>
           <div className="chips">
             {["manager", "commercial", "support"]
-              .filter((target) => permissions.includes(`${target}_handoff`))
+              .filter((target) =>
+                permissions.includes(`${target}_handoff`) &&
+                !["requested", "assigned", "in_support"].includes(timeline?.support?.status)
+              )
               .map((target) => (
                 <button
                   disabled={busy}

@@ -88,7 +88,7 @@ svg {
   flex-shrink: 0;
 }
 .app-shell {
-  height: 100dvh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   max-width: 1100px;
@@ -2104,6 +2104,7 @@ select:focus {
 .conversation-status.closed { background: #f0f0f0; color: #555; }
 .conversation-status.unknown { background: #fff4dc; color: #785715; }
 .conversation-dates { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin: 1rem 0; }
+.conversation-dates > div { display: block; min-width: 0; }
 .conversation-dates dt { color: #6b7280; font-size: .75rem; margin-bottom: .25rem; }
 .conversation-dates dd { margin: 0; font-size: .85rem; }
 .conversation-rename-trigger { color: #2b2b2b; font-size: .85rem; }

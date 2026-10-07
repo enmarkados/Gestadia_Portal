@@ -2,6 +2,7 @@ import { Capacitor, CapacitorHttp } from "@capacitor/core";
 import { App } from "@capacitor/app";
 import { Browser } from "@capacitor/browser";
 import { SplashScreen } from "@capacitor/splash-screen";
+import { Keyboard } from "@capacitor/keyboard";
 
 export const isNative = () => Capacitor.isNativePlatform();
 export const nativeOrigin = () =>
@@ -10,6 +11,11 @@ export const nativeOrigin = () =>
       ? "capacitor://localhost"
       : "https://localhost"
     : null;
+
+export async function setupNativeKeyboard() {
+  if (isNative() && Capacitor.getPlatform() === "ios")
+    await Keyboard.setResizeMode({ mode: "native" });
+}
 
 export async function loadNativeConfig() {
   if (!isNative() || globalThis.GESTADIA_APP_CONFIG?.demoOnly) return;

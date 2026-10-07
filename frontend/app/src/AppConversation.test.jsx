@@ -683,3 +683,15 @@ it("nueva conversación tras cierre remonta el historial sin reutilizar cursor n
   await waitFor(() => expect(screen.queryByText("Selecciona una opción")).toBeNull());
   expect(screen.getByRole("button", { name: "Enviar consulta" })).toBeInTheDocument();
 });
+
+it.each(["requested", "assigned", "in_support"])("una atención %s conserva el compositor y no ofrece pedirla otra vez", async (status) => {
+  const original = global.fetch;
+  vi.stubGlobal("fetch", vi.fn(async (url, opts) => {
+    if (!url.includes("/timeline")) return original(url, opts);
+    return { ok: true, status: 200, json: async () => ({ ...timeline(), support: { status, operator_display_name: status === "requested" ? null : "Integraciones" } }) };
+  }));
+  mount();
+  await screen.findByText("Selecciona una opción");
+  expect(screen.getByRole("button", { name: "Enviar consulta" })).toBeInTheDocument();
+  expect(screen.queryByRole("button", { name: "Solicitar soporte" })).toBeNull();
+});
