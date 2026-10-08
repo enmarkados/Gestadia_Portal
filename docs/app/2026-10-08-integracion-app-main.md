@@ -26,4 +26,10 @@ La configuración versionada mantiene `demoOnly=true`, `conversationsEnabled=fal
 
 Tras el commit de merge y el push se verifica `HEAD == origin/app/main` y `git rev-list --left-right --count app/main...origin/app/main` igual a `0 0`. La integración debe contener tanto `e10edba` como `6fb058e` como ancestros. El árbol de trabajo queda limpio y las PR se cierran por integración en app/main.
 
-Se conserva el worktree de pruebas con sus artefactos ignorados mientras termina la coordinación con LidIA; no se eliminan checkouts ni datos de otros agentes. El cierre del proveedor/DEV lo gestiona LidIA en su PR1619; producción no se despliega en este bloque.
+Se conserva el worktree de pruebas con sus artefactos ignorados para las verificaciones posteriores; no se eliminan checkouts ni datos de otros agentes. El cierre del proveedor/DEV se registra a continuación; producción no se despliega en este bloque.
+
+## Cierre correlacionado del proveedor
+
+LidIA confirma y se verifica el merge de PR1619/PR1620 sólo a dev/IA/main, tip a4ab0c299d6afcddacf6ec5fcb9ce60c797c8e12. Código final a3fb92389, runtime local reconstruido con procedencia efectiva, BBDD conservada y HTTP de operador simulado monotónico. [Acta y copias públicas de las evidencias](2026-10-08-recibos-conectados.md#cierre-posterior-de-lidia).
+
+El merge Portal24a30f0 permanece como referencia del código APP validado. Este cierre documental posterior conserva la distinción entre el binario del E2E web/iOS anterior y el proveedor final. Despliegue PRO, lectura humana en panel y E2E físico conectado no quedan acreditados por los merges.

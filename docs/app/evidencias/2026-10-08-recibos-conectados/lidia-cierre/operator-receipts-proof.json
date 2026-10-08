@@ -1,0 +1,11 @@
+{
+  "fixture_only": true,
+  "no_model_turns": true,
+  "operator_ack_simulated": true,
+  "real_browser_read": false,
+  "conversation_id": "8196c97e-d00b-4070-be64-925308aec514",
+  "message_id": "7d43e321-e2f4-4482-aedc-49b3997e0e77",
+  "received_and_read_by": "operator",
+  "monotonic_replay": true,
+  "unauthorized_operator_status": 401
+}

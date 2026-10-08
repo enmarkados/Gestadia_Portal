@@ -1,0 +1,12 @@
+{
+  "fixture_only": true,
+  "source_commit": "a3fb92389141ab49d058699cec99cd0426176db9",
+  "app_assembly_sha256": "ccda6bff218dfd8a729280ee8a7dcf464f0a197484edfe1f5731b63553dcbc1d",
+  "host_sha256": "95b0fe70fbb6c919f00e8a9b01bd64071da6408af2a4411797d23a904ca8002a",
+  "runtime_ready": true,
+  "authority_runtime_ready": true,
+  "database_verified": true,
+  "external_transports_registered": false,
+  "local_model": "deterministic",
+  "native_previous_evidence_is_not_reassigned_to_this_binary": true
+}

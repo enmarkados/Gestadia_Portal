@@ -53,4 +53,4 @@ Tres regresiones reproducidas RED (3 fallos/13 pruebas) y corregidas GREEN (13/1
 
 Regresión adicional de revisión: buscar sin coincidencias y limpiar conserva la caché de la misma cuenta y restaura el tick leído aunque llegue una revisión antigua (RED1/14; GREEN149/149 completo).
 
-Build12/356dc68 instalado físicamente, versión verificada y apertura final confirmada con devicectl. El [E2E común local](2026-10-08-recibos-conectados.md) ha pasado contra el nuevo runtime aislado de LidIA. Procedencia final/revisión del panel de operador pendiente de cierre por la contraparte; no implica despliegue PRO.
+Build12/356dc68 instalado físicamente, versión verificada y apertura final confirmada con devicectl. El [E2E común local](2026-10-08-recibos-conectados.md) ha pasado contra el runtime aislado de LidIA. La contraparte cierra revisión automatizada y procedencia final en código a3fb92389/dev tip a4ab0c299, con reinicio sin reset y HTTP de operador monotónico. Las capturas previas mantienen su binario original; no implica despliegue PRO ni aceptación humana/física conectada.

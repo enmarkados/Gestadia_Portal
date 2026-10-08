@@ -32,6 +32,16 @@
 
 El iPhone físico tiene **0.1.0/build12**, firmado e instalado con código356dc68 y origen HTTPS app.gestadia.com. Apertura final confirmada con devicectl después del primer intento bloqueado. El build13 es exclusivo del simulador/entorno local: no acredita E2E físico, TestFlight, App Store ni producción.
 
-Los agentes119/122 y los grants/canales de producción no se modifican. La validación del panel humano de operador y la procedencia del proveedor reconstruido desde su SHA final se cierran por LidIA en PR1619; los controles locales no sustituyen esa evidencia. PR10 de Portal permanece apilada sobre PR9, sin merge ni despliegue atribuidos a estas pruebas.
+Los agentes119/122 y los grants/canales de producción no se modifican. Portal ha fusionado PR9/PR10 en app/main24a30f0. LidIA ha fusionado PR1619/PR1620 en dev/IA/maina4ab0c299, con código final a3fb92389 y cierre de revisión automatizada. La validación de lectura humana en el panel de producción y la aceptación física conectada permanecen pendientes; los controles locales no sustituyen esa evidencia. Estos merges no acreditan despliegue.
 
 La revisión automática rechazó el proxy HTTP temporal en LAN por exponer endpoints autenticados y posibles credenciales/datos en texto claro. La petición de autorización sigue pendiente; no se ha abierto el puerto. Las pruebas iOS anteriores emplean exclusivamente loopback del simulador.
+
+## Cierre posterior de LidIA
+
+Verificados en GitHub: [PR1619](https://github.com/enmarkados/Gestadia_LidIA/pull/1619) y [PR1620](https://github.com/enmarkados/Gestadia_LidIA/pull/1620) MERGED a dev/IA/main, tip a4ab0c299d6afcddacf6ec5fcb9ce60c797c8e12. La rama local de LidIA y su remoto coinciden, sin cambios pendientes.
+
+La contraparte registra APP120/120, JS9/9 y helper19/19; suite completa en tres procesos disjuntos:16061PASS/283SKIP/0FAIL, manteniendo todos los métodos y el detalle de los intentos fallidos previos. La carrera de recargas de operador queda reproducida y corregida mediante TDD con servicio/persistencia reales.
+
+El host local reconstruido acredita código a3fb92389141ab49d058699cec99cd0426176db9, runtime/autoridad listos y DLL SHA256 ccda6bff218dfd8a729280ee8a7dcf464f0a197484edfe1f5731b63553dcbc1d. El hash de estado antes/después del reinicio es idéntico, sin reset. El HTTP final de operador confirma read, received posterior monotónico y rechazo401 sin token, sin turnos de modelo. [Runtime](evidencias/2026-10-08-recibos-conectados/lidia-cierre/runtime-final-summary.json) · [Reinicio](evidencias/2026-10-08-recibos-conectados/lidia-cierre/restart-proof.json) · [Operador](evidencias/2026-10-08-recibos-conectados/lidia-cierre/operator-receipts-proof.json).
+
+Estas tres evidencias públicas se conservan tal cual fueron entregadas por LidIA. El HTTP utiliza un operador simulado y no demuestra lectura humana. Las capturas y el E2E nativo anteriores conservan su DLL a738 y su procedencia original; no se atribuyen al proveedor final a3fb92389. Producción y la prueba física conectada siguen fuera de este cierre.

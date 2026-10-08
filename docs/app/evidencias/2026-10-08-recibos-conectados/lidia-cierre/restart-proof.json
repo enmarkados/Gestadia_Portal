@@ -1,0 +1,11 @@
+{
+  "fixture_only": true,
+  "source_commit": "a3fb92389141ab49d058699cec99cd0426176db9",
+  "runtime_ready": true,
+  "database_hash_before": "82072415ea646f742c148da33547b4b247e8c518b0d329778538d056728bb3b5",
+  "database_hash_after": "82072415ea646f742c148da33547b4b247e8c518b0d329778538d056728bb3b5",
+  "database_preserved": true,
+  "production_modified": false,
+  "local_model": "deterministic",
+  "physical_iPhone_verified": false
+}
