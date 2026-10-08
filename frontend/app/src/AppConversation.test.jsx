@@ -6,8 +6,9 @@ import {
   fireEvent,
   cleanup,
   waitFor,
+  act,
 } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, useLocation } from "react-router-dom";
 import { AppProvider } from "./AppContext.jsx";
 import AppConversation from "./AppConversation.jsx";
 import { setToken } from "./api.js";
@@ -109,9 +110,11 @@ afterEach(() => {
   cleanup();
   vi.unstubAllGlobals();
 });
-function mount() {
+function RouteProbe() { const location = useLocation(); return <output data-testid="route">{location.pathname + location.search}</output>; }
+function mount(entry = "/") {
   return render(
-    <MemoryRouter>
+    <MemoryRouter initialEntries={[entry]}>
+      <RouteProbe />
       <AppProvider>
         <AppConversation purpose="sondeo" />
       </AppProvider>
@@ -679,7 +682,8 @@ it("nueva conversación tras cierre remonta el historial sin reutilizar cursor n
     return original(url, opts);
   }));
   mount(); await screen.findByText(/conversación está cerrada/i);
-  fireEvent.click(screen.getByRole("button", { name: "Nueva conversación" }));
+  fireEvent.click(screen.getByRole("button", { name: "Nueva conversación con LidIA" }));
+  fireEvent.click(await screen.findByRole("button", { name: "Iniciar conversación" }));
   await waitFor(() => expect(screen.queryByText("Selecciona una opción")).toBeNull());
   expect(screen.getByRole("button", { name: "Enviar consulta" })).toBeInTheDocument();
 });
@@ -694,4 +698,102 @@ it.each(["requested", "assigned", "in_support"])("una atención %s conserva el c
   await screen.findByText("Selecciona una opción");
   expect(screen.getByRole("button", { name: "Enviar consulta" })).toBeInTheDocument();
   expect(screen.queryByRole("button", { name: "Solicitar soporte" })).toBeNull();
+});
+
+const newIntent = "33333333-3333-4333-8333-333333333333";
+it("abrir nueva conversación no recupera ni crea el chat anterior; iniciar canoniza el id", async () => {
+  const original = global.fetch; let starts = 0;
+  vi.stubGlobal("fetch", vi.fn(async (url, opts = {}) => {
+    if (url === "/api/app/v1/conversations" && opts.method === "POST") {
+      starts++; expect(JSON.parse(opts.body)).toEqual({ purpose: "sondeo", case_ref: null, create_new: true });
+      expect(opts.headers.get("Idempotency-Key")).toBe(newIntent);
+      return { ok: true, status: 200, json: async () => ({ conversation: { id: "new-chat", purpose: "sondeo", case_ref: null, ready: true }, operation: null }) };
+    }
+    if (url === "/api/app/v1/conversations") return { ok: true, status: 200, json: async () => ({ conversations: [{ id: "new-chat", purpose: "sondeo", case_ref: null, ready: true }, { id: "local-1", purpose: "sondeo", case_ref: null, ready: true }] }) };
+    if (url.includes("/new-chat/timeline")) return { ok: true, status: 200, json: async () => ({ ...timeline(), conversation_id: "new-chat", items: [], next_cursor: null }) };
+    return original(url, opts);
+  }));
+  mount(`/lidia/conversacion?nueva=${newIntent}`);
+  const start = await screen.findByRole("button", { name: "Iniciar conversación" });
+  expect(screen.queryByText("Selecciona una opción")).toBeNull();
+  expect(starts).toBe(0);
+  fireEvent.click(start); fireEvent.click(start);
+  await waitFor(() => expect(screen.getByTestId("route")).toHaveTextContent("/lidia/conversacion?conversacion=new-chat"));
+  expect(starts).toBe(1);
+  expect(screen.queryByText("Selecciona una opción")).toBeNull();
+});
+it("el chat abierto ofrece nueva conversación y protege borrador y envío sin confirmar", async () => {
+  mount("/lidia/conversacion?conversacion=local-1");
+  await screen.findByText("Selecciona una opción");
+  const fresh = screen.getByRole("button", { name: "Nueva conversación con LidIA" });
+  expect(fresh).toBeEnabled();
+  fireEvent.change(screen.getByLabelText("Tu consulta"), { target: { value: "Borrador" } });
+  expect(fresh).toBeDisabled();
+  failSend = true; fireEvent.click(screen.getByRole("button", { name: "Enviar consulta" }));
+  await screen.findByText(/sin confirmación/i);
+  expect(fresh).toBeDisabled();
+  expect(screen.getByTestId("route")).toHaveTextContent("conversacion=local-1");
+});
+it("respuesta de creación perdida conserva la clave al recargar y reintentar", async () => {
+  const original = global.fetch, keys = [];
+  vi.stubGlobal("fetch", vi.fn(async (url, opts = {}) => {
+    if (url === "/api/app/v1/conversations" && opts.method === "POST") { keys.push(opts.headers.get("Idempotency-Key")); throw new TypeError("lost"); }
+    return original(url, opts);
+  }));
+  const entry = `/lidia/conversacion?nueva=${newIntent}`;
+  mount(entry); fireEvent.click(await screen.findByRole("button", { name: "Iniciar conversación" }));
+  await screen.findByRole("alert"); fireEvent.click(screen.getByRole("button", { name: "Volver a cargar" }));
+  await waitFor(() => expect(keys).toHaveLength(2));
+  cleanup(); mount(entry); fireEvent.click(await screen.findByRole("button", { name: "Iniciar conversación" }));
+  await waitFor(() => expect(keys).toHaveLength(3));
+  expect(keys).toEqual([newIntent, newIntent, newIntent]);
+});
+
+it("un chat pendiente abierto por id recupera sólo su sesión original", async () => {
+  const original = global.fetch, bodies = [];
+  vi.stubGlobal("fetch", vi.fn(async (url, opts = {}) => {
+    if (url === "/api/app/v1/conversations" && opts.method === "POST") {
+      bodies.push(JSON.parse(opts.body));
+      return { ok: true, status: 200, json: async () => ({ conversation: { id: "older-pending", purpose: "sondeo", case_ref: null, ready: false }, operation: { id: "session-op", operation: "session", status: "outcome_unknown" } }) };
+    }
+    if (url === "/api/app/v1/conversations") return { ok: true, status: 200, json: async () => ({ conversations: [{ id: "latest", purpose: "sondeo", case_ref: null, ready: true }, { id: "older-pending", purpose: "sondeo", case_ref: null, ready: false }] }) };
+    return original(url, opts);
+  }));
+  mount("/lidia/conversacion?conversacion=older-pending");
+  await screen.findByRole("button", { name: "Recuperar envío" });
+  expect(bodies).toEqual([{ purpose: "sondeo", case_ref: null, conversation_id: "older-pending" }]);
+  expect(screen.getByRole("button", { name: "Nueva conversación con LidIA" })).toBeDisabled();
+});
+
+it("al recuperar un chat no ofrece abrir otro mientras está cargando el historial", async () => {
+  const original = global.fetch; let release;
+  const gate = new Promise(resolve => { release = resolve; });
+  vi.stubGlobal("fetch", vi.fn(async (url, opts = {}) => {
+    if (url === "/api/app/v1/conversations") await gate;
+    return original(url, opts);
+  }));
+  mount("/lidia/conversacion?conversacion=local-1");
+  await screen.findByText("Cargando conversación…");
+  expect(screen.queryByRole("button", { name: "Abrir conversación" })).toBeNull();
+  await act(async () => release());
+  await screen.findByText("Selecciona una opción");
+  expect(calls.filter(c => c.opts.method === "POST")).toHaveLength(0);
+});
+it("recuperar una creación pendiente conserva su id y canoniza la ruta sin otra creación", async () => {
+  const original = global.fetch; let ready = false, starts = 0, retries = 0;
+  vi.stubGlobal("fetch", vi.fn(async (url, opts = {}) => {
+    if (url === "/api/app/v1/conversations" && opts.method === "POST") {
+      starts++; return { ok: true, status: 200, json: async () => ({ conversation: { id: "new-pending", purpose: "sondeo", case_ref: null, ready: false }, operation: { id: "start-op", operation: "session", status: "outcome_unknown" } }) };
+    }
+    if (url.endsWith("/start-op/retry")) { ready = true; retries++; return { ok: true, status: 200, json: async () => ({ id: "start-op", operation: "session", status: "admitted" }) }; }
+    if (url === "/api/app/v1/conversations") return { ok: true, status: 200, json: async () => ({ conversations: [{ id: "new-pending", purpose: "sondeo", case_ref: null, ready }] }) };
+    if (url.includes("/new-pending/timeline")) return { ok: true, status: 200, json: async () => ({ ...timeline(), conversation_id: "new-pending", items: [], next_cursor: null }) };
+    return original(url, opts);
+  }));
+  mount(`/lidia/conversacion?nueva=${newIntent}`);
+  fireEvent.click(await screen.findByRole("button", { name: "Iniciar conversación" }));
+  fireEvent.click(await screen.findByRole("button", { name: "Recuperar envío" }));
+  await waitFor(() => expect(screen.getByTestId("route")).toHaveTextContent("/lidia/conversacion?conversacion=new-pending"));
+  await screen.findByRole("button", { name: "Enviar consulta" });
+  expect(starts).toBe(1); expect(retries).toBe(1);
 });

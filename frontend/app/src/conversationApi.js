@@ -32,10 +32,10 @@ export const conversationApi = {
   rename: (id, title) => call(`/conversations/${encodeURIComponent(id)}`, {
     method: "PATCH", body: JSON.stringify({ title }),
   }),
-  start: (purpose, caseRef, key) =>
+  start: (purpose, caseRef, key, createNew = false, conversationId = null) =>
     post(
       "/conversations",
-      { purpose, case_ref: caseRef || null },
+      { purpose, case_ref: caseRef || null, ...(createNew ? { create_new: true } : {}), ...(conversationId ? { conversation_id: conversationId } : {}) },
       { headers: { "Idempotency-Key": key } },
     ),
   timeline: (id, query = {}) => {

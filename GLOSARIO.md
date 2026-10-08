@@ -737,3 +737,27 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** biblioteca oficial de iconos utilizada tanto en Mensajes como en el adaptador compartido Icon de la APP.
 - **Alcance:** `frontend/app/src/Icon.jsx`, `ConnectedMessages.jsx`, `frontend/package.json`.
 - **Notas:** amplía el alcance de «Lucide React en Mensajes»; conserva los nombres del adaptador existente para evitar cambios en sus consumidores.
+
+## create_new
+- **Tipo:** propiedad de la API APP → Portal.
+- **Definición:** Intención explícita de crear una conversación independiente con LidIA, conservando el historial y el estado de las existentes. Ausente o false mantiene la reanudación actual.
+- **Alcance:** `backend/src/app/conversations.js`, `frontend/app/src/conversationApi.js`; contrato local de creación de conversaciones.
+- **Notas:** Sólo se admite para sondeo; no se incorpora al DTO S2S SessionRequest ni modifica permisos o el agente efectivo.
+
+## nueva
+- **Tipo:** propiedad de navegación.
+- **Definición:** Identificador UUID de un intento explícito de iniciar un chat con LidIA; permite distinguirlo de recuperar una conversación por su id.
+- **Alcance:** `/lidia/conversacion?nueva=UUID`, `ConnectedMessages.jsx`, `AppConversation.jsx`.
+- **Notas:** Es la clave de idempotencia del inicio, no una credencial; el acceso depende siempre de la cuenta autenticada. Abrir la ruta no crea una sesión. Tras crearla se sustituye por conversacion=id.
+
+## semanticRequest
+- **Tipo:** propiedad interna de persistencia.
+- **Definición:** Representación usada únicamente para vincular la intención local de una operación a su hash de idempotencia.
+- **Alcance:** `backend/src/app/store.js` y `conversations.js`.
+- **Notas:** Por defecto coincide con request. Para create_new incluye esa intención en el hash sin almacenarla ni enviarla en el contrato S2S; false/ausente conserva los hashes anteriores.
+
+## conversation_id (inicio local APP)
+- **Tipo:** propiedad de la API APP → Portal.
+- **Definición:** Referencia local de la conversación concreta que debe recuperarse, especialmente mientras su sesión remota está pendiente.
+- **Alcance:** `backend/src/app/conversations.js`, `frontend/app/src/conversationApi.js`, `AppConversation.jsx`.
+- **Notas:** Se valida pertenencia, propósito, expediente y permisos; no combina con create_new:true. No se envía al DTO S2S ni permite escoger sesiones de otra cuenta.

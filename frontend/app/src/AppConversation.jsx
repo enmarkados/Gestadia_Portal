@@ -10,6 +10,7 @@ import {
   clearPending,
   conversationsEnabled,
 } from "./conversationApi.js";
+import { Plus } from "lucide-react";
 import ChatComposer from "./ChatComposer.jsx";
 const pendingStatuses = new Set(["prepared", "outcome_unknown"]);
 const messages = {
@@ -32,7 +33,7 @@ export default function AppConversation({ purpose = "sondeo" }) {
   const [search] = useSearchParams();
   return (
     <ConversationBody
-      key={`${mode}:${data.profile?.id || ""}:${purpose}:${search.get("caso") || ""}:${search.get("conversacion") || ""}`}
+      key={`${mode}:${data.profile?.id || ""}:${purpose}:${search.get("caso") || ""}:${search.get("conversacion") || ""}:${search.get("nueva") || ""}`}
       purpose={purpose}
     />
   );
@@ -51,6 +52,7 @@ function ConversationBody({ purpose }) {
   const [search, setSearch] = useSearchParams();
   const location = useLocation();
   const caseRef = search.get("caso") || null;
+  const newIntent = purpose === "sondeo" && !search.get("conversacion") ? search.get("nueva") : null;
   const [conversation, setConversation] = useState(null),
     [items, setItems] = useState([]),
     [timeline, setTimeline] = useState(null),
@@ -58,7 +60,8 @@ function ConversationBody({ purpose }) {
     [error, setError] = useState(""),
     [input, setInput] = useState(""),
     [busy, setBusy] = useState(false),
-    [voice, setVoice] = useState("");
+    [voice, setVoice] = useState(""),
+    [bootstrapping, setBootstrapping] = useState(!newIntent);
   const cursor = useRef(null),
     generation = useRef(0),
     startKey = useRef(null),
@@ -165,6 +168,7 @@ function ConversationBody({ purpose }) {
   }
   useEffect(() => {
     const version = ++generation.current;
+    setBootstrapping(!newIntent);
     setItems([]);
     setTimeline(null);
     setConversation(null);
@@ -176,8 +180,9 @@ function ConversationBody({ purpose }) {
     stateRevision.current = "0";
     terminalReceipts.current.clear();
     cursor.current = null;
-    startKey.current = crypto.randomUUID();
+    startKey.current = newIntent || crypto.randomUUID();
     if (mode !== "real" || !userId || !conversationsEnabled()) return;
+    if (newIntent) return () => { generation.current++; };
     let timer,
       stopped = false;
     async function bootstrap() {
@@ -200,6 +205,8 @@ function ConversationBody({ purpose }) {
             purpose,
             caseRef,
             startKey.current,
+            false,
+            c.id,
           );
           if (stopped || version !== generation.current) return;
           setConversation(started.conversation);
@@ -209,6 +216,8 @@ function ConversationBody({ purpose }) {
         await load(c.id, version);
       } catch (e) {
         if (!stopped && version === generation.current) showError(e);
+      } finally {
+        if (!stopped && version === generation.current) setBootstrapping(false);
       }
     }
     bootstrap();
@@ -217,7 +226,7 @@ function ConversationBody({ purpose }) {
       clearTimeout(timer);
       generation.current++;
     };
-  }, [mode, userId, purpose, caseRef, search.get("conversacion")]);
+  }, [mode, userId, purpose, caseRef, search.get("conversacion"), newIntent]);
   useEffect(() => {
     if (!conversation?.ready || !userId || mode !== "real") return;
     const version = generation.current;
@@ -249,9 +258,9 @@ function ConversationBody({ purpose }) {
     setBusy(true);
     setError("");
     try {
-      const r = await conversationApi.start(purpose, caseRef, startKey.current);
+      const r = await conversationApi.start(purpose, caseRef, startKey.current, !!newIntent);
       if (version !== generation.current) return;
-      if (conversation && conversation.id !== r.conversation.id) {
+      if (r.conversation.ready && search.get("conversacion") !== r.conversation.id) {
         setSearch({ conversacion: r.conversation.id, ...(caseRef ? { caso: caseRef } : {}) }, { state: location.state, replace: true });
         return;
       }
@@ -369,7 +378,13 @@ function ConversationBody({ purpose }) {
         const rows = await conversationApi.list();
         const c = rows.conversations.find((x) => x.id === conversation.id);
         setConversation(c);
-        if (c?.ready) await load(c.id, version);
+        if (c?.ready) {
+          if (newIntent) {
+            setSearch({ conversacion: c.id, ...(caseRef ? { caso: caseRef } : {}) }, { state: location.state, replace: true });
+            return;
+          }
+          await load(c.id, version);
+        }
       } else await load(conversation.id, version);
     } catch (e) {
       if (version === generation.current) {
@@ -434,6 +449,7 @@ function ConversationBody({ purpose }) {
       }
     }
   }
+  if (mode === "real" && !userId) return <p role="status">Cargando tu cuenta…</p>;
   if (mode !== "real")
     return (
       <section className="empty">
@@ -449,6 +465,21 @@ function ConversationBody({ purpose }) {
   const human =
     purpose === "atencion" ||
     ["assigned", "in_support"].includes(timeline?.support?.status);
+  const newChatControl = purpose === "sondeo" && conversation && (
+    <div className="conversation-toolbar">
+      <button
+        className="new-lidia-chat"
+        disabled={bootstrapping || busy || !!pending || !!input.trim()}
+        title={input.trim() ? "Envía o borra tu borrador antes de iniciar otro chat." : pending ? "Recupera primero el envío pendiente." : undefined}
+        onClick={() => {
+          if (bootstrapping || busyRef.current || pending || input.trim()) return;
+          setSearch({ nueva: crypto.randomUUID(), ...(caseRef ? { caso: caseRef } : {}) }, { state: location.state });
+        }}
+      >
+        <Plus size={17} aria-hidden="true" /> Nueva conversación con LidIA
+      </button>
+    </div>
+  );
   return (
     <section
       className={
@@ -470,11 +501,12 @@ function ConversationBody({ purpose }) {
           </button>
         </div>
       )}
-      {!conversation && !error && (
+      {bootstrapping && !error && <p role="status">Cargando conversación…</p>}
+      {!conversation && !error && !bootstrapping && (
         <div className="card empty">
           <h2>
             {purpose === "sondeo"
-              ? "Tu consulta con LidIA"
+              ? (newIntent ? "Nueva conversación con LidIA" : "Consulta con LidIA")
               : "Atención Gestadia"}
           </h2>
           <p>
@@ -483,7 +515,7 @@ function ConversationBody({ purpose }) {
               : "Abre una conversación con el equipo de Gestadia."}
           </p>
           <button className="btn primary" disabled={busy} onClick={begin}>
-            Abrir conversación
+            {newIntent ? "Iniciar conversación" : "Abrir conversación"}
           </button>
         </div>
       )}
@@ -570,11 +602,11 @@ function ConversationBody({ purpose }) {
       {closed && (
         <div className="card">
           <p role="status">Esta conversación está cerrada. Puedes consultar su historial.</p>
-          <button className="btn dark" disabled={busy || !!pending} onClick={() => {
+          {purpose !== "sondeo" && <button className="btn dark" disabled={busy || !!pending} onClick={() => {
             if (busyRef.current) return;
             startKey.current = crypto.randomUUID();
             begin();
-          }}>Nueva conversación</button>
+          }}>Nueva conversación</button>}
         </div>
       )}
       {pending && (
@@ -590,6 +622,7 @@ function ConversationBody({ purpose }) {
           </button>
         </div>
       )}
+      {composerHost ? createPortal(newChatControl, composerHost) : newChatControl}
       {!closed && conversation?.ready && !pending && (
         <>
           <div className="chips">

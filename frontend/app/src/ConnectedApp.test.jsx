@@ -68,12 +68,12 @@ it("acceso conectado usa sesión APP y el chat no inicia PluginWeb ni muestra un
   await waitFor(() =>
     expect(calls.some((x) => x.url === "/api/app/v1/auth/sessions")).toBe(true),
   );
-  await screen.findByRole("link", { name: "Abrir conversación con LidIA" });
+  await screen.findByRole("link", { name: "Nueva conversación con LidIA" });
   fireEvent.click(
-    screen.getByRole("link", { name: "Abrir conversación con LidIA" }),
+    screen.getByRole("link", { name: "Nueva conversación con LidIA" }),
   );
   await screen.findByRole("heading", { name: "Habla con LidIA" });
-  await screen.findByRole("button", { name: "Abrir conversación" });
+  await screen.findByRole("button", { name: "Iniciar conversación" });
   expect(calls.some((x) => String(x.url).includes("/lidia/"))).toBe(false);
   expect(screen.queryByText("Juan Carlos Acero")).toBeNull();
 });

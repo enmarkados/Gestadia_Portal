@@ -38,3 +38,5 @@ Los proyectos nativos empaquetan el mismo frontend con Capacitor. Ejecutar `npm 
 Diseño de Mensajes y comprobaciones de la lista compacta: [Mensajes](docs/app/MENSAJES-DISENO.md).
 
 [Plan de diseño de todas las pantallas y cobertura](docs/app/PLAN-DISENO-APP.md).
+
+[Crear una nueva conversación con LidIA: contrato, recorrido y verificación](docs/app/2026-10-08-nueva-conversacion-lidia.md).

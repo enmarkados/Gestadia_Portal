@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 export function ConversationHome() {
   const location = useLocation();
+  const [newKey] = useState(() => crypto.randomUUID());
   return (
     <section className="assistant-page">
       <h1>¿Qué trámite de Tráfico necesitas gestionar hoy?</h1>
@@ -22,10 +23,13 @@ export function ConversationHome() {
       </p>
       <Link
         className="card option"
-        to="/lidia/conversacion"
+        to={`/lidia/conversacion?nueva=${newKey}`}
         state={navigationState(location)}
       >
-        Abrir conversación con LidIA <span aria-hidden="true">›</span>
+        Nueva conversación con LidIA <span aria-hidden="true">›</span>
+      </Link>
+      <Link className="home-resume-chat" to="/lidia/conversacion" state={navigationState(location)}>
+        Continuar conversación <ChevronRight size={17} aria-hidden="true" />
       </Link>
     </section>
   );
@@ -44,6 +48,7 @@ const dateText = (s) =>
   });
 export default function ConnectedMessages() {
   const location = useLocation();
+  const [newKey] = useState(() => crypto.randomUUID());
   const renameTrigger = useRef(null);
   const [rows, setRows] = useState([]),
     [error, setError] = useState(""),
@@ -147,9 +152,9 @@ export default function ConnectedMessages() {
         )}
       </div>
       <nav className="new-conversation-links" aria-label="Iniciar conversación">
-        <Link to="/lidia/conversacion" state={navigationState(location)}>
+        <Link to={`/lidia/conversacion?nueva=${newKey}`} state={navigationState(location)}>
           <Sparkles size={17} aria-hidden="true" />
-          <span>Consulta con LidIA</span>
+          <span>Nueva conversación con LidIA</span>
         </Link>
         <Link to="/mensajes/gestor" state={navigationState(location)}>
           <MessageSquare size={17} aria-hidden="true" />

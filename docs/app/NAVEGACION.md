@@ -14,7 +14,13 @@ flowchart TD
   T <--> M
   M <--> S
   T <--> S
-  INICIO --> IA["Habla con LidIA /lidia/conversacion"]
+  INICIO -->|Continuar| IA["Habla con LidIA /lidia/conversacion"]
+  INICIO --> NUEVA["Nueva conversación /lidia/conversacion?nueva=UUID"]
+  M --> NUEVA
+  IA --> NUEVA
+  NUEVA -->|Iniciar: sesión independiente; URL con id| IA
+  NUEVA -->|Atrás: origen sin crear| INICIO
+  NUEVA -->|Origen Mensajes| M
   M --> IA
   M --> G["Atención /mensajes/gestor"]
   IA -->|Atrás: origen o LidIA| INICIO
@@ -34,6 +40,8 @@ flowchart TD
   P -->|Misma conversación, sin navegar| IA
   P -->|Misma conversación, sin navegar| G
 ```
+
+Desde el 08/10/2026, Inicio distingue Nueva/Continuar y Mensajes ofrece Nueva; el chat abierto o cerrado conserva una acción compacta sobre el compositor. `nueva=UUID` conserva el intento de creación al recargar/reintentar; sólo Iniciar efectúa POST y conserva los chats anteriores. Una creación pendiente mantiene ese intento hasta confirmar su id. Al abrir un historial se indica «Cargando conversación…»; no se ofrece iniciar otra durante la recuperación. [Plan, conformidad y pruebas](2026-10-08-nueva-conversacion-lidia.md).
 
 El chat conectado se identifica por `conversacion` y, cuando procede, `caso`. Esos parámetros forman parte del retorno; no se sustituye el chat seleccionado por uno nuevo. La validación real admite carga de documentos; el envío final guiado sólo existe en demo. Un error de carga permanece en la misma pantalla y conserva Atrás.
 
@@ -109,6 +117,7 @@ En web el checkout abre una pestaña separada; en nativo abre el navegador del s
 | `/tramites` | Pestañas | No: principal | Sí | Visitante abre acceso y retoma Trámites |
 | `/mensajes` | Pestañas | Principal; acceso visitante sí tiene retorno | Sí salvo acceso visitante | Abre el chat exacto |
 | `/servicios` | Pestañas / notificaciones | No: principal | Sí | Selección desplaza al título; checkout externo o demo |
+| `/lidia/conversacion?nueva=UUID` | LidIA / Mensajes / chat / acceso | Mismo origen; `/` | Sí | Iniciar crea otra; URL canónica con id; no cierra la anterior |
 | `/lidia/conversacion` | LidIA / Mensajes / acceso | Origen; `/` | Sí | Mismo chat y origen; no crear al volver |
 | `/mensajes/gestor` | Mensajes / Contacto / validación | Origen; `/mensajes` | Sí | Cerrado mantiene historial; nuevo mantiene origen |
 | `/tramites/:id` | Lista / notificación / documento del chat | Origen con query; `/tramites` | Sí | Demo continúa al gestor con retorno a validación |
@@ -143,7 +152,7 @@ El checkout externo se verifica mediante prueba del destino y de la apertura sep
 
 ### Presentación de Mensajes
 
-El listado conectado utiliza filas compactas. Los accesos «Consulta con LidIA» y «Atención Gestadia» mantienen el origen `/mensajes` y no crean sesiones al pulsarlos: el flujo de selección conserva su comportamiento. Esta pantalla muestra únicamente el dock inferior, sin el botón fijo de contacto duplicado. Renombrar se despliega en la fila seleccionada y devuelve el foco al lápiz al guardar o cancelar.
+El listado conectado utiliza filas compactas. Los accesos «Nueva conversación con LidIA» y «Atención Gestadia» mantienen el origen `/mensajes` y no crean sesiones al pulsarlos: Nueva muestra el inicio explícito de una sesión independiente; los chats del listado recuperan sus ids exactos. Esta pantalla muestra únicamente el dock inferior, sin el botón fijo de contacto duplicado. Renombrar se despliega en la fila seleccionada y devuelve el foco al lápiz al guardar o cancelar.
 
 
 ### Revisión común de pantallas

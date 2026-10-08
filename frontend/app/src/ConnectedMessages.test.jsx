@@ -2,7 +2,7 @@ import React from "react";
 import { beforeEach, afterEach, it, expect, vi } from "vitest";
 import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import ConnectedMessages from "./ConnectedMessages.jsx";
+import ConnectedMessages, { ConversationHome } from "./ConnectedMessages.jsx";
 import { setToken } from "./api.js";
 let rows, patches, failRename;
 beforeEach(() => {
@@ -82,4 +82,14 @@ it("despliega sólo el nombre seleccionado y cancelar restituye foco y nombre", 
   expect(edit).toHaveAttribute("aria-expanded", "false");
   expect(screen.getByRole("link", { name: /Mi canje de Perú/ })).toBeInTheDocument();
   expect(patches).toEqual([]);
+});
+
+it("Inicio y Mensajes distinguen iniciar un chat independiente de recuperar el historial", async () => {
+  render(<MemoryRouter><ConversationHome /></MemoryRouter>);
+  expect(screen.getByRole("link", { name: /Nueva conversación con LidIA/ })).toHaveAttribute("href", expect.stringMatching(/^\/lidia\/conversacion\?nueva=[a-f0-9-]{36}$/));
+  expect(screen.getByRole("link", { name: /Continuar conversación/ })).toHaveAttribute("href", "/lidia/conversacion");
+  cleanup(); mount();
+  await screen.findByRole("link", { name: /Mi canje de Perú/ });
+  expect(screen.getByRole("link", { name: /Nueva conversación con LidIA/ })).toHaveAttribute("href", expect.stringMatching(/^\/lidia\/conversacion\?nueva=[a-f0-9-]{36}$/));
+  expect(screen.getByRole("link", { name: /Mi canje de Perú/ })).toHaveAttribute("href", "/lidia/conversacion?conversacion=chat-1");
 });

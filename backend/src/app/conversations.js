@@ -115,12 +115,30 @@ export class AppConversationService {
   async start(token, input, key) {
     if (
       !input ||
-      Object.keys(input).some((k) => !["purpose", "case_ref"].includes(k)) ||
+      Object.keys(input).some((k) => !["purpose", "case_ref", "create_new", "conversation_id"].includes(k)) ||
       !["sondeo", "atencion"].includes(input.purpose) ||
+      (Object.hasOwn(input, "create_new") && typeof input.create_new !== "boolean") ||
+      (input.create_new === true && input.purpose !== "sondeo") ||
+      (input.conversation_id != null && !UUID.test(input.conversation_id)) ||
+      (input.create_new === true && input.conversation_id != null) ||
       (input.case_ref && !UUID.test(input.case_ref)) ||
       !IDEM.test(key || "")
     )
       throw new AppProblem(400, "invalid_payload");
+    const selectConversation = async (tx, user) => {
+      if (input.conversation_id) {
+        const selected = await ownedConversation(tx, input.conversation_id, user.id, this.config.integrationId);
+        if (selected.purpose !== input.purpose || selected.caseId !== (input.case_ref || null))
+          throw new AppProblem(404, "conversation_not_found");
+        if (selected.status === "closed") throw new AppProblem(409, "conversation_closed");
+        return selected;
+      }
+      return tx.appConversation.findFirst({
+        where: { userId: user.id, integrationId: this.config.integrationId,
+          scopeKey: scopeKey(input.purpose, input.case_ref || null), status: { not: "closed" } },
+        orderBy: { createdAt: "desc" },
+      });
+    };
     // Refresh the candidate before choosing between resuming it and opening a new session.
     // Replay of an old idempotency key keeps its original historical association.
     const candidate = await this.authorized(token, async (tx, user) => {
@@ -130,12 +148,8 @@ export class AppConversationService {
           kind: "session", idempotencyKey: key,
         } },
       });
-      if (previous) return null;
-      return tx.appConversation.findFirst({
-        where: { userId: user.id, integrationId: this.config.integrationId,
-          scopeKey: scopeKey(input.purpose, input.case_ref || null), status: { not: "closed" } },
-        orderBy: { createdAt: "desc" },
-      });
+      if (previous || input.create_new === true) return null;
+      return selectConversation(tx, user);
     });
     if (candidate?.remoteId) await this.timeline(token, candidate.id, { limit: "1" });
     const state = await this.authorized(token, async (tx, user) => {
@@ -161,8 +175,11 @@ export class AppConversationService {
       });
       if (previous) {
         if (
+          (input.conversation_id && input.conversation_id !== previous.conversationId) ||
           previous.request.purpose !== input.purpose ||
-          previous.request.case_ref !== caseId
+          previous.request.case_ref !== caseId ||
+          previous.semanticHash !== semanticHash("session", user.id, "",
+            input.create_new === true ? { ...previous.request, create_new: true } : previous.request)
         )
           throw new AppProblem(409, "idempotency_conflict");
         const conversation = await ownedConversation(
@@ -183,11 +200,7 @@ export class AppConversationService {
         return { conversation, operation: previous, created: false };
       }
       const scope = scopeKey(input.purpose, caseId);
-      let c = await tx.appConversation.findFirst({
-        where: { userId: user.id, integrationId: this.config.integrationId,
-          scopeKey: scope, status: { not: "closed" } },
-        orderBy: { createdAt: "desc" },
-      });
+      let c = input.create_new === true ? null : await selectConversation(tx, user);
       if (c) requireAccess(c, await currentAccess(tx, c, user, this.config));
       if (c?.remoteId)
         return { conversation: c, operation: null, created: false };
@@ -228,6 +241,7 @@ export class AppConversationService {
         kind: "session",
         key,
         request,
+        semanticRequest: input.create_new === true ? { ...request, create_new: true } : request,
       });
       return { conversation: c, operation, created };
     });

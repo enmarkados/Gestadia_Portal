@@ -102,11 +102,12 @@ export async function claim(
     key,
     logicalId = null,
     request,
+    semanticRequest = request,
     remoteId = "",
   },
 ) {
   const scopeId = kind === "session" ? "" : conversationId || "",
-    hash = semanticHash(kind, userId, remoteId, request);
+    hash = semanticHash(kind, userId, remoteId, semanticRequest);
   const previous = await tx.appOperation.findFirst({
     where: {
       userId,

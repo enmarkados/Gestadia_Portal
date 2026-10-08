@@ -74,3 +74,7 @@ Los campos nativos editados para la comprobación de teclado no se enviaron ni g
 Desde `frontend`: `NODE_OPTIONS=--no-experimental-webstorage npx vitest run app/src --reporter=dot`. Build local: `VITE_GESTADIA_SERVER_URL=http://localhost:5176 npm run build:app -- --mode native-local`, configuración pública local ya aprobada y `npx cap sync`. iOS usa el proyecto `ios/App/App.xcodeproj`, esquema App, Debug y el simulador indicado; Android usa `./gradlew assembleDebug` con JDK 21. La configuración versionada por defecto permanece en demo.
 
 Preview conectado: `http://127.0.0.1:5176/#/mensajes`. Requiere que permanezcan levantados los servicios efímeros locales y que su autorización siga vigente. La rama publicada es `codex/app-conversaciones-backend`, [PR #9 en borrador](https://github.com/enmarkados/Gestadia_Portal/pull/9); no se modifica app/main ni se despliega en producción.
+
+## Corrección funcional del 08/10/2026
+
+Detectado por el usuario el acceso ausente a otro chat de LidIA. [Plan, conformidad del equipo LidIA, regresiones y evidencia web/iOS](2026-10-08-nueva-conversacion-lidia.md). Inicio distingue Nueva/Continuar, Mensajes ofrece Nueva y el chat mantiene una acción compacta sobre el compositor. Backend crea sólo con intención explícita y conserva historial/idempotencia. La carga no ofrece abrir otra sesión mientras recupera la seleccionada. Verificación actual: 135 frontend (95 APP), 132 backend, build y sync, creación y respuesta reales en web e iOS. Android compila; su recorrido de interfaz sigue pendiente.

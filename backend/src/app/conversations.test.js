@@ -1077,3 +1077,67 @@ test("fuente indisponible bloquea nueva sesión en vez de suponer el cierre", as
   await assert.rejects(f.service().start(f.b, { purpose: "sondeo" }, crypto.randomUUID()), { code: "runtime_unavailable" });
   assert.equal(f.remote.sessionCount, 1);
 });
+
+test("nueva conversación explícita conserva dos chats activos e historial aislado del mismo scope", async (t) => {
+  const f = await fixture(t);
+  const old = await f.service().start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
+  const fresh = await f.service().start(f.a, { purpose: "sondeo", create_new: true }, crypto.randomUUID());
+  assert.notEqual(old.conversation.id, fresh.conversation.id);
+  assert.equal(f.remote.sessionCount, 2);
+  const rows = await db.appConversation.findMany({ where: { userId: f.u.id } });
+  assert.equal(rows.length, 2); assert.equal(new Set(rows.map(c => c.remoteId)).size, 2);
+  assert.ok(rows.every(c => c.status === "active"));
+  for (const c of rows) assert.equal((await f.service().timeline(f.b, c.id)).conversation_id, c.id);
+  assert.equal((await f.service().list(f.b)).length, 2);
+  const resumed = await f.service().start(f.b, { purpose: "sondeo" }, crypto.randomUUID());
+  assert.equal(resumed.conversation.id, fresh.conversation.id);
+  assert.equal(f.remote.sessionCount, 2);
+  const ops = await db.appOperation.findMany({ where: { userId: f.u.id, kind: "session" } });
+  assert.ok(ops.every(op => !Object.hasOwn(op.request, "create_new") && op.request.resume_conversation_id === null));
+});
+test("nueva conversación es idempotente entre dispositivos y rechaza cambiar intención con la misma clave", async (t) => {
+  const f = await fixture(t), key = crypto.randomUUID(), input = { purpose: "sondeo", create_new: true };
+  const [a, b] = await Promise.all([f.service().start(f.a, input, key), f.service().start(f.b, input, key)]);
+  assert.equal(a.conversation.id, b.conversation.id); assert.equal(f.remote.sessionCount, 1);
+  await assert.rejects(f.service().start(f.b, { purpose: "sondeo" }, key), { code: "idempotency_conflict" });
+  const normalKey = crypto.randomUUID();
+  // An independent normal operation allows legacy replay with false or omitted.
+  const g = await fixture(t);
+  const normal = await g.service().start(g.a, { purpose: "sondeo" }, normalKey);
+  assert.equal((await g.service().start(g.b, { purpose: "sondeo", create_new: false }, normalKey)).conversation.id, normal.conversation.id);
+  await assert.rejects(g.service().start(g.b, input, normalKey), { code: "idempotency_conflict" });
+});
+test("pérdida de respuesta al crear otra sesión recupera la misma sin afectar la anterior", async (t) => {
+  const f = await fixture(t);
+  const old = await f.service().start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
+  f.remote.lost = true; const key = crypto.randomUUID(), input = { purpose: "sondeo", create_new: true };
+  const pending = await f.service().start(f.a, input, key);
+  assert.equal(pending.operation.status, "outcome_unknown");
+  const replay = await f.service().start(f.b, input, key);
+  assert.equal(replay.conversation.id, pending.conversation.id); assert.equal(replay.operation.id, pending.operation.id);
+  assert.equal(f.remote.sessionCount, 2);
+  await f.service().retry(f.b, replay.operation.id);
+  const recovered = await f.service().start(f.b, input, key);
+  assert.ok(recovered.conversation.ready); assert.equal(f.remote.sessionCount, 2);
+  assert.equal((await f.service().timeline(f.a, old.conversation.id)).conversation_status, "active");
+});
+test("crear otro chat rechaza flags inválidos, atención y expediente ajeno", async (t) => {
+  const f = await fixture(t);
+  for (const input of [{ purpose: "sondeo", create_new: "true" }, { purpose: "sondeo", create_new: null }, { purpose: "atencion", create_new: true }])
+    await assert.rejects(f.service().start(f.a, input, crypto.randomUUID()), { code: "invalid_payload" });
+  await assert.rejects(f.service().start(f.a, { purpose: "sondeo", case_ref: crypto.randomUUID(), create_new: true }, crypto.randomUUID()), { code: "conversation_not_found" });
+  assert.equal(f.remote.sessionCount, 0);
+});
+
+test("recuperar chat pendiente por id no sustituye otro más antiguo por el último del scope", async (t) => {
+  const f = await fixture(t); f.remote.lost = true;
+  const old = await f.service().start(f.a, { purpose: "sondeo", create_new: true }, crypto.randomUUID());
+  const latest = await f.service().start(f.a, { purpose: "sondeo", create_new: true }, crypto.randomUUID());
+  const recovered = await f.service().start(f.b, { purpose: "sondeo", conversation_id: old.conversation.id }, crypto.randomUUID());
+  assert.equal(recovered.conversation.id, old.conversation.id); assert.equal(recovered.operation.id, old.operation.id);
+  assert.notEqual(recovered.conversation.id, latest.conversation.id); assert.equal(f.remote.sessionCount, 2);
+  const g = await fixture(t);
+  await assert.rejects(g.service().start(g.a, { purpose: "sondeo", conversation_id: old.conversation.id }, crypto.randomUUID()), { code: "conversation_not_found" });
+  await assert.rejects(f.service().start(f.a, { purpose: "atencion", conversation_id: old.conversation.id }, crypto.randomUUID()), { code: "conversation_not_found" });
+  await assert.rejects(f.service().start(f.a, { purpose: "sondeo", conversation_id: old.conversation.id, create_new: true }, crypto.randomUUID()), { code: "invalid_payload" });
+});
