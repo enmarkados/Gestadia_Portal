@@ -171,7 +171,7 @@ export function createSocialAuth({
         a.audience,
         config.apple.callbackUrl,
       );
-      const claims = await verifyToken("apple", exchanged.id_token, a);
+      const claims = await verifyToken(a, exchanged.id_token);
       if (!exchanged.refresh_token) fail();
       const handoff = random();
       const saved = await db.socialAuthAttempt.updateMany({
@@ -218,8 +218,8 @@ export function createSocialAuth({
             input.authorizationCode,
             a.audience,
           );
-          const nativeClaims = await verifyToken("apple", idToken, a);
-          const codeClaims = await verifyToken("apple", exchanged.id_token, a);
+          const nativeClaims = await verifyToken(a, idToken);
+          const codeClaims = await verifyToken(a, exchanged.id_token);
           if (
             nativeClaims.subject !== codeClaims.subject ||
             !exchanged.refresh_token
@@ -231,7 +231,7 @@ export function createSocialAuth({
             `apple:${codeClaims.subject}`,
           );
         }
-        const claims = await verifyToken(a.provider, idToken, a);
+        const claims = await verifyToken(a, idToken);
         const saved = await db.socialAuthAttempt.updateMany({
           where: { id: a.id, status: "pending", expiresAt: { gt: now() } },
           data: {

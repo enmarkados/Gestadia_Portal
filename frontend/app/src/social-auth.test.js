@@ -76,3 +76,62 @@ it("Apple Android abre sólo autorización servidor y prueba retenida; rechaza r
   ).rejects.toThrow();
   expect(request).toHaveBeenCalledOnce();
 });
+
+it("cancelar desde visitante invalida complete tardío aunque el token siga siendo null", async () => {
+  let release, started;
+  const waiting = new Promise((r) => (started = r));
+  const discard = vi.fn();
+  const request = vi.fn(async (path) => {
+    if (path.endsWith("attempts"))
+      return { id: "attempt", proof: "proof", nonce: "nonce" };
+    started();
+    return new Promise((r) => (release = r));
+  });
+  const svc = createSocialClient({
+    config: () => cfg,
+    platform: () => "ios",
+    request,
+    plugin: {
+      initialize: vi.fn(),
+      login: vi.fn(async () => ({ result: { idToken: "identity" } })),
+    },
+    current: () => null,
+    discard,
+  });
+  const login = svc.start("google");
+  await waiting;
+  await svc.cancel();
+  release({ token: "late" });
+  await expect(login).rejects.toThrow();
+  expect(discard).toHaveBeenCalledWith("late");
+});
+it("cancelar confirmación conserva propietario capturado y revoca el JWT tardío", async () => {
+  let release, started;
+  const waiting = new Promise((r) => (started = r));
+  const discard = vi.fn();
+  const request = vi.fn(async (path) => {
+    if (path.endsWith("attempts"))
+      return { id: "attempt", proof: "proof", nonce: "nonce" };
+    if (path.endsWith("complete")) return { status: "account_required" };
+    started();
+    return new Promise((r) => (release = r));
+  });
+  const svc = createSocialClient({
+    config: () => cfg,
+    platform: () => "ios",
+    request,
+    plugin: {
+      initialize: vi.fn(),
+      login: vi.fn(async () => ({ result: { idToken: "identity" } })),
+    },
+    current: () => null,
+    discard,
+  });
+  await svc.start("google");
+  const confirmation = svc.confirm("create");
+  await waiting;
+  await svc.cancel();
+  release({ token: "late-create" });
+  await expect(confirmation).rejects.toThrow(/cancelado/);
+  expect(discard).toHaveBeenCalledWith("late-create");
+});

@@ -154,3 +154,73 @@ test("backend demo o audiencias distintas no permite preparar distribución", as
     }),
   );
 });
+
+test("La firma Android comprueba el certificado real y rechaza debug y huella ajena", async () => {
+  const { spawnSync } = await import("node:child_process");
+  const { verifyAndroidSigning } = await import("./mobile-preflight.mjs");
+  const { X509Certificate } = await import("node:crypto");
+  assert.equal(typeof verifyAndroidSigning, "function");
+  const dir = mkdtempSync(join(tmpdir(), "gestadia-cert-"));
+  const generate = (name, dn) => {
+    const file = join(dir, name + ".p12");
+    const generated = spawnSync(
+      "keytool",
+      [
+        "-genkeypair",
+        "-keystore",
+        file,
+        "-storetype",
+        "PKCS12",
+        "-alias",
+        "fixture",
+        "-storepass",
+        "fixture-pass",
+        "-keypass",
+        "fixture-pass",
+        "-keyalg",
+        "RSA",
+        "-keysize",
+        "2048",
+        "-validity",
+        "365",
+        "-dname",
+        dn,
+      ],
+      { encoding: "utf8" },
+    );
+    assert.equal(generated.status, 0);
+    const cert = spawnSync("keytool", [
+      "-exportcert",
+      "-keystore",
+      file,
+      "-alias",
+      "fixture",
+      "-storepass",
+      "fixture-pass",
+    ]);
+    assert.equal(cert.status, 0);
+    return {
+      keystore: file,
+      alias: "fixture",
+      storePasswordEnv: "FIXTURE_PASSWORD",
+      certificateSha256: new X509Certificate(cert.stdout).fingerprint256,
+    };
+  };
+  try {
+    const upload = generate("upload", "CN=Gestadia Fixture");
+    const env = { FIXTURE_PASSWORD: "fixture-pass" };
+    assert.doesNotThrow(() => verifyAndroidSigning(upload, env));
+    assert.throws(
+      () =>
+        verifyAndroidSigning(
+          { ...upload, certificateSha256: "AA".repeat(32) },
+          env,
+        ),
+      /certificado|huella/i,
+    );
+    const debug = generate("debug", "CN=Android Debug,O=Android,C=US");
+    assert.throws(() => verifyAndroidSigning(debug, env), /debug/i);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});

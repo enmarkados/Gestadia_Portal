@@ -23,9 +23,10 @@ export function createSocialClient({
   discard,
 }) {
   let pending = null,
-    busy = false;
-  const check = (owner) => {
-    if (current() !== owner)
+    busy = false,
+    generation = 0;
+  const check = (owner, version) => {
+    if (current() !== owner || version !== generation)
       throw Error("El acceso se ha cancelado al cambiar de sesión.");
   };
   const post = (path, data, auth = false) =>
@@ -34,15 +35,16 @@ export function createSocialClient({
       method: "POST",
       body: JSON.stringify(data),
     });
-  async function finish(result, owner) {
-    if (current() !== owner) {
+  async function finish(result, owner, version) {
+    if (current() !== owner || version !== generation) {
       if (result.token) await discard(result.token);
-      check(owner);
+      check(owner, version);
     }
     return result;
   }
   return {
     async cancel() {
+      generation++;
       pending = null;
       if (secure) await secure.remove(pendingKey, false);
     },
@@ -55,14 +57,15 @@ export function createSocialClient({
       )
         throw Error("Acceso social no disponible.");
       busy = true;
-      const owner = current();
+      const owner = current(),
+        version = ++generation;
       try {
         const attempt = await post(
           "attempts",
           { provider, platform: platform(), purpose },
           purpose === "link",
         );
-        check(owner);
+        check(owner, version);
         pending = { ...attempt, owner, purpose };
         if (provider === "apple" && platform() === "android") {
           const url = new URL(attempt.authorizationUrl);
@@ -72,7 +75,9 @@ export function createSocialClient({
           )
             throw Error("Autorización Apple no válida.");
           await secure.set(pendingKey, pending, false, false, 1);
+          check(owner, version);
           await browser.open({ url: url.href });
+          check(owner, version);
           return { status: "browser_open" };
         }
         const google = config().social.google;
@@ -94,6 +99,7 @@ export function createSocialClient({
                 },
               },
         );
+        check(owner, version);
         const reply = await plugin.login({
           provider,
           options:
@@ -105,7 +111,7 @@ export function createSocialClient({
                 }
               : { nonce: attempt.nonce, scopes: ["email", "name"] },
         });
-        check(owner);
+        check(owner, version);
         if (!reply.result?.idToken)
           throw Error("El proveedor no devolvió una identidad válida.");
         const result = await post(
@@ -118,7 +124,7 @@ export function createSocialClient({
           },
           purpose === "link",
         );
-        return finish(result, owner);
+        return finish(result, owner, version);
       } finally {
         busy = false;
       }
@@ -133,6 +139,7 @@ export function createSocialClient({
         parsed.searchParams.getAll("code").length !== 1
       )
         throw Error("Retorno Apple no válido.");
+      const version = generation;
       const saved = pending || (await secure.get(pendingKey, false, false));
       if (
         !saved ||
@@ -140,9 +147,10 @@ export function createSocialClient({
         !parsed.searchParams.get("code")
       )
         throw Error("Retorno sin intento válido.");
-      check(saved.owner);
+      check(saved.owner, version);
       pending = saved;
       await secure.remove(pendingKey, false);
+      check(saved.owner, version);
       const result = await post(
         "complete",
         {
@@ -152,23 +160,26 @@ export function createSocialClient({
         },
         saved.purpose === "link",
       );
-      return finish(result, saved.owner);
+      return finish(result, saved.owner, version);
     },
     async confirm(action) {
       if (!pending) throw Error("Inicia de nuevo el acceso social.");
-      check(pending.owner);
+      const saved = pending,
+        version = generation;
+      check(saved.owner, version);
       return finish(
         await post(
           "account",
           {
-            attemptId: pending.id,
-            proof: pending.proof,
+            attemptId: saved.id,
+            proof: saved.proof,
             action,
             confirm: true,
           },
           action === "link",
         ),
-        pending.owner,
+        saved.owner,
+        version,
       );
     },
   };

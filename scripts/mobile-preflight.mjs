@@ -1,3 +1,5 @@
+import { X509Certificate } from "node:crypto";
+import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -107,6 +109,50 @@ export function verifyPackagedRelease(config, source) {
       "El binario contiene otra configuración. Ejecuta mobile:release:prepare y cap sync.",
     );
 }
+export function verifyAndroidSigning(signing, env = process.env) {
+  if (
+    !/^[A-Za-z_][A-Za-z0-9_]*$/.test(signing.storePasswordEnv || "") ||
+    !env[signing.storePasswordEnv]
+  )
+    throw Error("Falta contraseña de firma Android");
+  if (/^androiddebugkey$/i.test(signing.alias || ""))
+    throw Error("La firma debug no es válida para distribución");
+  const certificate = spawnSync(
+    "keytool",
+    [
+      "-exportcert",
+      "-keystore",
+      signing.keystore,
+      "-alias",
+      signing.alias,
+      "-storepass:env",
+      signing.storePasswordEnv,
+    ],
+    { env: { ...process.env, ...env }, maxBuffer: 1024 * 1024 },
+  );
+  // No devolver stderr del proceso: podría incluir rutas o datos de configuración privada.
+  if (certificate.status !== 0)
+    throw Error("No se pudo verificar el certificado Android");
+  const cert = new X509Certificate(certificate.stdout);
+  if (/CN=Android Debug/i.test(cert.subject))
+    throw Error("La firma debug no es válida para distribución");
+  const expected = String(signing.certificateSha256 || "")
+    .replace(/:/g, "")
+    .toUpperCase();
+  if (
+    !/^[A-F0-9]{64}$/.test(expected) ||
+    expected !== cert.fingerprint256.replace(/:/g, "")
+  )
+    throw Error(
+      "La huella del certificado Android no coincide con la aprobada",
+    );
+  if (
+    new Date(cert.validTo) <= new Date() ||
+    new Date(cert.validFrom) > new Date()
+  )
+    throw Error("El certificado Android está fuera de su periodo válido");
+  return cert.fingerprint256;
+}
 export function readReleaseInputs(platform) {
   if (
     !process.env.MOBILE_PUBLIC_CONFIG_FILE ||
@@ -123,6 +169,7 @@ export function readReleaseInputs(platform) {
   );
   const errors = validateRelease(config, signing, platform);
   if (errors.length) throw new Error(errors.join("\n"));
+  if (platform === "android") verifyAndroidSigning(signing);
   return { config, signing };
 }
 if (

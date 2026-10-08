@@ -589,3 +589,21 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** Alias de la clave privada local que firma los paquetes enviados a Play; es distinta de la clave de firma que Play aplica a la app distribuida.
 - **Alcance:** almacén privado fuera de Git, configuración de firma Android e inventario de certificados.
 - **Notas:** OAuth Android necesita registrar las huellas de cada firma efectiva, incluida Play App Signing; el certificado de subida no acredita publicación.
+
+### Retirada local de sesión y revocación pendiente
+- **Tipo:** concepto runtime.
+- **Definición:** cierre inmediato del acceso en el dispositivo conservando de forma segura la obligación de invalidar la sesión en el servidor cuando vuelva la conexión. La demostración conserva esa obligación sin realizar llamadas externas.
+- **Alcance:** APP; `frontend/app/src/sessionStorage.js`, `AppContext.jsx`, `Login.jsx`.
+- **Notas:** se descarta borrar el token sin conservar la revocación, porque dejaría una sesión activa en el servidor.
+
+### Renovación del lease push
+- **Tipo:** concepto runtime.
+- **Definición:** mantenimiento temporal de la propiedad exclusiva de un envío pendiente mientras el proveedor procesa la petición. Su caducidad permite recuperar trabajo tras la caída de un worker.
+- **Alcance:** backend; `backend/src/services/push.js`.
+- **Notas:** un temporizador fijo sin renovación permite reclamar el mismo envío durante reintentos internos lentos de FCM; la entrega sigue siendo al menos una vez tras caídas.
+
+### certificateSha256
+- **Tipo:** propiedad.
+- **Definición:** huella SHA-256 aprobada del certificado de la clave de subida Android usada para preparar una release. Identifica material público de firma, no la contraseña ni la clave privada.
+- **Alcance:** scripts de distribución; `scripts/mobile-preflight.mjs`, configuración privada de firma fuera de Git.
+- **Notas:** se descarta comprobar sólo que existe el keystore: también podría ser una clave de depuración o una clave distinta.

@@ -28,6 +28,8 @@
 4. Worker reiniciado/doble proceso y token rotado: sin envíos privados a otra cuenta, reintento limitado.
 5. Binario firmado por Play/TestFlight con configuración incompleta: no confundir debug con distribución ni abrir demo como login real.
 
+Estado local 08/10: implementación y revisión corregidas; backend86/86, frontend96/96, preflight8/8, builds debug Android/iOS correctos. Task6, recepción/login reales, firma de distribución y eliminación definitiva pendientes.
+
 Estado operativo y configuración: [MARKETPLACES-CONFIGURACION.md](MARKETPLACES-CONFIGURACION.md).
 
 ## Task 1: Inventario, aislamiento y base nativa de release
@@ -36,60 +38,62 @@ Estado operativo y configuración: [MARKETPLACES-CONFIGURACION.md](MARKETPLACES-
 **Consume:** diseños aprobados y `com.gestadia.app` actual.
 **Produce:** compilación debug preservada; release requiere firma/configuración válida; plugins nativos sincronizados con versiones fijadas.
 
-- [ ] Revisar Chrome para equipo Apple, cuenta Play y proyecto propio Gestadia. Reutilizar sólo recursos cuya pertenencia esté comprobada.
-- [ ] Escribir prueba que ejecuta preflight con demo, HTTP, paquete incorrecto, secretos cliente o datos de firma ausentes y exige rechazo.
-- [ ] Ejecutar `node --test scripts/mobile-preflight.test.mjs`; observar rechazo por falta de implementación.
-- [ ] Implementar validación y preparación de release; añadir firma desde configuración privada y entitlements por configuración.
-- [ ] Instalar plugins fijados de push/login/almacenamiento seguro, ejecutar `cap sync` y compilar iOS/Android según herramientas disponibles.
-- [ ] Ejecutar preflight contra configuración controlada válida e inválida; guardar evidencia de binario/entitlements.
-- [ ] Commit local sólo del bloque.
+- [x] Revisar Chrome para equipo Apple, cuenta Play y proyecto propio Gestadia. Reutilizar sólo recursos cuya pertenencia esté comprobada.
+- [x] Escribir prueba que ejecuta preflight con demo, HTTP, paquete incorrecto, secretos cliente o datos de firma ausentes y exige rechazo.
+- [x] Ejecutar `node --test scripts/mobile-preflight.test.mjs`; observar rechazo por falta de implementación.
+- [x] Implementar validación y preparación de release; añadir firma desde configuración privada y entitlements por configuración.
+- [x] Instalar plugins fijados de push/login/almacenamiento seguro, ejecutar `cap sync` y compilar iOS/Android según herramientas disponibles.
+- [x] Ejecutar preflight contra configuración controlada válida e inválida; guardar evidencia de binario/entitlements.
+- [x] Commit local sólo del bloque.
 
 ## Task 2: Sesiones revocables y protección de configuración
 
 **Archivos:** `backend/prisma/schema.prisma`, migración, `backend/src/services/auth-sessions.js`, middleware/rutas auth, configuración móvil backend, pruebas Node.
 **Interfaces:** `issueMobileSession(user, platform)` → `{token}`; `revokeSession(sessionId, userId)` → revocación y dispositivos; `requireAuth` añade `req.authSession` sólo para sesión vigente. JWT legacy mantiene su comportamiento.
 
-- [ ] Añadir pruebas de login nativo, token revocado/expirado/usuario retirado y logout idempotente; confirmar que legacy no registra push.
-- [ ] Ejecutar los tests dirigidos y observar fallos por el comportamiento ausente.
-- [ ] Implementar `AuthSession`, JWT con `jti`, validación durable y logout autenticado; mantener login Portal compatible.
-- [ ] Crear migración aditiva y verificar schema con `prisma validate`.
-- [ ] Ejecutar tests dirigidos y suite backend; commit local y actualizar evidencia.
+- [x] Añadir pruebas de login nativo, token revocado/expirado/usuario retirado y logout idempotente; confirmar que legacy no registra push.
+- [x] Ejecutar los tests dirigidos y observar fallos por el comportamiento ausente.
+- [x] Implementar `AuthSession`, JWT con `jti`, validación durable y logout autenticado; mantener login Portal compatible.
+- [x] Crear migración aditiva y verificar schema con `prisma validate`.
+- [x] Ejecutar tests dirigidos y suite backend; commit local y actualizar evidencia.
 
 ## Task 3: Identidad social y callback Apple Android
 
 **Archivos:** `backend/src/services/social-auth.js`, `social-tokens.js`, `backend/src/routes/social-auth.js`, schema/migración, configuración y tests.
 **Interfaces:** `POST /api/auth/social/attempts` inicia proveedor/plataforma/propósito; `POST /api/auth/social/complete` valida respuesta nativa o canje Android; `POST /api/auth/social/account` confirma alta/vinculación; `POST /api/auth/social/apple/callback` recibe `form_post`. Desafíos 5 minutos y códigos de retorno 60 segundos, con consumo atómico.
 
-- [ ] Escribir fixtures JWT con claves de prueba y casos de firma, emisor, audiencia, nonce y vencimiento incorrectos.
-- [ ] Escribir casos de replay, vinculación a otro usuario, colisión email, consentimiento de alta y desafío ajeno.
-- [ ] Ejecutar pruebas rojas antes de implementar cada comportamiento.
-- [ ] Implementar verificación con JWKS oficiales, intercambio Apple y cifrado de credencial de revocación; datos ausentes no inventan identidad.
-- [ ] Implementar transacción de vinculación/alta confirmada y sesiones de Task 2.
-- [ ] Implementar retorno Apple Android con state/nonce, código opaco y prueba; limitar y limpiar intentos expirados.
-- [ ] Ejecutar tests backend y fixture de rutas; commit local y documentar audiencias/callback real configurado.
+- [x] Escribir fixtures JWT con claves de prueba y casos de firma, emisor, audiencia, nonce y vencimiento incorrectos.
+- [x] Escribir casos de replay, vinculación a otro usuario, colisión email, consentimiento de alta y desafío ajeno.
+- [x] Ejecutar pruebas rojas antes de implementar cada comportamiento.
+- [x] Implementar verificación con JWKS oficiales, intercambio Apple y cifrado de credencial de revocación; datos ausentes no inventan identidad.
+- [x] Implementar transacción de vinculación/alta confirmada y sesiones de Task 2.
+- [x] Implementar retorno Apple Android con state/nonce, código opaco y prueba; limitar y limpiar intentos expirados.
+- [x] Ejecutar suite backend y fixture de servicios/JWT real; commit local y documentar audiencias/callback esperado.
+- [ ] Configurar callback real y validar recorrido HTTP con credenciales del proveedor.
 
 ## Task 4: Push durable, remitentes y autorización de dispositivos
 
 **Archivos:** `backend/src/routes/push.js`, `backend/src/services/push/`, `notify.js`, schema/migración y tests.
 **Interfaces:** `POST /api/push/devices` registra instalación/transporte/token en sesión revocable; `DELETE /api/push/devices/:installationId` revoca sólo registro propio; `GET /api/notificaciones/:id` obtiene sólo aviso propio. Worker consume `PushDelivery` de forma durable.
 
-- [ ] Casos rojos: legacy, propietario en body, entorno libre, cambio de cuenta, rotación, fallo de proveedor, logout y worker concurrente.
-- [ ] Implementar registro y entrega idempotente, token protegido y outbox transaccional con aviso interno.
-- [ ] Implementar APNs HTTP/2 y FCM, clasificación de fallos y reintento limitado, comprobando sesión/dispositivo antes de envío.
-- [ ] El worker no bloquea cambios de expediente y no duplica aviso interno; aceptación del proveedor no se llama recepción.
-- [ ] Ejecutar suite backend y prueba contra BD aislada cuando esté disponible; commit y registrar evidencia.
+- [x] Casos rojos: legacy, propietario en body, entorno libre, cambio de cuenta, rotación, fallo de proveedor, logout y worker concurrente.
+- [x] Implementar registro y entrega idempotente, token protegido y outbox transaccional con aviso interno.
+- [x] Implementar APNs HTTP/2 y FCM, clasificación de fallos y reintento limitado, comprobando sesión/dispositivo antes de envío.
+- [x] El worker no bloquea cambios de expediente y no duplica aviso interno; aceptación del proveedor no se llama recepción.
+- [x] Ejecutar suite backend y prueba contra BD aislada cuando esté disponible; commit y registrar evidencia.
 
 ## Task 5: Adaptadores y UX nativa de login, sesión y avisos
 
 **Archivos:** `frontend/app/src/social-auth.js`, `push.js`, almacenamiento seguro, `AppContext.jsx`, `Login.jsx`, `Notifications.jsx`, `main.jsx`, configuración y tests Vitest.
 **Interfaces:** token en memoria durante ejecución, persistencia Keychain/Keystore en nativo; API existente conserva `getToken`, `setToken` y `request`. Adaptadores reciben sesión vigente y generación para descartar resultados tardíos.
 
-- [ ] Pruebas rojas de botones sociales, cancelación, datos incompletos, alta/vinculación confirmadas y respuesta tardía.
-- [ ] Implementar proveedores sólo con configuración disponible; no convertir fallos sociales en acceso demo.
-- [ ] Incorporar almacenamiento nativo seguro y cierre remoto pendiente si offline.
-- [ ] Pruebas rojas de rechazo de permiso, rotación, listener tardío y tap de aviso ajeno.
-- [ ] Implementar activar avisos, consultar permiso al volver de ajustes, registro autenticado y rutas internas admitidas.
-- [ ] Ejecutar Vitest y build app; validar interacción real en navegador y simuladores disponibles; commit local.
+- [x] Pruebas rojas de botones sociales, cancelación, datos incompletos, alta/vinculación confirmadas y respuesta tardía.
+- [x] Implementar proveedores sólo con configuración disponible; no convertir fallos sociales en acceso demo.
+- [x] Incorporar almacenamiento nativo seguro y cierre remoto pendiente si offline.
+- [x] Pruebas rojas de rechazo de permiso, rotación, listener tardío y tap de aviso ajeno.
+- [x] Implementar activar avisos, consultar permiso al volver de ajustes, registro autenticado y rutas internas admitidas.
+- [x] Ejecutar Vitest y build app; arranque de demo en simulador iOS verificado; commit local.
+- [ ] Validar login y push reales en ambos sistemas con los builds conectados exactos.
 
 ## Task 6: Configuración de cuentas y aceptación de distribución
 
@@ -114,7 +118,7 @@ Estado operativo y configuración: [MARKETPLACES-CONFIGURACION.md](MARKETPLACES-
 
 - [ ] Implementar petición autenticada/reautenticada de borrado, revocación de sesión/push/Apple y estado durable; no borrar expedientes con retención sin política acordada.
 - [ ] Informar al usuario del estado real; coordinar retirada conversacional según contrato vigente.
-- [ ] Suite backend/frontend, `prisma validate`, build app y compilaciones nativas; registrar límites concretos.
-- [ ] Revisión independiente de toda la rama usando los diseños y foco anterior; corregir problemas relevantes con TDD.
-- [ ] Actualizar validación y estado de los diseños, commit local y handoff de cuentas/configuración.
-- [ ] Reportar por separado código, firma, cuentas, distribución, recepción push y autenticación real. Publicación pública sigue pendiente hasta su autorización y aceptación.
+- [x] Suite backend/frontend, `prisma validate`, build app y compilaciones nativas; registrar límites concretos.
+- [x] Revisión independiente de toda la rama usando los diseños y foco anterior; corregir problemas relevantes con TDD.
+- [x] Actualizar validación y estado de los diseños, commit local y handoff de cuentas/configuración.
+- [x] Reportar por separado código, firma, cuentas, distribución, recepción push y autenticación real. Publicación pública sigue pendiente hasta su autorización y aceptación.

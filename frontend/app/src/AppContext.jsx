@@ -17,9 +17,11 @@ import {
 import { clearPluginSessions } from "./pluginStorage.js";
 import { socialClient } from "./social-auth.js";
 import { connectPush, pushAvailable } from "./push.js";
-import { nativeSession } from "./sessionStorage.js";
+import { nativeSession, watchSessionRevocations } from "./sessionStorage.js";
 const Context = createContext(null);
 export const useApp = () => useContext(Context);
+const PENDING_LOGOUT =
+  "Cierre local realizado; la revocación del servidor sigue pendiente. Abre la app con conexión para completarla.";
 const EMPTY = {
   profile: null,
   expedientes: [],
@@ -31,7 +33,7 @@ export function AppProvider({ children }) {
   const epoch = useRef(0);
   const [mode, setMode] = useState(() => {
     if (demoOnly()) {
-      setToken(null);
+      if (!platform()) setToken(null);
       clearPluginSessions();
       return "demo";
     }
@@ -68,6 +70,30 @@ export function AppProvider({ children }) {
       if (version === epoch.current) setLoading(false);
     }
   }
+  useEffect(() => {
+    if (!platform() || mode === "demo" || demoOnly()) return;
+    let disposed = false,
+      cleanup;
+    watchSessionRevocations({
+      onStatus: ({ pending }) => {
+        if (!disposed)
+          setError((old) =>
+            pending ? PENDING_LOGOUT : old === PENDING_LOGOUT ? "" : old,
+          );
+      },
+    })
+      .then((fn) => {
+        if (disposed) fn();
+        else cleanup = fn;
+      })
+      .catch(() => {
+        if (!disposed) setError(PENDING_LOGOUT);
+      });
+    return () => {
+      disposed = true;
+      cleanup?.();
+    };
+  }, [mode]);
   useEffect(() => {
     if (mode !== "real" || !pushAvailable()) return;
     let disposed = false,
@@ -114,7 +140,9 @@ export function AppProvider({ children }) {
     socialClient.cancel().catch(() => {});
     clearPluginSessions();
     setLoading(false);
-    setToken(null);
+    if (platform())
+      nativeSession.retireSaved().catch(() => setError(PENDING_LOGOUT));
+    else setToken(null);
     setError("");
     setData(reset ? createDemo(type) : readDemo() || createDemo(type));
     setMode("demo");
@@ -124,12 +152,15 @@ export function AppProvider({ children }) {
     socialClient.cancel().catch(() => {});
     clearPluginSessions();
     setLoading(false);
+    const version = epoch.current;
     const closed = logoutSession();
-    closed?.catch(() =>
-      setError(
-        "Cierre local realizado; la revocación del servidor sigue pendiente. Abre la app con conexión para completarla.",
-      ),
-    );
+    closed
+      ?.then(({ pending } = {}) => {
+        if (version === epoch.current && pending) setError(PENDING_LOGOUT);
+      })
+      .catch(() => {
+        if (version === epoch.current) setError(PENDING_LOGOUT);
+      });
     setMode("visitante");
     setData(EMPTY);
     setError("");
@@ -154,14 +185,12 @@ export function AppProvider({ children }) {
         platform: platform(),
       }),
     });
-    if (version !== epoch.current)
+    if (version !== epoch.current) {
+      if (body.token && platform()) await nativeSession.discard(body.token);
       throw new Error("El acceso se ha cancelado al cambiar de sesión.");
+    }
     if (!body.token) throw new Error("No se pudo abrir la sesión.");
-    epoch.current++;
-    clearPluginSessions();
-    await setToken(body.token);
-    setData(EMPTY);
-    setMode("real");
+    await acceptSession(body.token);
   }
   async function acceptSession(token) {
     const version = epoch.current;

@@ -176,3 +176,113 @@ test(
     }
   },
 );
+
+test(
+  "Proveedor real valida JWT en servicio: Google y Apple Android, prueba y replay",
+  { skip: !enabled },
+  async () => {
+    const { generateKeyPair, exportJWK, SignJWT, createLocalJWKSet } =
+      await import("jose");
+    const { createSocialTokenVerifier } = await import("./social-tokens.js");
+    const { createSocialAuth } = await import("./social-auth.js");
+    const { createSessionService } = await import("./auth-sessions.js");
+    const { createMobileCrypto } = await import("./mobile-crypto.js");
+    const keys = await generateKeyPair("RS256");
+    const jwk = await exportJWK(keys.publicKey);
+    const jwks = createLocalJWKSet({
+      keys: [{ ...jwk, kid: "fixture", alg: "RS256" }],
+    });
+    const db = new PrismaClient({ datasourceUrl: url });
+    const ids = [],
+      suffix = randomUUID();
+    let appleToken;
+    const config = {
+      enabled: true,
+      google: { webClientId: "web", iosClientId: "ios" },
+      apple: {
+        clientId: "app",
+        serviceId: "service",
+        callbackUrl: "https://api.example.com/api/auth/social/apple/callback",
+        returnUrl: "gestadia://auth/apple",
+      },
+    };
+    const crypto = createMobileCrypto(Buffer.alloc(32, 1).toString("base64"));
+    const service = createSocialAuth({
+      db,
+      config,
+      verifyToken: createSocialTokenVerifier({
+        keySets: { google: jwks, apple: jwks },
+      }),
+      exchangeApple: async () => ({
+        id_token: appleToken,
+        refresh_token: "private-refresh",
+      }),
+      seal: crypto.seal,
+      sessionFactory: (tx) =>
+        createSessionService({ db: tx, enabled: true, secret: "fixture" }),
+    });
+    const signed = (issuer, audience, nonce) =>
+      new SignJWT({
+        nonce,
+        email: `${suffix}@example.com`,
+        email_verified: true,
+      })
+        .setProtectedHeader({ alg: "RS256", kid: "fixture" })
+        .setIssuer(issuer)
+        .setSubject(suffix)
+        .setAudience(audience)
+        .setIssuedAt()
+        .setExpirationTime("5m")
+        .sign(keys.privateKey);
+    try {
+      const google = await service.start({
+        provider: "google",
+        platform: "ios",
+      });
+      ids.push(google.id);
+      const result = await service.complete({
+        attemptId: google.id,
+        proof: google.proof,
+        idToken: await signed(
+          "https://accounts.google.com",
+          "web",
+          google.nonce,
+        ),
+      });
+      assert.equal(result.status, "account_required");
+      const apple = await service.start({
+        provider: "apple",
+        platform: "android",
+      });
+      ids.push(apple.id);
+      appleToken = await signed(
+        "https://appleid.apple.com",
+        "service",
+        apple.nonce,
+      );
+      const state = new URL(apple.authorizationUrl).searchParams.get("state");
+      const outcomes = await Promise.allSettled([
+        service.appleCallback({ state, code: "fixture" }),
+        service.appleCallback({ state, code: "fixture" }),
+      ]);
+      assert.equal(outcomes.filter((x) => x.status === "fulfilled").length, 1);
+      const returned = new URL(
+        outcomes.find((x) => x.status === "fulfilled").value,
+      );
+      assert.equal(returned.searchParams.has("id_token"), false);
+      assert.equal(returned.href.includes("private-refresh"), false);
+      assert.equal(returned.href.includes(apple.proof), false);
+      const input = {
+        attemptId: apple.id,
+        proof: apple.proof,
+        code: returned.searchParams.get("code"),
+      };
+      await assert.rejects(service.complete({ ...input, proof: "stolen" }));
+      assert.equal((await service.complete(input)).status, "account_required");
+      await assert.rejects(service.complete(input));
+    } finally {
+      await db.socialAuthAttempt.deleteMany({ where: { id: { in: ids } } });
+      await db.$disconnect();
+    }
+  },
+);

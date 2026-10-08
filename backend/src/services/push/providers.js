@@ -25,6 +25,7 @@ async function fcm({ token, payload }) {
       android: {
         notification: {
           channelId: "gestadia_updates",
+          tag: payload.notificationId,
           icon: "ic_stat_gestadia",
         },
         ttl: 86400000,

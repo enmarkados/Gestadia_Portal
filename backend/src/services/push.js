@@ -13,6 +13,8 @@ export function createPushService({
   open,
   send,
   now = () => new Date(),
+  leaseMs = 60000,
+  renewEveryMs = 20000,
 }) {
   async function validSession(tx, actor) {
     if (!enabled || !actor?.session) denied();
@@ -31,6 +33,7 @@ export function createPushService({
     return s;
   }
   const due = () => ({
+    attempts: { lt: 5 },
     OR: [
       { status: "pending", nextAttemptAt: { lte: now() } },
       { status: "sending", lockedUntil: { lte: now() } },
@@ -129,6 +132,19 @@ export function createPushService({
     },
     async dispatch() {
       if (!enabled) return;
+      await db.pushDelivery.updateMany({
+        where: {
+          status: "sending",
+          attempts: { gte: 5 },
+          lockedUntil: { lte: now() },
+        },
+        data: {
+          status: "failed",
+          claimId: null,
+          lockedUntil: null,
+          lastError: "attempts_exhausted",
+        },
+      });
       const rows = await db.pushDelivery.findMany({
         where: due(),
         take: 25,
@@ -142,7 +158,7 @@ export function createPushService({
           data: {
             status: "sending",
             claimId,
-            lockedUntil: new Date(now().getTime() + 60000),
+            lockedUntil: new Date(now().getTime() + leaseMs),
             attempts: { increment: 1 },
           },
         });
@@ -168,7 +184,29 @@ export function createPushService({
           });
           continue;
         }
-        let result;
+        let result,
+          lost = false,
+          renewal = Promise.resolve();
+        const ownership = { id: row.id, claimId, status: "sending" };
+        const renew = () => {
+          renewal = renewal.then(async () => {
+            if (lost) return;
+            try {
+              const updated = await db.pushDelivery.updateMany({
+                where: { ...ownership, lockedUntil: { gt: now() } },
+                data: { lockedUntil: new Date(now().getTime() + leaseMs) },
+              });
+              if (updated.count !== 1) lost = true;
+            } catch {
+              lost = true;
+            }
+          });
+        };
+        const heartbeat = setInterval(
+          renew,
+          Math.min(renewEveryMs, leaseMs / 3),
+        );
+        heartbeat.unref?.();
         try {
           result = await send({
             transport: d.transport,
@@ -178,16 +216,33 @@ export function createPushService({
           });
         } catch {
           result = { accepted: false, reason: "provider_unavailable" };
+        } finally {
+          clearInterval(heartbeat);
+          await renewal;
         }
-        if (result.invalidToken)
-          await db.pushDevice.updateMany({
-            where: { id: d.id, tokenHash: d.tokenHash },
-            data: { active: false },
+        // No aplicar una respuesta tardía si otro worker recuperó el envío.
+        if (lost) continue;
+        if (result.invalidToken) {
+          await db.$transaction(async (tx) => {
+            const owned = await tx.pushDelivery.updateMany({
+              where: { ...ownership, lockedUntil: { gt: now() } },
+              data: { lockedUntil: new Date(now().getTime() + leaseMs) },
+            });
+            if (owned.count !== 1) {
+              lost = true;
+              return;
+            }
+            await tx.pushDevice.updateMany({
+              where: { id: d.id, tokenHash: d.tokenHash },
+              data: { active: false },
+            });
           });
+          if (lost) continue;
+        }
         const terminal =
           result.invalidToken || result.permanent || row.attempts >= 5;
         await db.pushDelivery.updateMany({
-          where: { id: row.id, claimId },
+          where: { ...ownership, lockedUntil: { gt: now() } },
           data: {
             status: result.accepted
               ? "accepted"

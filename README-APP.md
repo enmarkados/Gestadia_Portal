@@ -35,3 +35,5 @@ Para probar Docker localmente: `docker compose -f compose.app.yml up --build -d`
 Los proyectos nativos empaquetan el mismo frontend con Capacitor. Ejecutar `npm run mobile:sync` antes de compilar. No necesitan Firebase, una base de datos o cuentas de plataforma para presentar la demo. Firma para dispositivos iOS, App Store y Google Play, cuentas reales y conexión con LidIA quedan para una fase posterior.
 
 La preparación para tiendas solicitada el 08/10/2026 tiene una auditoría y propuesta escrita en los documentos anteriores. Está pendiente de revisión e implementación; el comportamiento actual continúa siendo el de la demo.
+
+Preparación de tiendas y evidencia: [MARKETPLACES-CONFIGURACION](docs/app/MARKETPLACES-CONFIGURACION.md).
