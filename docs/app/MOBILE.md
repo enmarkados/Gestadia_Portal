@@ -36,6 +36,8 @@ Atrás en Android cierra primero un diálogo abierto, vuelve por el historial o 
 
 ## Siguiente fase solicitada
 
+**Actualización 08/10/2026:** el usuario solicita preparar publicación en Apple/Google, notificaciones, permisos, firma y acceso Apple/Google en ambos sistemas. La auditoría y el diseño están en [MARKETPLACES.md](MARKETPLACES.md) y [ACCESO-SOCIAL.md](ACCESO-SOCIAL.md), pendientes de revisión e implementación. La restricción de la primera demo que se describe a continuación es histórica y sigue reflejando el comportamiento actual, no el alcance de esta nueva solicitud.
+
 El usuario confirmó que la app se crea desde cero y necesitará toda su infraestructura, pero pidió explícitamente que la **primera versión no conecte nada**. Por tanto, quedan pendientes:
 
 - Identificador registrado, equipo/certificado/perfil de Apple y distribución de prueba a dispositivos físicos.

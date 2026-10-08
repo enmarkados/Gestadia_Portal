@@ -459,3 +459,59 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** Conflicto al intentar ligar a otro caso una conversación ya vinculada y reconocimiento de una operación cuyo detalle fue retirado, respectivamente.
 - **Alcance:** adenda 1.1, §§3 y 6; `ContextError`. HTTP 409 y 410 respectivamente.
 - **Notas:** No habilitan otro caso ni repiten efectos. Las marcas de operación mantienen identidad/huella aun sin el detalle; la política de purga sigue pendiente.
+
+## Preparación de marketplaces (08/10/2026, diseño pendiente de revisión)
+
+### APNs y FCM
+- **Tipo:** conceptos de transporte de notificaciones.
+- **Definición:** Apple Push Notification service (APNs) entrega avisos a iOS; Firebase Cloud Messaging (FCM) entrega los avisos Android de esta propuesta. Sus identificadores de registro pertenecen a transportes distintos.
+- **Alcance:** `docs/app/MARKETPLACES.md`; futuras integraciones en `frontend/app/src/push.js` y `backend/src/services/push/`.
+- **Notas:** Se propone APNs directo en iOS y FCM en Android usando el plugin oficial de Capacitor. Se descarta enviar el token APNs a FCM como si fuera un token FCM.
+
+### `PushDevice`
+- **Tipo:** entidad Prisma propuesta.
+- **Definición:** Registro de una instalación autorizada para recibir avisos de una cuenta, con transporte, entorno y sesión asociados. No identifica a una persona ni concede acceso a expedientes.
+- **Alcance:** diseño `docs/app/MARKETPLACES.md`; futura entidad en `backend/prisma/schema.prisma` y rutas en `backend/src/routes/push.js`.
+- **Notas:** Se descarta guardar un único token en `User`: una cuenta puede tener varios dispositivos, rotaciones y cierres de sesión independientes.
+
+### `PushDelivery`
+- **Tipo:** entidad Prisma propuesta / concepto de entrega.
+- **Definición:** Intento durable de enviar una notificación ya creada a un dispositivo, con estado y reintento. Permite distinguir aviso almacenado, aceptado por el proveedor y visto por el usuario.
+- **Alcance:** diseño `docs/app/MARKETPLACES.md`; futura persistencia en `backend/prisma/schema.prisma` y worker en `backend/src/services/push/`.
+- **Notas:** Se descarta bloquear cambios de expediente mientras responde el proveedor. Aceptación APNs/FCM no acredita recepción ni lectura.
+
+### `SocialIdentity`
+- **Tipo:** entidad Prisma propuesta.
+- **Definición:** Vínculo entre la identidad estable de Apple o Google y una cuenta existente de Gestadia. Se identifica por emisor y sujeto del proveedor, no por el correo que declare el cliente móvil.
+- **Alcance:** diseño `docs/app/ACCESO-SOCIAL.md`; futura entidad en `backend/prisma/schema.prisma` y servicio en `backend/src/services/social-auth.js`.
+- **Notas:** Se descarta el alta o la fusión automática por coincidencia de email. Apple permite ocultarlo y las cuentas deben vincularse con prueba de control del acceso Gestadia.
+
+### `SocialAuthAttempt`
+- **Tipo:** entidad Prisma propuesta / concepto de autenticación.
+- **Definición:** Intento de acceso o vinculación con plazo limitado y desafío de un solo uso. Conserva la correlación necesaria para rechazar callbacks ajenos o repetidos.
+- **Alcance:** diseño `docs/app/ACCESO-SOCIAL.md`; futura entidad en `backend/prisma/schema.prisma` y rutas en `backend/src/routes/social-auth.js`.
+- **Notas:** Se descarta aceptar tokens sin correlación con un intento iniciado por el servidor. La representación de nonce y retorno se comprobará con el plugin seleccionado.
+
+### `AuthSession`
+- **Tipo:** entidad Prisma propuesta.
+- **Definición:** Sesión Gestadia revocable por el backend, separada de la identidad Apple/Google y del registro push. Vincula los avisos de una instalación al acceso que sigue vigente.
+- **Alcance:** diseños `docs/app/MARKETPLACES.md` y `docs/app/ACCESO-SOCIAL.md`; futura persistencia y ampliación de `backend/src/middleware/auth.js`.
+- **Notas:** Se descarta considerar la eliminación local de un JWT como revocación server-side. La transición de los JWT actuales requiere compatibilidad y pruebas.
+
+### Firma de distribución y clave de subida
+- **Tipo:** conceptos de publicación.
+- **Definición:** La firma de distribución identifica el binario entregado al usuario. En Play App Signing, la clave de subida autentica el AAB que se entrega a Google y puede diferir de la firma final de la aplicación.
+- **Alcance:** `docs/app/MARKETPLACES.md`; configuración futura de `frontend/android/app/build.gradle` y del proyecto Xcode.
+- **Notas:** Se descarta reutilizar la firma debug para publicar o asumir que su huella autoriza el login Google de un build instalado desde Play.
+
+### OAuth/OIDC, `state`, `nonce` y `jti`
+- **Tipo:** conceptos de autenticación / propiedades de protocolo.
+- **Definición:** OAuth y OpenID Connect organizan autorización e identificación mediante un proveedor. `state` correlaciona el retorno con el intento, `nonce` liga la prueba de identidad a un desafío y `jti` identifica un JWT individual.
+- **Alcance:** `docs/app/ACCESO-SOCIAL.md`; futuras implementaciones en `backend/src/services/social-auth.js` y `backend/src/middleware/auth.js`.
+- **Notas:** Se descarta tratar cualquiera de estos identificadores como permiso de expediente. Su validación debe incluir propósito, plazo y sesión, no sólo coincidencia de texto.
+
+### Apple Services ID
+- **Tipo:** concepto de configuración de proveedor.
+- **Definición:** Identificador del servicio web que usa Sign in with Apple fuera de la autenticación nativa iOS. Se asocia al App ID principal y a dominios y retornos registrados.
+- **Alcance:** `docs/app/ACCESO-SOCIAL.md`; futura configuración Apple y del backend para Android.
+- **Notas:** Distinto del bundle ID iOS. El valor concreto no se ha elegido ni registrado.

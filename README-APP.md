@@ -26,8 +26,12 @@ Entrada: `frontend/app/`. Build: `frontend/dist-app/`. El portal conserva su bui
 - [Publicación Docker, Portainer y Plesk](docs/app/DOCKER-PLESK.md)
 - [Validación y pendientes](docs/app/VALIDACION.md)
 - [Proyectos iOS y Android](docs/app/MOBILE.md)
+- [Preparación App Store/Google Play: push, permisos y firma](docs/app/MARKETPLACES.md)
+- [Diseño de acceso Apple y Google en ambas plataformas](docs/app/ACCESO-SOCIAL.md)
 - [Glosario](GLOSARIO.md)
 
 Para probar Docker localmente: `docker compose -f compose.app.yml up --build -d`. El contenedor expone la app en `127.0.0.1:8091`. El stack para Portainer está en `deploy/app/portainer-stack.yml`.
 
 Los proyectos nativos empaquetan el mismo frontend con Capacitor. Ejecutar `npm run mobile:sync` antes de compilar. No necesitan Firebase, una base de datos o cuentas de plataforma para presentar la demo. Firma para dispositivos iOS, App Store y Google Play, cuentas reales y conexión con LidIA quedan para una fase posterior.
+
+La preparación para tiendas solicitada el 08/10/2026 tiene una auditoría y propuesta escrita en los documentos anteriores. Está pendiente de revisión e implementación; el comportamiento actual continúa siendo el de la demo.
