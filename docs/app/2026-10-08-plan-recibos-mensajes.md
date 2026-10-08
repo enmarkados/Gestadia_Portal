@@ -49,6 +49,8 @@ El refresco manual de Mensajes actualiza también summary sin esperar al polling
 
 ## Revisión independiente
 
-Tres regresiones reproducidas RED (3 fallos/13 pruebas) y corregidas GREEN (13/13, suite completa149/149): excluir eventos de las consultas/ACK, observar tarjetas recreadas al buscar/limpiar y suspender lectura bajo una hoja modal. Cerrar la hoja exige una nueva intersección visible; se mantiene recepción sin simular lectura. Revisión final de estos cambios pendiente.
+Tres regresiones reproducidas RED (3 fallos/13 pruebas) y corregidas GREEN (13/13, suite completa149/149): excluir eventos de las consultas/ACK, observar tarjetas recreadas al buscar/limpiar y suspender lectura bajo una hoja modal. Cerrar la hoja exige una nueva intersección visible; se mantiene recepción sin simular lectura. Revisión final de estos cambios y caché cerrada, sin hallazgos abiertos.
 
 Regresión adicional de revisión: buscar sin coincidencias y limpiar conserva la caché de la misma cuenta y restaura el tick leído aunque llegue una revisión antigua (RED1/14; GREEN149/149 completo).
+
+Build12/356dc68 instalado físicamente y versión verificada; apertura pendiente de desbloqueo del iPhone. E2E común pendiente del runtime nuevo de LidIA.

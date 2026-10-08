@@ -31,3 +31,9 @@ Los ticks de recibido/leído solicitados son el siguiente bloque; el build 8 aú
 El bloque d887caa añade los ticks y el consumidor de recibos. Después de pasar backend167/167 y frontend144/144, el build10 se compiló/firma verificó e instaló en el mismo iGonchu. devicectl confirma la apertura y una consulta independiente de apps confirma build10, versión0.1.0. [Hash y resultado de la instalación](evidencias/2026-10-08-iphone-gonzalo/instalacion-build10.json).
 
 Este paquete conserva el origen nativo HTTPS app.gestadia.com; no contiene el fixture visual ni el proxy LAN. La interfaz/entrada de texto/ticks se comprobó en simulador build9 con fixture loopback, no contra el backend conectado. No se acredita funcionalidad del backend en el iPhone físico: permiso LAN pendiente y proveedor LidIA preparando su runtime aislado. Device Hub no permite capturar la pantalla física del build10 porque indica micrófono/cámara activos; no se cambian los usos del teléfono para forzarlo. La captura de Inicio anterior corresponde al build8.
+
+## Última actualización: build12
+
+Código356dc68, suite APP149/149 y revisión independiente sin hallazgos abiertos. Firma y build correctos; instalación y versión12 comprobadas por devicectl. [Registro con hash del paquete](evidencias/2026-10-08-iphone-gonzalo/instalacion-build12.json). Incluye exclusión de eventos de recibos, búsqueda sin perder ticks confirmados y suspensión de lectura bajo hojas modales.
+
+El iPhone está bloqueado: la apertura automática devolvió FBSOpenApplicationErrorDomain/Locked. Desbloqueo solicitado al usuario; la instalación está hecha, el arranque de esta última compilación queda pendiente. Los builds10/11 anteriores sí se abrieron. Se mantiene origen HTTPS app.gestadia.com; no se acredita E2E físico ni se ha abierto proxy LAN.
