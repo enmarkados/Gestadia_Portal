@@ -130,3 +130,59 @@ it("Actualizar conversaciones refresca también el tick sin esperar al polling",
  await screen.findByLabelText("Recibido por Gestadia");receipts.other=receipt(messages["chat-2"][0],"read","3");
  fireEvent.click(screen.getByRole("button",{name:"Actualizar conversaciones"}));await screen.findByLabelText("Leído por Gestadia");
 });
+
+
+it("un evento del historial no entra en consultas de recibos ni bloquea los mensajes normales",async()=>{
+ const {useMessageReceipts}=await import("./useMessageReceipts.js");
+ const {default:DeliveryTicks}=await import("./DeliveryTicks.jsx");
+ function History(){const state=useMessageReceipts({userId:user,conversationId:"chat-1",items:[...messages["chat-1"],item("event-1","event","4")],enabled:true});return <DeliveryTicks receipt={state.own}/>;}
+ render(<History/>);await screen.findByLabelText("Enviado a Gestadia");
+ expect(reads.every(url=>!new URL(url,"http://localhost").searchParams.get("message_ids")?.split(",").includes("event-1"))).toBe(true);
+ await waitFor(()=>expect(acks.some(a=>a.body.state==="received")).toBe(true));expect(acks.flatMap(a=>a.body.message_ids)).not.toContain("event-1");
+});
+
+it("buscar y limpiar registra las tarjetas recreadas y actualiza sus ticks sin pulsar Actualizar",async()=>{
+ const allRows=Array.from({length:12},(_,i)=>({...rows[0],id:`list-${i}`,title:`Conversación ${i}`}));
+ const original=global.fetch;
+ global.fetch=vi.fn(async(url,options)=>{
+  if(url==="/api/app/v1/conversations")return response({conversations:allRows});
+  const parsed=new URL(url,"http://localhost");
+  if(parsed.searchParams.get("summary")==="true"){
+   const id=parsed.pathname.split("/")[5];reads.push(url);const m=item(`${id}-own`,"user","1");
+   return response({schema_version:"1.0",conversation_id:id,message_receipts_revision:"10",last_message:{...m,receipt:receipt(m,id==="list-11"?"read":"sent","3")}});
+  }
+  return original(url,options);
+ });
+ render(<MemoryRouter><ConnectedMessages/></MemoryRouter>);await screen.findByRole("link",{name:/Conversación 11/});
+ act(()=>{for(const o of observers)o.callback([...o.nodes].map(target=>({target,isIntersecting:false,intersectionRatio:0})));});
+ fireEvent.change(screen.getByRole("searchbox"),{target:{value:"Conversación 0"}});
+ await waitFor(()=>expect(screen.queryByRole("link",{name:/Conversación 11/})).toBeNull());
+ fireEvent.change(screen.getByRole("searchbox"),{target:{value:"Conversación 11"}});
+ await waitFor(()=>expect([...observers].some(o=>[...o.nodes].some(n=>n.isConnected&&n.dataset.receiptConversation==="list-11"))).toBe(true));
+ act(()=>{for(const o of observers)for(const target of o.nodes)if(target.dataset.receiptConversation==="list-11")o.callback([{target,isIntersecting:true,intersectionRatio:1}]);});
+ await screen.findByLabelText("Leído por Gestadia");
+ fireEvent.click(screen.getByRole("button",{name:"Limpiar búsqueda"}));
+ await waitFor(()=>expect([...observers].some(o=>[...o.nodes].some(n=>n.isConnected&&n.dataset.receiptConversation==="list-0"))).toBe(true));
+ expect(acks).toHaveLength(0);
+});
+
+it("una hoja modal sobre el chat permite recibir pero no leer hasta cerrarla y observar de nuevo",async()=>{
+ const {useMessageReceipts}=await import("./useMessageReceipts.js");
+ function History(){useMessageReceipts({userId:user,conversationId:"chat-1",items:messages["chat-1"],enabled:true});return <main id="main"><div data-message-id="incoming">Mensaje detrás de la hoja</div></main>;}
+ const dialog=document.createElement("dialog");dialog.setAttribute("open","");dialog.setAttribute("aria-modal","true");document.body.append(dialog);
+ try {
+  render(<History/>);await waitFor(()=>expect(acks.some(a=>a.body.state==="received")).toBe(true));visible("incoming");
+  await act(async()=>{});expect(acks.some(a=>a.body.state==="read")).toBe(false);
+  await act(async()=>dialog.remove());await act(async()=>{});expect(acks.some(a=>a.body.state==="read")).toBe(false);
+  visible("incoming");await waitFor(()=>expect(acks.some(a=>a.body.state==="read")).toBe(true));
+ } finally {dialog.remove();}
+});
+
+it("una búsqueda sin coincidencias no pierde el leído confirmado ante una respuesta atrasada",async()=>{
+ receipts.other=receipt(messages["chat-2"][0],"read","3");render(<MemoryRouter><ConnectedMessages/></MemoryRouter>);
+ await screen.findByLabelText("Leído por Gestadia");
+ fireEvent.change(screen.getByRole("searchbox"),{target:{value:"no coincide"}});await screen.findByText("No hay conversaciones que coincidan.");
+ receipts.other=receipt(messages["chat-2"][0],"sent","1");
+ fireEvent.click(screen.getByRole("button",{name:"Limpiar búsqueda"}));await screen.findByText("Texto other");
+ expect(screen.getByLabelText("Leído por Gestadia")).toBeTruthy();expect(screen.queryByLabelText("Enviado a Gestadia")).toBeNull();
+});

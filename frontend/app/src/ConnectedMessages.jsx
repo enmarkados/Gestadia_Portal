@@ -1,6 +1,6 @@
 import DeliveryTicks from "./DeliveryTicks.jsx";
 import { useReceiptSummaries } from "./useMessageReceipts.js";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { navigationState } from "./navigation.js";
 import { conversationApi } from "./conversationApi.js";
@@ -109,12 +109,12 @@ export default function ConnectedMessages() {
       setSaving(false);
     }
   }
-  const summaries = useReceiptSummaries(rows);
-  const matches = rows.filter((c) =>
+  const matches = useMemo(() => rows.filter((c) =>
     folded(`${c.title || ""} ${interlocutor(c)}`).includes(
       folded(query.trim()),
     ),
-  );
+  ), [rows, query]);
+  const summaries = useReceiptSummaries(matches);
   return (
     <section className="messages-page connected-messages">
       <div className="messages-title-row">

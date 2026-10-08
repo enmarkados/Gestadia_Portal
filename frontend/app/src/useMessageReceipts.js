@@ -33,8 +33,8 @@ export function useMessageReceipts({ userId, conversationId, items, enabled }) {
       cache.current = { userId, conversationId, items: {} };
     setReceipts({ ...cache.current.items });
     if (!enabled || !userId || !conversationId || !idsKey) return;
-    let alive = true, fetching = false, sending = false, timer, observer;
-    const accepted = new Map(items.map(m => [m.message_id, m]));
+    let alive = true, fetching = false, sending = false, timer, observer, modalObserver;
+    const accepted = new Map(items.filter(m => ["user", "assistant", "operator"].includes(m.role)).map(m => [m.message_id, m]));
     const visible = new Set(), confirmed = cache.current.items;
     const key = `gestadia_app_conversation_v1:receipt-acks:${userId}:${conversationId}`;
     let queue;
@@ -61,7 +61,7 @@ export function useMessageReceipts({ userId, conversationId, items, enabled }) {
       try {
         while (alive && activity.active() && queue.length) {
           const op = queue.find(entry => entry.body.message_ids.every(id => incoming(id))
-            && (entry.body.state !== "read" || entry.body.message_ids.every(id => visible.has(id))));
+            && (entry.body.state !== "read" || (readActive() && entry.body.message_ids.every(id => visible.has(id)))));
           if (!op) break;
           try {
             const result = await conversationApi.ackMessages(conversationId, op.body, op.key);
@@ -82,7 +82,7 @@ export function useMessageReceipts({ userId, conversationId, items, enabled }) {
       } finally { sending = false; }
     }
     function enqueue(state, ids) {
-      if (!alive || !activity.active()) return;
+      if (!alive || !activity.active() || (state === "read" && !readActive())) return;
       const needed = ids.filter(id => incoming(id) && confirmed[id]
         && rank[confirmed[id].delivery_status] < rank[state]
         && !queue.some(op => rank[op.body.state] >= rank[state] && op.body.message_ids.includes(id)));
@@ -120,8 +120,11 @@ export function useMessageReceipts({ userId, conversationId, items, enabled }) {
         void flush(); void refresh();
       }
     });
+    // Geometry under a modal does not establish human visibility of the chat.
+    const readActive = () => activity.active() && !document.querySelector('dialog[open], [aria-modal="true"]');
+    let reading = readActive();
     function observeMessages() {
-      if (!observer) return;
+      if (!observer || !readActive()) return;
       for (const element of document.querySelectorAll("[data-message-id]"))
         if (incoming(element.dataset.messageId)) observer.observe(element);
     }
@@ -129,16 +132,23 @@ export function useMessageReceipts({ userId, conversationId, items, enabled }) {
       observer = new IntersectionObserver(entries => {
         for (const entry of entries) {
           const id = entry.target.dataset.messageId;
-          if (activity.active() && entry.isIntersecting && entry.intersectionRatio > 0) visible.add(id); else visible.delete(id);
+          if (readActive() && entry.isIntersecting && entry.intersectionRatio > 0) visible.add(id); else visible.delete(id);
         }
         enqueue("read", [...visible]);
       }, { root: document.getElementById("main"), threshold: [0, 0.01, 0.5] });
       observeMessages();
     }
+    modalObserver = new MutationObserver(() => {
+      const next = readActive();
+      if (next === reading) return;
+      reading = next; visible.clear(); observer?.disconnect();
+      if (next) observeMessages(); // A fresh intersection is required after the sheet closes.
+    });
+    modalObserver.observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ["open", "aria-modal"] });
     void refresh();
     async function poll() { if (!alive) return; await flush(); await refresh(false); if (alive) timer = setTimeout(poll, 3000); }
     timer = setTimeout(poll, 3000);
-    return () => { alive = false; clearTimeout(timer); observer?.disconnect(); activity.stop(); };
+    return () => { alive = false; clearTimeout(timer); observer?.disconnect(); modalObserver?.disconnect(); activity.stop(); };
   }, [userId, conversationId, !!enabled, idsKey]);
   return receipts;
 }
@@ -149,10 +159,11 @@ export function useReceiptSummaries(rows) {
   const token = getToken(), cache = useRef({ token: null, items: {} });
   const key = rows.filter(c => c.ready).map(c => c.id).join(",");
   useEffect(() => {
-    if (!key || !token) { cache.current = { token, items: {} }; setSummaries({}); return; }
-    if (cache.current.token !== token) cache.current = { token, items: {} };
+    if (!token || cache.current.token !== token) cache.current = { token, items: {} };
+    if (!key || !token) { setSummaries({}); return; }
     let alive = true, fetching = false, timer, observer;
     const ids = key.split(","), current = cache.current.items, visible = new Set(ids.slice(0, 10));
+    setSummaries({ ...current });
     function merge(id, result) {
       if (!alive || getToken() !== token || result?.conversation_id !== id || !Object.hasOwn(result, "last_message")) return;
       const old = current[id]?.last_message, next = result.last_message;

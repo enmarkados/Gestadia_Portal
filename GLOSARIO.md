@@ -789,3 +789,10 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** representación accesible de los acuses confirmados, seguimiento de mensajes aceptados/visibles en el chat y consulta de resúmenes en Mensajes.
 - **Alcance:** frontend/app/src/DeliveryTicks.jsx y useMessageReceipts.js.
 - **Notas:** Mensajes consulta sin ACK; las colas se acotan por cuenta y conversación y se eliminan con el cierre de sesión. No confunden el recibo de turno con la lectura.
+
+## readActive
+
+- **Tipo:** predicado interno de interfaz.
+- **Definición:** condición que exige APP visible/en primer plano y ausencia de modal sobre el chat para admitir lectura de mensajes.
+- **Alcance:** frontend/app/src/useMessageReceipts.js.
+- **Notas:** se descarta usar sólo intersección geométrica, porque una hoja modal puede tapar el historial. Cerrar la hoja exige observación nueva.
