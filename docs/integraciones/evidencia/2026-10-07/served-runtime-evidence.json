@@ -1,0 +1,23 @@
+{
+  "stack_id": 26,
+  "served_build": "V1.708-app-config-persistente",
+  "commit": "b63b89dd64becbc9a221d3a1491c2385381add4b",
+  "container_id": "df36eb1bacef3f7232723e71130974e4eee7a7171dd3d9ab4583ae4a61bc7fc2",
+  "image_id": "sha256:2cc558e2cce8c39f2d089c6f0367d2432f5a6242750a6c0741da3730171a17fa",
+  "health": "healthy",
+  "app_enabled": false,
+  "app_route_http": 503,
+  "app_route_body": {
+    "type": "urn:lidia:app:error:integration_unavailable",
+    "title": "Error APP",
+    "status": 503,
+    "code": "integration_unavailable",
+    "detail": "La solicitud APP no se puede completar.",
+    "correlation_id": "0HNP4F8SU3IMS:00000001",
+    "retryable": true
+  },
+  "playground_session": "ca4ba868-7d21-4b89-b0cc-ae16c7624455",
+  "agent_id": 122,
+  "project_id": 103,
+  "instruction_id": 10116
+}

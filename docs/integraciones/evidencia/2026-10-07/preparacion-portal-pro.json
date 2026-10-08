@@ -1,0 +1,29 @@
+{
+  "prepared_at": "2026-10-07T12:52:19.326960+00:00",
+  "namespace": "gestadia-app-pro-local-validation",
+  "integration_id": "gestadia-app-pro-local-validation",
+  "audience": "gestadia-app-pro-local-validation",
+  "source_origin": "https://lidia.gestadia.com",
+  "source_environment": "pro",
+  "database_container": "gestadia-portal-real-app-20261007",
+  "database_host": "127.0.0.1",
+  "database_port": 59895,
+  "database_name": "gestadia_app_real_test",
+  "database_prepared": true,
+  "schema_sha256": "64c1eaab810bf3c6f73f8bea767113d1996ee8ce1a81f29641596caf38277e38",
+  "fictitious_account_id": "1cf42992-e1cd-4d3b-b723-f4ad5e301f39",
+  "identity_proof": "provisioned fictitious test account; no real invitation delivered",
+  "initial_counts": {
+    "access_grants": 0,
+    "device_sessions": 0,
+    "conversations": 0,
+    "operations": 0
+  },
+  "backend_port_reserved": 3002,
+  "app_port_reserved": 5175,
+  "backend_started": false,
+  "frontend_started": false,
+  "source_effective_configuration_confirmed": false,
+  "source_turn_started": false,
+  "fixture_preserved": true
+}

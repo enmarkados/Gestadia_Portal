@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import { navigationState } from "./navigation.js";
 
 export default function LegalLinks({ compact = false }) {
   const location = useLocation();
@@ -18,13 +19,13 @@ export default function LegalLinks({ compact = false }) {
         </>
       )}
       <nav aria-label="Información legal y soporte">
-        <Link to="/legal/privacy" state={{ from: location.pathname }}>
+        <Link to="/legal/privacy" state={navigationState(location)}>
           Privacidad
         </Link>
-        <Link to="/legal/terms" state={{ from: location.pathname }}>
+        <Link to="/legal/terms" state={navigationState(location)}>
           Términos
         </Link>
-        <Link to="/legal/support" state={{ from: location.pathname }}>
+        <Link to="/legal/support" state={navigationState(location)}>
           Soporte
         </Link>
       </nav>

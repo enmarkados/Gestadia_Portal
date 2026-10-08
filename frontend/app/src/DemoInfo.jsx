@@ -1,8 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { backNavigation } from "./navigation.js";
 export default function DemoInfo() {
+  const back = backNavigation(useLocation());
   return (
-    <section>
+    <section className="workspace-page">
       <p className="eyebrow">GESTADIA · PRIMERA VERSIÓN</p>
       <h1>Explora la demostración</h1>
       <div className="card form-card">
@@ -24,8 +26,8 @@ export default function DemoInfo() {
           Puedes reiniciar el recorrido desde Mi cuenta, eligiendo el perfil de
           cliente o de lead.
         </p>
-        <Link className="btn primary" to="/">
-          Volver a la app
+        <Link className="btn primary" to={back.to} state={back.state} replace>
+          {back.label}
         </Link>
       </div>
     </section>

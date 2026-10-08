@@ -1,0 +1,12 @@
+{
+  "fixture_only": true,
+  "build": 13,
+  "text_from_native_input": "Mensaje enviado desde iOS para validar los ticks.",
+  "states_observed": [
+    "sent",
+    "received",
+    "read"
+  ],
+  "read_by": "operator",
+  "operator": "local control, actual authority service; not human panel UI"
+}

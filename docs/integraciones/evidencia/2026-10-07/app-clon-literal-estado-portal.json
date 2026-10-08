@@ -1,0 +1,57 @@
+{
+  "checkedAt": "2026-10-07T15:38:54.280Z",
+  "sourceConfigurationReady": true,
+  "users": 1,
+  "sessions": 2,
+  "access": [
+    {
+      "purpose": "sondeo",
+      "permissions": [
+        "sondeo",
+        "history"
+      ],
+      "caseId": null,
+      "validUntil": "2026-10-08T14:53:47.000Z"
+    }
+  ],
+  "conversations": [
+    {
+      "id": "5cc1b4dc-0dff-4439-b575-e343cc710a5d",
+      "remoteId": "a0490f84-6eba-4c0c-a02a-579d1aa72b11",
+      "purpose": "sondeo",
+      "status": "active",
+      "stateRevision": "4",
+      "contextRevision": "1",
+      "syncedRevision": "1"
+    }
+  ],
+  "operations": [
+    {
+      "id": "07f436c1-6516-454e-b4a8-12c914faa54b",
+      "kind": "session",
+      "status": "admitted",
+      "httpStatus": 201,
+      "errorCode": null,
+      "createdAt": "2026-10-07T15:33:16.419Z",
+      "updatedAt": "2026-10-07T15:33:16.642Z"
+    },
+    {
+      "id": "148aca41-cfcb-47d4-a31c-f6def2e95784",
+      "kind": "context",
+      "status": "admitted",
+      "httpStatus": 200,
+      "errorCode": null,
+      "createdAt": "2026-10-07T15:33:16.692Z",
+      "updatedAt": "2026-10-07T15:33:16.799Z"
+    },
+    {
+      "id": "afc32c4b-f140-40ff-a0ba-6f31e442c704",
+      "kind": "turn",
+      "status": "admitted",
+      "httpStatus": 200,
+      "errorCode": null,
+      "createdAt": "2026-10-07T15:33:47.765Z",
+      "updatedAt": "2026-10-07T15:33:54.523Z"
+    }
+  ]
+}

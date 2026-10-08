@@ -23,7 +23,9 @@
     "@capacitor/browser": "8.0.0",
     "@capacitor/core": "8.5.2",
     "@capacitor/ios": "8.5.2",
+    "@capacitor/keyboard": "8.0.6",
     "@capacitor/splash-screen": "8.0.1",
+    "lucide-react": "1.52.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.28.0"

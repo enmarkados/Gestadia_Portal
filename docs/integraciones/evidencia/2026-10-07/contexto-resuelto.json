@@ -1,0 +1,44 @@
+{
+  "checked_at": "2026-10-07T09:24:01.939Z",
+  "operations": [
+    {
+      "id": "b584f968-cf5f-42f1-af92-0e2f86cb0f8c",
+      "kind": "context",
+      "status": "superseded",
+      "errorCode": "stale_context",
+      "httpStatus": 409,
+      "retainedUntil": "2026-11-06T07:50:22.364Z",
+      "request_hash": "c32c22f630f95b6565e88ff42c4abcc955c2d5281219f806d6d241865bb45375",
+      "response_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "idempotency_hash": "6e891b51586e74df7561f26ef171e10ea026c73b8af7948aa12c623c146cc2cf"
+    },
+    {
+      "id": "f3b3f534-2b90-4ac8-861c-ea839de2079c",
+      "kind": "context",
+      "status": "superseded",
+      "errorCode": "stale_context",
+      "httpStatus": 409,
+      "retainedUntil": "2026-11-06T07:50:09.766Z",
+      "request_hash": "a90064dd4298ed1e3a9272fa72a83454328aa124de878b446e9c508adcc4eebb",
+      "response_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "idempotency_hash": "f2095f14c63bf46628bbde064028ddffb7e1612dd2fcd5b7ef21bf7ea01aa75e"
+    }
+  ],
+  "contexts": [
+    {
+      "id": "12156ba9-d9e9-4b33-8d4b-8a39be5cbbfd",
+      "contextRevision": "5",
+      "syncedRevision": "5"
+    },
+    {
+      "id": "ef8744e1-11a6-4c05-a49b-a52d44165e4c",
+      "contextRevision": "7",
+      "syncedRevision": "7"
+    }
+  ],
+  "grants_hash": "8b728addd8818ef93e58c762717d79b7485bf4ce30c00ecb53807e04c261cbf6",
+  "preserved_operations": true,
+  "contexts_unchanged": true,
+  "grants_unchanged": true,
+  "resolved": true
+}

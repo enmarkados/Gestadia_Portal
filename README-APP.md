@@ -11,6 +11,8 @@ npm run app:preview
 npm test --prefix frontend
 ```
 
+La nueva [API conversacional APP](docs/integraciones/2026-10-05-entrega-portal-conversaciones-app.md) está incorporada en `app/main`, con cuenta validada, sesiones de dispositivo, S2S, recuperación y recibos de mensajes. La configuración versionada mantiene las conexiones desactivadas y la demo aislada; la integración Git no cambia la configuración ni despliega producción. Pruebas aisladas: `node scripts/test-app-conversations.mjs`. [Acta y reparto aceptado](docs/integraciones/2026-10-05-acta-inicio-conversacional.md).
+
 Entrada: `frontend/app/`. Build: `frontend/dist-app/`. El portal conserva su build propio en `frontend/dist/`.
 
 - [Alcance](docs/app/PRIMERA-VERSION.md)
@@ -28,10 +30,19 @@ Entrada: `frontend/app/`. Build: `frontend/dist-app/`. El portal conserva su bui
 - [Proyectos iOS y Android](docs/app/MOBILE.md)
 - [Preparación App Store/Google Play: push, permisos y firma](docs/app/MARKETPLACES.md)
 - [Diseño de acceso Apple y Google en ambas plataformas](docs/app/ACCESO-SOCIAL.md)
+- [Mapa de pantallas y navegación contextual](docs/app/NAVEGACION.md)
+- [Integración y sincronización en app/main](docs/app/2026-10-08-integracion-app-main.md)
+- [Recibos de mensajes: pruebas conectadas web e iOS](docs/app/2026-10-08-recibos-conectados.md)
 - [Glosario](GLOSARIO.md)
 
 Para probar Docker localmente: `docker compose -f compose.app.yml up --build -d`. El contenedor expone la app en `127.0.0.1:8091`. El stack para Portainer está en `deploy/app/portainer-stack.yml`.
 
-Los proyectos nativos empaquetan el mismo frontend con Capacitor. Ejecutar `npm run mobile:sync` antes de compilar. No necesitan Firebase, una base de datos o cuentas de plataforma para presentar la demo. Firma para dispositivos iOS, App Store y Google Play, cuentas reales y conexión con LidIA quedan para una fase posterior.
+Los proyectos nativos empaquetan el mismo frontend con Capacitor. Ejecutar `npm run mobile:sync` antes de compilar. No necesitan Firebase, una base de datos o cuentas de plataforma para presentar la demo. La [instalación física en el iPhone de Gonzalo](docs/app/2026-10-08-iphone-gonzalo.md) y el ciclo conectado local web/simulador están comprobados; publicación en tiendas, despliegue del backend y aceptación física conectada se verifican por separado.
 
 La preparación para tiendas solicitada el 08/10/2026 tiene una auditoría y propuesta escrita en los documentos anteriores. Está pendiente de revisión e implementación; el comportamiento actual continúa siendo el de la demo.
+
+Diseño de Mensajes y comprobaciones de la lista compacta: [Mensajes](docs/app/MENSAJES-DISENO.md).
+
+[Plan de diseño de todas las pantallas y cobertura](docs/app/PLAN-DISENO-APP.md).
+
+[Crear una nueva conversación con LidIA: contrato, recorrido y verificación](docs/app/2026-10-08-nueva-conversacion-lidia.md).

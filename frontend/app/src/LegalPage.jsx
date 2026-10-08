@@ -2,15 +2,13 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { legalDocuments } from "./legalContent.js";
 import AccountDeletion from "./AccountDeletion.jsx";
+import { backNavigation } from "./navigation.js";
 import Icon from "./Icon.jsx";
 
 export default function LegalPage({ kind }) {
   const location = useLocation();
   const document = legalDocuments[kind];
-  const from = location.state?.from;
-  const backTo = ["/cuenta", "/acceso", "/registro"].includes(from)
-    ? from
-    : "/acceso";
+  const back = backNavigation(location, "/acceso");
   return (
     <section className="legal-page">
       <div className="card legal-intro">
@@ -32,7 +30,8 @@ export default function LegalPage({ kind }) {
           <Link
             key={key}
             to={`/legal/${key}`}
-            state={{ from: backTo }}
+            state={location.state}
+            replace
             aria-current={kind === key ? "page" : undefined}
           >
             {label}
@@ -50,13 +49,8 @@ export default function LegalPage({ kind }) {
         ))}
         {kind === "delete-account" && <AccountDeletion />}
       </article>
-      <Link className="btn secondary" to={backTo}>
-        Volver{" "}
-        {backTo === "/cuenta"
-          ? "a Mi Perfil"
-          : backTo === "/registro"
-            ? "al registro"
-            : "al acceso"}
+      <Link className="btn secondary" to={back.to} state={back.state} replace>
+        {back.label}
       </Link>
     </section>
   );

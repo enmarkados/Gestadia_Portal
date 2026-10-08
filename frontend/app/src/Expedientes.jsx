@@ -4,15 +4,17 @@ import {
   useParams,
   useSearchParams,
   useNavigate,
+  useLocation,
 } from "react-router-dom";
 import { useApp } from "./AppContext.jsx";
 import { request } from "./api.js";
 import Icon from "./Icon.jsx";
+import { accessState, navigationState } from "./navigation.js";
 export default function Expedientes() {
   const { data, mode } = useApp();
+  const location = useLocation();
   return (
-    <section>
-      <p className="eyebrow">TU GESTORÍA, CONTIGO</p>
+    <section className="workspace-page">
       <h1>Mis trámites</h1>
       <p className="muted">
         Consulta el estado de tu gestión y la documentación pendiente.
@@ -32,7 +34,8 @@ export default function Expedientes() {
           </p>
           <Link
             className="btn primary"
-            to={mode === "visitante" ? "/cuenta" : "/servicios"}
+            to={mode === "visitante" ? "/acceso" : "/servicios"}
+            state={mode === "visitante" ? accessState(location) : null}
           >
             {mode === "visitante" ? "Entrar al portal" : "Ver servicios"}
           </Link>
@@ -54,6 +57,7 @@ export default function Expedientes() {
               <Link
                 className="btn dark-btn"
                 to={`/tramites/${encodeURIComponent(e.id)}`}
+                state={navigationState(location)}
               >
                 Ver trámite y documentos
               </Link>
@@ -67,6 +71,7 @@ export default function Expedientes() {
 export function ExpedienteDetalle() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const [params] = useSearchParams();
   const selectedDocument = params.get("documento");
   const { mode, data, setData } = useApp();
@@ -120,7 +125,7 @@ export function ExpedienteDetalle() {
         },
       ],
     }));
-    navigate("/mensajes/gestor");
+    navigate("/mensajes/gestor", { state: navigationState(location) });
   }
   useEffect(() => {
     if (!detail || !selectedDocument) return;
@@ -211,9 +216,13 @@ export function ExpedienteDetalle() {
   }
   if (mode === "visitante")
     return (
-      <section>
+      <section className="workspace-page">
         <h1>Tu trámite</h1>
-        <Link className="btn primary" to="/cuenta">
+        <Link
+          className="btn primary"
+          to="/acceso"
+          state={accessState(location)}
+        >
           Entrar al portal
         </Link>
       </section>
@@ -236,58 +245,76 @@ export function ExpedienteDetalle() {
           </p>
           <h2>1. Datos Personales y Filiación DGT</h2>
           <div className="validation-fields">
-            <input
-              aria-label="Nombre"
-              placeholder="Nombre"
-              autoComplete="given-name"
-              value={profile.nombre || ""}
-              required
-              onChange={(event) =>
-                setProfile({ ...profile, nombre: event.target.value })
-              }
-            />
-            <input
-              aria-label="Apellidos"
-              placeholder="Apellidos"
-              autoComplete="family-name"
-              value={profile.apellidos || ""}
-              required
-              onChange={(event) =>
-                setProfile({ ...profile, apellidos: event.target.value })
-              }
-            />
-            <div className="validation-document-fields">
+            <label>
+              <span>Nombre</span>
               <input
-                aria-label="Número de documento"
-                placeholder={profile.tipoDocumento || "DNI/NIE"}
-                value={profile.numDocumento || ""}
+                aria-label="Nombre"
+                placeholder="Nombre"
+                autoComplete="given-name"
+                value={profile.nombre || ""}
+                required
                 onChange={(event) =>
-                  setProfile({ ...profile, numDocumento: event.target.value })
+                  setProfile({ ...profile, nombre: event.target.value })
                 }
               />
+            </label>
+            <label>
+              <span>Apellidos</span>
               <input
-                aria-label="País del permiso"
-                value={detail.paisCanje || ""}
+                aria-label="Apellidos"
+                placeholder="Apellidos"
+                autoComplete="family-name"
+                value={profile.apellidos || ""}
+                required
+                onChange={(event) =>
+                  setProfile({ ...profile, apellidos: event.target.value })
+                }
+              />
+            </label>
+            <div className="validation-document-fields">
+              <label>
+                <span>Número de documento</span>
+                <input
+                  aria-label="Número de documento"
+                  placeholder={profile.tipoDocumento || "DNI/NIE"}
+                  value={profile.numDocumento || ""}
+                  onChange={(event) =>
+                    setProfile({ ...profile, numDocumento: event.target.value })
+                  }
+                />
+              </label>
+              <label>
+                <span>País del permiso</span>
+                <input
+                  aria-label="País del permiso"
+                  value={detail.paisCanje || ""}
+                  readOnly
+                />
+              </label>
+            </div>
+            <label>
+              <span>Email</span>
+              <input
+                aria-label="Email"
+                type="email"
+                autoComplete="email"
+                value={profile.email || ""}
                 readOnly
               />
-            </div>
-            <input
-              aria-label="Email"
-              type="email"
-              autoComplete="email"
-              value={profile.email || ""}
-              readOnly
-            />
-            <input
-              aria-label="Teléfono"
-              type="tel"
-              placeholder="Teléfono"
-              autoComplete="tel"
-              value={profile.telefono || ""}
-              onChange={(event) =>
-                setProfile({ ...profile, telefono: event.target.value })
-              }
-            />
+            </label>
+            <label>
+              <span>Teléfono</span>
+              <input
+                aria-label="Teléfono"
+                type="tel"
+                placeholder="Teléfono"
+                autoComplete="tel"
+                value={profile.telefono || ""}
+                onChange={(event) =>
+                  setProfile({ ...profile, telefono: event.target.value })
+                }
+              />
+            </label>
           </div>
           <h2>2. Documentación Obligatoria (máx. 10 MB)</h2>
           {notice && (

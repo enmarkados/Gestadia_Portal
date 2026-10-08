@@ -2,6 +2,7 @@ import { Capacitor, CapacitorHttp } from "@capacitor/core";
 import { App } from "@capacitor/app";
 import { Browser } from "@capacitor/browser";
 import { SplashScreen } from "@capacitor/splash-screen";
+import { Keyboard } from "@capacitor/keyboard";
 
 export const isNative = () => Capacitor.isNativePlatform();
 export const nativeOrigin = () =>
@@ -10,6 +11,11 @@ export const nativeOrigin = () =>
       ? "capacitor://localhost"
       : "https://localhost"
     : null;
+
+export async function setupNativeKeyboard() {
+  if (isNative() && Capacitor.getPlatform() === "ios")
+    await Keyboard.setResizeMode({ mode: "native" });
+}
 
 export async function loadNativeConfig() {
   if (!isNative() || globalThis.GESTADIA_APP_CONFIG?.demoOnly) return;
@@ -54,7 +60,7 @@ export async function openExternal(url) {
   if (globalThis.GESTADIA_APP_CONFIG?.demoOnly)
     throw new Error("La demo no abre conexiones externas.");
   if (isNative()) await Browser.open({ url });
-  else window.location.assign(url);
+  else window.open(url, "_blank", "noopener,noreferrer");
 }
 
 export function setupNativeNavigation() {
@@ -64,6 +70,11 @@ export function setupNativeNavigation() {
     if (dialog) {
       if (dialog.dispatchEvent(new Event("cancel", { cancelable: true })))
         dialog.close();
+      return;
+    }
+    const back = document.querySelector("[data-app-back]");
+    if (back) {
+      back.click();
       return;
     }
     if (window.location.hash && window.location.hash !== "#/") {

@@ -24,9 +24,9 @@ export default function AccountDeletion() {
     <div className="account-deletion">
       <h3>Eliminar cuenta</h3>
       <p className="helper">
-        Elimina del dispositivo el perfil de ejemplo, consultas, mensajes,
-        preferencias y nombres de documentos seleccionados. Se cerrará tu
-        sesión. Esta demo no tiene una cuenta en un servidor.
+        {app.mode === "demo"
+          ? "Elimina del dispositivo tu perfil de ejemplo, consultas, mensajes, preferencias y nombres de documentos. Se cerrará tu sesión."
+          : "Consulta las opciones disponibles para gestionar la eliminación de tu cuenta."}
       </p>
       {app.mode === "demo" ? (
         <>

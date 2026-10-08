@@ -63,13 +63,17 @@ export async function request(path, { auth = true, ...options } = {}) {
     setToken(null);
     window.dispatchEvent(new Event("gestadia-session-expired"));
   }
-  if (!response.ok)
-    throw new Error(
+  if (!response.ok) {
+    const error = new Error(
       body?.error ||
         (response.status === 401
           ? "Tu sesión ha caducado. Vuelve a entrar."
           : "No se pudo completar la solicitud. Inténtalo de nuevo."),
     );
+    error.code = body?.code;
+    error.status = response.status;
+    throw error;
+  }
   if (!body)
     throw new Error(
       "El servidor no ha devuelto datos válidos. Revisa la conexión con el portal.",

@@ -515,3 +515,340 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** Identificador del servicio web que usa Sign in with Apple fuera de la autenticación nativa iOS. Se asocia al App ID principal y a dominios y retornos registrados.
 - **Alcance:** `docs/app/ACCESO-SOCIAL.md`; futura configuración Apple y del backend para Android.
 - **Notas:** Distinto del bundle ID iOS. El valor concreto no se ha elegido ni registrado.
+
+## Implementación conversacional Portal (05/10/2026)
+
+### `AppDeviceSession`
+- **Tipo:** entidad Prisma.
+- **Definición:** Sesión revocable de un dispositivo de la APP ligada a la cuenta compartida; conserva la huella del token, nunca su valor.
+- **Alcance:** backend/prisma/schema.prisma; backend/src/app/identity.js.
+- **Notas:** Se mantiene la autenticación JWT del Portal existente; la sesión APP tiene su propio ciclo de vida.
+
+### `AppConversation`
+- **Tipo:** entidad Prisma.
+- **Definición:** Asociación durable entre cuenta, integración, propósito y ámbito de expediente y la conversación pública LidIA.
+- **Alcance:** backend/prisma/schema.prisma; backend/src/app/conversations.js.
+- **Notas:** No depende de cookies, no se reasigna entre cuentas/casos, no guarda ids internos de agente.
+
+### `AppOperation`
+- **Tipo:** entidad Prisma / outbox.
+- **Definición:** Claim durable de una petición APP con su identidad, huella y resultado pendiente o conocido.
+- **Alcance:** backend/prisma/schema.prisma; backend/src/app/store.js.
+- **Notas:** Se persiste antes de HTTP; la pérdida de respuesta conserva la misma operación/key. También transporta contexto y revocación.
+
+### `AppConversationAccess`
+- **Tipo:** entidad Prisma.
+- **Definición:** Evidencia vigente de permisos y asignaciones acreditadas por la autoridad Portal para un ámbito de conversación.
+- **Alcance:** backend/prisma/schema.prisma; backend/src/app/lifecycle.js.
+- **Notas:** Sólo escritores internos; no se deduce gestor desde Owner ni desde ids enviados por móvil.
+
+### `accountStatus, accountVerifiedAt, accountVerificationMethod`
+- **Tipo:** propiedades User.
+- **Definición:** Estado de cuenta y evidencia fechada del consumo de un mecanismo de verificación de cuenta.
+- **Alcance:** backend/prisma/schema.prisma; backend/src/routes/auth.js.
+- **Notas:** No se rellena desde emailVerified histórico, createdAt ni desde un login.
+
+### `conversationsEnabled`
+- **Tipo:** configuración pública.
+- **Definición:** Selector del consumidor APP que utiliza la API conversacional autenticada de Portal.
+- **Alcance:** frontend/app/public/app-config.js; frontend/app/src/conversationApi.js.
+- **Notas:** False por defecto; no contiene agentes, destinos LidIA o secretos.
+
+### `AppConversationService / AppS2SClient`
+- **Tipo:** conceptos runtime / decisión naming.
+- **Definición:** Servicio Portal de autoridad y recuperación; cliente servidor a servidor firmado que ejecuta sólo las rutas del contrato APP.
+- **Alcance:** backend/src/app/conversations.js; backend/src/app/s2s.js.
+- **Notas:** La UI no firma ni elige proyectos/agentes. La integración queda deshabilitada por defecto.
+
+
+### `scopeKey`, `scopeId`, `remoteId`, `syncedRevision`
+- **Tipo:** propiedades de persistencia APP.
+- **Definición:** Ámbito estable de propósito/caso, ámbito local de idempotencia, identificador público remoto LidIA y última revisión de contexto confirmada por LidIA.
+- **Alcance:** modelos AppConversation/AppOperation; backend/src/app/store.js.
+- **Notas:** El ámbito no cambia por dispositivo ni rotación de credencial; remoteId no es el id interno de ChatSession. syncedRevision no prueba propagación universal.
+
+### `gestadia_app_conversation_v1`
+- **Tipo:** decisión naming de almacenamiento móvil.
+- **Definición:** Prefijo de envíos pendientes locales separados por cuenta y conversación.
+- **Alcance:** frontend/app/src/conversationApi.js.
+- **Notas:** Conserva el mismo turn_id/key para recuperación explícita, se limpia al salir/cambiar de cuenta; no guarda credenciales S2S ni resultados privados de herramientas.
+
+### Prueba APP aislada
+- **Tipo:** concepto de verificación.
+- **Definición:** Suite reproducible con MySQL efímero local, autoridad/API reales y límite LidIA sustituido por fixtures controlados.
+- **Alcance:** scripts/test-app-conversations.mjs; backend/src/app/*.test.js y frontend/app/src/*Conversation*.test.*.
+- **Notas:** No lee .env ni usa conexiones/credenciales reales, no acredita E2E con agente o despliegue publicado.
+
+### `AppConversation.stateRevision`
+
+- **Tipo:** propiedad Prisma / concepto runtime.
+- **Definición:** mayor revisión pública LidIA observada de una conversación; impide que respuestas de estado anteriores sustituyan el estado confirmado.
+- **Alcance:** backend/prisma/schema.prisma y backend/src/app/conversations.js.
+- **Notas:** String decimal comparado con BigInt; distinto de contextRevision/syncedRevision y receipt_revision. No convertir a Number.
+
+### `identity_link_required`
+
+- **Tipo:** código de problema / concepto runtime.
+- **Definición:** rechazo conversacional definitivo por falta de un vínculo de identidad necesario para el destino solicitado; no concede asignación ni activa un destino alternativo.
+- **Alcance:** contrato APP LidIA, backend/src/app/s2s.js y frontend/app/src/AppConversation.jsx.
+- **Notas:** Se conserva el código409 y se libera el envío pendiente. La APP informa de la vinculación pendiente; no crea un vínculo CRM mediante datos declarados.
+
+### `Receipt.result.handoff_status`
+
+- **Tipo:** propiedad DTO / concepto runtime.
+- **Definición:** estado de atención humana acreditado por LidIA, separado del estado de procesamiento del recibo. Un recibo completed con requested confirma que la solicitud quedó registrada y sigue pendiente de asignación.
+- **Alcance:** contrato DTO APP y backend/src/app/contracts/app-v1-dtos.schema.json; proyección/UI AppConversation.
+- **Notas:** completed no significa operador atendiendo. Nombre de operador únicamente con estado assigned/in_support confirmado por timeline.
+
+### `Support.operator_display_name`
+
+- **Tipo:** propiedad DTO / concepto runtime.
+- **Definición:** nombre público del operador actualmente asignado a la conversación, acreditado por el estado de soporte de LidIA. No identifica al autor de cada mensaje histórico.
+- **Alcance:** contrato APP Support/Timeline, backend/src/app/contracts/app-v1-dtos.schema.json y frontend/app/src/AppConversation.jsx.
+- **Notas:** Mostrar aparte solo assigned/in_support; mensajes operator se presentan como Equipo Gestadia mientras Message no tenga atribución por elemento acordada.
+
+### `routing_unavailable`
+
+- **Tipo:** código de problema / concepto runtime.
+- **Definición:** rechazo por ausencia de un destino de atención configurado y elegible para la solicitud vigente. No asigna operador ni confirma una transferencia.
+- **Alcance:** contrato APP LidIA, backend/src/app/s2s.js y frontend/app/src/AppConversation.jsx.
+- **Notas:** Preservar el rechazo409 y liberar pendiente; nunca elegir otra cola o persona como fallback.
+
+### Prueba local integrada APP / Portal / LidIA
+
+- **Tipo:** concepto de verificación.
+- **Definición:** Prueba con las interfaces y las API reales conectadas por HTTP/HTTPS en loopback, bases temporales propias y cuentas ficticias. El límite de modelo de LidIA se sustituye por uno determinista identificado.
+- **Alcance:** docs/integraciones/2026-10-06-prueba-local-app-portal-lidia.md y su evidencia; procesos/configuración efímera fuera del código de producción.
+- **Notas:** Diferente de la suite con respuestas LidIA simuladas; no acredita agente 119, producción, Zoho, modelo real ni instalación física.
+
+### Comprobación previa local APP / Portal (`app-local-preflight`)
+
+- **Tipo:** concepto operativo de verificación.
+- **Definición:** Lectura de la autoridad, sesiones, sincronización y operaciones pendientes de una cuenta de prueba, junto al diagnóstico local de LidIA. Su resultado indica la vigencia más corta observada; no crea ni renueva acceso.
+- **Alcance:** scripts/app-local-preflight.mjs, scripts/app-local-preflight.test.mjs y docs/integraciones/2026-10-07-perfil-y-comprobacion-local.md.
+- **Notas:** Se rechaza dar el entorno por listo sólo porque responda HTTP o porque un fichero declare una fecha futura; se exige el diagnóstico efectivo de la fuente.
+
+### `ready_until` / `observed_horizon_until` (diagnóstico local)
+
+- **Tipo:** propiedades de diagnóstico operativo.
+- **Definición:** `observed_horizon_until` es el menor vencimiento observado entre autoridad Portal y validez LidIA efectivamente comprobada. `ready_until` sólo lo expone como vigencia utilizable si pasan todas las comprobaciones, incluida la cola de contexto/revocación.
+- **Alcance:** scripts/app-local-preflight.mjs y su salida JSON; no son propiedades de las API de producto.
+- **Notas:** El plazo de Portal por sí solo se muestra aparte y nunca acredita vigencia de todo el circuito.
+
+### Contexto incierto superado por una revisión confirmada
+
+- **Tipo:** decisión de estado runtime.
+- **Definición:** Una operación de contexto con respuesta explícita HTTP409 `stale_context` puede quedar `superseded` si la misma conversación tiene una revisión superior ya sincronizada. Se conserva el rechazo; no se afirma que la operación antigua se admitiese.
+- **Alcance:** backend/src/app/lifecycle.js, `deliverLifecycle`; regresiones en backend/src/app/conversations.test.js.
+- **Notas:** La prueba se relee dentro de la transacción de cuenta. No se aplica a fallos de red, otras respuestas HTTP, revocaciones, conversaciones sustituidas ni revisiones superiores sin confirmar; no introduce un estado nuevo.
+
+### Relectura autoritativa de presentaciones en APP
+
+- **Tipo:** decisión de proyección UI.
+- **Definición:** El historial incremental no vuelve a entregar los mensajes anteriores cuando sus opciones se invalidan. La APP relee el snapshot paginado al avanzar la revisión de estado o aparecer un recibo terminal nuevo, para actualizar esas opciones y el historial con el DTO autorizado vigente.
+- **Alcance:** frontend/app/src/AppConversation.jsx y sus regresiones; contrato Timeline de LidIA sin modificar.
+- **Notas:** Se descarta reactivar acciones antiguas desde caché o inferir éxito de un envío. El snapshot completo reemplaza la caché, incluida la retirada de mensajes omitidos; se acumulan recibos de todas las páginas por turno/estado. No se acepta una revisión distinta entre páginas ni un cursor repetido como lectura completa; un fallo de historial no convierte un envío admitido en incierto.
+
+### Prueba APP con el agente 119 real
+
+- **Tipo:** concepto de verificación.
+- **Definición:** Conversación iniciada desde la APP cuyo agente119, instrucción y modelo efectivo están acreditados por el runtime fuente, con respuesta del proveedor real. Se registra aparte de la prueba con agente902 y modelo determinista.
+- **Alcance:** docs/integraciones/2026-10-07-preparacion-agente-119-real.md; consumidor existente backend/src/config.js y backend/src/app/s2s.js mediante su configuración APP.
+- **Notas:** El móvil no selecciona agente/proyecto/modelo. Un cambio de destino exige separar las asociaciones remotas anteriores y documentar el entorno efectivo; cambiar una etiqueta o copiar un identificador no acredita la ejecución real.
+
+### Agente APP dedicado basado en 119
+
+- **Tipo:** concepto de integración y decisión de aislamiento.
+- **Definición:** Agente con identidad propia derivado de la configuración de LidIA Canje v4, cuyo proyecto, instrucción y modelo efectivo se acreditan para el canal APP. Su ejecución y autoridad permanecen separadas de las conversaciones del 119 original y del fixture local.
+- **Alcance:** docs/integraciones/2026-10-07-adenda-agente-app-y-transicion.md; configuración Portal `appConversationConfig` y `AppS2SClient`; agente/proyecto/instrucción e integración administrados en LidIA.
+- **Notas:** Clon autorizado por el usuario después de la preparación literal 119. No significa reutilizar WhatsApp, Zoho, herramientas globales ni asociaciones antiguas; ID definitivo y nombre de proyecto los confirma LidIA.
+
+### `gestadia-app-pro-local-validation`
+
+- **Tipo:** identificador de integración y audiencia S2S de prueba.
+- **Definición:** Ámbito acordado para conectar un consumidor Portal/APP local separado con el agente APP dedicado de LidIA en PRO. No identifica el fixture determinista ni una cuenta de cliente real.
+- **Alcance:** documentación de preparación PRO del 07/10/2026, configuración privada `APP_LIDIA_INTEGRATION_ID`/`APP_LIDIA_AUDIENCE` y `AppIntegration` administrado por LidIA; no va en el móvil como selector.
+- **Notas:** Origen acordado `https://lidia.gestadia.com`, permisos iniciales sondeo/history y base/cuenta/asociaciones nuevas. La validez, claves e IDs de agente/proyecto siguen sujetos a configuración efectiva de la fuente.
+
+### `LidIA Canje APP` / `Gestadia APP` (`gestadia-app`)
+
+- **Tipo:** identidad de agente/proyecto runtime en LidIA.
+- **Definición:** Instancias dedicadas del agente122 y proyecto103 provisionadas por LidIA para separar las conversaciones APP de las del119 original. La instrucción10116 propia y el modelo explícito pertenecen a ese destino; crear las instancias no acredita el despliegue del canal ni una respuesta real.
+- **Alcance:** administración/BBDD LidIA; docs/app/INTEGRACION-LIDIA.md y configuración privada de la prueba `gestadia-app-pro-local-validation`. No son selectores elegibles desde el móvil.
+- **Notas:** Procedencia, versión/hash de instrucción y restricciones se registran en el documento vigente. El usuario autorizó el clon y Playground; se conservan originales y fixture como ámbitos distintos.
+
+### `validUntil` (preparación privada de prueba APP)
+
+- **Tipo:** propiedad de configuración operativa de prueba.
+- **Definición:** Horizonte acordado para la autoridad de la cuenta ficticia que permite probar el circuito APP contra LidIA PRO. No describe la caducidad de claves HMAC ni prueba que el servicio esté desplegado o aislado.
+- **Alcance:** entrega privada `s2s-portal-private.json`, lanzadores efímeros fuera del repositorio y docs/app/INTEGRACION-LIDIA.md; el permiso efectivo se registra en Portal y se entrega mediante el contrato de contexto.
+- **Notas:** Se comprueba antes de arrancar y crear el grant; no añade una propiedad pública al contrato APP. Las claves v1 requieren retirada o desactivación explícita por la fuente.
+
+### Sujeto desechable de revocación APP
+
+- **Tipo:** concepto operativo de validación.
+- **Definición:** Segunda cuenta ficticia independiente usada exclusivamente para comprobar la retirada de acceso APP sin deshabilitar la cuenta principal de la demostración. Comparte el techo sondeo/historial y el vencimiento autorizado, sin datos reales ni permisos CRM.
+- **Alcance:** prueba local Portal contra la integración `gestadia-app-pro-local-validation`; lanzadores privados y docs/app/INTEGRACION-LIDIA.md. Reutiliza las entidades de cuenta y autoridad existentes, sin introducir una entidad de producto.
+- **Notas:** Se descarta revocar irreversiblemente el sujeto principal al cerrar la comprobación: permanece disponible dentro del plazo autorizado. Las credenciales auxiliares se guardan fuera de Git. Estado final de esta fase: propuesta no ejecutada. La revisión automática rechazó crear un segundo sujeto; no existe cuenta, grant ni conversación remota auxiliar. La prueba solicitada se limitó después a un turno del sujeto principal con instrucciones originales.
+
+### Consumidor local de prueba de canal con copia literal
+
+- **Tipo:** concepto operativo de validación.
+- **Definición:** Backend/frontend locales temporales con base vacía que reproducen la identidad y permiso del sujeto principal ya autorizado para iniciar una nueva conversación sin reutilizar el historial anterior. Prueba una petición textual con instrucción y modelo copiados del 119, conservando la política de transporte APP.
+- **Alcance:** configuración privada en `/private/tmp/gestadia-portal-literal-channel-20261007`, base local `gestadia_app_literal_test`, puertos 3003/5176 y docs/app/INTEGRACION-LIDIA.md. No cambia el producto ni crea otra identidad en LidIA.
+- **Notas:** Misma integración, capacidades, claves y vencimiento de la cuenta principal; se conservan 5175 y su historial. La prueba no acredita equivalencia de herramientas, automatizaciones ni runtime WhatsApp.
+
+### Nombre personalizado de conversación
+
+- **Tipo:** concepto de presentación y propiedad de cuenta propuesta.
+- **Definición:** Nombre elegido por el propietario para identificar una conversación en Mensajes, independiente de los mensajes y de la identidad del agente u operador.
+- **Alcance:** ampliación prevista de AppConversation en Portal, su API `/api/app/v1` y frontend/app/src/ConnectedMessages.jsx; diseño docs/integraciones/2026-10-07-mensajes-y-ciclo-gestor.md.
+- **Notas:** Se conserva entre dispositivos y no se guarda únicamente en caché móvil. Diseño pendiente de revisión conjunta antes de implementar campos/endpoints nuevos.
+
+### Metadatos autoritativos de conversación
+
+- **Tipo:** concepto de contrato conversacional propuesto.
+- **Definición:** Estado vigente y fecha del último mensaje acreditados por LidIA para presentar la conversación en el listado, sin descargar ni indexar todo su contenido. Una actualización técnica no constituye un mensaje.
+- **Alcance:** contrato APP Portal↔LidIA y listado de Mensajes; diseño docs/integraciones/2026-10-07-mensajes-y-ciclo-gestor.md.
+- **Notas:** La creación local del chat procede de AppConversation.createdAt. La ausencia confirmada de mensajes y un fallo de lectura se presentan de forma distinta; fechas/estado nuevos requieren acuerdo del contrato.
+
+
+### `title` de AppConversation
+- **Tipo:** propiedad / decisión de naming.
+- **Definición:** nombre personalizado opcional de un chat, propiedad de su cuenta Portal. No altera el interlocutor ni el contenido.
+- **Alcance:** backend Prisma `AppConversation`, servicio/ruta APP y listado `ConnectedMessages`.
+- **Notas:** se descarta persistencia sólo en el dispositivo para conservarlo entre sesiones y dispositivos.
+
+### `remoteCreatedAt` / `lastMessageAt`
+- **Tipo:** propiedades de persistencia / concepto runtime.
+- **Definición:** creación de sesión y último mensaje visible confirmados por LidIA. La última actividad no se sustituye por una actualización de contexto o título.
+- **Alcance:** Prisma `AppConversation`; servicio APP y campos S2S `created_at` / `last_message_at`.
+- **Notas:** nullable durante compatibilidad o sesión pendiente; se conserva el valor confirmado ante fallos.
+
+### `metadata_ready`
+- **Tipo:** propiedad de proyección APP.
+- **Definición:** indica que fechas y estado de una conversación se confirmaron con la fuente en la consulta actual del listado. Permite distinguir ausencia de mensajes de metadatos no actualizados.
+- **Alcance:** backend `conversationView` / `AppConversationService.list`, frontend `ConnectedMessages`.
+- **Notas:** no se infiere del `updatedAt` local ni de una respuesta antigua en caché.
+
+## setupNativeKeyboard
+
+- **Tipo:** concepto runtime / función de arranque nativo.
+- **Definición:** prepara el redimensionamiento nativo del WebView de iOS al mostrar el teclado para conservar la cabecera y el compositor dentro de la superficie visible.
+- **Alcance:** APP, `frontend/app/src/native.js`, `main.jsx`; plugin oficial `@capacitor/keyboard` y configuración Capacitor.
+- **Notas:** se usa `KeyboardResize.Native` sólo en iOS; Android conserva su ajuste nativo. Se descartó desactivar `WebView.scrollView`, porque la prueba en simulador bloqueó también los gestos de desplazamiento del perfil.
+
+## Contexto de navegación APP (`from`, `fromState`)
+
+- **Tipo:** concepto runtime / propiedades del estado del router.
+- **Definición:** origen interno completo de una pantalla secundaria y contexto necesario para restituir su recorrido al volver. Incluye los parámetros que identifican conversación, documento o servicio.
+- **Alcance:** APP, `frontend/app/src/navigation.js` y enlaces/cabeceras; [mapa de pantallas](docs/app/NAVEGACION.md).
+- **Notas:** no se sustituye por un `history.back()` ciego: una entrada directa o un enlace externo puede carecer de historial interno. Las pestañas principales no construyen una pila de orígenes.
+
+## Continuación de acceso APP (`returnTo`, `returnState`)
+
+- **Tipo:** concepto runtime / propiedades del estado del router.
+- **Definición:** pantalla interna solicitada antes del acceso y su contexto de retorno. Se conserva al alternar acceso/registro y consultar información legal.
+- **Alcance:** APP, `navigation.js`, `Login.jsx`, `Register.jsx`, accesos desde Trámites y conversación.
+- **Notas:** se descarta el envío incondicional al inicio tras iniciar sesión; una entrada directa al acceso sí continúa al inicio. No contiene credenciales.
+
+## Borrador de Servicios (`serviceDraft`)
+
+- **Tipo:** propiedad de presentación del estado del router.
+- **Definición:** datos de tramitación introducidos en Servicios que se restablecen al volver de la revisión del checkout de demostración.
+- **Alcance:** APP, `Services.jsx`, `DemoCheckout.jsx`; memoria de navegación de la pestaña.
+- **Notas:** no se persiste en almacenamiento ni cambia el checkout real; evita perder campos al remontar el formulario.
+
+## Acción visible de retorno (`data-app-back`)
+
+- **Tipo:** atributo de interfaz / decisión de navegación nativa.
+- **Definición:** control de cabecera que expresa el retorno contextual de la pantalla actual. El botón Atrás de Android utiliza esta misma acción después de cerrar cualquier diálogo abierto.
+- **Alcance:** APP, `App.jsx`, `native.js`.
+- **Notas:** se conserva el cierre de diálogos como primera acción; sólo en el inicio sin diálogo ni retorno se permite salir de la app.
+
+## Listado compacto de Mensajes
+
+- **Tipo:** concepto de interfaz / decisión de presentación.
+- **Definición:** lista de conversaciones con nombre, interlocutor, estado y fechas de creación y último mensaje en una fila pequeña. La edición del nombre se despliega sólo en la fila seleccionada.
+- **Alcance:** APP, `frontend/app/src/ConnectedMessages.jsx`, `app.css` y navegación de `App.jsx`.
+- **Notas:** sustituye las tarjetas extensas y los accesos duplicados; conserva el contrato de conversaciones, los estados confirmados y el retorno contextual.
+
+## Lucide React en Mensajes
+
+- **Tipo:** dependencia de presentación / biblioteca de iconos.
+- **Definición:** iconos vectoriales de la biblioteca oficial Lucide para búsqueda, actualización, edición y acceso a conversaciones.
+- **Alcance:** `frontend/package.json`, `frontend/app/src/ConnectedMessages.jsx`.
+- **Notas:** trazo coherente con el sistema visual existente; se evita dibujar iconos propios o añadir imágenes decorativas.
+
+## Sistema visual APP
+
+- **Tipo:** concepto de interfaz / tokens de presentación.
+- **Definición:** escala común de colores, tipografía, espacios, superficies y controles para las pantallas de Gestadia APP. Distingue bienvenida, operación y conversación manteniendo la misma identidad.
+- **Alcance:** `frontend/app/src/app.css`, pantallas y hojas APP; `docs/app/PLAN-DISENO-APP.md`.
+- **Notas:** conserva las referencias aprobadas; no sustituye el marco Capacitor ni introduce otro tema.
+
+## Lucide React en APP
+
+- **Tipo:** dependencia de presentación / decisión de nomenclatura.
+- **Definición:** biblioteca oficial de iconos utilizada tanto en Mensajes como en el adaptador compartido Icon de la APP.
+- **Alcance:** `frontend/app/src/Icon.jsx`, `ConnectedMessages.jsx`, `frontend/package.json`.
+- **Notas:** amplía el alcance de «Lucide React en Mensajes»; conserva los nombres del adaptador existente para evitar cambios en sus consumidores.
+
+## create_new
+- **Tipo:** propiedad de la API APP → Portal.
+- **Definición:** Intención explícita de crear una conversación independiente con LidIA, conservando el historial y el estado de las existentes. Ausente o false mantiene la reanudación actual.
+- **Alcance:** `backend/src/app/conversations.js`, `frontend/app/src/conversationApi.js`; contrato local de creación de conversaciones.
+- **Notas:** Sólo se admite para sondeo; no se incorpora al DTO S2S SessionRequest ni modifica permisos o el agente efectivo.
+
+## nueva
+- **Tipo:** propiedad de navegación.
+- **Definición:** Identificador UUID de un intento explícito de iniciar un chat con LidIA; permite distinguirlo de recuperar una conversación por su id.
+- **Alcance:** `/lidia/conversacion?nueva=UUID`, `ConnectedMessages.jsx`, `AppConversation.jsx`.
+- **Notas:** Es la clave de idempotencia del inicio, no una credencial; el acceso depende siempre de la cuenta autenticada. Abrir la ruta no crea una sesión. Tras crearla se sustituye por conversacion=id.
+
+## semanticRequest
+- **Tipo:** propiedad interna de persistencia.
+- **Definición:** Representación usada únicamente para vincular la intención local de una operación a su hash de idempotencia.
+- **Alcance:** `backend/src/app/store.js` y `conversations.js`.
+- **Notas:** Por defecto coincide con request. Para create_new incluye esa intención en el hash sin almacenarla ni enviarla en el contrato S2S; false/ausente conserva los hashes anteriores.
+
+## conversation_id (inicio local APP)
+- **Tipo:** propiedad de la API APP → Portal.
+- **Definición:** Referencia local de la conversación concreta que debe recuperarse, especialmente mientras su sesión remota está pendiente.
+- **Alcance:** `backend/src/app/conversations.js`, `frontend/app/src/conversationApi.js`, `AppConversation.jsx`.
+- **Notas:** Se valida pertenencia, propósito, expediente y permisos; no combina con create_new:true. No se envía al DTO S2S ni permite escoger sesiones de otra cuenta.
+
+## AppMessageReceipt
+
+- **Tipo:** concepto runtime compartido.
+- **Definición:** acuse durable de un mensaje concreto que distingue enviado, recibido y leído; es independiente del recibo de procesamiento del turno. LidIA es su autoridad y Portal lo proyecta a la APP.
+- **Alcance:** backend/src/app, frontend/app/src; contrato docs/integraciones/2026-10-08-app-recibos-mensajes.md.
+- **Notas:** se descarta usar completed o la apertura del listado como lectura, porque no acreditan visibilidad humana.
+
+## message_receipts_revision / receipt_revision
+
+- **Tipo:** propiedad de contrato.
+- **Definición:** revisión decimal del conjunto de acuses y de cada mensaje, respectivamente. La mezcla de datos de un mensaje usa su receipt_revision para no retroceder ante respuestas antiguas.
+- **Alcance:** adenda de recibos y consumidor APP; independientes de state_revision del sondeo.
+- **Notas:** no son cursores de lectura ni números JS; se comparan como BigInt.
+
+## ack_id / message_receipt_ack
+
+- **Tipo:** propiedad de contrato / concepto runtime.
+- **Definición:** identificador estable y operación de confirmación de recepción o lectura de IDs concretos. Conserva el mismo cuerpo y la misma clave al recuperar una respuesta perdida.
+- **Alcance:** backend/src/app y frontend/app/src; POST message-receipts.
+- **Notas:** no admite actor ni fecha elegidos por el dispositivo; la identidad procede de la sesión y la fecha de LidIA.
+
+## DeliveryTicks / useMessageReceipts / useReceiptSummaries
+
+- **Tipo:** componente / hooks de interfaz.
+- **Definición:** representación accesible de los acuses confirmados, seguimiento de mensajes aceptados/visibles en el chat y consulta de resúmenes en Mensajes.
+- **Alcance:** frontend/app/src/DeliveryTicks.jsx y useMessageReceipts.js.
+- **Notas:** Mensajes consulta sin ACK; las colas se acotan por cuenta y conversación y se eliminan con el cierre de sesión. No confunden el recibo de turno con la lectura.
+
+## readActive
+
+- **Tipo:** predicado interno de interfaz.
+- **Definición:** condición que exige APP visible/en primer plano y ausencia de modal sobre el chat para admitir lectura de mensajes.
+- **Alcance:** frontend/app/src/useMessageReceipts.js.
+- **Notas:** se descarta usar sólo intersección geométrica, porque una hoja modal puede tapar el historial. Cerrar la hoja exige observación nueva.

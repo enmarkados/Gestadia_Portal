@@ -62,3 +62,14 @@ export const config = {
     get enabled() { return !!this.apiKey; },
   },
 };
+
+// APP conversacional: credenciales exclusivas por facultad; nunca reutilizar plugin/WhatsApp.
+export function appConversationConfig(env = process.env) {
+  const key = role => ({ keyId: env[`APP_LIDIA_${role}_KEY_ID`] || '', secretBase64: env[`APP_LIDIA_${role}_SECRET_BASE64`] || '' });
+  return {
+    enabled: env.APP_CONVERSATIONS_ENABLED === 'true',
+    integrationId: env.APP_LIDIA_INTEGRATION_ID || '', baseUrl: env.APP_LIDIA_BASE_URL || '', audience: env.APP_LIDIA_AUDIENCE || '',
+    keys: { session: key('SESSION'), timeline: key('READ'), turn: key('TURN'), handoff: key('HANDOFF'), context: key('CONTEXT'), revocation: key('REVOCATION') },
+    generalSupport: env.APP_LIDIA_GENERAL_SUPPORT === 'true', generalCommercial: env.APP_LIDIA_GENERAL_COMMERCIAL === 'true',
+  };
+}

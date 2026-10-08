@@ -1,4 +1,7 @@
 # Handoff Técnico · Gestadia Portal
+
+**Actualización APP — 08/10/2026:** conversaciones, navegación/diseño y recibos se integran en `app/main` conservando la documentación de marketplaces. Backend167/167, APP149/149 y build comprobados en el árbol integrado. [Acta Git y límites de despliegue](docs/app/2026-10-08-integracion-app-main.md) · [README APP](README-APP.md). El corte histórico del portal se conserva a continuación.
+
 **Fecha de corte:** 3 de octubre de 2026, 12:55 CEST  
 **Rama activa:** `main` (sincronizada en `origin/main`)  
 **Último commit:** `0af9d2e` · `feat(ui): handoff de diseno Gestadia, mejoras en checkout y portal, y sondeo en LidIA`  

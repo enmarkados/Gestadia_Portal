@@ -1,0 +1,25 @@
+{
+  "instructionContentIdentical": true,
+  "instructionVersion": "1.8-mario-adaptado",
+  "sha256": "ec616c2687189eaded1a77d904d2c720aa12c8ab9f629850f74bc4202bcd0286",
+  "sourceAgentId": 119,
+  "sourceInstructionId": 10115,
+  "appAgentId": 122,
+  "appInstructionId": 10116,
+  "remainingAgentDifferences": [
+    "TimeoutDuration",
+    "TimeoutEnabled",
+    "AutomationProgramId",
+    "IntegrationConnectionId"
+  ],
+  "changedFields": [
+    "Instruction.Content",
+    "Instruction.Version",
+    "OpeningMessage",
+    "TtsReplyEnabled",
+    "TtsAdaptEnabled"
+  ],
+  "appRunnerChannelPolicyStillApplies": true,
+  "historyUnmodified": true,
+  "evidenceKind": "sanitized_projection_of_lidia_literal_clone_evidence"
+}

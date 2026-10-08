@@ -7,8 +7,10 @@ import App from "./App.jsx";
 import {
   loadNativeConfig,
   setupNativeNavigation,
+  setupNativeKeyboard,
   finishSplash,
 } from "./native.js";
+import { conversationsEnabled } from "./conversationApi.js";
 import { demoOnly } from "./api.js";
 import "./app.css";
 class ErrorBoundary extends React.Component {
@@ -48,6 +50,7 @@ function ConnectedApp() {
       identity={`${mode}:${data.profile?.id || "visitor"}`}
       enabled={
         !demoOnly() &&
+        !conversationsEnabled() &&
         (mode === "visitante" || (mode === "real" && Boolean(data.profile?.id)))
       }
     >
@@ -56,6 +59,7 @@ function ConnectedApp() {
   );
 }
 await loadNativeConfig();
+await setupNativeKeyboard();
 setupNativeNavigation();
 createRoot(document.getElementById("root")).render(
   <ErrorBoundary>

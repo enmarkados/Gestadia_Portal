@@ -1,5 +1,7 @@
 # Validación de Gestadia App — 3 de octubre de 2026
 
+Esta acta conserva la entrega demo del 3 de octubre. La revisión posterior de todas las pantallas, con **88 pruebas APP**, 64 inspecciones responsivas y ejecución iOS del 7 de octubre, se documenta en el [plan de diseño y evidencia actual](PLAN-DISENO-APP.md). La compilación/instalación Android de esa revisión no cierra su aceptación de interfaz.
+
 [Alcance](PRIMERA-VERSION.md) · [Docker y Plesk](DOCKER-PLESK.md) · [Móvil](MOBILE.md) · [Glosario](../../GLOSARIO.md)
 
 Rama `app/main` creada desde `main`, revisión de partida `af5b515`. La entrega es una **demostración sin conexiones externas**, por la última instrucción del usuario. No requiere cuentas reales, Firebase, base de datos o key de LidIA.

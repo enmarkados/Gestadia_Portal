@@ -1,0 +1,27 @@
+{
+  "fixture_only": true,
+  "transport": "actual HTTP Portal\u2192S2S LidIA, deterministic model",
+  "operator": "local control using actual operator service, not human UI",
+  "cases": [
+    {
+      "case": "sondeo_worker_and_account_acks",
+      "user_received_by": "agent",
+      "user_read_at": null,
+      "duplicate_preserves_first_time_and_current_snapshot": true,
+      "semantic_conflict": 409
+    },
+    {
+      "case": "manager_handoff_and_receipts",
+      "handoff": "admitted",
+      "operator_take": true,
+      "user_states": [
+        "sent",
+        "received",
+        "read"
+      ],
+      "user_read_by": "operator",
+      "operator_reply_initial_status": "sent",
+      "own_message_ack_rejected": 403
+    }
+  ]
+}

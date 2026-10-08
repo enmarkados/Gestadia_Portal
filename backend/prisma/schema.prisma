@@ -23,6 +23,9 @@ model User {
   zohoContactId String?
   stripeCustomerId String?
   emailVerified Boolean   @default(false)
+  accountStatus String @default("active")
+  accountVerifiedAt DateTime?
+  accountVerificationMethod String?
   inviteToken   String?   @unique
   resetToken    String?   @unique
   resetTokenExp DateTime?
@@ -30,6 +33,10 @@ model User {
 
   expedientes    Expediente[]
   notificaciones Notificacion[]
+  appDeviceSessions AppDeviceSession[]
+  appConversations AppConversation[]
+  appOperations AppOperation[]
+  appConversationAccess AppConversationAccess[]
 }
 
 model Expediente {
@@ -133,4 +140,80 @@ model LidiaEvento {
   updatedAt        DateTime  @updatedAt
 
   @@index([estado, proximoIntento])
+}
+
+model AppDeviceSession {
+  id String @id @default(uuid())
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  tokenHash String @unique @db.VarChar(64)
+  deviceLabel String @db.VarChar(80)
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  revokedAt DateTime?
+  @@index([userId, revokedAt])
+}
+
+model AppConversation {
+  id String @id @default(uuid())
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  integrationId String @db.VarChar(128)
+  scopeKey String @db.VarChar(64)
+  purpose String @db.VarChar(16)
+  caseId String?
+  title           String? @db.VarChar(120)
+  remoteCreatedAt DateTime?
+  lastMessageAt   DateTime?
+  remoteId String? @db.VarChar(128)
+  stateRevision String @default("0") @db.VarChar(20)
+  status String @default("pending") @db.VarChar(32)
+  contextRevision String @default("0") @db.VarChar(20)
+  syncedRevision String @default("0") @db.VarChar(20)
+  contextHash String? @db.VarChar(64)
+  context Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  operations AppOperation[]
+  @@index([userId, integrationId, scopeKey])
+  @@unique([integrationId, remoteId])
+}
+model AppOperation {
+  id String @id @default(uuid())
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  integrationId String @db.VarChar(128)
+  conversationId String?
+  conversation AppConversation? @relation(fields: [conversationId], references: [id])
+  scopeId String @db.VarChar(36)
+  kind String @db.VarChar(16)
+  idempotencyKey String @db.VarChar(128)
+  logicalId String? @db.VarChar(128)
+  semanticHash String @db.VarChar(64)
+  request Json
+  status String @default("prepared") @db.VarChar(32)
+  response Json?
+  httpStatus Int?
+  errorCode String? @db.VarChar(64)
+  retainedUntil DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([userId, integrationId, scopeId, kind, idempotencyKey])
+  @@unique([userId, integrationId, scopeId, kind, logicalId])
+  @@index([integrationId, kind, status])
+}
+model AppConversationAccess {
+  id String @id @default(uuid())
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  scopeKey String @db.VarChar(64)
+  purpose String @db.VarChar(16)
+  caseId String?
+  permissions Json
+  commercialAssignmentRef String? @db.VarChar(128)
+  managerAssignmentRef String? @db.VarChar(128)
+  sourceRef String @db.VarChar(128)
+  validatedAt DateTime
+  validUntil DateTime
+  @@unique([userId, scopeKey])
 }

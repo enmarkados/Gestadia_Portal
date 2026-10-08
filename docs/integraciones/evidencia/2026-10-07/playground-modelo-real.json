@@ -1,0 +1,28 @@
+[
+  {
+    "Timestamp": "2026-10-07 13:08:31.938530",
+    "Provider": "Anthropic",
+    "Model": "claude-haiku-4-5-20251001",
+    "Purpose": "conversation",
+    "SessionId": "ca4ba868-7d21-4b89-b0cc-ae16c7624455",
+    "AgentId": 122,
+    "ProjectId": 103,
+    "Success": 1,
+    "HttpStatus": null,
+    "PromptTokens": 25213,
+    "CompletionTokens": 76
+  },
+  {
+    "Timestamp": "2026-10-07 13:10:39.925891",
+    "Provider": "Anthropic",
+    "Model": "claude-haiku-4-5-20251001",
+    "Purpose": "conversation",
+    "SessionId": "ca4ba868-7d21-4b89-b0cc-ae16c7624455",
+    "AgentId": 122,
+    "ProjectId": 103,
+    "Success": 1,
+    "HttpStatus": null,
+    "PromptTokens": 25333,
+    "CompletionTokens": 40
+  }
+]

@@ -171,7 +171,7 @@ it("el chat del gestor mantiene cabecera, expediente e input y envía solo al ej
     screen.getByRole("dialog", { name: "Hablar con un gestor" }),
   ).toBeInTheDocument();
   fireEvent.click(screen.getByRole("button", { name: "Cerrar", exact: true }));
-  fireEvent.click(screen.getByRole("link", { name: "Volver a mensajes" }));
+  fireEvent.click(screen.getByRole("link", { name: "Volver a Mensajes" }));
   expect(
     screen.getByRole("heading", { name: "Mensajes", exact: true }),
   ).toBeInTheDocument();

@@ -1,0 +1,648 @@
+
+> test
+> vitest run
+
+
+ RUN  v2.1.9 /Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend
+
+stderr | src/pages/Checkout.test.jsx > Checkout > loads the service from ?servicio= and submits to /api/checkout
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | app/src/AppConversation.test.jsx > muestra mensajes/presentaciones del timeline y envía la revisión exacta de la acción
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | app/src/ConnectedMessages.test.jsx > busca por nombre sin tildes y muestra fechas/estado confirmado sin inventarlo ante fallo
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | app/src/PluginWebContext.test.jsx > recupera una respuesta humana tras un 504 sin reenviar y conserva la sesión al abrir Gestor
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | src/pages/Checkout.test.jsx > Checkout > loads the service from ?servicio= and submits to /api/checkout
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:31:5)
+    at LocationImpl._locationObjectSetterNavigate (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:25:17)
+    at LocationImpl.set href [as href] (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:47:10)
+    at Location.set href [as href] (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at handleSubmit (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/servicios/CheckoutForm.jsx:80:23) undefined
+
+stderr | src/pages/Checkout.test.jsx > Checkout > el teléfono es obligatorio y se envía con prefijo
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:31:5)
+    at LocationImpl._locationObjectSetterNavigate (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:25:17)
+    at LocationImpl.set href [as href] (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:47:10)
+    at Location.set href [as href] (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at handleSubmit (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/servicios/CheckoutForm.jsx:80:23)
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at processTimers (node:internal/timers:538:9) undefined
+
+stderr | app/src/Navigation.test.jsx > Trámites visitante permite cancelar el acceso y recupera el menú principal
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ app/src/PluginWebContext.test.jsx (5 tests) 698ms
+ ✓ src/pages/Checkout.test.jsx (6 tests) 1094ms
+ ✓ app/src/ConnectedMessages.test.jsx (6 tests) 1079ms
+   ✓ renombrar actualiza la cuenta y se conserva tras remontar sin cambiar actividad 369ms
+stderr | app/src/DemoAccess.test.jsx > el aviso del micrófono se oculta y puede volver a abrirse en /
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | app/src/Account.test.jsx > abre Cuenta antes de Mi Perfil, devuelve el foco al cerrar y conserva el selector propio
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ app/src/Navigation.test.jsx (13 tests) 1376ms
+   ✓ Trámites visitante permite cancelar el acceso y recupera el menú principal 342ms
+ ✓ app/src/Account.test.jsx (6 tests) 1537ms
+   ✓ abre Cuenta antes de Mi Perfil, devuelve el foco al cerrar y conserva el selector propio 480ms
+   ✓ permite cancelar el borrado y elimina sólo el ejemplo de Gestadia al confirmar 302ms
+ ✓ app/src/DemoAccess.test.jsx (15 tests) 1685ms
+   ✓ el aviso del micrófono se oculta y puede volver a abrirse en / 359ms
+ ✓ app/src/native.test.js (5 tests) 22ms
+ ✓ app/src/api.test.js (7 tests) 14ms
+ ✓ app/src/conversationApi.test.js (3 tests) 8ms
+stderr | app/src/App.test.jsx > completa el sondeo demo sin afirmar viabilidad y precarga el país del servicio
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | src/pages/CheckoutIntent.test.jsx > CheckoutIntent (/c/:token) > monta el checkout prellenado cuando el intent es válido
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ app/src/App.test.jsx (4 tests) 572ms
+stderr | app/src/ConnectedApp.test.jsx > acceso conectado usa sesión APP y el chat no inicia PluginWeb ni muestra un gestor ficticio
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | src/pages/servicios/CheckoutForm.lidia.test.jsx > CheckoutForm con prellenado LidIA > prellena los campos y separa el prefijo del teléfono E.164
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/pages/servicios/CheckoutForm.lidia.test.jsx (3 tests) 330ms
+ ✓ app/src/ConnectedApp.test.jsx (2 tests) 226ms
+stderr | src/pages/servicios/CheckoutForm.test.jsx > CheckoutForm > envía a /api/checkout con el teléfono con prefijo
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:31:5)
+    at LocationImpl._locationObjectSetterNavigate (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:25:17)
+    at LocationImpl.set href [as href] (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:47:10)
+    at Location.set href [as href] (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at handleSubmit (/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/servicios/CheckoutForm.jsx:80:23)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5) undefined
+
+ ✓ src/pages/servicios/CheckoutForm.test.jsx (3 tests) 485ms
+   ✓ CheckoutForm > envía a /api/checkout con el teléfono con prefijo 350ms
+stderr | src/pages/portal/ExpedienteDetalle.test.jsx > ExpedienteDetalle — Datos del trámite > muestra país, dirección y campos manuales
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/pages/portal/ExpedienteDetalle.test.jsx (1 test) 63ms
+stderr | src/pages/servicios/CanjeCarnet.test.jsx > CanjeCarnet > la ficha muestra el botón "Contratar ahora"
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/pages/servicios/CanjeCarnet.test.jsx (2 tests) 351ms
+stderr | src/components/Header.test.jsx > Header > renders the Contacto nav link pointing to /contacto
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/components/Header.test.jsx (2 tests) 124ms
+stderr | src/pages/Contacto.test.jsx > Contacto > submits the form to /api/leads
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/pages/Contacto.test.jsx (1 test) 168ms
+stderr | src/pages/legal/legal.test.jsx > legal pages render their heading > function AvisoLegal() {
+  return /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("div", { className: __vite_ssr_import_4__.default.page, children: [
+    /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV(__vite_ssr_import_2__.default, {}, void 0, false, {
+      fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+      lineNumber: 15,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("div", { className: __vite_ssr_import_4__.default.pageHeader, children: /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("div", { className: __vite_ssr_import_4__.default.pageHeaderInner, children: [
+      /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("div", { className: __vite_ssr_import_4__.default.breadcrumb, children: [
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV(__vite_ssr_import_1__.Link, { to: "/", children: "Inicio" }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 19,
+          columnNumber: 46
+        }, this),
+        " / Aviso legal"
+      ] }, void 0, true, {
+        fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+        lineNumber: 19,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("h1", { className: __vite_ssr_import_4__.default.pageTitle, children: "Aviso Legal" }, void 0, false, {
+        fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+        lineNumber: 20,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("p", { className: __vite_ssr_import_4__.default.pageSubtitle, children: "Última actualización: junio de 2026" }, void 0, false, {
+        fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+        lineNumber: 21,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, true, {
+      fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+      lineNumber: 18,
+      columnNumber: 9
+    }, this) }, void 0, false, {
+      fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+      lineNumber: 17,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("div", { className: __vite_ssr_import_4__.default.legalBody, children: [
+      /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("p", { className: __vite_ssr_import_4__.default.legalIntro, children: [
+        "En cumplimiento de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se informa de los datos identificativos del titular de este sitio web.",
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("br", {}, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 27,
+          columnNumber: 215
+        }, this),
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("br", {}, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 27,
+          columnNumber: 221
+        }, this),
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("strong", { children: "Titular:" }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 28,
+          columnNumber: 11
+        }, this),
+        " Defensa Legal Consumidores, S.L.  ·  ",
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("strong", { children: "CIF:" }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 28,
+          columnNumber: 84
+        }, this),
+        " B01813336  · ",
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("strong", { children: "Domicilio:" }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 29,
+          columnNumber: 11
+        }, this),
+        " Paseo de la Castellana, 143, 2.ª A, 28046 Madrid  · ",
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("strong", { children: "Teléfono:" }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 30,
+          columnNumber: 11
+        }, this),
+        " 910 600 314  ·  ",
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("strong", { children: "Email:" }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 30,
+          columnNumber: 64
+        }, this),
+        " info@gestadia.com"
+      ] }, void 0, true, {
+        fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+        lineNumber: 26,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("div", { className: __vite_ssr_import_4__.default.legalSection, children: [
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("h2", { children: "1. Datos identificativos del titular" }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 34,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("table", { children: /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("tbody", { children: [
+          /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("tr", { children: [
+            /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("th", { children: "Denominación social" }, void 0, false, {
+              fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+              lineNumber: 37,
+              columnNumber: 19
+            }, this),
+            /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("td", { children: "Defensa Legal Consumidores, S.L." }, void 0, false, {
+              fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+              lineNumber: 37,
+              columnNumber: 47
+            }, this)
+          ] }, void 0, true, {
+            fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+            lineNumber: 37,
+            columnNumber: 15
+          }, this),
+          /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("tr", { children: [
+            /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("th", { children: "CIF" }, void 0, false, {
+              fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+              lineNumber: 38,
+              columnNumber: 19
+            }, this),
+            /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("td", { children: "B01813336" }, void 0, false, {
+              fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+              lineNumber: 38,
+              columnNumber: 31
+            }, this)
+          ] }, void 0, true, {
+            fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+            lineNumber: 38,
+            columnNumber: 15
+          }, this),
+          /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("tr", { children: [
+            /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("th", { children: "Domicilio social" }, void 0, false, {
+              fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+              lineNumber: 39,
+              columnNumber: 19
+            }, this),
+            /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("td", { children: "Paseo de la Castellana, 143, 2.ª A, 28046 Madrid (España)" }, void 0, false, {
+              fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+              lineNumber: 39,
+              columnNumber: 44
+            }, this)
+          ] }, void 0, true, {
+            fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+            lineNumber: 39,
+            columnNumber: 15
+          }, this),
+          /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("tr", { children: [
+            /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("th", { children: "Teléfono de contacto" }, void 0, false, {
+              fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+              lineNumber: 40,
+              columnNumber: 19
+            }, this),
+            /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("td", { children: "910 600 314" }, void 0, false, {
+              fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+              lineNumber: 40,
+              columnNumber: 48
+            }, this)
+          ] }, void 0, true, {
+            fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+            lineNumber: 40,
+            columnNumber: 15
+          }, this),
+          /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("tr", { children: [
+            /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("th", { children: "WhatsApp" }, void 0, false, {
+              fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+              lineNumber: 41,
+              columnNumber: 19
+            }, this),
+            /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("td", { children: "684 46 26 70" }, void 0, false, {
+              fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+              lineNumber: 41,
+              columnNumber: 36
+            }, this)
+          ] }, void 0, true, {
+            fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+            lineNumber: 41,
+            columnNumber: 15
+          }, this),
+          /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("tr", { children: [
+            /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("th", { children: "Correo electrónico" }, void 0, false, {
+              fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+              lineNumber: 42,
+              columnNumber: 19
+            }, this),
+            /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("td", { children: "info@gestadia.com" }, void 0, false, {
+              fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+              lineNumber: 42,
+              columnNumber: 46
+            }, this)
+          ] }, void 0, true, {
+            fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+            lineNumber: 42,
+            columnNumber: 15
+          }, this),
+          /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("tr", { children: [
+            /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("th", { children: "Sitio web" }, void 0, false, {
+              fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+              lineNumber: 43,
+              columnNumber: 19
+            }, this),
+            /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("td", { children: "gestadia.com" }, void 0, false, {
+              fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+              lineNumber: 43,
+              columnNumber: 37
+            }, this)
+          ] }, void 0, true, {
+            fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+            lineNumber: 43,
+            columnNumber: 15
+          }, this),
+          /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("tr", { children: [
+            /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("th", { children: "Actividad" }, void 0, false, {
+              fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+              lineNumber: 44,
+              columnNumber: 19
+            }, this),
+            /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("td", { children: "Gestión y tramitación de expedientes DGT online" }, void 0, false, {
+              fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+              lineNumber: 44,
+              columnNumber: 37
+            }, this)
+          ] }, void 0, true, {
+            fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+            lineNumber: 44,
+            columnNumber: 15
+          }, this)
+        ] }, void 0, true, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 36,
+          columnNumber: 13
+        }, this) }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 35,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+        lineNumber: 33,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("div", { className: __vite_ssr_import_4__.default.legalSection, children: [
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("h2", { children: "2. Objeto y condiciones de uso" }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 50,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("p", { children: [
+          "El presente Aviso Legal regula el acceso y la utilización del sitio web ",
+          /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("strong", { children: "gestadia.com" }, void 0, false, {
+            fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+            lineNumber: 51,
+            columnNumber: 86
+          }, this),
+          " (en adelante, el «Sitio Web»), del que es titular Defensa Legal Consumidores, S.L. (en adelante, el «Titular»)."
+        ] }, void 0, true, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 51,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("p", { children: "El acceso al Sitio Web es libre y gratuito. El acceso y la navegación por este sitio web implica la aceptación expresa y plena de todas las presentes condiciones de uso. El Titular se reserva el derecho a modificar, en cualquier momento y sin previo aviso, la presentación y configuración del Sitio Web, así como las presentes condiciones." }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 52,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("p", { children: "El usuario se compromete a hacer un uso adecuado de los contenidos y servicios que el Titular ofrece y, con carácter enunciativo pero no limitativo, a no emplearlos para:" }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 53,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("ul", { children: [
+          /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("li", { children: "Incurrir en actividades ilícitas, ilegales o contrarias a la buena fe y al orden público." }, void 0, false, {
+            fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+            lineNumber: 55,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("li", { children: "Difundir contenidos o propaganda de carácter racista, xenófobo, pornográfico o que atente contra los derechos fundamentales reconocidos en la Constitución Española." }, void 0, false, {
+            fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+            lineNumber: 56,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("li", { children: "Introducir o difundir en la red virus informáticos o cualquier otro sistema físico o lógico que sea susceptible de provocar daños en los sistemas informáticos del Titular, de sus proveedores o de terceros." }, void 0, false, {
+            fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+            lineNumber: 57,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("li", { children: "Intentar acceder, utilizar y/o manipular los datos del Titular, terceros proveedores y otros usuarios." }, void 0, false, {
+            fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+            lineNumber: 58,
+            columnNumber: 13
+          }, this)
+        ] }, void 0, true, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 54,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("p", { children: "Se permite la visualización, impresión y descarga parcial del contenido del Sitio Web únicamente si concurren las siguientes condiciones: que sea compatible con los fines del Sitio Web, que se haga con el exclusivo ánimo de obtener la información contenida para uso personal y privado, que no se utilice con fines comerciales directos o indirectos, y que no se modifiquen los materiales obtenidos." }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 60,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+        lineNumber: 49,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("div", { className: __vite_ssr_import_4__.default.legalSection, children: [
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("h2", { children: "3. Propiedad intelectual e industrial" }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 64,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("p", { children: "Todos los contenidos del Sitio Web (a título enunciativo: textos, fotografías, gráficos, imágenes, tecnología, software, enlaces, contenidos audiovisuales, diseño gráfico, código fuente y demás elementos) son propiedad del Titular o de terceros que han autorizado su uso, quedando protegidos por la legislación de propiedad intelectual e industrial española e internacional." }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 65,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("p", { children: "El Titular prohíbe expresamente la reproducción total o parcial, distribución, comunicación pública o transformación de los contenidos del Sitio Web sin la autorización previa y por escrito del Titular. Asimismo, quedan reservados todos los derechos de propiedad industrial sobre las marcas, nombres comerciales, logotipos y demás signos distintivos." }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 66,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("p", { children: "El incumplimiento de lo dispuesto conllevará el ejercicio de las acciones legales que correspondan." }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 67,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+        lineNumber: 63,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("div", { className: __vite_ssr_import_4__.default.legalSection, children: [
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("h2", { children: "4. Exclusión de garantías y responsabilidad" }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 71,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("p", { children: "El Titular no garantiza la continuidad, disponibilidad y utilidad del Sitio Web ni de los contenidos o servicios en él ofrecidos. El Titular hará todo lo posible por el buen funcionamiento del Sitio Web, sin embargo, no se responsabiliza ni garantiza que el acceso a este sitio web no vaya a ser ininterrumpido o que esté libre de error." }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 72,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("p", { children: "Tampoco se responsabiliza ni garantiza que el contenido o software al que pueda accederse a través de este sitio web esté libre de error o cause un daño al sistema informático del usuario (hardware y software). En ningún caso el Titular será responsable por las pérdidas, daños o perjuicios de cualquier tipo que surjan por el acceso o el uso del Sitio Web." }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 73,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("p", { children: "El Titular no asume responsabilidad alguna derivada de la existencia de virus o cualquier otro software dañino que pueda causar daños en los sistemas informáticos, documentos electrónicos o ficheros del usuario del Sitio Web." }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 74,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("p", { children: "El Titular se reserva el derecho de interrumpir el acceso al Sitio Web en cualquier momento y sin previo aviso, ya sea por motivos técnicos, de seguridad, de control, de mantenimiento, por fallos de suministro eléctrico o por cualquier otra causa." }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 75,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+        lineNumber: 70,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("div", { className: __vite_ssr_import_4__.default.legalSection, children: [
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("h2", { children: "5. Política de enlaces (links)" }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 79,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("p", { children: "El Sitio Web puede contener enlaces a páginas de terceros. El Titular no controla ni es responsable del contenido de dichos sitios externos, ni avala o asume responsabilidad por los productos, servicios o información ofrecidos en ellos. El usuario accede a los sitios enlazados bajo su exclusiva responsabilidad." }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 80,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("p", { children: [
+          "Cualquier persona que desee establecer un enlace desde su propio sitio web hacia el Sitio Web deberá obtener la autorización previa y por escrito del Titular. En todo caso, el enlace solo podrá dirigirse a la página principal del Sitio Web, no pudiendo reproducir ninguno de sus contenidos ni crear marcos (",
+          /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("em", { children: "frames" }, void 0, false, {
+            fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+            lineNumber: 81,
+            columnNumber: 321
+          }, this),
+          ") sobre las páginas del Sitio Web."
+        ] }, void 0, true, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 81,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+        lineNumber: 78,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("div", { className: __vite_ssr_import_4__.default.legalSection, children: [
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("h2", { children: "6. Protección de datos de carácter personal" }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 85,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("p", { children: "El Titular, en su condición de responsable del tratamiento, informa al usuario de que los datos de carácter personal que facilite a través del Sitio Web serán tratados de conformidad con el Reglamento (UE) 2016/679 del Parlamento Europeo y del Consejo (RGPD) y con la Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales (LOPDGDD)." }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 86,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("p", { children: [
+          "Para más información sobre el tratamiento de sus datos personales, puede consultar la ",
+          /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV(__vite_ssr_import_1__.Link, { to: "/privacidad", style: { color: "var(--red)" }, children: "Política de Privacidad" }, void 0, false, {
+            fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+            lineNumber: 87,
+            columnNumber: 100
+          }, this),
+          " del Sitio Web."
+        ] }, void 0, true, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 87,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+        lineNumber: 84,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("div", { className: __vite_ssr_import_4__.default.legalSection, children: [
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("h2", { children: "7. Legislación aplicable y jurisdicción" }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 91,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV("p", { children: "Las presentes condiciones se rigen e interpretan de conformidad con la legislación española. Para la resolución de cualquier controversia que pudiera derivarse del acceso o uso del Sitio Web, el usuario y el Titular acuerdan someterse a la jurisdicción de los Juzgados y Tribunales de la ciudad de Madrid, renunciando expresamente a cualquier otro fuero que pudiera corresponderles." }, void 0, false, {
+          fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+          lineNumber: 92,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+        lineNumber: 90,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+      lineNumber: 25,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ __vite_ssr_import_0__.jsxDEV(__vite_ssr_import_3__.default, {}, void 0, false, {
+      fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+      lineNumber: 96,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "/Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend/src/pages/legal/AvisoLegal.jsx",
+    lineNumber: 14,
+    columnNumber: 5
+  }, this);
+}
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/pages/legal/legal.test.jsx (5 tests) 159ms
+stderr | src/pages/portal/Login.test.jsx > Login > logs in and stores the token
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/pages/portal/Login.test.jsx (1 test) 241ms
+ ✓ src/lib/auth.test.js (1 test) 2ms
+stderr | src/pages/servicios/Transferencia.test.jsx > Transferencia > muestra "Contratar ahora" y despliega el formulario al pulsarlo
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/pages/servicios/Transferencia.test.jsx (1 test) 212ms
+stderr | src/pages/Tramites.test.jsx > Tramites > muestra el nombre y el precio de cada servicio desde shared
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/pages/Tramites.test.jsx (1 test) 88ms
+stderr | src/pages/servicios/CanjeCarnet.precio.test.jsx > CanjeCarnet > muestra el precio desde shared
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/pages/servicios/CanjeCarnet.precio.test.jsx (1 test) 145ms
+stderr | src/pages/servicios/DuplicadoCirculacion.test.jsx > DuplicadoCirculacion > la ficha muestra el botón "Contratar ahora"
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/pages/servicios/DuplicadoCirculacion.test.jsx (1 test) 84ms
+stderr | src/pages/servicios/PermisoInternacional.test.jsx > PermisoInternacional > la ficha muestra el botón "Contratar ahora"
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/pages/servicios/PermisoInternacional.test.jsx (1 test) 87ms
+stderr | src/pages/servicios/CancelacionDominio.test.jsx > CancelacionDominio > la ficha muestra el botón "Contratar ahora"
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/pages/servicios/CancelacionDominio.test.jsx (1 test) 93ms
+stderr | src/pages/servicios/DuplicadoCarnet.test.jsx > DuplicadoCarnet > la ficha muestra el botón "Contratar ahora"
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/pages/servicios/DuplicadoCarnet.test.jsx (1 test) 96ms
+stderr | src/pages/servicios/DuplicadoDatos.test.jsx > DuplicadoDatos > la ficha muestra el botón "Contratar ahora"
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/pages/servicios/DuplicadoDatos.test.jsx (1 test) 90ms
+stderr | src/pages/servicios/BajaVehiculo.test.jsx > BajaVehiculo > la ficha muestra el botón "Contratar ahora"
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/pages/servicios/BajaVehiculo.test.jsx (1 test) 90ms
+ ✓ app/src/AppConversation.test.jsx (29 tests) 6964ms
+   ✓ la pérdida de autorización oculta el historial ya cargado 3059ms
+   ✓ volver a cargar tras restaurar permisos retira el aviso anterior 3025ms
+ ✓ src/pages/CheckoutIntent.test.jsx (5 tests) 4236ms
+   ✓ CheckoutIntent (/c/:token) > ante un error transitorio reintenta y NO dice que el enlace caducó 2054ms
+   ✓ CheckoutIntent (/c/:token) > si el error transitorio persiste muestra aviso de reintento, sin perder el enlace 2010ms
+stderr | src/App.test.jsx > App > renders the home route
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/App.test.jsx (1 test) 69ms
+
+ Test Files  32 passed (32)
+      Tests  135 passed (135)
+   Start at  11:41:41
+   Duration  9.44s (transform 1.72s, setup 2.24s, collect 8.51s, tests 22.49s, environment 15.52s, prepare 2.67s)
+
