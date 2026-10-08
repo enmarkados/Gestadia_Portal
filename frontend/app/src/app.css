@@ -2581,3 +2581,11 @@ select:focus {
 .new-lidia-chat:hover, .home-resume-chat:hover { background: #ededed; }
 .new-lidia-chat:disabled { color: #747982; cursor: default; }
 .home-resume-chat { margin-top: 8px; padding-inline: 0; }
+
+.delivery-ticks { display:inline-flex; flex:0 0 auto; align-items:center; color:#657080; vertical-align:middle; }
+.delivery-ticks.read { color:#087ab5; }
+.bubble-delivery { display:flex; justify-content:flex-end; min-height:17px; margin-top:4px; }
+.bubble.user .delivery-ticks { color:#e3e3e3; }
+.bubble.user .delivery-ticks.read { color:#80ddff; }
+.conversation-preview { display:flex; gap:5px; align-items:center; min-width:0; margin:4px 0; font-size:13px; line-height:1.4; color:var(--muted); }
+.conversation-preview > span:last-child { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }

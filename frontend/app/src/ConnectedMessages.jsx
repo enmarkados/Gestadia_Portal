@@ -1,3 +1,5 @@
+import DeliveryTicks from "./DeliveryTicks.jsx";
+import { useReceiptSummaries } from "./useMessageReceipts.js";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { navigationState } from "./navigation.js";
@@ -107,6 +109,7 @@ export default function ConnectedMessages() {
       setSaving(false);
     }
   }
+  const summaries = useReceiptSummaries(rows);
   const matches = rows.filter((c) =>
     folded(`${c.title || ""} ${interlocutor(c)}`).includes(
       folded(query.trim()),
@@ -199,7 +202,7 @@ export default function ConnectedMessages() {
                   ? "En atención"
                   : "Abierta";
           return (
-            <li className="conversation-card" key={c.id}>
+            <li className="conversation-card" key={c.id} data-receipt-conversation={c.id}>
               <div className="conversation-row">
                 <Link
                   className="conversation-link"
@@ -228,6 +231,10 @@ export default function ConnectedMessages() {
                         {status}
                       </span>
                     </div>
+                    {summaries[c.id]?.last_message && <div className="conversation-preview">
+                      {summaries[c.id].last_message.role === "user" && <DeliveryTicks receipt={summaries[c.id].last_message.receipt} />}
+                      <span>{summaries[c.id].last_message.text}</span>
+                    </div>}
                     <dl className="conversation-dates">
                       <div>
                         <dt>Creada</dt>

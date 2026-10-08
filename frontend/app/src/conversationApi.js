@@ -44,6 +44,13 @@ export const conversationApi = {
       `/conversations/${encodeURIComponent(id)}/timeline${q.size ? "?" + q : ""}`,
     );
   },
+  messageReceipts: (id, query) => call(
+    `/conversations/${encodeURIComponent(id)}/message-receipts?${new URLSearchParams(query)}`,
+  ),
+  ackMessages: (id, dto, key) => post(
+    `/conversations/${encodeURIComponent(id)}/message-receipts`, dto,
+    { headers: { "Idempotency-Key": key } },
+  ),
   turn: (id, dto) =>
     post(`/conversations/${encodeURIComponent(id)}/turns`, dto),
   handoff: (id, target, key) =>

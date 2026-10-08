@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { receiptQuery, validateMessageSnapshot } from "./messageReceipts.js";
 import { AppIdentity, accountProof } from "./identity.js";
 import { AppProblem } from "./problem.js";
 import { validateContract, UUID, IDEM } from "./contracts.js";
@@ -300,6 +301,26 @@ export class AppConversationService {
         throw new AppProblem(503, "context_unavailable");
       return { conversation: current, access };
     });
+  }
+  async messageReceipts(token, id, query = {}) {
+    receiptQuery(query);
+    const { conversation: c } = await this.context(token, id, "history");
+    const r = await this.client.call("timeline", "GET", `/sessions/${c.remoteId}/message-receipts`, c.userId, null, { query });
+    validateMessageSnapshot(r.data, c.remoteId, { query });
+    const current = await this.context(token, id, "history");
+    if(current.conversation.contextRevision !== c.contextRevision) throw new AppProblem(503,"context_unavailable");
+    return { ...r.data, conversation_id: id };
+  }
+  async ackMessages(token, id, input, key) {
+    validateContract("MessageReceiptAckRequest", input);
+    validateContract("PostIdempotencyHeaders", { "Idempotency-Key": key });
+    const { conversation: c } = await this.context(token, id, "history");
+    // LidIA owns the durable ACK ledger. Retry the exact key/body even after a lost HTTP response.
+    const r = await this.client.call("turn", "POST", `/sessions/${c.remoteId}/message-receipts`, c.userId, input, { idempotencyKey: key });
+    validateMessageSnapshot(r.data, c.remoteId, { ack: input });
+    const current = await this.context(token, id, "history");
+    if(current.conversation.contextRevision !== c.contextRevision) throw new AppProblem(503,"context_unavailable");
+    return { ...r.data, conversation_id: id };
   }
   async timeline(token, id, query = {}) {
     const { conversation: c } = await this.context(token, id, "history");

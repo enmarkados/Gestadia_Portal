@@ -1141,3 +1141,83 @@ test("recuperar chat pendiente por id no sustituye otro más antiguo por el últ
   await assert.rejects(f.service().start(f.a, { purpose: "atencion", conversation_id: old.conversation.id }, crypto.randomUUID()), { code: "conversation_not_found" });
   await assert.rejects(f.service().start(f.a, { purpose: "sondeo", conversation_id: old.conversation.id, create_new: true }, crypto.randomUUID()), { code: "invalid_payload" });
 });
+
+function messageReceipt(role = "operator", status = "sent") {
+  return { message_id: crypto.randomUUID(), sequence: "9", turn_id: null, role,
+    stored_at: "2026-10-08T10:00:00.000Z", delivery_status: status,
+    received_at: status === "sent" ? null : "2026-10-08T10:00:01.000Z",
+    received_by: status === "sent" ? null : (role === "user" ? "operator" : "account"),
+    read_at: status === "read" ? "2026-10-08T10:00:02.000Z" : null,
+    read_by: status === "read" ? (role === "user" ? "operator" : "account") : null,
+    receipt_revision: status === "read" ? "3" : status === "received" ? "2" : "1" };
+}
+async function receiptFixture(t) {
+  const f = await fixture(t), started = await f.service().start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
+  f.id = started.conversation.id;
+  f.remoteId = (await db.appConversation.findUnique({ where: { id: f.id } })).remoteId;
+  f.message = messageReceipt(); f.receiptCalls = []; f.receiptRevision = "1";
+  const original = f.remote.call.bind(f.remote);
+  f.remote.call = async (cap,method,path,subject,dto,opts={}) => {
+    if (!path.endsWith("/message-receipts")) return original(cap,method,path,subject,dto,opts);
+    f.receiptCalls.push({cap,method,path,subject,dto,opts});
+    const base = {schema_version:"1.0",conversation_id:f.remoteId,message_receipts_revision:String(BigInt(f.receiptRevision)>BigInt(f.message.receipt_revision)?f.receiptRevision:f.message.receipt_revision)};
+    const data = opts.query?.summary === "true" ? {...base,last_message:{message_id:f.message.message_id,sequence:f.message.sequence,role:f.message.role,text:"Mensaje original",occurred_at:f.message.stored_at,receipt:f.message}} : {...base,items:[f.message]};
+    if (method === "POST") Object.assign(data,{ack_id:dto.ack_id,acked_at:"2026-10-08T10:00:02.000Z",duplicate:false});
+    if(f.receiptReturn) await f.receiptReturn(data);
+    return {status:200,data:structuredClone(data)};
+  };
+  return f;
+}
+test("recibos consulta sólo la conversación propiedad de la cuenta y traduce localId a remoteId", async(t)=>{
+  const f = await receiptFixture(t);
+  const r = await f.service().messageReceipts(f.a,f.id,{message_ids:f.message.message_id});
+  assert.equal(r.conversation_id,f.id);assert.equal(r.items[0].delivery_status,"sent");
+  assert.deepEqual(f.receiptCalls[0],{cap:"timeline",method:"GET",path:`/sessions/${f.remoteId}/message-receipts`,subject:f.u.id,dto:null,opts:{query:{message_ids:f.message.message_id}}});
+  const g = await fixture(t);
+  await assert.rejects(g.service().messageReceipts(g.a,f.id,{message_ids:f.message.message_id}),{code:"conversation_not_found"});
+  assert.equal(f.receiptCalls.length,1);
+});
+test("recibos exige selector exclusivo y IDs distintos, sin cursores de lectura ni campos desconocidos",async(t)=>{
+  const f=await receiptFixture(t);
+  for(const q of [{},{summary:"false"},{summary:"true",turn_id:crypto.randomUUID()},{message_ids:`${f.message.message_id},${f.message.message_id}`},{message_ids:[f.message.message_id]},{summary:"true",actor:"operator"}])
+    await assert.rejects(f.service().messageReceipts(f.a,f.id,q),{code:"invalid_payload"});
+  assert.equal(f.receiptCalls.length,0);
+});
+test("ACK conserva clave y cuerpo exactos al recuperar respuesta perdida y no ejecuta turnos",async(t)=>{
+  const f=await receiptFixture(t),key=crypto.randomUUID();f.message=messageReceipt("operator","read");
+  const dto={schema_version:"1.0",ack_id:crypto.randomUUID(),state:"read",message_ids:[f.message.message_id],correlation_id:crypto.randomUUID()};
+  f.receiptReturn=()=>{f.receiptReturn=null;throw new AppProblem(503,"runtime_unavailable");};
+  await assert.rejects(f.service().ackMessages(f.a,f.id,dto,key),{code:"runtime_unavailable"});
+  const r=await f.service().ackMessages(f.b,f.id,dto,key);
+  assert.equal(r.conversation_id,f.id);assert.equal(r.ack_id,dto.ack_id);
+  assert.ok(f.receiptCalls.every(c=>c.cap==="turn"&&c.method==="POST"&&c.opts.idempotencyKey===key));
+  assert.deepEqual(f.receiptCalls[0].dto,f.receiptCalls[1].dto);
+  assert.equal((await db.appOperation.findMany({where:{conversationId:f.id,kind:"turn"}})).length,0);
+});
+test("recibos rechaza respuesta ajena, IDs incompletos y leído inventado por agente",async(t)=>{
+  const f=await receiptFixture(t);
+  f.receiptReturn=d=>{d.conversation_id=crypto.randomUUID();};
+  await assert.rejects(f.service().messageReceipts(f.a,f.id,{message_ids:f.message.message_id}),{code:"invalid_upstream_response"});
+  f.receiptReturn=d=>{d.items=[];};
+  await assert.rejects(f.service().messageReceipts(f.a,f.id,{message_ids:f.message.message_id}),{code:"invalid_upstream_response"});
+  f.receiptReturn=null;f.message=messageReceipt("user","read");f.message.read_by="agent";
+  await assert.rejects(f.service().messageReceipts(f.a,f.id,{message_ids:f.message.message_id}),{code:"invalid_upstream_response"});
+});
+test("ACK no acepta actor/hora/IDs propios ni aplica resultado después de retirar history",async(t)=>{
+  const f=await receiptFixture(t),key=crypto.randomUUID();
+  const dto={schema_version:"1.0",ack_id:crypto.randomUUID(),state:"read",message_ids:[f.message.message_id],correlation_id:crypto.randomUUID()};
+  await assert.rejects(f.service().ackMessages(f.a,f.id,{...dto,actor:"operator"},key),{code:"invalid_payload"});
+  assert.equal(f.receiptCalls.length,0);
+  f.message=messageReceipt("user","read");
+  await assert.rejects(f.service().ackMessages(f.a,f.id,dto,key),{code:"invalid_upstream_response"});
+  f.message=messageReceipt("operator","read");
+  f.receiptReturn=async()=>{await setConversationAccess(db,f.u.id,"sondeo",null,{permissions:[],validated_at:new Date().toISOString(),valid_until:new Date(Date.now()+60000).toISOString(),source_ref:"test-revoke-receipts"});};
+  await assert.rejects(f.service().messageReceipts(f.a,f.id,{message_ids:f.message.message_id}),{code:"capability_denied"});
+});
+test("summary de Mensajes conserva texto/fecha/recibo del último mensaje sin ACK",async(t)=>{
+  const f=await receiptFixture(t);f.message=messageReceipt("user","received");
+  const r=await f.service().messageReceipts(f.a,f.id,{summary:"true"});
+  assert.equal(r.last_message.message_id,f.message.message_id);assert.equal(r.last_message.text,"Mensaje original");
+  assert.equal(r.last_message.occurred_at,f.message.stored_at);assert.equal(r.last_message.receipt.delivery_status,"received");
+  assert.ok(f.receiptCalls.every(c=>c.method==="GET"));
+});

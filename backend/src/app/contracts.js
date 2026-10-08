@@ -13,6 +13,7 @@ const validators = new Map();
 for (const file of [
   "app-v1-dtos.schema.json",
   "app-context-v1-1.schema.json",
+  "app-message-receipts-v1.schema.json",
 ]) {
   const schema = JSON.parse(
     readFileSync(new URL(`./contracts/${file}`, import.meta.url)),

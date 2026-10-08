@@ -1,0 +1,404 @@
+{
+  "schema_version": "1.0",
+  "valid": [
+    {
+      "name": "durable_not_read",
+      "definition": "MessageReceipt",
+      "value": {
+        "message_id": "33333333-3333-4333-8333-333333333333",
+        "sequence": "12",
+        "turn_id": "55555555-5555-4555-8555-555555555555",
+        "role": "user",
+        "stored_at": "2026-10-08T10:00:00.000Z",
+        "delivery_status": "sent",
+        "received_at": null,
+        "received_by": null,
+        "read_at": null,
+        "read_by": null,
+        "receipt_revision": "0"
+      }
+    },
+    {
+      "name": "received_by_lidia_not_read",
+      "definition": "MessageReceipt",
+      "value": {
+        "message_id": "33333333-3333-4333-8333-333333333333",
+        "sequence": "12",
+        "turn_id": "55555555-5555-4555-8555-555555555555",
+        "role": "user",
+        "stored_at": "2026-10-08T10:00:00.000Z",
+        "delivery_status": "received",
+        "received_at": "2026-10-08T10:00:01.000Z",
+        "received_by": "agent",
+        "read_at": null,
+        "read_by": null,
+        "receipt_revision": "1"
+      }
+    },
+    {
+      "name": "later_operator_read",
+      "definition": "MessageReceipt",
+      "value": {
+        "message_id": "33333333-3333-4333-8333-333333333333",
+        "sequence": "12",
+        "turn_id": "55555555-5555-4555-8555-555555555555",
+        "role": "user",
+        "stored_at": "2026-10-08T10:00:00.000Z",
+        "delivery_status": "read",
+        "received_at": "2026-10-08T10:00:01.000Z",
+        "received_by": "agent",
+        "read_at": "2026-10-08T10:00:02.000Z",
+        "read_by": "operator",
+        "receipt_revision": "2"
+      }
+    },
+    {
+      "name": "account_read_operator",
+      "definition": "MessageReceipt",
+      "value": {
+        "message_id": "33333333-3333-4333-8333-333333333333",
+        "sequence": "12",
+        "turn_id": null,
+        "role": "operator",
+        "stored_at": "2026-10-08T10:00:00.000Z",
+        "delivery_status": "read",
+        "received_at": "2026-10-08T10:00:01.000Z",
+        "received_by": "account",
+        "read_at": "2026-10-08T10:00:02.000Z",
+        "read_by": "account",
+        "receipt_revision": "2"
+      }
+    },
+    {
+      "name": "lookup_by_ids",
+      "definition": "MessageReceiptSnapshot",
+      "value": {
+        "schema_version": "1.0",
+        "conversation_id": "22222222-2222-4222-8222-222222222222",
+        "message_receipts_revision": "7",
+        "items": [
+          {
+            "message_id": "33333333-3333-4333-8333-333333333333",
+            "sequence": "12",
+            "turn_id": "55555555-5555-4555-8555-555555555555",
+            "role": "user",
+            "stored_at": "2026-10-08T10:00:00.000Z",
+            "delivery_status": "read",
+            "received_at": "2026-10-08T10:00:01.000Z",
+            "received_by": "agent",
+            "read_at": "2026-10-08T10:00:02.000Z",
+            "read_by": "operator",
+            "receipt_revision": "2"
+          }
+        ]
+      }
+    },
+    {
+      "name": "summary_empty",
+      "definition": "MessageReceiptSummary",
+      "value": {
+        "schema_version": "1.0",
+        "conversation_id": "22222222-2222-4222-8222-222222222222",
+        "message_receipts_revision": "7",
+        "last_message": null
+      }
+    },
+    {
+      "name": "summary_event_no_ticks",
+      "definition": "MessageReceiptSummary",
+      "value": {
+        "schema_version": "1.0",
+        "conversation_id": "22222222-2222-4222-8222-222222222222",
+        "message_receipts_revision": "7",
+        "last_message": {
+          "message_id": "33333333-3333-4333-8333-333333333333",
+          "sequence": "12",
+          "role": "event",
+          "text": "Atención solicitada",
+          "occurred_at": "2026-10-08T10:00:00.000Z",
+          "receipt": null
+        }
+      }
+    },
+    {
+      "name": "summary_original",
+      "definition": "MessageReceiptSummary",
+      "value": {
+        "schema_version": "1.0",
+        "conversation_id": "22222222-2222-4222-8222-222222222222",
+        "message_receipts_revision": "7",
+        "last_message": {
+          "message_id": "33333333-3333-4333-8333-333333333333",
+          "sequence": "12",
+          "role": "operator",
+          "text": "Hola",
+          "occurred_at": "2026-10-08T10:00:00.000Z",
+          "receipt": {
+            "message_id": "33333333-3333-4333-8333-333333333333",
+            "sequence": "12",
+            "turn_id": null,
+            "role": "operator",
+            "stored_at": "2026-10-08T10:00:00.000Z",
+            "delivery_status": "read",
+            "received_at": "2026-10-08T10:00:01.000Z",
+            "received_by": "account",
+            "read_at": "2026-10-08T10:00:02.000Z",
+            "read_by": "account",
+            "receipt_revision": "2"
+          }
+        }
+      }
+    },
+    {
+      "name": "ack_read",
+      "definition": "MessageReceiptAckRequest",
+      "value": {
+        "schema_version": "1.0",
+        "ack_id": "44444444-4444-4444-8444-444444444444",
+        "state": "read",
+        "message_ids": [
+          "33333333-3333-4333-8333-333333333333"
+        ],
+        "correlation_id": "app-read-01"
+      }
+    },
+    {
+      "name": "duplicate_ack_current_snapshot",
+      "definition": "MessageReceiptAckResponse",
+      "value": {
+        "schema_version": "1.0",
+        "conversation_id": "22222222-2222-4222-8222-222222222222",
+        "message_receipts_revision": "7",
+        "ack_id": "44444444-4444-4444-8444-444444444444",
+        "acked_at": "2026-10-08T10:00:00.000Z",
+        "duplicate": true,
+        "items": [
+          {
+            "message_id": "33333333-3333-4333-8333-333333333333",
+            "sequence": "12",
+            "turn_id": null,
+            "role": "operator",
+            "stored_at": "2026-10-08T10:00:00.000Z",
+            "delivery_status": "read",
+            "received_at": "2026-10-08T10:00:01.000Z",
+            "received_by": "account",
+            "read_at": "2026-10-08T10:00:02.000Z",
+            "read_by": "account",
+            "receipt_revision": "2"
+          }
+        ]
+      }
+    },
+    {
+      "name": "idem_header",
+      "definition": "PostIdempotencyHeaders",
+      "value": {
+        "Idempotency-Key": "app-ack-44444444-4444-4444-8444-444444444444"
+      }
+    },
+    {
+      "name": "summary_query",
+      "definition": "MessageReceiptQuery",
+      "value": {
+        "summary": true
+      }
+    },
+    {
+      "name": "ids_query",
+      "definition": "MessageReceiptQuery",
+      "value": {
+        "message_ids": [
+          "33333333-3333-4333-8333-333333333333"
+        ]
+      }
+    },
+    {
+      "name": "turn_query",
+      "definition": "MessageReceiptQuery",
+      "value": {
+        "turn_id": "55555555-5555-4555-8555-555555555555"
+      }
+    }
+  ],
+  "invalid": [
+    {
+      "name": "ai_cannot_read",
+      "definition": "MessageReceipt",
+      "value": {
+        "message_id": "33333333-3333-4333-8333-333333333333",
+        "sequence": "12",
+        "turn_id": "55555555-5555-4555-8555-555555555555",
+        "role": "user",
+        "stored_at": "2026-10-08T10:00:00.000Z",
+        "delivery_status": "read",
+        "received_at": "2026-10-08T10:00:01.000Z",
+        "received_by": "agent",
+        "read_at": "2026-10-08T10:00:02.000Z",
+        "read_by": "agent",
+        "receipt_revision": "2"
+      }
+    },
+    {
+      "name": "own_account_cannot_read_user",
+      "definition": "MessageReceipt",
+      "value": {
+        "message_id": "33333333-3333-4333-8333-333333333333",
+        "sequence": "12",
+        "turn_id": "55555555-5555-4555-8555-555555555555",
+        "role": "user",
+        "stored_at": "2026-10-08T10:00:00.000Z",
+        "delivery_status": "read",
+        "received_at": "2026-10-08T10:00:01.000Z",
+        "received_by": "agent",
+        "read_at": "2026-10-08T10:00:02.000Z",
+        "read_by": "account",
+        "receipt_revision": "2"
+      }
+    },
+    {
+      "name": "sent_cannot_claim_received",
+      "definition": "MessageReceipt",
+      "value": {
+        "message_id": "33333333-3333-4333-8333-333333333333",
+        "sequence": "12",
+        "turn_id": "55555555-5555-4555-8555-555555555555",
+        "role": "user",
+        "stored_at": "2026-10-08T10:00:00.000Z",
+        "delivery_status": "sent",
+        "received_at": "2026-10-08T10:00:00.000Z",
+        "received_by": null,
+        "read_at": null,
+        "read_by": null,
+        "receipt_revision": "0"
+      }
+    },
+    {
+      "name": "read_requires_received",
+      "definition": "MessageReceipt",
+      "value": {
+        "message_id": "33333333-3333-4333-8333-333333333333",
+        "sequence": "12",
+        "turn_id": null,
+        "role": "operator",
+        "stored_at": "2026-10-08T10:00:00.000Z",
+        "delivery_status": "read",
+        "received_at": null,
+        "received_by": "account",
+        "read_at": "2026-10-08T10:00:02.000Z",
+        "read_by": "account",
+        "receipt_revision": "2"
+      }
+    },
+    {
+      "name": "ack_no_actor_selector",
+      "definition": "MessageReceiptAckRequest",
+      "value": {
+        "schema_version": "1.0",
+        "ack_id": "44444444-4444-4444-8444-444444444444",
+        "state": "read",
+        "message_ids": [
+          "33333333-3333-4333-8333-333333333333"
+        ],
+        "correlation_id": "app-read-01",
+        "actor": "operator"
+      }
+    },
+    {
+      "name": "duplicate_ids",
+      "definition": "MessageReceiptAckRequest",
+      "value": {
+        "schema_version": "1.0",
+        "ack_id": "44444444-4444-4444-8444-444444444444",
+        "state": "read",
+        "message_ids": [
+          "33333333-3333-4333-8333-333333333333",
+          "33333333-3333-4333-8333-333333333333"
+        ],
+        "correlation_id": "app-read-01"
+      }
+    },
+    {
+      "name": "missing_idem",
+      "definition": "PostIdempotencyHeaders",
+      "value": {}
+    },
+    {
+      "name": "short_idem",
+      "definition": "PostIdempotencyHeaders",
+      "value": {
+        "Idempotency-Key": "short"
+      }
+    },
+    {
+      "name": "mixed_selectors",
+      "definition": "MessageReceiptQuery",
+      "value": {
+        "summary": true,
+        "turn_id": "55555555-5555-4555-8555-555555555555"
+      }
+    },
+    {
+      "name": "event_cannot_have_receipt",
+      "definition": "MessageReceiptSummary",
+      "value": {
+        "schema_version": "1.0",
+        "conversation_id": "22222222-2222-4222-8222-222222222222",
+        "message_receipts_revision": "7",
+        "last_message": {
+          "message_id": "33333333-3333-4333-8333-333333333333",
+          "sequence": "12",
+          "role": "event",
+          "text": "Atención solicitada",
+          "occurred_at": "2026-10-08T10:00:00.000Z",
+          "receipt": {
+            "message_id": "33333333-3333-4333-8333-333333333333",
+            "sequence": "12",
+            "turn_id": null,
+            "role": "operator",
+            "stored_at": "2026-10-08T10:00:00.000Z",
+            "delivery_status": "read",
+            "received_at": "2026-10-08T10:00:01.000Z",
+            "received_by": "account",
+            "read_at": "2026-10-08T10:00:02.000Z",
+            "read_by": "account",
+            "receipt_revision": "2"
+          }
+        }
+      }
+    },
+    {
+      "name": "legacy_receipt_is_not_message_receipt",
+      "definition": "MessageReceipt",
+      "value": {
+        "message_id": "33333333-3333-4333-8333-333333333333",
+        "sequence": "12",
+        "turn_id": null,
+        "role": "operator",
+        "stored_at": "2026-10-08T10:00:00.000Z",
+        "delivery_status": "completed",
+        "received_at": "2026-10-08T10:00:01.000Z",
+        "received_by": "account",
+        "read_at": "2026-10-08T10:00:02.000Z",
+        "read_by": "account",
+        "receipt_revision": "2"
+      }
+    },
+    {
+      "name": "revision_no_js_number",
+      "definition": "MessageReceipt",
+      "value": {
+        "message_id": "33333333-3333-4333-8333-333333333333",
+        "sequence": "12",
+        "turn_id": null,
+        "role": "operator",
+        "stored_at": "2026-10-08T10:00:00.000Z",
+        "delivery_status": "read",
+        "received_at": "2026-10-08T10:00:01.000Z",
+        "received_by": "account",
+        "read_at": "2026-10-08T10:00:02.000Z",
+        "read_by": "account",
+        "receipt_revision": 2
+      }
+    }
+  ]
+}

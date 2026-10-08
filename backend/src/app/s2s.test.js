@@ -260,3 +260,17 @@ test("metadatos aditivos admiten UTC y null sin aceptar fechas inválidas ni cam
       assert.throws(() => validateContract(name, { ...meta, ...bad }, { response: true }), { code: "invalid_upstream_response" });
   }
 });
+
+test("cliente firma recibos por IDs/summary y ACK sin ampliar rutas o capacidades",async()=>{
+  const requests=[];
+  const key={keyId:"test",secretBase64:Buffer.alloc(32,1).toString("base64")};
+  const c=new AppS2SClient({enabled:true,baseUrl:"https://lidia.test",audience:"lidia:test:dev:app",integrationId:"test",keys:{timeline:key,turn:key,context:key}},{fetchImpl:async(url,opts)=>{requests.push({url,opts});return new Response('{}',{status:200});}});
+  await c.call("timeline","GET","/sessions/chat-1/message-receipts","11111111-1111-4111-8111-111111111111",null,{query:{message_ids:"m1,m2"}});
+  assert.ok(requests[0].url.endsWith("?message_ids=m1%2Cm2"));
+  await c.call("timeline","GET","/sessions/chat-1/message-receipts","11111111-1111-4111-8111-111111111111",null,{query:{summary:"true"}});
+  await c.call("turn","POST","/sessions/chat-1/message-receipts","11111111-1111-4111-8111-111111111111",{ack_id:"22222222-2222-4222-8222-222222222222"},{idempotencyKey:"test-idempotent-01"});
+  assert.equal(requests[2].opts.headers['Idempotency-Key'],"test-idempotent-01");
+  for(const [role,method,q] of [["context","POST",{}],["timeline","GET",{summary:"true",cursor:"x"}],["timeline","GET",{message_ids:"m1,m1"}]])
+    await assert.rejects(c.call(role,method,"/sessions/chat-1/message-receipts","11111111-1111-4111-8111-111111111111",{}, {query:q,idempotencyKey:"test-idempotent-01"}),{code:"invalid_payload"});
+  assert.equal(requests.length,3);
+});

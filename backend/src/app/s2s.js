@@ -1,9 +1,10 @@
 import { createHash, createHmac, randomBytes } from "node:crypto";
 import { UUID, IDEM } from "./contracts.js";
 import { AppProblem } from "./problem.js";
+import { receiptQuery } from "./messageReceipts.js";
 const PREFIX = "/api/integrations/lidia/app/v1";
 const allowed =
-  /^\/(sessions|sessions\/[A-Za-z0-9_-]{1,128}\/(turns|timeline|handoff|context)|subjects\/[0-9a-f-]{36}\/revocations)$/;
+  /^\/(sessions|sessions\/[A-Za-z0-9_-]{1,128}\/(turns|timeline|handoff|context|message-receipts)|subjects\/[0-9a-f-]{36}\/revocations)$/;
 export const sha256 = (bytes) =>
   createHash("sha256").update(bytes).digest("hex");
 // JCS for validated contract values: finite numbers, well-formed Unicode and plain JSON.
@@ -97,6 +98,8 @@ const upstreamCodes = new Set([
   "identity_link_required",
   "conversation_not_found",
   "turn_not_found",
+  "message_not_found",
+  "invalid_request",
   "stale_action",
   "idempotency_conflict",
   "context_conflict",
@@ -150,11 +153,13 @@ export class AppS2SClient {
       !/^[-A-Za-z0-9_]{1,64}$/.test(key?.keyId || "")
     )
       throw new AppProblem(503, "runtime_unavailable");
+    const messageReceipts = path.endsWith("/message-receipts");
+    if (messageReceipts && capability !== (method === "GET" ? "timeline" : "turn")) throw new AppProblem(400,"invalid_payload");
     if (
       !allowed.test(path) ||
       !UUID.test(subject) ||
       (method !== "POST" && method !== "GET") ||
-      (method === "GET" && !path.endsWith("/timeline")) ||
+      (method === "GET" && !path.endsWith("/timeline") && !messageReceipts) ||
       (method === "POST" &&
         (path.endsWith("/timeline") ||
           Object.keys(query).length ||
@@ -174,7 +179,10 @@ export class AppS2SClient {
         ? Buffer.alloc(0)
         : Buffer.from(JSON.stringify(dto), "utf8");
     if (body.length > 32768) throw new AppProblem(413, "payload_too_large");
-    const qs = canonicalQuery(query),
+    if (messageReceipts && method === "GET") receiptQuery(query);
+    const qs = messageReceipts && method === "GET"
+      ? Object.keys(query).sort().map(k => `${encode(k)}=${encode(query[k])}`).join("&")
+      : canonicalQuery(query),
       timestamp = String(Math.floor(this.clock() / 1000)),
       nonce = this.nonce();
     const { signature } = signRequest(

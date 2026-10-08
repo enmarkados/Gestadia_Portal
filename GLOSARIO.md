@@ -761,3 +761,31 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** Referencia local de la conversación concreta que debe recuperarse, especialmente mientras su sesión remota está pendiente.
 - **Alcance:** `backend/src/app/conversations.js`, `frontend/app/src/conversationApi.js`, `AppConversation.jsx`.
 - **Notas:** Se valida pertenencia, propósito, expediente y permisos; no combina con create_new:true. No se envía al DTO S2S ni permite escoger sesiones de otra cuenta.
+
+## AppMessageReceipt
+
+- **Tipo:** concepto runtime compartido.
+- **Definición:** acuse durable de un mensaje concreto que distingue enviado, recibido y leído; es independiente del recibo de procesamiento del turno. LidIA es su autoridad y Portal lo proyecta a la APP.
+- **Alcance:** backend/src/app, frontend/app/src; contrato docs/integraciones/2026-10-08-app-recibos-mensajes.md.
+- **Notas:** se descarta usar completed o la apertura del listado como lectura, porque no acreditan visibilidad humana.
+
+## message_receipts_revision / receipt_revision
+
+- **Tipo:** propiedad de contrato.
+- **Definición:** revisión decimal del conjunto de acuses y de cada mensaje, respectivamente. La mezcla de datos de un mensaje usa su receipt_revision para no retroceder ante respuestas antiguas.
+- **Alcance:** adenda de recibos y consumidor APP; independientes de state_revision del sondeo.
+- **Notas:** no son cursores de lectura ni números JS; se comparan como BigInt.
+
+## ack_id / message_receipt_ack
+
+- **Tipo:** propiedad de contrato / concepto runtime.
+- **Definición:** identificador estable y operación de confirmación de recepción o lectura de IDs concretos. Conserva el mismo cuerpo y la misma clave al recuperar una respuesta perdida.
+- **Alcance:** backend/src/app y frontend/app/src; POST message-receipts.
+- **Notas:** no admite actor ni fecha elegidos por el dispositivo; la identidad procede de la sesión y la fecha de LidIA.
+
+## DeliveryTicks / useMessageReceipts / useReceiptSummaries
+
+- **Tipo:** componente / hooks de interfaz.
+- **Definición:** representación accesible de los acuses confirmados, seguimiento de mensajes aceptados/visibles en el chat y consulta de resúmenes en Mensajes.
+- **Alcance:** frontend/app/src/DeliveryTicks.jsx y useMessageReceipts.js.
+- **Notas:** Mensajes consulta sin ACK; las colas se acotan por cuenta y conversación y se eliminan con el cierre de sesión. No confunden el recibo de turno con la lectura.

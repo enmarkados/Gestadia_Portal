@@ -1,3 +1,5 @@
+import DeliveryTicks from "./DeliveryTicks.jsx";
+import { useMessageReceipts } from "./useMessageReceipts.js";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link, useSearchParams, useLocation } from "react-router-dom";
@@ -449,6 +451,12 @@ function ConversationBody({ purpose }) {
       }
     }
   }
+  const messageReceipts = useMessageReceipts({
+    userId,
+    conversationId: conversation?.id,
+    items,
+    enabled: mode === "real" && conversation?.ready && timeline?.permissions?.includes("history"),
+  });
   if (mode === "real" && !userId) return <p role="status">Cargando tu cuenta…</p>;
   if (mode !== "real")
     return (
@@ -524,6 +532,7 @@ function ConversationBody({ purpose }) {
           <div
             className={`bubble ${m.role === "user" ? "user" : m.role === "operator" ? "manager" : "assistant"}`}
             key={m.message_id}
+            data-message-id={m.message_id}
           >
             {m.role === "assistant" ? (
               <div className="lidia-message-heading">
@@ -550,6 +559,7 @@ function ConversationBody({ purpose }) {
               </div>
             )}
             <p>{m.text}</p>
+            {m.role === "user" && <div className="bubble-delivery"><DeliveryTicks receipt={messageReceipts[m.message_id]} /></div>}
             {m.presentation && (
               <div className="stack">
                 <strong>{m.presentation.title}</strong>

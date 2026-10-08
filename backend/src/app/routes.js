@@ -141,6 +141,8 @@ export function createAppRouter({
       res.json(await service.timeline(req.appToken, req.params.id, req.query)),
     ),
   );
+  router.get("/conversations/:id/message-receipts", run(async(req,res)=>res.json(await service.messageReceipts(req.appToken,req.params.id,req.query))));
+  router.post("/conversations/:id/message-receipts", run(async(req,res)=>res.json(await service.ackMessages(req.appToken,req.params.id,req.body,req.get("Idempotency-Key")))));
   router.post(
     "/conversations/:id/turns",
     run(async (req, res) =>
