@@ -129,6 +129,10 @@ portalRouter.get('/api/notificaciones', async (req, res) => {
   res.json(items);
 });
 
+portalRouter.get('/api/notificaciones/:id', async (req,res,next) => {
+  try {const item=await db.notificacion.findFirst({where:{id:req.params.id,userId:req.user.id}});if(!item)return res.status(404).json({error:'Aviso no encontrado'});res.json(item);}catch(error){next(error);}
+});
+
 portalRouter.post('/api/notificaciones/:id/leer', async (req, res) => {
   await db.notificacion.updateMany({
     where: { id: req.params.id, userId: req.user.id }, data: { leida: true },

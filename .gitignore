@@ -32,3 +32,13 @@ artifacts/
 *.keystore
 *.p12
 *.mobileprovision
+
+# Secretos de marketplaces y configuración por entorno
+*.p8
+*.pem
+mobile-signing*.json
+mobile-release*.json
+frontend/android/app/google-services.json
+frontend/ios/App/App/GoogleService-Info.plist
+frontend/ios/App/Signing.xcconfig
+backend/firebase-admin*.json

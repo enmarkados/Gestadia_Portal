@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 import { config } from '../config.js';
 import { db } from '../db.js';
+import { pushService } from './push/runtime.js';
 
 const transporter = config.smtp.enabled
   ? nodemailer.createTransport({
@@ -24,9 +25,7 @@ export async function sendEmail(to, subject, html) {
 
 /** Crea una notificación en el portal y la envía por email. */
 export async function notifyUser(user, { titulo, cuerpo, expedienteId = null, email = true }) {
-  await db.notificacion.create({
-    data: { userId: user.id, expedienteId, titulo, cuerpo },
-  });
+  await pushService.notify({userId: user.id, expedienteId, titulo, cuerpo});
   if (email) {
     await sendEmail(
       user.email,

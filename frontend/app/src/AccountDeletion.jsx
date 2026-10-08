@@ -10,23 +10,40 @@ export default function AccountDeletion() {
   const [confirm, setConfirm] = useState(false);
   const [reason, setReason] = useState("");
   const [error, setError] = useState("");
-  function erase() {
+  const [busy, setBusy] = useState(false);
+  async function erase() {
+    setBusy(true);
     try {
+      if (app.mode === "real") {
+        await app.requestDeletion();
+        setConfirm(false);
+        navigate("/acceso", {
+          replace: true,
+          state: { deletionRequested: true },
+        });
+        return;
+      }
       app.deleteDemoAccount();
       setReason("");
       setConfirm(false);
       navigate("/acceso", { replace: true, state: { deleted: true } });
     } catch (err) {
-      setError(err.message);
+      setError(
+        app.mode === "real"
+          ? "No se pudo registrar la solicitud. Vuelve a iniciar sesión y reintenta con conexión."
+          : err.message,
+      );
+    } finally {
+      setBusy(false);
     }
   }
   return (
     <div className="account-deletion">
       <h3>Eliminar cuenta</h3>
       <p className="helper">
-        Elimina del dispositivo el perfil de ejemplo, consultas, mensajes,
-        preferencias y nombres de documentos seleccionados. Se cerrará tu
-        sesión. Esta demo no tiene una cuenta en un servidor.
+        {app.mode === "real"
+          ? "Solicita el borrado de tu cuenta. Se retirará el acceso y los avisos; la eliminación de datos queda pendiente de revisión y obligaciones de conservación. Debes haber iniciado sesión en los últimos 10 minutos."
+          : "Elimina del dispositivo el perfil de ejemplo, consultas, mensajes, preferencias y nombres de documentos seleccionados. Se cerrará tu sesión. Esta demo no tiene una cuenta en un servidor."}
       </p>
       {app.mode === "demo" ? (
         <>
@@ -56,6 +73,16 @@ export default function AccountDeletion() {
             Cerrar y borrar cuenta
           </button>
         </>
+      ) : app.mode === "real" ? (
+        <button
+          className="btn danger-btn"
+          onClick={() => {
+            setError("");
+            setConfirm(true);
+          }}
+        >
+          Solicitar borrado de cuenta
+        </button>
       ) : (
         <p className="notice">
           {app.mode === "visitante"
@@ -65,13 +92,18 @@ export default function AccountDeletion() {
       )}
       {confirm && (
         <Sheet
-          title="¿Borrar tu cuenta de ejemplo?"
+          title={
+            app.mode === "real"
+              ? "¿Solicitar borrado de tu cuenta?"
+              : "¿Borrar tu cuenta de ejemplo?"
+          }
           onClose={() => setConfirm(false)}
           closeLabel="Cancelar borrado"
         >
           <p>
-            Se eliminarán los datos del recorrido guardados en este dispositivo.
-            No podrás recuperar este ejemplo.
+            {app.mode === "real"
+              ? "Se registrará tu solicitud y se cerrarán tus sesiones. El equipo revisará los datos sujetos a conservación antes de completar la eliminación."
+              : "Se eliminarán los datos del recorrido guardados en este dispositivo. No podrás recuperar este ejemplo."}
           </p>
           {error && (
             <p className="error" role="alert">
@@ -79,8 +111,10 @@ export default function AccountDeletion() {
             </p>
           )}
           <div className="stack">
-            <button className="btn danger-btn" onClick={erase}>
-              Borrar cuenta de ejemplo
+            <button className="btn danger-btn" disabled={busy} onClick={erase}>
+              {app.mode === "real"
+                ? "Confirmar solicitud de borrado"
+                : "Borrar cuenta de ejemplo"}
             </button>
             <button className="btn secondary" onClick={() => setConfirm(false)}>
               Conservar mi cuenta

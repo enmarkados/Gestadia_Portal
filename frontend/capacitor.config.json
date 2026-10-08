@@ -4,14 +4,36 @@
   "webDir": "dist-app",
   "backgroundColor": "#181818",
   "loggingBehavior": "debug",
-  "server": { "androidScheme": "https" },
-  "android": { "allowMixedContent": false },
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false
+  },
   "plugins": {
-    "CapacitorHttp": { "enabled": true },
+    "CapacitorHttp": {
+      "enabled": true
+    },
     "SplashScreen": {
       "launchAutoHide": false,
       "backgroundColor": "#181818",
       "showSpinner": false
+    },
+    "PushNotifications": {
+      "presentationOptions": [
+        "badge",
+        "sound",
+        "banner",
+        "list"
+      ]
+    },
+    "SocialLogin": {
+      "providers": {
+        "google": true,
+        "apple": true,
+        "facebook": false,
+        "twitter": false
+      }
     }
   }
 }

@@ -13,6 +13,8 @@ export const nativeOrigin = () =>
 
 export async function loadNativeConfig() {
   if (!isNative() || globalThis.GESTADIA_APP_CONFIG?.demoOnly) return;
+  // La release empaquetada conserva el origen y los clientes revisados al firmar.
+  if (globalThis.GESTADIA_APP_CONFIG?.appId === "com.gestadia.app") return;
   const base = new URL(
     import.meta.env.VITE_GESTADIA_SERVER_URL || "https://app.gestadia.com",
   );

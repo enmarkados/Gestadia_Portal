@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useApp } from "./AppContext.jsx";
 import Sheet from "./Sheet.jsx";
+import PushSettings from "./PushSettings.jsx";
 import Icon from "./Icon.jsx";
 export default function Notifications({ onClose }) {
   const { data, mode, isClient } = useApp();
@@ -26,6 +27,7 @@ export default function Notifications({ onClose }) {
         </p>
       }
     >
+      <PushSettings />
       {!data.notifications.length ? (
         <div className="notification-empty">
           <span className="notification-check">

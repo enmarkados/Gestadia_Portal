@@ -10,6 +10,8 @@ import {
   finishSplash,
 } from "./native.js";
 import { demoOnly } from "./api.js";
+import { setupSocialReturn } from "./social-auth.js";
+import { initializeNativeSession } from "./sessionStorage.js";
 import "./app.css";
 class ErrorBoundary extends React.Component {
   state = {
@@ -56,7 +58,9 @@ function ConnectedApp() {
   );
 }
 await loadNativeConfig();
+await initializeNativeSession();
 setupNativeNavigation();
+await setupSocialReturn();
 createRoot(document.getElementById("root")).render(
   <ErrorBoundary>
     <HashRouter>

@@ -6,6 +6,8 @@ import { ProfileFields } from "./Services.jsx";
 import { AccountAvatar } from "./AccountMenu.jsx";
 import AccountDeletion from "./AccountDeletion.jsx";
 import LegalLinks from "./LegalLinks.jsx";
+import SocialAccess from "./SocialAccess.jsx";
+import PushSettings from "./PushSettings.jsx";
 import Icon from "./Icon.jsx";
 
 function SectionHeading({ icon, title, children }) {
@@ -301,6 +303,8 @@ export default function Account() {
           </section>
         </div>
       </div>
+      {app.mode === "real" && <SocialAccess purpose="link" />}
+      <PushSettings />
       <LegalLinks />
     </section>
   );

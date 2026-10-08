@@ -515,3 +515,77 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** Identificador del servicio web que usa Sign in with Apple fuera de la autenticación nativa iOS. Se asocia al App ID principal y a dominios y retornos registrados.
 - **Alcance:** `docs/app/ACCESO-SOCIAL.md`; futura configuración Apple y del backend para Android.
 - **Notas:** Distinto del bundle ID iOS. El valor concreto no se ha elegido ni registrado.
+
+## Interfaces de implementación marketplaces (08/10/2026)
+
+### API de acceso social y dispositivos
+- **Tipo:** contrato de rutas backend.
+- **Definición:** `/api/auth/social/attempts`, `/complete`, `/account` y `/apple/callback` organizan intento, verificación, decisión de cuenta y retorno Apple. `/api/push/devices` registra/revoca instalaciones y `/api/auth/logout` revoca la sesión móvil.
+- **Alcance:** `backend/src/routes/social-auth.js`, `push.js` y `auth.js`; `docs/app/2026-10-08-IMPLEMENTACION-MARKETPLACES.md`.
+- **Notas:** Rutas Gestadia autenticadas donde procede; no rutas LidIA ni permiso implícito para expedientes.
+
+### `MobileConfig`, `gestadia_updates` y preflight móvil
+- **Tipo:** configuración / decisión de naming / concepto de build.
+- **Definición:** Configuración pública y privada separadas de las capacidades móviles; `gestadia_updates` es el canal Android de avisos del servicio. El preflight comprueba la configuración antes de preparar una release.
+- **Alcance:** `backend/src/mobile-config.js`, `scripts/mobile-preflight.mjs`, `frontend/app/src/push.js` y manifiesto Android.
+- **Notas:** La activación del servidor se controla con `MOBILE_FEATURES_ENABLED`; flags del frontend no otorgan autorización ni sustituyen firma.
+
+### Almacenamiento seguro de sesión
+- **Tipo:** concepto runtime / selección de dependencia.
+- **Definición:** Persistencia nativa de tokens y cierres pendientes mediante Keychain iOS/Keystore Android, con copia sólo en memoria durante la ejecución. Se usa `@aparajita/capacitor-secure-storage` y sin sincronización iCloud.
+- **Alcance:** `frontend/app/src/session-storage.js`; consumo desde API/arranque.
+- **Notas:** Se descarta usar el fallback web del plugin, que escribe localStorage sin cifrar; la web conserva sessionStorage.
+
+### `AccountDeletionRequest` y `accessRevokedAt`
+- **Tipo:** entidad Prisma / propiedad de usuario.
+- **Definición:** Petición durable de retirada de una cuenta, con estado observable y revisión de los datos sujetos a retención. `accessRevokedAt` marca que esa cuenta ya no puede abrir ni mantener sesiones.
+- **Alcance:** schema Prisma, servicio de retirada y middleware de autenticación; pantalla Cuenta.
+- **Notas:** Petición aceptada no equivale a borrado completado; no se destruyen expedientes sin política de retención acordada.
+
+### Prueba de canje y cifrado de credenciales móviles
+- **Tipo:** conceptos runtime.
+- **Definición:** Un secreto efímero retenido por el cliente cuyo hash liga el canje de un retorno social a su iniciador. El cifrado AES-GCM protege registros push y credenciales Apple almacenados server-side con una clave privada del entorno.
+- **Alcance:** `backend/src/services/mobile-crypto.js`, social-auth y push; `frontend/app/src/social-auth.js`.
+- **Notas:** El código de retorno o el ID de instalación solos no autentican. No versionar la clave de cifrado ni usar JWT_SECRET como clave alternativa.
+
+### Estados del acceso social
+- **Tipo:** concepto runtime.
+- **Definición:** `account_required` pide confirmar un alta; `existing_account_required` exige acceder a la cuenta Gestadia existente; `link_required` pide confirmar una vinculación autenticada. Un intento transita de `pending` a `verified` y termina `consumed` una sola vez.
+- **Alcance:** backend `services/social-auth.js`, rutas sociales y adaptador APP.
+- **Notas:** No se convierte una coincidencia de email en vinculación automática.
+
+### Reserva de entrega push
+- **Tipo:** concepto runtime (`claimId`, `lockedUntil`).
+- **Definición:** Reserva temporal de un intento de entrega para que sólo un worker procese una fila a la vez. Los estados son `pending`, `sending`, `accepted`, `cancelled` y `failed`; `accepted` acredita únicamente aceptación del proveedor.
+- **Alcance:** `PushDelivery`, backend `services/push.js`.
+- **Notas:** Entrega al menos una vez ante caída tras enviar; el identificador del aviso permite deduplicar. No equivale a lectura.
+
+### Cola local de revocaciones
+- **Tipo:** concepto runtime (`gestadia.pending-revocations`).
+- **Definición:** Sesiones cerradas localmente cuya revocación de servidor sigue pendiente por falta de conexión; nunca vuelven a restaurarse como sesión activa.
+- **Alcance:** APP `sessionStorage.js`, Keychain/Keystore sin sincronización ni migración entre dispositivos.
+- **Notas:** Conservar cifrada la credencial hasta revocar permite completar logout offline al reconectar.
+
+### Preferencia push del dispositivo
+- **Tipo:** concepto runtime (`gestadia.push-enabled`, `gestadia.installation`).
+- **Definición:** Preferencia explícita de recibir avisos e identificador aleatorio de esta instalación; no identifican ni autentican al usuario.
+- **Alcance:** APP `push.js`, almacenamiento seguro local y `PushDevice.installationId` en servidor.
+- **Notas:** El permiso del sistema y la inscripción autenticada se comprueban por separado.
+
+### Revocación de identidad Apple
+- **Tipo:** propiedad (`appleAudience`, `appleRevokedAt`).
+- **Definición:** Cliente Apple que emitió la credencial de revocación y fecha de confirmación de su retirada por Apple.
+- **Alcance:** `SocialIdentity`, `apple-auth.js`, `account-deletion.js`.
+- **Notas:** Audiencia retenida junto al refresh token cifrado para distinguir App ID iOS y Services ID Android.
+
+### Capacidades públicas del backend móvil
+- **Tipo:** ruta API (`GET /api/mobile/capabilities`).
+- **Definición:** Declara habilitación móvil y clientes públicos efectivos para comprobar coherencia con la configuración empaquetada.
+- **Alcance:** backend `app.js`, script `mobile-release.mjs`.
+- **Notas:** No sustituye pruebas de login/push ni acredita firma o recepción. Sólo contiene identificadores públicos.
+
+### Clave de subida Android Gestadia
+- **Tipo:** decisión naming (`gestadia-upload`).
+- **Definición:** Alias de la clave privada local que firma los paquetes enviados a Play; es distinta de la clave de firma que Play aplica a la app distribuida.
+- **Alcance:** almacén privado fuera de Git, configuración de firma Android e inventario de certificados.
+- **Notas:** OAuth Android necesita registrar las huellas de cada firma efectiva, incluida Play App Signing; el certificado de subida no acredita publicación.

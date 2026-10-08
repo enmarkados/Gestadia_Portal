@@ -6,8 +6,18 @@ import React, {
   useState,
 } from "react";
 import { createDemo, DEMO_KEY, readDemo } from "./demo.js";
-import { getToken, request, setToken, demoOnly } from "./api.js";
+import {
+  getToken,
+  request,
+  setToken,
+  demoOnly,
+  platform,
+  logoutSession,
+} from "./api.js";
 import { clearPluginSessions } from "./pluginStorage.js";
+import { socialClient } from "./social-auth.js";
+import { connectPush, pushAvailable } from "./push.js";
+import { nativeSession } from "./sessionStorage.js";
 const Context = createContext(null);
 export const useApp = () => useContext(Context);
 const EMPTY = {
@@ -31,6 +41,7 @@ export function AppProvider({ children }) {
     demoOnly() ? readDemo() || createDemo() : EMPTY,
   );
   const [loading, setLoading] = useState(false);
+  const [pushStatus, setPushStatus] = useState("");
   const [error, setError] = useState("");
   async function refresh() {
     const version = epoch.current;
@@ -58,6 +69,23 @@ export function AppProvider({ children }) {
     }
   }
   useEffect(() => {
+    if (mode !== "real" || !pushAvailable()) return;
+    let disposed = false,
+      cleanup;
+    connectPush(setPushStatus, () => refresh())
+      .then((fn) => {
+        if (disposed) fn();
+        else cleanup = fn;
+      })
+      .catch(() =>
+        setPushStatus("Avisos no disponibles. Reintenta con conexión."),
+      );
+    return () => {
+      disposed = true;
+      cleanup?.();
+    };
+  }, [mode, data.profile?.id]);
+  useEffect(() => {
     if (mode === "real") refresh();
   }, [mode]);
   useEffect(() => {
@@ -83,6 +111,7 @@ export function AppProvider({ children }) {
   }, [data, mode]);
   function startDemo(type = "cliente", reset = false) {
     epoch.current++;
+    socialClient.cancel().catch(() => {});
     clearPluginSessions();
     setLoading(false);
     setToken(null);
@@ -92,9 +121,15 @@ export function AppProvider({ children }) {
   }
   function logout() {
     epoch.current++;
+    socialClient.cancel().catch(() => {});
     clearPluginSessions();
     setLoading(false);
-    setToken(null);
+    const closed = logoutSession();
+    closed?.catch(() =>
+      setError(
+        "Cierre local realizado; la revocación del servidor sigue pendiente. Abre la app con conexión para completarla.",
+      ),
+    );
     setMode("visitante");
     setData(EMPTY);
     setError("");
@@ -116,6 +151,7 @@ export function AppProvider({ children }) {
       body: JSON.stringify({
         email,
         password,
+        platform: platform(),
       }),
     });
     if (version !== epoch.current)
@@ -123,8 +159,22 @@ export function AppProvider({ children }) {
     if (!body.token) throw new Error("No se pudo abrir la sesión.");
     epoch.current++;
     clearPluginSessions();
-    setToken(body.token);
+    await setToken(body.token);
     setData(EMPTY);
+    setMode("real");
+  }
+  async function acceptSession(token) {
+    const version = epoch.current;
+    await setToken(token);
+    if (version !== epoch.current) {
+      if (platform()) await nativeSession.discard(token);
+      if (getToken() === token) await setToken(null);
+      throw new Error("El acceso se ha cancelado al cambiar de sesión.");
+    }
+    epoch.current++;
+    clearPluginSessions();
+    setData(EMPTY);
+    setError("");
     setMode("real");
   }
   async function saveProfile(profile) {
@@ -167,11 +217,21 @@ export function AppProvider({ children }) {
         setData,
         loading,
         error,
+        pushStatus,
         refresh,
         startDemo,
         logout,
         deleteDemoAccount,
+        requestDeletion: async () => {
+          const result = await request("/api/me/deletion-request", {
+            method: "POST",
+            body: JSON.stringify({ confirm: true }),
+          });
+          logout();
+          return result;
+        },
         login,
+        acceptSession,
         saveProfile,
         markRead,
         isClient: data.expedientes.length > 0,

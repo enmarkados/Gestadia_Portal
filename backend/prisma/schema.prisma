@@ -28,6 +28,12 @@ model User {
   resetTokenExp DateTime?
   createdAt     DateTime  @default(now())
 
+  accessRevokedAt DateTime?
+  authSessions AuthSession[]
+  socialIdentities SocialIdentity[]
+  pushDevices PushDevice[]
+  deletionRequest AccountDeletionRequest?
+
   expedientes    Expediente[]
   notificaciones Notificacion[]
 }
@@ -89,6 +95,7 @@ model Notificacion {
   titulo       String
   cuerpo       String   @db.Text
   canal        String   @default("portal")
+  pushDeliveries PushDelivery[]
   leida        Boolean  @default(false)
   createdAt    DateTime @default(now())
 }
@@ -133,4 +140,100 @@ model LidiaEvento {
   updatedAt        DateTime  @updatedAt
 
   @@index([estado, proximoIntento])
+}
+
+
+model AuthSession {
+  id String @id
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  platform String
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  revokedAt DateTime?
+  devices PushDevice[]
+  @@index([userId, revokedAt])
+}
+
+model SocialIdentity {
+  id String @id @default(uuid())
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  issuer String
+  subject String
+  provider String
+  appleRefreshEncrypted String? @db.Text
+  appleAudience String?
+  appleRevokedAt DateTime?
+  createdAt DateTime @default(now())
+  @@unique([issuer, subject])
+  @@index([userId])
+}
+
+model SocialAuthAttempt {
+  id String @id
+  provider String
+  platform String
+  purpose String
+  linkUserId String?
+  authSessionId String?
+  nonceHash String
+  stateHash String @unique
+  proofHash String
+  audience String
+  claims Json?
+  appleRefreshEncrypted String? @db.Text
+  status String @default("pending")
+  handoffCodeHash String? @unique
+  handoffExpiresAt DateTime?
+  expiresAt DateTime
+  consumedAt DateTime?
+  createdAt DateTime @default(now())
+  @@index([status, expiresAt])
+}
+
+model PushDevice {
+  id String @id @default(uuid())
+  installationId String @unique
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  sessionId String
+  session AuthSession @relation(fields: [sessionId], references: [id])
+  transport String
+  environment String
+  tokenHash String @unique
+  tokenEncrypted String @db.Text
+  active Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deliveries PushDelivery[]
+  @@index([userId, active])
+}
+
+model PushDelivery {
+  id String @id @default(uuid())
+  notificationId String
+  notification Notificacion @relation(fields: [notificationId], references: [id])
+  deviceId String
+  device PushDevice @relation(fields: [deviceId], references: [id])
+  status String @default("pending")
+  attempts Int @default(0)
+  nextAttemptAt DateTime @default(now())
+  claimId String?
+  lockedUntil DateTime?
+  lastError String?
+  createdAt DateTime @default(now())
+  acceptedAt DateTime?
+  @@unique([notificationId, deviceId])
+  @@index([status, nextAttemptAt])
+}
+
+model AccountDeletionRequest {
+  id String @id @default(uuid())
+  userId String @unique
+  user User @relation(fields: [userId], references: [id])
+  status String @default("pending_review")
+  requestedAt DateTime @default(now())
+  completedAt DateTime?
+  @@index([status, requestedAt])
 }

@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import LegalLinks from "./LegalLinks.jsx";
 import { useApp } from "./AppContext.jsx";
 import { demoOnly } from "./api.js";
+import SocialAccess from "./SocialAccess.jsx";
 import Icon from "./Icon.jsx";
 
 export default function Login() {
@@ -33,6 +34,12 @@ export default function Login() {
   return (
     <section className="auth-page">
       <p className="eyebrow">BIENVENIDO A GESTADIA</p>
+      {location.state?.deletionRequested && (
+        <p role="status" className="notice">
+          Solicitud de borrado registrada. Acceso retirado; eliminación de datos
+          pendiente de revisión.
+        </p>
+      )}
       {location.state?.deleted && (
         <p role="status" className="success">
           Cuenta de ejemplo borrada. Los datos del recorrido se han eliminado de
@@ -116,6 +123,7 @@ export default function Login() {
           </p>
         )}
       </form>
+      <SocialAccess onDone={() => navigate("/")} />
       <p className="auth-switch">
         ¿Es tu primera vez?{" "}
         <Link className="text-btn" to="/registro">

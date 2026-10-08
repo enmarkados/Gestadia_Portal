@@ -1,5 +1,21 @@
 apply plugin: 'com.android.application'
 
+def releaseRequested = gradle.startParameter.taskNames.any { it.toLowerCase().contains('release') }
+def signingPath = System.getenv('MOBILE_SIGNING_CONFIG_FILE')
+def signingValues = signingPath ? new groovy.json.JsonSlurper().parse(new File(signingPath)) : [:]
+if (releaseRequested) {
+    if (!signingValues.keystore || !new File(signingValues.keystore).exists() || !signingValues.alias || !System.getenv(signingValues.storePasswordEnv ?: '') || !System.getenv(signingValues.keyPasswordEnv ?: '')) {
+        throw new GradleException('Falta la firma release de Gestadia. Usa MOBILE_SIGNING_CONFIG_FILE y secretos fuera de Git.')
+    }
+    def result = providers.exec {
+        workingDir rootProject.projectDir.parentFile.parentFile
+        commandLine 'node', 'scripts/mobile-preflight.mjs', 'android', '--packaged'
+        ignoreExitValue = true
+    }.result.get()
+    if (result.exitValue != 0) throw new GradleException('Preflight release incompleto')
+}
+
+
 android {
     namespace = "com.gestadia.app"
     compileSdk = rootProject.ext.compileSdkVersion
@@ -16,8 +32,19 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    signingConfigs {
+        if (releaseRequested) {
+            release {
+                storeFile file(signingValues.keystore)
+                storePassword System.getenv(signingValues.storePasswordEnv)
+                keyAlias signingValues.alias
+                keyPassword System.getenv(signingValues.keyPasswordEnv)
+            }
+        }
+    }
     buildTypes {
         release {
+            if (releaseRequested) signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
