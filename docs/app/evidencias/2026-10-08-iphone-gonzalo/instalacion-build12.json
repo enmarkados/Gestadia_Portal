@@ -10,8 +10,11 @@
   "signing_verified": true,
   "installation": "success",
   "version_independently_verified": true,
-  "launch": "blocked_device_locked",
+  "launch": "success",
   "native_api_origin": "https://app.gestadia.com",
   "backend_e2e_physical": "not_verified",
-  "lan_proxy": "not_opened_pending_approval"
+  "lan_proxy": "not_opened_pending_approval",
+  "previous_launch": "blocked_device_locked",
+  "launch_observed_at": "2026-10-08T13:19:54.022352+00:00",
+  "launch_process_id": 16454
 }

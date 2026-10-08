@@ -2,13 +2,13 @@
 
 [Glosario](../../GLOSARIO.md) · [Contrato acordado](../integraciones/2026-10-08-app-recibos-mensajes.md) · [Instalación física previa](2026-10-08-iphone-gonzalo.md)
 
-Rama aislada codex/app-recibos-mensajes, basada en fbd9ae0. Autorización del usuario: instalar primero la última APP y después implementar los ticks coordinados con LidIA. La instalación inicial build8 se hizo primero; después se instalaron build10 y build11 con los recibos.
+Rama aislada codex/app-recibos-mensajes, basada en fbd9ae0. Autorización del usuario: instalar primero la última APP y después implementar los ticks coordinados con LidIA. La instalación inicial build8 se hizo primero; después se instalaron build10/11 y build12 con los recibos. Build12, versión y apertura final están comprobados.
 
 1. **Hecho:** instalación firmada y arranque en iGonchu. Acceso LAN pendiente de respuesta explícita; no se abre el proxy rechazado.
 2. **Hecho:** conformidad escrita de ambos equipos: endpoints separados, recibos durables por mensaje, ACK recibido/leído por IDs concretos y permisos existentes. No modificar timeline 1.0, grants, agentes ni canales.
 3. **Hecho:** TDD del proxy Portal: pertenencia, caso/contexto vigente, validación estricta, traducción de IDs, respuesta durable/reintentos y rechazo de acuses de los propios mensajes.
 4. **Hecho:** chat: tick accesible, mezcla por revisión de mensaje, ACK recibido tras aceptación del mensaje en estado cliente y leído sólo con burbuja visible, conversación activa y APP visible y sin modal que tape la conversación. Salir/cambiar cuenta invalida respuestas antiguas. Mensajes consulta resumen y no confirma lectura.
-5. **Pendiente:** pruebas completas y ejecución real web/iOS del ciclo enviado→recibido→leído con operador; repetir instalación física con el nuevo build cuando el bloque esté validado. Android: build y comprobación separada; no atribuir aceptación de interfaz sin ejecución.
+5. **Hecho en entorno aislado:** suites completas y ciclo HTTP conectado Portal→LidIA, web e iOS Simulator build13, incluyendo enviado→recibido→leído, modal y cierre sin reapertura. [Evidencias y límites](2026-10-08-recibos-conectados.md). Instalación física build12 y apertura hechas; E2E físico y producción sin validar. Android y panel humano de operador: aceptación separada.
 
 Pruebas necesarias: lectura con historial parcial sin watermark, APP oculta, listado sin lectura, recepción sin visibilidad, ACK duplicado/perdido, cambio de chat/cuenta, revisiones fuera de orden, permisos/revocación/caso, conversación cerrada y mensajes históricos sin acuses inventados.
 
@@ -19,7 +19,7 @@ Pruebas necesarias: lectura con historial parcial sin watermark, APP oculta, lis
 - Build web correcto. **Simulador iPhone17/iOS26.5, build9**: instalación, apertura, acceso con cuenta ficticia por Device Hub, Mensajes compacto con tick, y chat con doble tick azul comprobados. Capture Keyboard activo y texto del teclado comprobado en el input.
 - Fixture visual aislado en loopback 5180/3005, sin conexión al agente ni BBDD de LidIA: Mensajes no emite ACK; burbuja superior fuera de pantalla queda recibida/sin leído; al hacer scroll pasa a read_by=account. Sent→received→read desde control de operador ficticio se refleja en la UI. **No prueba el ciclo conectado de gestor ni producción.**
 - Contraste de iconos: azul sobre rojo Gestadia **3,55:1**, sobre burbuja LidIA **7,65:1**, azul sobre blanco **4,71:1**. Estado accesible por nombre, independiente del color.
-- Pendiente: runtime nuevo LidIA y E2E conjunto, E2E del dispositivo físico y acceso local (permiso LAN aún pendiente). Reinstalación física **build10/d887caa hecha**, firma/instalación/arranque/versión confirmados; el origen nativo conserva HTTPS app.gestadia.com.
+- **E2E conectado local PASS:** runtime aislado LidIA + Portal3006 + web5181 + iOS Simulator build13. El turno IA acredita recibido, nunca leído humano; gestor de prueba completa los tres estados. Listado sin ACK, modal suspende leído y chat cerrado permite lectura sin reapertura. [Registro conectado](2026-10-08-recibos-conectados.md). Quedan fuera E2E físico, PRO y panel humano; permiso LAN aún pendiente. Instalación física **build12/356dc68 hecha** y versión confirmada; apertura final confirmada, origen HTTPS app.gestadia.com.
 
 ![Ticks en chat, fixture web](evidencias/2026-10-08-recibos/web-chat-leido.png)
 
@@ -53,4 +53,4 @@ Tres regresiones reproducidas RED (3 fallos/13 pruebas) y corregidas GREEN (13/1
 
 Regresión adicional de revisión: buscar sin coincidencias y limpiar conserva la caché de la misma cuenta y restaura el tick leído aunque llegue una revisión antigua (RED1/14; GREEN149/149 completo).
 
-Build12/356dc68 instalado físicamente y versión verificada; apertura pendiente de desbloqueo del iPhone. E2E común pendiente del runtime nuevo de LidIA.
+Build12/356dc68 instalado físicamente, versión verificada y apertura final confirmada con devicectl. El [E2E común local](2026-10-08-recibos-conectados.md) ha pasado contra el nuevo runtime aislado de LidIA. Procedencia final/revisión del panel de operador pendiente de cierre por la contraparte; no implica despliegue PRO.

@@ -1,0 +1,19 @@
+{
+  "observed_at": "2026-10-08T13:12:04.362361+00:00",
+  "fixture_only": true,
+  "portal_commit": "948d706",
+  "ui_code_commit": "356dc68",
+  "ios_simulator_build": "13",
+  "ios_simulator": "iPhone17 / iOS26.5",
+  "ios_api_origin": "http://127.0.0.1:3006",
+  "web_origin": "http://127.0.0.1:5181",
+  "source_s2s": "https://127.0.0.1:7443",
+  "provider_assembly_sha256": "a738a38243db42c4df92a8b28eb699401537e711d7fb5eac1bf53cf938bb8645",
+  "provider_compiled_base_commit": "516a31c6decce0a116459d977fc98ae3707710df",
+  "provider_worktree_changes_pending_at_build": true,
+  "provider_model": "deterministic",
+  "operator_ack_method": "local control using real operator authority service",
+  "agent_119_122_production": false,
+  "production_deployment": false,
+  "physical_connected_e2e": false
+}

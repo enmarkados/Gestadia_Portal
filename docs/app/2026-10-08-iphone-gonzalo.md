@@ -36,4 +36,8 @@ Este paquete conserva el origen nativo HTTPS app.gestadia.com; no contiene el fi
 
 Código356dc68, suite APP149/149 y revisión independiente sin hallazgos abiertos. Firma y build correctos; instalación y versión12 comprobadas por devicectl. [Registro con hash del paquete](evidencias/2026-10-08-iphone-gonzalo/instalacion-build12.json). Incluye exclusión de eventos de recibos, búsqueda sin perder ticks confirmados y suspensión de lectura bajo hojas modales.
 
-El iPhone está bloqueado: la apertura automática devolvió FBSOpenApplicationErrorDomain/Locked. Desbloqueo solicitado al usuario; la instalación está hecha, el arranque de esta última compilación queda pendiente. Los builds10/11 anteriores sí se abrieron. Se mantiene origen HTTPS app.gestadia.com; no se acredita E2E físico ni se ha abierto proxy LAN.
+El primer intento de apertura devolvió FBSOpenApplicationErrorDomain/Locked. Una comprobación posterior con devicectl **abre correctamente el build12**, resultado success y proceso16454: instalación y arranque final confirmados. Los builds10/11 anteriores también se abrieron. Se mantiene origen HTTPS app.gestadia.com; no se acredita E2E físico ni se ha abierto proxy LAN.
+
+## Comprobación conectada posterior en simulador
+
+El build13 del simulador iPhone17/iOS26.5 utiliza explícitamente la API loopback de Portal3006. Login y teclado, envío/recepción/lectura, resumen de Mensajes, modal e historial cerrado pasan con el runtime aislado de LidIA. [Procedencia y evidencias](2026-10-08-recibos-conectados.md). El iPhone físico conserva build12 y HTTPS app.gestadia.com; estos resultados no acreditan su conexión ni cambian su instalación.
