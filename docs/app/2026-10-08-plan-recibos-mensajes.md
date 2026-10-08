@@ -14,12 +14,12 @@ Pruebas necesarias: lectura con historial parcial sin watermark, APP oculta, lis
 
 ## Verificación Portal y APP
 
-- Backend completo: **167/167**; interfaz completa: **144/144**, incluyendo 9 pruebas específicas de visibilidad/ACK. Las 26 muestras válidas/inválidas de LidIA se validan con el mismo esquema estricto, sin modificar DTO de timeline1.0.
+- Backend completo: **167/167**; interfaz completa: **145/145**, incluyendo 10 pruebas específicas de visibilidad/ACK. Las 26 muestras válidas/inválidas de LidIA se validan con el mismo esquema estricto, sin modificar DTO de timeline1.0.
 - Regresiones reproducidas y corregidas: lectura que retrocedía al añadir mensajes, y getState nativo atrasado que reactivaba la APP tras un evento de segundo plano. Reintento ACK conserva cuerpo/clave; chat anterior/oculto, lectura IA, listado y burbuja no visible no acreditan leído.
 - Build web correcto. **Simulador iPhone17/iOS26.5, build9**: instalación, apertura, acceso con cuenta ficticia por Device Hub, Mensajes compacto con tick, y chat con doble tick azul comprobados. Capture Keyboard activo y texto del teclado comprobado en el input.
 - Fixture visual aislado en loopback 5180/3005, sin conexión al agente ni BBDD de LidIA: Mensajes no emite ACK; burbuja superior fuera de pantalla queda recibida/sin leído; al hacer scroll pasa a read_by=account. Sent→received→read desde control de operador ficticio se refleja en la UI. **No prueba el ciclo conectado de gestor ni producción.**
 - Contraste de iconos: azul sobre rojo Gestadia **3,55:1**, sobre burbuja LidIA **7,65:1**, azul sobre blanco **4,71:1**. Estado accesible por nombre, independiente del color.
-- Pendiente: runtime nuevo LidIA y E2E conjunto, última reinstalación física y acceso local (permiso LAN aún pendiente).
+- Pendiente: runtime nuevo LidIA y E2E conjunto, E2E del dispositivo físico y acceso local (permiso LAN aún pendiente). Reinstalación física **build10/d887caa hecha**, firma/instalación/arranque/versión confirmados; el origen nativo conserva HTTPS app.gestadia.com.
 
 ![Ticks en chat, fixture web](evidencias/2026-10-08-recibos/web-chat-leido.png)
 
@@ -44,3 +44,5 @@ sequenceDiagram
   Portal->>LidIA: Consulta de recibos, sin ACK
   LidIA-->>APP: Revisión por mensaje + ticks confirmados
 ```
+
+El refresco manual de Mensajes actualiza también summary sin esperar al polling; conserva la revisión confirmada y descarta resultados de una sesión de autenticación anterior. RED reproducido, GREEN en la suite completa de145.

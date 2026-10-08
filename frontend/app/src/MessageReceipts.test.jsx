@@ -124,3 +124,9 @@ it("un getState antiguo no reactiva la APP después de un evento de segundo plan
  render(<NativeHistory/>);await act(async()=>{});act(()=>onState({isActive:false}));
  await act(async()=>resolveState({isActive:true}));visible("incoming");await act(async()=>{});expect(reads).toHaveLength(0);expect(acks).toHaveLength(0);
 });
+
+it("Actualizar conversaciones refresca también el tick sin esperar al polling",async()=>{
+ receipts.other=receipt(messages["chat-2"][0],"received","2");render(<MemoryRouter><ConnectedMessages/></MemoryRouter>);
+ await screen.findByLabelText("Recibido por Gestadia");receipts.other=receipt(messages["chat-2"][0],"read","3");
+ fireEvent.click(screen.getByRole("button",{name:"Actualizar conversaciones"}));await screen.findByLabelText("Leído por Gestadia");
+});

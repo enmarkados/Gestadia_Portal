@@ -25,3 +25,9 @@ La configuración pública empaquetada proponía el backend local del Mac, pero 
 La excepción ATS local existente se conserva; el motivo de acceso a red local se incorpora sólo al paquete físico de desarrollo, según [la documentación de Apple](https://developer.apple.com/documentation/technotes/tn3179-understanding-local-network-privacy). Los archivos del proyecto y la configuración del simulador se restauran después de compilar. No se cambian claves, grants, agente ni canal.
 
 Los ticks de recibido/leído solicitados son el siguiente bloque; el build 8 aún no los incluye. La autoridad durable será LidIA, con contrato escrito acordado por ambos equipos antes de implementar.
+
+## Actualización posterior: build10 con recibos
+
+El bloque d887caa añade los ticks y el consumidor de recibos. Después de pasar backend167/167 y frontend144/144, el build10 se compiló/firma verificó e instaló en el mismo iGonchu. devicectl confirma la apertura y una consulta independiente de apps confirma build10, versión0.1.0. [Hash y resultado de la instalación](evidencias/2026-10-08-iphone-gonzalo/instalacion-build10.json).
+
+Este paquete conserva el origen nativo HTTPS app.gestadia.com; no contiene el fixture visual ni el proxy LAN. La interfaz/entrada de texto/ticks se comprobó en simulador build9 con fixture loopback, no contra el backend conectado. No se acredita funcionalidad del backend en el iPhone físico: permiso LAN pendiente y proveedor LidIA preparando su runtime aislado. Device Hub no permite capturar la pantalla física del build10 porque indica micrófono/cámara activos; no se cambian los usos del teléfono para forzarlo. La captura de Inicio anterior corresponde al build8.

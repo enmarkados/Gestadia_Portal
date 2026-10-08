@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Capacitor } from "@capacitor/core";
 import { App } from "@capacitor/app";
+import { getToken } from "./api.js";
 import { conversationApi } from "./conversationApi.js";
 
 const rank = { sent: 0, received: 1, read: 2 };
@@ -145,13 +146,15 @@ export function useMessageReceipts({ userId, conversationId, items, enabled }) {
 // A summary GET is deliberately read-only: displaying a preview never sends ACK.
 export function useReceiptSummaries(rows) {
   const [summaries, setSummaries] = useState({});
+  const token = getToken(), cache = useRef({ token: null, items: {} });
   const key = rows.filter(c => c.ready).map(c => c.id).join(",");
   useEffect(() => {
-    if (!key) { setSummaries({}); return; }
+    if (!key || !token) { cache.current = { token, items: {} }; setSummaries({}); return; }
+    if (cache.current.token !== token) cache.current = { token, items: {} };
     let alive = true, fetching = false, timer, observer;
-    const ids = key.split(","), current = {}, visible = new Set(ids.slice(0, 10));
+    const ids = key.split(","), current = cache.current.items, visible = new Set(ids.slice(0, 10));
     function merge(id, result) {
-      if (!alive || result?.conversation_id !== id || !Object.hasOwn(result, "last_message")) return;
+      if (!alive || getToken() !== token || result?.conversation_id !== id || !Object.hasOwn(result, "last_message")) return;
       const old = current[id]?.last_message, next = result.last_message;
       if (old && (!next || BigInt(next.sequence) < BigInt(old.sequence))) return;
       if (old?.message_id === next?.message_id && old?.receipt && !newer(old.receipt, next.receipt)) return;
@@ -161,6 +164,7 @@ export function useReceiptSummaries(rows) {
       if (!alive || fetching || !activity.active()) return;
       fetching = true;
       try {
+        if (getToken() !== token) return;
         const targets = [...visible].slice(0, 20);
         for (let i = 0; i < targets.length; i += 4) await Promise.all(targets.slice(i, i + 4).map(async id => {
           try { merge(id, await conversationApi.messageReceipts(id, { summary: "true" })); } catch { /* No synthetic tick/preview on error. */ }
@@ -181,6 +185,6 @@ export function useReceiptSummaries(rows) {
     async function poll() { await refresh(); if (alive) timer = setTimeout(poll, 10000); }
     timer = setTimeout(poll, 10000);
     return () => { alive = false; clearTimeout(timer); observer?.disconnect(); activity.stop(); };
-  }, [key]);
+  }, [key, rows, token]);
   return summaries;
 }
