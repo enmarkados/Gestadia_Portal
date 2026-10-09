@@ -97,16 +97,17 @@ Estado operativo y configuración: [MARKETPLACES-CONFIGURACION.md](MARKETPLACES-
 
 ## Task 6: Configuración de cuentas y aceptación de distribución
 
-**Pendiente externo:** titularidad preguntada; equipo Apple X27NG7M487 y proyecto gestadia-vozia inspeccionados. Sin nuevas altas externas. Clave upload Android creada fuera de Git.
+**Estado externo 09/10/2026:** titularidad y acciones específicas confirmadas. App ID/perfil/Services ID/retorno y tres claves Apple, tres clientes Google, Firebase Android y cuenta FCM limitada creados. Custodia privada y preflight verificados. Backend pendiente: app.gestadia.com no resuelve en DNS. Consentimiento Google en Prueba, sin usuarios; builds de distribución y aceptación física pendientes.
 
 **Archivos:** inventario operativo sin secretos, configuración pública generada y recursos privados fuera de Git.
 **Consume:** App ID/paquete, certificados públicos, audiencias y callbacks de los bloques anteriores.
 
-- [ ] Confirmar titularidad del equipo/proyecto antes de registrar nuevos recursos.
-- [ ] Apple: comprobar/registrar App ID, push y Apple; Services ID/callback; claves APNs y Apple separadas.
-- [ ] Google: Firebase Android, clientes web/iOS/Android por huella, pantalla consentimiento mínima.
+- [x] Confirmar titularidad del equipo/proyecto antes de registrar nuevos recursos.
+- [x] Apple: comprobar/registrar App ID, push y Apple; Services ID/callback; claves APNs y Apple separadas.
+- [x] Google: Firebase Android, clientes web/iOS/Android por huella, pantalla consentimiento mínima.
+- [ ] Google: cuenta de prueba y URLs legales verificadas antes de consentimiento público.
 - [ ] Firma: clave upload recuperable, perfiles Apple y certificados reales; artefactos de prueba firmados.
-- [ ] Al crear credenciales/IAM o aceptar términos en la UI, pedir la confirmación específica que exige la política del navegador; continuar trabajo local independiente mientras llega.
+- [x] Al crear credenciales/IAM o aceptar términos en la UI, pedir la confirmación específica que exige la política del navegador; continuar trabajo local independiente mientras llega.
 - [ ] No enviar a tiendas una demo declarada como conectada. Configuración sin backend desplegado permanece pendiente de distribución conectada.
 - [ ] Probar builds TestFlight/Play interno sólo tras habilitar su entorno y distribución; registrar build exacto y observación de push/login.
 
@@ -116,7 +117,7 @@ Estado operativo y configuración: [MARKETPLACES-CONFIGURACION.md](MARKETPLACES-
 
 **Archivos:** rutas/servicios de retirada, pantalla Cuenta, tests y documentación de validación.
 
-- [ ] Implementar petición autenticada/reautenticada de borrado, revocación de sesión/push/Apple y estado durable; no borrar expedientes con retención sin política acordada.
+- [x] Implementar petición autenticada/reautenticada de borrado, revocación de sesión/push/Apple y estado durable; no borrar expedientes con retención sin política acordada.
 - [ ] Informar al usuario del estado real; coordinar retirada conversacional según contrato vigente.
 - [x] Suite backend/frontend, `prisma validate`, build app y compilaciones nativas; registrar límites concretos.
 - [x] Revisión independiente de toda la rama usando los diseños y foco anterior; corregir problemas relevantes con TDD.

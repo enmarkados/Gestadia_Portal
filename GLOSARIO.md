@@ -631,3 +631,21 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** perfil de aprovisionamiento previsto para distribuir `com.gestadia.app` con el certificado Apple Distribution del equipo `X27NG7M487`.
 - **Alcance:** Apple Developer y firma Xcode de distribución; `docs/app/MARKETPLACES-CONFIGURACION.md`.
 - **Notas:** se descarta usar un perfil LIA; un perfil no acredita que una build haya sido publicada.
+
+### Gestadia APP Android
+- **Tipo:** decisión naming.
+- **Definición:** alias de la aplicación Firebase Android con paquete `com.gestadia.app` en `gestadia-vozia`, destinada al registro de dispositivos FCM.
+- **Alcance:** Firebase Console y archivo privado `google-services.json` de preparación Android.
+- **Notas:** es la aplicación Firebase, distinta del cliente OAuth Android Upload; no se añade Firebase iOS porque sus notificaciones usan APNs directamente.
+
+### Configuración privada APNs por entorno
+- **Tipo:** decisión naming / configuración runtime.
+- **Definición:** `backend-mobile.env` prepara notificaciones APNs de producción; `backend-mobile-sandbox.env` prepara APNs de desarrollo con su clave específica. Ambos mantienen la misma configuración de identidad y cifrado del backend.
+- **Alcance:** archivos privados fuera de Git en `mobile-credentials`; consumo `backend/src/mobile-config.js` y `docs/app/MARKETPLACES-CONFIGURACION.md`.
+- **Notas:** se descarta usar una clave de entorno incorrecto o empaquetar secretos en la app; preparación local no activa el servidor.
+
+### Actualización de recursos móviles 09/10/2026
+- **Tipo:** estado de decisiones naming anteriores.
+- **Definición:** los recursos Gestadia descritos como previstos ya están creados: tres OAuth, tres claves Apple, Services ID/dominio/retorno, cuenta FCM limitada, Firebase Android y perfil App Store. La configuración continúa pendiente de backend conectado y distribución.
+- **Alcance:** consolas Google/Apple e inventario `docs/app/MARKETPLACES-CONFIGURACION.md`.
+- **Notas:** reemplaza las notas históricas de registro/dominio pendientes; no acredita login, recepción push ni publicación.

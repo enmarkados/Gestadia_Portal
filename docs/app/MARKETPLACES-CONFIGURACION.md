@@ -9,11 +9,29 @@ Implementación local aislada en `codex/gestadia-marketplaces`; no desplegada ni
 - Titular y proyecto confirmados expresamente por el usuario el 09/10/2026: DEFENSA LEGAL CONSUMIDORES SL, equipo Apple `X27NG7M487`, y Google/Firebase `gestadia-vozia` (GESTADIA-VOZIA).
 - App ID `com.gestadia.app` registrado y verificado en Chrome; identificador interno Apple `ZDTB2N99V6`. Push Notifications y Sign in with Apple guardados, como App ID principal.
 - Perfil `Gestadia App Store` generado (`U9L76545R3`), descargado y verificado con `security cms`: UUID `eff405f5-ac9f-4bda-8c39-2107a7970e8f`, equipo `X27NG7M487`, paquete `com.gestadia.app`, APNs `production`, Apple Login `Default`, `get-task-allow:false` y certificado SHA-1 `7CC4100FD19E8CF17119128BC3A00F52AB878E4B` disponible en Keychain. Caduca el 05/07/2027. Copia privada y perfil instalado en `~/Library/Developer/Xcode/UserData/Provisioning Profiles/`; aceptación en archive/IPA efectiva aún pendiente.
-- Clientes OAuth web, iOS y Android Upload preparados en Google Cloud, sin crear. La cuenta abierta también administra `dlc-lia-prod`; no se reutilizan recursos LIA.
-- Firebase aún no está añadido a `gestadia-vozia`. El asistente advierte que heredará Blaze porque el proyecto Cloud ya tiene facturación. Confirmación del plan y condiciones pendiente; FCM figura como producto sin coste en [precios oficiales](https://firebase.google.com/pricing/), pero otros servicios Blaze pueden generar cargos.
-- Claves `Gestadia APNs` de producción (Topic Specific, sólo `com.gestadia.app`) y `Gestadia Apple Login` (App ID principal Gestadia) preparadas hasta Register, sin registrar. Se prevé además `Gestadia APNs Sandbox`, con idéntica restricción para pruebas. Services ID `com.gestadia.app.login` y callback HTTPS pendientes de dominio definitivo.
-- Cuenta de servicio prevista `gestadia-mobile-push@gestadia-vozia.iam.gserviceaccount.com` con `roles/firebasecloudmessaging.admin`, sin Owner/Editor/Firebase Admin general. Rol de envío documentado por [Firebase](https://firebase.google.com/docs/cloud-messaging/send/admin-sdk). IAM y clave JSON aún no creados.
+- Autorización específica recibida «sí a las tres» el 09/10/2026: crear clientes/claves/IAM limitados, aceptar Firebase y Blaze heredado, y usar `https://app.gestadia.com` como API/callback. Recursos creados y verificados en Chrome.
+- Clientes OAuth `Gestadia APP Web`, `Gestadia APP iOS` y `Gestadia APP Android Upload` creados en `gestadia-vozia`, sin tocar LIA. iOS usa equipo `X27NG7M487` y bundle `com.gestadia.app`; Android Upload usa la huella SHA-1 publicada abajo. Consentimiento mínimo guardado: sólo OpenID, correo y perfil, sin permisos sensibles/restringidos. Google permanece en **Prueba**, sin usuarios de prueba; marca existente `Gestadia - VozIA`, correo de asistencia existente y URLs de privacidad/condiciones pendientes. No hay consentimiento público activado.
+- Firebase añadido al proyecto Cloud existente `gestadia-vozia` (número `25349048999`), con Blaze heredado y Analytics desactivado. Android registrado como `Gestadia APP Android`, app ID `1:25349048999:android:27ba9e21a46d574a38a982`; `google-services.json` descargado y comprobado contra proyecto/paquete. FCM HTTP V1 habilitado; legacy desactivado. Ningún producto adicional de pago habilitado.
+- Claves Apple creadas y descargadas: `Gestadia APNs` (`738C6BG3UK`, Production), `Gestadia APNs Sandbox` (`85PQ93C8CX`, Sandbox), ambas Topic Specific sólo para `com.gestadia.app`; `Gestadia Apple Login` (`K8X6WTA694`) vinculada al App ID principal Gestadia. Claves privadas verificadas con OpenSSL y guardadas con copia local adicional.
+- Services ID `com.gestadia.app.login` registrado (`K6ZVH5DQ4V`), Sign In with Apple habilitado, primary App ID `X27NG7M487.com.gestadia.app`, dominio `app.gestadia.com` y retorno `https://app.gestadia.com/api/auth/social/apple/callback` guardados y observados al reabrir Configure.
+- Cuenta `gestadia-mobile-push@gestadia-vozia.iam.gserviceaccount.com` creada, ID `103690619828462233804`, con único rol `roles/firebasecloudmessaging.admin` observado al reabrir permisos. Clave JSON creada y descargada, identificador público `33e512bac6e654c4f1708a6a39535592c61d2995`. Google aceptó su autenticación mediante Firebase Admin y emitió un token temporal; no se expuso el token ni se enviaron notificaciones. No se añadieron principales con acceso ni roles Owner/Editor/Firebase Admin general.
+- Custodia de secretos en `/Users/gonchumon/.config/gestadia/mobile-credentials/` (0700, archivos privados 0600): JSON Web OAuth, cuenta FCM y copia, tres claves Apple y copias, clave de cifrado estable, `backend-mobile.env`, variante `backend-mobile-sandbox.env` y `mobile-release.json`. Firma Android en `mobile-signing/android-signing.json`. Configuraciones preparadas y no aplicadas a producción; conservar el JWT_SECRET fuerte del backend existente. PluginWeb sigue con clave vacía y pendiente de contrato conectado.
+- Preflight privado Android e iOS pasa con los clientes reales y el certificado upload. No acredita un binario de distribución ni backend conectado. `app.gestadia.com` no resuelve en DNS desde el equipo; `gestadia.com` y `oauth2.googleapis.com` sí. La consulta de `/api/mobile/capabilities` no pudo ejecutarse por esa resolución. Servidor/panel DNS y cuenta Google de prueba solicitados al usuario; archive/AAB conectados quedan bloqueados por el backend.
 - Clave upload Android local generada, privada y recuperable, fuera de Git en `/Users/gonchumon/.config/gestadia/mobile-signing/`. Alias `gestadia-upload`; certificado público `android-upload-cert.der`. Las contraseñas sólo están en el directorio privado (0700/0600). La copia local adicional no sustituye una custodia recuperable fuera del equipo.
+
+
+## Identificadores públicos creados
+
+| Recurso | Identificador |
+| --- | --- |
+| Google Web | `25349048999-kbnmabllathll194qlp2098c8gl0v9u2.apps.googleusercontent.com` |
+| Google iOS | `25349048999-j9enu8v0nm4767m46tcv5vrvcatrbnk0.apps.googleusercontent.com` |
+| Google Android Upload | `25349048999-h49euph3ij9402ocvjqvgbgbi855c9bl.apps.googleusercontent.com` |
+| Google iOS URL scheme | `com.googleusercontent.apps.25349048999-j9enu8v0nm4767m46tcv5vrvcatrbnk0` |
+| Firebase Android | `1:25349048999:android:27ba9e21a46d574a38a982` |
+| Apple Services ID | `com.gestadia.app.login` |
+
+Capturas operativas guardadas fuera de Git en `marketplaces-evidencia`: `google-clientes-creados.jpg`, `firebase-fcm-habilitado.jpg`, `apple-claves-creadas.jpg`, `google-rol-fcm-guardado.jpg`, `google-consentimiento-minimo.jpg` y `apple-retorno-guardado.jpg`. Son evidencia de configuración de consola; no de login ni recepción push.
 
 ## Backend
 
@@ -135,7 +153,7 @@ Correcciones verificadas: contrato del verificador OIDC real, generaciones de ca
 3. Usar SecureStorage 8.0.1 por compatibilidad Capacitor8/SPM; si falla Keychain/Keystore, el acceso falla y requiere recuperar esa configuración.
 4. Usar fixture MariaDB con bridge adicional y puerto loopback porque internal no exponía el puerto; coste: recursos locales exclusivos a eliminar tras recoger evidencia.
 5. Validar Google contra audiencia web en ambos sistemas, cliente iOS para GID y nonce con forcePrompt; coste si difiere el proveedor: corregir configuración antes de distribuir.
-6. Titularidad resuelta por confirmación expresa del 09/10/2026: Defensa Legal y `gestadia-vozia`; App ID registrado. Se mantienen pendientes credenciales sensibles y aceptación Firebase hasta aprobación específica en el navegador.
+6. Titularidad resuelta por confirmación expresa del 09/10/2026: Defensa Legal y `gestadia-vozia`; App ID registrado. Autorización específica recibida y ejecutada: claves, clientes, IAM limitado, Firebase y callback creados. Activación del backend y aceptación en dispositivo pendientes.
 7. Mantener pendiente login real Apple/Google; un fixture JWT acredita contrato, no compatibilidad final con proveedor.
 8. Perfil App Store Gestadia generado y entitlements/certificado verificados el 09/10/2026; archive/IPA firmado e instalación TestFlight/Play pendientes. El perfil por sí solo no acredita esas builds.
 9. Mantener pendiente recepción push en dispositivos físicos en primer plano, fondo y cerrada; aceptación del proveedor no prueba entrega.
