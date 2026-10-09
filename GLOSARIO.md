@@ -607,3 +607,27 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** huella SHA-256 aprobada del certificado de la clave de subida Android usada para preparar una release. Identifica material público de firma, no la contraseña ni la clave privada.
 - **Alcance:** scripts de distribución; `scripts/mobile-preflight.mjs`, configuración privada de firma fuera de Git.
 - **Notas:** se descarta comprobar sólo que existe el keystore: también podría ser una clave de depuración o una clave distinta.
+
+### Nombres de recursos móviles Gestadia
+- **Tipo:** decisión naming.
+- **Definición:** `Gestadia APP Web`, `Gestadia APP iOS` y `Gestadia APP Android Upload` identifican los clientes OAuth del backend y de cada plataforma en `gestadia-vozia`. `Gestadia APNs` (producción), `Gestadia APNs Sandbox` (pruebas) y `Gestadia Apple Login` identifican claves separadas de notificaciones y autenticación del equipo Apple confirmado.
+- **Alcance:** Google Cloud/Apple Developer; `docs/app/MARKETPLACES-CONFIGURACION.md`, configuración privada de distribución fuera de Git y clientes públicos de APP/backend.
+- **Notas:** se descarta reutilizar nombres o credenciales LIA; una etiqueta nueva no acredita que el recurso ya esté creado.
+
+### com.gestadia.app.login
+- **Tipo:** decisión naming.
+- **Definición:** Services ID previsto para el acceso Apple desde Android mediante callback HTTPS del backend. Está vinculado al App ID principal `com.gestadia.app`.
+- **Alcance:** Apple Developer, configuración pública móvil y backend; `docs/app/MARKETPLACES-CONFIGURACION.md`.
+- **Notas:** registro y dominio pendientes; no usar el bundle nativo como cliente del flujo web Android.
+
+### gestadia-mobile-push
+- **Tipo:** decisión naming.
+- **Definición:** cuenta de servicio prevista exclusivamente para enviar notificaciones FCM en `gestadia-vozia`. Su identidad completa es `gestadia-mobile-push@gestadia-vozia.iam.gserviceaccount.com`.
+- **Alcance:** IAM Google Cloud y credencial privada del backend fuera de Git.
+- **Notas:** se descarta reutilizar Firebase Admin general o roles Owner/Editor; solicitar únicamente `roles/firebasecloudmessaging.admin` para envío.
+
+### Gestadia App Store
+- **Tipo:** decisión naming.
+- **Definición:** perfil de aprovisionamiento previsto para distribuir `com.gestadia.app` con el certificado Apple Distribution del equipo `X27NG7M487`.
+- **Alcance:** Apple Developer y firma Xcode de distribución; `docs/app/MARKETPLACES-CONFIGURACION.md`.
+- **Notas:** se descarta usar un perfil LIA; un perfil no acredita que una build haya sido publicada.
