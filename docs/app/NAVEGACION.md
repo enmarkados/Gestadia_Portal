@@ -87,27 +87,39 @@ flowchart TD
   TIENDA --> N
   HOME[01 Inicio LidIA] -->|Elegir canje| N
   N --> Q[03 Preguntas sobre los requisitos del canje]
-  Q --> E{Resultado completo suficiente}
-  E -->|No, parcial o revisión humana| REV[A4 Seguir revisando sin pedir contacto]
-  REV --> Q
-  E -->|Sí| RES[04 Resultado y oferta de contacto]
+  Q --> E{Estado de la revisión}
+  E -->|Incompleto o revisión humana| REV[A4 Seguir revisando sin pedir contacto]
+  REV -->|Completar información| Q
+  E -->|Completo negativo| NEG[A10 Explicar resultado sin pedir contacto]
+  NEG -->|Ver otros servicios| SERV[Servicios públicos]
+  NEG -->|Aportar nueva evidencia voluntariamente| Q
+  E -->|Completo suficiente| RES[04 Resultado y oferta de contacto]
   RES -->|Seguir consultando| Q
   RES -->|Quiero un gestor| C[05 Explicar la finalidad del contacto]
   C --> D[06 Nombre y teléfono O email]
-  D -->|Confirmar como visitante| REC[07 Solicitud recibida por Portal]
+  D -->|Confirmar como visitante| SEND[A9 Envío pendiente o ACK incierto]
+  SEND -->|Sin resultado: recuperar misma operación| SEND
+  SEND -->|ACK durable de Portal| REC[07 Solicitud recibida por Portal]
   D -->|Cancelar antes de enviar| Q
   REC -->|Seguir sin cuenta| GM[A8 Mensajes de esta instalación]
   Q -->|Pestaña Mensajes| GM
-  GM -->|Revisión en curso| Q
-  GM -->|Solicitud ya recibida| REC
+  GM -->|Reabrir estado conservado| STATE[Estado real del mismo chat]
+  STATE --> Q
+  STATE --> REV
+  STATE --> NEG
+  STATE --> SEND
+  STATE --> REC
   GM -->|Nueva conversación| N
   REC -->|Guardar chat: opcional| R[08 Crear cuenta]
   REC -->|Ya tengo cuenta| LOGIN[A1 Acceso a cuenta existente]
   R --> V[09 Verificar email y control de cuenta]
-  LOGIN -->|Cuenta verificada| LINK
-  V --> LINK[10 Vincular el mismo chat]
+  LOGIN -->|Cuenta verificada| PROOF{¿Control de instalación original?}
+  V --> PROOF
+  PROOF -->|Sí: cuenta Y origen comprobados| LINK[10 Vincular el mismo chat]
+  PROOF -->|No: instalación perdida| BLOCK[A11 Vínculo bloqueado]
+  BLOCK -->|Sin acceso al historial| HOME
   LINK -->|Confirmado| CHAT[11 Historial guardado en cuenta]
-  LINK -->|Respuesta incierta| LINK
+  LINK -->|Respuesta incierta: misma operación| LINK
   CHAT --> M[12 Mensajes con cuenta]
   M -->|Abrir chat| CHAT
   M -->|Nueva conversación| N
@@ -118,8 +130,10 @@ flowchart TD
   EXP --> REC
   LOGIN --> FORGOT[A7 Recuperar contraseña en el portal]
   FORGOT --> LOGIN
-  T[Trámites o chat directo de gestor sin cuenta] --> ACCESS[A6 Acceso protegido con Atrás al origen]
-  ACCESS --> HOME
+  T[Trámites o chat directo de gestor sin cuenta] --> ACCESS[A6 Acceso protegido]
+  ACCESS -->|Atrás o cancelar| ORIGIN{¿Origen completo guardado?}
+  ORIGIN -->|Sí| RETURN[Volver a la ruta y contexto de origen]
+  ORIGIN -->|No: entrada directa| HOME
   REC -.-> CRM[Flujos Zoho: lead a contacto y trato]
   Z[Zoho: Cerrado ganado] --> CLIENT[Correlacionar cuenta y habilitar trámites]
 ```
@@ -135,11 +149,14 @@ Un deeplink abre el chat sin pasar por Inicio o acceso. APP cerrada/abierta resu
 | 07 Solicitud recibida | ACK durable de Portal | Chat / Mensajes | Sí | Cuenta opcional; solicitud no equivale a cita |
 | 08 Registro / A1 Acceso | Oferta de guardar chat tras la solicitud | Mismo chat; solicitud intacta | No; Atrás visible | Verificar cuenta y control de instalación original |
 | 09 Verificación de email | Registro opcional | Corregir email / registro | No; Atrás visible | No envía otra solicitud |
-| 10 Vinculación pendiente | Cuenta verificada | Recuperar misma operación; conservar contexto | No; retorno visible | Misma sesión, actor histórico y solicitud |
+| 10 Vinculación pendiente | Cuenta verificada Y control de instalación original | Recuperar misma operación; conservar contexto | No; retorno visible | Misma sesión, actor histórico y solicitud |
 | 11 Chat vinculado | Retorno del alta / Mensajes | Origen; LidIA si directo | Sí | Mismo historial recuperable en otros dispositivos |
 | 12 Mensajes con cuenta / A8 visitante | Pestaña | Principal | Sí | Filas compactas; Nueva conversación aquí, sin botón flotante en chat |
 | A2 Cancelación / A3 caducidad | Alta opcional | Chat original | Atrás visible | No cancela ni reenvía la solicitud recibida |
-| A4 Revisión incompleta | Resultado parcial/negativo/revisión humana | Origen; conserva respuestas | Sí | Seguir sin pedir contacto comercial |
+| A4 Revisión incompleta | Resultado parcial/revisión humana | Origen; conserva respuestas | Sí | Seguir sin pedir contacto comercial |
+| A9 Solicitud pendiente | Datos confirmados, envío/ACK incierto | Origen; operación conservada | Sí | Comprobar la misma operación; «recibida» sólo tras ACK durable |
+| A10 Resultado negativo | Resultado completo del agente | Origen / Servicios; nueva evidencia voluntaria | Sí | No repetir automáticamente ni abrir gate de contacto |
+| A11 Vínculo bloqueado | Cuenta verificada sin control de instalación original | Inicio; no historial ajeno | No; Atrás visible | Recuperación separada por acordar; enlace/contacto no bastan |
 | A7 Recuperación de contraseña | Acceso opcional | Acceso con continuación | Atrás visible | Recuperación externa sin perder chat |
 | A6 Trámites / gestor directo | Pestaña / deeplink protegido | Acceso con retorno al origen | Según ruta | La solicitud de contacto no concede chat de gestor ni expedientes |
 | Legales / soporte | Chat / acceso / registro / cuenta | Pantalla exacta que abrió el documento | No; Atrás visible | Volver sin consumir la continuación |

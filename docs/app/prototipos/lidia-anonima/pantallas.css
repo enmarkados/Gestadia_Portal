@@ -32,3 +32,5 @@
 
 .review-mode button{border:0;background:none;color:inherit;text-decoration:underline;font:inherit;padding:0;cursor:pointer}
 .review-mode:has(button){gap:9px;font-size:10px}
+
+.pending-receipt{background:#fff4df!important;border-color:#b58a2d!important;color:#63502b}

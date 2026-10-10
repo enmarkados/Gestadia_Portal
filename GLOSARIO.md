@@ -939,3 +939,17 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** `contact_request_allowed` exige resultado completo suficiente (`can_continue`) y voluntad expresa (`contact_requested`). `app.contact_request.ready` representa la solicitud confirmada para entregar a Portal, con evidencia, intención y revisión identificables.
 - **Alcance:** propuesta y contraste en `docs/integraciones/2026-10-10-*.md`; futura proyección LidIA y receptor Portal. No implementados.
 - **Notas:** No se habilitan por país, human_review o registro. La solicitud se envía como visitante; la cuenta se ofrece después para guardar el mismo chat. `registration_required` queda limitado a otras operaciones que realmente exijan cuenta; no bloquea esta solicitud. Registro/cancelación del alta no reenvían ni cancelan una solicitud recibida.
+
+## Solicitud APP con recepción incierta
+
+- **Tipo:** concepto de estado de integración propuesto.
+- **Definición:** Solicitud confirmada cuyo resultado durable todavía no ha sido recuperado. Permanece pendiente de comprobación; el cliente no puede darla por recibida ni generar otra operación para resolver la incertidumbre.
+- **Alcance:** propuesta/contraste de integración y mapas APP; maqueta `docs/app/prototipos/lidia-anonima/pantallas.jsx`. No existe un DTO nuevo acordado.
+- **Notas:** Se reconcilia el mismo event_id, intención y revisión. Registro, vínculo y pérdida de una respuesta no cambian su identidad ni reenvían sus efectos.
+
+## Control de instalación original para vínculo APP
+
+- **Tipo:** condición de autorización propuesta, precisada con LidIA el 10/10/2026.
+- **Definición:** Prueba vigente de acceso al recorrido original exigida junto con una cuenta verificada para guardar ese chat en ella. La posesión de un enlace o un contacto autodeclarado no sustituye esta condición.
+- **Alcance:** propuesta/contraste APP, NAVEGACION y maqueta de vínculo bloqueado; futuros servicios de identidad y protocolo v2.
+- **Notas:** Primera entrega: cuenta verificada Y control de instalación original. Instalación perdida bloquea el vínculo hasta aprobar un procedimiento de recuperación separado. Sujeto inmutable por conversación y actor/propietario separados son la arquitectura aceptada en principio; vincular A no revoca B.

@@ -55,8 +55,8 @@
       "numero": "06",
       "title": "Datos para el gestor",
       "caption": "Nombre y teléfono O email, con propósito y confirmación. Se solicita como visitante.",
-      "action": "Solicitar contacto",
-      "dest": "recibido",
+      "action": "Solicitar contacto; comprobar ACK",
+      "dest": "envio-pendiente",
       "kind": "principal",
       "image": "capturas/propuesta-datos-contacto.jpg"
     },
@@ -84,7 +84,7 @@
       "id": "verificar",
       "numero": "09",
       "title": "Verificar el email",
-      "caption": "Prueba de control de cuenta. No genera otra solicitud de contacto.",
+      "caption": "Cuenta verificada Y control de instalación original antes de vincular. No genera otra solicitud.",
       "action": "Verificar y volver",
       "dest": "vinculando",
       "kind": "principal",
@@ -94,7 +94,7 @@
       "id": "vinculando",
       "numero": "10",
       "title": "Vincular el mismo chat",
-      "caption": "Conserva sesión, historial y solicitud recibida. Reintenta la misma operación si sigue pendiente.",
+      "caption": "Cuenta y acceso original comprobados; conserva sesión y solicitud. Recupera la misma operación.",
       "action": "Comprobar",
       "dest": "retomado",
       "kind": "principal",
@@ -176,9 +176,9 @@
       "id": "restricciones",
       "numero": "A6",
       "title": "Trámites o gestor directo",
-      "caption": "El contacto solicitado tras el canje no concede acceso al chat de gestor ni a expedientes protegidos.",
+      "caption": "Atrás vuelve al origen guardado. Inicio sólo si falta origen; acceso protegido.",
       "action": "Volver",
-      "dest": "inicio",
+      "dest": "origen",
       "kind": "alternativa",
       "image": "capturas/propuesta-restricciones.jpg"
     },
@@ -197,10 +197,40 @@
       "numero": "A8",
       "title": "Mensajes sin cuenta",
       "caption": "Sólo chats de esta instalación. Nueva conversación está en Mensajes. Cuenta opcional para otros dispositivos.",
-      "action": "Abrir conversación",
-      "dest": "recibido",
+      "action": "Reabrir estado conservado",
+      "dest": "estado-chat",
       "kind": "alternativa",
       "image": "capturas/propuesta-mensajes-visitante.jpg"
+    },
+    {
+      "id": "envio-pendiente",
+      "numero": "A9",
+      "title": "Solicitud pendiente",
+      "caption": "Sin ACK, sin recibida. Recuperar la misma operación; no reenviar ni cambiar su identidad.",
+      "action": "Comprobar el mismo envío",
+      "dest": "envio-pendiente",
+      "kind": "alternativa",
+      "image": "capturas/propuesta-envio-pendiente.jpg"
+    },
+    {
+      "id": "resultado-negativo",
+      "numero": "A10",
+      "title": "Resultado negativo",
+      "caption": "Explicación sin contacto. Salir o aportar nueva evidencia voluntaria, sin repetir automáticamente.",
+      "action": "Ver otros servicios",
+      "dest": "servicios",
+      "kind": "alternativa",
+      "image": "capturas/propuesta-resultado-negativo.jpg"
+    },
+    {
+      "id": "vinculo-bloqueado",
+      "numero": "A11",
+      "title": "Vínculo bloqueado",
+      "caption": "Sin instalación original, no se vincula ni abre el historial. Cuenta o contacto no bastan.",
+      "action": "Ir a LidIA",
+      "dest": "inicio",
+      "kind": "alternativa",
+      "image": "capturas/propuesta-vinculo-bloqueado.jpg"
     }
   ],
   "references": [

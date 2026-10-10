@@ -5,27 +5,39 @@ flowchart TD
   TIENDA --> N
   HOME[01 Inicio LidIA] -->|Elegir canje| N
   N --> Q[03 Preguntas sobre los requisitos del canje]
-  Q --> E{Resultado completo suficiente}
-  E -->|No, parcial o revisión humana| REV[A4 Seguir revisando sin pedir contacto]
-  REV --> Q
-  E -->|Sí| RES[04 Resultado y oferta de contacto]
+  Q --> E{Estado de la revisión}
+  E -->|Incompleto o revisión humana| REV[A4 Seguir revisando sin pedir contacto]
+  REV -->|Completar información| Q
+  E -->|Completo negativo| NEG[A10 Explicar resultado sin pedir contacto]
+  NEG -->|Ver otros servicios| SERV[Servicios públicos]
+  NEG -->|Aportar nueva evidencia voluntariamente| Q
+  E -->|Completo suficiente| RES[04 Resultado y oferta de contacto]
   RES -->|Seguir consultando| Q
   RES -->|Quiero un gestor| C[05 Explicar la finalidad del contacto]
   C --> D[06 Nombre y teléfono O email]
-  D -->|Confirmar como visitante| REC[07 Solicitud recibida por Portal]
+  D -->|Confirmar como visitante| SEND[A9 Envío pendiente o ACK incierto]
+  SEND -->|Sin resultado: recuperar misma operación| SEND
+  SEND -->|ACK durable de Portal| REC[07 Solicitud recibida por Portal]
   D -->|Cancelar antes de enviar| Q
   REC -->|Seguir sin cuenta| GM[A8 Mensajes de esta instalación]
   Q -->|Pestaña Mensajes| GM
-  GM -->|Revisión en curso| Q
-  GM -->|Solicitud ya recibida| REC
+  GM -->|Reabrir estado conservado| STATE[Estado real del mismo chat]
+  STATE --> Q
+  STATE --> REV
+  STATE --> NEG
+  STATE --> SEND
+  STATE --> REC
   GM -->|Nueva conversación| N
   REC -->|Guardar chat: opcional| R[08 Crear cuenta]
   REC -->|Ya tengo cuenta| LOGIN[A1 Acceso a cuenta existente]
   R --> V[09 Verificar email y control de cuenta]
-  LOGIN -->|Cuenta verificada| LINK
-  V --> LINK[10 Vincular el mismo chat]
+  LOGIN -->|Cuenta verificada| PROOF{¿Control de instalación original?}
+  V --> PROOF
+  PROOF -->|Sí: cuenta Y origen comprobados| LINK[10 Vincular el mismo chat]
+  PROOF -->|No: instalación perdida| BLOCK[A11 Vínculo bloqueado]
+  BLOCK -->|Sin acceso al historial| HOME
   LINK -->|Confirmado| CHAT[11 Historial guardado en cuenta]
-  LINK -->|Respuesta incierta| LINK
+  LINK -->|Respuesta incierta: misma operación| LINK
   CHAT --> M[12 Mensajes con cuenta]
   M -->|Abrir chat| CHAT
   M -->|Nueva conversación| N
@@ -36,7 +48,9 @@ flowchart TD
   EXP --> REC
   LOGIN --> FORGOT[A7 Recuperar contraseña en el portal]
   FORGOT --> LOGIN
-  T[Trámites o chat directo de gestor sin cuenta] --> ACCESS[A6 Acceso protegido con Atrás al origen]
-  ACCESS --> HOME
+  T[Trámites o chat directo de gestor sin cuenta] --> ACCESS[A6 Acceso protegido]
+  ACCESS -->|Atrás o cancelar| ORIGIN{¿Origen completo guardado?}
+  ORIGIN -->|Sí| RETURN[Volver a la ruta y contexto de origen]
+  ORIGIN -->|No: entrada directa| HOME
   REC -.-> CRM[Flujos Zoho: lead a contacto y trato]
   Z[Zoho: Cerrado ganado] --> CLIENT[Correlacionar cuenta y habilitar trámites]

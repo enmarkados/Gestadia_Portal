@@ -9,7 +9,7 @@
 - [Tablero navegable](prototipos/lidia-anonima/index.html), local `http://127.0.0.1:5190/`: amplía capturas y abre cada maqueta.
 - [Mapa de navegación](NAVEGACION.md), [plan](2026-10-10-plan-mapas-lidia-anonima.md) y [revisión visual](../../design-qa.md).
 
-Las tres referencias «Actual» proceden de la demo aislada de `app/main` en `a6d6e1497e32efa3c6a45fff3d6c67017a86bc05`. Las **veinte vistas «Propuesta»** reutilizan `frontend/app/src/app.css` e `Icon.jsx`; son doce estados principales y ocho alternativas. Capturas a **390 × 844 CSS px**, sin marco, notch o barra de estado nativa inventados.
+Las tres referencias «Actual» proceden de la demo aislada de `app/main` en `a6d6e1497e32efa3c6a45fff3d6c67017a86bc05`. Las **veintitrés vistas «Propuesta»** reutilizan `frontend/app/src/app.css` e `Icon.jsx`; son doce estados principales y once alternativas. Capturas a **390 × 844 CSS px**, sin marco, notch o barra de estado nativa inventados.
 
 ## Decisiones visibles corregidas
 
@@ -20,7 +20,7 @@ Las tres referencias «Actual» proceden de la demo aislada de `app/main` en `a6
 5. Ofrecer después una cuenta opcional para guardar/recuperar el mismo chat. Registro, login y verificación no envían una nueva solicitud. Cancelar/caducar el alta deja intacta la solicitud recibida.
 6. Nueva conversación está en Mensajes, en una acción compacta; no aparece como barra flotante debajo del chat. Visitante ve sólo sus chats de instalación; la cuenta recupera los vinculados desde otros dispositivos.
 
-La maqueta anuncia «Sin conexión a LidIA». No genera respuestas IA al texto libre. El cuestionario es un fragmento ilustrativo: el enlace de revisión **«Ver ejemplo de resultado» está fuera de la APP**, en la franja de la maqueta. No calcula viabilidad ni sustituye el guion real del agente. Verificación, vinculación y recibos son simulaciones de diseño.
+La maqueta anuncia «Sin conexión a LidIA». No genera respuestas IA al texto libre. El cuestionario es un fragmento ilustrativo: el enlace de revisión **«Ver ejemplo de resultado» está fuera de la APP**, en la franja de la maqueta. No calcula viabilidad ni sustituye el guion real del agente. Verificación, vinculación y recibos son simulaciones de diseño. Confirmar los datos lleva a A9, pendiente de comprobación; «Ver confirmación de ejemplo» está sólo en la franja externa. Un país no produce el resultado negativo ni el favorable. La cuenta verificada y el control de la instalación original se exigen juntos; A11 representa su pérdida sin abrir el historial.
 
 ## Flujo de pantallas
 
@@ -32,27 +32,39 @@ flowchart TD
   TIENDA --> N
   HOME[01 Inicio LidIA] -->|Elegir canje| N
   N --> Q[03 Preguntas sobre los requisitos del canje]
-  Q --> E{Resultado completo suficiente}
-  E -->|No, parcial o revisión humana| REV[A4 Seguir revisando sin pedir contacto]
-  REV --> Q
-  E -->|Sí| RES[04 Resultado y oferta de contacto]
+  Q --> E{Estado de la revisión}
+  E -->|Incompleto o revisión humana| REV[A4 Seguir revisando sin pedir contacto]
+  REV -->|Completar información| Q
+  E -->|Completo negativo| NEG[A10 Explicar resultado sin pedir contacto]
+  NEG -->|Ver otros servicios| SERV[Servicios públicos]
+  NEG -->|Aportar nueva evidencia voluntariamente| Q
+  E -->|Completo suficiente| RES[04 Resultado y oferta de contacto]
   RES -->|Seguir consultando| Q
   RES -->|Quiero un gestor| C[05 Explicar la finalidad del contacto]
   C --> D[06 Nombre y teléfono O email]
-  D -->|Confirmar como visitante| REC[07 Solicitud recibida por Portal]
+  D -->|Confirmar como visitante| SEND[A9 Envío pendiente o ACK incierto]
+  SEND -->|Sin resultado: recuperar misma operación| SEND
+  SEND -->|ACK durable de Portal| REC[07 Solicitud recibida por Portal]
   D -->|Cancelar antes de enviar| Q
   REC -->|Seguir sin cuenta| GM[A8 Mensajes de esta instalación]
   Q -->|Pestaña Mensajes| GM
-  GM -->|Revisión en curso| Q
-  GM -->|Solicitud ya recibida| REC
+  GM -->|Reabrir estado conservado| STATE[Estado real del mismo chat]
+  STATE --> Q
+  STATE --> REV
+  STATE --> NEG
+  STATE --> SEND
+  STATE --> REC
   GM -->|Nueva conversación| N
   REC -->|Guardar chat: opcional| R[08 Crear cuenta]
   REC -->|Ya tengo cuenta| LOGIN[A1 Acceso a cuenta existente]
   R --> V[09 Verificar email y control de cuenta]
-  LOGIN -->|Cuenta verificada| LINK
-  V --> LINK[10 Vincular el mismo chat]
+  LOGIN -->|Cuenta verificada| PROOF{¿Control de instalación original?}
+  V --> PROOF
+  PROOF -->|Sí: cuenta Y origen comprobados| LINK[10 Vincular el mismo chat]
+  PROOF -->|No: instalación perdida| BLOCK[A11 Vínculo bloqueado]
+  BLOCK -->|Sin acceso al historial| HOME
   LINK -->|Confirmado| CHAT[11 Historial guardado en cuenta]
-  LINK -->|Respuesta incierta| LINK
+  LINK -->|Respuesta incierta: misma operación| LINK
   CHAT --> M[12 Mensajes con cuenta]
   M -->|Abrir chat| CHAT
   M -->|Nueva conversación| N
@@ -63,8 +75,10 @@ flowchart TD
   EXP --> REC
   LOGIN --> FORGOT[A7 Recuperar contraseña en el portal]
   FORGOT --> LOGIN
-  T[Trámites o chat directo de gestor sin cuenta] --> ACCESS[A6 Acceso protegido con Atrás al origen]
-  ACCESS --> HOME
+  T[Trámites o chat directo de gestor sin cuenta] --> ACCESS[A6 Acceso protegido]
+  ACCESS -->|Atrás o cancelar| ORIGIN{¿Origen completo guardado?}
+  ORIGIN -->|Sí| RETURN[Volver a la ruta y contexto de origen]
+  ORIGIN -->|No: entrada directa| HOME
   REC -.-> CRM[Flujos Zoho: lead a contacto y trato]
   Z[Zoho: Cerrado ganado] --> CLIENT[Correlacionar cuenta y habilitar trámites]
 ```
@@ -73,7 +87,10 @@ flowchart TD
 
 | Estado | Resultado |
 |---|---|
-| Requisitos incompletos / revisión humana | Continúa el chat sin datos comerciales ni solicitud |
+| Requisitos incompletos / revisión humana (A4) | Completa información que falta, sin datos comerciales ni solicitud |
+| Resultado completo negativo (A10) | Explicación, salida a Servicios o nueva evidencia voluntaria; sin repetición obligada ni gate de contacto por reintentar |
+| Envío / ACK incierto (A9) | Comprueba la misma operación; sin «recibida» ni nueva solicitud mientras no haya resultado durable |
+| Instalación original perdida (A11) | Vínculo bloqueado incluso con cuenta verificada; sin acceso al historial, recuperación separada pendiente |
 | Ya tiene cuenta | Acceso opcional conserva chat y solicitud, sin duplicar alta |
 | Cancela el registro | Continúa como visitante; el gestor puede contactar igualmente |
 | Enlace de registro caducado | Puede pedir otro desde el chat original; solicitud intacta |
@@ -95,3 +112,7 @@ node frontend/node_modules/vite/bin/vite.js --config docs/app/prototipos/lidia-a
 Sin backend. Si faltan dependencias, enlazar `docs/app/prototipos/lidia-anonima/node_modules` a `../../../../frontend/node_modules` (ignorado). `generar-tablero.py` actualiza inventario/SVG; las capturas se versionan. `?captura=1` oculta únicamente la franja externa de revisión al capturar; la maqueta interactiva siempre declara su condición.
 
 La aprobación corresponde al recorrido visible. No cierra el contrato S2S, reglas, agenda, pruebas nativas ni activación.
+
+## Revisión conjunta de esta precisión
+
+[Contraste LidIA recibido](../integraciones/2026-10-10-contraste-lidia-mapas-portal.md) (`539a6ccc2`) incorporado sin cambiar su fuente. El acceso protegido vuelve al origen completo conservado y sólo usa Inicio si falta origen. Sujeto por conversación y actor/propietario separados quedan aceptados en principio; vincular A no revoca B. Las reglas completas, señal/permiso visitante, DTO, firma y ACK siguen pendientes.

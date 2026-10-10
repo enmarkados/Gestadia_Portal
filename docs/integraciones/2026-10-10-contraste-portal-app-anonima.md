@@ -60,3 +60,13 @@ El despliegue Portainer/Plesk solicitado previamente conserva su alcance propio.
 Primero requisitos sin datos personales. Sólo `can_continue` completo + `contact_requested` permite pedir nombre y teléfono O email con propósito/confirmación. Portal recibe una SOLICITUD durable como visitante. La cuenta es opcional y posterior; cancelar el alta no cancela ni reenvía lo recibido. Registro y vínculo conservan event_id, intención/revisión y actor original.
 
 La señal `app.contact_request.ready` y permiso visitante son propuestas v2. Faltan reglas completas del sondeo, DTO/firma/transporte/ACK/reconciliación. El runner actual no acredita un resultado positivo completo: human_review no abre el gate. Los flujos Zoho conservan conversión lead–contacto/trato; LidIA no la ejecuta. Los [mapas y capturas corregidos](../app/2026-10-10-mapas-pantallas-app-anonima.md) se entregan para revisión humana antes de implementar.
+
+## Contraste de mapas recibido y precisiones incorporadas
+
+Fuente íntegra: [contraste LidIA de mapas](2026-10-10-contraste-lidia-mapas-portal.md), commit `539a6ccc2ce699a9ff0c7cc785e2d8e724f04e07`, rama `codex/app-anonimo-adenda-lidia`. SHA256 de fuente y blob Git: `702496881b6020c3851275d98250510ce0743d41a9a1d9901bb8cf777dc95419`; copia Portal comprobada en bytes. Se conservan también las bytes de la revisión base `e3b663b59`.
+
+Portal incorpora las tres precisiones documentales: cuenta verificada **y** control de instalación original, bloqueo si se pierde; sujeto inmutable por sondeo y actor/propietario separados, vínculo A sin revocar B; Atrás de acceso protegido al origen completo, Inicio sólo como reserva. Se añaden pantallas A9 de envío/ACK incierto, A10 de resultado negativo y A11 de vínculo bloqueado.
+
+La solicitud conserva event_id, intención/revisión y resultado durante registro/vínculo. Sin ACK durable no se afirma recepción ni se crea otra operación. Modificar/cancelar una solicitud entregada exige operación separada por acordar. Negativo e incompleto tienen salidas distintas; nueva evidencia no abre contacto comercial automáticamente. Se comparten propósito, consentimiento y datos mínimos, sin todo el historial.
+
+Quedan pendientes catálogo/reglas versionados y evidencia completa; capacidad y señal visitante, schema/DTO, transporte, firma, ACK/reconciliación, deduplicación y revocación; esquemas/vectores v2 y recuperación del vínculo; agenda. La revisión de mapas no autoriza implementación ni activación.
