@@ -1,6 +1,6 @@
 # Manual de desarrollo: flujos y pantallas de Gestadia APP
 
-**Referencia viva del proyecto · 10/10/2026.** Petición del usuario: conservar lo trabajado en el proyecto y usarlo para guiar el desarrollo. [README del repositorio](../../README.md) · [README APP](../../README-APP.md) · [Glosario](../../GLOSARIO.md).
+**Referencia viva del proyecto · 11/10/2026.** Petición del usuario: conservar lo trabajado en el proyecto y usarlo para guiar el desarrollo. [README del repositorio](../../README.md) · [README APP](../../README-APP.md) · [Glosario](../../GLOSARIO.md).
 
 ## Cómo empezar
 
@@ -12,6 +12,8 @@
 **Avance técnico del 10/10:** [coordinación Portal v2](../integraciones/2026-10-10-coordinacion-portal-contrato-v2.md) y [plan por bloques](../superpowers/plans/2026-10-10-app-v2-portal.md). Se ha comprobado una nueva instrucción humana de implementación del contrato en LidIA. Portal ha preparado el transporte/requests aislados del [wire r3](../integraciones/2026-10-10-contraste-portal-wire-v2-r3.md), con schemas/vectores exactos y pruebas; las respuestas siguen en revisión y no hay API v2 integrada ni activada en la APP. La precisión humana posterior fija que la integración transmite mensajes al agente 119 y muestra sus respuestas; no crea un cuestionario o calificador paralelo.
 
 **Prioridad inmediata de integración:** comprobar APP → Portal → LidIA → agente 119 real → respuesta literal en APP, sobre el canal existente y por separado del v2 pendiente. LidIA comunicó el avance nativo en `d2520653db85fb0a628cae8f48cb7cf188eeb4b0`, localizado en su repositorio; su revisión del motor sigue corrigiendo caché, composición de instrucciones, cancelación y errores del proveedor. Esperar commit validado y configuración servidor antes de la prueba conectada. Fixture, runner local y commit no acreditan ejecución real del 119. [Registro de coordinación](../integraciones/2026-10-10-coordinacion-portal-contrato-v2.md).
+
+**Actualización LidIA del 11/10:** commit `1413fa2d9d1ff0d975e3d638fef6fe52a6a8e152`, localizado en su repositorio; el equipo comunica [PR borrador 1622](https://github.com/enmarkados/Gestadia_LidIA/pull/1622) contra `dev/IA/main`. Validación final del routing, configuración efectiva y prueba conectada pendientes. Los resultados comunicados usan proveedor en memoria y no acreditan ejecución real del 119. Ver procedencia y límites en el [registro de coordinación](../integraciones/2026-10-10-coordinacion-portal-contrato-v2.md).
 
 ### Usar esta referencia al empezar una tarea
 
