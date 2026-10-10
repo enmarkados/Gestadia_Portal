@@ -1,0 +1,49 @@
+{
+  "status": "source-working-tree-snapshot-not-runtime-evidence",
+  "source_base_commit": "4a10ebf794fd7f947290a2d85beeebce9b1d8558",
+  "source_dirty": true,
+  "files": [
+    {
+      "path": "LidIA.ChatAgent/Services/AppConversations/AppTimelineService.cs",
+      "sha256": "d0c65309bcc6d004b990b20d08a857236ce576b6d3f0b09bbb0a083064d65e86"
+    },
+    {
+      "path": "LidIA.ChatAgent/Services/AppConversations/AppMessageReceiptService.cs",
+      "sha256": "740be9dd5caed6555a08c63b5aebaa21ff23e43f5b09079c257882ad0fef0954"
+    },
+    {
+      "path": "LidIA.ChatAgent/Services/AppConversations/AppV2SessionService.cs",
+      "sha256": "e9a27623cbcd1e42cfc01e953d7d859b78df4ea1508fa197b5cf7cd829d090b3"
+    },
+    {
+      "path": "LidIA.ChatAgent/Services/AppConversations/AppBindingService.cs",
+      "sha256": "93aa60b60c1362eb314bed4cdaaef8a7be0907f4dfca42fc7fc74c5eccc72309"
+    },
+    {
+      "path": "LidIA.ChatAgent/Services/AppConversations/AppOperationStore.cs",
+      "sha256": "6926cea3fbe5980ef942af72fdddc099094f14048329f7e642e49709bee62f1c"
+    },
+    {
+      "path": "LidIA.ChatAgent/Services/AppConversations/AppV2RecoveryService.cs",
+      "sha256": "9878b97a49811260a944ebca844af1cf92c242eda796a7ea6059ba840fd522cd"
+    },
+    {
+      "path": "LidIA.ChatAgent/Services/AppConversations/AppDtos.cs",
+      "sha256": "77c7ebaef72fb21775941b80addf6c4c2cbf7be40477bdfcbb501dfdb24a0459"
+    },
+    {
+      "path": "LidIA.ChatAgent/Services/AppConversations/AppProtocol.cs",
+      "sha256": "399adbc68c550e0571512fac4768a4db10970ce4aad25e5586b72a26c45c95bc"
+    },
+    {
+      "path": "LidIA.ChatAgent/Services/AppConversations/AppSupportService.cs",
+      "sha256": "9e9b21dac473d0a63aca68c23101b4657242f7dbe25f3ccb5e27ff4053534bfc"
+    },
+    {
+      "path": "LidIA.ChatAgent/Services/AppConversations/AppTurnWorker.cs",
+      "sha256": "0358c47dcf47e48fe2eb8220d44b282b5c181f45b57b91729a2950d4c343b7ee"
+    }
+  ],
+  "app-v2-responses-proposal-r1.json": "856102379197d8ab607443ac92448227ac395d00ab0764767a85188c9a90b23e",
+  "app-v2-response-fixtures-proposal-r1.json": "2258c2279a7fc599c803e944fef3b9da1057943bb510dfbe4ca9a4cf29514600"
+}

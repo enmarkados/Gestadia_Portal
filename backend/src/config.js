@@ -73,3 +73,13 @@ export function appConversationConfig(env = process.env) {
     generalSupport: env.APP_LIDIA_GENERAL_SUPPORT === 'true', generalCommercial: env.APP_LIDIA_GENERAL_COMMERCIAL === 'true',
   };
 }
+
+// v2 remains a separate, unmounted transport; never reuse v1 credentials.
+export function appV2ConversationConfig(env = process.env) {
+  const roles = {'app.sessions.write':'SESSION','app.timeline.read':'READ','app.turns.write':'TURN','app.handoff.request':'HANDOFF','app.context.attest':'CONTEXT','app.bindings.write':'BINDING_WRITE','app.bindings.read':'BINDING_READ','app.subjects.revoke':'REVOCATION'};
+  return {
+    enabled: env.APP_V2_ENABLED === 'true', guestEnabled: env.APP_V2_GUEST_ENABLED === 'true',
+    integrationId: env.APP_V2_LIDIA_INTEGRATION_ID || '', baseUrl: env.APP_V2_LIDIA_BASE_URL || '', audience: env.APP_V2_LIDIA_AUDIENCE || '',
+    keys: Object.fromEntries(Object.entries(roles).map(([cap,role])=>[cap,{keyId:env[`APP_V2_LIDIA_${role}_KEY_ID`]||'',secretBase64:env[`APP_V2_LIDIA_${role}_SECRET_BASE64`]||''}])),
+  };
+}
