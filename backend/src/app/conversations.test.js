@@ -7,8 +7,12 @@ import { AppIdentity } from "./identity.js";
 import { AppProblem } from "./problem.js";
 import { AppS2SClient } from "./s2s.js";
 import { AppConversationService } from "./conversations.js";
+import { AppConversationRegistry } from "./registry.js";
+import { appConversationConfig } from "../config.js";
+import express from "express";
+import { createAppRouter } from "./routes.js";
 import {
-  setConversationAccess,
+  setConversationAccess as applyConversationAccess,
   revokeAccount,
   drainLifecycle,
   deliverLifecycle,
@@ -24,6 +28,8 @@ const config = {
   generalSupport: true,
   generalCommercial: false,
 };
+const setConversationAccess = (database, userId, purpose, caseId, grant, cfg = config) =>
+  applyConversationAccess(database, userId, purpose, caseId, grant, cfg);
 const now = () => new Date().toISOString();
 function receipt(conv, turn, kind = "turn") {
   const date = now();
@@ -138,7 +144,7 @@ class Remote {
             schema_version: "1.0",
             conversation_id: path.split("/")[2],
             ...this.metadata,
-            items: [],
+            items: this.timelineItems || [],
             next_cursor: null,
             has_more: false,
             conversation_status: this.closed ? "closed" : "active",
@@ -1220,4 +1226,260 @@ test("summary de Mensajes conserva texto/fecha/recibo del último mensaje sin AC
   assert.equal(r.last_message.message_id,f.message.message_id);assert.equal(r.last_message.text,"Mensaje original");
   assert.equal(r.last_message.occurred_at,f.message.stored_at);assert.equal(r.last_message.receipt.delivery_status,"received");
   assert.ok(f.receiptCalls.every(c=>c.method==="GET"));
+});
+
+function twoIntegrations(f, { createNew = true } = {}) {
+  const e = { APP_CONVERSATIONS_ENABLED: "true", APP_LIDIA_INTEGRATION_ID: config.integrationId, APP_LIDIA_AUDIENCE: "old", APP_LIDIA_GENERAL_SUPPORT: "true", APP_LIDIA_SONDEO_ENABLED: String(createNew), APP_LIDIA_SONDEO_INTEGRATION_ID: "fixture-native119", APP_LIDIA_SONDEO_AUDIENCE: "native" };
+  for (const role of ["SESSION", "READ", "TURN", "CONTEXT", "REVOCATION"]) {
+    e[`APP_LIDIA_${role}_KEY_ID`] = `old_${role}`;
+    e[`APP_LIDIA_${role}_SECRET_BASE64`] = Buffer.alloc(32, 7).toString("base64");
+    e[`APP_LIDIA_SONDEO_${role}_KEY_ID`] = `native_${role}`;
+  }
+  const cfg = appConversationConfig(e), native = new Remote();
+  const registry = new AppConversationRegistry(db, cfg, { clientFactory: c => c.integrationId === config.integrationId ? f.remote : native });
+  return { registry, native, cfg };
+}
+test("registro: nueva119 y explícita122 conservan asociación, principal y listado", async t => {
+  const f = await fixture(t), oldKey = crypto.randomUUID();
+  const old = await f.service().start(f.a, { purpose: "sondeo" }, oldKey);
+  const { registry } = twoIntegrations(f);
+  const created = await registry.start(f.a, { purpose: "sondeo", create_new: true }, crypto.randomUUID());
+  assert.equal((await db.appConversation.findUnique({ where: { id: created.conversation.id } })).integrationId, "fixture-native119");
+  assert.notEqual(created.conversation.id, old.conversation.id);
+  const selected = await registry.start(f.b, { purpose: "sondeo", conversation_id: old.conversation.id }, crypto.randomUUID());
+  assert.equal(selected.conversation.id, old.conversation.id);
+  const replay = await registry.start(f.b, { purpose: "sondeo" }, oldKey);
+  assert.equal(replay.conversation.id, old.conversation.id);
+  const rows = await registry.list(f.a);
+  assert.deepEqual(new Set(rows.map(x => x.id)), new Set([old.conversation.id, created.conversation.id]));
+  const attention = await registry.start(f.a, { purpose: "atencion" }, crypto.randomUUID());
+  assert.equal((await db.appConversation.findUnique({ where: { id: attention.conversation.id } })).integrationId, "fixture-local");
+});
+test("registro: ACK perdido y operación122 se recuperan sin crear otra119", async t => {
+  const f = await fixture(t), key = crypto.randomUUID(); f.remote.lost = true;
+  const first = await f.service().start(f.a, { purpose: "sondeo", create_new: true }, key);
+  const { registry, native } = twoIntegrations(f);
+  const recovered = await registry.retry(f.b, first.operation.id);
+  assert.equal(recovered.status, "admitted");
+  assert.equal((await registry.start(f.b, { purpose: "sondeo", create_new: true }, key)).conversation.id, first.conversation.id);
+  assert.equal(await db.appConversation.count({ where: { userId: f.u.id, integrationId: "fixture-native119" } }), 0);
+  assert.equal(native.sessionCount, 0);
+});
+test("registro: candidato vigente conserva122 y el opt-in apagado conserva historial119", async t => {
+  const f = await fixture(t);
+  const old = await f.service().start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
+  const { registry } = twoIntegrations(f);
+  assert.equal((await registry.start(f.a, { purpose: "sondeo" }, crypto.randomUUID())).conversation.id, old.conversation.id);
+  const created = await registry.start(f.a, { purpose: "sondeo", create_new: true }, crypto.randomUUID());
+  const disabled = twoIntegrations(f, { createNew: false }).registry;
+  assert.equal((await disabled.start(f.a, { purpose: "sondeo", conversation_id: created.conversation.id }, crypto.randomUUID())).conversation.id, created.conversation.id);
+  assert.equal((await disabled.timeline(f.a, created.conversation.id)).conversation_id, created.conversation.id);
+});
+test("registro: IDs ajenos y ámbitos no configurados no se leen ni reintentan", async t => {
+  const f = await fixture(t), g = await fixture(t), { registry } = twoIntegrations(f);
+  const other = await g.service().start(g.a, { purpose: "sondeo" }, crypto.randomUUID());
+  await assert.rejects(registry.timeline(f.a, other.conversation.id), { code: "conversation_not_found" });
+  await assert.rejects(registry.retry(f.a, other.operation.id), { code: "operation_not_found" });
+  const own = await f.service().start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
+  await db.appConversation.update({ where: { id: own.conversation.id }, data: { integrationId: "unconfigured" } });
+  await assert.rejects(registry.timeline(f.a, own.conversation.id), { code: "conversation_not_found" });
+  await assert.rejects(registry.start(f.a, { purpose: "sondeo", integration_id: "unconfigured" }, crypto.randomUUID()), { code: "invalid_payload" });
+});
+
+test("registro: validación completa precede la resolución y rechaza selectores móviles", async t => {
+  const f = await fixture(t), { registry } = twoIntegrations(f);
+  for (const input of [
+    { purpose: "sondeo", conversation_id: 42 },
+    { purpose: "sondeo", case_ref: 42 },
+    { purpose: "sondeo", create_new: "yes" },
+    { purpose: "atencion", create_new: true },
+    { purpose: "sondeo", conversation_id: crypto.randomUUID(), create_new: true },
+    { purpose: "sondeo", integration_id: "fixture-native119" },
+  ]) await assert.rejects(registry.start(f.a, input, crypto.randomUUID()), { code: "invalid_payload" });
+  assert.equal(await db.appConversation.count({ where: { userId: f.u.id } }), 0);
+});
+test("registro: replay ambiguo en dos ámbitos se rechaza sin otra sesión", async t => {
+  const f = await fixture(t), { registry, native, cfg } = twoIntegrations(f), key = crypto.randomUUID();
+  await f.service().start(f.a, { purpose: "sondeo", create_new: true }, key);
+  await new AppConversationService(db, native, cfg.nativeSondeo).start(f.a, { purpose: "sondeo", create_new: true }, key);
+  await assert.rejects(registry.start(f.a, { purpose: "sondeo", create_new: true }, key), { code: "idempotency_conflict" });
+  assert.equal(await db.appConversation.count({ where: { userId: f.u.id } }), 2);
+});
+test("registro: caída119 no deriva a122 ni repite la consulta", async t => {
+  const f = await fixture(t), { registry, native } = twoIntegrations(f);
+  native.call = async () => { throw new AppProblem(503, "runtime_unavailable"); };
+  const started = await registry.start(f.a, { purpose: "sondeo", create_new: true }, crypto.randomUUID());
+  assert.equal(started.operation.status, "outcome_unknown");
+  assert.equal((await db.appConversation.findUnique({ where: { id: started.conversation.id } })).integrationId, "fixture-native119");
+  assert.equal(f.remote.sessionCount, 0);
+});
+test("registro: grant existente se limita a sondeo/history119 sin modificarlo", async t => {
+  const f = await fixture(t), { registry } = twoIntegrations(f);
+  await setConversationAccess(db, f.u.id, "sondeo", null, {
+    permissions: ["history", "sondeo", "support_handoff"], manager_assignment_ref: null,
+    commercial_assignment_ref: null, validated_at: now(), valid_until: new Date(Date.now() + 60000).toISOString(), source_ref: "proof",
+  });
+  const started = await registry.start(f.a, { purpose: "sondeo", create_new: true }, crypto.randomUUID());
+  assert.deepEqual((await registry.timeline(f.a, started.conversation.id)).permissions, ["history", "sondeo"]);
+  await assert.rejects(registry.handoff(f.a, started.conversation.id, { target_kind: "support", reason: "Ayuda" }, crypto.randomUUID()), { code: "capability_denied" });
+  assert.deepEqual((await db.appConversationAccess.findFirst({ where: { userId: f.u.id } })).permissions, ["history", "sondeo", "support_handoff"]);
+});
+test("registro: revocación y expiración drenan cada ámbito y bloquean ambos historiales", async t => {
+  const f = await fixture(t), { registry } = twoIntegrations(f);
+  const old = await f.service().start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
+  const created = await registry.start(f.a, { purpose: "sondeo", create_new: true }, crypto.randomUUID());
+  await registry.timeline(f.a, old.conversation.id);
+  await registry.timeline(f.a, created.conversation.id);
+  await setConversationAccess(db, f.u.id, "sondeo", null, { permissions: [], manager_assignment_ref: null, commercial_assignment_ref: null, validated_at: now(), valid_until: new Date(Date.now() + 60000).toISOString(), source_ref: "withdrawn" });
+  await registry.drainLifecycle();
+  const contexts = await db.appOperation.findMany({ where: { userId: f.u.id, kind: "context" } });
+  for (const integrationId of ["fixture-local", "fixture-native119"]) assert.ok(contexts.some(op => op.integrationId === integrationId && op.status === "admitted" && op.request.permissions.length === 0));
+  await revokeAccount(db, f.u.id, config);
+  await registry.drainLifecycle();
+  assert.deepEqual((await db.appOperation.findMany({ where: { userId: f.u.id, kind: "revocation", status: "admitted" } })).map(op => op.integrationId).sort(), ["fixture-local", "fixture-native119"]);
+  await assert.rejects(registry.timeline(f.a, old.conversation.id), { code: "session_expired" });
+  await assert.rejects(registry.timeline(f.a, created.conversation.id), { code: "session_expired" });
+});
+test("registro: API real selecciona119 con configuración backend", async t => {
+  const f = await fixture(t), { cfg, native } = twoIntegrations(f), app = express();
+  app.use("/api/app/v1", createAppRouter({ db, config: cfg, clientFactory: c => c.integrationId === config.integrationId ? f.remote : native }));
+  const server = app.listen(0, "127.0.0.1");
+  await new Promise(resolve => server.once("listening", resolve));
+  t.after(() => new Promise(resolve => server.close(resolve)));
+  const response = await fetch(`http://127.0.0.1:${server.address().port}/api/app/v1/conversations`, { method: "POST", headers: { Authorization: `Bearer ${f.a}`, "Content-Type": "application/json", "Idempotency-Key": crypto.randomUUID() }, body: JSON.stringify({ purpose: "sondeo", create_new: true }) });
+  const body = await response.json();
+  assert.ok([200, 202].includes(response.status), JSON.stringify(body));
+  assert.equal((await db.appConversation.findUnique({ where: { id: body.conversation.id } })).integrationId, "fixture-native119");
+});
+
+test("registro: texto literal, renombrado, turno y recibos siguen el ámbito de cada chat", async t => {
+  const f = await receiptFixture(t), { registry, native } = twoIntegrations(f);
+  const created = await registry.start(f.a, { purpose: "sondeo", create_new: true }, crypto.randomUUID());
+  const nativeRow = await db.appConversation.findUnique({ where: { id: created.conversation.id } });
+  const message = messageReceipt("assistant", "read");
+  native.timelineItems = [{ message_id: message.message_id, sequence: message.sequence, occurred_at: message.stored_at, role: "assistant", text: "Respuesta literal119", presentation: null }];
+  f.remote.timelineItems = [{ message_id: f.message.message_id, sequence: f.message.sequence, occurred_at: f.message.stored_at, role: "operator", text: "Historial122 conservado", presentation: null }];
+  const original = native.call.bind(native);
+  native.call = async (cap, method, path, subject, dto, opts = {}) => {
+    if (!path.endsWith("/message-receipts")) return original(cap, method, path, subject, dto, opts);
+    assert.equal(path, `/sessions/${nativeRow.remoteId}/message-receipts`);
+    assert.equal(subject, f.u.id);
+    assert.equal(cap, method === "GET" ? "timeline" : "turn");
+    return { status: 200, data: { schema_version: "1.0", conversation_id: nativeRow.remoteId,
+      message_receipts_revision: "3", items: [message], ...(method === "POST" ? { ack_id: dto.ack_id, acked_at: now(), duplicate: false } : {}) } };
+  };
+  assert.equal((await registry.timeline(f.a, f.id)).items[0].text, "Historial122 conservado");
+  assert.equal((await registry.timeline(f.a, created.conversation.id)).items[0].text, "Respuesta literal119");
+  await registry.rename(f.a, created.conversation.id, { title: "Mi nueva consulta" });
+  assert.equal((await db.appConversation.findUnique({ where: { id: created.conversation.id } })).title, "Mi nueva consulta");
+  assert.notEqual((await db.appConversation.findUnique({ where: { id: f.id } })).title, "Mi nueva consulta");
+  const turn = await registry.turn(f.a, created.conversation.id, { turn_id: crypto.randomUUID(), kind: "text", text: "Respuesta del cliente" });
+  assert.equal((await db.appOperation.findUnique({ where: { id: turn.id } })).integrationId, "fixture-native119");
+  assert.equal((await registry.operation(f.a, turn.id)).id, turn.id);
+  assert.equal((await registry.messageReceipts(f.a, f.id, { message_ids: f.message.message_id })).items[0].message_id, f.message.message_id);
+  assert.equal((await registry.messageReceipts(f.a, created.conversation.id, { message_ids: message.message_id })).items[0].message_id, message.message_id);
+  const dto = { schema_version: "1.0", ack_id: crypto.randomUUID(), state: "read", message_ids: [message.message_id], correlation_id: crypto.randomUUID() };
+  assert.equal((await registry.ackMessages(f.a, created.conversation.id, dto, crypto.randomUUID())).conversation_id, created.conversation.id);
+});
+test("registro: indisponibilidad de un ámbito no bloquea retirar el otro", async t => {
+  const f = await fixture(t), { registry, native } = twoIntegrations(f);
+  await f.service().start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
+  await registry.start(f.a, { purpose: "sondeo", create_new: true }, crypto.randomUUID());
+  await revokeAccount(db, f.u.id, config);
+  native.call = async () => { throw new AppProblem(503, "runtime_unavailable"); };
+  await registry.drainLifecycle();
+  const rows = await db.appOperation.findMany({ where: { userId: f.u.id, kind: "revocation" } });
+  assert.equal(rows.find(op => op.integrationId === "fixture-local").status, "admitted");
+  assert.equal(rows.find(op => op.integrationId === "fixture-native119").status, "outcome_unknown");
+});
+
+test("registro: cierre remoto122 reevalúa nueva consulta hacia119", async t => {
+  const f = await fixture(t);
+  const old = await f.service().start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
+  const { registry, native } = twoIntegrations(f);
+  f.remote.closed = true;
+  const opened = await registry.start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
+  assert.notEqual(opened.conversation.id, old.conversation.id);
+  assert.equal((await db.appConversation.findUnique({ where: { id: opened.conversation.id } })).integrationId, "fixture-native119");
+  assert.equal((await db.appConversation.findUnique({ where: { id: old.conversation.id } })).status, "closed");
+  assert.equal(f.remote.sessionCount, 1);
+  assert.equal(native.sessionCount, 1);
+});
+test("registro: cierre remoto119 con creación nativa apagada abre nueva122", async t => {
+  const f = await fixture(t), { registry, native, cfg } = twoIntegrations(f);
+  const old = await registry.start(f.a, { purpose: "sondeo", create_new: true }, crypto.randomUUID());
+  native.closed = true;
+  cfg.nativeSondeo.createNew = false;
+  const opened = await registry.start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
+  assert.notEqual(opened.conversation.id, old.conversation.id);
+  assert.equal((await db.appConversation.findUnique({ where: { id: opened.conversation.id } })).integrationId, "fixture-local");
+  assert.equal(native.sessionCount, 1);
+  assert.equal(f.remote.sessionCount, 1);
+});
+test("registro: apertura explícita cerrada no crea una sustituta", async t => {
+  const f = await fixture(t);
+  const old = await f.service().start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
+  const { registry, native } = twoIntegrations(f);
+  f.remote.closed = true;
+  await assert.rejects(registry.start(f.a, { purpose: "sondeo", conversation_id: old.conversation.id }, crypto.randomUUID()), { code: "conversation_closed" });
+  assert.equal(f.remote.sessionCount, 1);
+  assert.equal(native.sessionCount, 0);
+});
+function commercialGrant(permissions = ["history", "sondeo", "commercial_handoff"]) {
+  return { permissions, commercial_assignment_ref: "commercial-valid", manager_assignment_ref: null,
+    validated_at: now(), valid_until: new Date(Date.now() + 60000).toISOString(), source_ref: "verified-test-grant" };
+}
+test("registro: recorte comercial119 elimina su referencia conservando el grant", async t => {
+  const f = await fixture(t), { registry, native } = twoIntegrations(f);
+  await setConversationAccess(db, f.u.id, "sondeo", null, commercialGrant());
+  const started = await registry.start(f.a, { purpose: "sondeo", create_new: true }, crypto.randomUUID());
+  await registry.timeline(f.a, started.conversation.id);
+  assert.ok(native.contexts.length > 0);
+  assert.deepEqual(native.contexts.at(-1).permissions, ["history", "sondeo"]);
+  assert.equal(native.contexts.at(-1).commercial_assignment_ref, null);
+  assert.equal((await db.appConversationAccess.findFirst({ where: { userId: f.u.id } })).commercialAssignmentRef, "commercial-valid");
+});
+test("registro: recorte vacío119 retira contexto válido sin bloquear el worker", async t => {
+  const f = await fixture(t), { registry, native } = twoIntegrations(f);
+  const started = await registry.start(f.a, { purpose: "sondeo", create_new: true }, crypto.randomUUID());
+  await registry.timeline(f.a, started.conversation.id);
+  await setConversationAccess(db, f.u.id, "sondeo", null, commercialGrant(["commercial_handoff"]));
+  await registry.drainLifecycle();
+  assert.deepEqual(native.contexts.at(-1).permissions, []);
+  assert.equal(native.contexts.at(-1).commercial_assignment_ref, null);
+  assert.equal(native.contexts.at(-1).manager_assignment_ref, null);
+  await assert.rejects(registry.timeline(f.a, started.conversation.id), { code: "capability_denied" });
+  assert.deepEqual((await db.appConversationAccess.findFirst({ where: { userId: f.u.id } })).permissions, ["commercial_handoff"]);
+});
+test("registro: grant entre barrido y entrega respeta el límite119 al preparar contexto", async t => {
+  const f = await fixture(t), { registry, native, cfg } = twoIntegrations(f);
+  const old = await f.service().start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
+  const started = await registry.start(f.a, { purpose: "sondeo", create_new: true }, crypto.randomUUID());
+  await registry.timeline(f.a, started.conversation.id);
+  native.contexts = [];
+  let interleaved = false;
+  const operationDelegate = new Proxy(db.appOperation, { get(target, property) {
+    if (property !== "findMany") return Reflect.get(target, property);
+    return async args => {
+      if (!interleaved && args.where?.kind === "context") {
+        interleaved = true;
+        await setConversationAccess(db, f.u.id, "sondeo", null, commercialGrant(), cfg);
+      }
+      return target.findMany(args);
+    };
+  } });
+  const interleavedDb = new Proxy(db, { get(target, property) {
+    if (property === "appOperation") return operationDelegate;
+    const value = Reflect.get(target, property);
+    return typeof value === "function" ? value.bind(target) : value;
+  } });
+  await drainLifecycle(interleavedDb, native, cfg.nativeSondeo);
+  assert.ok(interleaved);
+  const newContext = (await db.appConversation.findUnique({ where: { id: started.conversation.id } })).context;
+  assert.deepEqual(newContext.permissions, ["history", "sondeo"]);
+  assert.equal(newContext.commercial_assignment_ref, null);
+  assert.ok(native.contexts.every(c => !c.permissions.includes("commercial_handoff") && c.commercial_assignment_ref === null));
+  const oldContext = (await db.appConversation.findUnique({ where: { id: old.conversation.id } })).context;
+  assert.deepEqual(oldContext.permissions, ["commercial_handoff", "history", "sondeo"]);
+  assert.equal(oldContext.commercial_assignment_ref, "commercial-valid");
 });

@@ -50,14 +50,13 @@ if (config.lidia.enabled) {
 if (process.env.APP_CONVERSATIONS_ENABLED === 'true') {
   const { appConversationConfig } = await import('./config.js');
   const { db } = await import('./db.js');
-  const { AppS2SClient } = await import('./app/s2s.js');
-  const { drainLifecycle } = await import('./app/lifecycle.js');
-  const appConfig = appConversationConfig(), appClient = new AppS2SClient(appConfig);
+  const { AppConversationRegistry } = await import('./app/registry.js');
+  const registry = new AppConversationRegistry(db, appConversationConfig());
   let running = false;
   const worker = setInterval(async () => {
     if (running) return;
     running = true;
-    try { await drainLifecycle(db, appClient, appConfig); }
+    try { await registry.drainLifecycle(); }
     catch { console.error('[app] lifecycle pending; retry scheduled'); }
     finally { running = false; }
   }, 20000);

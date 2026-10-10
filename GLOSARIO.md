@@ -1041,3 +1041,28 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** Conservación de la integración y los chats existentes del agente 122, junto a una integración adicional para las nuevas consultas al 119 original. Ambas pertenecen a la misma cuenta Portal; la APP no selecciona agentes o integraciones.
 - **Alcance:** `docs/integraciones/2026-10-10-coordinacion-portal-contrato-v2.md`; futura resolución en `backend/src/app/conversations.js`, configuración y operaciones/lifecycle; `AppIntegration` administrado por LidIA. No está implementada ni activada.
 - **Notas:** Pendiente de conformidad conjunta y configuración efectiva. Se descarta cambiar proyecto/agente en la integración histórica porque su huella y sus sesiones los validan; se conservan claves, permisos, reintentos e historial existentes.
+
+### `AppConversationRegistry` / `appConversationIntegrations`
+
+- **Tipo:** servicio de asociación backend y resolución de configuración.
+- **Definición:** AppConversationRegistry conserva la integración guardada de cada chat/operación y elige la ruta de nuevas consultas desde configuración servidor. appConversationIntegrations obtiene los ámbitos configurados para el servicio y el worker.
+- **Alcance:** `backend/src/app/registry.js`, `backend/src/config.js`, `backend/src/app/routes.js`, `backend/src/server.js` y pruebas conversacionales.
+- **Notas:** Mantiene AppConversationService como consumidor de un solo ámbito. No acepta un selector de agente/integración móvil ni reasocia historial; atención conserva el ámbito previo.
+
+### `nativeSondeo` / `APP_LIDIA_SONDEO_*`
+
+- **Tipo:** configuración privada de asociación servidor.
+- **Definición:** nativeSondeo describe la integración adicional del sondeo nativo. APP_LIDIA_SONDEO_ENABLED habilita su elección para consultas nuevas; INTEGRATION_ID y AUDIENCE del mismo prefijo identifican el ámbito, y las capacidades firmadas usan IDs propios de clave; el secreto puede conservarse por la misma capacidad del consumidor existente.
+- **Alcance:** `backend/src/config.js` y `backend/src/app/registry.js`; configuración privada backend. Valores públicos/por defecto apagados; no existen selectores nuevos en el dispositivo.
+- **Notas:** La integración configurada conserva lectura/retirada aunque se apague la selección para nuevos chats. Su autoridad de producto queda limitada a sondeo/history; no hereda soporte, comercial ni expediente. Una selección activada e incompleta falla sin derivar al122.
+
+### `gestadia-app-pro-agent119-validation`
+
+- **Tipo:** identificador de integración y audiencia S2S acordado.
+- **Definición:** Ámbito adicional de la misma cuenta Portal para consultas nuevas dirigidas al119/Project102 en LidIA PRO. Se mantiene distinto de gestadia-app-pro-local-validation y su historial122.
+- **Alcance:** configuración privada APP v1 y registro de coordinación del 11/10/2026; administrado en LidIA, seleccionado únicamente por backend.
+- **Notas:** Conformidad recibida del equipo LidIA; no acredita provisionado, despliegue ni prueba conectada. GuestV2Enabled=false y permisos sondeo/history; claves e identidad existente se conservan sin aumentar autoridad.
+
+### Revisión de asociación y autoridad por integración (11/10/2026)
+
+`AppConversationRegistry.start` fija el candidato implícito antes de refrescarlo y vuelve a resolver la integración para una consulta nueva si el servidor remoto confirmó su cierre. Replays y aperturas explícitas conservan su asociación. `currentAccess` deriva conjuntamente permisos y referencias tras aplicar el límite; `setConversationAccess` recibe la configuración servidor completa (por defecto, la del proceso) y prepara contextos con la del ámbito correspondiente. Si un ámbito no está configurado, conserva el grant durable y su worker preparará el contexto al recuperar esa configuración; no se prepara con una configuración vacía. Alcance: `backend/src/app/registry.js`, `store.js`, `lifecycle.js` y pruebas. No introduce permisos ni modifica los grants existentes por el recorte.

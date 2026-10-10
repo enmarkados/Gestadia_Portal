@@ -51,6 +51,24 @@ Desde el 08/10/2026, Inicio distingue Nueva/Continuar y Mensajes ofrece Nueva; e
 
 El chat conectado se identifica por `conversacion` y, cuando procede, `caso`. Esos parámetros forman parte del retorno; no se sustituye el chat seleccionado por uno nuevo. La validación real admite carga de documentos; el envío final guiado sólo existe en demo. Un error de carga permanece en la misma pantalla y conserva Atrás.
 
+### Asociación backend preparada el 11/10/2026
+
+Las pantallas, los parámetros y sus destinos de Atrás permanecen iguales. El servidor conserva la asociación de cada chat y reevaluará el destino de una consulta implícita si confirma que el candidato está cerrado. Nueva consulta119 exige configuración privada y autoridad vigente; atención e historial122 conservan su asociación. La APP no recibe un selector de agente. [Estado, pruebas y recuperación](2026-10-11-reanudacion-app-119.md).
+
+```mermaid
+flowchart LR
+  NUEVA["APP: Iniciar nueva consulta"] --> AUT["Portal: cuenta y permisos actuales"]
+  AUT --> REG["Registro servidor de integración"]
+  REG -->|Nueva consulta: opt-in119| IA119["LidIA: agente119 / proyecto102"]
+  HIST["APP: abrir chat u operación existente"] --> AUT
+  REG -->|Asociación guardada122| IA122["LidIA: agente122 / proyecto103"]
+  REG -->|Asociación guardada119| IA119
+  IA119 --> TEXTO["Respuesta literal en el mismo chat APP"]
+  IA122 --> TEXTO
+```
+
+Este diagrama explica la resolución preparada, no acredita activación ni una conversación remota. No añade pantallas ni habilita visitantes v2.
+
 ## Acceso, registro y sesión
 
 ```mermaid
