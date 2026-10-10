@@ -6,6 +6,8 @@
 
 **Architecture:** módulo v2 separado en Express/Prisma, con credencial de instalación y asociación por chat. Portal conserva operaciones y solicitudes antes de HTTP; LidIA mantiene el ledger remoto, revisión vigente, binding y ACK. React sólo consume Portal. No hay conversión CRM o agenda en este módulo.
 
+**Precisión humana posterior:** la pasarela transmite mensajes al agente 119 y muestra su respuesta. Las preguntas y decisiones pertenecen al agente; no crear un cuestionario/calificador/catálogo paralelo ni condicionar el transporte a ese catálogo. Texto como base y respuestas dinámicas opcionales. Esta decisión se comprobó directamente y se registra en la coordinación enlazada. Las operaciones de contacto consumen acciones del agente y conservan sus requisitos de identidad/confirmación.
+
 **Tech Stack:** Node ≥22.5, Express 4, Prisma 6/MySQL 8, AJV 8, React/Vite, Vitest y harness MySQL temporal existente.
 
 **Spec:** [coordinación y autorización](../../integraciones/2026-10-10-coordinacion-portal-contrato-v2.md), [propuesta Portal](../../integraciones/2026-10-10-propuesta-app-anonima-lidia.md), [revisión LidIA histórica](../../integraciones/2026-10-10-revision-lidia-app-anonima.md), [mapas](../../app/2026-10-10-mapas-pantallas-app-anonima.md), [glosario](../../../GLOSARIO.md). Antes del bloque 2 se añadirá el contrato ejecutable recibido con SHA; no existe todavía esa entrega.
@@ -82,7 +84,7 @@
 
 ## Bloque 5 — Solicitud durable y ACK
 
-**Entrada:** señal/gate completo y contrato de GET/ACK publicado, incluida la decisión atómica ante revisión/cancelación concurrentes. Sin reglas completas se mantienen resultados insuficientes; no fabricar un positivo operativo.
+**Entrada:** acción de contacto emitida por el agente y contrato de GET/ACK publicado, incluida la decisión atómica ante revisión/cancelación concurrentes. Portal no reevalúa requisitos ni fabrica un positivo operativo. No añadir un catálogo de canje como dependencia; el transporte de texto al 119 es independiente de este bloque.
 
 **Files:** crear `backend/src/app/v2/contactRequests.js`, `contactRequests.test.js`; `AppContactRequest` y migración aditiva; rutas v2 y proyección de solicitud propia.
 
@@ -109,6 +111,6 @@
 
 10/10/2026: **sólo bloque 1 en preparación**. No hay implementación v2 Portal, nuevas tablas, API o flags activados. Los bloques 2–6 tienen condiciones de entrada explícitas; sus interfaces y rutas locales deberán quedar concretadas en el plan al recibir los artefactos antes de ejecutar sus tests. Esto no presenta un plan incompleto como código listo para activar.
 
-Verificación de esta entrega documental: 114 enlaces locales válidos, `git diff --check` y ausencia de cambios de producto respecto a 7bfa689. No se ejecuta una suite funcional para acreditar una implementación inexistente. La respuesta ejecutable LidIA sigue pendiente; el catálogo completo de cualificación no se deduce de país/calificación.
+Verificación histórica de esta entrega documental: 114 enlaces locales válidos, `git diff --check` y ausencia de cambios de producto respecto a 7bfa689. No se ejecutó una suite funcional para acreditar una implementación inexistente. La precisión humana posterior elimina la exigencia de un catálogo paralelo: Portal transmite al agente y consume sus respuestas/acciones.
 
 Recibido después el borrador [wire r1](../../integraciones/2026-10-10-app-v2-wire-lidia-r1.md), con [revisión Portal P1–P4](../../integraciones/2026-10-10-revision-portal-wire-v2-r1.md). Se conserva como snapshot de trabajo exacto; no sustituye la entrada de schema/vectores/SHA de entrega requerida por el bloque 2.

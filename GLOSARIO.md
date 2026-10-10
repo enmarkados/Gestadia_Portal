@@ -1002,3 +1002,10 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** portal_request_ref correlaciona opacamente la solicitud durable de Portal; persisted_at indica cuándo se conservó localmente. No acreditan por sí mismas conversión CRM, contacto efectuado o reserva de agenda.
 - **Alcance:** copia wire v2 r1, revisión Portal y futura entidad AppContactRequest/consumidor S2S.
 - **Notas:** El contrato cerrado debe definir recuperabilidad y unicidad antes de usar estos campos. No se reutiliza un ID de trato/cliente como autenticación.
+
+## Pasarela APP–Portal–LidIA al agente 119
+
+- **Tipo:** decisión de arquitectura y alcance de la integración.
+- **Definición:** La APP envía los mensajes del usuario a Portal, que los transmite a la plataforma LidIA para recibir y mostrar las respuestas del agente 119. Las preguntas y decisiones de canje pertenecen al agente; la pasarela gestiona transporte, identidad y continuidad.
+- **Alcance:** README, `docs/app/MANUAL-DESARROLLO.md`, `docs/app/NAVEGACION.md`, coordinación y plan Portal v2; consumidor conversacional y configuración servidor.
+- **Notas:** Precisión humana del 10/10/2026, mensaje `01a127a2-2b60-7d30-a407-11f47d3af53a` en el chat LidIA. Se descarta crear un cuestionario/calificador/catálogo paralelo en Portal. Texto como base, HTML/dinámicos opcionales si no complican. No cambia por sí sola el agente efectivo, no acredita una ejecución real ni activa el flujo anónimo; las decisiones históricas sobre clones conservan su procedencia.

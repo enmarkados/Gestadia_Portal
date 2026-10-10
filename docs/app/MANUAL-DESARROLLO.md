@@ -9,7 +9,11 @@
 3. Consulta la [propuesta técnica](../integraciones/2026-10-10-propuesta-app-anonima-lidia.md), el [contraste Portal](../integraciones/2026-10-10-contraste-portal-app-anonima.md) y el [cierre documental LidIA](../integraciones/2026-10-10-cierre-lidia-mapas-portal.md) antes de tocar identidad, contacto o continuidad.
 4. Identifica el estado que cambia y sigue el procedimiento de mantenimiento. No implementar una decisión pendiente como si ya estuviera aprobada.
 
-**Avance técnico del 10/10:** [coordinación Portal v2](../integraciones/2026-10-10-coordinacion-portal-contrato-v2.md) y [plan por bloques](../superpowers/plans/2026-10-10-app-v2-portal.md). Se ha comprobado una nueva instrucción humana de implementación del contrato en LidIA. Portal prepara su consumidor; los esquemas/rutas/ACK compartidos siguen pendientes y no hay v2 implementado o activado en Portal.
+**Avance técnico del 10/10:** [coordinación Portal v2](../integraciones/2026-10-10-coordinacion-portal-contrato-v2.md) y [plan por bloques](../superpowers/plans/2026-10-10-app-v2-portal.md). Se ha comprobado una nueva instrucción humana de implementación del contrato en LidIA. Portal prepara su consumidor; el cierre del contrato compartido sigue pendiente y no hay v2 integrado ni activado en la APP. La precisión humana posterior fija que la integración transmite mensajes al agente 119 y muestra sus respuestas; no crea un cuestionario o calificador paralelo.
+
+### Usar esta referencia al empezar una tarea
+
+Antes de editar una pantalla, anota su ruta o ID de maqueta, estado, origen, destino de Atrás, permisos y acción final. Busca ese recorrido en NAVEGACION y compara sus capturas. Si la decisión sólo aparece en una propuesta, conserva esa distinción en la tarea. Al terminar, actualiza los archivos afectados de la tabla de mantenimiento y registra versión, entorno y resultado de las comprobaciones. [AGENTS.md](../../AGENTS.md) exige este procedimiento a quienes trabajan en el repositorio.
 
 ## Qué está implementado y qué está en revisión
 
@@ -76,6 +80,7 @@ Si se pierde la instalación original, el vínculo queda bloqueado aunque la cue
 - Las respuestas elegidas muestran su texto legible, no el id del botón. Al recuperar un chat no crear otro, perder su contexto ni ofrecer un inicio durante carga incierta.
 - Servicios conserva selección/borrador al volver y precarga los datos del checkout, incluido teléfono. [Corrección comprobada](2026-10-10-telefono-servicios-checkout.md).
 - APP no selecciona agente, proyecto, entorno, operador ni CRM. El backend resuelve identidad, pertenencia y permisos. [Responsabilidades](RESPONSABILIDADES-INTEGRACION.md).
+- La integración es una pasarela **APP → Portal → LidIA → agente 119 → respuesta a la APP**. Las preguntas, respuestas y decisiones de canje proceden del agente; no se implementan reglas de elegibilidad ni un catálogo nuevo en Portal. Mostrar texto es la base; HTML o respuestas dinámicas son opcionales si no complican el recorrido. No basta una maqueta o fixture para acreditar ejecución del 119.
 - LidIA gestiona conversaciones y resultado/intención; Portal conserva cuenta y solicitud durable; **flujos Zoho** convierten lead/contacto/trato y postean Cerrado ganado a Gestadia. Solicitud, conversión y cita son hechos distintos.
 
 ## Qué archivo mantener cuando algo cambia
@@ -133,6 +138,8 @@ El directorio de salida temporal de la maqueta debe dedicarse a esa compilación
 
 **El recorrido anónimo aún no está implementado.** Ambos equipos aceptan documentalmente los mapas sobre eb1ce3c5; la conformidad LidIA está copiada desde 0243b2379, con su procedencia en el contraste Portal.
 
-El desarrollo del contrato técnico está autorizado en el chat LidIA, según la [coordinación posterior](../integraciones/2026-10-10-coordinacion-portal-contrato-v2.md). Ya existe el [plan Portal por bloques](../superpowers/plans/2026-10-10-app-v2-portal.md); no se confunde con una API implementada. Antes del consumidor remoto faltan artefactos ejecutables compartidos y contraste: reglas/catálogo versionados y evidencia de cualificación completa; capacidad/señal visitante y DTO/firma/transporte/ACK/reconciliación; protocolo v2 de vínculo/revocación. Agenda conserva contrato propio. La aceptación de las pantallas implementadas y las pruebas conectadas/nativas se registrarán aparte. `human_review` no demuestra «cumple».
+El desarrollo del contrato técnico está autorizado en el chat LidIA, según la [coordinación posterior](../integraciones/2026-10-10-coordinacion-portal-contrato-v2.md). Ya existe el [plan Portal por bloques](../superpowers/plans/2026-10-10-app-v2-portal.md); no se confunde con una API integrada. Antes del consumidor remoto falta cerrar los artefactos compartidos y su contraste: DTO/firma/transporte, capacidades visitante, ACK/reconciliación y vínculo/revocación. La ejecución real del agente 119 debe comprobarse; su evaluación no se reemplaza por reglas nuevas en Portal ni queda condicionada a elaborar un catálogo paralelo. Las operaciones de contacto usarán resultados/acciones emitidos por el agente, sin inferir un favorable de país o `human_review`. Agenda conserva contrato propio. La aceptación de las pantallas implementadas y las pruebas conectadas/nativas se registrarán aparte.
 
 La publicación, despliegue y activación mantienen su alcance y autorización propios. [Despliegue APP](DOCKER-PLESK.md) · [Tiendas](MARKETPLACES.md). Esta guía guarda la referencia de desarrollo; no da por realizados esos trabajos.
+
+Comprobación documental del 10/10/2026: 212 enlaces locales válidos entre las entradas, mapas, plan y coordinación revisados; inventario de 12 estados principales, 11 alternativas y 3 referencias, con sus 26 capturas JPEG a 390 × 844; Mermaid idéntico en navegación, mapas y propuesta técnica. El tablero arrancó desde este checkout en 5190 y su compilación aislada terminó correctamente. Esta comprobación acredita que la referencia se puede consultar; no valida el flujo anónimo conectado ni la APP nativa.
