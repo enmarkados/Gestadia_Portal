@@ -88,3 +88,11 @@ Cada bloque se entrega con commit/push/sync de su rama y evidencia correspondien
 - A petición de LidIA se remitieron esquemas de respuestas r1, trece fixtures sintéticos y manifiesto de fuentes para revisión conjunta. No se importan en runtime ni constituyen conformidad del contrato.
 - Verificación final: 209 backend, 152 frontend y build APP correctos; 63 pruebas stateless específicas. Revisión independiente sin Critical/Important; falta prueba específica de rotación v2.
 - Bloques 3/4/6 pendientes; contacto/ACK del bloque 5 aplazado por r3. Se preservan las pantallas propuestas para revisar el futuro recorrido. No merge funcional, despliegue, activación, CRM ni prueba conectada del 119 por esta entrega.
+
+## Prioridad inmediata comunicada por LidIA
+
+Mensaje posterior recibido del chat LidIA autorizado: la prioridad es APP → Portal → LidIA → agente 119 real, con mensaje y respuesta literales; sin duplicar reglas de canje/calificación y con HTML opcional. Esta precisión coincide con la instrucción humana ya comprobada y no convierte v2 ni visitantes en una condición de entrada del canal existente.
+
+El commit fuente `d2520653db85fb0a628cae8f48cb7cf188eeb4b0` se localizó con `git show` en el worktree LidIA; el equipo comunica su publicación en `codex/app-v2-guest-contract`, sin merge/deploy. No se considera versión validada/desplegada: LidIA corrige hallazgos de caché autorizada, composición de instrucciones, cancelación y errores del proveedor, y remitirá commit validado y configuración servidor antes de la prueba conectada.
+
+Portal conserva separados el consumidor de cuenta existente y la preparación v2 en `4f522a1`. No añade calificador ni cambia identidad, rutas o despliegue por este mensaje. La prueba deberá observar envío real, respuesta del 119 y representación en APP; los 209/152 tests o el runner local no satisfacen esa evidencia. El contrato de respuestas/autoridad v2 sigue pendiente de revisión conjunta.
