@@ -75,6 +75,12 @@ flowchart TD
 
 El registro conectado explica el acceso compartido Portal/APP; no crea otra cuenta. Recuperación abre el navegador del sistema en nativo, o una pestaña separada en web. La demo permite explorar sin contraseña real. Ni cancelar ni Atrás efectúan logout o crean una conversación.
 
+### Recorrido solicitado el 10/10: LidIA sin cuenta (propuesta)
+
+La [propuesta de acceso anónimo APP y vinculación](../integraciones/2026-10-10-propuesta-app-anonima-lidia.md) incorpora un mapa separado: deeplink/primera apertura → mismo chat sin cuenta → nombre y teléfono y/o email → sondeo → registro/acceso al querer agendar → vinculación → mismo chat → confirmación de llamada. Cancelar registro vuelve al sondeo y conserva el historial. Enlace directo tiene retorno de reserva a LidIA; abrirlo no crea conversaciones por duplicado. El registro gratuito no habilita expedientes ni chats de gestor.
+
+Este recorrido **todavía no está implementado**: el inventario y los diagramas anteriores describen el comportamiento actual, que exige cuenta en el chat conectado. La aceptación de la nueva navegación requiere pruebas de arranque frío/APP abierta, registro externo y retorno en iOS/Android.
+
 ## Cuenta, hojas y servicios
 
 ```mermaid

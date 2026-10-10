@@ -17,6 +17,7 @@ Entrada: `frontend/app/`. Build: `frontend/dist-app/`. El portal conserva su bui
 
 - [Alcance](docs/app/PRIMERA-VERSION.md)
 - [Responsabilidades vigentes: flujos Zoho, backend Gestadia y conversaciones LidIA](docs/app/RESPONSABILIDADES-INTEGRACION.md)
+- [Propuesta en revisión: LidIA sin cuenta, deeplink y vinculación al registrarse, sólo APP](docs/integraciones/2026-10-10-propuesta-app-anonima-lidia.md)
 - [Ajuste conversacional LidIA y contraste Portal, separado del contrato Zoho](docs/integraciones/2026-10-05-revision-portal-alcance-conversacional-app.md)
 - [Conformidad técnica Portal con adenda conversacional 1.1 y anexos](docs/integraciones/2026-10-05-conformidad-portal-adenda-contexto-v1-1.md)
 - [Conexión con la plataforma LidIA y gestor](docs/app/INTEGRACION-LIDIA.md)

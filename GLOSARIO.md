@@ -852,3 +852,21 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** condición que exige APP visible/en primer plano y ausencia de modal sobre el chat para admitir lectura de mensajes.
 - **Alcance:** frontend/app/src/useMessageReceipts.js.
 - **Notas:** se descarta usar sólo intersección geométrica, porque una hoja modal puede tapar el historial. Cerrar la hoja exige observación nueva.
+
+## Sujeto previo al registro APP
+- **Tipo:** concepto runtime propuesto (10/10/2026).
+- **Definición:** Identidad opaca de un visitante sin cuenta que permite conversar con LidIA exclusivamente por APP. El nombre y los datos de contacto declarados no constituyen prueba de identidad de una cuenta.
+- **Alcance:** propuesta `docs/integraciones/2026-10-10-propuesta-app-anonima-lidia.md`; futuros adaptadores APP de Portal y LidIA. Sin implementación actual.
+- **Notas:** Se propone una identidad estable separada de `User`, con permisos acotados; se descarta crear usuarios ficticios verificados o reutilizar credenciales de Web/WhatsApp.
+
+## Enlace de continuación APP
+- **Tipo:** concepto de navegación y autorización propuesto (10/10/2026).
+- **Definición:** Enlace de alcance limitado que conserva el recorrido pendiente de una conversación APP al abrir el registro o acceso. Su token no autentica una cuenta ni habilita expedientes.
+- **Alcance:** propuesta `docs/integraciones/2026-10-10-propuesta-app-anonima-lidia.md`; futura API Portal y navegación nativa. Sin ruta desplegada.
+- **Notas:** Token aleatorio, de un uso y con caducidad; guardar sólo su huella. El deeplink público de entrada no contiene esta credencial ni datos personales.
+
+## Vinculación de conversación APP al registrarse
+- **Tipo:** transición de identidad propuesta (10/10/2026).
+- **Definición:** Asociación comprobada de la conversación del visitante a una cuenta verificada, conservando la sesión LidIA, sus mensajes y el estado del sondeo. La revocación del acceso previo forma parte del cierre de la transición.
+- **Alcance:** propuesta `docs/integraciones/2026-10-10-propuesta-app-anonima-lidia.md`; futuros servicios de identidad/conversaciones Portal y contrato S2S LidIA.
+- **Notas:** No es una reasignación entre dos cuentas existentes ni una fusión por email/teléfono; requiere prueba de control del recorrido original y del acceso de cuenta. Resultado idempotente en ambos sistemas.
