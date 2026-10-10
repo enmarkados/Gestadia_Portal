@@ -128,3 +128,19 @@ Correos: [diseño aprobado, texto legal y comprobaciones](../legal/CORREOS-TRANS
 
 
 Correos aprobados implementados: pruebas específicas 7/7, backend 215/215 con DB efímera y frontend 160/160 con un worker. MIME real generado sólo en memoria, sin correo a clientes; vista HTML revisada en navegador. Configuración chat preparada subida y extraída en gestadia-mobile-private con nombres nuevos, sin sobrescribir la configuración vigente; verificación de hashes y nueva copia Portal previa al corte preparadas. Chat y correos aún no desplegados.
+
+
+### Copia fresca y backend de correo preparados — 11/10/2026
+
+Antes de actualizar se crea y restaura la copia Portal email-chat-20261011: SQL 189074 bytes, SHA-256 06f4ac0aa20f4127800220a78fa7d3f0ecf8e7f606983154be268ebe01942ad1. Stack 80 completa preparación, SQL y archivos con código 0; stack 81 restaura sin red y comprueba 45 usuarios, 94 expedientes, 14 referencias y diez migraciones, mariadb-check OK. Configuración, claves y uploads coinciden byte a byte. No se modifica ni elimina información de producción. Prueba en artifacts/emails-20261011/backup-proof.json.
+
+Imagen AMD64 gestadia-backend:ba384f1 construida, revisión ba384f18278d60222ef87ebc26844759505cea83. La plantilla y el logo existen en la imagen real, probados sin red ni SMTP. Archivo Docker 293960646 bytes, SHA-256 9740823a56c062bd93f3d03793b7c466f3c10b6f0f58aa7c7c904a5616955465; importación en Portainer en curso. El stack preparado cambia únicamente imagen backend y rutas de las dos configuraciones de chat; mantiene el almacén permanente y las imágenes frontend. Aún no acredita el corte ni un correo recibido.
+
+
+### Correos publicados y chat activado — 11/10/2026
+
+Importación Portainer comprobada: imagen AMD64 gestadia-backend:ba384f1, digest dec108b9ba16695b4c0c3a53a26a1babd6de71e69902ec7dcd31ed0d0273bc8f y revisión completa ba384f18278d60222ef87ebc26844759505cea83. Stack 73 actualizado a las 22:27 UTC del 10/10, backend db12a78800ef7334373670c81a444149008ddfcab1a007f230b37b76b1bcce58 y APP 76e32bbae5af047c533f5f3e446a7ab8822c5bbedb4a0960283709d62f95f9aa, los tres servicios healthy. Portal conserva imagen y contenedor anteriores.
+
+El archivo JSON público nuevo tenía 0600, por lo que Nginx rechazó su lectura y APP devolvió temporalmente 502; corregido exclusivamente a 0644 en Plesk, manteniendo la carpeta 0700 y claves privadas 0600. APP recuperada. Comprobación real como 10019:1003: hash del entorno coincide, seis claves presentes, chat enabled, soporte/comercial generales false, plantilla y PNG presentes; 45 usuarios, 94 expedientes y 14 documentos. Web, Portal y APP HTTPS 200, capacidades 200 y chat 401 session_expired sin sesión: autenticación activa, todavía sin E2E conversacional. Evidencias runtime-proof.json y public-deploy-verification.json en artifacts/emails-20261011.
+
+Tres correos revisados visualmente y maquetación publicada. Cero mensajes SMTP de prueba enviados; autorización de un único correo a sistemas@enmarkados.com y acceso humano a APP solicitados para completar recepción y conversación. Sigue pendiente login social y entrega push nativa, regeneración final de builds con chat y distribución/publicación en tiendas. No se borraron datos de producción.
