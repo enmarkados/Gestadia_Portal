@@ -143,3 +143,26 @@ consistente, importación de imágenes x86_64 en Portainer, montaje de claves
 y entorno privado en el servidor, migraciones explícitas y proxy Plesk,
 validación externa de capacidades y aceptación de login/push en dispositivo.
 No hay despliegue ni publicación acreditados por las pruebas locales.
+
+### Preparación del host y copia de seguridad — 10/10/2026
+
+Imagen web `gestadia-app:50f8385` importada en Portainer local; ID
+`sha256:084c83edec7951bb8f4e7a1994b78fca86d1a579ab44da09a6185584ac1d99b1`,
+linux/amd64, 63.6 MB. Importación no equivale a arranque ni proxy publicado.
+Copia consistente de la base real completada (170019 bytes, ocho tablas),
+SHA-256 `b90586ba6ab036cf8981497083f558c46be9852a66ba3f6b2ce06c58a3ba87f2`.
+Se restauró en MariaDB aislada y se aplicaron allí las dos migraciones móviles
+pendientes correctamente. El esquema de producción permanece intacto.
+
+La configuración privada candidata conserva DATABASE_URL y JWT_SECRET y
+ajusta las tres rutas Apple/FCM al montaje `/run/gestadia-secrets`. No incluye
+LIDIA_API_KEY: no activa un segundo worker de pagos LidIA durante este despliegue.
+
+Revisión de dependencias del backend: se aplicaron actualizaciones dentro de
+los rangos existentes de Express, body-parser, qs, proxy-addr y Nodemailer.
+La corrección de proxy-addr 2.0.8 elimina la alerta crítica
+[GHSA-jqcg-44mw-7w3h](https://github.com/advisories/GHSA-jqcg-44mw-7w3h).
+La auditoría aún informa cuatro alertas altas: Nodemailer y deepmerge-ts con
+sus padres Prisma/config. No se atribuye seguridad total a esta actualización
+ni se fuerza una migración mayor de Prisma. Se requiere seguimiento de esas
+alertas antes de aceptación pública final de tiendas.
