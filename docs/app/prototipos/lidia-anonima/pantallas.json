@@ -1,0 +1,229 @@
+{
+  "main": [
+    {
+      "id": "inicio",
+      "numero": "01",
+      "title": "Inicio de LidIA",
+      "caption": "Puede consultar sin cuenta ni datos personales. El enlace directo omite Inicio.",
+      "action": "Abrir canje",
+      "dest": "consulta",
+      "kind": "principal",
+      "image": "capturas/propuesta-inicio.jpg"
+    },
+    {
+      "id": "consulta",
+      "numero": "02",
+      "title": "Consulta sin cuenta",
+      "caption": "El texto libre no se interpreta como nombre. La sesión conserva el recorrido.",
+      "action": "Comenzar revisión",
+      "dest": "preguntas",
+      "kind": "principal",
+      "image": "capturas/propuesta-consulta.jpg"
+    },
+    {
+      "id": "preguntas",
+      "numero": "03",
+      "title": "Preguntas sobre el canje",
+      "caption": "Primero se comprueban los requisitos. No se pide nombre, teléfono ni email.",
+      "action": "Completar revisión",
+      "dest": "resultado",
+      "kind": "principal",
+      "image": "capturas/propuesta-preguntas.jpg"
+    },
+    {
+      "id": "resultado",
+      "numero": "04",
+      "title": "Resultado de la revisión",
+      "caption": "Estado favorable ilustrativo: debe venir del resultado completo y versionado del agente, no de un país aislado.",
+      "action": "Quiero que me contacte un gestor",
+      "dest": "contactar",
+      "kind": "principal",
+      "image": "capturas/propuesta-resultado.jpg"
+    },
+    {
+      "id": "contactar",
+      "numero": "05",
+      "title": "Contacto del gestor",
+      "caption": "Sólo tras el resultado suficiente y la voluntad de contacto se explica para qué se piden los datos.",
+      "action": "Dejar mis datos",
+      "dest": "datos-contacto",
+      "kind": "principal",
+      "image": "capturas/propuesta-contactar.jpg"
+    },
+    {
+      "id": "datos-contacto",
+      "numero": "06",
+      "title": "Datos para el gestor",
+      "caption": "Nombre y teléfono O email, con propósito y confirmación. Se solicita como visitante.",
+      "action": "Solicitar contacto",
+      "dest": "recibido",
+      "kind": "principal",
+      "image": "capturas/propuesta-datos-contacto.jpg"
+    },
+    {
+      "id": "recibido",
+      "numero": "07",
+      "title": "Solicitud recibida",
+      "caption": "No hace falta cuenta para que el gestor contacte. Guardar el chat en una cuenta se ofrece después.",
+      "action": "Guardar en mi cuenta (opcional)",
+      "dest": "registro",
+      "kind": "principal",
+      "image": "capturas/propuesta-recibido.jpg"
+    },
+    {
+      "id": "registro",
+      "numero": "08",
+      "title": "Cuenta opcional",
+      "caption": "Registro o acceso para guardar el mismo chat. Cancelar no cancela ni reenvía la solicitud recibida.",
+      "action": "Crear cuenta",
+      "dest": "verificar",
+      "kind": "principal",
+      "image": "capturas/propuesta-registro.jpg"
+    },
+    {
+      "id": "verificar",
+      "numero": "09",
+      "title": "Verificar el email",
+      "caption": "Prueba de control de cuenta. No genera otra solicitud de contacto.",
+      "action": "Verificar y volver",
+      "dest": "vinculando",
+      "kind": "principal",
+      "image": "capturas/propuesta-verificar.jpg"
+    },
+    {
+      "id": "vinculando",
+      "numero": "10",
+      "title": "Vincular el mismo chat",
+      "caption": "Conserva sesión, historial y solicitud recibida. Reintenta la misma operación si sigue pendiente.",
+      "action": "Comprobar",
+      "dest": "retomado",
+      "kind": "principal",
+      "image": "capturas/propuesta-vinculando.jpg"
+    },
+    {
+      "id": "retomado",
+      "numero": "11",
+      "title": "Misma conversación",
+      "caption": "La cuenta permite recuperar el historial desde otros dispositivos. La solicitud al gestor sigue siendo la misma.",
+      "action": "Ver conversaciones",
+      "dest": "mensajes",
+      "kind": "principal",
+      "image": "capturas/propuesta-retomado.jpg"
+    },
+    {
+      "id": "mensajes",
+      "numero": "12",
+      "title": "Mensajes con cuenta",
+      "caption": "Fila compacta con búsqueda, nombre, fechas y estado. Nueva conversación se inicia aquí, no debajo del chat.",
+      "action": "Abrir conversación",
+      "dest": "retomado",
+      "kind": "principal",
+      "image": "capturas/propuesta-mensajes.jpg"
+    }
+  ],
+  "alternatives": [
+    {
+      "id": "acceso",
+      "numero": "A1",
+      "title": "Ya tengo cuenta",
+      "caption": "Accede sin crear otra cuenta. Vincula el mismo chat sin reenviar la solicitud al gestor.",
+      "action": "Entrar",
+      "dest": "vinculando",
+      "kind": "alternativa",
+      "image": "capturas/propuesta-acceso.jpg"
+    },
+    {
+      "id": "cancelado",
+      "numero": "A2",
+      "title": "Seguir sin cuenta",
+      "caption": "Cancelar registro conserva el chat y la solicitud ya recibida. El gestor puede contactar igualmente.",
+      "action": "Ver conversaciones",
+      "dest": "mensajes-visitante",
+      "kind": "alternativa",
+      "image": "capturas/propuesta-cancelado.jpg"
+    },
+    {
+      "id": "caducado",
+      "numero": "A3",
+      "title": "Enlace caducado",
+      "caption": "La cuenta es opcional: el enlace vencido no borra el chat ni cancela la solicitud al gestor.",
+      "action": "Volver al chat",
+      "dest": "recibido",
+      "kind": "alternativa",
+      "image": "capturas/propuesta-caducado.jpg"
+    },
+    {
+      "id": "revision",
+      "numero": "A4",
+      "title": "Revisión incompleta",
+      "caption": "No se piden datos personales ni se ofrece contacto por un resultado insuficiente. Se continúa revisando.",
+      "action": "Seguir revisando",
+      "dest": "preguntas",
+      "kind": "alternativa",
+      "image": "capturas/propuesta-revision.jpg"
+    },
+    {
+      "id": "instalar",
+      "numero": "A5",
+      "title": "APP sin instalar",
+      "caption": "Instalar y reabrir explícitamente el mismo enlace. No se presume continuación automática tras la tienda.",
+      "action": "Abrir APP",
+      "dest": "consulta",
+      "kind": "alternativa",
+      "image": "capturas/propuesta-instalar.jpg"
+    },
+    {
+      "id": "restricciones",
+      "numero": "A6",
+      "title": "Trámites o gestor directo",
+      "caption": "El contacto solicitado tras el canje no concede acceso al chat de gestor ni a expedientes protegidos.",
+      "action": "Volver",
+      "dest": "inicio",
+      "kind": "alternativa",
+      "image": "capturas/propuesta-restricciones.jpg"
+    },
+    {
+      "id": "recuperacion",
+      "numero": "A7",
+      "title": "Recuperar el acceso",
+      "caption": "Recuperación externa y retorno al acceso de la misma conversación. La solicitud ya recibida no depende de ello.",
+      "action": "Volver al acceso",
+      "dest": "acceso",
+      "kind": "alternativa",
+      "image": "capturas/propuesta-recuperacion.jpg"
+    },
+    {
+      "id": "mensajes-visitante",
+      "numero": "A8",
+      "title": "Mensajes sin cuenta",
+      "caption": "Sólo chats de esta instalación. Nueva conversación está en Mensajes. Cuenta opcional para otros dispositivos.",
+      "action": "Abrir conversación",
+      "dest": "recibido",
+      "kind": "alternativa",
+      "image": "capturas/propuesta-mensajes-visitante.jpg"
+    }
+  ],
+  "references": [
+    {
+      "id": "actual-inicio",
+      "title": "Inicio actual",
+      "caption": "Captura de la demo de app/main, sin integración remota.",
+      "image": "capturas/actual-inicio.jpg",
+      "kind": "actual"
+    },
+    {
+      "id": "actual-chat-lidia",
+      "title": "Chat LidIA actual",
+      "caption": "Referencia de cabecera, burbujas negras y compositor.",
+      "image": "capturas/actual-chat-lidia.jpg",
+      "kind": "actual"
+    },
+    {
+      "id": "actual-acceso",
+      "title": "Acceso actual",
+      "caption": "Referencia de formulario, foco, ojo y controles.",
+      "image": "capturas/actual-acceso.jpg",
+      "kind": "actual"
+    }
+  ]
+}

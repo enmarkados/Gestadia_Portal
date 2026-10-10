@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1440" height="1390" viewBox="0 0 1440 1390" role="img" aria-labelledby="title desc">
+<title id="title">Pantallas y flujo de LidIA sin cuenta, sólo APP</title><desc id="desc">Recorrido principal, acceso existente, cancelación, enlace caducado, recuperación, instalación y solicitud de llamada.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#858b95"/></marker></defs>
+<rect width="100%" height="100%" fill="#f7f7f7"/>
+<style>text{font-family:Arial,sans-serif;fill:#2c2c2c}.title{font-size:28px;font-weight:700}.sub{font-size:16px;fill:#636b78}.nt{font-size:17px;font-weight:700}.small{font-size:14px;fill:#636b78}.step{font-size:13px;font-weight:700;fill:#a52f23}.edge{fill:none;stroke:#858b95;stroke-width:2;marker-end:url(#arrow)}</style>
+<text x="40" y="52" class="title">LidIA sin cuenta: pantallas y flujo</text>
+<text x="40" y="83" class="sub">Propuesta para aprobar · Sólo APP · Misma conversación antes y después del registro</text>
+<a xlink:href="../pantalla.html?s=inicio" target="_blank"><rect x="40" y="135" width="295" height="135" rx="14" fill="white" stroke="#d5d7dc" stroke-width="1"/>
+<text x="58" y="162" class="step">01</text>
+<text x="58" y="189" class="nt">Inicio de LidIA</text>
+<text x="58" y="220" class="small">Abrir canje</text>
+</a>
+<a xlink:href="../pantalla.html?s=consulta" target="_blank"><rect x="395" y="135" width="295" height="135" rx="14" fill="white" stroke="#c0392b" stroke-width="2"/>
+<text x="413" y="162" class="step">02</text>
+<text x="413" y="189" class="nt">Consulta sin cuenta</text>
+<text x="413" y="220" class="small">Comenzar revisión</text>
+</a>
+<a xlink:href="../pantalla.html?s=preguntas" target="_blank"><rect x="750" y="135" width="295" height="135" rx="14" fill="white" stroke="#d5d7dc" stroke-width="1"/>
+<text x="768" y="162" class="step">03</text>
+<text x="768" y="189" class="nt">Preguntas sobre el canje</text>
+<text x="768" y="220" class="small">Completar revisión</text>
+</a>
+<a xlink:href="../pantalla.html?s=resultado" target="_blank"><rect x="1105" y="135" width="295" height="135" rx="14" fill="white" stroke="#d5d7dc" stroke-width="1"/>
+<text x="1123" y="162" class="step">04</text>
+<text x="1123" y="189" class="nt">Resultado de la revisión</text>
+<text x="1123" y="220" class="small">Quiero que me contacte un gestor</text>
+</a>
+<a xlink:href="../pantalla.html?s=contactar" target="_blank"><rect x="40" y="345" width="295" height="135" rx="14" fill="white" stroke="#d5d7dc" stroke-width="1"/>
+<text x="58" y="372" class="step">05</text>
+<text x="58" y="399" class="nt">Contacto del gestor</text>
+<text x="58" y="430" class="small">Dejar mis datos</text>
+</a>
+<a xlink:href="../pantalla.html?s=datos-contacto" target="_blank"><rect x="395" y="345" width="295" height="135" rx="14" fill="white" stroke="#c0392b" stroke-width="2"/>
+<text x="413" y="372" class="step">06</text>
+<text x="413" y="399" class="nt">Datos para el gestor</text>
+<text x="413" y="430" class="small">Solicitar contacto</text>
+</a>
+<a xlink:href="../pantalla.html?s=recibido" target="_blank"><rect x="750" y="345" width="295" height="135" rx="14" fill="white" stroke="#c0392b" stroke-width="2"/>
+<text x="768" y="372" class="step">07</text>
+<text x="768" y="399" class="nt">Solicitud recibida</text>
+<text x="768" y="430" class="small">Guardar en mi cuenta (opcional)</text>
+</a>
+<a xlink:href="../pantalla.html?s=registro" target="_blank"><rect x="1105" y="345" width="295" height="135" rx="14" fill="white" stroke="#d5d7dc" stroke-width="1"/>
+<text x="1123" y="372" class="step">08</text>
+<text x="1123" y="399" class="nt">Cuenta opcional</text>
+<text x="1123" y="430" class="small">Crear cuenta</text>
+</a>
+<a xlink:href="../pantalla.html?s=verificar" target="_blank"><rect x="40" y="555" width="295" height="135" rx="14" fill="white" stroke="#d5d7dc" stroke-width="1"/>
+<text x="58" y="582" class="step">09</text>
+<text x="58" y="609" class="nt">Verificar el email</text>
+<text x="58" y="640" class="small">Verificar y volver</text>
+</a>
+<a xlink:href="../pantalla.html?s=vinculando" target="_blank"><rect x="395" y="555" width="295" height="135" rx="14" fill="white" stroke="#d5d7dc" stroke-width="1"/>
+<text x="413" y="582" class="step">10</text>
+<text x="413" y="609" class="nt">Vincular el mismo chat</text>
+<text x="413" y="640" class="small">Comprobar</text>
+</a>
+<a xlink:href="../pantalla.html?s=retomado" target="_blank"><rect x="750" y="555" width="295" height="135" rx="14" fill="white" stroke="#c0392b" stroke-width="2"/>
+<text x="768" y="582" class="step">11</text>
+<text x="768" y="609" class="nt">Misma conversación</text>
+<text x="768" y="640" class="small">Ver conversaciones</text>
+</a>
+<a xlink:href="../pantalla.html?s=mensajes" target="_blank"><rect x="1105" y="555" width="295" height="135" rx="14" fill="white" stroke="#d5d7dc" stroke-width="1"/>
+<text x="1123" y="582" class="step">12</text>
+<text x="1123" y="609" class="nt">Mensajes con cuenta</text>
+<text x="1123" y="640" class="small">Abrir conversación</text>
+</a>
+<path class="edge" d="M335,202 H386"/>
+<path class="edge" d="M690,202 H741"/>
+<path class="edge" d="M1045,202 H1096"/>
+<path class="edge" d="M1253,270 V302 H188 V336"/>
+<path class="edge" d="M335,412 H386"/>
+<path class="edge" d="M690,412 H741"/>
+<path class="edge" d="M1045,412 H1096"/>
+<path class="edge" d="M1253,480 V512 H188 V546"/>
+<path class="edge" d="M335,622 H386"/>
+<path class="edge" d="M690,622 H741"/>
+<path class="edge" d="M1045,622 H1096"/>
+
+<text x="750" y="536" class="small">07 ya recibida; 08 a 11 son opcionales</text>
+<text x="65" y="125" class="small">Deeplink con APP instalada: entrada directa a 02</text>
+<text x="55" y="730" class="small">Sin cuenta: A8 Mensajes de instalación. Con cuenta: 12 Mensajes conserva el mismo chat (11).</text>
+<text x="40" y="770" class="nt">Alternativas y retornos</text>
+<text x="40" y="798" class="small">La cuenta es opcional. Cancelar el alta no cancela ni reenvía la solicitud recibida.</text>
+<a xlink:href="../pantalla.html?s=acceso" target="_blank"><rect x="40" y="835" width="295" height="150" rx="14" fill="white" stroke="#d5d7dc"/>
+<text x="56" y="863" class="step">A1</text>
+<text x="56" y="890" class="nt">Ya tengo cuenta</text>
+<text x="56" y="915" class="small">Accede sin crear otra cuenta. Vincula</text>
+<text x="56" y="934" class="small">el mismo chat sin reenviar la</text>
+<text x="56" y="953" class="small">solicitud al gestor.</text>
+</a>
+<a xlink:href="../pantalla.html?s=cancelado" target="_blank"><rect x="395" y="835" width="295" height="150" rx="14" fill="white" stroke="#d5d7dc"/>
+<text x="411" y="863" class="step">A2</text>
+<text x="411" y="890" class="nt">Seguir sin cuenta</text>
+<text x="411" y="915" class="small">Cancelar registro conserva el chat y</text>
+<text x="411" y="934" class="small">la solicitud ya recibida. El gestor</text>
+<text x="411" y="953" class="small">puede contactar igualmente.</text>
+</a>
+<a xlink:href="../pantalla.html?s=caducado" target="_blank"><rect x="750" y="835" width="295" height="150" rx="14" fill="white" stroke="#d5d7dc"/>
+<text x="766" y="863" class="step">A3</text>
+<text x="766" y="890" class="nt">Enlace caducado</text>
+<text x="766" y="915" class="small">La cuenta es opcional: el enlace</text>
+<text x="766" y="934" class="small">vencido no borra el chat ni cancela</text>
+<text x="766" y="953" class="small">la solicitud al gestor.</text>
+</a>
+<a xlink:href="../pantalla.html?s=revision" target="_blank"><rect x="1105" y="835" width="295" height="150" rx="14" fill="white" stroke="#d5d7dc"/>
+<text x="1121" y="863" class="step">A4</text>
+<text x="1121" y="890" class="nt">Revisión incompleta</text>
+<text x="1121" y="915" class="small">No se piden datos personales ni se</text>
+<text x="1121" y="934" class="small">ofrece contacto por un resultado</text>
+<text x="1121" y="953" class="small">insuficiente. Se continúa revisando.</text>
+</a>
+<a xlink:href="../pantalla.html?s=instalar" target="_blank"><rect x="40" y="1020" width="295" height="150" rx="14" fill="white" stroke="#d5d7dc"/>
+<text x="56" y="1048" class="step">A5</text>
+<text x="56" y="1075" class="nt">APP sin instalar</text>
+<text x="56" y="1100" class="small">Instalar y reabrir explícitamente el</text>
+<text x="56" y="1119" class="small">mismo enlace. No se presume</text>
+<text x="56" y="1138" class="small">continuación automática tras la</text>
+</a>
+<a xlink:href="../pantalla.html?s=restricciones" target="_blank"><rect x="395" y="1020" width="295" height="150" rx="14" fill="white" stroke="#d5d7dc"/>
+<text x="411" y="1048" class="step">A6</text>
+<text x="411" y="1075" class="nt">Trámites o gestor directo</text>
+<text x="411" y="1100" class="small">El contacto solicitado tras el canje</text>
+<text x="411" y="1119" class="small">no concede acceso al chat de gestor</text>
+<text x="411" y="1138" class="small">ni a expedientes protegidos.</text>
+</a>
+<a xlink:href="../pantalla.html?s=recuperacion" target="_blank"><rect x="750" y="1020" width="295" height="150" rx="14" fill="white" stroke="#d5d7dc"/>
+<text x="766" y="1048" class="step">A7</text>
+<text x="766" y="1075" class="nt">Recuperar el acceso</text>
+<text x="766" y="1100" class="small">Recuperación externa y retorno al</text>
+<text x="766" y="1119" class="small">acceso de la misma conversación. La</text>
+<text x="766" y="1138" class="small">solicitud ya recibida no depende de</text>
+</a>
+<a xlink:href="../pantalla.html?s=mensajes-visitante" target="_blank"><rect x="1105" y="1020" width="295" height="150" rx="14" fill="white" stroke="#d5d7dc"/>
+<text x="1121" y="1048" class="step">A8</text>
+<text x="1121" y="1075" class="nt">Mensajes sin cuenta</text>
+<text x="1121" y="1100" class="small">Sólo chats de esta instalación. Nueva</text>
+<text x="1121" y="1119" class="small">conversación está en Mensajes. Cuenta</text>
+<text x="1121" y="1138" class="small">opcional para otros dispositivos.</text>
+</a>
+<rect x="40" y="1210" width="1360" height="130" rx="14" fill="#181818"/>
+<text x="62" y="1242" style="fill:white;font-size:18px;font-weight:700">Tres reglas que se mantienen</text>
+<text x="62" y="1273" style="fill:#e5e7eb;font-size:16px">1. Primero requisitos e intención de contacto. Nombre y teléfono o email se piden sólo para el gestor.</text>
+<text x="62" y="1299" style="fill:#e5e7eb;font-size:16px">2. La solicitud se confirma como visitante. La cuenta se ofrece después para conservar el mismo chat.</text>
+<text x="62" y="1325" style="fill:#e5e7eb;font-size:16px">3. Los flujos Zoho convierten lead a contacto/trato; Cerrado ganado habilita trámites. Solicitud no es cita.</text>
+</svg>

@@ -170,3 +170,5 @@ que LidIA ya había creado y le notifica el pago con eventos firmados.
 ## Consumidor local APP frente a LidIA PRO — preparación 07/10/2026
 
 - [Namespace acordado y base/cuenta nuevas](2026-10-07-preparacion-portal-validacion-pro.md): consumidor preparado aparte del fixture, sin conexión ni turno hasta confirmar configuración fuente y Playground.
+
+- [Mapas de pantallas y flujo APP sin cuenta, con capturas para aprobación](../app/2026-10-10-mapas-pantallas-app-anonima.md). Propuesta visual del 10/10/2026; no implementada.

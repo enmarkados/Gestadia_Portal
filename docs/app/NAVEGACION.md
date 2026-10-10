@@ -75,11 +75,78 @@ flowchart TD
 
 El registro conectado explica el acceso compartido Portal/APP; no crea otra cuenta. Recuperación abre el navegador del sistema en nativo, o una pestaña separada en web. La demo permite explorar sin contraseña real. Ni cancelar ni Atrás efectúan logout o crean una conversación.
 
-### Recorrido solicitado el 10/10: LidIA sin cuenta (propuesta)
+### LidIA sin cuenta: mapas actualizados el 10/10 (propuesta)
 
-La [propuesta de acceso anónimo APP y vinculación](../integraciones/2026-10-10-propuesta-app-anonima-lidia.md) incorpora un mapa separado: deeplink/primera apertura → mismo chat sin cuenta → nombre y teléfono y/o email → sondeo → registro/acceso al querer agendar → vinculación → mismo chat → confirmación de llamada. Cancelar registro vuelve al sondeo y conserva el historial. Enlace directo tiene retorno de reserva a LidIA; abrirlo no crea conversaciones por duplicado. El registro gratuito no habilita expedientes ni chats de gestor.
+**Pendiente de aprobación e implementación.** El recorrido actual sigue autenticado. Esta revisión incorpora la corrección humana: **primero requisitos; contacto sólo tras resultado suficiente y voluntad de gestor; solicitud como visitante; cuenta opcional después para guardar el chat**. [Diagrama con capturas](2026-10-10-mapas-pantallas-app-anonima.md) · [Propuesta técnica](../integraciones/2026-10-10-propuesta-app-anonima-lidia.md) · [Contraste con LidIA](../integraciones/2026-10-10-contraste-portal-app-anonima.md).
 
-Este recorrido **todavía no está implementado**: el inventario y los diagramas anteriores describen el comportamiento actual, que exige cuenta en el chat conectado. La aceptación de la nueva navegación requiere pruebas de arranque frío/APP abierta, registro externo y retorno en iOS/Android.
+```mermaid
+flowchart TD
+  EXT[Enlace externo] --> INST{¿APP instalada?}
+  INST -->|Sí: abierta o cerrada| N[02 Habla con LidIA sin cuenta]
+  INST -->|No| TIENDA[A5 Instalar y reabrir el mismo enlace]
+  TIENDA --> N
+  HOME[01 Inicio LidIA] -->|Elegir canje| N
+  N --> Q[03 Preguntas sobre los requisitos del canje]
+  Q --> E{Resultado completo suficiente}
+  E -->|No, parcial o revisión humana| REV[A4 Seguir revisando sin pedir contacto]
+  REV --> Q
+  E -->|Sí| RES[04 Resultado y oferta de contacto]
+  RES -->|Seguir consultando| Q
+  RES -->|Quiero un gestor| C[05 Explicar la finalidad del contacto]
+  C --> D[06 Nombre y teléfono O email]
+  D -->|Confirmar como visitante| REC[07 Solicitud recibida por Portal]
+  D -->|Cancelar antes de enviar| Q
+  REC -->|Seguir sin cuenta| GM[A8 Mensajes de esta instalación]
+  Q -->|Pestaña Mensajes| GM
+  GM -->|Revisión en curso| Q
+  GM -->|Solicitud ya recibida| REC
+  GM -->|Nueva conversación| N
+  REC -->|Guardar chat: opcional| R[08 Crear cuenta]
+  REC -->|Ya tengo cuenta| LOGIN[A1 Acceso a cuenta existente]
+  R --> V[09 Verificar email y control de cuenta]
+  LOGIN -->|Cuenta verificada| LINK
+  V --> LINK[10 Vincular el mismo chat]
+  LINK -->|Confirmado| CHAT[11 Historial guardado en cuenta]
+  LINK -->|Respuesta incierta| LINK
+  CHAT --> M[12 Mensajes con cuenta]
+  M -->|Abrir chat| CHAT
+  M -->|Nueva conversación| N
+  R -->|Atrás o cancelar| CANCEL[A2 Seguir sin cuenta]
+  LOGIN -->|Cancelar| CANCEL
+  CANCEL -->|Solicitud intacta| REC
+  R -->|Enlace caducado| EXP[A3 Pedir otro enlace desde el mismo chat]
+  EXP --> REC
+  LOGIN --> FORGOT[A7 Recuperar contraseña en el portal]
+  FORGOT --> LOGIN
+  T[Trámites o chat directo de gestor sin cuenta] --> ACCESS[A6 Acceso protegido con Atrás al origen]
+  ACCESS --> HOME
+  REC -.-> CRM[Flujos Zoho: lead a contacto y trato]
+  Z[Zoho: Cerrado ganado] --> CLIENT[Correlacionar cuenta y habilitar trámites]
+```
+
+Un deeplink abre el chat sin pasar por Inicio o acceso. APP cerrada/abierta resuelve una sola entrada. Sin APP instalada se indica instalar y **reabrir el mismo enlace**; no se presume que la tienda conserve el contexto.
+
+| Pantalla / estado propuesto | Orígenes | Atrás / cancelar; reserva directa | Menú inferior | Al completar |
+|---|---|---|---|---|
+| 01 Inicio LidIA | Primera apertura / pestañas | Principal | Sí | Abrir canje o continuar chat propio |
+| 02 Consulta / 03 Preguntas | Deeplink / Inicio / Mensajes | Origen; LidIA si directo | Sí | Misma sesión; sin pedir nombre ni contacto |
+| 04 Resultado suficiente | Revisión completa del agente | Origen; conserva chat | Sí | Ofrecer gestor; no activar por país o human_review |
+| 05 Contacto / 06 Datos | Resultado suficiente y voluntad expresa | Chat; cancelar antes del envío | Sí | Nombre y teléfono O email, propósito y confirmación como visitante |
+| 07 Solicitud recibida | ACK durable de Portal | Chat / Mensajes | Sí | Cuenta opcional; solicitud no equivale a cita |
+| 08 Registro / A1 Acceso | Oferta de guardar chat tras la solicitud | Mismo chat; solicitud intacta | No; Atrás visible | Verificar cuenta y control de instalación original |
+| 09 Verificación de email | Registro opcional | Corregir email / registro | No; Atrás visible | No envía otra solicitud |
+| 10 Vinculación pendiente | Cuenta verificada | Recuperar misma operación; conservar contexto | No; retorno visible | Misma sesión, actor histórico y solicitud |
+| 11 Chat vinculado | Retorno del alta / Mensajes | Origen; LidIA si directo | Sí | Mismo historial recuperable en otros dispositivos |
+| 12 Mensajes con cuenta / A8 visitante | Pestaña | Principal | Sí | Filas compactas; Nueva conversación aquí, sin botón flotante en chat |
+| A2 Cancelación / A3 caducidad | Alta opcional | Chat original | Atrás visible | No cancela ni reenvía la solicitud recibida |
+| A4 Revisión incompleta | Resultado parcial/negativo/revisión humana | Origen; conserva respuestas | Sí | Seguir sin pedir contacto comercial |
+| A7 Recuperación de contraseña | Acceso opcional | Acceso con continuación | Atrás visible | Recuperación externa sin perder chat |
+| A6 Trámites / gestor directo | Pestaña / deeplink protegido | Acceso con retorno al origen | Según ruta | La solicitud de contacto no concede chat de gestor ni expedientes |
+| Legales / soporte | Chat / acceso / registro / cuenta | Pantalla exacta que abrió el documento | No; Atrás visible | Volver sin consumir la continuación |
+
+Las preguntas son estados del mismo chat. Atrás en su cabecera vuelve al origen; reabrir la fila recupera el estado alcanzado. Antes del envío se puede cancelar la intención; **cancelar el registro después no cancela la solicitud ya recibida**. La sesión identifica el recorrido y su pertenencia, sin acreditar una cuenta por coincidencia de teléfono/email.
+
+La cuenta gratuita no habilita expedientes. Los flujos Zoho convierten lead a contacto/trato y envían Cerrado ganado al backend Gestadia. El tablero es una maqueta declarada, no una ejecución de LidIA, registro real, agenda o iOS/Android.
 
 ## Cuenta, hojas y servicios
 

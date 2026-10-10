@@ -4,11 +4,13 @@
 
 ## Requisito recibido y resultado esperado
 
-El usuario pide entrar directamente a hablar con LidIA desde un deeplink, o tras descargar la APP, sin registro previo. LidIA recoge nombre y teléfono y/o email durante la conversación, como en el recorrido anterior. Si cumple y quiere agendar una llamada, se ofrece un enlace con token para registrarse y vincular **esa misma sesión** a su cuenta. Quien ya tenga cuenta puede iniciar sesión en el mismo recorrido.
+El usuario pide hablar con LidIA desde deeplink o tras descargar la APP sin registro previo. **Corrección humana del 10/10:** primero se comprueban los requisitos, sin pedir nombre/contacto. Sólo después de un resultado completo suficiente y voluntad expresa de gestor se solicitan nombre y teléfono **o** email para que le contacte.
 
-«Anónimo» significa **sin cuenta**; el sondeo sí puede contener datos de contacto declarados. Esos datos no prueban que el visitante sea titular de una cuenta existente. Registrar el acceso gratuito tampoco convierte al usuario en cliente con trámites habilitados.
+**Decisión humana confirmada:** enviar la solicitud como visitante; ofrecer la cuenta después, opcionalmente, para guardar y recuperar el mismo chat. Cancelar o fallar el registro no cancela ni reenvía una solicitud ya recibida. Solicitud de contacto, conversión CRM y cita confirmada son hechos separados.
 
-Alcance: canal/integración APP de LidIA y backend/consumidor Gestadia APP. No abre el chat Web o WhatsApp, el portal privado ni conversaciones de gestor a visitantes. El evento Zoho Cerrado ganado conserva su responsabilidad y su tratamiento independiente.
+La sesión mantiene el recorrido y su pertenencia. No es prueba de cuenta ni permite reclamar cuentas/chats por el teléfono/email escrito. Alta gratuita no convierte al usuario en cliente con expedientes.
+
+Alcance exclusivamente APP. No habilita Web/WhatsApp ni atención de expediente/gestor directo a visitantes. Los flujos Zoho convierten lead a contacto/trato y notifican Cerrado ganado directamente al backend Gestadia.
 
 ## Comprobación del código actual
 
@@ -36,30 +38,58 @@ La viabilidad en Portal requiere esas ampliaciones. La equivalencia del recorrid
 
 ```mermaid
 flowchart TD
-  E["Deeplink APP o primera apertura"] --> V["Habla con LidIA sin cuenta"]
-  V --> D["LidIA pregunta nombre y teléfono y/o email"]
-  D --> S["Sondeo en la misma conversación"]
-  S --> Q{"¿Quiere agendar y cumple?"}
-  Q -->|No| S
-  Q -->|Sí y sin cuenta| P["Registro pendiente; enlace de continuación"]
-  P --> R["Crear cuenta o iniciar sesión existente"]
-  R --> C["Verificar cuenta y control del recorrido original"]
-  C --> A["Vincular misma sesión; retirar acceso temporal"]
-  A --> H["Volver al mismo chat con historial y respuestas"]
-  H --> F["Confirmar solicitud de llamada"]
-  Q -->|Sí y cuenta válida| F
-  P -->|Cancelar o enlace caducado| S
-  Z["Zoho: Cerrado ganado"] --> T["Portal correlaciona cuenta y habilita trámite"]
-  A -.->|Cuenta existente, sin crear trámite| T
+  EXT[Enlace externo] --> INST{¿APP instalada?}
+  INST -->|Sí: abierta o cerrada| N[02 Habla con LidIA sin cuenta]
+  INST -->|No| TIENDA[A5 Instalar y reabrir el mismo enlace]
+  TIENDA --> N
+  HOME[01 Inicio LidIA] -->|Elegir canje| N
+  N --> Q[03 Preguntas sobre los requisitos del canje]
+  Q --> E{Resultado completo suficiente}
+  E -->|No, parcial o revisión humana| REV[A4 Seguir revisando sin pedir contacto]
+  REV --> Q
+  E -->|Sí| RES[04 Resultado y oferta de contacto]
+  RES -->|Seguir consultando| Q
+  RES -->|Quiero un gestor| C[05 Explicar la finalidad del contacto]
+  C --> D[06 Nombre y teléfono O email]
+  D -->|Confirmar como visitante| REC[07 Solicitud recibida por Portal]
+  D -->|Cancelar antes de enviar| Q
+  REC -->|Seguir sin cuenta| GM[A8 Mensajes de esta instalación]
+  Q -->|Pestaña Mensajes| GM
+  GM -->|Revisión en curso| Q
+  GM -->|Solicitud ya recibida| REC
+  GM -->|Nueva conversación| N
+  REC -->|Guardar chat: opcional| R[08 Crear cuenta]
+  REC -->|Ya tengo cuenta| LOGIN[A1 Acceso a cuenta existente]
+  R --> V[09 Verificar email y control de cuenta]
+  LOGIN -->|Cuenta verificada| LINK
+  V --> LINK[10 Vincular el mismo chat]
+  LINK -->|Confirmado| CHAT[11 Historial guardado en cuenta]
+  LINK -->|Respuesta incierta| LINK
+  CHAT --> M[12 Mensajes con cuenta]
+  M -->|Abrir chat| CHAT
+  M -->|Nueva conversación| N
+  R -->|Atrás o cancelar| CANCEL[A2 Seguir sin cuenta]
+  LOGIN -->|Cancelar| CANCEL
+  CANCEL -->|Solicitud intacta| REC
+  R -->|Enlace caducado| EXP[A3 Pedir otro enlace desde el mismo chat]
+  EXP --> REC
+  LOGIN --> FORGOT[A7 Recuperar contraseña en el portal]
+  FORGOT --> LOGIN
+  T[Trámites o chat directo de gestor sin cuenta] --> ACCESS[A6 Acceso protegido con Atrás al origen]
+  ACCESS --> HOME
+  REC -.-> CRM[Flujos Zoho: lead a contacto y trato]
+  Z[Zoho: Cerrado ganado] --> CLIENT[Correlacionar cuenta y habilitar trámites]
 ```
 
-La agenda permanece pendiente hasta que Portal y LidIA confirmen la vinculación. Registrar la cuenta **no ejecuta automáticamente** una llamada o reserva: al volver se retoma la intención y se confirma una única solicitud con la operación correspondiente. Cancelar, recargar o volver atrás no crea otro chat.
+La identidad previa permite consultar sin cuenta. El gate propuesto es `contact_request_allowed = can_continue && contact_requested`, validado por servidor con resultado completo/versionado, evidencia y voluntad expresa. La confirmación de contacto genera una única solicitud durable recuperable; Portal emite «recibida» sólo tras su ACK durable. No depende de registro, no convierte un lead ni reserva una cita por sí sola.
 
-LidIA debe conservar el resultado de cualificación y los datos declarados en su estado estructurado; no reconstruirlos leyendo texto generado. El usuario puede corregirlos. No se añadirá un formulario previo obligatorio que cambie el orden del agente sin acordarlo.
+LidIA debe conservar requisitos, resultado, datos declarados e intención como estado estructurado, no inferirlos leyendo texto generado. El runner actual sólo proyecta país y estados parciales; `human_review` no acredita «cumple». La señal propuesta `app.contact_request.ready` requiere esquema/transport/firma/ACK/reconciliación compartidos. No está implementada.
+
+Registrar después vincula el mismo chat, conserva actor histórico, event_id/intención/revisión y recibo, y no vuelve a entregar la solicitud. El contrato de agenda queda separado. [Mapas corregidos y capturas](../app/2026-10-10-mapas-pantallas-app-anonima.md).
 
 ## Identidad, permisos y continuidad
 
-1. Portal crea una identidad aleatoria previa a cuenta y una credencial revocable de instalación/sesión; conserva únicamente la huella del secreto. Tiene acceso a sus propios sondeos APP, envío, historial público y recibos, según la adenda. No admite case_ref, permisos de expediente, atención humana ni selección de agente/proyecto/entorno/CRM desde el móvil. El dato de contacto es al menos teléfono o email; nombre, formatos y límites se validan sin convertirlos en identidad autenticada. Antes de comenzar se informa del uso de esos datos y se mantienen accesibles privacidad y soporte.
+1. Portal crea una identidad aleatoria previa a cuenta y una credencial revocable de instalación/sesión; conserva únicamente la huella del secreto. Tiene acceso a sus propios sondeos APP, envío, historial propio y recibos, según la adenda; solicitud visitante de contacto sólo después del gate y confirmación, con permiso/DTO pendientes. No admite case_ref, permisos de expediente, atención humana ni selección de agente/proyecto/entorno/CRM desde el móvil. No se exige nombre/contacto para empezar. Al solicitar gestor se valida nombre y un canal con propósito y confirmación, sin convertirlos en identidad autenticada. Privacidad y soporte permanecen accesibles.
 2. La referencia de identidad conversacional debe permanecer estable durante el registro. Se añade la cuenta verificada a su asociación; no se copian mensajes ni se inicia otra ChatSession. Permanecen id público, ids de mensajes, revisiones, títulos, recibos y claves/resultados históricos de operación.
 3. Las operaciones posteriores a la vinculación se autentican con la sesión APP de cuenta. Las antiguas mantienen su huella y sujeto original: una misma petición reintentada no adquiere otra identidad ni ejecuta dos efectos por cambiar de principal.
 4. La lista de Mensajes muestra los chats accesibles al visitante de esa instalación, sin exponer historiales de otros visitantes. Después del registro, la cuenta recupera el chat vinculado también en otros dispositivos autenticados.
@@ -79,7 +109,7 @@ LidIA debe conservar el resultado de cualificación y los datos declarados en su
 
 La vinculación será una operación durable e idempotente con transición explícita: preparada → confirmada por LidIA → acceso de cuenta confirmado. Portal persiste antes del envío S2S y recupera respuesta perdida consultando/reintentando la **misma operación**. El orden transaccional concreto y los DTO se cerrarán con LidIA antes de implementar.
 
-Durante la transición se congela el envío temporal de la conversación afectada para evitar carreras; el historial se conserva y la UI muestra «Estamos vinculando tu conversación». Si falla el transporte, se mantiene recuperable y no se permite agendar, conceder ambos accesos ni crear una segunda sesión. Al confirmar, se consume el enlace y se retira todo acceso temporal a esa conversación. El reintento idéntico devuelve el mismo resultado; otro destino o una cuenta diferente se rechaza. Desactivar una cuenta no permite recuperar su chat reactivando el antiguo acceso anónimo.
+Durante la transición se congela el envío temporal de la conversación afectada para evitar carreras; el historial se conserva y la UI muestra «Estamos vinculando tu conversación». Si falla el transporte, se mantiene recuperable y no se permite conceder ambos accesos ni crear una segunda sesión. Una solicitud de contacto ya recibida conserva su resultado durante la transición; no se vuelve a enviar. Al confirmar, se consume el enlace y se retira todo acceso temporal a esa conversación. El reintento idéntico devuelve el mismo resultado; otro destino o una cuenta diferente se rechaza. Desactivar una cuenta no permite recuperar su chat reactivando el antiguo acceso anónimo.
 
 Si el usuario mantiene varios sondeos previos, la operación cubre inicialmente sólo la conversación indicada en el enlace. Cualquier ampliación para agruparlos debe tener un ámbito explícito; el token no reclama todos los chats automáticamente. La autorización temporal debe retirarse por conversación sin dejar accesible la vinculada ni inutilizar silenciosamente las restantes; se cerrará con LidIA si esto requiere sujetos independientes por sondeo o un vínculo de identidad con permisos por conversación. Hasta resolver ese alcance no se implementará una revocación global del visitante. El cambio de cuenta en una instalación tampoco comparte sus credenciales temporales con el siguiente usuario.
 
@@ -89,10 +119,10 @@ Si el usuario mantiene varios sondeos previos, la operación cubre inicialmente 
 |---|---|
 | Portal | Identidad previa a cuenta, API acotada, limitación de abuso/coste, alta gratuita y verificación, tokens de continuación, pertenencia, operación durable de vinculación y revocación. Conserva cuenta/credenciales compartidas APP–Portal. |
 | APP | Entrar sin login a LidIA, deeplinks verificados y retorno, Mensajes limitado al visitante, registro/acceso con continuación, aviso de transición/caducidad y misma conversación al terminar. |
-| LidIA | Aceptar identidad previa al registro sólo en APP, permisos/correlación diferenciados, captura estructurada, suspensión de agenda, contrato de vinculación idempotente y conservación del estado/historial/recibos. |
+| LidIA | Aceptar identidad previa al registro sólo en APP, permisos/correlación diferenciados, captura estructurada, gate de contacto diferido y señal hacia Portal, contrato de vinculación idempotente y conservación del estado/historial/recibos. |
 | Zoho | Sus propios POST de hechos CRM hacia Portal; no cambia el productor ni concede acceso por los datos autodeclarados del chat. |
 
-Solicitado a LidIA el 10/10/2026 en el chat «Gestadia_LidIA - Actualizar rama dev/IA/main»: viabilidad real, punto de agenda, contrato de identidad/vinculación, revocación, límites APP y reparto. Pendiente su respuesta escrita y contraste de DTO/estados. No existe todavía conformidad conjunta para esta adenda.
+Solicitado a LidIA el 10/10/2026 en el chat «Gestadia_LidIA - Actualizar rama dev/IA/main»: viabilidad real, punto de agenda, contrato de identidad/vinculación, revocación, límites APP y reparto. Respuesta escrita actualizada recibida en e3b663b59: [contraste](2026-10-10-contraste-portal-app-anonima.md). Conformidad de principios; DTO/firma/estados y aprobación humana pendientes.
 
 ## Deeplinks y navegación nativa
 
@@ -106,16 +136,16 @@ Fuentes técnicas primarias consultadas: [Capacitor App: appUrlOpen/getLaunchUrl
 
 ## Criterios de aceptación antes de activar
 
-1. APP recién instalada y sin cuenta: conversación real, nombre + teléfono **o** email, respuestas y recibos; ningún login exigido al empezar.
+1. APP recién instalada/sin cuenta: conversación real sin pedir datos personales al inicio. Sólo resultado completo suficiente + voluntad de gestor abre captura de nombre y teléfono **o** email. Confirmación visitante y ACK durable antes de ofrecer cuenta opcional.
 2. Deeplink con APP cerrada/abierta y sin instalar: recorrido correcto, un solo inicio, retorno seguro y contexto permitido; enlace manipulado no selecciona otro sujeto/agente.
 3. Registro nuevo y acceso existente: misma conversación, estado del sondeo y mensajes; visible después en otro dispositivo de la misma cuenta. Cuenta/contacto ajenos no pueden reclamarla.
-4. Enlace caducado, cancelación, doble consumo, dos cuentas concurrentes y respuesta S2S perdida: sin doble vinculación, duplicado de chat ni reserva. Previsualización GET sin efectos.
+4. Cancelar/caducar el alta conserva la solicitud recibida sin reenviarla. Enlace caducado, doble consumo, dos cuentas concurrentes y respuesta S2S perdida: sin doble vinculación, duplicado de chat ni reserva. Previsualización GET sin efectos.
 5. Credencial temporal anterior rechazada después de vincular; cuenta revocada no permite reentrada anónima al chat vinculado. Recibos no retroceden.
-6. Intentos anónimos de acceder a gestor, expedientes o Web/WhatsApp rechazados; registro no habilita trámites sin la autoridad comercial correspondiente.
+6. Solicitud de contacto visitante permitida sólo tras gate/confirmación; no otorga chat directo de gestor. Acceso anónimo a gestor protegido, expedientes o Web/WhatsApp rechazado; registro no habilita trámites sin la autoridad comercial correspondiente.
 7. Pruebas unitarias/API con base temporal, contrato compartido, ciclo conectado Portal–LidIA y recorridos reales en emuladores iOS/Android. Build o mocks por sí solos no cierran la aceptación.
 
 ## Estado de trabajo y despliegue
 
-Preparación aislada en `codex/app-anonimo-lidia`, desde el app/main indicado. Sólo documentación: no migraciones, cambio de permisos, registro real ni canales activados. El despliegue Portainer/Plesk ya solicitado sigue pendiente; esta propuesta debe reflejarse en su alcance y compatibilidad, sin presentar la versión actual como compatible con conversaciones anónimas.
+Preparación aislada en `codex/app-anonimo-lidia`, desde el app/main indicado. Sólo documentación y maquetas locales de revisión: no migraciones, cambio de permisos, registro real ni canales activados. El despliegue Portainer/Plesk ya solicitado sigue pendiente; esta propuesta debe reflejarse en su alcance y compatibilidad, sin presentar la versión actual como compatible con conversaciones anónimas.
 
 Antes de escribir código se cerrarán con LidIA el contrato y las responsabilidades y se presentará el diseño escrito para revisión, seguido del plan de implementación. Esta propuesta no sustituye la conformidad técnica de la fuente ni el resultado de una prueba real.

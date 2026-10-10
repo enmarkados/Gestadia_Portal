@@ -6,7 +6,7 @@
 
 El requisito humano se trasladó al chat «Gestadia_LidIA - Actualizar rama dev/IA/main» y se compartió el fichero de propuesta. LidIA entregó su respuesta escrita estable, incorporando las observaciones Portal sobre cola/abort y recuperación del inicio. Los puntos siguientes recogen ese contraste y el reparto acordado, sin presentarlos como contrato ejecutable aprobado.
 
-Procedencia de la copia: `/Users/gonchumon/.codex/worktrees/gestadia-app-conversacional/Gestadia_LidIA/docs/integraciones/2026-10-10-revision-lidia-app-anonima.md`, commit `97c0be28309d43ff688adb5ba629971ae71cf906`, rama `codex/app-anonimo-adenda-lidia`, sincronizada según entrega LidIA. SHA256 de fuente, blob Git y copia Portal: `e4176f7d4dd427419864564062938ae366bee437eff277eadaeb7d2ca20a5a21`. Se comprobó igualdad de bytes. Los enlaces relativos del documento copiado se interpretan en el repositorio LidIA original; se conserva intacto y no representa código Portal.
+Procedencia de la copia: `/Users/gonchumon/.codex/worktrees/gestadia-app-conversacional/Gestadia_LidIA/docs/integraciones/2026-10-10-revision-lidia-app-anonima.md`, commit `e3b663b59`, rama `codex/app-anonimo-adenda-lidia`, sincronizada según entrega LidIA. SHA256 de fuente, blob Git y copia Portal: `c127dfe73602bfc51e2e33f767fb8670de5fb7f527189bd5e8c3f2e178574c04`. Se comprobó igualdad de bytes. Los enlaces relativos del documento copiado se interpretan en el repositorio LidIA original; se conserva intacto y no representa código Portal.
 
 Portal revisó también el código fuente en la base LidIA `a4ab0c299d6afcddacf6ec5fcb9ce60c797c8e12`, mediante el grafo del worktree `gestadia-app-conversacional`:
 
@@ -34,7 +34,7 @@ La habilitación será explícita tanto en la integración LidIA como en el back
 1. **DTO/firma:** definir sujeto, actor y revisión de acceso en cada petición y operación. La referencia de cuenta procede del backend y nunca de campos libres del móvil. Separar metadatos de autorización actuales de la huella semántica histórica para recuperar una operación previa sin cambiar sus efectos.
 2. **Vinculación:** prueba de control de cuenta y recorrido original, destino único, transferencia confirmada, revocación temporal por conversación y recuperación tras respuesta perdida. Token de continuación de un uso; GET de un escáner no tiene efectos.
 3. **Carreras:** resolver turno en vuelo al vincular, versión antigua de acceso, lectura/ACK concurrente, dos cuentas y replay. No conceder ambos accesos ni cambiar el actor que consta en el ledger histórico. La revocación y lectura de resultados no pueden abrir historial de otro sujeto.
-4. **Contacto y viabilidad:** proyección validada de nombre y teléfono y/o email; fuente del resultado completo y señal estructurada de registro pendiente. No usar needs_human_review como prueba de «cumple» ni generar la URL de registro desde texto libre del modelo.
+4. **Contacto y viabilidad:** proyección validada de nombre y teléfono y/o email; fuente del resultado completo y gate estructurado de contacto diferido y solicitud visitante confirmada. La cuenta se ofrece después para guardar el chat; no es requisito de envío. No usar needs_human_review como prueba de «cumple» ni generar la URL de registro desde texto libre del modelo.
 5. **Agenda:** contrato de solicitud/recibo y autoridad del adaptador con Zoho; nada reserva por el mero hecho de registrarse. La confirmación de cita necesita evidencia del sistema de agenda y un único efecto recuperable.
 6. **Nativo y abuso:** deeplinks verificados, continuación explícita tras instalar, secretos protegidos, caducidad/retención, límites de creación/envío/coste y pruebas de accesos cruzados.
 
@@ -44,13 +44,19 @@ La revisión escrita LidIA propone protocolo v2 separado, fases prepare/commit/a
 
 - **Portal:** identidad y acceso previo a cuenta, alta/verificación gratuita, tokens/continuación, propiedad/revisión de acceso, operación de vinculación recuperable, API de solicitud de llamada y adaptación a agenda cuando se cierre con el responsable correspondiente.
 - **APP:** entrada directa al chat sin cuenta, navegación de registro/acceso y retorno al mismo chat, historial limitado al actor, recibos y estados comprensibles.
-- **LidIA:** identidad APP ampliada, asociación del actor con la misma sesión, proyección estructurada del sondeo y gate de registro, intento de llamada sin efectos CRM, conservación de operaciones/historial y acceso por revisión vigente.
+- **LidIA:** identidad APP ampliada, asociación del actor con la misma sesión, proyección estructurada completa del sondeo, gate de contacto y señal de solicitud visitante sin efectos CRM, conservación de operaciones/historial y acceso por revisión vigente.
 - **Responsable Zoho/agenda:** confirmar receptor/adaptador y resultados operativos; sus flujos de Cerrado ganado siguen enviando los hechos directamente al backend Gestadia.
 
 ## Estado verificable
 
-Portal ha creado el worktree `app-anonimo-lidia`, rama `codex/app-anonimo-lidia`, con [PR11 en borrador](https://github.com/enmarkados/Gestadia_Portal/pull/11). No se ha incorporado esta propuesta a app/main ni se han escrito cambios de producto, migraciones o permisos. Verificación documental: enlaces locales de los documentos Portal, bloques Mermaid, git diff --check e igualdad de bytes de la respuesta LidIA; no sustituye pruebas API, conversación o dispositivos.
+Portal ha creado el worktree `app-anonimo-lidia`, rama `codex/app-anonimo-lidia`, con [PR11 en borrador](https://github.com/enmarkados/Gestadia_Portal/pull/11). No se ha incorporado esta propuesta a app/main. Se añadieron maquetas locales y capturas para revisión; sin cambios de producto, migraciones o permisos. Verificación documental: enlaces locales de los documentos Portal, bloques Mermaid, git diff --check e igualdad de bytes de la respuesta LidIA; no sustituye pruebas API, conversación o dispositivos.
 
 **Cierre de esta revisión:** ambos equipos consideran viable el recorrido y aceptan el reparto y el modelo de identidad en principio. Antes de implementar faltan revisión humana del diseño, plan de ejecución y cierre de esquemas/vectores del protocolo v2; la cualificación completa y la agenda operativa conservan sus dependencias expresas. No se declara conformidad técnica final ni disponibilidad del acceso anónimo.
 
 El despliegue Portainer/Plesk solicitado previamente conserva su alcance propio. La versión aceptada anterior puede publicarse separadamente, sin presentarla como compatible con este recorrido nuevo. La ampliación anónima requiere contrato, implementación y validación específicos antes de activar su opción.
+
+## Corrección humana incorporada a ambas propuestas
+
+Primero requisitos sin datos personales. Sólo `can_continue` completo + `contact_requested` permite pedir nombre y teléfono O email con propósito/confirmación. Portal recibe una SOLICITUD durable como visitante. La cuenta es opcional y posterior; cancelar el alta no cancela ni reenvía lo recibido. Registro y vínculo conservan event_id, intención/revisión y actor original.
+
+La señal `app.contact_request.ready` y permiso visitante son propuestas v2. Faltan reglas completas del sondeo, DTO/firma/transporte/ACK/reconciliación. El runner actual no acredita un resultado positivo completo: human_review no abre el gate. Los flujos Zoho conservan conversión lead–contacto/trato; LidIA no la ejecuta. Los [mapas y capturas corregidos](../app/2026-10-10-mapas-pantallas-app-anonima.md) se entregan para revisión humana antes de implementar.

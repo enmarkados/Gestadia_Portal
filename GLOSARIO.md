@@ -918,3 +918,24 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** Facultades de una integración para solicitar una vinculación y recuperar su resultado durable. No conceden por sí solas acceso al historial de una conversación.
 - **Alcance:** revisión LidIA y contraste `docs/integraciones/2026-10-10-contraste-portal-app-anonima.md`; futura adenda APP v2.
 - **Notas:** No emitidas ni activadas. Cada petición debe validar también actor, conversación, destino y revisión vigente; nunca se entregan al cliente móvil.
+
+## Tablero visual de revisión APP
+
+- **Tipo:** concepto de documentación de producto.
+- **Definición:** conjunto de mapas y capturas navegables que muestra el recorrido visible antes de aprobar un cambio de producto; distingue pantallas actuales de propuestas.
+- **Alcance:** `docs/app/prototipos/lidia-anonima/` y documentación de revisión del recorrido APP sin cuenta.
+- **Notas:** las maquetas no representan disponibilidad del backend, registro real, reserva de agenda ni aceptación nativa.
+
+## Contacto para gestor tras cualificación APP
+
+- **Tipo:** decisión de recorrido propuesta, corregida por el usuario el 10/10/2026.
+- **Definición:** Recogida de nombre y teléfono o email sólo después del resultado suficiente del canje y de que el visitante solicite contacto de un gestor. La sesión permite continuar la consulta antes de disponer de esos datos, sin autenticar una cuenta.
+- **Alcance:** propuesta APP anónima, mapas de `docs/app/NAVEGACION.md` y maquetas de `docs/app/prototipos/lidia-anonima/`; contrato Portal/LidIA/Zoho pendiente.
+- **Notas:** Sustituye la recogida al inicio del chat. La conversión lead a contacto/trato corresponde a los flujos Zoho; una solicitud de contacto no equivale a una cita confirmada ni a permisos de cliente.
+
+## contact_request_allowed / app.contact_request.ready
+
+- **Tipo:** gate y señal de integración propuestos para APP v2.
+- **Definición:** `contact_request_allowed` exige resultado completo suficiente (`can_continue`) y voluntad expresa (`contact_requested`). `app.contact_request.ready` representa la solicitud confirmada para entregar a Portal, con evidencia, intención y revisión identificables.
+- **Alcance:** propuesta y contraste en `docs/integraciones/2026-10-10-*.md`; futura proyección LidIA y receptor Portal. No implementados.
+- **Notas:** No se habilitan por país, human_review o registro. La solicitud se envía como visitante; la cuenta se ofrece después para guardar el mismo chat. `registration_required` queda limitado a otras operaciones que realmente exijan cuenta; no bloquea esta solicitud. Registro/cancelación del alta no reenvían ni cancelan una solicitud recibida.

@@ -48,3 +48,5 @@ Diseño de Mensajes y comprobaciones de la lista compacta: [Mensajes](docs/app/M
 [Plan de diseño de todas las pantallas y cobertura](docs/app/PLAN-DISENO-APP.md).
 
 [Crear una nueva conversación con LidIA: contrato, recorrido y verificación](docs/app/2026-10-08-nueva-conversacion-lidia.md).
+
+- [Mapas de pantallas y flujo APP sin cuenta, con capturas para aprobación](docs/app/2026-10-10-mapas-pantallas-app-anonima.md). Propuesta visual del 10/10/2026; no implementada.
