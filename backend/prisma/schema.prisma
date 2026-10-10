@@ -243,6 +243,28 @@ model AccountDeletionRequest {
   requestedAt DateTime @default(now())
   completedAt DateTime?
   @@index([status, requestedAt])
+  result Json?
+  contactEmailEncrypted String? @db.Text
+  notificationStatus String @default("not_ready")
+  notificationClaimId String?
+  notificationLockedUntil DateTime?
+  notificationAttempts Int @default(0)
+  notificationNextAttempt DateTime?
+  retainedDataEncrypted String? @db.LongText
+  reviews AccountDeletionReview[]
+}
+
+model AccountDeletionReview {
+  id String @id @default(uuid())
+  requestId String
+  request AccountDeletionRequest @relation(fields: [requestId], references: [id])
+  action String @default("review")
+  actorRef String
+  authorityRef String
+  inventoryHash String
+  decision Json
+  createdAt DateTime @default(now())
+  @@index([requestId, createdAt])
 }
 
 model AppDeviceSession {

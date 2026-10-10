@@ -1057,3 +1057,33 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** el enrutador de la APP utiliza rutas web directas en navegador y rutas hash dentro del paquete nativo.
 - **Alcance:** frontend/app/src/main.jsx.
 - **Notas:** preserva el enrutamiento nativo de Capacitor y permite abrir las URLs públicas /legal desde las tiendas; el fallback Nginx sirve el documento raíz y los recursos usan rutas desde la raíz.
+
+### Resultado y comunicación de AccountDeletionRequest
+- **Tipo:** propiedades de entidad / concepto operativo.
+- **Definición:** resultado trazable de la solicitud de baja, con categorías eliminadas o motivos pendientes, y destino temporal cifrado para comunicar su resolución.
+- **Alcance:** backend/prisma/schema.prisma, backend/src/services/account-deletion.js y docs/legal/OPERACION-BAJA.md.
+- **Notas:** completed y completedAt acreditan ejecución; no sustituyen la revisión de conservación ni recibos de terceros. El destino de respuesta se retira tras aceptación del envío; no se considera prueba de recepción en buzón.
+
+### pendingActions de baja / comunicación con lease
+- **Tipo:** propiedades de resultado / concepto runtime.
+- **Definición:** motivos que impiden completar una baja y reserva temporal del envío de su resolución. service_retention_review identifica expedientes por revisar; remote_data_review identifica correlaciones externas por resolver; apple_revocation y app_access_revocation requieren sus actuaciones confirmadas.
+- **Alcance:** backend/src/services/account-deletion.js y AccountDeletionRequest.notificationStatus, notificationClaimId, notificationLockedUntil, notificationAttempts, notificationNextAttempt.
+- **Notas:** pending_review permanece mientras exista un motivo; accepted describe aceptación SMTP, no recepción en buzón. Un fallo de comunicación no rehabilita una cuenta eliminada ni anuncia un envío inexistente.
+
+### AccountDeletionReview / revisión de baja
+- **Tipo:** entidad / concepto operativo.
+- **Definición:** decisión operativa registrada con responsable y referencia de autorización sobre categorías concretas de datos a conservar y actuaciones remotas acreditadas. Su huella liga la revisión al inventario examinado.
+- **Alcance:** backend/prisma/schema.prisma, backend/src/services/account-deletion-review.js y backend/scripts/account-deletion.mjs.
+- **Notas:** no procede del dispositivo ni de un endpoint público; una nueva dependencia deja la decisión anterior sin cobertura. No se infiere una obligación legal para todos los expedientes.
+
+### Archivo restringido de baja
+- **Tipo:** propiedad de entidad / concepto de conservación.
+- **Definición:** campos de servicio expresamente seleccionados en una revisión de baja, cifrados y separados del perfil de cuenta eliminado, con categoría, fundamento y plazo o criterio registrados.
+- **Alcance:** AccountDeletionRequest.retainedDataEncrypted y herramienta privada de operación de baja.
+- **Notas:** las credenciales y asociaciones sociales nunca se incluyen; los documentos conservados permanecen en los expedientes. La lectura operativa queda registrada y no se expone a la APP ni al Portal.
+
+### verified_intake de baja externa
+- **Tipo:** acción operativa registrada.
+- **Definición:** alta privada de una solicitud recibida por soporte, tras comprobar titularidad y registrar la referencia de esa comprobación y su responsable.
+- **Alcance:** account-deletion.js, AccountDeletionReview.action y backend/scripts/account-deletion.mjs.
+- **Notas:** un correo o un identificador enviados anónimamente no autorizan la ejecución; no existe endpoint público que acepte esta declaración.

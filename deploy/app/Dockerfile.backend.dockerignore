@@ -6,6 +6,8 @@
 !backend/src/**
 !backend/prisma/
 !backend/prisma/**
+!backend/scripts/
+!backend/scripts/account-deletion.mjs
 !shared/
 !shared/**
 !deploy/

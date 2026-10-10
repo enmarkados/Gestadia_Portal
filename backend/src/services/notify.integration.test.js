@@ -36,4 +36,19 @@ test("productor Portal conserva email y bandeja y genera entrega durable por dis
   await assert.rejects(failing.notify({ userId: user.id, titulo: "Rollback", cuerpo: "Prueba" }), /fixture_commit_failure/);
   assert.equal(await db.notificacion.count({ where: { userId: user.id } }), 1);
   assert.equal(await db.pushDelivery.count({ where: { notificationId: notice.id } }), 1);
+  let attempts = 0;
+  const retrying = createPushService({ db: { $transaction: (fn, options) => db.$transaction(async tx => {
+    const result = await fn(tx);
+    if (attempts++ === 0) throw Object.assign(new Error("fixture_deadlock"), { code: "P2034" });
+    return result;
+  }, options) }, enabled: true });
+  await retrying.notify({ userId: user.id, titulo: "Reintento", cuerpo: "Una sola fila" });
+  assert.equal(attempts, 2);
+  assert.equal(await db.notificacion.count({ where: { userId: user.id } }), 2);
+  const sentBeforeWithdrawal = mails.length;
+  await db.user.update({ where: { id: user.id }, data: { accountStatus: "deleted", accessRevokedAt: new Date() } });
+  // El productor aún tiene un objeto anterior a la baja: la decisión usa la DB viva.
+  await notifyUser(user, { titulo: "Aviso tardío", cuerpo: "No entregar" });
+  assert.equal(await db.notificacion.count({ where: { userId: user.id } }), 2);
+  assert.equal(mails.length, sentBeforeWithdrawal);
 });

@@ -86,15 +86,16 @@ if (mobileConfig.enabled && mobileConfig.push.enabled) {
     process.on(signal, () => clearInterval(worker));
 }
 
-import { processAppleRevocations } from "./services/account-deletion.js";
+import { accountDeletion, processAppleRevocations } from "./services/account-deletion.js";
 if (mobileConfig.enabled) {
-  const worker = setInterval(
-    () =>
-      processAppleRevocations().catch(() =>
-        console.error("[apple] revocación pendiente"),
-      ),
-    60000,
-  );
+  let running = false;
+  const worker = setInterval(async () => {
+    if (running) return;
+    running = true;
+    try { await processAppleRevocations(); await accountDeletion.runPending(); }
+    catch { console.error("[baja] actuación pendiente"); }
+    finally { running = false; }
+  }, 60000);
   worker.unref();
   for (const signal of ["SIGTERM", "SIGINT"])
     process.on(signal, () => clearInterval(worker));

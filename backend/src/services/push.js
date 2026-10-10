@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { accountTransaction } from "../app/store.js";
 import { digest } from "./mobile-crypto.js";
 const denied = () => {
   throw Object.assign(new Error("Sesión móvil o dispositivo no válido"), {
@@ -27,7 +28,7 @@ export function createPushService({
       s.userId !== actor.user.id ||
       s.revokedAt ||
       s.expiresAt <= now() ||
-      s.user.accessRevokedAt
+      s.user.accessRevokedAt || s.user.accountStatus !== "active"
     )
       denied();
     return s;
@@ -48,7 +49,7 @@ export function createPushService({
         input.token.length > 4096
       )
         denied();
-      return db.$transaction(async (tx) => {
+      return accountTransaction(db, actor.user.id, async (tx) => {
         const session = await validSession(tx, actor);
         const transport = session.platform === "ios" ? "apns" : "fcm";
         if (
@@ -108,7 +109,9 @@ export function createPushService({
       });
     },
     async notify(data) {
-      return db.$transaction(async (tx) => {
+      return accountTransaction(db, data.userId, async (tx) => {
+        const user = await tx.user.findUnique({ where: { id: data.userId } });
+        if (!user || user.accessRevokedAt || user.accountStatus !== "active") return null;
         const notification = await tx.notificacion.create({ data });
         if (enabled) {
           const devices = await tx.pushDevice.findMany({

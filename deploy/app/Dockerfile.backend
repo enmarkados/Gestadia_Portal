@@ -5,6 +5,7 @@ COPY backend/package.json backend/package-lock.json ./
 COPY backend/prisma ./prisma
 RUN npm ci --omit=dev
 COPY backend/src ./src
+COPY backend/scripts/account-deletion.mjs ./scripts/account-deletion.mjs
 COPY shared /workspace/shared
 RUN mkdir -p uploads && chown node:node uploads
 ARG VCS_REF=local

@@ -31,7 +31,7 @@ Se dispone de copia previa de DB restaurada y dos migraciones móviles comprobad
 | Identidad y push común | Verificado localmente | 204 backend + 165 frontend; proveedores reales pendientes |
 | Docker APP/web/Portal/backend | Verificado localmente | 3 imágenes AMD64 y runtime de prueba; importación y mounts reales pendientes |
 | Datos y LidIA | En curso | Documentos y contenido conectados localmente; LidIA real pendiente |
-| Privacidad/baja | En curso | Criterio confirmado; textos autorizados a Codex, ejecución de borrado pendiente |
+| Privacidad/baja | Verificado localmente | Textos conectados y procesador de baja probados; operaciones de producción y proveedores reales pendientes |
 | Despliegue | Pendiente | Gates previos |
 | Firma/distribución | Pendiente | Release exacta en TestFlight/Play |
 | Aceptación nativa | Pendiente | Emuladores uno por vez; iPhone físico |
@@ -56,3 +56,11 @@ Portainer consultado de nuevo: sesión Codex activa como gonzalo, entorno local 
 Privacidad compartida entre web/Portal/APP, términos y soporte conectados y URL pública de baja sin login, con mailto explícito. Demo conserva alcance local. Pruebas frontend 168/168, APP y web builds correctos. Navegador observó baja y navegación a privacidad, y política web completa; sin enviar correo ni baja real.
 
 La entrada directa detectó splash por recursos relativos y navegación hash web que mostraba Inicio. Corregido: recursos desde raíz, BrowserRouter en web y HashRouter conservado en nativo. Prueba de scripts/estilos/imagen de arranque para cuatro URLs: 1/1 (entradas-directas-green.log); validación visual local de /legal/delete-account completada. El cambio de recursos/enrutador nativo se comprobará también con los builds de Task 8/9. Textos y fuentes: docs/legal/PRIVACIDAD-Y-BAJA-APP-PORTAL.md. La eliminación remota efectiva sigue pendiente de Task 6.
+
+## Baja ejecutada en aislamiento
+
+Procesador y herramienta privada implementados según [operación de baja](../legal/OPERACION-BAJA.md). Cuenta sin dependencias: perfil y credenciales eliminados, sesiones/asociaciones/push/bandeja retirados, referencia mínima de solicitud y cuenta inutilizable. Cuenta con expediente: revisión explícita ligada al inventario vivo; decisión de conservación concreta, campos retenidos cifrados fuera del perfil y lectura operativa auditada. No se purgan documentos del servicio automáticamente.
+
+Revocación Apple fallida conserva el token para reintentar e impide completar. Comunicación del resultado con cinco intentos, recuperación de reserva agotada, aceptación SMTP requerida y destino cifrado retirado después del envío. Titularidad externa requiere comprobación y referencia operativa privada. Un productor con usuario antiguo no recrea bandeja ni inicia correo para una cuenta ya retirada; creación push y baja se serializan por cuenta. Las suites por archivo comparten DB y ejecutan workers globales: ahora se ejecutan secuencialmente, manteniendo pruebas explícitas de concurrencia dentro de cada caso.
+
+GREEN final `baja-completa-green.log`: 208 backend, 168 frontend, cero fallos/omisiones, build APP. Casos y terceros ficticios; no correo externo, baja de producción ni decisión legal sobre expedientes reales. Nueva migración 20261010102000_account_deletion_execution pendiente de restauración/migración en Task 7. Fichas/declaraciones de tiendas se completarán sobre el comportamiento real de release.

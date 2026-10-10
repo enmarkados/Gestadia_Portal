@@ -102,10 +102,10 @@
 **Interfaces:** solicitud autorizada pasa de pending_review a un resultado verificable de eliminación/conservación; revoca Apple y accesos APP/Portal/LidIA, informa al usuario. La URL pública permite pedir baja sin reinstalar la app.
 
 - [x] Leer política publicada, recibir criterio confirmado y autorización de textos a Codex.
-- [ ] Elaborar inventario de datos/terceros y conservación por categoría.
-- [ ] RED: solicitud autenticada reciente, prueba de titularidad web, reintentos, confirmación y retirada de acceso; no borrar expedientes retenidos sin regla validada.
-- [ ] Implementar procesador con estados/resultado trazables y coordinación de proveedores; introducir cualquier naming nuevo inmediatamente en GLOSARIO.
-- [ ] GREEN en cuentas/DB de prueba: baja ejecutada, conservación documentada y URL pública funcional. No purgar usuarios de producción como prueba.
+- [x] Elaborar inventario de datos/terceros y conservación por categoría; operación privada documentada en docs/legal/OPERACION-BAJA.md.
+- [x] RED: solicitud autenticada reciente, prueba de titularidad web, reintentos, confirmación y retirada de acceso; expediente sin revisión no se elimina; productor tardío no debe recrear avisos.
+- [x] Implementar procesador con estados/resultado trazables y coordinación de proveedores; revisión operativa, huella viva, archivo restringido y naming inmediato en GLOSARIO.
+- [x] GREEN en cuentas/DB de prueba: 208 backend/168 frontend, baja ejecutada, conservación documentada, Apple/reintentos y URL pública funcional. No se purgan usuarios de producción como prueba.
 - [ ] Commit y completar declaraciones Apple/Google con los datos realmente tratados.
 
 ### Task 7: Migración validada y corte Docker
