@@ -6,11 +6,11 @@
 
 **Architecture:** módulo v2 separado en Express/Prisma, con credencial de instalación y asociación por chat. Portal conserva operaciones y solicitudes antes de HTTP; LidIA mantiene el ledger remoto, revisión vigente, binding y ACK. React sólo consume Portal. No hay conversión CRM o agenda en este módulo.
 
-**Precisión humana posterior:** la pasarela transmite mensajes al agente 119 y muestra su respuesta. Las preguntas y decisiones pertenecen al agente; no crear un cuestionario/calificador/catálogo paralelo ni condicionar el transporte a ese catálogo. Texto como base y respuestas dinámicas opcionales. Esta decisión se comprobó directamente y se registra en la coordinación enlazada. Las operaciones de contacto consumen acciones del agente y conservan sus requisitos de identidad/confirmación.
+**Precisión humana posterior:** la pasarela transmite mensajes al agente 119 y muestra su respuesta. Las preguntas y decisiones pertenecen al agente; no crear un cuestionario/calificador/catálogo paralelo ni condicionar el transporte a ese catálogo. Texto como base y respuestas dinámicas opcionales. Esta decisión se comprobó directamente y se registra en la coordinación enlazada. Las operaciones de contacto conservan sus requisitos de identidad/confirmación, pero wire r3 las reserva y aplaza: quedan fuera de las rutas y capacidades de esta entrega.
 
 **Tech Stack:** Node ≥22.5, Express 4, Prisma 6/MySQL 8, AJV 8, React/Vite, Vitest y harness MySQL temporal existente.
 
-**Spec:** [coordinación y autorización](../../integraciones/2026-10-10-coordinacion-portal-contrato-v2.md), [propuesta Portal](../../integraciones/2026-10-10-propuesta-app-anonima-lidia.md), [revisión LidIA histórica](../../integraciones/2026-10-10-revision-lidia-app-anonima.md), [mapas](../../app/2026-10-10-mapas-pantallas-app-anonima.md), [glosario](../../../GLOSARIO.md). Antes del bloque 2 se añadirá el contrato ejecutable recibido con SHA; no existe todavía esa entrega.
+**Spec:** [coordinación y autorización](../../integraciones/2026-10-10-coordinacion-portal-contrato-v2.md), [contraste vigente del wire r3](../../integraciones/2026-10-10-contraste-portal-wire-v2-r3.md), [propuesta Portal](../../integraciones/2026-10-10-propuesta-app-anonima-lidia.md), [revisión LidIA histórica](../../integraciones/2026-10-10-revision-lidia-app-anonima.md), [mapas](../../app/2026-10-10-mapas-pantallas-app-anonima.md), [glosario](../../../GLOSARIO.md). Se recibieron wire r3, requests schema y seis vectores con SHA comprobados; el contrato de respuestas sigue en revisión conjunta.
 
 ## Global Constraints
 
@@ -50,11 +50,14 @@
 
 **Interfaces locales propuestas:** `AppS2SClientV2.call(capability, method, path, authority, dto, options)`; `authority` tiene sujeto/actor/revisión según esquema recibido. Devuelve status y dato validado. Los nombres del DTO remoto se toman del artefacto, no de este plan.
 
-- [ ] Copiar bytes del artefacto y comprobar SHA; registrar procedencia en coordinación.
+- [x] Copiar bytes del artefacto y comprobar SHA; registrar procedencia en coordinación.
 - [ ] RED: todos los vectores canónicos, GET sin cuerpo, query alterada, sujeto/actor/revisión alterados, esquema abierto, >32KiB, redirects/destino móvil, secret/key ausentes, flags off y ninguna caída a v1.
 - [ ] Ejecutar `node --test backend/src/app/v2/s2s.test.js backend/src/app/v2/contracts.test.js` y observar los fallos por ausencia del consumidor.
-- [ ] Implementar cliente/validadores aislados con allowlist exacta y configuración explícita; no cambiar `backend/src/app/s2s.js` ni `identity.js` v1.
-- [ ] GREEN y regresión de firma/identidad v1; commit/push del bloque con resultado por vector.
+- [x] Implementar cliente/validadores aislados con allowlist exacta y configuración explícita; no cambiar `backend/src/app/s2s.js` ni `identity.js` v1.
+- [x] GREEN observado para seis vectores recibidos y 63 pruebas stateless, incluidas 32 de firma v1; harness final 209 backend, 152 frontend y build APP correctos. Los RED observados y correcciones están en el contraste r3.
+- [ ] Completar la prueba específica de rotación v2 conservando bytes de negocio e idempotencia; hallazgo menor pendiente de revisión.
+- [ ] Aceptar esquemas cerrados de respuestas con LidIA y conectar sus validadores. La propuesta r1 es sólo documental; ahora cada llamada exige un validador explícito antes de HTTP.
+- [ ] Integrar este cliente con autoridad persistida y rutas; sólo después de las entradas de bloques 3/4. Commit/push de la preparación no acredita esa integración.
 
 ## Bloque 3 — Instalación y asociaciones propias
 
@@ -82,9 +85,11 @@
 - [ ] Implementar tokens hasheados de un uso, control original y ledger de fases; congelar cambios inciertos y reconciliar antes de commit/abort. No modificar recibos/actores previos.
 - [ ] GREEN y probar cancelación del alta con solicitud intacta; commit/push.
 
-## Bloque 5 — Solicitud durable y ACK
+## Bloque 5 — Solicitud durable y ACK (aplazado por wire r3)
 
-**Entrada:** acción de contacto emitida por el agente y contrato de GET/ACK publicado, incluida la decisión atómica ante revisión/cancelación concurrentes. Portal no reevalúa requisitos ni fabrica un positivo operativo. No añadir un catálogo de canje como dependencia; el transporte de texto al 119 es independiente de este bloque.
+**Estado vigente:** reservado y fuera de las capacidades/rutas de la primera entrega. El siguiente diseño se conserva para revisión futura; no ejecutarlo a partir de los vectores reservados.
+
+**Entrada futura:** acción de contacto emitida por el agente y contrato de GET/ACK publicado, incluida la decisión atómica ante revisión/cancelación concurrentes. Portal no reevalúa requisitos ni fabrica un positivo operativo. No añadir un catálogo de canje como dependencia; el transporte de texto al 119 es independiente de este bloque.
 
 **Files:** crear `backend/src/app/v2/contactRequests.js`, `contactRequests.test.js`; `AppContactRequest` y migración aditiva; rutas v2 y proyección de solicitud propia.
 
@@ -109,8 +114,10 @@
 
 ## Estado de ejecución
 
-10/10/2026: **sólo bloque 1 en preparación**. No hay implementación v2 Portal, nuevas tablas, API o flags activados. Los bloques 2–6 tienen condiciones de entrada explícitas; sus interfaces y rutas locales deberán quedar concretadas en el plan al recibir los artefactos antes de ejecutar sus tests. Esto no presenta un plan incompleto como código listo para activar.
+10/10/2026: **bloque 1 documental entregado y transporte/requests del bloque 2 implementados en la rama aislada** `codex/app-v2-guest-portal`. Requests/schema/vectores son copias exactas; r3 y la matriz posterior excluyen contacto y fijan la revisión exacta de binding. Pasan 63 pruebas stateless y el harness final: 209 backend, 152 frontend y build APP. Revisión independiente sin Critical/Important.
 
-Verificación histórica de esta entrega documental: 114 enlaces locales válidos, `git diff --check` y ausencia de cambios de producto respecto a 7bfa689. No se ejecutó una suite funcional para acreditar una implementación inexistente. La precisión humana posterior elimina la exigencia de un catálogo paralelo: Portal transmite al agente y consume sus respuestas/acciones.
+El bloque 2 sigue pendiente de respuestas aceptadas e integración con autoridad real; queda una prueba menor de rotación v2. Las respuestas r1 propuestas no se importan en runtime. **Bloques 3/4/6 pendientes; bloque 5 aplazado.** No hay nuevas tablas, rutas v2 montadas, flags activados, merge funcional a app/main, despliegue ni prueba real del agente 119 por esta entrega. Ver [procedencia, evidencia y límites](../../integraciones/2026-10-10-contraste-portal-wire-v2-r3.md).
+
+Verificación histórica del bloque 1 documental: 114 enlaces locales válidos, `git diff --check` y ausencia de cambios de producto respecto a 7bfa689. No se ejecutó una suite funcional para acreditar una implementación inexistente. La precisión humana posterior elimina la exigencia de un catálogo paralelo: Portal transmite al agente y consume sus respuestas/acciones.
 
 Recibido después el borrador [wire r1](../../integraciones/2026-10-10-app-v2-wire-lidia-r1.md), con [revisión Portal P1–P4](../../integraciones/2026-10-10-revision-portal-wire-v2-r1.md). Se conserva como snapshot de trabajo exacto; no sustituye la entrada de schema/vectores/SHA de entrega requerida por el bloque 2.

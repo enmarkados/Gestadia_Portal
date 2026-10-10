@@ -1009,3 +1009,28 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** La APP envía los mensajes del usuario a Portal, que los transmite a la plataforma LidIA para recibir y mostrar las respuestas del agente 119. Las preguntas y decisiones de canje pertenecen al agente; la pasarela gestiona transporte, identidad y continuidad.
 - **Alcance:** README, `docs/app/MANUAL-DESARROLLO.md`, `docs/app/NAVEGACION.md`, coordinación y plan Portal v2; consumidor conversacional y configuración servidor.
 - **Notas:** Precisión humana del 10/10/2026, mensaje `01a127a2-2b60-7d30-a407-11f47d3af53a` en el chat LidIA. Se descarta crear un cuestionario/calificador/catálogo paralelo en Portal. Texto como base, HTML/dinámicos opcionales si no complican. No cambia por sí sola el agente efectivo, no acredita una ejecución real ni activa el flujo anónimo; las decisiones históricas sobre clones conservan su procedencia.
+
+## Esquemas de respuesta APP v2 — propuesta Portal
+
+- **Tipo:** artefactos de contrato para revisión conjunta.
+- **Definición:** Describen las formas JSON cerradas de las respuestas de sesión, historial, operación, vínculo, contexto, revocación y recibos, contrastadas con las salidas actuales de LidIA. Los ejemplos son fixtures sintéticos y no respuestas de una conversación conectada.
+- **Alcance:** `docs/integraciones/fixtures/app-v2-responses-proposal-r1.json`, `app-v2-response-fixtures-proposal-r1.json`, manifiesto de procedencia y contraste Portal r3.
+- **Notas:** No son un contrato aprobado ni se montan en una API por generarlos. `sondeo` estructurado es null en la pasarela inicial; un recibo conserva su resultado histórico y no prueba autoridad actual. Se descarta un objeto de respuesta abierto o derivar elegibilidad del texto.
+
+## signRequestV2 / canonicalQueryV2 / validateContractV2
+
+- **Tipo:** funciones del consumidor S2S v2 en preparación.
+- **Definición:** signRequestV2 firma el transporte de trece líneas con autoridad actual; canonicalQueryV2 produce y limita la query de cada lectura permitida. validateContractV2 comprueba una petición contra el esquema recibido y las invariantes expresas del contrato de transporte.
+- **Alcance:** `backend/src/app/v2/s2s.js`, `contracts.js` y sus tests; copias exactas wire/schema/vectores r2 en docs/integraciones.
+- **Notas:** No realizan autorización remota ni pruebas de pertenencia por sí solas; no alteran funciones v1. La respuesta exige validador específico, todavía no aportado en el esquema de requests r2.
+
+## appV2ConversationConfig / APP_V2_ENABLED / APP_V2_GUEST_ENABLED
+
+- **Tipo:** configuración backend propuesta para el consumidor v2.
+- **Definición:** appV2ConversationConfig resuelve destino, audiencia y claves por capacidad del nuevo protocolo desde configuración privada. APP_V2_ENABLED habilita ese transporte y APP_V2_GUEST_ENABLED permite sus operaciones de datos visitante; ambas son falsas por defecto.
+- **Alcance:** `backend/src/config.js` y consumidor/test S2S v2.
+- **Notas:** Ninguna bandera pública móvil concede autoridad. Las claves usan el prefijo APP_V2_LIDIA y no caen a las claves v1. Revocación de control se valida aparte para permitir retirar acceso; las banderas no activan rutas por esta entrega.
+
+### Estado posterior del consumidor v2 (10/10/2026)
+
+`AppS2SClientV2`, `signRequestV2`, `canonicalQueryV2`, `validateContractV2` y `appV2ConversationConfig` ya tienen implementación aislada en los archivos indicados; las menciones anteriores a futuro/propuesta documentan su preparación inicial. No están montados en una API. Wire r3 sustituye el alcance r2: contacto reservado, respuestas pendientes de aceptación y flags off. [Contraste vigente](docs/integraciones/2026-10-10-contraste-portal-wire-v2-r3.md).

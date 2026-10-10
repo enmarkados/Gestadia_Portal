@@ -8,7 +8,7 @@ Se leyó directamente la instrucción humana **«pues implementa el contrato tec
 
 La instrucción permite avanzar el contrato y su desarrollo coordinado. **No es autorización para activar visitantes, desplegar el recorrido, migrar una BBDD existente ni utilizar CRM/correo/agenda de producción.** Los mapas siguen representando una propuesta hasta que su consumidor sea implementado y comprobado; la aceptación visual/nativa y la activación son comprobaciones separadas.
 
-Base Portal: `app/main` en `7bfa689b1a537ef4b15d909ec9a2468770c7c71b`. Rama de esta preparación: `codex/app-v2-guest-portal`, en el worktree existente `app-anonimo-lidia/Gestadia_Portal`. Esta entrega inicial cambia documentación y glosario, sin nuevo comportamiento del producto.
+Base Portal: `app/main` en `7bfa689b1a537ef4b15d909ec9a2468770c7c71b`. Rama de esta preparación: `codex/app-v2-guest-portal`, en el worktree existente `app-anonimo-lidia/Gestadia_Portal`. La entrega inicial cambió documentación y glosario; el avance posterior de transporte/requests aislados consta al final y en el contraste r3. El recorrido anónimo no está integrado en el producto.
 
 Las [revisiones históricas](2026-10-10-contraste-portal-app-anonima.md) conservan sus bytes/fecha y su estado anterior de autorización. Este documento registra el avance posterior; no modifica las copias recibidas para hacerlas parecer contratos ejecutables.
 
@@ -31,7 +31,7 @@ El cliente móvil no decide integración, proyecto, agente, entorno, operador, d
 
 ## Preferencia de transporte enviada a LidIA
 
-**Pull S2S**, sujeto a que LidIA publique el contrato ejecutable. Rutas propuestas, todavía no acordadas ni disponibles:
+**Pull S2S**, sujeto a que LidIA publique el contrato ejecutable. Rutas propuestas históricamente; **wire r3 las reserva y aplaza**. No son rutas permitidas por el cliente actual:
 
 ```text
 GET  /api/integrations/lidia/app/v2/sessions/{conversation_id}/contact-requests/{intent_id}
@@ -79,3 +79,12 @@ Cada bloque se entrega con commit/push/sync de su rama y evidencia correspondien
 - Se verificó la instrucción humana en el chat LidIA mediante lectura directa; no se tomó el mensaje del otro agente como única fuente de autorización.
 - Portal comunicó el reparto, la preferencia GET/ACK, el límite de cancelación concurrente y la necesidad de esquemas/vectores exactos en ese mismo chat, con la autorización humana previa de coordinación.
 - Recibido el borrador [wire LidIA r1](2026-10-10-app-v2-wire-lidia-r1.md), conservado byte-exacto, sin commit/schema/vectores de entrega aún acreditados. [Revisión Portal P1–P4](2026-10-10-revision-portal-wire-v2-r1.md) enviada: huella del inicio, revisión exacta en recuperación, autorización de revocación y evidencia de confirmación. No se declara conformidad final ni disponibilidad de API v2 por esta recepción.
+
+## Avance posterior: wire r3 y transporte preparado
+
+- Recibido [wire r3 exacto](2026-10-10-app-v2-wire-lidia-r3.md) del commit LidIA `4a10ebf794fd7f947290a2d85beeebce9b1d8558`; hashes de wire, requests y seis vectores comprobados en el [contraste Portal](2026-10-10-contraste-portal-wire-v2-r3.md). R1/r2 conservan su procedencia histórica.
+- La matriz posterior comunicada por LidIA se incorporó: recuperación/operaciones y GET recibos con timeline.read, POST recibos con turns.write, handoff con cuenta y capacidad dedicada. Binding exige igualdad exacta de revisión body/header; el lifecycle original no autoriza turnos con una revisión antigua.
+- Transporte/validación v2 preparados en la rama aislada, flags off por defecto y sin claves de contacto. Sin montaje de API, nueva BBDD o autoridad persistida.
+- A petición de LidIA se remitieron esquemas de respuestas r1, trece fixtures sintéticos y manifiesto de fuentes para revisión conjunta. No se importan en runtime ni constituyen conformidad del contrato.
+- Verificación final: 209 backend, 152 frontend y build APP correctos; 63 pruebas stateless específicas. Revisión independiente sin Critical/Important; falta prueba específica de rotación v2.
+- Bloques 3/4/6 pendientes; contacto/ACK del bloque 5 aplazado por r3. Se preservan las pantallas propuestas para revisar el futuro recorrido. No merge funcional, despliegue, activación, CRM ni prueba conectada del 119 por esta entrega.
