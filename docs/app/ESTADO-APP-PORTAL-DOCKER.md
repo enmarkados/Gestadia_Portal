@@ -217,3 +217,10 @@ A petición del usuario, AVD dedicado Gestadia_QA_API_36 con 4096 MiB y cuatro n
 ### Arranque nativo comprobado — 11/10/2026
 
 La entrada esperada por SecureStorageNative contenía una espera de nivel superior que bloqueaba su importación circular. El arranque se ejecuta ahora desde startApp después de terminar la evaluación del módulo; mantiene el orden configuración, sesión segura, teclado y retorno social. Si la preparación falla se muestra la recuperación existente (Recargar) y se retira el splash. Dos regresiones reproducen primero el bloqueo y el rechazo sin recuperación, y pasan tras el cambio. Suite frontend 162/162. Android debug abre Home real con 4 GB/cuatro núcleos; captura [home-debug.png](evidencias/2026-10-11-arranque-android/home-debug.png). Aún sin atribuir firma de distribución, login o push a esa captura.
+
+
+### Candidatos corregidos y arranque Release — 11/10/2026
+
+Android 3fa8bbb: AAB 5913834 bytes SHA-256 910851e84fa97c1932b8e40f0a877b87b4bb91d17b6405422fc04dbdd85e7159; APK 6381607 bytes SHA-256 ec343992183239bd07292c419a6ab68d155253a4df5a3f8577c50e7020959d43. Ambas firmas comprobadas, certificado upload idéntico, com.gestadia.app, targetSdk 36 y debuggable false. Configuración conectada con chat idéntica a la preparada. APK instalado en el emulador: hash del base.apk coincide y arranque frío termina correctamente; Home y acceso real observados. [Captura Release](evidencias/2026-10-11-arranque-android/home-release.png). Cuenta de sistemas escrita; entrada de contraseña pendiente de intervención humana. No se acredita OAuth ni recepción push.
+
+iOS 3fa8bbb: archive y exportación correctos; IPA 2494016 bytes SHA-256 b7ca8bbcff773e7ff01cb1e201754ac543fee531a7476234b6a88ad2b0f8e61a. codesign --deep --strict válido, equipo X27NG7M487, APNs production, Apple Sign In, get-task-allow false, 0.1.0/build 1 y configuración con chat idéntica. No se arranca iOS mientras Android está activo. Nuevos candidatos en .superpowers/releases/android-boot-3fa8bbb y ios-boot-3fa8bbb; anteriores intactos. Distribución TestFlight/Play, login social y entrega real pendientes.
