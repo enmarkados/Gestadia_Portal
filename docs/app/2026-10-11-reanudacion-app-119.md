@@ -47,3 +47,7 @@ LidIA ha pedido al usuario decidir entre facilitar un respaldo para restaurar o 
 Detener sólo PID/contenedor verificados del fixture propio, guardar dump y manifest privados y conservar el volumen durable. No usar `--rm`/tmpfs para el circuito que debe sobrevivir a reinicios. La suite canónica sí conserva su base descartable, guard y limpieza: `node scripts/test-app-conversations.mjs`. El preflight existente diagnostica el antiguo fixture reducido; no se considera listo para119/PRO por pasar sus trece tests unitarios.
 
 La integración Git del código revisado en `app/main` cuenta con la autorización humana previa de commit/push/sync y la conformidad posterior LidIA. Se mantiene independiente de la puerta de cuenta y de la prueba conectada. El merge conserva configuración pública apagada y no crea/renueva autoridad.
+
+## Cierre Git comprobado
+
+PR12 fusionada en app/main mediante `be6bed66327e9efe521ecd380d549fcb07a307c2`; checkout principal actualizado ff-only, limpio y0/0 frente a origin. Backend/frontend/scripts son idénticos al snapshot0f30eca probado (201backend/152frontend/build); los cambios posteriores fueron documentales. Worktree conservado para la prueba conectada; v2 sigue separado. No se han creado ni renovado permisos ni cambiado la configuración pública por esta integración.
