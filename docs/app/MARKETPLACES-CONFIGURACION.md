@@ -203,3 +203,15 @@ La auditoría aún informa cuatro alertas altas: Nodemailer y deepmerge-ts con
 sus padres Prisma/config. No se atribuye seguridad total a esta actualización
 ni se fuerza una migración mayor de Prisma. Se requiere seguimiento de esas
 alertas antes de aceptación pública final de tiendas.
+
+### Revisión del límite de la API móvil — 10/10/2026
+
+El proxy móvil solo admite acceso social, login/logout, capacidades, cuenta,
+notificaciones, registro push y lectura de expedientes sin documentos.
+Checkout, leads, integraciones y documentos quedan excluidos: el checkout sigue
+en el Portal y el almacenamiento documental compartido requiere preparación
+específica. `/lidia/` permanece desactivado hasta validar el contrato APP.
+La configuración privada del nuevo contenedor copia únicamente DATABASE_URL
+ y JWT_SECRET del Portal, además de su configuración móvil; excluye también
+SMTP, Stripe y Zoho. El backend actualizado supera 86/86 pruebas contra
+MariaDB aislada, sin omisiones.

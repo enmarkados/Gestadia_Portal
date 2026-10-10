@@ -21,7 +21,8 @@ server {
   location = /index.html { add_header Cache-Control "no-cache"; }
   location /assets/ { try_files $uri =404; expires 1y; add_header Cache-Control "public, immutable"; }
 
-  location /api/ {
+  # Solo identidad, cuenta y notificaciones; el checkout continúa en el Portal.
+  location ~ ^/api/(mobile/capabilities|auth/(login|logout|social/(attempts|complete|account|apple/callback))|push/devices(/[^/]+)?|me(/deletion-request)?|notificaciones(/[^/]+(/leer)?)?|expedientes(/[^/]+)?)$ {
     set $demo_only "${APP_DEMO_ONLY}";
     if ($demo_only = "true") { return 503 '{"error":"Esta version funciona exclusivamente en demostracion."}'; }
     resolver 127.0.0.11 valid=30s ipv6=off;
@@ -38,23 +39,12 @@ server {
     proxy_next_upstream off;
   }
 
+  location /api/ { return 404; }
+
   location /lidia/ {
-    set $demo_only "${APP_DEMO_ONLY}";
-    if ($demo_only = "true") { return 503 '{"error":"Esta version funciona exclusivamente en demostracion."}'; }
-    resolver 127.0.0.11 valid=30s ipv6=off;
-    set $lidia_upstream "${LIDIA_UPSTREAM}";
-    rewrite ^/lidia/(.*)$ /$1 break;
-    proxy_pass $lidia_upstream$uri$is_args$args;
-    proxy_set_header Host ${LIDIA_HOST};
-    proxy_ssl_server_name on;
-    proxy_ssl_name ${LIDIA_HOST};
-    proxy_ssl_verify on;
-    proxy_ssl_trusted_certificate /etc/ssl/certs/ca-certificates.crt;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $http_x_forwarded_proto;
-    proxy_read_timeout 180s;
-    proxy_next_upstream off;
-    proxy_buffering off;
+    # Pendiente de contrato APP resuelto en servidor y validación real del canal.
+    return 503 '{"error":"Canal APP pendiente de activacion."}';
+
   }
   location / { try_files $uri $uri/ /index.html; }
 }

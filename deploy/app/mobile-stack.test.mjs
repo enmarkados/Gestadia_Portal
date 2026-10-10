@@ -20,6 +20,11 @@ test('stack conectado: configuracion, proxy, autenticacion y SPA', { skip: !base
   assert.equal(actual.apple.serviceId, expected.social.apple.androidServiceId);
   const push = await fetch(`${base}/api/push/devices`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: '{}' });
   assert.equal(push.status, 401);
+  for (const path of ['/api/checkout', '/api/leads', '/api/expedientes/1/documentos', '/api/integrations/zoho']) {
+    const blocked = await fetch(`${base}${path}`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: '{}' });
+    assert.equal(blocked.status, 404, `ruta fuera del servicio móvil: ${path}`);
+  }
+  assert.equal((await fetch(`${base}/lidia/api/health`)).status, 503);
   const route = await fetch(`${base}/cuenta`);
   assert.equal(route.status, 200);
   assert.match(await route.text(), /Gestadia/);
