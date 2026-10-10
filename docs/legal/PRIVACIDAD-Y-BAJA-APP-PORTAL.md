@@ -26,7 +26,7 @@ Usamos los datos necesarios para prestar los servicios solicitados y gestionar s
 
 Apple y Google intervienen cuando eliges su acceso y cuando recibes notificaciones mediante APNs o Firebase Cloud Messaging. Usamos proveedores de alojamiento, correo, gestión de clientes y pagos para prestar los servicios correspondientes. Los mensajes al asistente y al equipo de atención se gestionan mediante la infraestructura de Gestadia y LidIA. Los datos necesarios para un trámite pueden comunicarse a las administraciones o destinatarios que lo gestionan.
 
-Limitamos cada comunicación a su finalidad. Puedes consultar en info@gestadia.com los destinatarios concretos, las garantías aplicables y la información de transferencias internacionales correspondiente a tu servicio. Las declaraciones de las tiendas deberán coincidir con los proveedores y tratamientos efectivamente activados.
+Limitamos cada comunicación a su finalidad. Puedes consultar en info@gestadia.com los destinatarios concretos, las garantías aplicables y la información de transferencias internacionales correspondiente a tu servicio.
 
 ### Permisos y avisos
 
@@ -34,7 +34,7 @@ Puedes utilizar las funciones básicas y la bandeja de avisos sin permitir notif
 
 El aviso remoto muestra un texto genérico. Para consultar su contenido o documentos debes abrir Gestadia con una sesión autorizada. No incluimos DNI, documentos ni textos de conversaciones en el aviso visible.
 
-La selección de documentos usa el selector disponible en tu dispositivo. Solo enviamos los archivos que eliges y confirmas. Cualquier permiso necesario para una función se solicita al utilizarla, indicando su finalidad. Esta integración no necesita ubicación, contactos ni seguimiento publicitario. No presentamos voz o captura de cámara como funciones disponibles sin su implementación y validación.
+La selección de documentos usa el selector disponible en tu dispositivo. Solo enviamos los archivos que eliges y confirmas. Cualquier permiso necesario para una función se solicita al utilizarla, indicando su finalidad. Esta integración no necesita ubicación, contactos ni seguimiento publicitario.
 
 ### Conservación y eliminación
 
@@ -85,3 +85,9 @@ Datos del responsable y política de partida: [privacidad publicada de Gestadia]
 El alcance de la supresión y sus excepciones se contrasta con [AEPD — derecho de supresión](https://www.aepd.es/derechos-y-deberes/conoce-tus-derechos/derecho-de-supresion-al-olvido); el bloqueo con [LOPDGDD, artículo 32](https://www.boe.es/buscar/act.php?id=BOE-A-2018-16673). Información y ejercicio de derechos: [RGPD, artículos 12, 13 y 17](https://www.boe.es/buscar/doc.php?id=DOUE-L-2016-80807).
 
 La APP debe permitir iniciar la eliminación y gestionar la revocación de Sign in with Apple: [Apple — account deletion](https://developer.apple.com/support/offering-account-deletion-in-your-app/). Google exige también una vía externa accesible: [Google Play — account deletion requirements](https://support.google.com/googleplay/android-developer/answer/13327111?hl=en-en).
+
+## Condiciones y soporte en la interfaz conectada
+
+Los términos describen el acceso a la cuenta, la autorización de expedientes, la contratación conforme al aviso legal y pagos/devoluciones existentes, el carácter orientativo de la asistencia y la opcionalidad de los avisos. El soporte publica info@gestadia.com y 910 600 314, explica recuperación de acceso y remite al flujo de baja. El contenido público está compartido en shared/legal-content.js; la demo conserva sus textos locales.
+
+La página de protección de datos de la web ya no solicita siempre copia de DNI/NIE: la información adicional depende de que sea necesaria para verificar titularidad.

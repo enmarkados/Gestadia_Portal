@@ -1039,3 +1039,21 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** expediente cuya pertenencia a la cuenta autenticada se ha comprobado antes de aceptar el archivo de una subida.
 - **Alcance:** backend/src/routes/portal.js.
 - **Notas:** impide escribir archivos de solicitudes de usuarios ajenos; la validación se realiza antes de Multer y no depende de IDs de propietario enviados por el cliente.
+
+### connectedLegalDocuments
+- **Tipo:** contenido compartido / concepto de interfaz.
+- **Definición:** textos públicos que explican privacidad, uso, soporte y solicitud de baja del servicio conectado de Gestadia.
+- **Alcance:** shared/legal-content.js, frontend/app/src/LegalPage.jsx y frontend/src/pages/legal/Privacidad.jsx.
+- **Notas:** se comparte la política entre web, Portal y APP; el contenido local de demostración permanece separado y no anuncia una eliminación remota ejecutada.
+
+### Recursos APP desde la raíz
+- **Tipo:** decisión de rutas de despliegue.
+- **Definición:** los recursos de arranque de la APP se resuelven desde la raíz de su origen, con independencia de la ruta interna abierta o recargada.
+- **Alcance:** frontend/vite.app.config.js y frontend/app/index.html.
+- **Notas:** evita que /legal y otras entradas directas soliciten sus scripts desde carpetas inexistentes; Capacitor sirve el paquete desde la raíz de su origen local.
+
+### GestadiaRouter
+- **Tipo:** decisión de navegación / componente.
+- **Definición:** el enrutador de la APP utiliza rutas web directas en navegador y rutas hash dentro del paquete nativo.
+- **Alcance:** frontend/app/src/main.jsx.
+- **Notas:** preserva el enrutamiento nativo de Capacitor y permite abrir las URLs públicas /legal desde las tiendas; el fallback Nginx sirve el documento raíz y los recursos usan rutas desde la raíz.

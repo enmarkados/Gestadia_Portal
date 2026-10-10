@@ -1,10 +1,11 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { HashRouter } from "react-router-dom";
+import { HashRouter, BrowserRouter } from "react-router-dom";
 import { AppProvider, useApp } from "./AppContext.jsx";
 import { PluginWebProvider } from "./PluginWebContext.jsx";
 import App from "./App.jsx";
 import {
+  isNative,
   loadNativeConfig,
   setupNativeNavigation,
   setupNativeKeyboard,
@@ -65,12 +66,13 @@ await initializeNativeSession();
 await setupNativeKeyboard();
 setupNativeNavigation();
 await setupSocialReturn();
+const GestadiaRouter = isNative() ? HashRouter : BrowserRouter;
 createRoot(document.getElementById("root")).render(
   <ErrorBoundary>
-    <HashRouter>
+    <GestadiaRouter>
       <AppProvider>
         <ConnectedApp />
       </AppProvider>
-    </HashRouter>
+    </GestadiaRouter>
   </ErrorBoundary>,
 );

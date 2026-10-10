@@ -88,12 +88,13 @@
 **Files:** `frontend/app/src/legal-content.js`, `LegalPage.jsx`, `AccountDeletion.jsx`, `Expedientes.jsx`, `AppConversation.jsx`, navegación/recibos y configuración pública; documentación de integración.
 **Interfaces:** la interfaz presenta solo funciones activas; conversación usa el contrato APP servidor de Task 2; documentos usan Task 4; enlaces legales permanecen públicos.
 
-- [ ] Revisar pantallas vigentes en NAVEGACION.md recuperado de app/main; conservar diseño/menús.
-- [ ] RED: en modo conectado no aparecen afirmaciones de demo; subida/descarga real no se presenta disponible hasta servicio operativo; rechazo permisos conserva funciones básicas.
+- [x] Revisar pantallas vigentes en NAVEGACION.md recuperado de app/main; conservar diseño/menús.
+- [x] RED: contenido conectado sin demo y baja externa accesible; fallo real de entrada directa reproducido en navegador y prueba de recursos. Permisos se conservan en sus pruebas anteriores.
 - [ ] Integrar documentos compartidos, mensajes/recibos y servidor LidIA del contrato vigente; validar selección de identidad únicamente servidor.
-- [ ] Preparar privacidad/condiciones/soporte/eliminación acordes con datos efectivos. Criterio confirmado y redacción autorizada a Codex; usar la política publicada y no inventar plazos.
-- [ ] GREEN: UI con datos fixture y acceso por sesión; luego interacción autorizada real de conversación/documentos y recibos.
-- [ ] Commit; declarar pendiente de validación externa lo que solo tuvo fixture.
+- [x] Preparar privacidad/condiciones/soporte/eliminación acordes con datos efectivos. Criterio confirmado y redacción autorizada a Codex; usar la política publicada y no inventar plazos.
+- [x] GREEN local: 168 frontend, builds APP/web, entrada directa 1/1 y UI pública observada; documentos compartidos probados en Task 4.
+- [ ] Interacción autorizada real de conversación/documentos/recibos y credenciales APP server-side en LidIA.
+- [x] Commit de contenido; evidencia local separada de validación externa.
 
 ### Task 6: Borrado operativo y preparación de tiendas
 

@@ -30,7 +30,7 @@ Se dispone de copia previa de DB restaurada y dos migraciones móviles comprobad
 | Integración Git | Verificado localmente | Merge 08d2bbc, builds APP y Portal |
 | Identidad y push común | Verificado localmente | 204 backend + 165 frontend; proveedores reales pendientes |
 | Docker APP/web/Portal/backend | Verificado localmente | 3 imágenes AMD64 y runtime de prueba; importación y mounts reales pendientes |
-| Datos y LidIA | Pendiente | Validación conectada |
+| Datos y LidIA | En curso | Documentos y contenido conectados localmente; LidIA real pendiente |
 | Privacidad/baja | En curso | Criterio confirmado; textos autorizados a Codex, ejecución de borrado pendiente |
 | Despliegue | Pendiente | Gates previos |
 | Firma/distribución | Pendiente | Release exacta en TestFlight/Play |
@@ -50,3 +50,9 @@ El usuario confirma cerrar acceso, retirar asociaciones Apple/Google y push, eli
 Servicios gestadia-app, gestadia-portal-web y gestadia-backend construidos en AMD64 desde la línea 9221d59 con cambios Task 4. Candidatos etiquetados common-candidate; no son aún imágenes finales de release. API sin puerto host, web en loopback, usuarios no root y backend de solo lectura con documentos bind. Configuración pública: 6/6 pruebas. Stack real efímero: 7/7 y reinicio conservando documentos. Detectados en RED y corregidos: permiso del PID de Nginx no root, cabecera CORS Idempotency-Key ausente y archivo huérfano al intentar subir a expediente ajeno. Suite posterior 204 backend/165 frontend, sin fallos u omisiones. Evidencia common-stack-red.log, common-stack-green.log, config-conversaciones-green.log y proxy-documentos-suite.log en artifacts/inventario-docker-20261010.
 
 Portainer consultado de nuevo: sesión Codex activa como gonzalo, entorno local Debian 12 AMD64, Docker 29.9.0. No se ha aplicado el conjunto ni cambiado el proxy. UID/GID de los documentos y mounts privados reales permanecen por comprobar antes del corte.
+
+## Contenido público conectado
+
+Privacidad compartida entre web/Portal/APP, términos y soporte conectados y URL pública de baja sin login, con mailto explícito. Demo conserva alcance local. Pruebas frontend 168/168, APP y web builds correctos. Navegador observó baja y navegación a privacidad, y política web completa; sin enviar correo ni baja real.
+
+La entrada directa detectó splash por recursos relativos y navegación hash web que mostraba Inicio. Corregido: recursos desde raíz, BrowserRouter en web y HashRouter conservado en nativo. Prueba de scripts/estilos/imagen de arranque para cuatro URLs: 1/1 (entradas-directas-green.log); validación visual local de /legal/delete-account completada. El cambio de recursos/enrutador nativo se comprobará también con los builds de Task 8/9. Textos y fuentes: docs/legal/PRIVACIDAD-Y-BAJA-APP-PORTAL.md. La eliminación remota efectiva sigue pendiente de Task 6.
