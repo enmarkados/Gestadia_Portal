@@ -115,7 +115,7 @@ export function createPushService({
             where: {
               userId: data.userId,
               active: true,
-              user: { accessRevokedAt: null },
+              user: { accessRevokedAt: null, accountStatus: "active" },
               session: { revokedAt: null, expiresAt: { gt: now() } },
             },
           });
@@ -174,6 +174,7 @@ export function createPushService({
         const valid =
           d.active &&
           !d.user.accessRevokedAt &&
+          d.user.accountStatus === "active" &&
           !d.session.revokedAt &&
           d.session.expiresAt > now() &&
           row.notification.userId === d.userId;

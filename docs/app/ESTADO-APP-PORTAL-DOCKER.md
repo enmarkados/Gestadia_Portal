@@ -14,7 +14,7 @@ Actualizado: 10/10/2026. [Documento maestro](00-MAESTRO-APP-PORTAL-DOCKER.md) ·
 
 ## Verificación de integración local
 
-Base de app/main a6d6e1497e32efa3c6a45fff3d6c67017a86bc05; preparación marketplaces c7ec158; documentación c2dd8e4. Integración en curso en rama aislada, sin modificar producción.
+Base de app/main a6d6e1497e32efa3c6a45fff3d6c67017a86bc05; preparación marketplaces c7ec158; documentación c2dd8e4. Integración confirmada en merge 08d2bbc en rama aislada, sin modificar producción.
 
 Primera suite integrada: 198 backend y 165 frontend, 0 fallos y 0 omitidas. Nuevas regresiones observaron tres fallos: JWT móvil rechazado por contrato APP, sesión anterior seguía disponible tras retirada, alta social sin evidencia de verificación fechada. Tras adaptación: 201 backend y 165 frontend pasan; build APP correcto. Los avisos de React Router/jsdom existentes quedan registrados en los logs, no son validación de navegador.
 
@@ -27,12 +27,20 @@ Se dispone de copia previa de DB restaurada y dos migraciones móviles comprobad
 | Fase | Estado | Pendiente |
 |---|---|---|
 | Inventario | En curso | Huella completa del runtime, proxy y backup fresco al corte |
-| Integración Git | En curso | Commit de merge y registrar builds/suites |
-| Identidad y push común | Pendiente | Revocación conjunta y prueba del productor Portal |
+| Integración Git | Verificado localmente | Merge 08d2bbc, builds APP y Portal |
+| Identidad y push común | Verificado localmente | 204 backend + 165 frontend; proveedores reales pendientes |
 | Docker APP/web/Portal/backend | Pendiente | Stack e imágenes finales integradas |
 | Datos y LidIA | Pendiente | Validación conectada |
-| Privacidad/baja | Necesita respuesta | Criterio y responsable de textos consultados |
+| Privacidad/baja | En curso | Criterio confirmado; textos autorizados a Codex, ejecución de borrado pendiente |
 | Despliegue | Pendiente | Gates previos |
 | Firma/distribución | Pendiente | Release exacta en TestFlight/Play |
 | Aceptación nativa | Pendiente | Emuladores uno por vez; iPhone físico |
 | Tiendas | Pendiente | Revisión y disponibilidad |
+
+## Revocación y productor común
+
+La retirada de acceso invalida AppDeviceSession y AuthSession, desactiva PushDevice y deja la revocación APP durable. La renovación de prueba de cuenta también invalida sesiones móviles. El productor real notifyUser conserva email/bandeja y genera PushDelivery transaccional; se comprobó rollback en la DB efímera. Suite final: 204 backend y 165 frontend, cero fallos u omisiones. Evidencia: artifacts/inventario-docker-20261010/productor-portal-final.log y revocacion-productor-final.log. SMTP/APNs/FCM externos no se enviaron en estas pruebas.
+
+## Criterio de baja confirmado
+
+El usuario confirma cerrar acceso, retirar asociaciones Apple/Google y push, eliminar datos de cuenta innecesarios y conservar expedientes/documentos/justificantes solo cuando corresponda, con explicación del resultado. Autoriza a Codex a redactar los textos. No queda pendiente otra aprobación general de este criterio. Se debe implementar borrado efectivo; retirar acceso no equivale a eliminar datos.

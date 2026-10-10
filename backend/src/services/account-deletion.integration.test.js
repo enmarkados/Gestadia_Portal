@@ -14,7 +14,7 @@ test(
     const { createAccountDeletion } = await import("./account-deletion.js");
     const db = new PrismaClient({ datasourceUrl: url });
     const id = randomUUID();
-    const svc = createAccountDeletion({ db });
+    const svc = createAccountDeletion({ db, conversationConfig: { integrationId: "fixture-deletion" } });
     try {
       const user = await db.user.create({
         data: { email: `${id}@example.com`, nombre: "Fixture", apellidos: "" },
@@ -27,6 +27,7 @@ test(
           expiresAt: new Date(Date.now() + 100000),
         },
       });
+      await db.appDeviceSession.create({ data: { userId: user.id, tokenHash: randomUUID(), deviceLabel: "Fixture", expiresAt: new Date(Date.now() + 100000) } });
       await assert.rejects(
         svc.request(
           { user, session: { ...session, createdAt: new Date(0) } },
@@ -41,10 +42,14 @@ test(
       );
       assert.ok((await db.authSession.findUnique({ where: { id } })).revokedAt);
       assert.equal(await db.user.count({ where: { id: user.id } }), 1);
+      assert.equal(await db.appDeviceSession.count({ where: { userId: user.id, revokedAt: null } }), 0);
+      assert.ok(await db.appOperation.findFirst({ where: { userId: user.id, kind: "revocation" } }));
     } finally {
       await db.accountDeletionRequest.deleteMany({
         where: { user: { email: `${id}@example.com` } },
       });
+      await db.appDeviceSession.deleteMany({ where: { user: { email: `${id}@example.com` } } });
+      await db.appOperation.deleteMany({ where: { user: { email: `${id}@example.com` } } });
       await db.authSession.deleteMany({ where: { id } });
       await db.user.deleteMany({ where: { email: `${id}@example.com` } });
       await db.$disconnect();

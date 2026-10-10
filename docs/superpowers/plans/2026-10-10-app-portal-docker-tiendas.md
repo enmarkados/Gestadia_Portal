@@ -53,22 +53,22 @@
 **Interfaces:** produce una única revisión integrada que consumen Tasks 3/4/8. Las APIs APP existentes conservan contratos; AuthSession móvil no sustituye sin adaptación AppSession conversacional.
 
 - [x] Guardar documentación actual; actualizar referencias remotas por fetch y comparar hashes.
-- [ ] Integrar app/main en la rama aislada sin reescribir historia compartida. Resolver conflictos conservando contratos, columnas/migraciones y funciones de ambas líneas.
+- [x] Integrar app/main en la rama aislada sin reescribir historia compartida. Resolver conflictos conservando contratos, columnas/migraciones y funciones de ambas líneas.
 - [x] Ejecutar `node scripts/test-app-conversations.mjs`, pruebas marketplace backend con DB explícita y frontend. Resultado exigido: suites sin fallos ni omisiones inesperadas.
 - [x] Añadir primero regresiones de sesión móvil conversacional, rechazo del JWT Portal, logout/baja y prueba fechada del alta social; observar RED (3 fallos).
 - [x] Implementar adaptación a la identidad vigente sin permitir selección de agente/CRM; GREEN 201 backend/165 frontend, build APP y Portal.
-- [ ] Commit de integración y registrar hash/base y resultados. Las imágenes finales deben construirse desde esta línea, no desde la preparación antigua.
+- [x] Commit de integración 08d2bbc; base app/main a6d6e14 y suites/builds registrados. Las imágenes finales deben construirse desde esta línea, no desde la preparación antigua.
 
 ### Task 3: Identidad compartida revocación y productor push
 
 **Files:** `backend/src/middleware/auth.js`, `backend/src/routes/auth.js`, `backend/src/services/auth-sessions.js`, `notify.js`, `push.js`, `account-deletion.js`; contratos `backend/src/app/identity.js`/lifecycle; pruebas de esos componentes.
 **Interfaces:** `notifyUser(user,{titulo,cuerpo,expedienteId,email})` conserva bandeja/email y genera entregas durables; `pushService.notify(data)` permanece transaccional; `requireAuth(req,res,next)` rechaza accessRevokedAt y sesiones revocadas en las superficies correspondientes.
 
-- [ ] RED: aviso real del productor genera una Notificacion y una PushDelivery por dispositivo válido; rollback de la transacción no deja entrega huérfana; preservar email.
-- [ ] RED: token antiguo de APP/Portal no vuelve a acceder después de revocación/baja; sesión conversacional pierde acceso sin tocar WhatsApp.
-- [ ] Implementar integración de productor/consumidor y reglas coherentes de revocación; ninguna cuenta social otorga permisos CRM automáticamente.
-- [ ] GREEN: tests integración DB, reinicio/lease, cambio de cuenta y revocación Apple; ejecutar suites completas Task 2.
-- [ ] Commit y registrar exactamente qué procesos producen avisos y cuál envía a proveedores.
+- [x] RED: aviso real del productor genera una Notificacion y una PushDelivery por dispositivo válido; rollback de la transacción no deja entrega huérfana; preservar email.
+- [x] RED: token antiguo de APP/Portal no vuelve a acceder después de revocación/baja; sesión conversacional pierde acceso sin tocar WhatsApp.
+- [x] Implementar integración de productor/consumidor y reglas coherentes de revocación; ninguna cuenta social otorga permisos CRM automáticamente.
+- [x] GREEN: pruebas DB de revocación y productor real; suites completas 204 backend/165 frontend. Reinicio/lease y revocación Apple tienen pruebas aisladas; aceptación con proveedor real permanece en Task 9.
+- [x] Commit y registrar exactamente qué procesos producen avisos y cuál envía a proveedores.
 
 ### Task 4: Contenedores Portal APP y backend común
 
@@ -90,7 +90,7 @@
 - [ ] Revisar pantallas vigentes en NAVEGACION.md recuperado de app/main; conservar diseño/menús.
 - [ ] RED: en modo conectado no aparecen afirmaciones de demo; subida/descarga real no se presenta disponible hasta servicio operativo; rechazo permisos conserva funciones básicas.
 - [ ] Integrar documentos compartidos, mensajes/recibos y servidor LidIA del contrato vigente; validar selección de identidad únicamente servidor.
-- [ ] Preparar privacidad/condiciones/soporte/eliminación acordes con datos efectivos. Esperar validación del responsable para texto final y política de conservación; no inventar plazos.
+- [ ] Preparar privacidad/condiciones/soporte/eliminación acordes con datos efectivos. Criterio confirmado y redacción autorizada a Codex; usar la política publicada y no inventar plazos.
 - [ ] GREEN: UI con datos fixture y acceso por sesión; luego interacción autorizada real de conversación/documentos y recibos.
 - [ ] Commit; declarar pendiente de validación externa lo que solo tuvo fixture.
 
@@ -99,7 +99,8 @@
 **Files:** `backend/src/services/account-deletion.js`, proceso de baja correspondiente, schema/migración si necesaria; página `/legal/delete-account`, actas de privacidad/datos.
 **Interfaces:** solicitud autorizada pasa de pending_review a un resultado verificable de eliminación/conservación; revoca Apple y accesos APP/Portal/LidIA, informa al usuario. La URL pública permite pedir baja sin reinstalar la app.
 
-- [ ] Recibir política y responsable; elaborar inventario de datos/terceros y conservación por categoría.
+- [x] Leer política publicada, recibir criterio confirmado y autorización de textos a Codex.
+- [ ] Elaborar inventario de datos/terceros y conservación por categoría.
 - [ ] RED: solicitud autenticada reciente, prueba de titularidad web, reintentos, confirmación y retirada de acceso; no borrar expedientes retenidos sin regla validada.
 - [ ] Implementar procesador con estados/resultado trazables y coordinación de proveedores; introducir cualquier naming nuevo inmediatamente en GLOSARIO.
 - [ ] GREEN en cuentas/DB de prueba: baja ejecutada, conservación documentada y URL pública funcional. No purgar usuarios de producción como prueba.
@@ -154,3 +155,5 @@
 ## Registro de ejecución
 
 10/10: Task 1 iniciado. Consultas públicas y comparación Git completas; inventario panel/SHA pendiente. Alcance web completa confirmado; cuenta y dispositivos de prueba autorizados; política de conservación necesita propuesta comprensible. No se ha cambiado producción ni se ha solicitado una nueva aprobación general.
+
+10/10: merge 08d2bbc y revocación/productor común verificados localmente; 204 backend/165 frontend. Criterio de baja confirmado, textos autorizados a Codex. Stack integrado y borrado efectivo siguen pendientes.

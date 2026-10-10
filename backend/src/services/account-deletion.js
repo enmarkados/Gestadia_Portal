@@ -1,13 +1,19 @@
 import { db as defaultDb } from "../db.js";
 import { openCredential } from "./mobile-crypto.js";
 import { revokeApple } from "./apple-auth.js";
+import { revokeAccountAccess } from "../app/lifecycle.js";
+import { appConversationConfig } from "../config.js";
 const denied = () => {
   throw Object.assign(
     new Error("Vuelve a iniciar sesión antes de solicitar el borrado"),
     { status: 403 },
   );
 };
-export function createAccountDeletion({ db, now = () => new Date() }) {
+export function createAccountDeletion({
+  db,
+  now = () => new Date(),
+  conversationConfig = appConversationConfig(),
+}) {
   return {
     async request(actor, confirm) {
       if (
@@ -17,6 +23,7 @@ export function createAccountDeletion({ db, now = () => new Date() }) {
       )
         denied();
       return db.$transaction(async (tx) => {
+        await tx.$queryRaw`SELECT id FROM User WHERE id = ${actor.user.id} FOR UPDATE`;
         const session = await tx.authSession.findUnique({
           where: { id: actor.session.id },
           include: { user: true },
@@ -44,14 +51,7 @@ export function createAccountDeletion({ db, now = () => new Date() }) {
             resetTokenExp: null,
           },
         });
-        await tx.authSession.updateMany({
-          where: { userId: session.userId, revokedAt: null },
-          data: { revokedAt: now() },
-        });
-        await tx.pushDevice.updateMany({
-          where: { userId: session.userId },
-          data: { active: false },
-        });
+        await revokeAccountAccess(tx, session.userId, conversationConfig);
         return {
           id: request.id,
           status: request.status,

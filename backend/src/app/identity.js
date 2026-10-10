@@ -35,6 +35,8 @@ export async function recordAccountProof(db, userId, method, now = new Date()) {
         accountVerificationMethod: method,
       },
     });
+    await tx.authSession.updateMany({ where: { userId, revokedAt: null }, data: { revokedAt: now } });
+    await tx.pushDevice.updateMany({ where: { userId }, data: { active: false } });
     await tx.appDeviceSession.updateMany({
       where: { userId, revokedAt: null },
       data: { revokedAt: now },

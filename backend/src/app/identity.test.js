@@ -23,6 +23,8 @@ async function user(t, extra = {}) {
   });
   t.after(async () => {
     await db.appDeviceSession.deleteMany({ where: { userId: u.id } });
+    await db.pushDevice.deleteMany({ where: { userId: u.id } });
+    await db.appOperation.deleteMany({ where: { userId: u.id } });
     await db.authSession.deleteMany({ where: { userId: u.id } });
     await db.user.delete({ where: { id: u.id } });
   });
@@ -124,4 +126,27 @@ test("retirada de acceso bloquea también una sesión APP anterior", async (t) =
   const { token } = await identity.login(u.email, "test-only-password");
   await db.user.update({ where: { id: u.id }, data: { accessRevokedAt: new Date() } });
   await assert.rejects(identity.authenticate(token), { code: "account_disabled" });
+});
+
+test("renovar prueba de cuenta invalida también la sesión móvil anterior", async (t) => {
+  const { createSessionService } = await import("../services/auth-sessions.js");
+  const u = await user(t);
+  const secret = "fixture-shared-revocation";
+  const { token } = await createSessionService({ db, secret, enabled: true }).issue(u, "android");
+  const identity = new AppIdentity(db, { sessionSecret: secret });
+  await recordAccountProof(db, u.id, "email");
+  await assert.rejects(identity.authenticate(token), { code: "session_expired" });
+});
+
+test("baja conversacional retira la sesión móvil y su registro push", async (t) => {
+  const { createSessionService } = await import("../services/auth-sessions.js");
+  const { revokeAccount } = await import("./lifecycle.js");
+  const u = await user(t);
+  const { token } = await createSessionService({ db, secret: "fixture-shared-revocation", enabled: true }).issue(u, "ios");
+  const session = await db.authSession.findFirst({ where: { userId: u.id } });
+  const device = await db.pushDevice.create({ data: { userId: u.id, sessionId: session.id, installationId: crypto.randomUUID(), transport: "apns", environment: "development", tokenHash: crypto.randomUUID(), tokenEncrypted: "fixture-only" } });
+  await revokeAccount(db, u.id, { integrationId: "fixture-shared-revocation" });
+  assert.ok((await db.authSession.findUnique({ where: { id: session.id } })).revokedAt);
+  assert.equal((await db.pushDevice.findUnique({ where: { id: device.id } })).active, false);
+  assert.ok(await db.appOperation.findFirst({ where: { userId: u.id, kind: "revocation" } }));
 });

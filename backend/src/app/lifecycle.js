@@ -86,44 +86,9 @@ export async function revokeAccount(
 ) {
   if (!["account_disabled", "account_deleted"].includes(reason))
     throw new AppProblem(400, "invalid_payload");
-  return accountTransaction(db, userId, async (tx) => {
-    await tx.user.update({
-      where: { id: userId },
-      data: {
-        accountStatus: reason === "account_deleted" ? "deleted" : "disabled",
-      },
-    });
-    await tx.appDeviceSession.updateMany({
-      where: { userId, revokedAt: null },
-      data: { revokedAt: new Date() },
-    });
-    const cs = await tx.appConversation.findMany({
-      where: { userId },
-      select: { integrationId: true },
-    });
-    for (const integrationId of new Set(
-      [...cs.map((c) => c.integrationId), config.integrationId].filter(Boolean),
-    )) {
-      // Account-level withdrawal is irreversible here; repeating never revives it.
-      const existing = await tx.appOperation.findFirst({
-        where: { userId, integrationId, kind: "revocation" },
-      });
-      if (existing) continue;
-      const dto = {
-        schema_version: "1.0",
-        scope: "account",
-        reason_code: reason,
-        correlation_id: randomUUID(),
-      };
-      await claim(tx, {
-        userId,
-        integrationId,
-        kind: "revocation",
-        key: `revocation:${userId}`,
-        request: dto,
-      });
-    }
-  });
+  return accountTransaction(db, userId, (tx) =>
+    revokeAccountAccess(tx, userId, config, reason),
+  );
 }
 export async function deliverLifecycle(db, client, config, op) {
   if (!config.enabled || op.integrationId !== config.integrationId) return;
@@ -321,4 +286,57 @@ export async function drainLifecycle(db, client, config) {
     take: 100,
   });
   await deliverBatch(ops);
+}
+
+export async function revokeAccountAccess(
+  tx,
+  userId,
+  config,
+  reason = "account_disabled",
+) {
+  await tx.user.update({
+    where: { id: userId },
+    data: {
+      accountStatus: reason === "account_deleted" ? "deleted" : "disabled",
+      accessRevokedAt: new Date(),
+    },
+  });
+  await tx.appDeviceSession.updateMany({
+    where: { userId, revokedAt: null },
+    data: { revokedAt: new Date() },
+  });
+  await tx.authSession.updateMany({
+    where: { userId, revokedAt: null },
+    data: { revokedAt: new Date() },
+  });
+  await tx.pushDevice.updateMany({
+    where: { userId },
+    data: { active: false },
+  });
+  const cs = await tx.appConversation.findMany({
+    where: { userId },
+    select: { integrationId: true },
+  });
+  for (const integrationId of new Set(
+    [...cs.map((c) => c.integrationId), config.integrationId].filter(Boolean),
+  )) {
+    // Account-level withdrawal is irreversible here; repeating never revives it.
+    const existing = await tx.appOperation.findFirst({
+      where: { userId, integrationId, kind: "revocation" },
+    });
+    if (existing) continue;
+    const dto = {
+      schema_version: "1.0",
+      scope: "account",
+      reason_code: reason,
+      correlation_id: randomUUID(),
+    };
+    await claim(tx, {
+      userId,
+      integrationId,
+      kind: "revocation",
+      key: `revocation:${userId}`,
+      request: dto,
+    });
+  }
 }

@@ -1021,3 +1021,9 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** una AuthSession revocable emitida tras login móvil autentica también el contrato conversacional APP, conservando su prueba de cuenta y autorización server-side. Las sesiones AppDeviceSession anteriores siguen siendo compatibles.
 - **Alcance:** backend/src/app/identity.js; frontend/app/src/AppContext.jsx; backend/src/services/auth-sessions.js.
 - **Notas:** un JWT del Portal sin sesión móvil no habilita conversaciones. El alta social registra prueba fechada del correo que validó el proveedor; no transforma una coincidencia de correo de otra cuenta en autorización. La retirada de acceso bloquea ambas familias de sesiones.
+
+### revokeAccountAccess
+- **Tipo:** concepto runtime / función de ciclo de vida.
+- **Definición:** retirada transaccional del acceso de una cuenta que invalida sesiones móviles y conversacionales, desactiva dispositivos push y conserva una revocación durable del canal APP.
+- **Alcance:** backend/src/app/lifecycle.js y backend/src/services/account-deletion.js.
+- **Notas:** se comparte la operación dentro de la transacción existente; se evita que cada superficie invalide solo su propia familia de sesiones. No purga expedientes ni modifica el canal WhatsApp.
