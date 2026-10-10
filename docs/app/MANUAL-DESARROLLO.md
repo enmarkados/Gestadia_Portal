@@ -62,6 +62,15 @@ Para leer los diagramas sin servidor:
 
 Las capturas y exportaciones están versionadas. No depende de la URL temporal: cualquier checkout con sus dependencias puede arrancar el tablero. [README del prototipo](prototipos/lidia-anonima/README.md).
 
+## Retomar tras cerrar o reiniciar el Mac
+
+1. Revisar `git status --short --branch` en el checkout y en el worktree del plan; leer el ledger del bloque antes de volver a ejecutarlo. Commits y documentación sobreviven al cierre; procesos y fixtures temporales pueden desaparecer.
+2. Arrancar la APP con `npm run app:dev` (5174) y el tablero con el comando anterior (5190). Usar los puertos ya ocupados por esos servicios; no detener procesos ajenos.
+3. Recargar la pestaña existente si quedó en «Preparando Gestadia» o con una carga interrumpida. En la reanudación del 11/10 se recuperó así la pantalla de acceso; no hizo falta cambiar código ni introducir datos.
+4. Para el harness aislado, abrir Docker Desktop y comprobar que el daemon está disponible. `node scripts/test-app-conversations.mjs` crea y limpia su base temporal; no equivale a arrancar un backend conectado ni acredita llamadas al 119.
+5. No reconstruir un fixture conectado desde un PID antiguo, archivos ausentes de `/tmp` o permisos históricos. Comprobar cuenta, vigencias, configuración efectiva e identidad del servicio antes de una prueba conectada; no renovar autoridad ni habilitar v2 para resolver un fallo de arranque.
+6. Consultar la coordinación LidIA para versión desplegada y configuración verificadas. La configuración pública versionada vuelve a servir la demo; las conexiones requieren su configuración privada y su comprobación separada.
+
 ## Cómo recorrer la propuesta anónima
 
 | Tramo | Pantallas | Qué revisar |
