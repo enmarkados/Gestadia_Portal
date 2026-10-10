@@ -80,6 +80,7 @@ export async function currentAccess(tx, c, user, config) {
         ];
     date = user.accountVerifiedAt;
   }
+  if (config.allowedPermissions) permissions = permissions.filter(p => config.allowedPermissions.includes(p));
   return {
     permissions: [...permissions].sort(),
     case_ref:

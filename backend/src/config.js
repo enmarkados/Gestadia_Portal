@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import { AppProblem } from './app/problem.js';
 
 export const config = {
   port: process.env.PORT || 3001,
@@ -66,10 +67,39 @@ export const config = {
 // APP conversacional: credenciales exclusivas por facultad; nunca reutilizar plugin/WhatsApp.
 export function appConversationConfig(env = process.env) {
   const key = role => ({ keyId: env[`APP_LIDIA_${role}_KEY_ID`] || '', secretBase64: env[`APP_LIDIA_${role}_SECRET_BASE64`] || '' });
-  return {
+  const base = {
     enabled: env.APP_CONVERSATIONS_ENABLED === 'true',
     integrationId: env.APP_LIDIA_INTEGRATION_ID || '', baseUrl: env.APP_LIDIA_BASE_URL || '', audience: env.APP_LIDIA_AUDIENCE || '',
     keys: { session: key('SESSION'), timeline: key('READ'), turn: key('TURN'), handoff: key('HANDOFF'), context: key('CONTEXT'), revocation: key('REVOCATION') },
     generalSupport: env.APP_LIDIA_GENERAL_SUPPORT === 'true', generalCommercial: env.APP_LIDIA_GENERAL_COMMERCIAL === 'true',
   };
+  const nativeKey = role => ({
+    keyId: env[`APP_LIDIA_SONDEO_${role}_KEY_ID`] || '',
+    secretBase64: env[`APP_LIDIA_SONDEO_${role}_SECRET_BASE64`] || key(role).secretBase64,
+  });
+  return { ...base, nativeSondeo: {
+    ...base,
+    createNew: env.APP_LIDIA_SONDEO_ENABLED === 'true',
+    integrationId: env.APP_LIDIA_SONDEO_INTEGRATION_ID || '',
+    audience: env.APP_LIDIA_SONDEO_AUDIENCE || '',
+    keys: { session: nativeKey('SESSION'), timeline: nativeKey('READ'), turn: nativeKey('TURN'), context: nativeKey('CONTEXT'), revocation: nativeKey('REVOCATION') },
+    generalSupport: false, generalCommercial: false, allowedPermissions: ['sondeo', 'history'],
+  } };
+}
+
+export function appConversationIntegrations(config) {
+  const native = config.nativeSondeo;
+  if (!config.enabled || !native || !(native.createNew || native.integrationId || native.audience)) return [config];
+  const unavailable = () => { throw new AppProblem(503, 'runtime_unavailable'); };
+  if (!native.integrationId || native.integrationId.length > 128 || native.integrationId === config.integrationId ||
+      !/^[-A-Za-z0-9:._]{1,128}$/.test(native.audience || '') || native.audience === config.audience) unavailable();
+  const ids = new Set(Object.values(config.keys || {}).map(key => key.keyId).filter(Boolean));
+  for (const role of ['session', 'timeline', 'turn', 'context', 'revocation']) {
+    const key = native.keys?.[role];
+    if (!/^[-A-Za-z0-9_]{1,64}$/.test(key?.keyId || '') || ids.has(key.keyId) ||
+        !/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(key.secretBase64 || '') ||
+        Buffer.from(key.secretBase64 || '', 'base64').length < 32) unavailable();
+    ids.add(key.keyId);
+  }
+  return [config, native];
 }

@@ -15,6 +15,8 @@
 
 **Actualización LidIA del 11/10:** commit `1413fa2d9d1ff0d975e3d638fef6fe52a6a8e152`, localizado en su repositorio; el equipo comunica [PR borrador 1622](https://github.com/enmarkados/Gestadia_LidIA/pull/1622) contra `dev/IA/main`. Validación final del routing, configuración efectiva y prueba conectada pendientes. Los resultados comunicados usan proveedor en memoria y no acreditan ejecución real del 119. Ver procedencia y límites en el [registro de coordinación](../integraciones/2026-10-10-coordinacion-portal-contrato-v2.md).
 
+**Asociación v1 del 11/10:** LidIA ha aceptado conservar la integración122 y añadir otra para nuevas consultas119 de la misma cuenta. Portal la desarrolla en `codex/app-integraciones-119-122`, por separado de v2, con [plan](../superpowers/plans/2026-10-11-app-integraciones-119-122.md) y [coordinación vigente](../integraciones/2026-10-10-coordinacion-portal-contrato-v2.md). La configuración pública y las pantallas/rutas no cambian por esa preparación; despliegue, configuración privada y ejecución real siguen verificaciones pendientes.
+
 ### Usar esta referencia al empezar una tarea
 
 Antes de editar una pantalla, anota su ruta o ID de maqueta, estado, origen, destino de Atrás, permisos y acción final. Busca ese recorrido en NAVEGACION y compara sus capturas. Si la decisión sólo aparece en una propuesta, conserva esa distinción en la tarea. Al terminar, actualiza los archivos afectados de la tabla de mantenimiento y registra versión, entorno y resultado de las comprobaciones. [AGENTS.md](../../AGENTS.md) exige este procedimiento a quienes trabajan en el repositorio.
