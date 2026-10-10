@@ -9,13 +9,15 @@
 3. Consulta la [propuesta técnica](../integraciones/2026-10-10-propuesta-app-anonima-lidia.md), el [contraste Portal](../integraciones/2026-10-10-contraste-portal-app-anonima.md) y el [cierre documental LidIA](../integraciones/2026-10-10-cierre-lidia-mapas-portal.md) antes de tocar identidad, contacto o continuidad.
 4. Identifica el estado que cambia y sigue el procedimiento de mantenimiento. No implementar una decisión pendiente como si ya estuviera aprobada.
 
+**Avance técnico del 10/10:** [coordinación Portal v2](../integraciones/2026-10-10-coordinacion-portal-contrato-v2.md) y [plan por bloques](../superpowers/plans/2026-10-10-app-v2-portal.md). Se ha comprobado una nueva instrucción humana de implementación del contrato en LidIA. Portal prepara su consumidor; los esquemas/rutas/ACK compartidos siguen pendientes y no hay v2 implementado o activado en Portal.
+
 ## Qué está implementado y qué está en revisión
 
 | Material | Estado y uso |
 |---|---|
 | APP en `frontend/app/`, API conversacional y navegación actual | Código existente; el modo efectivo depende de la configuración. [Integración Git](2026-10-08-integracion-app-main.md) y [README APP](../../README-APP.md). Un build no acredita conexión o despliegue. |
 | Diseño común y recorridos actuales | [Plan de diseño y cobertura](PLAN-DISENO-APP.md), [Mensajes](MENSAJES-DISENO.md), [Perfil](PERFIL-LIA.md) y [nueva conversación](2026-10-08-nueva-conversacion-lidia.md). Cada evidencia mantiene fecha/entorno. |
-| LidIA anónima APP | Propuesta con conformidad documental de ambos equipos; aprobación humana, contratos e implementación pendientes. Las pantallas nuevas son maquetas sin API. |
+| LidIA anónima APP | Mapas con conformidad documental; nuevas pantallas son maquetas sin API. Desarrollo del contrato autorizado en LidIA el 10/10, consumidor Portal en preparación; contrato ejecutable compartido, implementación Portal, aceptación visual/nativa y activación pendientes. |
 | Tres imágenes «Actual» del tablero | Referencias de la demo aislada de app/main a6d6e14. No acreditan una conversación remota ni la versión desplegada. |
 | Veintitrés vistas «Propuesta» | Doce estados principales y once alternativas, capturados a 390 × 844. No son rutas ni permisos nuevos del producto. |
 | Handoff y actas anteriores | Antecedentes con fecha. Las decisiones vigentes posteriores prevalecen; no aplicar las burbujas rojas antiguas a LidIA ni interpretar el cuestionario demo como evaluación real. |
@@ -131,6 +133,6 @@ El directorio de salida temporal de la maqueta debe dedicarse a esa compilación
 
 **El recorrido anónimo aún no está implementado.** Ambos equipos aceptan documentalmente los mapas sobre eb1ce3c5; la conformidad LidIA está copiada desde 0243b2379, con su procedencia en el contraste Portal.
 
-Antes de implementarlo: decisión humana del recorrido; reglas/catálogo versionados y evidencia de cualificación completa; capacidad/señal visitante y DTO/firma/transporte/ACK/reconciliación; cierre del protocolo v2 de vínculo/revocación; responsabilidad y contrato de agenda. Después se preparará el plan de ejecución por bloques y sus pruebas conectadas/nativas. `human_review` no demuestra «cumple».
+El desarrollo del contrato técnico está autorizado en el chat LidIA, según la [coordinación posterior](../integraciones/2026-10-10-coordinacion-portal-contrato-v2.md). Ya existe el [plan Portal por bloques](../superpowers/plans/2026-10-10-app-v2-portal.md); no se confunde con una API implementada. Antes del consumidor remoto faltan artefactos ejecutables compartidos y contraste: reglas/catálogo versionados y evidencia de cualificación completa; capacidad/señal visitante y DTO/firma/transporte/ACK/reconciliación; protocolo v2 de vínculo/revocación. Agenda conserva contrato propio. La aceptación de las pantallas implementadas y las pruebas conectadas/nativas se registrarán aparte. `human_review` no demuestra «cumple».
 
 La publicación, despliegue y activación mantienen su alcance y autorización propios. [Despliegue APP](DOCKER-PLESK.md) · [Tiendas](MARKETPLACES.md). Esta guía guarda la referencia de desarrollo; no da por realizados esos trabajos.

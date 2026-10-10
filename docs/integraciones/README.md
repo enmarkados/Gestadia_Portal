@@ -2,6 +2,10 @@
 
 Índice de la documentación de integraciones con sistemas externos.
 
+## Gestadia APP — preparación del contrato ejecutable v2 (10/10/2026)
+
+[Coordinación Portal](2026-10-10-coordinacion-portal-contrato-v2.md) y [plan por bloques](../superpowers/plans/2026-10-10-app-v2-portal.md): nueva instrucción humana de implementación del contrato comprobada en el chat LidIA; reparto y preferencia pull/ACK comunicados. Portal conserva v1 y prepara v2 separado. Esquemas/vectores, rutas y decisión durable de ACK deben recibirse y contrastarse antes del consumidor. Esta entrega inicial es documental: sin código v2 Portal, migración, despliegue o activación. Las revisiones anteriores conservan su estado histórico.
+
 ## Gestadia APP — conversación sin cuenta, propuesta 10/10/2026
 
 [Manual de desarrollo APP](../app/MANUAL-DESARROLLO.md): entrada común a pantallas, mapas y contratos.

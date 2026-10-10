@@ -960,3 +960,31 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** Guía de entrada que relaciona navegación, pantallas, maquetas, contratos y evidencias, y explica cómo consultarlos y mantenerlos durante el desarrollo. Distingue comportamiento implementado, propuesta y pruebas observadas.
 - **Alcance:** `docs/app/MANUAL-DESARROLLO.md`, README raíz/APP, AGENTS.md y README del prototipo.
 - **Notas:** No sustituye contratos ni actas recibidas; los enlaza. Incorporar esta documentación a app/main no equivale a implementar o activar el recorrido anónimo.
+
+## AppGuestSession (Portal v2, preparación)
+
+- **Tipo:** entidad Prisma propuesta.
+- **Definición:** Credencial temporal de instalación emitida por Portal para acceder a conversaciones propias sin una cuenta. No representa un usuario verificado ni un contacto CRM.
+- **Alcance:** plan `docs/superpowers/plans/2026-10-10-app-v2-portal.md`; futuros `backend/src/app/v2/installation.js` y `backend/prisma/schema.prisma`.
+- **Notas:** Se almacenará el hash del secreto, con vencimiento y revocación. Se descarta reutilizar AppDeviceSession con un User ficticio o convertir un login fallido en acceso visitante. No implementada.
+
+## AppV2Conversation / AppV2Binding (Portal v2, preparación)
+
+- **Tipo:** entidades Prisma propuestas.
+- **Definición:** AppV2Conversation conserva sujeto inmutable, actor autorizado y revisión de acceso de cada chat v2. AppV2Binding registra la transferencia recuperable de un chat desde su instalación original hacia una cuenta verificada.
+- **Alcance:** plan Portal v2; futuros `backend/src/app/v2/store.js`, `bindings.js` y `backend/prisma/schema.prisma`.
+- **Notas:** La asociación v1 exige User y se conserva intacta. Se descarta vincular globalmente todos los chats de la instalación, cambiar autores históricos o rehabilitar al visitante después de un commit. No implementadas.
+
+## AppS2SClientV2 (Portal, preparación)
+
+- **Tipo:** cliente de integración propuesto.
+- **Definición:** Consumidor servidor-servidor del contrato APP v2 de LidIA, con sujeto, actor y revisión de acceso firmados. Su ámbito es independiente del cliente v1 de cuenta.
+- **Alcance:** plan Portal v2; futuro `backend/src/app/v2/s2s.js` y contratos compartidos recibidos de LidIA.
+- **Notas:** Esquemas, vectores y allowlist de rutas deben aceptarse antes de implementarlo. Se descarta el fallback a v1, PluginWeb o una URL indicada por el móvil. No implementado.
+
+## AppContactRequest / ACK de contacto APP v2
+
+- **Tipo:** entidad durable y concepto de entrega propuestos.
+- **Definición:** AppContactRequest conserva en Portal la solicitud confirmada de contacto por intención/revisión y evento original. El ACK acredita su persistencia y permite reconciliar la entrega de esa misma solicitud con LidIA.
+- **Alcance:** `docs/integraciones/2026-10-10-coordinacion-portal-contrato-v2.md`, plan Portal v2; futuros `backend/src/app/v2/contactRequests.js` y `backend/prisma/schema.prisma`.
+- **Notas:** El nombre y los campos exactos del DTO remoto pertenecen al contrato LidIA pendiente. Persistir un estado pendiente no equivale a confirmar el ACK, entregar a Zoho ni agendar una cita. No implementados.
