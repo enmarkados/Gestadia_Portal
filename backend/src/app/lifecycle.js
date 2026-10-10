@@ -8,12 +8,14 @@ import {
 } from "./store.js";
 import { validateContract, UUID } from "./contracts.js";
 import { AppProblem } from "./problem.js";
+import { appConversationConfig, appConversationIntegrations } from "../config.js";
 export async function setConversationAccess(
   db,
   userId,
   purpose,
   caseId,
   grant,
+  config = appConversationConfig(),
 ) {
   if (
     !["sondeo", "atencion"].includes(purpose) ||
@@ -45,6 +47,7 @@ export async function setConversationAccess(
     correlation_id: randomUUID(),
   });
   const scope = scopeKey(purpose, caseId);
+  const integrations = new Map(appConversationIntegrations(config).map(c => [c.integrationId, c]));
   return accountTransaction(db, userId, async (tx) => {
     const user = await tx.user.findUnique({ where: { id: userId } });
     if (!user || user.accountStatus !== "active")
@@ -75,7 +78,12 @@ export async function setConversationAccess(
     const conversations = await tx.appConversation.findMany({
       where: { userId, scopeKey: scope },
     });
-    for (const c of conversations) await queueContext(tx, c, user, {});
+    for (const c of conversations) {
+      const integration = integrations.get(c.integrationId);
+      // An unavailable namespace is refreshed by its worker when configured again.
+      // Never prepare a context without that namespace's authority bounds.
+      if (integration) await queueContext(tx, c, user, integration);
+    }
   });
 }
 export async function revokeAccount(

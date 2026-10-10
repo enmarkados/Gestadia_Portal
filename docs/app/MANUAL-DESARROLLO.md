@@ -17,6 +17,8 @@
 
 **Asociación v1 del 11/10:** LidIA ha aceptado conservar la integración122 y añadir otra para nuevas consultas119 de la misma cuenta. Portal la desarrolla en `codex/app-integraciones-119-122`, por separado de v2, con [plan](../superpowers/plans/2026-10-11-app-integraciones-119-122.md) y [coordinación vigente](../integraciones/2026-10-10-coordinacion-portal-contrato-v2.md). La configuración pública y las pantallas/rutas no cambian por esa preparación; despliegue, configuración privada y ejecución real siguen verificaciones pendientes.
 
+**Revisión y recuperación del 11/10:** tres hallazgos importantes corregidos con RED→GREEN; harness final **201 backend / 152 frontend / build APP**, código0. La configuración S2S119/122 se recuperó cifrada en almacenamiento privado persistente, pero la base temporal Portal y su cuenta no sobrevivieron al reinicio. No se reconstruye identidad/historial ni se crean grants por disponer de claves. [Procedimiento y estado para continuar](2026-10-11-reanudacion-app-119.md); la consulta real en APP sigue pendiente. No hay cambios visuales que recapturar por esta corrección backend.
+
 ### Usar esta referencia al empezar una tarea
 
 Antes de editar una pantalla, anota su ruta o ID de maqueta, estado, origen, destino de Atrás, permisos y acción final. Busca ese recorrido en NAVEGACION y compara sus capturas. Si la decisión sólo aparece en una propuesta, conserva esa distinción en la tarea. Al terminar, actualiza los archivos afectados de la tabla de mantenimiento y registra versión, entorno y resultado de las comprobaciones. [AGENTS.md](../../AGENTS.md) exige este procedimiento a quienes trabajan en el repositorio.

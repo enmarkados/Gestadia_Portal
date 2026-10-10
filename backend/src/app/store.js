@@ -81,6 +81,8 @@ export async function currentAccess(tx, c, user, config) {
     date = user.accountVerifiedAt;
   }
   if (config.allowedPermissions) permissions = permissions.filter(p => config.allowedPermissions.includes(p));
+  if (!permissions.includes("commercial_handoff")) commercial = null;
+  if (!permissions.includes("manager_handoff")) manager = null;
   return {
     permissions: [...permissions].sort(),
     case_ref:

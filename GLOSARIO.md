@@ -1062,3 +1062,7 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** Ámbito adicional de la misma cuenta Portal para consultas nuevas dirigidas al119/Project102 en LidIA PRO. Se mantiene distinto de gestadia-app-pro-local-validation y su historial122.
 - **Alcance:** configuración privada APP v1 y registro de coordinación del 11/10/2026; administrado en LidIA, seleccionado únicamente por backend.
 - **Notas:** Conformidad recibida del equipo LidIA; no acredita provisionado, despliegue ni prueba conectada. GuestV2Enabled=false y permisos sondeo/history; claves e identidad existente se conservan sin aumentar autoridad.
+
+### Revisión de asociación y autoridad por integración (11/10/2026)
+
+`AppConversationRegistry.start` fija el candidato implícito antes de refrescarlo y vuelve a resolver la integración para una consulta nueva si el servidor remoto confirmó su cierre. Replays y aperturas explícitas conservan su asociación. `currentAccess` deriva conjuntamente permisos y referencias tras aplicar el límite; `setConversationAccess` recibe la configuración servidor completa (por defecto, la del proceso) y prepara contextos con la del ámbito correspondiente. Si un ámbito no está configurado, conserva el grant durable y su worker preparará el contexto al recuperar esa configuración; no se prepara con una configuración vacía. Alcance: `backend/src/app/registry.js`, `store.js`, `lifecycle.js` y pruebas. No introduce permisos ni modifica los grants existentes por el recorte.

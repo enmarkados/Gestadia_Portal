@@ -12,7 +12,7 @@ import { appConversationConfig } from "../config.js";
 import express from "express";
 import { createAppRouter } from "./routes.js";
 import {
-  setConversationAccess,
+  setConversationAccess as applyConversationAccess,
   revokeAccount,
   drainLifecycle,
   deliverLifecycle,
@@ -28,6 +28,8 @@ const config = {
   generalSupport: true,
   generalCommercial: false,
 };
+const setConversationAccess = (database, userId, purpose, caseId, grant, cfg = config) =>
+  applyConversationAccess(database, userId, purpose, caseId, grant, cfg);
 const now = () => new Date().toISOString();
 function receipt(conv, turn, kind = "turn") {
   const date = now();
@@ -1389,4 +1391,95 @@ test("registro: indisponibilidad de un ámbito no bloquea retirar el otro", asyn
   const rows = await db.appOperation.findMany({ where: { userId: f.u.id, kind: "revocation" } });
   assert.equal(rows.find(op => op.integrationId === "fixture-local").status, "admitted");
   assert.equal(rows.find(op => op.integrationId === "fixture-native119").status, "outcome_unknown");
+});
+
+test("registro: cierre remoto122 reevalúa nueva consulta hacia119", async t => {
+  const f = await fixture(t);
+  const old = await f.service().start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
+  const { registry, native } = twoIntegrations(f);
+  f.remote.closed = true;
+  const opened = await registry.start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
+  assert.notEqual(opened.conversation.id, old.conversation.id);
+  assert.equal((await db.appConversation.findUnique({ where: { id: opened.conversation.id } })).integrationId, "fixture-native119");
+  assert.equal((await db.appConversation.findUnique({ where: { id: old.conversation.id } })).status, "closed");
+  assert.equal(f.remote.sessionCount, 1);
+  assert.equal(native.sessionCount, 1);
+});
+test("registro: cierre remoto119 con creación nativa apagada abre nueva122", async t => {
+  const f = await fixture(t), { registry, native, cfg } = twoIntegrations(f);
+  const old = await registry.start(f.a, { purpose: "sondeo", create_new: true }, crypto.randomUUID());
+  native.closed = true;
+  cfg.nativeSondeo.createNew = false;
+  const opened = await registry.start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
+  assert.notEqual(opened.conversation.id, old.conversation.id);
+  assert.equal((await db.appConversation.findUnique({ where: { id: opened.conversation.id } })).integrationId, "fixture-local");
+  assert.equal(native.sessionCount, 1);
+  assert.equal(f.remote.sessionCount, 1);
+});
+test("registro: apertura explícita cerrada no crea una sustituta", async t => {
+  const f = await fixture(t);
+  const old = await f.service().start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
+  const { registry, native } = twoIntegrations(f);
+  f.remote.closed = true;
+  await assert.rejects(registry.start(f.a, { purpose: "sondeo", conversation_id: old.conversation.id }, crypto.randomUUID()), { code: "conversation_closed" });
+  assert.equal(f.remote.sessionCount, 1);
+  assert.equal(native.sessionCount, 0);
+});
+function commercialGrant(permissions = ["history", "sondeo", "commercial_handoff"]) {
+  return { permissions, commercial_assignment_ref: "commercial-valid", manager_assignment_ref: null,
+    validated_at: now(), valid_until: new Date(Date.now() + 60000).toISOString(), source_ref: "verified-test-grant" };
+}
+test("registro: recorte comercial119 elimina su referencia conservando el grant", async t => {
+  const f = await fixture(t), { registry, native } = twoIntegrations(f);
+  await setConversationAccess(db, f.u.id, "sondeo", null, commercialGrant());
+  const started = await registry.start(f.a, { purpose: "sondeo", create_new: true }, crypto.randomUUID());
+  await registry.timeline(f.a, started.conversation.id);
+  assert.ok(native.contexts.length > 0);
+  assert.deepEqual(native.contexts.at(-1).permissions, ["history", "sondeo"]);
+  assert.equal(native.contexts.at(-1).commercial_assignment_ref, null);
+  assert.equal((await db.appConversationAccess.findFirst({ where: { userId: f.u.id } })).commercialAssignmentRef, "commercial-valid");
+});
+test("registro: recorte vacío119 retira contexto válido sin bloquear el worker", async t => {
+  const f = await fixture(t), { registry, native } = twoIntegrations(f);
+  const started = await registry.start(f.a, { purpose: "sondeo", create_new: true }, crypto.randomUUID());
+  await registry.timeline(f.a, started.conversation.id);
+  await setConversationAccess(db, f.u.id, "sondeo", null, commercialGrant(["commercial_handoff"]));
+  await registry.drainLifecycle();
+  assert.deepEqual(native.contexts.at(-1).permissions, []);
+  assert.equal(native.contexts.at(-1).commercial_assignment_ref, null);
+  assert.equal(native.contexts.at(-1).manager_assignment_ref, null);
+  await assert.rejects(registry.timeline(f.a, started.conversation.id), { code: "capability_denied" });
+  assert.deepEqual((await db.appConversationAccess.findFirst({ where: { userId: f.u.id } })).permissions, ["commercial_handoff"]);
+});
+test("registro: grant entre barrido y entrega respeta el límite119 al preparar contexto", async t => {
+  const f = await fixture(t), { registry, native, cfg } = twoIntegrations(f);
+  const old = await f.service().start(f.a, { purpose: "sondeo" }, crypto.randomUUID());
+  const started = await registry.start(f.a, { purpose: "sondeo", create_new: true }, crypto.randomUUID());
+  await registry.timeline(f.a, started.conversation.id);
+  native.contexts = [];
+  let interleaved = false;
+  const operationDelegate = new Proxy(db.appOperation, { get(target, property) {
+    if (property !== "findMany") return Reflect.get(target, property);
+    return async args => {
+      if (!interleaved && args.where?.kind === "context") {
+        interleaved = true;
+        await setConversationAccess(db, f.u.id, "sondeo", null, commercialGrant(), cfg);
+      }
+      return target.findMany(args);
+    };
+  } });
+  const interleavedDb = new Proxy(db, { get(target, property) {
+    if (property === "appOperation") return operationDelegate;
+    const value = Reflect.get(target, property);
+    return typeof value === "function" ? value.bind(target) : value;
+  } });
+  await drainLifecycle(interleavedDb, native, cfg.nativeSondeo);
+  assert.ok(interleaved);
+  const newContext = (await db.appConversation.findUnique({ where: { id: started.conversation.id } })).context;
+  assert.deepEqual(newContext.permissions, ["history", "sondeo"]);
+  assert.equal(newContext.commercial_assignment_ref, null);
+  assert.ok(native.contexts.every(c => !c.permissions.includes("commercial_handoff") && c.commercial_assignment_ref === null));
+  const oldContext = (await db.appConversation.findUnique({ where: { id: old.conversation.id } })).context;
+  assert.deepEqual(oldContext.permissions, ["commercial_handoff", "history", "sondeo"]);
+  assert.equal(oldContext.commercial_assignment_ref, "commercial-valid");
 });

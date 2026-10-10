@@ -37,31 +37,40 @@ export class AppConversationRegistry {
         (input.create_new === true && input.conversation_id != null) ||
         (input.case_ref && !UUID.test(input.case_ref)) || !IDEM.test(key || ''))
       throw new AppProblem(400, 'invalid_payload');
-    const selected = await this.base.authorized(token, async (tx, user) => {
-      const ids = [...this.services.keys()];
-      const previous = await tx.appOperation.findMany({ where: {
-        userId: user.id, integrationId: { in: ids }, scopeId: '', kind: 'session', idempotencyKey: key,
-      }, take: 2 });
-      if (previous.length > 1) throw new AppProblem(409, 'idempotency_conflict');
-      if (previous.length) return this.services.get(previous[0].integrationId);
-      if (input.conversation_id) {
-        const row = await tx.appConversation.findFirst({ where: {
-          id: input.conversation_id, userId: user.id, integrationId: { in: ids },
-        } });
-        if (!row) throw new AppProblem(404, 'conversation_not_found');
-        return this.services.get(row.integrationId);
+    for (;;) {
+      const selected = await this.base.authorized(token, async (tx, user) => {
+        const ids = [...this.services.keys()];
+        const previous = await tx.appOperation.findMany({ where: {
+          userId: user.id, integrationId: { in: ids }, scopeId: '', kind: 'session', idempotencyKey: key,
+        }, take: 2 });
+        if (previous.length > 1) throw new AppProblem(409, 'idempotency_conflict');
+        if (previous.length) return { service: this.services.get(previous[0].integrationId) };
+        if (input.conversation_id) {
+          const row = await tx.appConversation.findFirst({ where: {
+            id: input.conversation_id, userId: user.id, integrationId: { in: ids },
+          } });
+          if (!row) throw new AppProblem(404, 'conversation_not_found');
+          return { service: this.services.get(row.integrationId) };
+        }
+        if (input.create_new !== true) {
+          const row = await tx.appConversation.findFirst({ where: {
+            userId: user.id, integrationId: { in: ids }, purpose: input.purpose,
+            caseId: input.case_ref || null, status: { not: 'closed' },
+          }, orderBy: { createdAt: 'desc' } });
+          if (row) return { service: this.services.get(row.integrationId), candidateId: row.id };
+        }
+        return { service: input.purpose === 'sondeo' && this.config.nativeSondeo?.createNew
+          ? this.services.get(this.config.nativeSondeo.integrationId) : this.base };
+      });
+      // Pin an implicit resume to its candidate: a remote closure must reselect
+      // the new-session integration instead of creating inside the old one.
+      try {
+        return await selected.service.start(token, selected.candidateId
+          ? { ...input, conversation_id: selected.candidateId } : input, key);
+      } catch (error) {
+        if (!selected.candidateId || error.code !== 'conversation_closed') throw error;
       }
-      if (input.create_new !== true) {
-        const row = await tx.appConversation.findFirst({ where: {
-          userId: user.id, integrationId: { in: ids }, purpose: input.purpose,
-          caseId: input.case_ref || null, status: { not: 'closed' },
-        }, orderBy: { createdAt: 'desc' } });
-        if (row) return this.services.get(row.integrationId);
-      }
-      return input.purpose === 'sondeo' && this.config.nativeSondeo?.createNew
-        ? this.services.get(this.config.nativeSondeo.integrationId) : this.base;
-    });
-    return selected.start(token, input, key);
+    }
   }
 
   async list(token) {
