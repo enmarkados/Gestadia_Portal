@@ -1,0 +1,54 @@
+# Importar ambas imagenes en el entorno Docker de Portainer antes de desplegar.
+# backend.env combina la configuracion existente del Portal y las claves moviles.
+# No contiene nuevas cuentas ni ejecuta migraciones automaticamente.
+services:
+  gestadia-app:
+    image: ${GESTADIA_APP_IMAGE:-gestadia-app:mobile}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${GESTADIA_APP_PORT:-8091}:8080"
+    environment:
+      PORTAL_UPSTREAM: http://gestadia-mobile-api:3001
+      PORTAL_HOST: app.gestadia.com
+      LIDIA_UPSTREAM: https://lidia.gestadia.com
+      LIDIA_HOST: lidia.gestadia.com
+      APP_DEMO_ONLY: "false"
+      APP_DEMO_ENABLED: "false"
+      APP_PUBLIC_CONFIG_FILE: /run/gestadia-public-config.json
+    volumes:
+      - type: bind
+        source: ${GESTADIA_MOBILE_CONFIG_DIR:-/opt/gestadia/mobile}/mobile-release.json
+        target: /run/gestadia-public-config.json
+        read_only: true
+        bind:
+          create_host_path: false
+    depends_on:
+      gestadia-mobile-api:
+        condition: service_healthy
+  gestadia-mobile-api:
+    image: ${GESTADIA_API_IMAGE:-gestadia-mobile-api:mobile}
+    restart: unless-stopped
+    environment:
+      PORT: "3001"
+      NODE_ENV: production
+      BASE_URL: https://app.gestadia.com
+    expose:
+      - "3001"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - type: bind
+        source: ${GESTADIA_MOBILE_CONFIG_DIR:-/opt/gestadia/mobile}/backend.env
+        target: /workspace/backend/.env
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${GESTADIA_MOBILE_CONFIG_DIR:-/opt/gestadia/mobile}/secrets
+        target: /run/gestadia-secrets
+        read_only: true
+        bind:
+          create_host_path: false
+      - gestadia-mobile-uploads:/workspace/backend/uploads
+volumes:
+  gestadia-mobile-uploads:

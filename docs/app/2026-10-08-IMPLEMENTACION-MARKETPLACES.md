@@ -123,3 +123,23 @@ Estado operativo y configuración: [MARKETPLACES-CONFIGURACION.md](MARKETPLACES-
 - [x] Revisión independiente de toda la rama usando los diseños y foco anterior; corregir problemas relevantes con TDD.
 - [x] Actualizar validación y estado de los diseños, commit local y handoff de cuentas/configuración.
 - [x] Reportar por separado código, firma, cuentas, distribución, recepción push y autenticación real. Publicación pública sigue pendiente hasta su autorización y aceptación.
+
+## Continuación Docker/Portainer — 10/10/2026
+
+El usuario ha confirmado que `app.gestadia.com` ya existe y que la web y los
+servicios necesarios deben alojarse en Docker dentro de Portainer. Acceso a
+Plesk confirmado en Chrome y Portainer confirmado en el navegador de Codex.
+HTTPS del subdominio verificado sin omitir validación TLS; la API móvil devuelve
+404. Stack nuevo de web/API, configuración pública completa y montaje privado
+preparados. Cinco pruebas Docker pasan y las seis migraciones se aplicaron en
+MariaDB de prueba. La API precarga dotenv antes de módulos ESM.
+
+Inspección de la base real mediante `prisma migrate status` (solo lectura): las
+cuatro primeras migraciones están aplicadas; faltan `20261008120000_mobile_identity_push`
+y `20261008130000_apple_revocation`. Las credenciales vigentes del Portal se
+copiaron a custodia privada fuera del repositorio, sin exponer sus valores.
+La conexión a esa base es accesible desde Docker local. Pendientes: backup
+consistente, importación de imágenes x86_64 en Portainer, montaje de claves
+y entorno privado en el servidor, migraciones explícitas y proxy Plesk,
+validación externa de capacidades y aceptación de login/push en dispositivo.
+No hay despliegue ni publicación acreditados por las pruebas locales.

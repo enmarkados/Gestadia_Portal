@@ -649,3 +649,21 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** los recursos Gestadia descritos como previstos ya están creados: tres OAuth, tres claves Apple, Services ID/dominio/retorno, cuenta FCM limitada, Firebase Android y perfil App Store. La configuración continúa pendiente de backend conectado y distribución.
 - **Alcance:** consolas Google/Apple e inventario `docs/app/MARKETPLACES-CONFIGURACION.md`.
 - **Notas:** reemplaza las notas históricas de registro/dominio pendientes; no acredita login, recepción push ni publicación.
+
+### Stack Docker móvil Gestadia
+- **Tipo:** decisión naming / despliegue.
+- **Definición:** `portainer-mobile-stack.yml` agrupa la web `gestadia-app` y la API `gestadia-mobile-api` del subdominio existente `app.gestadia.com`. La API conserva las cuentas y base de datos del Portal; Plesk termina HTTPS.
+- **Alcance:** `deploy/app/portainer-mobile-stack.yml`, `deploy/app/Dockerfile.backend`, configuración privada de servidor fuera de Git.
+- **Notas:** se descarta una nueva base de usuarios aislada y empaquetar secretos en la imagen. Migraciones requieren backup y ejecución explícita antes de activar móvil.
+
+### APP_PUBLIC_CONFIG_FILE
+- **Tipo:** variable de despliegue.
+- **Definición:** ruta de la configuración pública completa que el contenedor web publica al arrancar, incluyendo los clientes sociales y flags de notificaciones.
+- **Alcance:** `deploy/app/40-app-config.sh`; montaje de sólo lectura en `/run/gestadia-public-config.json`.
+- **Notas:** no contiene claves privadas. Si no se configura, conserva la preparación demo existente.
+
+### APP_PROXY_TEMPLATE y gestadia_client_chain
+- **Tipo**: decisión naming de despliegue / concepto runtime.
+- **Definición**: `APP_PROXY_TEMPLATE` elige la plantilla Nginx al construir la imagen; `gestadia_client_chain` conserva la cadena de IP que proporciona Plesk para la API móvil interna.
+- **Alcance**: `deploy/app/Dockerfile`, `deploy/app/mobile.conf.template`, stack móvil.
+- **Notas**: La plantilla demo permanece como predeterminada. La entrada del stack solo admite el proxy local de Plesk; no se agrega otro salto al proxy de confianza de Express.

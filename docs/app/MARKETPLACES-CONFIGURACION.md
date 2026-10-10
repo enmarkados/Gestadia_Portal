@@ -160,3 +160,23 @@ Correcciones verificadas: contrato del verificador OIDC real, generaciones de ca
 10. Mantener eliminación en pending_review; purga, retención, retirada LidIA y URL pública faltantes bloquean aceptación de publicación.
 
 No se ha hecho push, merge, despliegue ni publicación. El trabajo local y la revisión no cierran esas etapas.
+
+## Continuación Docker/Portainer — 10/10/2026
+
+El usuario ha confirmado que `app.gestadia.com` ya existe y que la web y los
+servicios necesarios deben alojarse en Docker dentro de Portainer. Acceso a
+Plesk confirmado en Chrome y Portainer confirmado en el navegador de Codex.
+HTTPS del subdominio verificado sin omitir validación TLS; la API móvil devuelve
+404. Stack nuevo de web/API, configuración pública completa y montaje privado
+preparados. Cinco pruebas Docker pasan y las seis migraciones se aplicaron en
+MariaDB de prueba. La API precarga dotenv antes de módulos ESM.
+
+Inspección de la base real mediante `prisma migrate status` (solo lectura): las
+cuatro primeras migraciones están aplicadas; faltan `20261008120000_mobile_identity_push`
+y `20261008130000_apple_revocation`. Las credenciales vigentes del Portal se
+copiaron a custodia privada fuera del repositorio, sin exponer sus valores.
+La conexión a esa base es accesible desde Docker local. Pendientes: backup
+consistente, importación de imágenes x86_64 en Portainer, montaje de claves
+y entorno privado en el servidor, migraciones explícitas y proxy Plesk,
+validación externa de capacidades y aceptación de login/push en dispositivo.
+No hay despliegue ni publicación acreditados por las pruebas locales.

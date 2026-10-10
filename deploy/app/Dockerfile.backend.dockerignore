@@ -1,0 +1,14 @@
+**
+!backend/
+!backend/package.json
+!backend/package-lock.json
+!backend/src/
+!backend/src/**
+!backend/prisma/
+!backend/prisma/**
+!shared/
+!shared/**
+!deploy/
+!deploy/app/
+!deploy/app/Dockerfile.backend
+**/*.test.*

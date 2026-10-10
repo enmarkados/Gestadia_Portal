@@ -66,3 +66,71 @@ El puerto del contenedor solo se publica en loopback. Plesk es la entrada HTTPS 
 Para volver atrás, desplegar la imagen anterior en el stack de la app y reiniciarlo. El contenedor no realiza migraciones ni altera la base del portal.
 
 Nginx usa timeouts explícitos, mantiene cuerpos/cabeceras y no reintenta automáticamente POST de chat. [Módulo proxy de Nginx](https://nginx.org/en/docs/http/ngx_http_proxy_module.html). Los puertos y variables siguen la [especificación Compose](https://docs.docker.com/reference/compose-file/services/).
+
+## Stack móvil conectado — 10 de octubre de 2026
+
+La APP en `app.gestadia.com` requiere web Nginx y API Express. La configuración
+se encuentra en `deploy/app/portainer-mobile-stack.yml`; el stack demo anterior
+conserva su funcionamiento. Consulte [el glosario](../../GLOSARIO.md).
+
+Construir desde la raíz del checkout aprobado, para el servidor x86_64:
+
+```sh
+docker build --platform linux/amd64 -f deploy/app/Dockerfile --build-arg APP_PROXY_TEMPLATE=mobile.conf.template --build-arg VCS_REF=<sha> -t gestadia-app:<sha> .
+docker build --platform linux/amd64 -f deploy/app/Dockerfile.backend -t gestadia-mobile-api:<sha> .
+docker save gestadia-app:<sha> gestadia-mobile-api:<sha> | gzip > gestadia-mobile-images.tar.gz
+```
+
+Importar imágenes en el entorno `local` de Portainer. Establecer las variables
+`GESTADIA_APP_IMAGE` y `GESTADIA_API_IMAGE` con esas etiquetas, y comprobar que
+8091 está libre antes de crear el stack. Solo Nginx publica
+`127.0.0.1:8091`; la API permanece dentro de la red Docker.
+
+Preparar en el host, fuera de cualquier document root:
+
+- `/opt/gestadia/mobile/mobile-release.json`: solo configuración pública.
+- `/opt/gestadia/mobile/backend.env`: configuración vigente del Portal
+  (DATABASE_URL, JWT_SECRET e integraciones necesarias) más configuración móvil.
+  Preservar la clave JWT existente; no crear otra base de usuarios.
+- `/opt/gestadia/mobile/secrets/`: únicamente claves Apple de login, APNs del
+  entorno elegido y credencial Firebase FCM. Ajustar las rutas en backend.env a
+  `/run/gestadia-secrets/<archivo>`. No incluir claves de firma de tiendas.
+
+Asignar propietario UID 1000 al archivo privado y los secretos, permiso 0400
+a archivos y 0700 al directorio privado. Todos se montan en solo lectura.
+La imagen API inicia con `node --import dotenv/config src/server.js` para cargar
+el archivo antes de evaluar la configuración ESM. Los uploads tienen volumen
+persistente. Plesk proporciona TLS y el proxy hacia 127.0.0.1:8091. La plantilla
+`mobile.conf.template` conserva la IP de cliente de Plesk para Express, cuyo
+proxy de confianza tiene un salto. No publicar directamente el puerto Nginx.
+
+Antes de conectar la API: verificar acceso de Docker a la base compartida,
+obtener una copia consistente de la base y comprobar las migraciones existentes.
+Aplicar las pendientes explícitamente con `npm run migrate:deploy` en la imagen
+API; el arranque no modifica el esquema. Los healthchecks comprueban procesos,
+no prueban acceso a base ni login/push real.
+
+Validación local realizada con base MariaDB 11.4.12 de prueba: seis migraciones
+aplicadas, cinco comprobaciones Docker aprobadas (configuración pública, rechazo
+de secretos/configuración incompleta, demo heredada y paso Nginx → API con
+capacidades móviles reales, 401 sin sesión y navegación SPA). Se usaron
+credenciales de proveedor ficticias; no se envió push ni se inició sesión Apple
+/Google en dispositivo. Ejecutar la prueba de integración contra el stack local:
+
+```sh
+GESTADIA_STACK_TEST_URL=http://127.0.0.1:18091 GESTADIA_STACK_TEST_CONFIG=/ruta/publica/mobile-release.json node --test deploy/app/40-app-config.test.mjs deploy/app/mobile-stack.test.mjs
+```
+
+Inspección del servidor: Plesk contiene el subdominio (dominio 252, suscripción
+74), certificado Lets Encrypt válido hasta 2027-01-08, redirección HTTPS activa
+y ninguna regla Docker para la APP. HTTPS responde con 404 en
+`/api/mobile/capabilities`: la API móvil todavía no está desplegada. Portainer
+está accesible en el navegador Codex, entorno local Docker 29.9.0, Debian 12
+x86_64; no se observó stack/contenedor Gestadia APP en los filtros.
+
+Base compartida real accesible desde Docker local: `gestadia_portal_db` en
+`gestadia.com:3306`. `prisma migrate status` confirmó las cuatro primeras
+migraciones aplicadas y las dos móviles pendientes; no se modificó el esquema.
+Si se transfieren los archivos con Plesk, usar un directorio privado fuera de
+httpdocs/app.gestadia.com y establecer `GESTADIA_MOBILE_CONFIG_DIR` con su ruta
+absoluta; conservar los permisos privados y propietario del proceso Node.
