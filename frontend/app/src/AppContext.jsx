@@ -5,15 +5,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { createDemo, DEMO_KEY, readDemo } from "./demo.js";
-import {
-  getToken,
-  request,
-  setToken,
-  demoOnly,
-  platform,
-  logoutSession,
-} from "./api.js";
+import { getToken, request, setToken, platform, logoutSession } from "./api.js";
 import { clearPluginSessions } from "./pluginStorage.js";
 import { socialClient } from "./social-auth.js";
 import { connectPush, pushAvailable } from "./push.js";
@@ -30,22 +22,11 @@ const EMPTY = {
   profile: null,
   expedientes: [],
   notifications: [],
-  consultations: [],
-  managerMessages: [],
 };
 export function AppProvider({ children }) {
   const epoch = useRef(0);
-  const [mode, setMode] = useState(() => {
-    if (demoOnly()) {
-      if (!platform()) setToken(null);
-      clearPluginSessions();
-      return "demo";
-    }
-    return getToken() ? "real" : "visitante";
-  });
-  const [data, setData] = useState(() =>
-    demoOnly() ? readDemo() || createDemo() : EMPTY,
-  );
+  const [mode, setMode] = useState(() => (getToken() ? "real" : "visitante"));
+  const [data, setData] = useState(EMPTY);
   const [loading, setLoading] = useState(false);
   const [pushStatus, setPushStatus] = useState("");
   const [error, setError] = useState("");
@@ -75,7 +56,7 @@ export function AppProvider({ children }) {
     }
   }
   useEffect(() => {
-    if (!platform() || mode === "demo" || demoOnly()) return;
+    if (!platform()) return;
     let disposed = false,
       cleanup;
     watchSessionRevocations({
@@ -131,32 +112,6 @@ export function AppProvider({ children }) {
     window.addEventListener("gestadia-session-expired", expire);
     return () => window.removeEventListener("gestadia-session-expired", expire);
   }, []);
-  useEffect(() => {
-    if (mode === "demo") {
-      try {
-        localStorage.setItem(DEMO_KEY, JSON.stringify(data));
-      } catch {
-        /* almacenamiento no disponible */
-      }
-    }
-  }, [data, mode]);
-  function startDemo(type = "cliente", reset = false) {
-    if (mode === "real" && conversationsEnabled())
-      request("/api/app/v1/auth/sessions/current", { method: "DELETE" }).catch(
-        () => {},
-      );
-    clearConversationStorage();
-    epoch.current++;
-    socialClient.cancel().catch(() => {});
-    clearPluginSessions();
-    setLoading(false);
-    if (platform())
-      nativeSession.retireSaved().catch(() => setError(PENDING_LOGOUT));
-    else setToken(null);
-    setError("");
-    setData(reset ? createDemo(type) : readDemo() || createDemo(type));
-    setMode("demo");
-  }
   function logout() {
     if (mode === "real" && conversationsEnabled())
       request("/api/app/v1/auth/sessions/current", { method: "DELETE" }).catch(
@@ -180,26 +135,24 @@ export function AppProvider({ children }) {
     setData(EMPTY);
     setError("");
   }
-  function deleteDemoAccount() {
-    if (mode !== "demo")
-      throw new Error(
-        "El borrado de cuentas reales no está conectado en esta versión.",
-      );
-    // If storage cannot be erased, keep the session and report the failure.
-    localStorage.removeItem(DEMO_KEY);
-    logout();
-  }
   async function login(email, password) {
     const version = epoch.current;
-    const body = await request(conversationsEnabled() && !platform() ? "/api/app/v1/auth/sessions" : "/api/auth/login", {
-      auth: false,
-      method: "POST",
-      body: JSON.stringify({
-        email,
-        password,
-        ...(!conversationsEnabled() || platform() ? { platform: platform() } : {}),
-      }),
-    });
+    const body = await request(
+      conversationsEnabled() && !platform()
+        ? "/api/app/v1/auth/sessions"
+        : "/api/auth/login",
+      {
+        auth: false,
+        method: "POST",
+        body: JSON.stringify({
+          email,
+          password,
+          ...(!conversationsEnabled() || platform()
+            ? { platform: platform() }
+            : {}),
+        }),
+      },
+    );
     if (version !== epoch.current) {
       if (body.token && platform()) await nativeSession.discard(body.token);
       throw new Error("El acceso se ha cancelado al cambiar de sesión.");
@@ -264,9 +217,7 @@ export function AppProvider({ children }) {
         error,
         pushStatus,
         refresh,
-        startDemo,
         logout,
-        deleteDemoAccount,
         requestDeletion: async () => {
           const result = await request("/api/me/deletion-request", {
             method: "POST",

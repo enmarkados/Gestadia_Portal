@@ -10,8 +10,6 @@ services:
     environment:
       PORTAL_UPSTREAM: http://gestadia-backend:3001
       PORTAL_HOST: app.gestadia.com
-      APP_DEMO_ONLY: "false"
-      APP_DEMO_ENABLED: "false"
       APP_PUBLIC_CONFIG_FILE: /run/gestadia-public-config.json
     volumes:
       - type: bind

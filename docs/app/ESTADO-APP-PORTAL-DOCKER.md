@@ -2,7 +2,7 @@
 
 Actualizado: 10/10/2026. [Documento maestro](00-MAESTRO-APP-PORTAL-DOCKER.md) · [Artifact editable](https://chatgpt.com/space/page_2a257ea775a08191acdfa746f4c9098e).
 
-## Inventario de producción
+## Inventario anterior al corte (histórico)
 
 - gestadia.com y /portal/acceso: HTTPS 200, mismos assets index-BtjCKzHS.js e index-B6ugJuZR.css; /api/health 200; capacidades móviles APP 404.
 - Plesk confirma Node 24.21.0, modo production, npm, raíz /httpdocs/backend, arranque src/server.js. Document root /httpdocs. El panel muestra una advertencia de que document root no es descendiente de application root.
@@ -26,13 +26,13 @@ Se dispone de copia previa de DB restaurada y dos migraciones móviles comprobad
 
 | Fase | Estado | Pendiente |
 |---|---|---|
-| Inventario | En curso | Huella completa del runtime, proxy y backup fresco al corte |
+| Inventario | Verificado | Copias restauradas, inventario y corte del 10/10 acreditados |
 | Integración Git | Verificado localmente | Merge 08d2bbc, builds APP y Portal |
 | Identidad y push común | Verificado localmente | 204 backend + 165 frontend; proveedores reales pendientes |
-| Docker APP/web/Portal/backend | Verificado localmente | 3 imágenes AMD64 y runtime de prueba; importación y mounts reales pendientes |
-| Datos y LidIA | En curso | Documentos y contenido conectados localmente; LidIA real pendiente |
+| Docker APP/web/Portal/backend | Desplegado | gestadia-common ID 73; tres servicios saludables; frontends sin demo pendientes de actualización |
+| Datos y LidIA | En curso | Bind documental persistente verificado; 14 referencias anteriores conservadas; LidIA real pendiente |
 | Privacidad/baja | Verificado localmente | Textos conectados y procesador de baja probados; operaciones de producción y proveedores reales pendientes |
-| Despliegue | Pendiente | Gates previos |
+| Despliegue | Desplegado; aceptación en curso | Migraciones y proxies activos; login, chat y push reales pendientes |
 | Firma/distribución | Pendiente | Release exacta en TestFlight/Play |
 | Aceptación nativa | Pendiente | Emuladores uno por vez; iPhone físico |
 | Tiendas | Pendiente | Revisión y disponibilidad |
@@ -94,3 +94,33 @@ Hallazgo anterior al cambio: backend/uploads original está vacío en Plesk y ta
 Preflight local de las dos plataformas válido contra configuración común pública: iOS equipo configurado; Android keystore no debug, huella del certificado comprobada y Firebase del paquete coincidente. No equivale a firma de un IPA/AAB ni pruebas con proveedores/dispositivos. Formulario gestadia-common listo, sin despliegue; transferencia de claves y acceso/público pendientes de la confirmación concreta emitida.
 
 Portainer confirma que no hay conjunto APP/Portal existente bajo Gestadia: el filtro de stacks muestra solo LidIA DEV y PRO. Se preparará un stack nuevo sin modificar los conjuntos LidIA ni LIA. El contrato APP conversacional existe en el worktree dedicado de LidIA, pero no está en el HEAD local dev/IA/main inspeccionado; su disponibilidad en el runtime real continúa pendiente.
+
+### Confirmaciones y persistencia — 10/10/2026, continuación
+
+El usuario confirma explícitamente transferencia al servidor h.egdlcvmt.com de configuración Portal y claves Apple/APNs/Firebase, acceso del nuevo backend a DB/documentos y activación Docker/Plesk tras verificar copias. LidIA es requisito de la primera versión. Exige backup antes de cualquier cambio o borrado en Gestadia. No se repite la confirmación ya recibida para ese mismo alcance.
+
+El usuario cree que los 14 JPG eran pruebas; esto no autoriza borrar sus referencias. Se conservan. Portainer muestra LIA con volumen lia_app_lia-speech-audio en /data/lia-speech-audio y LidIA Gestadia PRO con binds /var/lib/lidia-stacks/gestadia-pro/App_Data y /Logs. Gestadia mantiene su almacén actual del host mediante bind, con create_host_path:false: no sustituirlo por un volumen vacío ni guardar documentos en la capa del contenedor. Sigue pendiente comprobar montaje real y recreación con documento autorizado.
+
+Restauración de archivos en custodia local aislada: 6.268 archivos y siete enlaces internos del Portal, más index anterior APP, bytes/hash comprobados después de escribir; sin ejecutar código ni iniciar proveedores. Evidencia backup-files-restoration.json. Nueva DB 09:54 UTC: 170019 bytes, ocho tablas, SHA-256 d35563c8f26a25d850da649ea9ce072b80eebafab2d830f93fccdb89b2d00f6e; restauración en curso. Se mantiene la exigencia de copia final consistente al detener escritores antes del corte.
+
+### Corte Docker aplicado — 10/10/2026
+
+Tras autorización concreta y copias restauradas, se transfirieron backend.env, configuración pública y tres archivos Apple/APNs/FCM a gestadia-mobile-private fuera de webroot. Comprobación real gestadia-deploy-check: cinco hashes coinciden, archivos privados 0600, directorio secrets 0700, público 0644, propietario 10019:1003, SELECT 1 correcto. El archivo técnico ficticio del almacén permanece igual después de RECREAR el contenedor (IDs distintos); no se borraron datos originales. El comprobador temporal se retiró.
+
+Plesk confirmó Node.js deshabilitado en gestadia.com. Antes de migrar, cero otras conexiones visibles de la cuenta de DB a gestadia_portal_db. Copia final 10:09:59 UTC con Node detenido: 170019 bytes, SHA-256 f5e4ed3c311982faacb8e1fedb803562e8d01007379defeb33fb551738fb37d0. Restauración aislada y diez migraciones PASS, todos los valores originales conservados; log restauracion-migraciones-copia-corte.log. Luego gestadia-migration terminó código 0 y Prisma confirmó todas aplicadas en producción. Recuento real posterior: 44 usuarios, 94 expedientes, 14 documentos y diez migraciones completadas. No se purgaron registros.
+
+Primer arranque común encontró agotamiento de subredes Docker. Se retiró únicamente el stack temporal de migración, ya finalizado, y su red; no se retiraron redes/stacks ajenos. Segundo arranque correcto: gestadia-common ID 73, tres contenedores healthy. Proxies Plesk creados: gestadia.com → gestadia-common-gestadia-portal-web-1, 8080→8092; app.gestadia.com → gestadia-common-gestadia-app-1, 8080→8091. Backend sin puerto público. Node anterior se conserva detenido, con código/configuración y copias para retorno.
+
+Verificación externa real: / y /portal/acceso HTTPS 200; Portal build-info revisión completa b42ce6ac7a5303a7afd1a31326d47af41086ebc9; assets index-DAeMbK8x.js/index-C558a5wG.css 200 y MIME correcto; /api/health mantiene Stripe/Zoho/email activos. APP raíz/build-info/config/capacidades/baja 200 con la misma revisión, demoOnly/demoEnabled false y push configurado. APP /api/health y checkout 404 por límites del frontend; /api/app/v1/conversations 503 porque su activación sigue pendiente. Ver public-cut-verification.json. Esto no acredita login social ni entrega push nativa.
+
+LidIA real devuelve 401 de contrato APP sin firma. Lectura firmada con las claves de la prueba anterior devuelve 403 capability_denied, sin imprimir ni extraer historia: no acredita acceso vigente. La autoridad de aquella cuenta expiró el 08/10. Gestadia APP es el producto; LidIA es únicamente su servicio conversacional. Chat real es obligatorio antes de la primera publicación en tiendas.
+
+Navegador observa el acceso y registro de APP conectado; el registro aún presenta «Crear cuenta de ejemplo». Se investiga antes de aceptación/publicación: no se ha creado una cuenta real de sistemas@enmarkados.com ni se han introducido contraseñas. No se confunde la UI de ejemplo con registro real.
+
+### Retirada de demostración — 10/10/2026
+
+El usuario solicita retirar todo modo demo y cuentas de ejemplo de Gestadia APP. Se conserva copia privada de la fuente antes del cambio. La APP mantiene sólo visitante o sesión real, acceso por API, perfil, documentos, notificaciones y textos legales conectados; se retiran simulaciones locales, gestores y avisos ficticios. No se borran datos de producción. Configuración antigua no puede reactivar simulaciones. Suite frontend 154/154 comprobada; nuevas imágenes y comprobación pública pendientes. LidIA es el servicio de chat de Gestadia APP y su activación real sigue pendiente antes de tiendas.
+
+La revisión independiente detectó la plantilla APP anterior con proxy global tras retirar el bloqueo demo; se corrigió a allowlist APP, verificación TLS y /lidia bloqueado. Comprobación real en contenedor local de la plantilla predeterminada: checkout, leads, Zoho, webhooks y archivos directos 404; /lidia 503. Configuración Docker 7/7. Comprobaciones UI de baja real (confirmar/cancelar/error) y FormData documental superadas sin usar datos reales.
+
+Validación final de la retirada: suite frontend completa 157/157 en 40 archivos, Node 24.19.0, un worker y margen de prueba de 15 s por carga del equipo; no se debilitan las aserciones. Preflight móvil 8/8, configuración Docker 7/7 y aislamiento real del proxy predeterminado superados. Revisión independiente APTO. Actualización de imágenes AMD64 en curso; aceptación pública posterior pendiente.

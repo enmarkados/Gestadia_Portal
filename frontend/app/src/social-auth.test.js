@@ -7,7 +7,7 @@ const cfg = {
     apple: { clientId: "app" },
   },
 };
-it("demo bloquea proveedores; Google incluye nonce y descarta sesión tardía", async () => {
+it("Google exige plataforma nativa, incluye nonce y descarta sesión tardía", async () => {
   let token = null;
   const discard = vi.fn();
   const plugin = {
@@ -21,8 +21,8 @@ it("demo bloquea proveedores; Google incluye nonce y descarta sesión tardía", 
     return { token: "late" };
   });
   const svc = createSocialClient({
-    config: () => ({ ...cfg, demoOnly: true }),
-    platform: () => "ios",
+    config: () => cfg,
+    platform: () => "web",
     request,
     plugin,
     current: () => token,

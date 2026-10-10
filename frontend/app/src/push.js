@@ -151,7 +151,6 @@ export function createPushClient({
 }
 export const pushAvailable = () =>
   Capacitor.isNativePlatform() &&
-  !globalThis.GESTADIA_APP_CONFIG?.demoOnly &&
   globalThis.GESTADIA_APP_CONFIG?.push?.enabled === true;
 let currentClient = null;
 export async function connectPush(onStatus, onNotification) {

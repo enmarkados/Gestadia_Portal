@@ -35,6 +35,10 @@ Orden del cambio: verificar copia/restauración, transmitir los archivos privado
 
 Vuelta atrás del servicio: retirar únicamente las dos reglas Docker del corte, detener el nuevo backend y recuperar Node.js 24.21.0 con application root `/httpdocs/backend`, inicio `src/server.js` y document root `/httpdocs`; conservar la configuración anterior y un único worker. Las migraciones requieren comprobar compatibilidad del código anterior; la copia de preparación prueba preservación de todos los valores originales, no aceptación comercial completa. No restaurar la DB antigua tras nuevas escrituras sin decisión explícita y conciliación.
 
+## Estado vigente tras el corte
+
+El conjunto gestadia-common está activo en Portainer y las dos reglas raíz Plesk están aplicadas: APP 8091 y web/Portal 8092. El backend común permanece privado; el proceso Node anterior está detenido. Los detalles, copias y evidencias están en ESTADO-APP-PORTAL-DOCKER.md. Las frases de preparación anteriores a este corte describen el estado previo. El modo demostración se retira por instrucción del usuario del 10/10/2026.
+
 ## Preparación histórica de demo y stack móvil
 
 Los siguientes apartados registran los pasos anteriores; el alcance vigente los sustituye cuando contradigan el conjunto común descrito arriba.
@@ -211,3 +215,9 @@ MariaDB aislada; producción sin cambios de esquema.
 
 Evaluación del contenido, dependencias del Portal y límites antes de activar:
 [EVALUACION-SUBDOMINIO.md](EVALUACION-SUBDOMINIO.md).
+
+### Persistencia y autorización confirmadas
+
+La aplicación que se publica se llama **Gestadia APP**. LidIA es el servicio de conversación integrado; LIA es otro producto, consultado solo como referencia de almacenamiento y sin cambios en sus stacks.
+
+El usuario confirma transferencia de configuración/claves al servidor, acceso del backend y corte Plesk después de verificar copias, y exige backup antes de cualquier cambio o borrado. El bind actual de documentos es almacenamiento permanente del host: recrear/actualizar contenedores no debe eliminarlo. Nunca sustituirlo por una carpeta creada vacía ni seleccionar eliminación de volúmenes/datos al actualizar el stack. Portainer confirma el patrón de binds del servidor en LidIA Gestadia (/var/lib/lidia-stacks/gestadia-pro/App_Data y Logs) y volumen nombrado de audios en LIA. Las 14 referencias antiguas se conservan, aunque el usuario cree que eran pruebas.

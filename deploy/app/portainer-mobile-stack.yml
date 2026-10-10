@@ -12,8 +12,6 @@ services:
       PORTAL_HOST: app.gestadia.com
       LIDIA_UPSTREAM: https://lidia.gestadia.com
       LIDIA_HOST: lidia.gestadia.com
-      APP_DEMO_ONLY: "false"
-      APP_DEMO_ENABLED: "false"
       APP_PUBLIC_CONFIG_FILE: /run/gestadia-public-config.json
     volumes:
       - type: bind

@@ -1,6 +1,6 @@
-import { request, demoOnly } from "./api.js";
+import { request } from "./api.js";
 export const conversationsEnabled = () =>
-  !demoOnly() && globalThis.GESTADIA_APP_CONFIG?.conversationsEnabled === true;
+  globalThis.GESTADIA_APP_CONFIG?.conversationsEnabled === true;
 const prefix = "gestadia_app_conversation_v1:";
 const storageKey = (user, id) => `${prefix}${user}:${id}`;
 export function rememberPending(user, id, dto) {

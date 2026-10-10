@@ -161,3 +161,30 @@
 10/10: Task 1 iniciado. Consultas públicas y comparación Git completas; inventario panel/SHA pendiente. Alcance web completa confirmado; cuenta y dispositivos de prueba autorizados; política de conservación necesita propuesta comprensible. No se ha cambiado producción ni se ha solicitado una nueva aprobación general.
 
 10/10: merge 08d2bbc y revocación/productor común verificados localmente; 204 backend/165 frontend. Criterio de baja confirmado, textos autorizados a Codex. Stack integrado y borrado efectivo siguen pendientes.
+
+## Condiciones confirmadas durante ejecución
+
+- [x] Confirmación concreta del usuario para transferencia de configuración Portal/claves móviles a h.egdlcvmt.com, acceso del backend y corte Plesk después de verificar copias.
+- [x] Copia web/Portal y APP restaurada localmente: 6.268 archivos y siete enlaces internos Portal; index APP previo. No se ejecutaron proveedores.
+- [x] Revisar almacenamiento real de LIA y LidIA Gestadia: volumen Docker de audio y binds host App_Data/Logs. Conservar bind actual Portal y create_host_path:false.
+- [ ] Antes de cualquier cambio/borrado en Gestadia, copia recuperable verificada del ámbito afectado; nueva copia consistente DB/documentos/config/proxy antes de migración/corte.
+- [ ] Montaje real y prueba de recreación con documento autorizado. Conservar las 14 referencias JPG existentes.
+- [ ] LidIA real operativo desde el primer día de la primera versión de tiendas, según respuesta explícita del usuario; preparar contrato servidor y validar conversación real antes de distribución final.
+
+## Corte acreditado del 10/10
+
+- [x] Transferencia privada, cinco hashes y permisos/propietario comprobados realmente en el servidor.
+- [x] Persistencia de archivo técnico ficticio después de RECREAR un contenedor con el mismo bind del almacén; referencias originales intactas.
+- [x] Node anterior detenido; copia final DB restaurada y diez migraciones ensayadas; luego migración explícita real con código 0, 44 usuarios/94 expedientes/14 documentos conservados.
+- [x] Conjunto gestadia-common ID 73, tres healthy; raíz Portal 8092 y APP 8091 por Plesk; revisión y assets públicos comprobados.
+- [ ] Resolver registro de ejemplo todavía mostrado en APP conectada; acreditar cuenta real autorizada.
+- [ ] Resolver autoridad/configuración APP conversacional vigente: claves anteriores responden a lectura firmada con 403 capability_denied; no habilitar chat por ese resultado.
+- [ ] Completar aceptación funcional Portal/documentos/chat/login/push y después firma/distribución/publicación de Gestadia APP.
+
+### Retirada de demostración — 10/10/2026
+
+El usuario solicita retirar todo modo demo y cuentas de ejemplo de Gestadia APP. Se conserva copia privada de la fuente antes del cambio. La APP mantiene sólo visitante o sesión real, acceso por API, perfil, documentos, notificaciones y textos legales conectados; se retiran simulaciones locales, gestores y avisos ficticios. No se borran datos de producción. Configuración antigua no puede reactivar simulaciones. Suite frontend 154/154 comprobada; nuevas imágenes y comprobación pública pendientes. LidIA es el servicio de chat de Gestadia APP y su activación real sigue pendiente antes de tiendas.
+
+La revisión independiente detectó la plantilla APP anterior con proxy global tras retirar el bloqueo demo; se corrigió a allowlist APP, verificación TLS y /lidia bloqueado. Comprobación real en contenedor local de la plantilla predeterminada: checkout, leads, Zoho, webhooks y archivos directos 404; /lidia 503. Configuración Docker 7/7. Comprobaciones UI de baja real (confirmar/cancelar/error) y FormData documental superadas sin usar datos reales.
+
+Validación final de la retirada: suite frontend completa 157/157 en 40 archivos, Node 24.19.0, un worker y margen de prueba de 15 s por carga del equipo; no se debilitan las aserciones. Preflight móvil 8/8, configuración Docker 7/7 y aislamiento real del proxy predeterminado superados. Revisión independiente APTO. Actualización de imágenes AMD64 en curso; aceptación pública posterior pendiente.

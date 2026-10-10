@@ -108,7 +108,6 @@ export function createSessionStore({ secure, revoke }) {
 }
 async function revoke(token) {
   const config = globalThis.GESTADIA_APP_CONFIG || {};
-  if (config.demoOnly) throw Error("demo");
   const response = await fetch(
     `${String(config.apiBaseUrl || "").replace(/\/$/, "")}/api/auth/logout`,
     {
@@ -128,10 +127,6 @@ export async function initializeNativeSession() {
   if (!Capacitor.isNativePlatform()) return;
   for (const storage of [localStorage, sessionStorage])
     storage.removeItem("gestadia_app_token");
-  if (globalThis.GESTADIA_APP_CONFIG?.demoOnly) {
-    await nativeSession.retireSaved();
-    return;
-  }
   await nativeSession.initialize();
 }
 

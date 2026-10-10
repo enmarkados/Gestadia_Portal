@@ -23,8 +23,6 @@ server {
 
   # Solo identidad, cuenta y notificaciones; el checkout continúa en el Portal.
   location ~ ^/api/(mobile/capabilities|auth/(login|logout|social/(attempts|complete|account|apple/callback))|push/devices(/[^/]+)?|me(/deletion-request)?|notificaciones(/[^/]+(/leer)?)?|expedientes(/[^/]+)?)$ {
-    set $demo_only "${APP_DEMO_ONLY}";
-    if ($demo_only = "true") { return 503 '{"error":"Esta version funciona exclusivamente en demostracion."}'; }
     resolver 127.0.0.11 valid=30s ipv6=off;
     set $portal_upstream "${PORTAL_UPSTREAM}";
     proxy_pass $portal_upstream$request_uri;

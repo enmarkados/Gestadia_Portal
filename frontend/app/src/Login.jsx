@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import LegalLinks from "./LegalLinks.jsx";
 import { useApp } from "./AppContext.jsx";
-import { demoOnly, demoEnabled } from "./api.js";
 import SocialAccess from "./SocialAccess.jsx";
 import Icon from "./Icon.jsx";
 import { accessDestination, authFlowState } from "./navigation.js";
@@ -16,14 +15,12 @@ export default function Login() {
   const [visible, setVisible] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-  const [recovery, setRecovery] = useState(false);
   async function submit(event) {
     event.preventDefault();
     setBusy(true);
     setError("");
     try {
-      if (demoOnly()) app.startDemo("cliente", true);
-      else await app.login(email, password);
+      await app.login(email, password);
       setPassword("");
       const destination = accessDestination(location);
       navigate(destination.to, { state: destination.state, replace: true });
@@ -40,12 +37,6 @@ export default function Login() {
         <p role="status" className="notice">
           Solicitud de borrado registrada. Acceso retirado; eliminación de datos
           pendiente de revisión.
-        </p>
-      )}
-      {location.state?.deleted && (
-        <p role="status" className="success">
-          Cuenta de ejemplo borrada. Los datos del recorrido se han eliminado de
-          este dispositivo.
         </p>
       )}
       <h1>Tu gestoría, siempre contigo.</h1>
@@ -95,37 +86,14 @@ export default function Login() {
         <button className="btn primary" disabled={busy}>
           {busy ? "Entrando…" : "Entrar al portal"}
         </button>
-        {demoOnly() ? (
-          <button
-            className="text-btn password-recovery"
-            type="button"
-            onClick={() => setRecovery(true)}
-          >
-            ¿Has olvidado tu contraseña?
-          </button>
-        ) : (
-          <a
-            className="text-btn password-recovery"
-            href="https://gestadia.com/portal/recuperar"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            ¿Has olvidado tu contraseña?
-          </a>
-        )}
-        {recovery && (
-          <p role="status" className="notice">
-            En esta demo puedes entrar con cualquier email válido y una
-            contraseña de ejemplo. No se envían emails ni se guardan
-            contraseñas.
-          </p>
-        )}
-        {demoOnly() && (
-          <p className="notice">
-            Demostración: estos datos no se envían. Usa una contraseña de
-            ejemplo.
-          </p>
-        )}
+        <a
+          className="text-btn password-recovery"
+          href="https://gestadia.com/portal/recuperar"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ¿Has olvidado tu contraseña?
+        </a>
       </form>
       <SocialAccess onDone={() => navigate("/")} />
       <p className="auth-switch">
@@ -138,21 +106,6 @@ export default function Login() {
           Crear cuenta
         </Link>
       </p>
-      {demoEnabled() && (
-        <button
-          className="btn secondary"
-          onClick={() => {
-            app.startDemo();
-            const destination = accessDestination(location);
-            navigate(destination.to, {
-              state: destination.state,
-              replace: true,
-            });
-          }}
-        >
-          Explorar la demostración
-        </button>
-      )}
       <LegalLinks compact />
     </section>
   );

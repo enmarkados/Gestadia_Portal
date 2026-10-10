@@ -41,13 +41,7 @@ export const logoutSession = () =>
   Capacitor.isNativePlatform() ? nativeSession.logout() : setToken(null);
 export const platform = () =>
   Capacitor.isNativePlatform() ? Capacitor.getPlatform() : undefined;
-export const demoEnabled = () => config().demoEnabled !== false;
-export const demoOnly = () => config().demoOnly === true;
 export async function request(path, { auth = true, ...options } = {}) {
-  if (demoOnly())
-    throw new Error(
-      "Esta versión de demostración no realiza conexiones externas.",
-    );
   const token = auth ? getToken() : null;
   const headers = new Headers(options.headers);
   if (token) headers.set("Authorization", `Bearer ${token}`);

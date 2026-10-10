@@ -1111,3 +1111,30 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** Conjunto de Portainer que agrupa los servicios de Gestadia APP, web/Portal y backend común.
 - **Alcance:** nombre del stack de producción previsto para `deploy/gestadia/portainer-stack.yml`.
 - **Notas:** mantiene la configuración y los documentos existentes mediante montajes explícitos; se descarta el backend móvil paralelo como despliegue vigente.
+# gestadia-deploy-check
+
+- **Tipo:** concepto operativo.
+- **Definición:** comprobación temporal del montaje privado, permisos, conexión de base y almacenamiento persistente antes del arranque del backend común.
+- **Alcance:** preparación de Docker en Portainer; `artifacts/portainer-common-b42ce6a/deploy-check.yml` (evidencia local ignorada).
+- **Notas:** ejecuta únicamente validación y un archivo ficticio propio; no inicia servidores, workers ni proveedores, ni aplica migraciones.
+
+
+## Gestadia APP — identidad del producto
+
+- **Tipo:** decisión de nomenclatura.
+- **Definición:** aplicación móvil y frontend app.gestadia.com de Gestadia, con identidad, expedientes, notificaciones y conversación integrada.
+- **Alcance:** aplicación del presente repositorio; documento maestro, despliegue y fichas Apple/Google.
+- **Notas:** LidIA designa el servicio de chat integrado; no denominar el producto «app de LidIA». LIA es otro producto del usuario y sus stacks solo se consultan como referencia.
+
+## gestadia-migration
+
+- **Tipo:** concepto operativo.
+- **Definición:** proceso temporal que aplica explícitamente las migraciones Prisma del backend común, tras detener el servicio anterior y verificar la copia final de base.
+- **Alcance:** Portainer; `artifacts/portainer-common-b42ce6a/migration.yml` (preparación local ignorada).
+- **Notas:** usa la misma imagen identificada y configuración de DB, sin iniciar servidores ni workers; se conserva el SQL anterior y no se restaura automáticamente tras nuevas escrituras.
+
+## Retirada del modo demostración de Gestadia APP
+- **Tipo:** decisión de producto y obsolescencia.
+- **Definición:** Gestadia APP sólo mantiene sesiones reales o visitantes; se retiran cuentas, conversaciones, documentos y avisos ficticios.
+- **Alcance:** `frontend/app/` y configuración Docker APP. Las entradas anteriores de demostración quedan obsoletas desde el 10/10/2026.
+- **Notas:** No se borran cuentas, expedientes ni documentos del servidor; se conserva la copia de la fuente anterior.

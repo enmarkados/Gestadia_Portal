@@ -3,7 +3,6 @@ import {
   Link,
   useParams,
   useSearchParams,
-  useNavigate,
   useLocation,
 } from "react-router-dom";
 import { useApp } from "./AppContext.jsx";
@@ -70,11 +69,10 @@ export default function Expedientes() {
 }
 export function ExpedienteDetalle() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const location = useLocation();
   const [params] = useSearchParams();
   const selectedDocument = params.get("documento");
-  const { mode, data, setData } = useApp();
+  const { mode, data } = useApp();
   const [profile, setProfile] = useState(data.profile || {});
   const [detail, setDetail] = useState(null);
   const [error, setError] = useState("");
@@ -95,38 +93,6 @@ export function ExpedienteDetalle() {
       description: "Certificado de centro autorizado",
     },
   };
-  function validateDemo(event) {
-    event.preventDefault();
-    if (mode !== "demo" || !detail) return;
-    const missing = detail.checklist.find((doc) => !doc.subido);
-    if (missing) {
-      setError(
-        "Selecciona todos los documentos obligatorios antes de validar el ejemplo.",
-      );
-      document
-        .getElementById(`documento-${missing.clave}`)
-        ?.querySelector("input")
-        ?.focus();
-      return;
-    }
-    setData((old) => ({
-      ...old,
-      profile,
-      managerMessages: [
-        ...old.managerMessages,
-        {
-          role: "user",
-          content:
-            "He revisado mis datos y seleccionado la documentación. Validación de ejemplo completada, sin envío real.",
-          time: new Date().toLocaleTimeString("es-ES", {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-        },
-      ],
-    }));
-    navigate("/mensajes/gestor", { state: navigationState(location) });
-  }
   useEffect(() => {
     if (!detail || !selectedDocument) return;
     if (!detail.checklist.some((doc) => doc.clave === selectedDocument)) return;
@@ -138,11 +104,7 @@ export function ExpedienteDetalle() {
     let active = true;
     setDetail(null);
     setError("");
-    if (mode === "demo") {
-      const value = data.expedientes.find((e) => e.id === id);
-      if (value) setDetail(value);
-      else setError("No se encuentra este trámite de demostración.");
-    } else if (mode === "real")
+    if (mode === "real")
       request(`/api/expedientes/${encodeURIComponent(id)}`)
         .then((value) => {
           if (active) setDetail(value);
@@ -169,45 +131,15 @@ export function ExpedienteDetalle() {
     }
     setBusy(clave);
     try {
-      if (mode === "demo") {
-        const updated = {
-          ...detail,
-          checklist: detail.checklist.map((doc) =>
-            doc.clave === clave
-              ? {
-                  ...doc,
-                  subido: true,
-                }
-              : doc,
-          ),
-          documentos: [
-            ...detail.documentos.filter((doc) => doc.clave !== clave),
-            {
-              id: `demo-${clave}`,
-              clave,
-              nombre: file.name,
-            },
-          ],
-        };
-        setDetail(updated);
-        setData((old) => ({
-          ...old,
-          expedientes: old.expedientes.map((e) => (e.id === id ? updated : e)),
-        }));
-        setNotice(
-          "Archivo seleccionado para el ejemplo. Su contenido no se ha enviado ni guardado.",
-        );
-      } else {
-        const form = new FormData();
-        form.append("clave", clave);
-        form.append("fichero", file);
-        await request(`/api/expedientes/${encodeURIComponent(id)}/documentos`, {
-          method: "POST",
-          body: form,
-        });
-        setNotice("Documento recibido. Pendiente de revisión por tu gestor.");
-        setRevision((value) => value + 1);
-      }
+      const form = new FormData();
+      form.append("clave", clave);
+      form.append("fichero", file);
+      await request(`/api/expedientes/${encodeURIComponent(id)}/documentos`, {
+        method: "POST",
+        body: form,
+      });
+      setNotice("Documento recibido. Pendiente de revisión por tu gestor.");
+      setRevision((value) => value + 1);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -239,7 +171,10 @@ export function ExpedienteDetalle() {
           {error ? "No se pudo cargar el expediente." : "Cargando tu trámite…"}
         </p>
       ) : (
-        <form className="validation-form" onSubmit={validateDemo}>
+        <form
+          className="validation-form"
+          onSubmit={(event) => event.preventDefault()}
+        >
           <p className="validation-description">
             Validación antes de la presentación del trámite.
           </p>
@@ -367,14 +302,6 @@ export function ExpedienteDetalle() {
               </div>
             ))}
           </div>
-          {mode === "demo" && (
-            <button
-              className="btn primary validation-submit"
-              disabled={busy !== null}
-            >
-              Validar y Enviar
-            </button>
-          )}
           {detail.eventos?.length > 0 && (
             <>
               <h2>Historial de tu trámite</h2>

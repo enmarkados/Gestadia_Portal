@@ -24,7 +24,7 @@ function runConfig(value, supplied=true) {
 }
 test('el contenedor publica los clientes reales y flags conectados completos',()=>{
   const result=runConfig(config); assert.equal(result.status,0,result.stderr);
-  const body=JSON.parse(result.stdout.trim().split('\n').at(-1)); assert.deepEqual(body,config);
+  const body=JSON.parse(result.stdout.trim().split('\n').at(-1)); const {demoOnly,demoEnabled,...expected}=config; assert.deepEqual(body,expected);
 });
 test('rechaza un secreto anidado antes de publicar configuracion',()=>{
   const result=runConfig({...config, social:{...config.social, apple:{...config.social.apple,privateKey:'fixture-secret-never-public'}}});
@@ -33,9 +33,9 @@ test('rechaza un secreto anidado antes de publicar configuracion',()=>{
 test('rechaza modo conectado sin clientes Google',()=>{
   const result=runConfig({...config,social:{apple:config.social.apple}}); assert.notEqual(result.status,0);
 });
-test('sin archivo publico mantiene la demo predeterminada',()=>{
+test('sin archivo publico publica un visitante conectado sin simulaciones',()=>{
   const result=runConfig({},false);assert.equal(result.status,0,result.stderr);
-  const body=JSON.parse(result.stdout.trim().split('\n').at(-1));assert.equal(body.demoOnly,true);assert.equal(body.demoEnabled,true);
+  const body=JSON.parse(result.stdout.trim().split('\n').at(-1));assert.equal(body.demoOnly,undefined);assert.equal(body.demoEnabled,undefined);
 });
 
 test('el contenedor conserva la activación de conversaciones del contrato integrado',()=>{
@@ -47,3 +47,5 @@ test('rechaza una bandera conversacional que no sea booleana',()=>{
   const result=runConfig({...config,conversationsEnabled:'true'});
   assert.notEqual(result.status,0);
 });
+
+test("rechaza flags antiguos que intenten reactivar simulaciones",()=>{assert.notEqual(runConfig({...config,demoOnly:true}).status,0);});

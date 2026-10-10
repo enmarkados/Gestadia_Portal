@@ -99,3 +99,28 @@ it("Mensajes sin sesión pide acceso y no muestra conversaciones de demostració
     screen.queryByRole("button", { name: "Hablar con un gestor" }),
   ).toBeNull();
 });
+
+it("registro conectado no ofrece cuentas de ejemplo aunque el chat esté desactivado", () => {
+  window.GESTADIA_APP_CONFIG.conversationsEnabled = false;
+  render(
+    <MemoryRouter initialEntries={["/registro"]}>
+      <AppProvider>
+        <PluginWebProvider enabled={false}>
+          <App />
+        </PluginWebProvider>
+      </AppProvider>
+    </MemoryRouter>,
+  );
+  expect(
+    screen.getByRole("heading", { name: "Tu cuenta Gestadia" }),
+  ).toBeInTheDocument();
+  expect(screen.getByRole("link", { name: "Iniciar sesión" })).toHaveAttribute(
+    "href",
+    "/acceso",
+  );
+  expect(
+    screen.queryByRole("button", { name: "Crear cuenta de ejemplo" }),
+  ).toBeNull();
+  expect(screen.queryByLabelText("Contraseña")).toBeNull();
+  expect(calls).toEqual([]);
+});

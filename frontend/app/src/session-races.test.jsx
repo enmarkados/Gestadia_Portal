@@ -67,35 +67,6 @@ it("login cancelado durante persistencia segura no reabre modo real", async () =
   expect(discard).toHaveBeenCalledWith("late");
   expect(token).toBe(null);
 });
-it("explorar demo conserva el cierre durable sin contactar al servidor", async () => {
-  window.GESTADIA_APP_CONFIG = { demoOnly: false };
-  let app;
-  vi.spyOn(Capacitor, "isNativePlatform").mockReturnValue(true);
-  vi.spyOn(nativeSession, "get").mockReturnValue("old");
-  const retire = vi
-    .spyOn(nativeSession, "retireSaved")
-    .mockResolvedValue({ pending: 1 });
-  const set = vi.spyOn(nativeSession, "set").mockResolvedValue();
-  vi.stubGlobal(
-    "fetch",
-    vi.fn(async () => new Response(JSON.stringify([]), { status: 200 })),
-  );
-  function Probe() {
-    app = useApp();
-    return <p>{app.mode}</p>;
-  }
-  render(
-    <AppProvider>
-      <Probe />
-    </AppProvider>,
-  );
-  await act(async () => {
-    app.startDemo();
-  });
-  expect(app.mode).toBe("demo");
-  expect(retire).toHaveBeenCalledOnce();
-  expect(set).not.toHaveBeenCalled();
-});
 it("logout sin conexión muestra revocación pendiente", async () => {
   window.GESTADIA_APP_CONFIG = { demoOnly: false };
   let app;

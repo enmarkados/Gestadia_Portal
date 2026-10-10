@@ -7,9 +7,8 @@ import PushSettings from "./PushSettings.jsx";
 import Icon from "./Icon.jsx";
 export default function Notifications({ onClose }) {
   const location = useLocation();
-  const { data, mode, isClient } = useApp();
+  const { data } = useApp();
   const pending = data.notifications.filter((item) => !item.leida).length;
-  const expediente = data.expedientes[0];
   return (
     <Sheet
       title="Notificaciones y Avisos"
@@ -60,20 +59,13 @@ export default function Notifications({ onClose }) {
                   />
                 )}
               </div>
-              <strong>
-                {mode === "demo" && item.id === "demo-aviso" && expediente
-                  ? `Actualización de tu expediente ${expediente.nPedido}`
-                  : item.titulo}
-              </strong>
-              <p>
-                {mode === "demo" && item.id === "demo-aviso"
-                  ? `Tu gestor Juan Carlos Acero solicita que subas la foto del carnet original${expediente?.paisCanje ? ` de ${expediente.paisCanje}` : ""} y el psicotécnico.`
-                  : item.mensaje || item.cuerpo}
-              </p>
+              <strong>{item.titulo}</strong>
+              <p>{item.mensaje || item.cuerpo}</p>
               {item.expedienteId && (
                 <Link
                   className="notification-action"
-                  to={`/tramites/${encodeURIComponent(item.expedienteId)}`} state={navigationState(location)}
+                  to={`/tramites/${encodeURIComponent(item.expedienteId)}`}
+                  state={navigationState(location)}
                   onClick={onClose}
                 >
                   Subir documentación ahora ›
@@ -81,19 +73,6 @@ export default function Notifications({ onClose }) {
               )}
             </article>
           ))}
-          {mode === "demo" && isClient && expediente && (
-            <article className="notification-card">
-              <div className="notification-meta">Asignación</div>
-              <strong>Juan Carlos Acero ha sido asignado a tu trámite</strong>
-              <p>
-                Canje de carnet extranjero
-                {expediente.paisCanje
-                  ? ` (${expediente.paisCanje} → España)`
-                  : ""}{" "}
-                en tramitación telemática.
-              </p>
-            </article>
-          )}
         </div>
       )}
     </Sheet>

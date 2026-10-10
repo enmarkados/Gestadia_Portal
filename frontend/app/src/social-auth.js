@@ -50,7 +50,6 @@ export function createSocialClient({
     },
     async start(provider, purpose = "login") {
       if (
-        config().demoOnly ||
         !["ios", "android"].includes(platform()) ||
         !config().social?.[provider] ||
         busy
@@ -195,7 +194,7 @@ export const socialClient = createSocialClient({
   discard: (token) => nativeSession.discard(token),
 });
 export async function setupSocialReturn() {
-  if (!Capacitor.isNativePlatform() || globalThis.GESTADIA_APP_CONFIG?.demoOnly)
+  if (!Capacitor.isNativePlatform())
     return;
   async function handle(url) {
     if (!url?.startsWith("gestadia://auth/apple")) return;

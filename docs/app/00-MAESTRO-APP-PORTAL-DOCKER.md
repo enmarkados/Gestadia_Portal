@@ -75,3 +75,19 @@ El plan técnico es el registro versionado y el artifact editable es la vista de
 ## Privacidad y baja
 
 Criterio confirmado y redacción autorizada a Codex. [Textos y alcance operativo](../legal/PRIVACIDAD-Y-BAJA-APP-PORTAL.md). Se publicarán conforme a las operaciones comprobadas; retirada de acceso y eliminación efectiva son hitos distintos.
+
+### Confirmaciones vigentes de ejecución
+
+El usuario exige copia recuperable antes de cualquier cambio o borrado en Gestadia, confirma la transferencia de configuración y claves al servidor h.egdlcvmt.com, acceso del nuevo backend y activación mediante Plesk tras validar las copias. LidIA debe funcionar desde la primera versión en tiendas. Se conservan las 14 referencias documentales; el usuario cree que eran pruebas y pide almacenamiento permanente siguiendo los otros stacks. La restauración de archivos ya verificó 6.268 archivos y siete enlaces internos del Portal y la entrada APP anterior. El almacén documental del host se conserva como bind persistente; montaje real y recreación todavía requieren aceptación.
+
+### Despliegue real vigente
+
+Gestadia APP, web/Portal y backend común están desplegados en gestadia-common ID 73 y healthy; Plesk publica ambos dominios con revisión b42ce6a acreditada. Copia final con Node detenido restaurada antes de aplicar las diez migraciones; 44 usuarios, 94 expedientes y 14 referencias documentales conservados. Configuración privada/hash/permisos y persistencia después de recrear comprobados en servidor. Quedan chat LidIA, acceso/registro real, login social, push nativo, firma/distribución y tiendas. Ver el estado para la incidencia de subredes, pruebas y límites; el registro de APP aún muestra recorrido de ejemplo y requiere resolución antes de publicar.
+
+### Retirada de demostración — 10/10/2026
+
+El usuario solicita retirar todo modo demo y cuentas de ejemplo de Gestadia APP. Se conserva copia privada de la fuente antes del cambio. La APP mantiene sólo visitante o sesión real, acceso por API, perfil, documentos, notificaciones y textos legales conectados; se retiran simulaciones locales, gestores y avisos ficticios. No se borran datos de producción. Configuración antigua no puede reactivar simulaciones. Suite frontend 154/154 comprobada; nuevas imágenes y comprobación pública pendientes. LidIA es el servicio de chat de Gestadia APP y su activación real sigue pendiente antes de tiendas.
+
+La revisión independiente detectó la plantilla APP anterior con proxy global tras retirar el bloqueo demo; se corrigió a allowlist APP, verificación TLS y /lidia bloqueado. Comprobación real en contenedor local de la plantilla predeterminada: checkout, leads, Zoho, webhooks y archivos directos 404; /lidia 503. Configuración Docker 7/7. Comprobaciones UI de baja real (confirmar/cancelar/error) y FormData documental superadas sin usar datos reales.
+
+Validación final de la retirada: suite frontend completa 157/157 en 40 archivos, Node 24.19.0, un worker y margen de prueba de 15 s por carga del equipo; no se debilitan las aserciones. Preflight móvil 8/8, configuración Docker 7/7 y aislamiento real del proxy predeterminado superados. Revisión independiente APTO. Actualización de imágenes AMD64 en curso; aceptación pública posterior pendiente.

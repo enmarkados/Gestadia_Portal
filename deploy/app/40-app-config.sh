@@ -1,18 +1,15 @@
 #!/bin/sh
 set -eu
-case "${APP_DEMO_ENABLED:-true}" in true|false) ;; *) echo 'APP_DEMO_ENABLED debe ser true o false' >&2; exit 1;; esac
-case "${APP_DEMO_ONLY:-true}" in true|false) ;; *) echo 'APP_DEMO_ONLY debe ser true o false' >&2; exit 1;; esac
 if [ -n "${APP_PUBLIC_CONFIG_FILE:-}" ]; then
   # Solo el esquema publico permitido puede llegar al navegador.
   if ! jq -e '
     type == "object" and
     ((keys - ["appId","apiBaseUrl","checkoutBaseUrl","demoEnabled","demoOnly","conversationsEnabled","push","social","pluginWeb"]) | length == 0) and
     ([.. | objects | keys[] | select(test("secret|password|private.?key|credential|refresh.?token|access.?token|id.?token";"i"))] | length == 0) and
-    (.demoOnly | type == "boolean") and (.demoEnabled | type == "boolean") and
+    (.demoOnly != true) and (.demoEnabled != true) and
     (.appId == "com.gestadia.app") and
     (if has("conversationsEnabled") then (.conversationsEnabled | type == "boolean") else true end) and
-    (if .demoOnly == false then
-      .demoEnabled == false and
+    (
       (.apiBaseUrl | test("^https://[^/]+$")) and
       .push.enabled == true and
       (.social.google.webClientId | test("^[a-zA-Z0-9.-]+\\.apps\\.googleusercontent\\.com$")) and
@@ -20,14 +17,14 @@ if [ -n "${APP_PUBLIC_CONFIG_FILE:-}" ]; then
       .social.apple.clientId == "com.gestadia.app" and
       .social.apple.androidServiceId == "com.gestadia.app.login" and
       .social.apple.redirectUrl == (.apiBaseUrl + "/api/auth/social/apple/callback")
-    else true end)
+    )
   ' "$APP_PUBLIC_CONFIG_FILE" >/dev/null 2>&1; then
     echo 'Configuracion publica movil ausente, incompleta o no permitida' >&2
     exit 1
   fi
-  jq . "$APP_PUBLIC_CONFIG_FILE" > /tmp/app-config.json
+  jq 'del(.demoOnly,.demoEnabled)' "$APP_PUBLIC_CONFIG_FILE" > /tmp/app-config.json
 else
-  jq -n --arg checkout "${APP_CHECKOUT_URL:-https://gestadia.com}" --arg key "${APP_PLUGIN_KEY:-}" --argjson demo "${APP_DEMO_ENABLED:-true}" --argjson demoOnly "${APP_DEMO_ONLY:-true}" '{apiBaseUrl:"",checkoutBaseUrl:$checkout,demoEnabled:$demo,demoOnly:$demoOnly,pluginWeb:{baseUrl:"/lidia",key:$key}}' > /tmp/app-config.json
+  jq -n --arg checkout "${APP_CHECKOUT_URL:-https://gestadia.com}" --arg key "${APP_PLUGIN_KEY:-}" '{apiBaseUrl:"",checkoutBaseUrl:$checkout,conversationsEnabled:false,pluginWeb:{baseUrl:"/lidia",key:$key}}' > /tmp/app-config.json
 fi
 cp /tmp/app-config.json /usr/share/nginx/html/app-config.json
 printf 'window.GESTADIA_APP_CONFIG = ' > /usr/share/nginx/html/app-config.js

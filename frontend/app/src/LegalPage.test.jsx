@@ -24,8 +24,8 @@ test('la eliminación externa es accesible sin login ni reinstalar la APP y no a
   expect(screen.getByText(/no exige instalar de nuevo Gestadia/i)).toBeInTheDocument();
   expect(screen.queryByText('Cuenta eliminada')).not.toBeInTheDocument();
 });
-test('la demo mantiene su alcance local y su identificación explícita',()=>{
+test('una configuración antigua no sustituye la privacidad real',()=>{
   show('privacy',true);
-  expect(screen.getByText('GESTADIA · VERSIÓN DE DEMOSTRACIÓN')).toBeInTheDocument();
-  expect(screen.getByText(/estas páginas describen la demo de la app/)).toBeInTheDocument();
+  expect(screen.getByText('GESTADIA')).toBeInTheDocument();
+  expect(screen.getByText(/Apple puede proporcionar una dirección de correo privada/)).toBeInTheDocument();
 });

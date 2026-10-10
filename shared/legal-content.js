@@ -9,7 +9,7 @@ export const connectedLegalDocuments = {
         "title": "Responsable y alcance",
         "paragraphs": [
           "Defensa Legal Consumidores, S.L., CIF B01813336, Paseo de la Castellana, 143, 2.ª A, 28046 Madrid, es responsable del tratamiento de los datos de Gestadia. Contacto: info@gestadia.com; teléfono 910 600 314.",
-          "Esta política abarca gestadia.com, su Portal, app.gestadia.com y la aplicación Gestadia para iOS y Android. Las funciones disponibles dependen de la versión y del acceso autorizado a tu cuenta. La demostración usa datos de ejemplo y no equivale a una cuenta conectada."
+          "Esta política abarca gestadia.com, su Portal, app.gestadia.com y la aplicación Gestadia para iOS y Android. Las funciones disponibles dependen de la versión y del acceso autorizado a tu cuenta."
         ]
       },
       {

@@ -9,7 +9,7 @@ export function validateRelease(config, signing, platform, env = process.env) {
     errors.push("Plataforma no admitida");
   if (config?.appId !== "com.gestadia.app")
     errors.push("Identificador de app incorrecto");
-  if (config?.demoOnly !== false || config?.demoEnabled !== false)
+  if (config?.demoOnly === true || config?.demoEnabled === true)
     errors.push("La release no puede ser demo");
   let base;
   try {

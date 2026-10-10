@@ -1,15 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import Icon from "./Icon.jsx";
-import { demoOnly } from "./api.js";
 export default function VoiceButton({ onTranscript, onError }) {
   const [recording, setRecording] = useState(false);
   const recognition = useRef(null);
   useEffect(() => () => recognition.current?.abort(), []);
   function dictate() {
-    if (demoOnly()) {
-      onError("El dictado está desactivado en esta demo sin conexiones. Puedes escribir tu consulta.");
-      return;
-    }
     const Recognition =
       window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!Recognition) {

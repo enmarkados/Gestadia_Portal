@@ -62,7 +62,7 @@ it("logout invalida escritura pendiente y encola el token nuevo para revocar", a
   expect(store.get()).toBe(null);
   expect(revoke).toHaveBeenCalledWith("late-session");
 });
-it("demo conserva revocación del token guardado sin llamar al servidor", async () => {
+it("retirar una sesión guardada conserva su revocación pendiente sin conectarse", async () => {
   const secure = fixture();
   await secure.set("gestadia.session", "old-session");
   const revoke = vi.fn();

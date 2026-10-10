@@ -2,8 +2,6 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { connectedLegalDocuments } from "../../../shared/legal-content.js";
 import { useApp } from "./AppContext.jsx";
-import { demoOnly } from "./api.js";
-import { legalDocuments } from "./legalContent.js";
 import AccountDeletion from "./AccountDeletion.jsx";
 import { backNavigation } from "./navigation.js";
 import Icon from "./Icon.jsx";
@@ -11,8 +9,7 @@ import Icon from "./Icon.jsx";
 export default function LegalPage({ kind }) {
   const location = useLocation();
   const app = useApp();
-  const connected = !demoOnly() && app?.mode !== "demo";
-  const document = (connected ? connectedLegalDocuments : legalDocuments)[kind];
+  const document = connectedLegalDocuments[kind];
   const back = backNavigation(location, "/acceso");
   return (
     <section className="legal-page">
@@ -20,10 +17,10 @@ export default function LegalPage({ kind }) {
         <span className="legal-document-icon">
           <Icon name={document.icon} size={28} />
         </span>
-        <p className="eyebrow">{connected ? "GESTADIA" : "GESTADIA · VERSIÓN DE DEMOSTRACIÓN"}</p>
+        <p className="eyebrow">GESTADIA</p>
         <h1>{document.title}</h1>
         <p className="muted">{document.subtitle}</p>
-        <p className="helper">Actualizado el {connected ? "10" : "3"} de octubre de 2026</p>
+        <p className="helper">Actualizado el 10 de octubre de 2026</p>
       </div>
       <nav className="legal-navigation" aria-label="Documentos legales">
         {[
@@ -52,15 +49,32 @@ export default function LegalPage({ kind }) {
             ))}
           </section>
         ))}
-        {connected && ["support", "delete-account"].includes(kind) && (
-          <p><a href={kind === "delete-account" ? "mailto:info@gestadia.com?subject=Eliminar%20mi%20cuenta%20Gestadia" : "mailto:info@gestadia.com"}>
-            {kind === "delete-account" ? "Solicitar eliminación por correo" : "Escribir a Gestadia"}
-          </a></p>
+        {["support", "delete-account"].includes(kind) && (
+          <p>
+            <a
+              href={
+                kind === "delete-account"
+                  ? "mailto:info@gestadia.com?subject=Eliminar%20mi%20cuenta%20Gestadia"
+                  : "mailto:info@gestadia.com"
+              }
+            >
+              {kind === "delete-account"
+                ? "Solicitar eliminación por correo"
+                : "Escribir a Gestadia"}
+            </a>
+          </p>
         )}
-        {connected && kind === "terms" && (
-          <p><a href="https://gestadia.com/aviso-legal">Aviso legal</a> · <a href="https://gestadia.com/pagos-devoluciones">Pagos y devoluciones</a></p>
+        {kind === "terms" && (
+          <p>
+            <a href="https://gestadia.com/aviso-legal">Aviso legal</a> ·{" "}
+            <a href="https://gestadia.com/pagos-devoluciones">
+              Pagos y devoluciones
+            </a>
+          </p>
         )}
-        {kind === "delete-account" && (!connected || app?.mode === "real") && <AccountDeletion />}
+        {kind === "delete-account" && app?.mode === "real" && (
+          <AccountDeletion />
+        )}
       </article>
       <Link className="btn secondary" to={back.to} state={back.state} replace>
         {back.label}

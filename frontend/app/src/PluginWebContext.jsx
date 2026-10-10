@@ -7,7 +7,6 @@ import React, {
 } from "react";
 import { readPluginSession, storePluginSession } from "./pluginStorage.js";
 import { nativeOrigin } from "./native.js";
-import { demoOnly } from "./api.js";
 const Context = createContext(null);
 export const usePluginWeb = () => useContext(Context);
 export const pluginConfig = () =>
@@ -18,10 +17,6 @@ export async function pluginRequest(
   path,
   { token, method = "GET", body, signal } = {},
 ) {
-  if (demoOnly())
-    throw new Error(
-      "El chat de esta versión funciona con datos de demostración.",
-    );
   const cfg = pluginConfig();
   const headers = {
     "X-Plugin-Key": cfg.key,

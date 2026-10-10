@@ -16,7 +16,7 @@ COPY deploy/app/40-app-config.sh /docker-entrypoint.d/40-app-config.sh
 ARG APP_VERSION=0.1.0
 ARG VCS_REF=local
 RUN chmod +x /docker-entrypoint.d/40-app-config.sh && jq -n --arg version "$APP_VERSION" --arg revision "$VCS_REF" '{app:"Gestadia",version:$version,revision:$revision}' > /usr/share/nginx/html/build-info.json
-ENV PORTAL_UPSTREAM=https://gestadia.com PORTAL_HOST=gestadia.com LIDIA_UPSTREAM=https://lidia.gestadia.com LIDIA_HOST=lidia.gestadia.com APP_CHECKOUT_URL=https://gestadia.com APP_DEMO_ENABLED=true APP_DEMO_ONLY=true APP_PLUGIN_KEY=""
+ENV PORTAL_UPSTREAM=https://gestadia.com PORTAL_HOST=gestadia.com LIDIA_UPSTREAM=https://lidia.gestadia.com LIDIA_HOST=lidia.gestadia.com APP_CHECKOUT_URL=https://gestadia.com APP_PLUGIN_KEY=""
 LABEL org.opencontainers.image.revision=$VCS_REF org.opencontainers.image.title="Gestadia APP"
 RUN sed -i 's@^pid[[:space:]].*;@pid /tmp/nginx.pid;@' /etc/nginx/nginx.conf && chown -R nginx:nginx /etc/nginx/conf.d /var/cache/nginx /usr/share/nginx/html
 USER nginx

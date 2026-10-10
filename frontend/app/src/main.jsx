@@ -12,7 +12,6 @@ import {
   finishSplash,
 } from "./native.js";
 import { conversationsEnabled } from "./conversationApi.js";
-import { demoOnly } from "./api.js";
 import { setupSocialReturn } from "./social-auth.js";
 import { initializeNativeSession } from "./sessionStorage.js";
 import "./app.css";
@@ -52,7 +51,6 @@ function ConnectedApp() {
       key={`${mode}:${data.profile?.id || "visitor"}`}
       identity={`${mode}:${data.profile?.id || "visitor"}`}
       enabled={
-        !demoOnly() &&
         !conversationsEnabled() &&
         (mode === "visitante" || (mode === "real" && Boolean(data.profile?.id)))
       }

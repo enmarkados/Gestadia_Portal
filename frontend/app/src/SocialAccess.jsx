@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useApp } from "./AppContext.jsx";
-import { demoOnly, platform } from "./api.js";
+import { platform } from "./api.js";
 import { socialClient, takeSocialResult } from "./social-auth.js";
 export default function SocialAccess({ purpose = "login", onDone = () => {} }) {
   const app = useApp();
@@ -8,7 +8,6 @@ export default function SocialAccess({ purpose = "login", onDone = () => {} }) {
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false);
   const available =
-    !demoOnly() &&
     ["ios", "android"].includes(platform()) &&
     globalThis.GESTADIA_APP_CONFIG?.social;
   async function receive(value) {

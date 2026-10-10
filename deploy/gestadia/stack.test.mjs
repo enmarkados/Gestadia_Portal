@@ -31,7 +31,7 @@ test('login compartido y autorización conversacional sin JWT Portal', async () 
 });
 test('configuración, capacidades y CORS de ambos sistemas conservan el contrato', async () => {
   const config = await (await fetch(app + '/app-config.json')).json();
-  assert.equal(config.conversationsEnabled,true); assert.equal(config.demoOnly,false);
+  assert.equal(config.conversationsEnabled,true); assert.equal(config.demoOnly,undefined);
   const capabilities = await (await fetch(app + '/api/mobile/capabilities')).json();
   assert.equal(capabilities.mobileEnabled,true); assert.equal(capabilities.pushEnabled,true);
   for (const origin of ['capacitor://localhost','https://localhost']) {
