@@ -17,7 +17,7 @@ import { initializeNativeSession } from "./sessionStorage.js";
 import "./app.css";
 class ErrorBoundary extends React.Component {
   state = {
-    failed: false,
+    failed: Boolean(this.props.failed),
   };
   static getDerivedStateFromError() {
     return {
@@ -59,18 +59,27 @@ function ConnectedApp() {
     </PluginWebProvider>
   );
 }
-await loadNativeConfig();
-await initializeNativeSession();
-await setupNativeKeyboard();
-setupNativeNavigation();
-await setupSocialReturn();
-const GestadiaRouter = isNative() ? HashRouter : BrowserRouter;
-createRoot(document.getElementById("root")).render(
-  <ErrorBoundary>
-    <GestadiaRouter>
-      <AppProvider>
-        <ConnectedApp />
-      </AppProvider>
-    </GestadiaRouter>
-  </ErrorBoundary>,
-);
+async function startApp() {
+  await loadNativeConfig();
+  await initializeNativeSession();
+  await setupNativeKeyboard();
+  setupNativeNavigation();
+  await setupSocialReturn();
+  const GestadiaRouter = isNative() ? HashRouter : BrowserRouter;
+  createRoot(document.getElementById("root")).render(
+    <ErrorBoundary>
+      <GestadiaRouter>
+        <AppProvider>
+          <ConnectedApp />
+        </AppProvider>
+      </GestadiaRouter>
+    </ErrorBoundary>,
+  );
+}
+
+// Los chunks de los plugins pueden importar esta entrada; debe terminar de
+// evaluarse antes de esperar la preparación nativa.
+startApp().catch(() => {
+  createRoot(document.getElementById("root")).render(<ErrorBoundary failed />);
+  finishSplash().catch(() => {});
+});

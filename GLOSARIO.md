@@ -1271,3 +1271,12 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Notas:** Android API 36, Pixel 8; se ejecuta solo un emulador a la vez. Se descarta reutilizar el almacenamiento de LIA para mantener sus pruebas intactas.
 
 Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB de RAM y cuatro núcleos** el 11/10/2026. Se conserva el AVD y la instalación; iOS permanece apagado durante esta prueba.
+
+<!-- Arranque nativo revisado el 11/10/2026. -->
+
+## Arranque APP (`startApp`)
+
+- **Tipo:** concepto runtime y función de inicialización.
+- **Definición:** secuencia que prepara configuración, sesión segura, teclado y retornos sociales antes de mostrar Gestadia. La evaluación del módulo de entrada termina antes de esperar plugins que pueden volver a importarlo.
+- **Alcance:** APP web y nativa; `frontend/app/src/main.jsx` y `main.boot.test.jsx`.
+- **Notas:** se retira la espera de nivel superior porque crea un ciclo con el chunk nativo de SecureStorage; un fallo de preparación presenta la recuperación existente y retira el splash.
