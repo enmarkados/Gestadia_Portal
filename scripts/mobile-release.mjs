@@ -40,6 +40,8 @@ try {
     if (platform === "android")
       run("./gradlew", ["bundleRelease"], resolve(root, "frontend/android"));
     else {
+      if (!process.env.GESTADIA_IOS_PROFILE_SPECIFIER?.trim())
+        throw Error("Falta GESTADIA_IOS_PROFILE_SPECIFIER para firmar la distribución iOS");
       mkdirSync(resolve(root, ".superpowers/releases"), { recursive: true });
       run("xcodebuild", [
         "-project",
@@ -53,6 +55,7 @@ try {
         "-archivePath",
         ".superpowers/releases/Gestadia.xcarchive",
         `DEVELOPMENT_TEAM=${signing.teamId}`,
+        `GESTADIA_IOS_PROFILE_SPECIFIER=${process.env.GESTADIA_IOS_PROFILE_SPECIFIER}`,
         `GOOGLE_IOS_REVERSED_CLIENT_ID=${config.social.google.iosClientId.split(".").reverse().join(".")}`,
         "archive",
       ]);

@@ -89,19 +89,20 @@ JSON privado de firma Android:
 {"keystore":"/ruta/android-upload.p12","alias":"gestadia-upload","storePasswordEnv":"ANDROID_STORE_PASSWORD","keyPasswordEnv":"ANDROID_KEY_PASSWORD","firebaseFile":"/ruta/google-services.json","certificateSha256":"<huella SHA-256 aprobada del certificado upload>"}
 ```
 
-iOS: `{"teamId":"X27NG7M487"}`; equipo confirmado y guardado en `/Users/gonchumon/.config/gestadia/mobile-signing/ios-signing.json` (0600). Xcode Debug usa APNs development; Release production. Google URL scheme se pasa como `GOOGLE_IOS_REVERSED_CLIENT_ID` derivado del cliente iOS.
+iOS: `{"teamId":"X27NG7M487"}`; equipo confirmado y guardado en `/Users/gonchumon/.config/gestadia/mobile-signing/ios-signing.json` (0600). Xcode Debug usa APNs development; Release production. Google URL scheme se pasa como `GOOGLE_IOS_REVERSED_CLIENT_ID` derivado del cliente iOS. Para distribuir, instalar el perfil autorizado y aportar `GESTADIA_IOS_PROFILE_SPECIFIER`: el target App Release usa firma manual Apple Distribution. Las dependencias Swift Package no reciben el perfil de la app.
 
 ```sh
 export MOBILE_PUBLIC_CONFIG_FILE=/ruta/privada/mobile-release.json
 export MOBILE_SIGNING_CONFIG_FILE=/ruta/privada/mobile-signing.json
 # Android: aportar passwords al entorno desde custodia privada y JAVA_HOME/ANDROID_HOME.
 node scripts/mobile-release.mjs android --build
+export GESTADIA_IOS_PROFILE_SPECIFIER='Gestadia App Store'
 node scripts/mobile-release.mjs ios --build
 ```
 
 El preflight exporta el certificado real con `keytool`, compara `certificateSha256`, su vigencia y rechaza firma debug aunque cambie el alias. Nunca incluye contraseñas en argv ni imprime stderr privado.
 
-El script verifica backend, compila frontend, sustituye configuración sólo en `dist-app` ignorado, sincroniza y prepara firma. Gradle Release y fase Xcode Release rechazan demo/configuración empaquetada distinta. Los comandos Debug y `mobile:sync` restauran la demo por defecto: hay que preparar de nuevo antes de distribución.
+El script verifica backend, compila frontend, sustituye configuración sólo en `dist-app` ignorado, sincroniza y prepara firma. Gradle Release y fase Xcode Release rechazan configuración empaquetada distinta. La demostración se retiró en be6806d; hay que preparar la configuración conectada antes de distribución.
 
 Después verificar AAB/IPA/xcarchive y perfiles efectivos: paquete, equipo, `aps-environment`, Sign in with Apple, certificado firmante y configuración embebida. Registrar las huellas debug/upload/Play App Signing en los clientes Android correspondientes. Un debug APK firmado automáticamente no acredita la firma de publicación.
 
