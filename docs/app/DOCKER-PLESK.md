@@ -171,3 +171,6 @@ hallazgos importantes después de limitar el proxy. `/lidia/` devuelve 503.
 El stack de producción aún no está desplegado; pendientes montaje privado,
 migración explícita y proxy HTTPS. Backup real restaurado y migrado solo en
 MariaDB aislada; producción sin cambios de esquema.
+
+Evaluación del contenido, dependencias del Portal y límites antes de activar:
+[EVALUACION-SUBDOMINIO.md](EVALUACION-SUBDOMINIO.md).

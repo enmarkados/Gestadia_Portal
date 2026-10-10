@@ -667,3 +667,15 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición**: `APP_PROXY_TEMPLATE` elige la plantilla Nginx al construir la imagen; `gestadia_client_chain` conserva la cadena de IP que proporciona Plesk para la API móvil interna.
 - **Alcance**: `deploy/app/Dockerfile`, `deploy/app/mobile.conf.template`, stack móvil.
 - **Notas**: La plantilla demo permanece como predeterminada. La entrada del stack solo admite el proxy local de Plesk; no se agrega otro salto al proxy de confianza de Express.
+
+### Backend común Gestadia
+- **Tipo:** concepto runtime / decisión de despliegue propuesta.
+- **Definición:** un único backend en Docker atiende las cuentas, expedientes, documentos, avisos y contratos APP del Portal y de la aplicación móvil. Los dos frontends acceden mediante sus respectivos proxies HTTPS.
+- **Alcance:** plan `docs/superpowers/plans/2026-10-10-app-portal-docker-tiendas.md`; servicio previsto `gestadia-backend` en `deploy/gestadia/portainer-stack.yml`.
+- **Notas:** evita dos implementaciones activas de identidad y reglas comerciales sobre la misma base. La API móvil aislada preparada anteriormente conserva valor como prueba, pero no será la imagen definitiva del conjunto integrado.
+
+### gestadia-portal-web y gestadia-backend
+- **Tipo:** decisión naming de servicios Docker propuesta.
+- **Definición:** `gestadia-portal-web` sirve el frontend de la web y Portal; `gestadia-backend` ejecuta la API común y sus procesos durables. `gestadia-app` conserva el nombre del frontend APP separado.
+- **Alcance:** futuro `deploy/gestadia/portainer-stack.yml`, `deploy/portal/Dockerfile`, `deploy/portal/default.conf.template`; Plesk publica los dominios.
+- **Notas:** MariaDB y los archivos vigentes se conservan inicialmente en su ubicación; no se propone trasladar datos de producción a un volumen vacío. La extensión de la web completa depende de la respuesta del usuario.

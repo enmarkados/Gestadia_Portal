@@ -37,3 +37,5 @@ Los proyectos nativos empaquetan el mismo frontend con Capacitor. Ejecutar `npm 
 La preparación para tiendas solicitada el 08/10/2026 tiene una auditoría y propuesta escrita en los documentos anteriores. Está pendiente de revisión e implementación; el comportamiento actual continúa siendo el de la demo.
 
 Preparación de tiendas y evidencia: [MARKETPLACES-CONFIGURACION](docs/app/MARKETPLACES-CONFIGURACION.md).
+
+[Documento maestro APP Portal Docker y tiendas](docs/app/00-MAESTRO-APP-PORTAL-DOCKER.md) · [Plan de acción](docs/superpowers/plans/2026-10-10-app-portal-docker-tiendas.md)
