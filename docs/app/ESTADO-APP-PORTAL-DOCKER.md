@@ -29,7 +29,7 @@ Se dispone de copia previa de DB restaurada y dos migraciones móviles comprobad
 | Inventario | Verificado | Copias restauradas, inventario y corte del 10/10 acreditados |
 | Integración Git | Verificado localmente | Merge 08d2bbc, builds APP y Portal |
 | Identidad y push común | Verificado localmente | 204 backend + 165 frontend; proveedores reales pendientes |
-| Docker APP/web/Portal/backend | Desplegado | gestadia-common ID 73; tres servicios saludables; frontends sin demo pendientes de actualización |
+| Docker APP/web/Portal/backend | Desplegado | gestadia-common ID 73; tres servicios saludables; frontends sin demo be6806d publicados |
 | Datos y LidIA | En curso | Bind documental persistente verificado; 14 referencias anteriores conservadas; LidIA real pendiente |
 | Privacidad/baja | Verificado localmente | Textos conectados y procesador de baja probados; operaciones de producción y proveedores reales pendientes |
 | Despliegue | Desplegado; aceptación en curso | Migraciones y proxies activos; login, chat y push reales pendientes |
@@ -124,3 +124,9 @@ El usuario solicita retirar todo modo demo y cuentas de ejemplo de Gestadia APP.
 La revisión independiente detectó la plantilla APP anterior con proxy global tras retirar el bloqueo demo; se corrigió a allowlist APP, verificación TLS y /lidia bloqueado. Comprobación real en contenedor local de la plantilla predeterminada: checkout, leads, Zoho, webhooks y archivos directos 404; /lidia 503. Configuración Docker 7/7. Comprobaciones UI de baja real (confirmar/cancelar/error) y FormData documental superadas sin usar datos reales.
 
 Validación final de la retirada: suite frontend completa 157/157 en 40 archivos, Node 24.19.0, un worker y margen de prueba de 15 s por carga del equipo; no se debilitan las aserciones. Preflight móvil 8/8, configuración Docker 7/7 y aislamiento real del proxy predeterminado superados. Revisión independiente APTO. Actualización de imágenes AMD64 en curso; aceptación pública posterior pendiente.
+
+### Frontends sin demostración publicados — 10/10/2026 11:03 UTC
+
+Gestadia APP y web/Portal sirven be6806d64ea3eea1999d01a3db81f9694ff977f1, importadas como linux/amd64 y comprobadas contra los dos digests del archivo exportado. Archivo gestadia-frontends-be6806d.tar.gz: 27315704 bytes, SHA-256 cbdf1daa9f0aef56847e6099cb9ca6a046844eb1a27e1fb6f0248708f3466e3a. APP index-CYgHPwfj.js, Portal index-Co99xfGI.js. Configuración pública sin campos demo; registro y acceso reales observados en navegador. Stack 73: los tres servicios healthy; backend b42ce6a conserva el mismo contenedor y almacén. Proxies existentes siguen sirviendo ambas superficies después de recrear frontends.
+
+Verificación pública de raíz, acceso, registro, privacidad y baja: 200. APP mantiene checkout/leads/Zoho/webhooks/archivos directos 404; capacidades móviles y push configurados. 157/157 frontend y 7/7 configuración de la imagen AMD64 definitiva. Evidencia: artifacts/portainer-common-be6806d/public-no-demo-verification.json e image-manifest.json; captura gestadia-registro-sin-demo-20261010.png. Copia de fuente y stack previo conservada. No se crearon ni borraron cuentas de producción. LidIA real, cuenta autorizada, firma/distribución y pruebas de proveedores/dispositivos continúan pendientes.
