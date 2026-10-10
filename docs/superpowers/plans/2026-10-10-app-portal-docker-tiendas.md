@@ -81,7 +81,7 @@
 - [ ] Vincular el almacén vigente de documentos; no reemplazarlo por el volumen vacío de la preparación móvil.
 - [x] GREEN: arranque AMD64, proxy/CORS/IP y sesiones, relectura después de reinicio, builds/versiones coincidentes. `docker compose config --quiet` y tests runtime.
 - [x] Commit de preparación del conjunto con runtime local: 6/6 configuración y 7/7 stack + reinicio, AMD64 y suites 204/165.
-- [ ] Importar imágenes finales por commit/config digest y preparar Portainer sin cortar el servicio vigente. Se difiere la importación hasta incorporar textos/baja y dependencias de release para evitar desplegar una candidata incompleta.
+- [x] Importar imágenes finales b42ce6a por commit/config digest en Portainer local, sin cortar el servicio vigente. Incluyen los textos/baja y las dependencias actualizadas. Los montajes y arranque real siguen en Task 7.
 
 ### Task 5: Contenido conectado documentos y contrato LidIA
 
@@ -114,6 +114,8 @@
 **Interfaces:** consume Tasks 2–6 e imágenes finales; produce Portal/APP/API servidos desde Docker con versiones observadas.
 
 - [ ] Backup fresco de DB/documentos/config/proxy y prueba de restauración; inventariar TODAS las migraciones integradas, no solo las dos móviles antiguas.
+- [x] Ensayo previo: copia privada restaurada en MariaDB 11.4.12 local; diez migraciones aplicadas y todos los valores originales de las ocho tablas de negocio preservados. No sustituye el backup fresco del corte.
+- [x] Verificar UID/GID reales del propietario: 10019:1003; retirar el helper temporal sin montajes privados.
 - [ ] Probar migración y compatibilidad de retorno en copia aislada; comprobar checkout real/webhooks idempotentes y avisos completos.
 - [ ] Preparar mounts privados, propietarios/permisos, proxy y worker único. Presentar confirmación concreta cuando la nueva API recibe datos/credenciales/acceso público, según política del navegador.
 - [ ] Después de confirmación requerida, aplicar migraciones explícitas, arrancar conjunto Docker y cambiar proxy en ventana acordada; desactivar workers anteriores de forma controlada.

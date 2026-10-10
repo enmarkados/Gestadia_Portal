@@ -21,6 +21,20 @@ Prueba reproducible local del conjunto: `node deploy/gestadia/test-stack.mjs`. C
 
 Antes del corte: backup fresco completo, restauración/migraciones en copia, UID/GID y mounts comprobados, callbacks reales preservados, imágenes identificadas y configuración de proxy preparada. Mantener la versión anterior detenida para el retorno; no restaurar una DB antigua automáticamente después de nuevas escrituras.
 
+### Preparación final verificada b42ce6a
+
+Las etiquetas `gestadia-app:b42ce6a`, `gestadia-portal-web:b42ce6a` y `gestadia-backend:b42ce6a` están importadas en Portainer local. Sus config digests y la revisión completa están registrados en [el estado](ESTADO-APP-PORTAL-DOCKER.md). El formulario del stack `gestadia-common` está preparado, sin desplegar.
+
+Propietario real `gestadia.com_vx391aaj8xf`: UID 10019 y GID 1003 (psacln). Configuración en `/var/www/vhosts/gestadia.com/gestadia-mobile-private`, fuera de los dos document roots y con permisos 0700. El backend conserva DATABASE_URL/JWT_SECRET y los 21 ajustes de negocio vigentes; añadir las tres claves móviles como archivos de lectura, propiedad 10019:1003 y permiso 0600. `mobile-release.json` solo contiene configuración pública y necesita lectura del usuario Nginx en su bind individual; puede tener permiso 0644 dentro del directorio padre privado 0700. Las claves de firma iOS/Android permanecen en el equipo de compilación.
+
+Se preparó una copia de la versión anterior mediante el gestor de archivos: shared, frontend, backend (incluidos uploads y configuración), versión Node, paquetes, server.js y páginas de la web. Se excluyeron únicamente node_modules de la raíz, tmp y bk_wp.zip; los dependientes del backend/frontend se conservan. Archivo `portal-before-common-b42ce6a-20261010.zip`, 93.1 MB según Plesk, dentro del directorio privado y permiso 0600. Es una copia de preparación; antes del corte asegurar que no haya escrituras concurrentes y obtener el backup final consistente.
+
+Plesk gestadia.com: directivas Apache HTTP/HTTPS y Nginx adicionales vacías, Proxy mode activo, Smart static activo, archivos directos/caché desactivados y límite de cuerpo 128 MB. No hay reglas Docker vigentes. El formulario de regla ofrece contenedor y puerto; al corte elegir el frontend Portal 8080 → 8092 para gestadia.com y APP 8080 → 8091 para app.gestadia.com, URL raíz. Plesk permite mapear en loopback y publicar por su Nginx; [referencia oficial](https://docs.plesk.com/en-US/obsidian/administrator-guide/plesk-administration/using-docker.75823/). No modificar el mapeo desde Plesk ni recrear los contenedores del stack: Portainer conserva la gestión Compose.
+
+Orden del cambio: verificar copia/restauración, transmitir los archivos privados con la confirmación concreta, comprobar propietarios y montajes, detener el proceso/worker anterior, renovar la copia final, aplicar migraciones explícitamente con la imagen identificada sin arrancar proveedores, arrancar el conjunto privado y validar, y finalmente aplicar los proxies. No usar Intro sobre controles de navegación con carga asíncrona: un formulario recién abierto puede enviarse con el valor predeterminado.
+
+Vuelta atrás del servicio: retirar únicamente las dos reglas Docker del corte, detener el nuevo backend y recuperar Node.js 24.21.0 con application root `/httpdocs/backend`, inicio `src/server.js` y document root `/httpdocs`; conservar la configuración anterior y un único worker. Las migraciones requieren comprobar compatibilidad del código anterior; la copia de preparación prueba preservación de todos los valores originales, no aceptación comercial completa. No restaurar la DB antigua tras nuevas escrituras sin decisión explícita y conciliación.
+
 ## Preparación histórica de demo y stack móvil
 
 Los siguientes apartados registran los pasos anteriores; el alcance vigente los sustituye cuando contradigan el conjunto común descrito arriba.

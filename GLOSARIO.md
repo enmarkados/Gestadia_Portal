@@ -1093,3 +1093,21 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** restauración de una copia privada en MariaDB efímera local y aplicación de todas las migraciones integradas, comprobando que cada valor original de las tablas de negocio permanece igual.
 - **Alcance:** scripts/verify-portal-migration.mjs.
 - **Notas:** no arranca el backend ni proveedores externos, no modifica producción y no considera una copia antigua como backup suficiente para el corte.
+
+### gestadia-host-metadata
+- **Tipo:** servicio temporal de operación.
+- **Definición:** contenedor sin privilegios ni red que identifica los UID/GID del propietario de Gestadia a partir de los metadatos públicos de usuarios y grupos del host.
+- **Alcance:** deploy/gestadia/host-metadata.yml.
+- **Notas:** solo monta passwd y group como lectura; no monta documentos, claves, configuración, socket Docker ni almacenamiento de escritura. Se retira tras verificar los identificadores.
+
+### gestadia-mobile-private
+- **Tipo:** decisión naming / directorio de despliegue.
+- **Definición:** Directorio del servidor reservado a configuración privada, claves de proveedores y copias previas al cambio de Gestadia APP y Portal.
+- **Alcance:** `/var/www/vhosts/gestadia.com/gestadia-mobile-private`; `deploy/gestadia/portainer-stack.yml` mediante `GESTADIA_CONFIG_DIR`; guía `docs/app/DOCKER-PLESK.md`.
+- **Notas:** se sitúa fuera de los document roots y se limita al propietario del Portal. Se descarta almacenar claves en imágenes, código o carpetas públicas.
+
+### gestadia-common
+- **Tipo:** decisión naming / stack de despliegue.
+- **Definición:** Conjunto de Portainer que agrupa los servicios de Gestadia APP, web/Portal y backend común.
+- **Alcance:** nombre del stack de producción previsto para `deploy/gestadia/portainer-stack.yml`.
+- **Notas:** mantiene la configuración y los documentos existentes mediante montajes explícitos; se descarta el backend móvil paralelo como despliegue vigente.

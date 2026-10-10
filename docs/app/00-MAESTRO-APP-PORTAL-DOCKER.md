@@ -60,7 +60,13 @@ Las imágenes finales se identifican por commit y config digest; se verifican co
 
 Se prepara el conjunto Docker en paralelo al servicio actual. El corte solo sigue a validación del conjunto y backup fresco. Se conserva el servicio y proxy anterior para vuelta atrás. Evitar escrituras concurrentes de workers o activar callbacks duplicados. Las migraciones deben ser compatibles con el servicio anterior mientras exista la ventana de retorno; restaurar una copia antigua tras escrituras nuevas requiere evaluar pérdida de datos y no se automatiza como rollback.
 
-La auditoría anterior conserva cuatro alertas altas en dependencias; se revisan exposición y parches compatibles antes de release. No se considera seguro el conjunto por una compilación o un healthcheck aislado.
+La revisión final b42ce6a actualizó las dependencias compatibles: las auditorías del backend y frontend no informan vulnerabilidades conocidas. Suites 208 backend/168 frontend y builds APP/web pasan; el conjunto AMD64 supera 7/7 comprobaciones y reinicio persistente. Esto no sustituye la aceptación con proveedores y dispositivos reales.
+
+## Avance preparado del 10/10/2026
+
+Las tres imágenes finales b42ce6a están importadas y verificadas en Portainer. El formulario gestadia-common conserva los puertos loopback y el backend privado, con UID/GID real 10019:1003. La carpeta privada del servidor tiene permiso 0700; la configuración local conserva DB/JWT y 21 ajustes de negocio. Se requiere la confirmación concreta al transferir claves y dar acceso al nuevo backend.
+
+Copia fresca DB restaurada y diez migraciones aplicadas sin alterar valores originales; archivo web/Portal de 93.1 MB descargado a custodia privada y verificado por CRC completo. La carpeta uploads del servicio anterior ya está vacía, aunque la DB contiene 14 referencias JPG: aclaración/recuperación pendiente. Firma de entrada y configuración iOS/Android superan preflight; quedan binarios, distribución, login/push reales, LidIA y publicación.
 
 ## Seguimiento
 
