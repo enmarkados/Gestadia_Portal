@@ -1,6 +1,6 @@
 # Documento maestro de Gestadia APP Portal Docker y tiendas
 
-Fecha: 10/10/2026. Responsable de ejecución: Codex en este chat. Responsable de decisiones de alcance, cuentas y aceptación: Gonzalo. Responsable de textos y conservación: pendiente de concretar tras revisar la política vigente.
+Fecha: 10/10/2026. Responsable de ejecución: Codex en este chat. Responsable de decisiones de alcance, cuentas y aceptación: Gonzalo. Criterio de baja confirmado por Gonzalo; redacción de textos encargada a Codex.
 
 [Artifact editable](https://chatgpt.com/space/page_2a257ea775a08191acdfa746f4c9098e) · [Plan de acción](../superpowers/plans/2026-10-10-app-portal-docker-tiendas.md) · [Estado y evidencia](ESTADO-APP-PORTAL-DOCKER.md) · [Evaluación previa](EVALUACION-SUBDOMINIO.md) · [Glosario](../../GLOSARIO.md)
 
@@ -50,7 +50,7 @@ El backend común debe preservar Stripe, Zoho y SMTP vigentes; jamás activar pa
 
 ## Decisiones pendientes
 
-Decisiones recibidas el 10/10: web completa y Portal en Docker; cuenta de prueba autorizada sistemas@enmarkados.com; iPhone del usuario y simulador iOS, Android en emulador. Nunca ejecutar simultáneamente los dos emuladores. Para la política de baja, revisar primero los textos públicos y presentar una propuesta concreta de qué se borra y conserva; no se presume un plazo legal. Este punto solo bloquea el borrado definitivo/textos finales, no el resto del trabajo. La aceptación Android se registrará como emulador con servicios Google, sin atribuir una prueba física no realizada.
+Decisiones recibidas el 10/10: web completa y Portal en Docker; cuenta de prueba autorizada sistemas@enmarkados.com; iPhone del usuario y simulador iOS, Android en emulador. Nunca ejecutar simultáneamente los dos emuladores. Criterio de baja recibido: cerrar acceso, retirar Apple/Google y push, eliminar datos de cuenta innecesarios y conservar expedientes/documentos/justificantes solo cuando corresponda, explicando el resultado. Textos autorizados a Codex; no se presume un plazo legal. La aceptación Android se registrará como emulador con servicios Google, sin atribuir una prueba física no realizada.
 
 El login Apple/Google en navegador es una extensión opcional: el objetivo pedido es ofrecer ambos proveedores en iOS y Android. No se confunde servir la web con tener login social web implementado.
 
@@ -65,3 +65,7 @@ La auditoría anterior conserva cuatro alertas altas en dependencias; se revisan
 ## Seguimiento
 
 El plan técnico es el registro versionado y el artifact editable es la vista de seguimiento. Cada bloque registra estado, commit/versiones, verificación y pendiente concreto; los estados son Pendiente, En curso, Verificado o Necesita respuesta. «Verificado» requiere la evidencia correspondiente, no una intención de ejecución.
+
+## Privacidad y baja
+
+Criterio confirmado y redacción autorizada a Codex. [Textos y alcance operativo](../legal/PRIVACIDAD-Y-BAJA-APP-PORTAL.md). Se publicarán conforme a las operaciones comprobadas; retirada de acceso y eliminación efectiva son hitos distintos.

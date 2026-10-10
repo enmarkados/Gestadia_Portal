@@ -1027,3 +1027,15 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** retirada transaccional del acceso de una cuenta que invalida sesiones móviles y conversacionales, desactiva dispositivos push y conserva una revocación durable del canal APP.
 - **Alcance:** backend/src/app/lifecycle.js y backend/src/services/account-deletion.js.
 - **Notas:** se comparte la operación dentro de la transacción existente; se evita que cada superficie invalide solo su propia familia de sesiones. No purga expedientes ni modifica el canal WhatsApp.
+
+### Stack común Gestadia
+- **Tipo:** decisión de despliegue.
+- **Definición:** conjunto Docker que sirve APP y web/Portal mediante frontends separados y una única API con sus procesos durables.
+- **Alcance:** deploy/gestadia/portainer-stack.yml, deploy/portal, deploy/app.
+- **Notas:** sustituye la propuesta de API móvil paralela; conserva MariaDB y el almacén documental vigente mediante bind, con ingreso TLS en Plesk.
+
+### expedienteAutorizado (subida documental)
+- **Tipo:** propiedad interna de petición.
+- **Definición:** expediente cuya pertenencia a la cuenta autenticada se ha comprobado antes de aceptar el archivo de una subida.
+- **Alcance:** backend/src/routes/portal.js.
+- **Notas:** impide escribir archivos de solicitudes de usuarios ajenos; la validación se realiza antes de Multer y no depende de IDs de propietario enviados por el cliente.

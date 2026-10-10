@@ -75,12 +75,13 @@
 **Files:** crear `deploy/portal/Dockerfile`, `deploy/portal/default.conf.template`, `deploy/gestadia/portainer-stack.yml`, `deploy/gestadia/stack.test.mjs`; modificar `deploy/app/Dockerfile.backend`, plantillas APP, GLOSARIO/DOCKER-PLESK. No copiar frontend dist ni secrets indiscriminadamente al contexto.
 **Interfaces:** servicios `gestadia-app`, `gestadia-portal-web`, `gestadia-backend`; ambos proxies usan el backend privado; mount de documentos existente y backend.env privado. Rutas comerciales solo por superficie Portal con configuración real.
 
-- [ ] Usar la respuesta de alcance; web completa conserva rutas y build, solo /portal requiere base de assets aislada para evitar mezcla.
-- [ ] RED: stack prueba `/portal/acceso`, APP, APIs autorizadas y documentos de fixture; checkout APP fuera de contrato devuelve rechazo; usuario ajeno no lee documento.
-- [ ] Construir web Portal y backend común reproducibles, usuario no root, API sin puerto host, loopback web, TLS externo, rotación logs y health/readiness comprobables.
+- [x] Usar alcance web completa: rutas y build web conservados; assets APP separados.
+- [x] RED: stack prueba `/portal/acceso`, APP, APIs autorizadas y documentos de fixture; checkout APP fuera de contrato devuelve rechazo; usuario ajeno no lee documento.
+- [x] Construir web Portal y backend común reproducibles, usuario no root, API sin puerto host, loopback web, TLS externo, rotación logs y health/readiness comprobables.
 - [ ] Vincular el almacén vigente de documentos; no reemplazarlo por el volumen vacío de la preparación móvil.
-- [ ] GREEN: arranque AMD64, proxy/CORS/IP y sesiones, relectura después de reinicio, builds/versiones coincidentes. `docker compose config --quiet` y tests runtime.
-- [ ] Commit; importar imágenes identificadas por commit/config digest. Preparar Portainer sin cortar el servicio vigente.
+- [x] GREEN: arranque AMD64, proxy/CORS/IP y sesiones, relectura después de reinicio, builds/versiones coincidentes. `docker compose config --quiet` y tests runtime.
+- [x] Commit de preparación del conjunto con runtime local: 6/6 configuración y 7/7 stack + reinicio, AMD64 y suites 204/165.
+- [ ] Importar imágenes finales por commit/config digest y preparar Portainer sin cortar el servicio vigente. Se difiere la importación hasta incorporar textos/baja y dependencias de release para evitar desplegar una candidata incompleta.
 
 ### Task 5: Contenido conectado documentos y contrato LidIA
 

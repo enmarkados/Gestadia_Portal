@@ -1,6 +1,29 @@
-# Publicar Gestadia App en Docker, Portainer y Plesk
+# Publicar Gestadia APP, web y Portal en Docker, Portainer y Plesk
 
 [Glosario](../../GLOSARIO.md) · [Alcance y validación](PRIMERA-VERSION.md)
+
+## Conjunto común vigente — preparación del 10/10/2026
+
+El alcance aprobado incorpora la web completa y Portal a Docker, con APP independiente y una API común. Usar `deploy/gestadia/portainer-stack.yml`, no el stack móvil paralelo histórico. La base y los documentos vigentes se conservan. El despliegue aún no está aplicado en producción.
+
+- Construir las tres imágenes desde la misma revisión integrada: APP con `APP_PROXY_TEMPLATE=common.conf.template`, Portal con `deploy/portal/Dockerfile`, backend con `deploy/app/Dockerfile.backend`; cada build recibe `VCS_REF` y usa linux/amd64.
+- APP publica solo 127.0.0.1:8091; web/Portal publica 127.0.0.1:8092; la API no publica ningún puerto host. Plesk conserva TLS y reenvía cada dominio a su puerto.
+- `GESTADIA_CONFIG_DIR` contiene `mobile-release.json` público, `backend.env` privado y `secrets/` privado fuera de webroot. El archivo del backend preserva la configuración REAL de Portal (DB/JWT/Stripe/Zoho/SMTP/LidIA), además de la configuración móvil y las facultades APP autorizadas. No usar el candidato móvil recortado.
+- `GESTADIA_UPLOADS_DIR` apunta a `/var/www/vhosts/gestadia.com/httpdocs/backend/uploads`. Es un bind existente, no un volumen nuevo vacío.
+- Configurar `GESTADIA_BACKEND_UID` y `GESTADIA_BACKEND_GID` con los IDs efectivos del propietario del almacén y de los archivos privados; verificar acceso sin ampliar permisos públicos. No se presupone UID 1000 en Plesk.
+- Ambos frontends y el backend usan usuarios sin privilegios y capacidades descartadas. Backend tiene raíz de solo lectura y /tmp efímero; únicamente el almacén documental admite escritura persistente.
+- Las rutas comerciales/webhooks siguen en Portal. APP admite identidad, bandeja, documentos autenticados y `/api/app/v1/`; bloquea checkout/leads/integraciones comerciales y acceso directo a archivos. El navegador no selecciona agente ni CRM.
+- La configuración `conversationsEnabled` solo se activa con el contrato APP autorizado y operativo; la prueba local usa un entorno ficticio aislado. Las credenciales de proveedores no forman parte de las imágenes.
+- Health web prueba Nginx; health backend prueba proceso y conexión DB. El esquema se migra explícitamente antes del arranque. Los healthchecks no prueban entrega push, login de proveedores ni publicación.
+- Cada servicio limita los logs a tres archivos de 10 MB. Antes del corte verificar que no se impriman documentos/tokens ni se dupliquen workers del servicio anterior.
+
+Prueba reproducible local del conjunto: `node deploy/gestadia/test-stack.mjs`. Crea MariaDB efímera, aplica las migraciones versionadas, prueba los proxies y cuentas/documentos ficticios y elimina únicamente su propio conjunto. Requiere las imágenes candidatas locales y rechaza un endpoint Docker remoto. La prueba no usa configuración ni clientes de producción.
+
+Antes del corte: backup fresco completo, restauración/migraciones en copia, UID/GID y mounts comprobados, callbacks reales preservados, imágenes identificadas y configuración de proxy preparada. Mantener la versión anterior detenida para el retorno; no restaurar una DB antigua automáticamente después de nuevas escrituras.
+
+## Preparación histórica de demo y stack móvil
+
+Los siguientes apartados registran los pasos anteriores; el alcance vigente los sustituye cuando contradigan el conjunto común descrito arriba.
 
 La primera versión tiene su propia imagen Nginx y funciona **exclusivamente en demo**, por instrucción del usuario. No necesita base de datos, Firebase, key de LidIA ni backend. `APP_DEMO_ONLY=true` bloquea `/api/` y `/lidia/` sin consultar upstreams. El recorrido de Servicios finaliza dentro de la app, sin abrir el checkout real.
 

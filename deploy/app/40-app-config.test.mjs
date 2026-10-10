@@ -37,3 +37,13 @@ test('sin archivo publico mantiene la demo predeterminada',()=>{
   const result=runConfig({},false);assert.equal(result.status,0,result.stderr);
   const body=JSON.parse(result.stdout.trim().split('\n').at(-1));assert.equal(body.demoOnly,true);assert.equal(body.demoEnabled,true);
 });
+
+test('el contenedor conserva la activación de conversaciones del contrato integrado',()=>{
+  const result=runConfig({...config,conversationsEnabled:true});
+  assert.equal(result.status,0,result.stderr);
+  assert.equal(JSON.parse(result.stdout.trim().split('\n').at(-1)).conversationsEnabled,true);
+});
+test('rechaza una bandera conversacional que no sea booleana',()=>{
+  const result=runConfig({...config,conversationsEnabled:'true'});
+  assert.notEqual(result.status,0);
+});

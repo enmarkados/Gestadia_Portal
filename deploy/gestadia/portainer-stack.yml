@@ -1,0 +1,79 @@
+# Imágenes importadas y comprobadas antes del corte. No migra automáticamente.
+services:
+  gestadia-app:
+    image: ${GESTADIA_APP_IMAGE:?Imagen APP integrada requerida}
+    restart: unless-stopped
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    ports:
+      - "127.0.0.1:${GESTADIA_APP_PORT:-8091}:8080"
+    environment:
+      PORTAL_UPSTREAM: http://gestadia-backend:3001
+      PORTAL_HOST: app.gestadia.com
+      APP_DEMO_ONLY: "false"
+      APP_DEMO_ENABLED: "false"
+      APP_PUBLIC_CONFIG_FILE: /run/gestadia-public-config.json
+    volumes:
+      - type: bind
+        source: ${GESTADIA_CONFIG_DIR:?Directorio privado requerido}/mobile-release.json
+        target: /run/gestadia-public-config.json
+        read_only: true
+        bind:
+          create_host_path: false
+    depends_on:
+      gestadia-backend:
+        condition: service_healthy
+    logging:
+      driver: json-file
+      options: {max-size: "10m", max-file: "3"}
+  gestadia-portal-web:
+    image: ${GESTADIA_PORTAL_IMAGE:?Imagen web Portal integrada requerida}
+    restart: unless-stopped
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    ports:
+      - "127.0.0.1:${GESTADIA_PORTAL_PORT:-8092}:8080"
+    environment:
+      BACKEND_UPSTREAM: http://gestadia-backend:3001
+    depends_on:
+      gestadia-backend:
+        condition: service_healthy
+    logging:
+      driver: json-file
+      options: {max-size: "10m", max-file: "3"}
+  gestadia-backend:
+    image: ${GESTADIA_BACKEND_IMAGE:?Imagen backend común requerida}
+    user: "${GESTADIA_BACKEND_UID:?UID propietario requerido}:${GESTADIA_BACKEND_GID:?GID requerido}"
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    tmpfs: [/tmp]
+    environment:
+      PORT: "3001"
+      NODE_ENV: production
+      BASE_URL: https://gestadia.com
+    expose: ["3001"]
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - type: bind
+        source: ${GESTADIA_CONFIG_DIR:?Directorio privado requerido}/backend.env
+        target: /workspace/backend/.env
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${GESTADIA_CONFIG_DIR:?Directorio privado requerido}/secrets
+        target: /run/gestadia-secrets
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${GESTADIA_UPLOADS_DIR:-/var/www/vhosts/gestadia.com/httpdocs/backend/uploads}
+        target: /workspace/backend/uploads
+        bind:
+          create_host_path: false
+    logging:
+      driver: json-file
+      options: {max-size: "10m", max-file: "3"}

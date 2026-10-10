@@ -29,7 +29,7 @@ Se dispone de copia previa de DB restaurada y dos migraciones móviles comprobad
 | Inventario | En curso | Huella completa del runtime, proxy y backup fresco al corte |
 | Integración Git | Verificado localmente | Merge 08d2bbc, builds APP y Portal |
 | Identidad y push común | Verificado localmente | 204 backend + 165 frontend; proveedores reales pendientes |
-| Docker APP/web/Portal/backend | Pendiente | Stack e imágenes finales integradas |
+| Docker APP/web/Portal/backend | Verificado localmente | 3 imágenes AMD64 y runtime de prueba; importación y mounts reales pendientes |
 | Datos y LidIA | Pendiente | Validación conectada |
 | Privacidad/baja | En curso | Criterio confirmado; textos autorizados a Codex, ejecución de borrado pendiente |
 | Despliegue | Pendiente | Gates previos |
@@ -44,3 +44,9 @@ La retirada de acceso invalida AppDeviceSession y AuthSession, desactiva PushDev
 ## Criterio de baja confirmado
 
 El usuario confirma cerrar acceso, retirar asociaciones Apple/Google y push, eliminar datos de cuenta innecesarios y conservar expedientes/documentos/justificantes solo cuando corresponda, con explicación del resultado. Autoriza a Codex a redactar los textos. No queda pendiente otra aprobación general de este criterio. Se debe implementar borrado efectivo; retirar acceso no equivale a eliminar datos.
+
+## Stack común verificado localmente
+
+Servicios gestadia-app, gestadia-portal-web y gestadia-backend construidos en AMD64 desde la línea 9221d59 con cambios Task 4. Candidatos etiquetados common-candidate; no son aún imágenes finales de release. API sin puerto host, web en loopback, usuarios no root y backend de solo lectura con documentos bind. Configuración pública: 6/6 pruebas. Stack real efímero: 7/7 y reinicio conservando documentos. Detectados en RED y corregidos: permiso del PID de Nginx no root, cabecera CORS Idempotency-Key ausente y archivo huérfano al intentar subir a expediente ajeno. Suite posterior 204 backend/165 frontend, sin fallos u omisiones. Evidencia common-stack-red.log, common-stack-green.log, config-conversaciones-green.log y proxy-documentos-suite.log en artifacts/inventario-docker-20261010.
+
+Portainer consultado de nuevo: sesión Codex activa como gonzalo, entorno local Debian 12 AMD64, Docker 29.9.0. No se ha aplicado el conjunto ni cambiado el proxy. UID/GID de los documentos y mounts privados reales permanecen por comprobar antes del corte.

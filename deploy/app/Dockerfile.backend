@@ -7,9 +7,11 @@ RUN npm ci --omit=dev
 COPY backend/src ./src
 COPY shared /workspace/shared
 RUN mkdir -p uploads && chown node:node uploads
+ARG VCS_REF=local
+LABEL org.opencontainers.image.revision=$VCS_REF org.opencontainers.image.title="Gestadia backend"
 USER node
 ENV NODE_ENV=production PORT=3001
 EXPOSE 3001
-HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 CMD node -e "fetch('http://127.0.0.1:3001/api/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 CMD node --import dotenv/config --input-type=module -e "import {PrismaClient} from '@prisma/client'; const db=new PrismaClient(); try { const r=await fetch('http://127.0.0.1:3001/api/health'); if(!r.ok)throw Error(); await db.\$queryRawUnsafe('SELECT 1'); } catch {process.exitCode=1} finally {await db.\$disconnect()}"
 # Carga el archivo privado antes de evaluar los modulos ESM de configuracion.
 CMD ["node", "--import", "dotenv/config", "src/server.js"]

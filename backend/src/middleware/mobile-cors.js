@@ -7,7 +7,7 @@ export const mobileCors = (enabled) => (req, res, next) => {
   }
   res.set("Access-Control-Allow-Origin", req.headers.origin);
   res.set("Vary", "Origin");
-  res.set("Access-Control-Allow-Headers", "Authorization, Content-Type");
+  res.set("Access-Control-Allow-Headers", "Authorization, Content-Type, Idempotency-Key");
   res.set("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
   if (req.method === "OPTIONS") return res.status(204).end();
   next();

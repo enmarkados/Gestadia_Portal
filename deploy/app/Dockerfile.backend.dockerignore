@@ -12,3 +12,7 @@
 !deploy/app/
 !deploy/app/Dockerfile.backend
 **/*.test.*
+**/.env*
+**/*.p8
+**/*.jks
+**/*.keystore

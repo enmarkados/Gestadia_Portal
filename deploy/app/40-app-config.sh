@@ -6,10 +6,11 @@ if [ -n "${APP_PUBLIC_CONFIG_FILE:-}" ]; then
   # Solo el esquema publico permitido puede llegar al navegador.
   if ! jq -e '
     type == "object" and
-    ((keys - ["appId","apiBaseUrl","checkoutBaseUrl","demoEnabled","demoOnly","push","social","pluginWeb"]) | length == 0) and
+    ((keys - ["appId","apiBaseUrl","checkoutBaseUrl","demoEnabled","demoOnly","conversationsEnabled","push","social","pluginWeb"]) | length == 0) and
     ([.. | objects | keys[] | select(test("secret|password|private.?key|credential|refresh.?token|access.?token|id.?token";"i"))] | length == 0) and
     (.demoOnly | type == "boolean") and (.demoEnabled | type == "boolean") and
     (.appId == "com.gestadia.app") and
+    (if has("conversationsEnabled") then (.conversationsEnabled | type == "boolean") else true end) and
     (if .demoOnly == false then
       .demoEnabled == false and
       (.apiBaseUrl | test("^https://[^/]+$")) and
