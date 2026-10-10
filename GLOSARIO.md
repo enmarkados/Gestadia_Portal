@@ -870,3 +870,51 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** Asociación comprobada de la conversación del visitante a una cuenta verificada, conservando la sesión LidIA, sus mensajes y el estado del sondeo. La revocación del acceso previo forma parte del cierre de la transición.
 - **Alcance:** propuesta `docs/integraciones/2026-10-10-propuesta-app-anonima-lidia.md`; futuros servicios de identidad/conversaciones Portal y contrato S2S LidIA.
 - **Notas:** No es una reasignación entre dos cuentas existentes ni una fusión por email/teléfono; requiere prueba de control del recorrido original y del acceso de cuenta. Resultado idempotente en ambos sistemas.
+
+## Sujeto inmutable por conversación APP
+- **Tipo:** decisión de identidad propuesta para una ampliación opt-in (10/10/2026).
+- **Definición:** Referencia estable de una conversación y de sus operaciones antes y después del registro, independiente de la cuenta que termine autorizada a acceder. Vincular el acceso no modifica la identidad histórica del ledger.
+- **Alcance:** contraste Portal/LidIA en `docs/integraciones/2026-10-10-contraste-portal-app-anonima.md`; futuros servicios APP de ambos proyectos. No implementado.
+- **Notas:** Se propone un sujeto por conversación para poder retirar el acceso visitante sin revocar otros sondeos. El contrato v1 de cuenta continúa vigente sin convertir sus sujetos ni sus huellas.
+
+## Actor de acceso APP
+- **Tipo:** concepto de autorización propuesto (10/10/2026).
+- **Definición:** Visitante o cuenta autenticada que puede actuar sobre una conversación bajo una revisión de acceso confirmada. Es distinto del sujeto inmutable que conserva el historial de operaciones.
+- **Alcance:** contraste Portal/LidIA en `docs/integraciones/2026-10-10-contraste-portal-app-anonima.md`; futura adenda S2S APP.
+- **Notas:** El backend atestigua el actor; el móvil no puede elegirlo. La forma exacta del DTO y de su firma permanece pendiente de revisión conjunta.
+
+## Revisión de acceso APP
+- **Tipo:** propiedad de autorización propuesta (10/10/2026).
+- **Definición:** Versión monotónica de quién puede acceder a una conversación, necesaria para rechazar peticiones realizadas con la autoridad anterior tras una vinculación. Es independiente de las revisiones de contexto, estado y recibos.
+- **Alcance:** contraste Portal/LidIA en `docs/integraciones/2026-10-10-contraste-portal-app-anonima.md`; futura adenda S2S APP.
+- **Notas:** Se propone atestiguación firmada y comparación sin pérdida de precisión. El nombre de campo y los DTO se cerrarán con la respuesta técnica; no está presente en el runtime actual.
+
+## conversation_subject_id / access_revision (adenda APP v2 propuesta)
+- **Tipo:** propiedades S2S propuestas (10/10/2026).
+- **Definición:** `conversation_subject_id` identifica el sujeto inmutable de un chat; `access_revision` identifica la revisión monotónica de su autoridad vigente. La primera conserva las operaciones y la segunda controla el cambio de actor al registrarse.
+- **Alcance:** revisión LidIA y contraste `docs/integraciones/2026-10-10-contraste-portal-app-anonima.md`; futuros DTO y firma del adaptador APP en ambos proyectos.
+- **Notas:** No reemplazan silenciosamente `portal_user_id` o `SubjectId` de v1. Propuestas sin esquema/vectores ejecutables acordados; sondeo, contexto y recibos conservan sus propias revisiones.
+
+## binding_id / prepare / commit / abort (vinculación APP propuesta)
+- **Tipo:** referencia de operación y fases de transición propuestas (10/10/2026).
+- **Definición:** `binding_id` correlaciona una vinculación durable de conversación a cuenta. `prepare` inmoviliza origen/destino, `commit` confirma la nueva autoridad y `abort` cancela una preparación que aún puede revertirse de forma comprobada.
+- **Alcance:** revisión LidIA y contraste `docs/integraciones/2026-10-10-contraste-portal-app-anonima.md`; futura API S2S APP.
+- **Notas:** No son herramientas del modelo ni tokens del móvil. Un timeout HTTP no implica abort; cada fase necesita su propia idempotencia, autorización y recuperación.
+
+## AppDeclaredContact
+- **Tipo:** concepto de estado tipado propuesto por LidIA (10/10/2026).
+- **Definición:** Nombre y teléfono y/o email declarados en una conversación, con evidencia del mensaje, fecha y revisión. No representa identidad verificada ni propiedad de una cuenta.
+- **Alcance:** revisión LidIA y contraste `docs/integraciones/2026-10-10-contraste-portal-app-anonima.md`; futura proyección del sondeo en LidIA.
+- **Notas:** El runner APP actual no lo emite ni persiste como tal. No se extrae autoridad de cuenta leyendo la prosa del asistente.
+
+## AppCallIntent / registration_required
+- **Tipo:** estado tipado y señal de continuación propuestos por LidIA (10/10/2026).
+- **Definición:** `AppCallIntent` conserva una intención comprobada de solicitar llamada; `registration_required` indica que hace falta completar el acceso de cuenta para continuarla. Ninguno representa una cita reservada.
+- **Alcance:** revisión LidIA y contraste `docs/integraciones/2026-10-10-contraste-portal-app-anonima.md`; futura proyección LidIA y consumo Portal/APP.
+- **Notas:** El backend Portal genera el enlace de continuación; el modelo no recibe ni inventa tokens. Registrar no ejecuta llamada ni convierte al usuario en cliente pagado.
+
+## app.bindings.write / app.bindings.read
+- **Tipo:** capacidades S2S propuestas (10/10/2026).
+- **Definición:** Facultades de una integración para solicitar una vinculación y recuperar su resultado durable. No conceden por sí solas acceso al historial de una conversación.
+- **Alcance:** revisión LidIA y contraste `docs/integraciones/2026-10-10-contraste-portal-app-anonima.md`; futura adenda APP v2.
+- **Notas:** No emitidas ni activadas. Cada petición debe validar también actor, conversación, destino y revisión vigente; nunca se entregan al cliente móvil.

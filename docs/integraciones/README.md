@@ -6,6 +6,8 @@
 
 [Propuesta Portal para revisión conjunta con LidIA](2026-10-10-propuesta-app-anonima-lidia.md): entrada por deeplink o tras instalar, nombre y teléfono y/o email, registro antes de agenda y vinculación de la misma conversación. Identidad temporal y cuenta verificada separadas; alta gratuita no habilita trámites pagados. Contrato ampliado pendiente de conformidad; no implementado ni desplegado. Alcance exclusivo APP.
 
+[Respuesta LidIA exacta](2026-10-10-revision-lidia-app-anonima.md) y [contraste Portal](2026-10-10-contraste-portal-app-anonima.md): viabilidad y reparto aceptados en principio, observaciones de cola/replay incorporadas, evidencia del runner sin herramientas de agenda. Pendientes revisión escrita, esquemas/vectores v2, captura completa y agenda operativa.
+
 ## Gestadia App — conformidad final de nueve muestras (05/10/2026)
 
 [Conformidad offline de atención/routing](2026-10-05-conformidad-final-muestras-app.md): versión final conservada aparte del fixture anterior, DTO/proxy/UI compatibles, rechazo sin fallback y transferencia explícita. No acredita conexión desplegada ni activación.
