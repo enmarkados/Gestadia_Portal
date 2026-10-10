@@ -1,51 +1,70 @@
-.loading { text-align: center; color: #888; font-size: 15px; }
+.loading { text-align: center; color: #636b77; font-size: 15px; padding: 32px 0; }
 .error { color: var(--red); font-size: 14px; margin-bottom: 16px; }
 
-.card { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 24px; box-shadow: 0 4px 24px rgba(0,0,0,0.05); margin-bottom: 20px; }
-
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 20px; margin-bottom: 8px; }
-
-.form-group { margin-bottom: 10px; }
-.form-label { font-size: 12px; font-weight: 600; color: #888; display: block; margin-bottom: 6px; }
-.form-input { background: #fff; border: 1.5px solid var(--border); border-radius: 8px; padding: 11px 14px; font-size: 15px; color: var(--graphite); width: 100%; font-family: inherit; transition: border-color .15s; }
-.form-input:focus { outline: none; border-color: var(--graphite); }
-.form-input:disabled { background: #f5f5f5; color: #999; }
-.form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; cursor: pointer; }
-
-.form-status { font-size: 14px; margin-top: 12px; }
+.card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.025);
+  margin-bottom: 24px;
+}
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.form-group { min-width: 0; }
+.form-label { font-size: 14px; font-weight: 600; color: #3d3d3d; display: block; margin-bottom: 9px; }
+.form-input {
+  background: #fff;
+  border: 1.5px solid #d2d5da;
+  border-radius: 12px;
+  padding: 14px 16px;
+  min-height: 50px;
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--graphite);
+  width: 100%;
+  font-family: inherit;
+  transition: border-color .15s, box-shadow .15s;
+}
+.form-input:focus { outline: none; border-color: #181818; box-shadow: 0 0 0 1px #181818; }
+.form-input:disabled { background: #f5f6f7; color: #656d78; }
+.form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23636b77' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 44px;
+  cursor: pointer;
+}
+.form-status { font-size: 14px; margin-top: 24px; line-height: 1.5; }
 .form-status.success { color: #166534; }
 .form-status.error-text { color: var(--red); }
-
-.form-submit { background: var(--red); color: #fff; border: none; border-radius: 8px; padding: 13px 26px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; margin-top: 16px; transition: background .15s; }
+.form-submit {
+  background: var(--red);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 15px 28px;
+  min-height: 50px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  margin-top: 28px;
+  transition: background .15s;
+}
 .form-submit:hover { background: #a93226; }
 .form-submit:disabled { opacity: .6; cursor: not-allowed; }
-
-.gdpr-note { font-size: 13px; color: #999; line-height: 1.6; }
-.gdpr-note a { color: var(--red); text-decoration: none; }
-.gdpr-note a:hover { text-decoration: underline; }
+.form-submit:focus-visible, .gdpr-note a:focus-visible { outline: 2px dashed var(--red); outline-offset: 4px; }
+.gdpr-note { font-size: 13px; color: #636b77; line-height: 1.7; max-width: 70ch; }
+.gdpr-note a { color: var(--graphite); text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.gdpr-note a:hover { color: var(--red); }
 
 @media (max-width: 600px) {
-  .card {
-    padding: 18px 16px;
-    border-radius: 12px;
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .form-input {
-    font-size: 16px;
-    padding: 12px 14px;
-    min-height: 44px;
-  }
-
-  .form-submit {
-    width: 100%;
-    padding: 15px 20px;
-    font-size: 16px;
-    min-height: 48px;
-  }
+  .card { padding: 24px 20px; border-radius: 16px; }
+  .grid { grid-template-columns: 1fr; gap: 20px; }
+  .form-submit { width: 100%; }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .form-input, .form-submit { transition: none; }
+}

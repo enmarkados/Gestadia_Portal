@@ -50,4 +50,4 @@ flujos Zoho en los mensajes anteriores. Los documentos fechados de
 [ganado](../integraciones/2026-10-05-decision-negocio-zoho-ganado-y-acceso.md) y
 [acceso anticipado](2026-10-05-propuesta-acceso-conversion-crm.md) conservan su
 histórico; esta página fija el reparto vigente de responsabilidades.
-Los contratos técnicos siguen en preparación, sin flujos activados.
+El contrato conversacional está aceptado y Portal ha implementado su [API desactivada y pruebas locales](../integraciones/2026-10-05-entrega-portal-conversaciones-app.md). Zoho→Portal sigue en preparación, sin receptor/disparadores nuevos ni flujos activados.

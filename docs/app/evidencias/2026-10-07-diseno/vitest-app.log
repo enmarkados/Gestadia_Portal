@@ -1,0 +1,61 @@
+
+ RUN  v2.1.9 /Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/frontend
+
+stderr | app/src/AppConversation.test.jsx > muestra mensajes/presentaciones del timeline y envía la revisión exacta de la acción
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | app/src/PluginWebContext.test.jsx > recupera una respuesta humana tras un 504 sin reenviar y conserva la sesión al abrir Gestor
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | app/src/ConnectedMessages.test.jsx > busca por nombre sin tildes y muestra fechas/estado confirmado sin inventarlo ante fallo
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ app/src/PluginWebContext.test.jsx (5 tests) 414ms
+stderr | app/src/Navigation.test.jsx > Trámites visitante permite cancelar el acceso y recupera el menú principal
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ app/src/ConnectedMessages.test.jsx (5 tests) 660ms
+stderr | app/src/DemoAccess.test.jsx > el aviso del micrófono se oculta y puede volver a abrirse en /
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | app/src/App.test.jsx > completa el sondeo demo sin afirmar viabilidad y precarga el país del servicio
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | app/src/Account.test.jsx > abre Cuenta antes de Mi Perfil, devuelve el foco al cerrar y conserva el selector propio
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ app/src/App.test.jsx (4 tests) 902ms
+   ✓ completa el sondeo demo sin afirmar viabilidad y precarga el país del servicio 394ms
+   ✓ el perfil lead deja la campana sin aviso y ofrece llamada sin chat de cliente 372ms
+ ✓ app/src/Navigation.test.jsx (13 tests) 1684ms
+   ✓ el checkout abierto directamente ofrece Servicios como retorno 381ms
+ ✓ app/src/api.test.js (7 tests) 17ms
+ ✓ app/src/native.test.js (5 tests) 29ms
+ ✓ app/src/Account.test.jsx (6 tests) 1879ms
+   ✓ abre Cuenta antes de Mi Perfil, devuelve el foco al cerrar y conserva el selector propio 330ms
+   ✓ permite cancelar el borrado y elimina sólo el ejemplo de Gestadia al confirmar 302ms
+   ✓ mantiene el perfil y muestra el fallo si no se puede borrar el almacenamiento 679ms
+ ✓ app/src/DemoAccess.test.jsx (15 tests) 2017ms
+   ✓ el registro recorre un perfil lead sin crear cuenta remota ni guardar contraseñas 616ms
+ ✓ app/src/conversationApi.test.js (3 tests) 4ms
+stderr | app/src/ConnectedApp.test.jsx > acceso conectado usa sesión APP y el chat no inicia PluginWeb ni muestra un gestor ficticio
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ app/src/ConnectedApp.test.jsx (2 tests) 146ms
+ ✓ app/src/AppConversation.test.jsx (23 tests) 6431ms
+   ✓ la pérdida de autorización oculta el historial ya cargado 3006ms
+   ✓ volver a cargar tras restaurar permisos retira el aviso anterior 3014ms
+
+ Test Files  11 passed (11)
+      Tests  88 passed (88)
+   Start at  23:16:48
+   Duration  8.36s (transform 1.72s, setup 936ms, collect 6.27s, tests 14.18s, environment 7.37s, prepare 1.10s)
+

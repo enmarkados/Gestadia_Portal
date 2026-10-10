@@ -15,6 +15,9 @@ import { socialAuthRouter } from "./routes/social-auth.js";
 import { portalRouter } from "./routes/portal.js";
 import { webhooksRouter } from "./routes/webhooks.js";
 import { integrationsRouter } from "./routes/integrations.js";
+import { appConversationConfig } from './config.js';
+import { db } from './db.js';
+import { createAppRouter } from './app/routes.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const FRONTEND_DIST = path.join(__dirname, "..", "..", "frontend", "dist");
@@ -30,7 +33,8 @@ export function createApp() {
   // Los webhooks de Stripe necesitan el body en crudo → se montan ANTES del json()
   // (y NO se limitan por rate: son de Stripe, no del usuario).
   app.use(webhooksRouter);
-  app.use(express.json({ limit: "1mb" }));
+  app.use('/api/app/v1', createAppRouter({ db, config: appConversationConfig() }));
+  app.use(express.json({ limit: '1mb' }));
 
   // Rate limiting (solo /api): frena fuerza bruta en login y spam en formularios.
   app.use(

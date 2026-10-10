@@ -18,6 +18,10 @@ import { clearPluginSessions } from "./pluginStorage.js";
 import { socialClient } from "./social-auth.js";
 import { connectPush, pushAvailable } from "./push.js";
 import { nativeSession, watchSessionRevocations } from "./sessionStorage.js";
+import {
+  conversationsEnabled,
+  clearConversationStorage,
+} from "./conversationApi.js";
 const Context = createContext(null);
 export const useApp = () => useContext(Context);
 const PENDING_LOGOUT =
@@ -116,6 +120,7 @@ export function AppProvider({ children }) {
   }, [mode]);
   useEffect(() => {
     function expire() {
+      clearConversationStorage();
       epoch.current++;
       clearPluginSessions();
       setLoading(false);
@@ -136,6 +141,11 @@ export function AppProvider({ children }) {
     }
   }, [data, mode]);
   function startDemo(type = "cliente", reset = false) {
+    if (mode === "real" && conversationsEnabled())
+      request("/api/app/v1/auth/sessions/current", { method: "DELETE" }).catch(
+        () => {},
+      );
+    clearConversationStorage();
     epoch.current++;
     socialClient.cancel().catch(() => {});
     clearPluginSessions();
@@ -148,6 +158,11 @@ export function AppProvider({ children }) {
     setMode("demo");
   }
   function logout() {
+    if (mode === "real" && conversationsEnabled())
+      request("/api/app/v1/auth/sessions/current", { method: "DELETE" }).catch(
+        () => {},
+      );
+    clearConversationStorage();
     epoch.current++;
     socialClient.cancel().catch(() => {});
     clearPluginSessions();
@@ -176,13 +191,13 @@ export function AppProvider({ children }) {
   }
   async function login(email, password) {
     const version = epoch.current;
-    const body = await request("/api/auth/login", {
+    const body = await request(conversationsEnabled() && !platform() ? "/api/app/v1/auth/sessions" : "/api/auth/login", {
       auth: false,
       method: "POST",
       body: JSON.stringify({
         email,
         password,
-        platform: platform(),
+        ...(!conversationsEnabled() || platform() ? { platform: platform() } : {}),
       }),
     });
     if (version !== epoch.current) {
@@ -201,6 +216,7 @@ export function AppProvider({ children }) {
       throw new Error("El acceso se ha cancelado al cambiar de sesión.");
     }
     epoch.current++;
+    clearConversationStorage();
     clearPluginSessions();
     setData(EMPTY);
     setError("");

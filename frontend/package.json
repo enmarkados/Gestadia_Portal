@@ -31,7 +31,9 @@
     "@capgo/capacitor-social-login": "8.5.13",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.28.0"
+    "react-router-dom": "^6.28.0",
+    "@capacitor/keyboard": "8.0.6",
+    "lucide-react": "1.52.0"
   },
   "devDependencies": {
     "@capacitor/cli": "8.5.2",

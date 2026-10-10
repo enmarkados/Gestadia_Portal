@@ -1,0 +1,25 @@
+✔ Copying web assets from dist-app to android/app/src/main/assets/public in 6.78ms
+✔ Creating capacitor.config.json in android/app/src/main/assets in 848.13μs
+✔ copy android in 14.68ms
+✔ Updating Android plugins in 1.21ms
+[info] Found 4 Capacitor plugins for android:
+       @capacitor/app@8.0.1
+       @capacitor/browser@8.0.0
+       @capacitor/keyboard@8.0.6
+       @capacitor/splash-screen@8.0.1
+✔ update android in 24.42ms
+✔ Copying web assets from dist-app to ios/App/App/public in 4.34ms
+✔ Creating capacitor.config.json in ios/App/App in 203.21μs
+✔ copy ios in 19.57ms
+✔ Updating iOS plugins in 1.07ms
+[info] All Capacitor plugins have a Package.swift file and will be included in Package.swift
+[info] Writing Package.swift
+[info] Found 4 Capacitor plugins for ios:
+       @capacitor/app@8.0.1
+       @capacitor/browser@8.0.0
+       @capacitor/keyboard@8.0.6
+       @capacitor/splash-screen@8.0.1
+✔ update ios in 11.94ms
+✔ copy web in 2.90ms
+✔ update web in 3.33ms
+[info] Sync finished in 0.105s

@@ -1,0 +1,20 @@
+{
+  "observed_at": "2026-10-08T12:48:29.979840+00:00",
+  "source_commit": "356dc68c9bd5de1742d29cb6df498ae1a8ba25f8",
+  "bundle_id": "com.gestadia.app",
+  "version": "0.1.0",
+  "build": "12",
+  "device": "iGonchu / iPhone13ProMax",
+  "asset": "index-BYSdVaHo.js",
+  "asset_sha256": "3b146bfae0e6a511ce1ddaba3011e8ffb94b6f4bb2b58f1414c5911a4b4a9405",
+  "signing_verified": true,
+  "installation": "success",
+  "version_independently_verified": true,
+  "launch": "success",
+  "native_api_origin": "https://app.gestadia.com",
+  "backend_e2e_physical": "not_verified",
+  "lan_proxy": "not_opened_pending_approval",
+  "previous_launch": "blocked_device_locked",
+  "launch_observed_at": "2026-10-08T13:19:54.022352+00:00",
+  "launch_process_id": 16454
+}

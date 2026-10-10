@@ -1,5 +1,6 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { navigationState, accessState } from "./navigation.js";
 import { useApp } from "./AppContext.jsx";
 import Sheet from "./Sheet.jsx";
 import Icon from "./Icon.jsx";
@@ -23,11 +24,12 @@ export function AccountAvatar({ profile }) {
 export default function AccountMenu({ onClose }) {
   const app = useApp();
   const navigate = useNavigate();
+  const location = useLocation();
   const profile = app.data.profile;
   const name = [profile?.nombre, profile?.apellidos].filter(Boolean).join(" ");
-  function open(path) {
+  function open(path, state = path === "/acceso" ? accessState(location) : navigationState(location)) {
     onClose();
-    navigate(path);
+    navigate(path, { state });
   }
   return (
     <Sheet
@@ -61,7 +63,7 @@ export default function AccountMenu({ onClose }) {
               className="account-logout"
               onClick={() => {
                 app.logout();
-                open("/acceso");
+                open("/acceso", { from: "/" });
               }}
             >
               <Icon name="logout" />

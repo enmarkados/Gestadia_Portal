@@ -1,0 +1,45 @@
+{
+  "instructionIdentical": true,
+  "instructionVersion": "1.8-mario-adaptado",
+  "instructionSha256": "ec616c2687189eaded1a77d904d2c720aa12c8ab9f629850f74bc4202bcd0286",
+  "newConversations": [
+    {
+      "Id": "a0490f84-6eba-4c0c-a02a-579d1aa72b11",
+      "ChatSessionId": "a0490f84-6eba-4c0c-a02a-579d1aa72b11",
+      "Purpose": "sondeo",
+      "AgentId": 122,
+      "ProjectId": 103,
+      "Channel": 2,
+      "AgentInstructionId": 10116,
+      "timeline": [
+        {
+          "Sequence": 1,
+          "Role": "user",
+          "Text": "Hola"
+        },
+        {
+          "Sequence": 2,
+          "Role": "assistant",
+          "Text": "¡Hola! Soy LidIA, asistente virtual de Gestadia.\n\nHemos recibido una solicitud de información sobre el canje de carné de conducir. Para ayudarte, voy a hacerte unas preguntas rápidas y comprobar si cumples los requisitos. Puedes consultar nuestra política de privacidad aquí: https://defensalegalconsumidores.com/privacy-policy\n\n¿Empezamos?"
+        }
+      ]
+    }
+  ],
+  "modelCalls": [
+    {
+      "Id": 38464,
+      "Timestamp": "2026-10-07 15:33:52.287280",
+      "AgentId": 122,
+      "ProjectId": 103,
+      "Provider": "Anthropic",
+      "Model": "claude-haiku-4-5-20251001",
+      "Purpose": "app_conversation",
+      "Success": 1,
+      "SessionId": "a0490f84-6eba-4c0c-a02a-579d1aa72b11",
+      "promptTextRetained": false,
+      "originalInstructionInEffectivePrompt": null,
+      "transportPolicyAlsoPresent": null,
+      "effectivePromptEvidence": "metadata only in provider audit; instruction equality verified in database and APP prompt composition verified in served source"
+    }
+  ]
+}

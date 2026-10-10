@@ -1,0 +1,578 @@
+[
+  {
+    "h1": [
+      "¿Qué trámite de Tráfico necesitas gestionar hoy?"
+    ],
+    "overflow": [],
+    "route": "#/",
+    "smallControls": [],
+    "width": 320
+  },
+  {
+    "h1": [
+      "Mis trámites"
+    ],
+    "overflow": [],
+    "route": "#/tramites",
+    "smallControls": [],
+    "width": 320
+  },
+  {
+    "h1": [
+      "Verificación de Datos y Carnet"
+    ],
+    "overflow": [],
+    "route": "#/tramites/demo-canje?documento=residencia",
+    "smallControls": [],
+    "width": 320
+  },
+  {
+    "h1": [
+      "Mensajes"
+    ],
+    "overflow": [],
+    "route": "#/mensajes",
+    "smallControls": [],
+    "width": 320
+  },
+  {
+    "h1": [
+      "Habla con tu gestor"
+    ],
+    "overflow": [],
+    "route": "#/mensajes/gestor",
+    "smallControls": [],
+    "width": 320
+  },
+  {
+    "h1": [
+      "Trámites y Gestiones DGT"
+    ],
+    "overflow": [],
+    "route": "#/servicios",
+    "smallControls": [],
+    "width": 320
+  },
+  {
+    "h1": [
+      "Mi Perfil"
+    ],
+    "overflow": [],
+    "route": "#/cuenta",
+    "smallControls": [],
+    "width": 320
+  },
+  {
+    "h1": [
+      "Tu gestoría, siempre contigo."
+    ],
+    "overflow": [],
+    "route": "#/acceso",
+    "smallControls": [],
+    "width": 320
+  },
+  {
+    "h1": [
+      "Crea tu espacio."
+    ],
+    "overflow": [],
+    "route": "#/registro",
+    "smallControls": [],
+    "width": 320
+  },
+  {
+    "h1": [
+      "Explora la demostración"
+    ],
+    "overflow": [],
+    "route": "#/informacion",
+    "smallControls": [],
+    "width": 320
+  },
+  {
+    "h1": [
+      "Revisa tu servicio"
+    ],
+    "overflow": [],
+    "route": "#/checkout-demo",
+    "smallControls": [],
+    "width": 320
+  },
+  {
+    "h1": [
+      "Política de privacidad"
+    ],
+    "overflow": [],
+    "route": "#/legal/privacy",
+    "smallControls": [],
+    "width": 320
+  },
+  {
+    "h1": [
+      "Términos de uso"
+    ],
+    "overflow": [],
+    "route": "#/legal/terms",
+    "smallControls": [],
+    "width": 320
+  },
+  {
+    "h1": [
+      "Soporte"
+    ],
+    "overflow": [],
+    "route": "#/legal/support",
+    "smallControls": [],
+    "width": 320
+  },
+  {
+    "h1": [
+      "Eliminar cuenta"
+    ],
+    "overflow": [],
+    "route": "#/legal/delete-account",
+    "smallControls": [],
+    "width": 320
+  },
+  {
+    "h1": [
+      "Esta pantalla no está disponible"
+    ],
+    "overflow": [],
+    "route": "#/pantalla-inexistente",
+    "smallControls": [],
+    "width": 320
+  },
+  {
+    "h1": [
+      "¿Qué trámite de Tráfico necesitas gestionar hoy?"
+    ],
+    "overflow": [],
+    "route": "#/",
+    "smallControls": [],
+    "width": 390
+  },
+  {
+    "h1": [
+      "Mis trámites"
+    ],
+    "overflow": [],
+    "route": "#/tramites",
+    "smallControls": [],
+    "width": 390
+  },
+  {
+    "h1": [
+      "Verificación de Datos y Carnet"
+    ],
+    "overflow": [],
+    "route": "#/tramites/demo-canje?documento=residencia",
+    "smallControls": [],
+    "width": 390
+  },
+  {
+    "h1": [
+      "Mensajes"
+    ],
+    "overflow": [],
+    "route": "#/mensajes",
+    "smallControls": [],
+    "width": 390
+  },
+  {
+    "h1": [
+      "Habla con tu gestor"
+    ],
+    "overflow": [],
+    "route": "#/mensajes/gestor",
+    "smallControls": [],
+    "width": 390
+  },
+  {
+    "h1": [
+      "Trámites y Gestiones DGT"
+    ],
+    "overflow": [],
+    "route": "#/servicios",
+    "smallControls": [],
+    "width": 390
+  },
+  {
+    "h1": [
+      "Mi Perfil"
+    ],
+    "overflow": [],
+    "route": "#/cuenta",
+    "smallControls": [],
+    "width": 390
+  },
+  {
+    "h1": [
+      "Tu gestoría, siempre contigo."
+    ],
+    "overflow": [],
+    "route": "#/acceso",
+    "smallControls": [],
+    "width": 390
+  },
+  {
+    "h1": [
+      "Crea tu espacio."
+    ],
+    "overflow": [],
+    "route": "#/registro",
+    "smallControls": [],
+    "width": 390
+  },
+  {
+    "h1": [
+      "Explora la demostración"
+    ],
+    "overflow": [],
+    "route": "#/informacion",
+    "smallControls": [],
+    "width": 390
+  },
+  {
+    "h1": [
+      "Revisa tu servicio"
+    ],
+    "overflow": [],
+    "route": "#/checkout-demo",
+    "smallControls": [],
+    "width": 390
+  },
+  {
+    "h1": [
+      "Política de privacidad"
+    ],
+    "overflow": [],
+    "route": "#/legal/privacy",
+    "smallControls": [],
+    "width": 390
+  },
+  {
+    "h1": [
+      "Términos de uso"
+    ],
+    "overflow": [],
+    "route": "#/legal/terms",
+    "smallControls": [],
+    "width": 390
+  },
+  {
+    "h1": [
+      "Soporte"
+    ],
+    "overflow": [],
+    "route": "#/legal/support",
+    "smallControls": [],
+    "width": 390
+  },
+  {
+    "h1": [
+      "Eliminar cuenta"
+    ],
+    "overflow": [],
+    "route": "#/legal/delete-account",
+    "smallControls": [],
+    "width": 390
+  },
+  {
+    "h1": [
+      "Esta pantalla no está disponible"
+    ],
+    "overflow": [],
+    "route": "#/pantalla-inexistente",
+    "smallControls": [],
+    "width": 390
+  },
+  {
+    "h1": [
+      "¿Qué trámite de Tráfico necesitas gestionar hoy?"
+    ],
+    "overflow": [],
+    "route": "#/",
+    "smallControls": [],
+    "width": 768
+  },
+  {
+    "h1": [
+      "Mis trámites"
+    ],
+    "overflow": [],
+    "route": "#/tramites",
+    "smallControls": [],
+    "width": 768
+  },
+  {
+    "h1": [
+      "Verificación de Datos y Carnet"
+    ],
+    "overflow": [],
+    "route": "#/tramites/demo-canje?documento=residencia",
+    "smallControls": [],
+    "width": 768
+  },
+  {
+    "h1": [
+      "Mensajes"
+    ],
+    "overflow": [],
+    "route": "#/mensajes",
+    "smallControls": [],
+    "width": 768
+  },
+  {
+    "h1": [
+      "Habla con tu gestor"
+    ],
+    "overflow": [],
+    "route": "#/mensajes/gestor",
+    "smallControls": [],
+    "width": 768
+  },
+  {
+    "h1": [
+      "Trámites y Gestiones DGT"
+    ],
+    "overflow": [],
+    "route": "#/servicios",
+    "smallControls": [],
+    "width": 768
+  },
+  {
+    "h1": [
+      "Mi Perfil"
+    ],
+    "overflow": [],
+    "route": "#/cuenta",
+    "smallControls": [],
+    "width": 768
+  },
+  {
+    "h1": [
+      "Tu gestoría, siempre contigo."
+    ],
+    "overflow": [],
+    "route": "#/acceso",
+    "smallControls": [],
+    "width": 768
+  },
+  {
+    "h1": [
+      "Crea tu espacio."
+    ],
+    "overflow": [],
+    "route": "#/registro",
+    "smallControls": [],
+    "width": 768
+  },
+  {
+    "h1": [
+      "Explora la demostración"
+    ],
+    "overflow": [],
+    "route": "#/informacion",
+    "smallControls": [],
+    "width": 768
+  },
+  {
+    "h1": [
+      "Revisa tu servicio"
+    ],
+    "overflow": [],
+    "route": "#/checkout-demo",
+    "smallControls": [],
+    "width": 768
+  },
+  {
+    "h1": [
+      "Política de privacidad"
+    ],
+    "overflow": [],
+    "route": "#/legal/privacy",
+    "smallControls": [],
+    "width": 768
+  },
+  {
+    "h1": [
+      "Términos de uso"
+    ],
+    "overflow": [],
+    "route": "#/legal/terms",
+    "smallControls": [],
+    "width": 768
+  },
+  {
+    "h1": [
+      "Soporte"
+    ],
+    "overflow": [],
+    "route": "#/legal/support",
+    "smallControls": [],
+    "width": 768
+  },
+  {
+    "h1": [
+      "Eliminar cuenta"
+    ],
+    "overflow": [],
+    "route": "#/legal/delete-account",
+    "smallControls": [],
+    "width": 768
+  },
+  {
+    "h1": [
+      "Esta pantalla no está disponible"
+    ],
+    "overflow": [],
+    "route": "#/pantalla-inexistente",
+    "smallControls": [],
+    "width": 768
+  },
+  {
+    "h1": [
+      "¿Qué trámite de Tráfico necesitas gestionar hoy?"
+    ],
+    "overflow": [],
+    "route": "#/",
+    "smallControls": [],
+    "width": 1280
+  },
+  {
+    "h1": [
+      "Mis trámites"
+    ],
+    "overflow": [],
+    "route": "#/tramites",
+    "smallControls": [],
+    "width": 1280
+  },
+  {
+    "h1": [
+      "Verificación de Datos y Carnet"
+    ],
+    "overflow": [],
+    "route": "#/tramites/demo-canje?documento=residencia",
+    "smallControls": [],
+    "width": 1280
+  },
+  {
+    "h1": [
+      "Mensajes"
+    ],
+    "overflow": [],
+    "route": "#/mensajes",
+    "smallControls": [],
+    "width": 1280
+  },
+  {
+    "h1": [
+      "Habla con tu gestor"
+    ],
+    "overflow": [],
+    "route": "#/mensajes/gestor",
+    "smallControls": [],
+    "width": 1280
+  },
+  {
+    "h1": [
+      "Trámites y Gestiones DGT"
+    ],
+    "overflow": [],
+    "route": "#/servicios",
+    "smallControls": [],
+    "width": 1280
+  },
+  {
+    "h1": [
+      "Mi Perfil"
+    ],
+    "overflow": [],
+    "route": "#/cuenta",
+    "smallControls": [],
+    "width": 1280
+  },
+  {
+    "h1": [
+      "Tu gestoría, siempre contigo."
+    ],
+    "overflow": [],
+    "route": "#/acceso",
+    "smallControls": [],
+    "width": 1280
+  },
+  {
+    "h1": [
+      "Crea tu espacio."
+    ],
+    "overflow": [],
+    "route": "#/registro",
+    "smallControls": [],
+    "width": 1280
+  },
+  {
+    "h1": [
+      "Explora la demostración"
+    ],
+    "overflow": [],
+    "route": "#/informacion",
+    "smallControls": [],
+    "width": 1280
+  },
+  {
+    "h1": [
+      "Revisa tu servicio"
+    ],
+    "overflow": [],
+    "route": "#/checkout-demo",
+    "smallControls": [],
+    "width": 1280
+  },
+  {
+    "h1": [
+      "Política de privacidad"
+    ],
+    "overflow": [],
+    "route": "#/legal/privacy",
+    "smallControls": [],
+    "width": 1280
+  },
+  {
+    "h1": [
+      "Términos de uso"
+    ],
+    "overflow": [],
+    "route": "#/legal/terms",
+    "smallControls": [],
+    "width": 1280
+  },
+  {
+    "h1": [
+      "Soporte"
+    ],
+    "overflow": [],
+    "route": "#/legal/support",
+    "smallControls": [],
+    "width": 1280
+  },
+  {
+    "h1": [
+      "Eliminar cuenta"
+    ],
+    "overflow": [],
+    "route": "#/legal/delete-account",
+    "smallControls": [],
+    "width": 1280
+  },
+  {
+    "h1": [
+      "Esta pantalla no está disponible"
+    ],
+    "overflow": [],
+    "route": "#/pantalla-inexistente",
+    "smallControls": [],
+    "width": 1280
+  }
+]

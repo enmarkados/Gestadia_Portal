@@ -1,12 +1,19 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useApp } from "./AppContext.jsx";
+import { conversationsEnabled } from "./conversationApi.js";
 import Icon from "./Icon.jsx";
 import LegalLinks from "./LegalLinks.jsx";
+import {
+  accessDestination,
+  authFlowState,
+  navigationState,
+} from "./navigation.js";
 
 export default function Register() {
   const app = useApp();
   const navigate = useNavigate();
+  const location = useLocation();
   const [form, setForm] = useState({
     nombre: "",
     email: "",
@@ -34,8 +41,28 @@ export default function Register() {
       },
     }));
     setForm((old) => ({ ...old, password: "", confirm: "" }));
-    navigate("/");
+    const destination = accessDestination(location);
+    navigate(destination.to, { state: destination.state, replace: true });
   }
+  if (conversationsEnabled())
+    return (
+      <section className="auth-page">
+        <h1>Tu cuenta Gestadia</h1>
+        <p>
+          Usa el acceso compartido con tu portal. Si has recibido una
+          invitación, verifica el correo y crea tu contraseña mediante ese
+          enlace.
+        </p>
+        <Link
+          className="btn primary"
+          to="/acceso"
+          state={authFlowState(location)}
+        >
+          Iniciar sesión
+        </Link>
+        <LegalLinks compact />
+      </section>
+    );
   return (
     <section className="auth-page">
       <p className="eyebrow">EMPIEZA CON GESTADIA</p>
@@ -143,13 +170,17 @@ export default function Register() {
           </p>
         )}
         <button className="btn primary">Crear cuenta de ejemplo</button>
-        <Link className="text-btn" to="/informacion">
+        <Link
+          className="text-btn"
+          to="/informacion"
+          state={navigationState(location)}
+        >
           Acerca de esta demostración
         </Link>
       </form>
       <p className="auth-switch">
         ¿Ya tienes cuenta?{" "}
-        <Link className="text-btn" to="/acceso">
+        <Link className="text-btn" to="/acceso" state={authFlowState(location)}>
           Iniciar sesión
         </Link>
       </p>

@@ -1,0 +1,315 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:gestadia:app:context:addendum:1.1",
+  "title": "Conversation context, proposed addendum 1.1; DTO schema_version 1.0",
+  "$ref": "#/$defs/ConversationContextRequest",
+  "$defs": {
+    "ConversationContextRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "portal_user_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "context_revision": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]{0,19}$"
+        },
+        "validated_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$"
+        },
+        "permissions": {
+          "type": "array",
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "sondeo",
+              "history",
+              "case_context",
+              "commercial_handoff",
+              "manager_handoff",
+              "support_handoff"
+            ]
+          }
+        },
+        "case_ref": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "commercial_assignment_ref": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "manager_assignment_ref": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      },
+      "required": [
+        "schema_version",
+        "portal_user_id",
+        "context_revision",
+        "validated_at",
+        "permissions",
+        "case_ref",
+        "commercial_assignment_ref",
+        "manager_assignment_ref",
+        "correlation_id"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "permissions": {
+                "contains": {
+                  "const": "case_context"
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "case_ref": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "permissions": {
+                "contains": {
+                  "const": "manager_handoff"
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "case_ref": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              "manager_assignment_ref": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "manager_assignment_ref": {
+                "type": "string"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "case_ref": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "permissions": {
+                "maxItems": 0
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "commercial_assignment_ref": {
+                "type": "null"
+              },
+              "manager_assignment_ref": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ConversationContextResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "conversation_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,128}$"
+        },
+        "operation_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "context_revision": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]{0,19}$"
+        },
+        "current_context_revision": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]{0,19}$"
+        },
+        "state_revision": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]{0,19}$"
+        },
+        "persisted": {
+          "const": true
+        },
+        "replayed": {
+          "type": "boolean"
+        },
+        "effective_permissions": {
+          "type": "array",
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "sondeo",
+              "history",
+              "case_context",
+              "commercial_handoff",
+              "manager_handoff",
+              "support_handoff"
+            ]
+          }
+        },
+        "applied_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$"
+        },
+        "enforcement_deadline": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$"
+        },
+        "enforcement_status": {
+          "const": "propagating"
+        },
+        "correlation_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      },
+      "required": [
+        "schema_version",
+        "conversation_id",
+        "operation_id",
+        "context_revision",
+        "current_context_revision",
+        "state_revision",
+        "persisted",
+        "replayed",
+        "effective_permissions",
+        "applied_at",
+        "enforcement_deadline",
+        "enforcement_status",
+        "correlation_id"
+      ]
+    },
+    "ContextError": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "status": {
+          "type": "integer",
+          "minimum": 400,
+          "maximum": 599
+        },
+        "code": {
+          "enum": [
+            "invalid_context",
+            "invalid_integration_auth",
+            "capability_denied",
+            "conversation_not_found",
+            "idempotency_conflict",
+            "context_conflict",
+            "stale_context",
+            "case_context_conflict",
+            "operation_retired",
+            "payload_too_large",
+            "rate_limited",
+            "runtime_unavailable"
+          ]
+        },
+        "detail": {
+          "type": "string",
+          "maxLength": 512
+        },
+        "correlation_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "retryable": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type",
+        "title",
+        "status",
+        "code",
+        "detail",
+        "correlation_id",
+        "retryable"
+      ]
+    }
+  }
+}

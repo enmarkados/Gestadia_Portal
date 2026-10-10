@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { navigationState } from "./navigation.js";
 import { useApp } from "./AppContext.jsx";
 import { demoOnly } from "./api.js";
+import { conversationsEnabled } from "./conversationApi.js";
 import Sheet from "./Sheet.jsx";
 import Icon from "./Icon.jsx";
 export default function Contact({ onClose }) {
   const { isClient, mode, data } = useApp();
   const navigate = useNavigate();
+  const location = useLocation();
   const [form, setForm] = useState({
     nombre: [data.profile?.nombre, data.profile?.apellidos]
       .filter(Boolean)
@@ -23,6 +26,21 @@ export default function Contact({ onClose }) {
     }
     setSent(true);
   }
+  if (mode === "real" && conversationsEnabled())
+    return (
+      <Sheet title="Atención Gestadia" onClose={onClose}>
+        <p>Consulta con el equipo desde la conversación de atención.</p>
+        <button
+          className="btn dark-btn"
+          onClick={() => {
+            onClose();
+            navigate("/mensajes/gestor", { state: navigationState(location) });
+          }}
+        >
+          Abrir conversación de atención
+        </button>
+      </Sheet>
+    );
   return (
     <Sheet
       title="Hablar con un gestor"
@@ -60,7 +78,7 @@ export default function Contact({ onClose }) {
                 className="btn dark-btn contact-chat"
                 onClick={() => {
                   onClose();
-                  navigate("/mensajes/gestor");
+                  navigate("/mensajes/gestor", { state: navigationState(location) });
                 }}
               >
                 <Icon name="message" size={20} />

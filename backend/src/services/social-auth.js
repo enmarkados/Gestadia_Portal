@@ -278,6 +278,8 @@ export function createSocialAuth({
               nombre: a.claims.name || "Usuario",
               apellidos: "",
               emailVerified: true,
+              accountVerifiedAt: now(),
+              accountVerificationMethod: "email",
             },
           });
         }

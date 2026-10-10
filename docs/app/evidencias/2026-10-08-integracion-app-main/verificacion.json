@@ -1,0 +1,21 @@
+{
+  "target_branch": "app/main",
+  "preserved_app_base": "e10edba",
+  "conversations_head": "fbd9ae0",
+  "receipts_head": "6fb058e",
+  "backend_tests": {
+    "passed": 167,
+    "failed": 0
+  },
+  "frontend_tests": {
+    "passed": 149,
+    "failed": 0
+  },
+  "build_app": "success",
+  "database": "owned ephemeral MySQL8 tmpfs loopback fixture; cleaned by owner label",
+  "main_node_version": "24.14.1",
+  "asset": "index-BYSdVaHo.js",
+  "asset_sha256": "3b146bfae0e6a511ce1ddaba3011e8ffb94b6f4bb2b58f1414c5911a4b4a9405",
+  "production_deployed": false,
+  "production_access_changes": false
+}

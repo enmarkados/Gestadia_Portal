@@ -1,0 +1,187 @@
+
+> gestadia-backend@1.0.0 test
+> node --experimental-test-module-mocks --test src/**/*.test.js
+
+✔ dos nodos/dispositivos conservan la asociación y no exponen ids internos (736.240791ms)
+✔ respuesta perdida conserva claim inicial y un retry explícito recupera sin nueva sesión (246.872833ms)
+✔ turn_id no se repite y un cambio de payload causa conflicto, con recibo retirado tampoco se ejecuta (218.095875ms)
+✔ otro sujeto recibe 404 y una revocación durante HTTP bloquea incluso la respuesta recibida (174.51075ms)
+✔ permiso retirado [] y expiración se propagan sin defaults; revisión grande exacta y aislamiento caso (304.836833ms)
+✔ sesión cerrada recupera historial y no admite nuevos efectos (161.935375ms)
+✔ key de inicio reutilizada en otro propósito se rechaza antes de HTTP (77.036958ms)
+✔ replay de turno ya admitido en cerrada recupera recibo sin efecto nuevo (222.164875ms)
+✔ grant caducado y cambio de dueño generan retiro durable; nunca permiten historia privada (297.582209ms)
+✔ retirar case_context conservando history oculta historial y recibos de caso (251.54875ms)
+✔ cambio de revisión durante timeline descarta la respuesta anterior incluso con permisos conservados (118.541667ms)
+✔ retry explícito de turno admitido en cerrada sólo recupera el recibo (195.827708ms)
+✔ consulta por turn_id reconcilia resultado incierto y usa la retención del recibo original (256.490375ms)
+✔ key de inicio mantiene conflicto y retirada aunque ambos scopes ya tengan asociación (132.374375ms)
+✔ dos retries concurrentes no degradan una confirmación por un timeout posterior (323.092208ms)
+✔ recibo confirmado de revisión mayor no se degrada por una respuesta anterior (319.598292ms)
+✔ IDs remotos que sólo difieren en mayúsculas no colisionan (325.762167ms)
+✔ worker entrega revocación antes de contextos lentos y del escaneo (254.724209ms)
+✔ respuesta inicial tardía no reabre una sesión ya cerrada por otro dispositivo (446.6335ms)
+✔ revocación llegada durante lote de contextos se entrega antes del grupo siguiente (3291.739834ms)
+✔ proxy de handoff comercial conserva identity_link_required como rechazo definitivo (692.044875ms)
+✔ respuestas locales LidIA atraviesan asociación, contexto, turno y proyección Portal (738.067792ms)
+✔ handoff local LidIA conserva completed/requested y routing_error no activa fallback (646.040583ms)
+✔ timeline de atención LidIA proyecta operador actual y misma asociación local (582.956167ms)
+✔ un contexto incierto rechazado como obsoleto se conserva superseded tras confirmar uno mayor (773.675625ms)
+✔ un contexto incierto no se descarta antes de confirmar la revisión superior (906.447958ms)
+✔ un fallo de transporte no clasifica una operación incierta como contexto sustituido (1113.911958ms)
+✔ stale_context nunca retira la entrega de una revocación de cuenta (810.248708ms)
+✔ la confirmación de otra asociación remota no sustituye una operación del vínculo anterior (326.509666ms)
+✔ un stale_context con HTTP no definitivo conserva la incertidumbre (248.19225ms)
+✔ una revisión que pierde confirmación durante la llamada no supera el contexto incierto (212.827542ms)
+✔ nombre por cuenta persiste entre dispositivos sin alterar última actividad ni exponer otro chat (266.313208ms)
+✔ fallo de metadatos conserva fechas confirmadas pero no acredita estado vigente ni ausencia de mensajes (174.826209ms)
+✔ cierre remoto abre otra sesión entre dos dispositivos sin reabrir ni perder idempotencia histórica (308.999958ms)
+✔ fuente indisponible bloquea nueva sesión en vez de suponer el cierre (112.737833ms)
+✔ nueva conversación explícita conserva dos chats activos e historial aislado del mismo scope (391.7835ms)
+✔ nueva conversación es idempotente entre dispositivos y rechaza cambiar intención con la misma clave (281.072375ms)
+✔ pérdida de respuesta al crear otra sesión recupera la misma sin afectar la anterior (285.525167ms)
+✔ crear otro chat rechaza flags inválidos, atención y expediente ajeno (40.44075ms)
+✔ recuperar chat pendiente por id no sustituye otro más antiguo por el último del scope (153.417875ms)
+✔ emailVerified histórico no se atestigua sin evidencia fechada (52.311292ms)
+✔ login APP guarda sólo huella y logout revoca un dispositivo (344.935833ms)
+✔ consumo de prueba registra fecha/método y revoca todas las sesiones anteriores (122.79275ms)
+✔ invitación consumida una sola vez incluso con dos peticiones concurrentes (105.990875ms)
+✔ gate deshabilitado y autenticación APP nunca aceptan JWT de Portal como identidad (297.753958ms)
+✔ router limita bytes y exige autenticación antes del proxy (78.5435ms)
+✔ firma exacta app-s2s-v1-vectors.json get-empty (3.065917ms)
+✔ firma exacta app-s2s-v1-vectors.json get-encoded-cursor (0.120666ms)
+✔ firma exacta app-s2s-v1-vectors.json post-accents (0.178792ms)
+✔ firma exacta app-s2s-v1-vectors.json post-rotated-key (0.112166ms)
+✔ firma exacta app-context-v1-1-vectors.json context-grant-9 (0.091333ms)
+✔ firma exacta app-context-v1-1-vectors.json context-grant-reordered (0.081208ms)
+✔ firma exacta app-context-v1-1-vectors.json context-withdraw-10 (0.072625ms)
+✔ firma exacta app-context-v1-1-vectors.json context-retry-9-after-10 (0.083125ms)
+✔ firma exacta app-context-v1-1-vectors.json context-key-rotation (0.119042ms)
+✔ firma exacta app-context-v1-1-vectors.json context-large-revision (0.131084ms)
+✔ query sólo permite target canónico y no combina turn_id con cursor (0.385375ms)
+✔ validador rechaza Unicode inválido/propiedades privilegiadas y admite 4000 escalares (1.863542ms)
+✔ cliente deshabilitado no hace HTTP; errores externos nunca exponen el body (310.731791ms)
+✔ handoff completed con requested valida el recibo sin acreditar operador (1.210167ms)
+✔ 409 identity_link_required conserva código y oculta detalle privado sin fallback (0.45725ms)
+✔ muestra de servicio LidIA valida ContextAck (0.419459ms)
+✔ muestra de servicio LidIA valida Error (0.219875ms)
+✔ muestra de servicio LidIA valida Receipt (0.06525ms)
+✔ muestra de servicio LidIA valida ReceiptLookup (7.236792ms)
+✔ muestra de servicio LidIA valida SessionResponse (12.229125ms)
+✔ muestra de servicio LidIA valida Timeline (11.202916ms)
+✔ muestra final LidIA valida SessionResponse (0.088ms)
+✔ muestra final LidIA valida ContextAck (0.043959ms)
+✔ muestra final LidIA valida Receipt (0.050042ms)
+✔ muestra final LidIA valida Timeline (0.108334ms)
+✔ muestra final LidIA valida ReceiptLookup (0.054541ms)
+✔ muestra final LidIA valida Error (0.027167ms)
+✔ muestra final LidIA valida HandoffReceipt (0.041666ms)
+✔ muestra final LidIA valida SupportTimeline (0.058ms)
+✔ muestra final LidIA valida RoutingError (0.026541ms)
+✔ metadatos aditivos admiten UTC y null sin aceptar fechas inválidas ni campos privados (3.775417ms)
+(node:11429) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11429) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/shared/servicios.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/package.json.
+✔ checkout con token LidIA: expediente con procedencia, deal actualizado (no creado) y evento encolado (784.578541ms)
+✔ checkout con token LidIA: si el update del deal falla, cae al flujo actual (crear deal) (48.124667ms)
+Aviso al cliente fallido (el pago SIGUE siendo válido) · pedido GST-202610-54144: 550 5.1.1 recipient rejected
+✔ si el email de bienvenida falla, LidIA SIGUE siendo notificada del pago (91.182875ms)
+Transición a documentacion_pendiente fallida · pedido GST-202610-35269: Zoho no responde
+✔ si la transición de estado falla, LidIA SIGUE siendo notificada (18.905083ms)
+✔ la sesión de Stripe lleva la correlación de LidIA y datos del pedido (6.409042ms)
+✔ checkout sin token: regresión intacta (procedencia web, flujo Zoho actual) (32.914ms)
+(node:11430) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11430) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/shared/servicios.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/package.json.
+[lidia] 401 unauthorized trace=bc9e376e5aa0b2d3
+✔ sin api key valida → 401 unauthorized con trace_id (643.241167ms)
+[lidia] 400 unsupported_schema_version trace=2d7d6907079c48f4
+✔ schema_version desconocida → 400 unsupported_schema_version (68.752625ms)
+[lidia] 400 invalid_payload trace=4a87ec578b976b2f
+[lidia] 400 invalid_payload trace=9f266358b85d1703
+[lidia] 400 invalid_payload trace=7435cde364c337b4
+[lidia] 400 invalid_payload trace=a47587163a909919
+[lidia] 400 invalid_payload trace=eae7735618e51878
+✔ payload inválido → 400 invalid_payload (falta campo, UUID malo, E.164 malo) (22.467542ms)
+[lidia] 409 zoho_reference_invalid trace=4491950f21f3cc8f
+✔ ids de Zoho no numéricos → 409 zoho_reference_invalid (9.935375ms)
+[lidia] 409 catalog_code_no_disponible trace=9362d38236e7c9c7
+✔ canje_2_categorias → 409 catalog_code_no_disponible (14.174209ms)
+[lidia] 409 importe_no_coincide trace=73dea93aeda59625
+✔ importe distinto del catálogo → 409 importe_no_coincide con catálogo en céntimos (10.3015ms)
+✔ misma idempotency_key y mismo payload → 200 con el mismo intent y reused true (72.599167ms)
+[lidia] 409 idempotency_conflict trace=b1c0339d371ce06c
+✔ misma idempotency_key con payload distinto → 409 idempotency_conflict (75.169458ms)
+✔ replaces_checkout_intent_id cancela el intent sustituido y crea uno nuevo (58.476292ms)
+✔ creación válida → 201 con la respuesta del contrato §6.6 (14.155125ms)
+[lidia] 401 unauthorized trace=75bf1b2b0aaaca79
+✔ GET catálogo: 401 sin api key; con ella lista productos con activo/inactivo (16.267291ms)
+[lidia] 404 checkout_intent_not_found trace=982ab26f08349135
+✔ GET autenticado devuelve el estado completo; 404 si no existe (70.747208ms)
+✔ GET público devuelve solo prellenado mapeado, marca opened y encola el evento una vez (42.992166ms)
+✔ GET público: token desconocido o intent expirado/cancelado → 404; pagado → {pagado, nPedido} (13.156542ms)
+(node:11432) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ POST /api/leads returns 400 when required fields are missing (167.827791ms)
+✔ POST /api/leads returns the lead id on success (8.640916ms)
+(node:11519) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/shared/servicios.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ metodoDeSesion lee el tipo del cargo real (bizum) por encima de los permitidos (1.786042ms)
+✔ metodoDeSesion devuelve card cuando el cargo es de tarjeta (3.95425ms)
+✔ metodoDeSesion cae al primer método permitido si no hay cargo (0.089834ms)
+✔ metodoDeSesion usa card como último recurso (13.128166ms)
+(node:11520) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/shared/servicios.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/gonchumon/.codex/worktrees/app-conversaciones-backend/Gestadia_Portal/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[lidia] evento evt_rCBUm1hoy7PrH_xz → manual (HTTP 400, 1 intentos). Replay: node scripts/lidia-replay.mjs evt_rCBUm1hoy7PrH_xz
+[lidia] evento evt_bWAvDu01GWkZSdCc → manual (HTTP 401, 1 intentos). Replay: node scripts/lidia-replay.mjs evt_bWAvDu01GWkZSdCc
+[lidia] evento evt_y9qiL00rP4jCncpZ → reconciliar (HTTP 409, 1 intentos). Replay: node scripts/lidia-replay.mjs evt_y9qiL00rP4jCncpZ
+[lidia] evento evt_duB0uogXUqpU7VFq → agotado (HTTP 500, 6 intentos). Replay: node scripts/lidia-replay.mjs evt_duB0uogXUqpU7VFq
+(node:11520) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+✔ catalogoLidia resuelve canje_1_categoria con el precio del catálogo (1.749ms)
+✔ catalogoLidia devuelve null para códigos no habilitados (8.549834ms)
+✔ config.lidia expone TTL, key version y callbackUrl con la ruta fija del contrato (0.141709ms)
+✔ claveDesdeISO mapea alfa-2 a claves del catálogo (0.082916ms)
+✔ mapearPrefill traduce el prefill del contrato al formato del formulario (1.428333ms)
+✔ mapearPrefill omite lo no mapeable sin romper (0.117417ms)
+✔ mapearPrefill traslada los campos extra del país (datos_pais) (0.085583ms)
+✔ mapearPrefill acepta varios campos extra y descarta los que el país no pide (0.076375ms)
+✔ firmarCallback firma timestamp.body con HMAC-SHA256 hex y prefijo de clave (16.214333ms)
+✔ occurred_at es el instante del cobro y emitted_at el de encolado (2.382083ms)
+✔ sin paid_at (eventos que no son de pago) occurred_at es el momento de encolar (1.20825ms)
+✔ encolarEvento persiste el cuerpo exacto del contrato como string (1.0135ms)
+✔ despachar: 2xx → enviado con cabeceras de firma correctas (1.089166ms)
+✔ despachar: 400/401 → manual; 409 → reconciliar; 5xx → reintento con backoff (6.348834ms)
+✔ despachar: al sexto fallo el evento queda agotado (1.186583ms)
+✔ construirDatosPago calcula datos confirmados y correcciones (teléfono informativo) (1.212916ms)
+✔ expirarIntents marca expired y encola checkout.expired (4.333125ms)
+[stripe] customer cus_DE_TEST no existe en este modo; se crea uno nuevo
+✔ resolvePrice devuelve el price id del lookup_key (2.40525ms)
+✔ getOrCreateCustomer crea con metadata de Zoho cuando no existe (0.19175ms)
+✔ getOrCreateCustomer incluye el documento identificativo si se conoce (0.091792ms)
+✔ getOrCreateCustomer no inventa campos de documento si no los hay (0.084542ms)
+✔ getOrCreateCustomer reutiliza el customer guardado si existe en este modo (0.093958ms)
+✔ getOrCreateCustomer crea uno nuevo si el guardado es de otro modo de Stripe (1.718125ms)
+✔ linkCustomerToZoho actualiza external_id (0.148167ms)
+(node:11522) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ updateDealPago hace PUT económico al deal sin tocar Lead_Source ni Pipeline (17.212125ms)
+✔ updateContactPermitidos actualiza solo la allowlist y nunca Mobile (1.338458ms)
+✔ createLead posts to the Leads endpoint with mapped Servicio and normalized phone (15.298084ms)
+✔ upsertContact creates a contact when none exists (1.024959ms)
+✔ upsertContact busca por móvil y solo rellena huecos (0.91475ms)
+ℹ tests 132
+ℹ suites 0
+ℹ pass 132
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 19233.902708

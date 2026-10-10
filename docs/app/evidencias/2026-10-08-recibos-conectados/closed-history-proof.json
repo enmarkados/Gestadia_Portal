@@ -1,0 +1,8 @@
+{
+  "fixture_only": true,
+  "build": 13,
+  "receipt_status": "read",
+  "read_by": "account",
+  "conversation_status": "closed",
+  "reopened": false
+}

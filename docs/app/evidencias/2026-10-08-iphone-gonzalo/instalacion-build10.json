@@ -1,0 +1,16 @@
+{
+  "source_commit": "d887caa",
+  "bundle_id": "com.gestadia.app",
+  "version": "0.1.0",
+  "build": "10",
+  "device": "iGonchu / iPhone13ProMax",
+  "asset": "index-B08FeEwc.js",
+  "asset_sha256": "830ebb2a45925565acc57222aab4410a9628a7538df3cd80b577d41bacd7795a",
+  "signing_verified": true,
+  "installation": "success",
+  "launch": "success",
+  "native_api_origin": "https://app.gestadia.com",
+  "backend_e2e_physical": "not_verified",
+  "lan_proxy": "not_opened_pending_approval",
+  "device_hub_latest_screen": "unavailable_microphone_or_camera_active"
+}

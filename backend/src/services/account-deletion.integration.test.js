@@ -6,7 +6,7 @@ const url = process.env.GESTADIA_MOBILE_TEST_DATABASE_URL;
 const enabled =
   !!url &&
   new URL(url).hostname === "127.0.0.1" &&
-  new URL(url).pathname === "/gestadia_mobile_test";
+  ["/gestadia_mobile_test", "/gestadia_app_test"].includes(new URL(url).pathname);
 test(
   "Solicitud de borrado exige sesión reciente, retira acceso y registra estado pendiente",
   { skip: !enabled },

@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import LegalLinks from "./LegalLinks.jsx";
 import { useApp } from "./AppContext.jsx";
-import { demoOnly } from "./api.js";
+import { demoOnly, demoEnabled } from "./api.js";
 import SocialAccess from "./SocialAccess.jsx";
 import Icon from "./Icon.jsx";
+import { accessDestination, authFlowState } from "./navigation.js";
 
 export default function Login() {
   const app = useApp();
@@ -24,7 +25,8 @@ export default function Login() {
       if (demoOnly()) app.startDemo("cliente", true);
       else await app.login(email, password);
       setPassword("");
-      navigate("/");
+      const destination = accessDestination(location);
+      navigate(destination.to, { state: destination.state, replace: true });
     } catch (err) {
       setError(err.message);
     } finally {
@@ -105,6 +107,8 @@ export default function Login() {
           <a
             className="text-btn password-recovery"
             href="https://gestadia.com/portal/recuperar"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             ¿Has olvidado tu contraseña?
           </a>
@@ -126,19 +130,29 @@ export default function Login() {
       <SocialAccess onDone={() => navigate("/")} />
       <p className="auth-switch">
         ¿Es tu primera vez?{" "}
-        <Link className="text-btn" to="/registro">
+        <Link
+          className="text-btn"
+          to="/registro"
+          state={authFlowState(location)}
+        >
           Crear cuenta
         </Link>
       </p>
-      <button
-        className="btn secondary"
-        onClick={() => {
-          app.startDemo();
-          navigate("/");
-        }}
-      >
-        Explorar la demostración
-      </button>
+      {demoEnabled() && (
+        <button
+          className="btn secondary"
+          onClick={() => {
+            app.startDemo();
+            const destination = accessDestination(location);
+            navigate(destination.to, {
+              state: destination.state,
+              replace: true,
+            });
+          }}
+        >
+          Explorar la demostración
+        </button>
+      )}
       <LegalLinks compact />
     </section>
   );

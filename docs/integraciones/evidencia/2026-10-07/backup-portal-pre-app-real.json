@@ -1,0 +1,31 @@
+{
+  "created_at": "20261007T123640Z",
+  "repository_head": "6dce8847da152476ef6314218fdb1d64984f5ba5",
+  "scope": "Portal isolated local fixture; no production Portal backup",
+  "artifacts": [
+    {
+      "file": "portal-code.bundle",
+      "bytes": 34351726,
+      "sha256": "2b52276fdfb09a9a23f3977e6bd430af315e2e6686ec8bab1d4eace396097474"
+    },
+    {
+      "file": "portal-fixture.sql",
+      "bytes": 67058,
+      "sha256": "21171c8f993503e61170ece68d73a0b834b734c5a5780643668b23fee06f7ead"
+    },
+    {
+      "file": "portal-local-private.tar.gz",
+      "bytes": 21696,
+      "sha256": "b7b43b391b911e71b1ce1f8e9b9f2660f17978912c1d42fc4be57ff36373744f"
+    }
+  ],
+  "recovery": {
+    "checked_at": "2026-10-07T12:39:21.639738+00:00",
+    "git_bundle_clone": "PASS",
+    "restored_head": "6dce8847da152476ef6314218fdb1d64984f5ba5",
+    "mysql_restore": "PASS",
+    "mysql_table_check": "PASS",
+    "restored_tables": 12,
+    "isolation": "network none; temporary own container; fixture unchanged"
+  }
+}

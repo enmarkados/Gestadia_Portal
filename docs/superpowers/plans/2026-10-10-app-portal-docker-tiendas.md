@@ -52,11 +52,11 @@
 **Files:** modificaciones compartidas de `backend/prisma/schema.prisma`, `backend/src/app.js`, `config.js`, `middleware/auth.js`, `frontend/app/src/AppContext.jsx`, `App.jsx`, `api.js`, `native.js`, package/locks; conservar `backend/src/app/`, `frontend/app/src/AppConversation.jsx`, navegación/recibos y scripts integrados.
 **Interfaces:** produce una única revisión integrada que consumen Tasks 3/4/8. Las APIs APP existentes conservan contratos; AuthSession móvil no sustituye sin adaptación AppSession conversacional.
 
-- [ ] Guardar documentación actual; actualizar referencias remotas por fetch y comparar hashes.
+- [x] Guardar documentación actual; actualizar referencias remotas por fetch y comparar hashes.
 - [ ] Integrar app/main en la rama aislada sin reescribir historia compartida. Resolver conflictos conservando contratos, columnas/migraciones y funciones de ambas líneas.
-- [ ] Ejecutar `node scripts/test-app-conversations.mjs`, pruebas marketplace backend con DB explícita y frontend. Resultado exigido: suites sin fallos ni omisiones inesperadas.
-- [ ] Añadir primero pruebas de regresión para login social seguido de conversación autorizada/recibos y logout; observar fallo si la adaptación falta.
-- [ ] Implementar adaptación a la identidad vigente sin permitir selección de agente/CRM; ejecutar GREEN y builds APP/Portal.
+- [x] Ejecutar `node scripts/test-app-conversations.mjs`, pruebas marketplace backend con DB explícita y frontend. Resultado exigido: suites sin fallos ni omisiones inesperadas.
+- [x] Añadir primero regresiones de sesión móvil conversacional, rechazo del JWT Portal, logout/baja y prueba fechada del alta social; observar RED (3 fallos).
+- [x] Implementar adaptación a la identidad vigente sin permitir selección de agente/CRM; GREEN 201 backend/165 frontend, build APP y Portal.
 - [ ] Commit de integración y registrar hash/base y resultados. Las imágenes finales deben construirse desde esta línea, no desde la preparación antigua.
 
 ### Task 3: Identidad compartida revocación y productor push

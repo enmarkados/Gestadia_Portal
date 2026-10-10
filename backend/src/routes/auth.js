@@ -5,6 +5,7 @@ import { db } from '../db.js';
 import { config } from '../config.js';
 import { signToken, requireAuth } from '../middleware/auth.js';
 import { mobileSessions } from '../services/auth-sessions.js';
+import { consumeAccountProof } from '../app/identity.js';
 import { sendEmail } from '../services/notify.js';
 
 export const authRouter = Router();
@@ -37,15 +38,12 @@ authRouter.post('/api/auth/set-password', async (req, res) => {
     }
   }
   if(user.accessRevokedAt)return res.status(403).json({error:"Cuenta retirada"});
-  const updated = await db.user.update({
-    where: { id: user.id },
-    data: {
-      passwordHash: await bcrypt.hash(password, 12),
-      emailVerified: true,
-      ...(viaReset ? { resetToken: null, resetTokenExp: null } : { inviteToken: null }),
-    },
-  });
-  res.json({ token: signToken(updated), nombre: updated.nombre });
+  try {
+    const updated = await consumeAccountProof(db, user.id, token, viaReset, await bcrypt.hash(password, 12));
+    res.json({ token: signToken(updated), nombre: updated.nombre });
+  } catch (error) {
+    res.status(error.code === 'verification_link_invalid' ? 400 : 503).json({ error: 'El enlace no es válido o ha caducado' });
+  }
 });
 
 authRouter.post('/api/auth/forgot', async (req, res) => {

@@ -1,0 +1,71 @@
+{
+  "fecha": "2026-10-07",
+  "rama": "codex/app-conversaciones-backend",
+  "base": "41e83c0",
+  "tests": {
+    "resultado": "PASS",
+    "archivos": 11,
+    "pruebas": 88,
+    "log": "vitest-app.log"
+  },
+  "web": {
+    "anchos_px": [
+      320,
+      390,
+      768,
+      1280
+    ],
+    "rutas": 16,
+    "inspecciones": 64,
+    "desbordamientos_detectados": 0,
+    "controles_inspeccionados_inferiores_a_44_px": 0,
+    "detalle": "geometria-64-inspecciones.json",
+    "limite": "Inspeccion DOM de controles visibles y anchuras; no certificacion exhaustiva de accesibilidad."
+  },
+  "ios": {
+    "resultado_build": "SUCCEEDED",
+    "duracion_ms": 17331,
+    "dispositivo": "iPhone 17 / iOS 26.5 Simulator",
+    "bundle_id": "com.gestadia.app",
+    "pid_observado": 12180,
+    "interaccion": "Tramites visitante, cancelar acceso, login y continuacion, Servicios, seleccion y autoscroll, teclado, Cuenta y Mi Perfil."
+  },
+  "android": {
+    "resultado_build": "BUILD SUCCESSFUL",
+    "tareas": 213,
+    "ejecutadas": 27,
+    "up_to_date": 186,
+    "instalacion": "Success, adb install -r",
+    "emulador": "LIA_Codex_Pixel_8_API_36 / emulator-5560",
+    "interfaz": "PENDIENTE: herramienta UI no reconoce la ventana; autorizacion especifica de ADB UI pendiente."
+  },
+  "contraste": {
+    "texto_secundario_blanco": 5.38,
+    "rojo_blanco": 5.44,
+    "verde_blanco": 7.3
+  },
+  "assets": [
+    {
+      "nombre": "index-B76JrCzA.js",
+      "sha256": "84429d6963209673ece7ef7e3b9e024a2df8864ed1881795e356399e7f440596"
+    },
+    {
+      "nombre": "index-BBAuBe3R.css",
+      "sha256": "83343c4de7c0372d005bea73659fd54d55627520cf81acee138cb5959267c400"
+    },
+    {
+      "nombre": "web-CrKMeguF.js",
+      "sha256": "fc713cacd2182ead370d566e37dc0de9ebf58d399eb30239f2ec5c1b0fd65d19"
+    },
+    {
+      "nombre": "web-DFrjdBQW.js",
+      "sha256": "2300237d00a301be101aa79b67daf2b49fa8ff02730ef531f0d32471dbc678f6"
+    },
+    {
+      "nombre": "web-DYzpygof.js",
+      "sha256": "bfd1886f2fb71984e75370b38aa5f90eefc8bc3a62062e88b5d50896b05cd34c"
+    }
+  ],
+  "apk_sha256": "34566864c994e1258764734060a0b939b998624cf2349ff7f5c1cab48e14e62f",
+  "publicacion": "Rama de desarrollo y PR9; no merge app/main, despliegue de produccion ni release de tienda."
+}

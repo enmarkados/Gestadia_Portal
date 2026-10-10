@@ -1,10 +1,12 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { navigationState } from "./navigation.js";
 import { useApp } from "./AppContext.jsx";
 import Icon from "./Icon.jsx";
 import ChatComposer from "./ChatComposer.jsx";
 export default function Messages() {
+  const location = useLocation();
   const { data, setData, mode, isClient } = useApp();
   const expediente = data.expedientes[0];
   const managerLast = data.managerMessages.at(-1);
@@ -18,18 +20,22 @@ export default function Messages() {
   }
   return (
     <section className="messages-page">
-      <p className="eyebrow">CENTRO DE COMUNICACIONES</p>
       <h1>Mensajes</h1>
       <p className="muted messages-description">
         Tus conversaciones activas con tu gestor asignado y el asistente LidIA.
       </p>
-      <Link className="card new-consultation" to="/" onClick={newConsultation}>
+      <Link
+        className="card new-consultation"
+        to="/"
+        state={navigationState(location)}
+        onClick={newConsultation}
+      >
         <span className="avatar red">
           <Icon name="spark" size={20} />
         </span>
         <div>
           <strong>Nueva consulta con LidIA</strong>
-          <p>Diagnóstico previo y requisitos DGT en 1 min</p>
+          <p>Consulta los requisitos de tu trámite</p>
         </div>
         <span className="new-consultation-plus" aria-hidden="true">
           +
@@ -41,6 +47,7 @@ export default function Messages() {
           <Link
             className="card message-thread manager-thread"
             to="/mensajes/gestor"
+            state={navigationState(location)}
           >
             <div className="thread-heading">
               <span className="avatar dark">JA</span>
@@ -61,7 +68,11 @@ export default function Messages() {
             )}
           </Link>
         )}
-        <Link className="card message-thread assistant-thread" to="/">
+        <Link
+          className="card message-thread assistant-thread"
+          to="/"
+          state={navigationState(location)}
+        >
           <div className="thread-heading">
             <span className="avatar red">
               <Icon name="spark" size={20} />
@@ -71,7 +82,7 @@ export default function Messages() {
                 <strong>LidIA</strong>
                 <span className="assistant-badge">IA Gestadia</span>
               </div>
-              <p>Sondeo y Diagnóstico Previo DGT</p>
+              <p>Asistente Gestadia</p>
             </div>
           </div>
           <p className="thread-preview">
@@ -85,6 +96,7 @@ export default function Messages() {
   );
 }
 export function ManagerChat({ onContact }) {
+  const location = useLocation();
   const { mode, data, setData, isClient } = useApp();
   const [input, setInput] = useState("");
   const [voiceStatus, setVoiceStatus] = useState("");
@@ -173,6 +185,7 @@ export function ManagerChat({ onContact }) {
                         <span>{doc.label}</span>
                         <Link
                           to={`/tramites/${encodeURIComponent(expediente.id)}?documento=${encodeURIComponent(doc.clave)}`}
+                          state={navigationState(location)}
                           aria-label={`Subir ${doc.label.replace(/^\d+\. /, "")}`}
                         >
                           Subir

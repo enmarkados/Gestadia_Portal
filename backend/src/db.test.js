@@ -6,7 +6,7 @@ const fixtureUrl = process.env.GESTADIA_MOBILE_TEST_DATABASE_URL;
 const fixtureEnabled =
   !!fixtureUrl &&
   new URL(fixtureUrl).hostname === "127.0.0.1" &&
-  new URL(fixtureUrl).pathname === "/gestadia_mobile_test";
+  ["/gestadia_mobile_test", "/gestadia_app_test"].includes(new URL(fixtureUrl).pathname);
 const db = new PrismaClient({
   datasourceUrl: fixtureEnabled ? fixtureUrl : undefined,
 });

@@ -6,10 +6,15 @@ import {
   Link,
   useLocation,
   useMatch,
+  useNavigate,
 } from "react-router-dom";
 import { useApp } from "./AppContext.jsx";
 import { demoEnabled, demoOnly } from "./api.js";
+import AppConversation from "./AppConversation.jsx";
+import ConnectedMessages, { ConversationHome } from "./ConnectedMessages.jsx";
+import { conversationsEnabled } from "./conversationApi.js";
 import Login from "./Login.jsx";
+import { backNavigation, accessState, navigationState } from "./navigation.js";
 import Register from "./Register.jsx";
 import DemoCheckout from "./DemoCheckout.jsx";
 import DemoInfo from "./DemoInfo.jsx";
@@ -34,6 +39,8 @@ const TABS = [
 export default function App() {
   const app = useApp();
   const location = useLocation();
+  const navigate = useNavigate();
+  const connected = conversationsEnabled();
   const [sheet, setSheet] = useState(null);
   const [assistantReset, setAssistantReset] = useState(0);
   useLayoutEffect(() => {
@@ -47,21 +54,52 @@ export default function App() {
     ["/acceso", "/registro"].includes(location.pathname) ||
     (app.mode === "visitante" &&
       (location.pathname === "/cuenta" ||
-        (location.pathname === "/" && demoOnly())));
+        (location.pathname === "/" && demoOnly()) ||
+        (connected && location.pathname === "/mensajes")));
   const legalKind = location.pathname.startsWith("/legal/")
     ? location.pathname.slice(7)
     : null;
   const legalDocument = legalDocuments[legalKind];
-  const legalBackTo = ["/cuenta", "/acceso", "/registro"].includes(
-    location.state?.from,
-  )
-    ? location.state.from
-    : "/acceso";
+  const back = backNavigation(
+    location,
+    legalDocument
+      ? "/acceso"
+      : location.pathname.startsWith("/tramites/")
+        ? "/tramites"
+        : managerChat
+          ? "/mensajes"
+          : location.pathname === "/checkout-demo"
+            ? "/servicios"
+            : "/",
+  );
+  const secondaryScreen = ![
+    "/",
+    "/tramites",
+    "/mensajes",
+    "/servicios",
+  ].includes(location.pathname);
+  const contextualBack = (
+    <Link
+      className="icon-btn"
+      data-app-back
+      to={back.to}
+      state={back.state}
+      replace
+      aria-label={back.label}
+    >
+      <Icon name="back" size={22} />
+    </Link>
+  );
   const assistantChat =
-    location.pathname === "/" &&
-    app.mode === "demo" &&
-    !!app.data.assistantState?.messages?.length;
+    (connected && location.pathname === "/lidia/conversacion") ||
+    (location.pathname === "/" &&
+      app.mode === "demo" &&
+      !!app.data.assistantState?.messages?.length);
   function returnToLidIA() {
+    if (connected && app.mode !== "demo") {
+      navigate("/");
+      return;
+    }
     app.setData((old) => ({
       ...old,
       assistantState: { topic: null, answers: {}, messages: [] },
@@ -86,7 +124,14 @@ export default function App() {
       </a>
       {legalDocument ? (
         <header className="legal-header">
-          <Link className="icon-btn" to={legalBackTo} aria-label="Volver">
+          <Link
+            className="icon-btn"
+            data-app-back
+            to={back.to}
+            state={back.state}
+            replace
+            aria-label="Volver"
+          >
             <Icon name="back" />
           </Link>
           <div>
@@ -98,13 +143,7 @@ export default function App() {
         </header>
       ) : validationRoute ? (
         <header className="validation-header">
-          <Link
-            className="icon-btn"
-            to="/mensajes/gestor"
-            aria-label="Volver al chat del gestor"
-          >
-            <Icon name="back" size={22} />
-          </Link>
+          {contextualBack}
           <div>
             {validationExpediente && (
               <span>{validationExpediente.nPedido}</span>
@@ -114,13 +153,22 @@ export default function App() {
         </header>
       ) : assistantChat ? (
         <header className="manager-chat-header">
-          <button
-            className="icon-btn"
-            aria-label="Volver a LidIA"
-            onClick={returnToLidIA}
-          >
-            <Icon name="back" size={20} />
-          </button>
+          {app.mode === "demo" && location.pathname === "/" ? (
+            <button
+              className="icon-btn"
+              data-app-back
+              aria-label={back.label}
+              onClick={() => {
+                returnToLidIA();
+                if (back.to !== "/")
+                  navigate(back.to, { state: back.state, replace: true });
+              }}
+            >
+              <Icon name="back" size={20} />
+            </button>
+          ) : (
+            contextualBack
+          )}
           <h1>Habla con LidIA</h1>
           <button
             className="icon-btn"
@@ -132,14 +180,12 @@ export default function App() {
         </header>
       ) : managerChat ? (
         <header className="manager-chat-header">
-          <Link
-            className="icon-btn"
-            to="/mensajes"
-            aria-label="Volver a mensajes"
-          >
-            <Icon name="back" size={20} />
-          </Link>
-          <h1>Habla con tu gestor</h1>
+          {contextualBack}
+          <h1>
+            {connected && app.mode !== "demo" && !app.isClient
+              ? "Habla con Gestadia"
+              : "Habla con tu gestor"}
+          </h1>
           <button
             className="icon-btn"
             aria-label="Solicitar llamada"
@@ -150,6 +196,8 @@ export default function App() {
         </header>
       ) : (
         <header className="app-header">
+          {(secondaryScreen || (authScreen && location.pathname !== "/")) &&
+            contextualBack}
           <Link to="/" className="brand" aria-label="Gestadia, inicio">
             <span>
               gestadia<b>.</b>
@@ -200,7 +248,9 @@ export default function App() {
                 Reintentar
               </button>
             ) : (
-              <Link to="/cuenta">Entrar al portal</Link>
+              <Link to="/acceso" state={accessState(location)}>
+                Entrar al portal
+              </Link>
             )}
           </div>
         )}
@@ -217,8 +267,20 @@ export default function App() {
                   <Assistant key={assistantReset} onContact={onContact} />
                 ) : demoOnly() ? (
                   <Login />
+                ) : connected ? (
+                  <ConversationHome />
                 ) : (
                   <PlatformChat onContact={onContact} />
+                )
+              }
+            />
+            <Route
+              path="/lidia/conversacion"
+              element={
+                connected ? (
+                  <AppConversation purpose="sondeo" />
+                ) : (
+                  <Link to="/">Volver a LidIA</Link>
                 )
               }
             />
@@ -247,13 +309,25 @@ export default function App() {
             <Route path="/tramites/:id" element={<ExpedienteDetalle />} />
             <Route
               path="/mensajes"
-              element={<Messages onContact={onContact} />}
+              element={
+                connected && app.mode !== "demo" ? (
+                  app.mode === "real" ? (
+                    <ConnectedMessages key={app.data.profile?.id} />
+                  ) : (
+                    <Login />
+                  )
+                ) : (
+                  <Messages onContact={onContact} />
+                )
+              }
             />
             <Route
               path="/mensajes/gestor"
               element={
                 app.mode === "demo" ? (
                   <ManagerChat onContact={onContact} />
+                ) : connected ? (
+                  <AppConversation purpose="atencion" />
                 ) : (
                   <PlatformChat onContact={onContact} manager />
                 )
@@ -262,7 +336,7 @@ export default function App() {
             <Route
               path="*"
               element={
-                <section>
+                <section className="workspace-page empty">
                   <h1>Esta pantalla no está disponible</h1>
                   <Link className="btn primary" to="/">
                     Volver al inicio
@@ -275,7 +349,17 @@ export default function App() {
       </main>
       {!legalDocument && !authScreen && (
         <footer className="app-footer">
-          {!["/servicios", "/cuenta"].includes(location.pathname) &&
+          {![
+            "/servicios",
+            "/cuenta",
+            "/checkout-demo",
+            "/informacion",
+          ].includes(location.pathname) &&
+            !(
+              location.pathname === "/mensajes" &&
+              connected &&
+              app.mode === "real"
+            ) &&
             !validationRoute && (
               <div className="footer-actions">
                 {!managerChat && !assistantChat && (
@@ -283,15 +367,18 @@ export default function App() {
                     <span>Hablar con un gestor</span>
                   </button>
                 )}
-                {location.pathname === "/" && app.mode === "demo" && (
+                {((location.pathname === "/" && app.mode === "demo") ||
+                  (connected && assistantChat)) && (
                   <div id="lidia-composer" className="footer-lidia-composer" />
                 )}
-                {managerChat && app.mode === "demo" && app.isClient && (
-                  <div
-                    id="manager-composer"
-                    className="footer-lidia-composer"
-                  />
-                )}
+                {managerChat &&
+                  ((app.mode === "demo" && app.isClient) ||
+                    (connected && app.mode === "real")) && (
+                    <div
+                      id="manager-composer"
+                      className="footer-lidia-composer"
+                    />
+                  )}
               </div>
             )}
           <div className="dock-zone">
@@ -301,10 +388,17 @@ export default function App() {
                   key={to}
                   to={to}
                   end={to === "/"}
+                  state={
+                    to === "/mensajes" && connected && app.mode === "visitante"
+                      ? navigationState(location)
+                      : null
+                  }
                   onClick={
                     to === "/" && assistantChat ? returnToLidIA : undefined
                   }
-                  className={({ isActive }) => (isActive ? "active" : "")}
+                  className={({ isActive }) =>
+                    isActive || (to === "/" && assistantChat) ? "active" : ""
+                  }
                 >
                   <Icon name={icon} size={21} />
                   <span>{label}</span>

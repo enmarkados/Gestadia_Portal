@@ -2,6 +2,22 @@
 
 Índice de la documentación de integraciones con sistemas externos.
 
+## Gestadia App — conformidad final de nueve muestras (05/10/2026)
+
+[Conformidad offline de atención/routing](2026-10-05-conformidad-final-muestras-app.md): versión final conservada aparte del fixture anterior, DTO/proxy/UI compatibles, rechazo sin fallback y transferencia explícita. No acredita conexión desplegada ni activación.
+
+## Gestadia App — muestras de servicios contrastadas offline (05/10/2026)
+
+[Contraste de seis respuestas LidIA](2026-10-05-contraste-muestras-servicios-app.md): esquemas exactos, recorrido de proyección/recuperación y consumidor UI. Atribución histórica separada del operador actual. No acredita conexión real ni routing efectivo.
+
+## Gestadia App — atención humana contrastada (05/10/2026)
+
+[Compatibilidad de handoff y vínculo](2026-10-05-compatibilidad-atencion-app.md): recibo completed/requested, error409 identity_link_required y ausencia de fallback. Contraste local de contrato/proxy/UI; sin E2E conectado ni activación.
+
+## Gestadia App — implementación conversacional desactivada (05/10/2026)
+
+[Entrega Portal](2026-10-05-entrega-portal-conversaciones-app.md): API `/api/app/v1`, identidad, asociaciones/claims, contexto/revocación y consumidor APP, con pruebas MySQL local. [Acta de autorización y conformidad mutua](2026-10-05-acta-inicio-conversacional.md) y [plan/evidencia](../superpowers/plans/2026-10-05-app-conversaciones-portal.md). Esta fase posterior resuelve los cierres conversacionales pendientes abajo; las revisiones históricas conservan su fecha/alcance. No cambia Zoho/checkout ni acredita despliegue, activación o runtime119.
+
 ## Gestadia App — adenda conversacional 1.1 contrastada (05/10/2026)
 
 - [Adenda recibida](2026-10-05-adenda-contexto-conversacional-v1-1.md),
@@ -126,3 +142,25 @@ que LidIA ya había creado y le notifica el pago con eventos firmados.
 - Los PNT y este índice **sí se actualizan**: describen el estado actual.
 - **Ningún documento contiene secretos.** Claves y URLs de credenciales viven
   en el `.env` (git-ignored) y se intercambian por canal seguro.
+
+## Conversaciones APP — prueba conectada local
+
+- [Prueba local APP / Portal / LidIA del 06/10/2026](2026-10-06-prueba-local-app-portal-lidia.md): 61 comprobaciones HTTP/API, flujo de navegador y corrección de recarga; modelo determinista y bases temporales.
+
+## Perfil Portal y comprobación integrada local — 07/10/2026
+
+- [Diseño del perfil, recuperación de contexto y diagnóstico efectivo](2026-10-07-perfil-y-comprobacion-local.md): navegador móvil/escritorio, regresiones y worker conectado; diagnóstico de la cuenta primaria con horizonte conjunto. No renueva acceso ni activa canales.
+
+- [Cierre visual coordinado](2026-10-07-cierre-visual-conversaciones.md): LidIA confirma recibo/respuesta y retirada automática de opciones anteriores en la APP, sin recarga ni reenvío.
+
+## APP con agente119 real — preparación 07/10/2026
+
+- [Compatibilidad Portal y transición pendiente](2026-10-07-preparacion-agente-119-real.md): requisito humano nuevo, origen/firma/autoridad necesarios y separación del fixture. Todavía no acredita un turno con119.
+
+## APP con agente dedicado basado en 119 — adenda 07/10/2026
+
+- [Alcance autorizado, respaldo Portal verificado y checklist de transición](2026-10-07-adenda-agente-app-y-transicion.md): el usuario permite clonar119 y exige Playground; redeploy LidIA condicionado a copias de código y BBDD. Configuración original contrastada en panel; destino/ejecución real pendientes. Conserva el fixture y no despliega Portal producción por separado.
+
+## Consumidor local APP frente a LidIA PRO — preparación 07/10/2026
+
+- [Namespace acordado y base/cuenta nuevas](2026-10-07-preparacion-portal-validacion-pro.md): consumidor preparado aparte del fixture, sin conexión ni turno hasta confirmar configuración fuente y Playground.

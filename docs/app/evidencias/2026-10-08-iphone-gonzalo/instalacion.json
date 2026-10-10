@@ -1,0 +1,17 @@
+{
+  "source_revision": "fbd9ae0dfb3b8a4d549b93a13d0d93e199293ca9",
+  "device": "iGonchu, iPhone 13 Pro Max",
+  "os": "27.0.1",
+  "bundle_id": "com.gestadia.app",
+  "version": "0.1.0",
+  "build": "8",
+  "assets": [
+    {
+      "name": "index-YibaGjy4.js",
+      "sha256": "bb767bf869c53ce46a3d73699859abf7e9a7611780e04149cbf24db1f8a47848"
+    }
+  ],
+  "backend_access": "pending explicit LAN authorization",
+  "installed_version": "0.1.0",
+  "installed_build": "8"
+}

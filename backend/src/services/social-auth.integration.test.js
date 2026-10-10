@@ -6,7 +6,7 @@ const url = process.env.GESTADIA_MOBILE_TEST_DATABASE_URL;
 const enabled =
   !!url &&
   new URL(url).hostname === "127.0.0.1" &&
-  new URL(url).pathname === "/gestadia_mobile_test";
+  ["/gestadia_mobile_test", "/gestadia_app_test"].includes(new URL(url).pathname);
 test(
   "Identidad social: consentimiento, email existente, prueba, replay y vínculo concurrente",
   { skip: !enabled },
@@ -87,6 +87,9 @@ test(
         }),
       );
       const user = await db.user.findUnique({ where: { email: claims.email } });
+      const { accountProof } = await import("../app/identity.js");
+      assert.equal(accountProof(user).method, "email");
+      assert.ok(user.accountVerifiedAt);
       const session = await db.authSession.findFirst({
         where: { userId: user.id },
       });

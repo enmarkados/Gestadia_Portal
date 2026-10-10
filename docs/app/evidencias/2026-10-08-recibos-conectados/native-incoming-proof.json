@@ -1,0 +1,8 @@
+{
+  "fixture_only": true,
+  "build": 13,
+  "received_by": "account",
+  "read_by": "account",
+  "status": "read",
+  "browser": "Mensajes, without ACK"
+}

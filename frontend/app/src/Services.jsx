@@ -1,20 +1,22 @@
 import React, { useState, useRef, useLayoutEffect } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
 import { SERVICIOS } from "../../../shared/servicios.js";
 import { useApp } from "./AppContext.jsx";
 import { checkoutUrl, countryKey, demoOnly } from "./api.js";
 import { paisesOrdenados } from "../../../shared/paises-canje.js";
 import Icon from "./Icon.jsx";
 import { openExternal } from "./native.js";
+import { navigationState } from "./navigation.js";
 export default function Services() {
   const { data, mode } = useApp();
   const navigate = useNavigate();
+  const location = useLocation();
   const [params] = useSearchParams();
   const [selected, setSelected] = useState(
     params.get("servicio") || "canje-carnet",
   );
   const [profile, setProfile] = useState({
-    ...data.profile,
+    ...(location.state?.serviceDraft || data.profile),
   });
   const service = SERVICIOS[selected] || SERVICIOS["canje-carnet"];
   const [error, setError] = useState("");
@@ -41,8 +43,17 @@ export default function Services() {
     e.preventDefault();
     try {
       if (demoOnly()) {
+        const query = new URLSearchParams(location.search);
+        query.set("servicio", service.slug);
         navigate("/checkout-demo", {
-          state: { service: service.slug, profile },
+          state: navigationState(
+            {
+              ...location,
+              search: "?" + query,
+              state: { ...location.state, serviceDraft: profile },
+            },
+            { service: service.slug, profile },
+          ),
         });
         return;
       }
