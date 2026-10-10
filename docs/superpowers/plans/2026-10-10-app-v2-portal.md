@@ -110,3 +110,5 @@
 10/10/2026: **sólo bloque 1 en preparación**. No hay implementación v2 Portal, nuevas tablas, API o flags activados. Los bloques 2–6 tienen condiciones de entrada explícitas; sus interfaces y rutas locales deberán quedar concretadas en el plan al recibir los artefactos antes de ejecutar sus tests. Esto no presenta un plan incompleto como código listo para activar.
 
 Verificación de esta entrega documental: 114 enlaces locales válidos, `git diff --check` y ausencia de cambios de producto respecto a 7bfa689. No se ejecuta una suite funcional para acreditar una implementación inexistente. La respuesta ejecutable LidIA sigue pendiente; el catálogo completo de cualificación no se deduce de país/calificación.
+
+Recibido después el borrador [wire r1](../../integraciones/2026-10-10-app-v2-wire-lidia-r1.md), con [revisión Portal P1–P4](../../integraciones/2026-10-10-revision-portal-wire-v2-r1.md). Se conserva como snapshot de trabajo exacto; no sustituye la entrada de schema/vectores/SHA de entrega requerida por el bloque 2.

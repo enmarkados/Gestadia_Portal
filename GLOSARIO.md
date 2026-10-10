@@ -988,3 +988,17 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** AppContactRequest conserva en Portal la solicitud confirmada de contacto por intención/revisión y evento original. El ACK acredita su persistencia y permite reconciliar la entrega de esa misma solicitud con LidIA.
 - **Alcance:** `docs/integraciones/2026-10-10-coordinacion-portal-contrato-v2.md`, plan Portal v2; futuros `backend/src/app/v2/contactRequests.js` y `backend/prisma/schema.prisma`.
 - **Notas:** El nombre y los campos exactos del DTO remoto pertenecen al contrato LidIA pendiente. Persistir un estado pendiente no equivale a confirmar el ACK, entregar a Zoho ni agendar una cita. No implementados.
+
+## payload_json / payload_sha256 (contacto APP v2 r1)
+
+- **Tipo:** propiedades del contrato de transporte propuesto por LidIA.
+- **Definición:** payload_json conserva los bytes representados por una cadena JSON UTF-8 del evento de contacto; payload_sha256 identifica ese contenido exacto. Permiten reconocer el mismo evento durante persistencia y ACK sin reconstruirlo desde un objeto con otro orden o escape.
+- **Alcance:** copia recibida `docs/integraciones/2026-10-10-app-v2-wire-lidia-r1.md`, revisión Portal y futuro consumidor v2.
+- **Notas:** No son tokens ni autenticación. El esquema y los vectores de serialización siguen pendientes; no interpretar el hash de otra revisión como el resultado del envío original.
+
+## portal_request_ref / persisted_at (ACK APP v2 r1)
+
+- **Tipo:** propiedades de ACK propuestas por LidIA.
+- **Definición:** portal_request_ref correlaciona opacamente la solicitud durable de Portal; persisted_at indica cuándo se conservó localmente. No acreditan por sí mismas conversión CRM, contacto efectuado o reserva de agenda.
+- **Alcance:** copia wire v2 r1, revisión Portal y futura entidad AppContactRequest/consumidor S2S.
+- **Notas:** El contrato cerrado debe definir recuperabilidad y unicidad antes de usar estos campos. No se reutiliza un ID de trato/cliente como autenticación.

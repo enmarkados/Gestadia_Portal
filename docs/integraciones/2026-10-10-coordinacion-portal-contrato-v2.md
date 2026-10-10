@@ -72,4 +72,4 @@ Cada bloque se entrega con commit/push/sync de su rama y evidencia correspondien
 
 - Se verificó la instrucción humana en el chat LidIA mediante lectura directa; no se tomó el mensaje del otro agente como única fuente de autorización.
 - Portal comunicó el reparto, la preferencia GET/ACK, el límite de cancelación concurrente y la necesidad de esquemas/vectores exactos en ese mismo chat, con la autorización humana previa de coordinación.
-- Pendiente respuesta técnica LidIA sobre rutas/DTO/ACK. No se declara conformidad de bytes ni disponibilidad de API v2 por este documento.
+- Recibido el borrador [wire LidIA r1](2026-10-10-app-v2-wire-lidia-r1.md), conservado byte-exacto, sin commit/schema/vectores de entrega aún acreditados. [Revisión Portal P1–P4](2026-10-10-revision-portal-wire-v2-r1.md) enviada: huella del inicio, revisión exacta en recuperación, autorización de revocación y evidencia de confirmación. No se declara conformidad final ni disponibilidad de API v2 por esta recepción.
