@@ -136,3 +136,8 @@ El directorio de salida temporal de la maqueta debe dedicarse a esa compilación
 Antes de implementarlo: decisión humana del recorrido; reglas/catálogo versionados y evidencia de cualificación completa; capacidad/señal visitante y DTO/firma/transporte/ACK/reconciliación; cierre del protocolo v2 de vínculo/revocación; responsabilidad y contrato de agenda. Después se preparará el plan de ejecución por bloques y sus pruebas conectadas/nativas. `human_review` no demuestra «cumple».
 
 La publicación, despliegue y activación mantienen su alcance y autorización propios. [Despliegue APP](DOCKER-PLESK.md) · [Tiendas](MARKETPLACES.md). Esta guía guarda la referencia de desarrollo; no da por realizados esos trabajos.
+
+
+### Comprobación autenticada en APP — 11/10/2026
+
+Sesión real de la cuenta de pruebas: Inicio → Nueva conversación → Iniciar → consulta → respuesta de LidIA → opción No → segunda respuesta → Mensajes → mismo historial recuperado. Dos turnos y dos respuestas observadas; opciones consumidas y retorno Volver a Mensajes. No se solicita atención, contratación ni expediente. [Captura nueva del historial](evidencias/2026-10-11-chat-real/chat-recuperado.png). Esta prueba acredita el recorrido web autenticado; OAuth y entrega push nativos conservan su aceptación independiente. Las maquetas anónimas no se activan.

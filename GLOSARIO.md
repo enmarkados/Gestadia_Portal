@@ -1261,3 +1261,13 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** Mensaje de recuperación, acceso tras contratación o aviso de expediente con identidad visual común, alternativa de texto y pie de privacidad.
 - **Alcance:** backend, `src/services/email-templates.js`, `src/services/notify.js`, rutas auth/checkout y logo incrustado en `src/assets/`.
 - **Notas:** Contacto y Reply-To `info@gestadia.com`; se conserva el remitente SMTP autenticado. Logo CID para evitar depender de imágenes externas; no introduce comunicaciones comerciales.
+
+
+### Emulador Gestadia QA
+
+- **Tipo:** concepto runtime.
+- **Definición:** dispositivo virtual Android dedicado a comprobar la APP Gestadia sin modificar los dispositivos virtuales de LIA.
+- **Alcance:** QA móvil; AVD local `Gestadia_QA_API_36`, evidencias en `artifacts/android-qa-20261011/`.
+- **Notas:** Android API 36, Pixel 8; se ejecuta solo un emulador a la vez. Se descarta reutilizar el almacenamiento de LIA para mantener sus pruebas intactas.
+
+Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB de RAM y cuatro núcleos** el 11/10/2026. Se conserva el AVD y la instalación; iOS permanece apagado durante esta prueba.
