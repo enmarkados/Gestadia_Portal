@@ -7,6 +7,7 @@ import { signToken, requireAuth } from '../middleware/auth.js';
 import { mobileSessions } from '../services/auth-sessions.js';
 import { consumeAccountProof } from '../app/identity.js';
 import { sendEmail } from '../services/notify.js';
+import { recoveryEmail } from '../services/email-templates.js';
 
 export const authRouter = Router();
 
@@ -56,9 +57,7 @@ authRouter.post('/api/auth/forgot', async (req, res) => {
       data: { resetToken: token, resetTokenExp: new Date(Date.now() + 2 * 3600 * 1000) },
     });
     await sendEmail(email, 'Recupera tu acceso a Gestadia',
-      `<p>Hola ${user.nombre},</p>
-       <p>Para crear una nueva contraseña, pulsa aquí (caduca en 2 horas):</p>
-       <p><a href="${config.baseUrl}/portal/crear-clave/${token}">Crear nueva contraseña</a></p>`);
+      recoveryEmail({ baseUrl: config.baseUrl, nombre: user.nombre, token }));
   }
   // Respuesta idéntica exista o no el email (no filtrar cuentas)
   res.json({ ok: true });

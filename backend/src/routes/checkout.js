@@ -7,6 +7,7 @@ import { SERVICIOS, getServicio, validarDatosCanje } from '../catalog.js';
 import { upsertContact, createDealForExpediente, addDealNote, updateDealPago, updateContactPermitidos } from '../services/zoho.js';
 import { resolvePrice, getOrCreateCustomer, linkCustomerToZoho } from '../services/stripe.js';
 import { notifyUser, sendEmail, transitionExpediente } from '../services/notify.js';
+import { welcomeEmail } from '../services/email-templates.js';
 import { encolarEvento, construirDatosPago } from '../services/lidia.js';
 
 export const checkoutRouter = Router();
@@ -211,11 +212,7 @@ export async function fulfillPayment(expedienteId, { ref, metodo }) {
   try {
     if (!u.passwordHash && u.inviteToken) {
       await sendEmail(u.email, `Pago recibido — accede a tu área de cliente de Gestadia`,
-        `<p>Hola ${u.nombre},</p>
-         <p>Hemos recibido tu pago de <strong>${updated.importe.toFixed(2)} €</strong> por <strong>${updated.titulo}</strong> (pedido ${updated.nPedido}).</p>
-         <p>Crea tu contraseña para acceder a tu área de cliente y subir la documentación:</p>
-         <p><a href="${config.baseUrl}/portal/crear-clave/${u.inviteToken}">Crear mi contraseña</a></p>
-         <p>— El equipo de Gestadia</p>`);
+        welcomeEmail({ baseUrl: config.baseUrl, nombre: u.nombre, token: u.inviteToken, importe: updated.importe, titulo: updated.titulo, pedido: updated.nPedido }));
     } else {
       await notifyUser(u, {
         titulo: `Pago recibido — pedido ${updated.nPedido}`,

@@ -113,3 +113,18 @@ LidIA PRO cfaf6a3 conserva contenedor healthy y resolución agente 122/proyecto 
 ### Distribución y cuenta autorizada — 10/10/2026
 
 IPA App Store y AAB Release compilados y firmados; firma efectiva, perfiles, paquete com.gestadia.app y configuración embebida comprobados. Firma iOS se limita al target App Release mediante GESTADIA_IOS_PROFILE_SPECIFIER para no aplicar el perfil a Swift Package. Preflight 8/8. Sistemas@enmarkados.com creada después de copia Portal restaurada: 45 usuarios/94 expedientes/14 documentos, sin contraseña ni verificación inventada. Activación de cuenta por el usuario pendiente. Runtime LidIA confirmado MySQL/MariaDB; corregida la referencia anterior a SQL Server. Nueva copia de esa base y chat real aún pendientes. No se ha distribuido a TestFlight/Play ni acreditado login/push en dispositivos. Detalle y hashes en ESTADO-APP-PORTAL-DOCKER.md.
+
+
+### Copia LidIA restaurada y cuenta activa — continuación 11/10/2026
+
+Copia manual completa de LidIA PRO creada mediante el administrador: manual_20261010_214753.sql, 1289418987 bytes, SHA-256 dc73606edb927917a6d1c9da1758727420977b5dfb8296a2f771700f24fde4c9, permisos 0600. Restauración real en stack 79, contenedor b50bd06dcbabd3ab2d11df8679ce18040a7202a547eebd317b1cef98be3b3881: 196 tablas, 258 migraciones, mariadb-check OK y salida 0 a las 21:53:18 UTC del 10/10. Sin red ni puertos y origen montado sólo lectura; no se modificó la base de producción ni se eliminaron copias previas. No se acredita descarga local del SQL. Evidencia artifacts/chat-activation-20261010/lidia-backup-proof.json. Proveedor MySQL/MariaDB, corrigiendo explícitamente la referencia histórica a SQL Server.
+
+El usuario completa personalmente la recuperación de sistemas@enmarkados.com. Lectura real de Prisma confirma emailVerified true, accountVerifiedAt presente, contraseña establecida, reset e invitación consumidos y acceso no revocado. No se imprime contraseña, hash, token ni ID. Cuenta lista para pruebas; no acredita login social ni conversación remota. Configuración S2S preparada en custodia privada: seis claves coinciden con las de LidIA mediante hash agregado; conversaciones aún sin activar. Soporte y comercial generales permanecen false; no se reutiliza la autorización de soporte caducada.
+
+El usuario solicita y aprueba correos maquetados para recuperación, bienvenida tras contratación y avisos: logo oficial incrustado CID, cabecera grafito, acción roja, HTML y texto, contacto/Reply-To info@gestadia.com, remitente SMTP vigente y pie RGPD/LOPDGDD conforme a la política publicada. Antes de modificar se conserva copia privada de los archivos. Implementación y pruebas de plantilla/SMTP en curso; todavía no desplegada ni recepción en buzón acreditada.
+
+
+Correos: [diseño aprobado, texto legal y comprobaciones](../legal/CORREOS-TRANSACCIONALES.md). Backend 215/215; presentación y despliegue se acreditarán por separado.
+
+
+Correos aprobados implementados: pruebas específicas 7/7, backend 215/215 con DB efímera y frontend 160/160 con un worker. MIME real generado sólo en memoria, sin correo a clientes; vista HTML revisada en navegador. Configuración chat preparada subida y extraída en gestadia-mobile-private con nombres nuevos, sin sobrescribir la configuración vigente; verificación de hashes y nueva copia Portal previa al corte preparadas. Chat y correos aún no desplegados.

@@ -1254,3 +1254,10 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** nombre o UUID del perfil de distribución iOS autorizado para Gestadia APP. Se aplica únicamente al target App en Release.
 - **Alcance:** frontend/ios/App/App.xcodeproj/project.pbxproj; compilación iOS de publicación.
 - **Notas:** no se fija el perfil mediante PROVISIONING_PROFILE_SPECIFIER global, porque las dependencias Swift Package no admiten perfiles de la app. El valor se aporta desde la custodia privada.
+
+### Correo transaccional Gestadia
+
+- **Tipo:** concepto de presentación y comunicación.
+- **Definición:** Mensaje de recuperación, acceso tras contratación o aviso de expediente con identidad visual común, alternativa de texto y pie de privacidad.
+- **Alcance:** backend, `src/services/email-templates.js`, `src/services/notify.js`, rutas auth/checkout y logo incrustado en `src/assets/`.
+- **Notas:** Contacto y Reply-To `info@gestadia.com`; se conserva el remitente SMTP autenticado. Logo CID para evitar depender de imágenes externas; no introduce comunicaciones comerciales.
