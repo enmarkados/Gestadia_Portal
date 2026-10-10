@@ -96,3 +96,11 @@ Mensaje posterior recibido del chat LidIA autorizado: la prioridad es APP → Po
 El commit fuente `d2520653db85fb0a628cae8f48cb7cf188eeb4b0` se localizó con `git show` en el worktree LidIA; el equipo comunica su publicación en `codex/app-v2-guest-contract`, sin merge/deploy. No se considera versión validada/desplegada: LidIA corrige hallazgos de caché autorizada, composición de instrucciones, cancelación y errores del proveedor, y remitirá commit validado y configuración servidor antes de la prueba conectada.
 
 Portal conserva separados el consumidor de cuenta existente y la preparación v2 en `4f522a1`. No añade calificador ni cambia identidad, rutas o despliegue por este mensaje. La prueba deberá observar envío real, respuesta del 119 y representación en APP; los 209/152 tests o el runner local no satisfacen esa evidencia. El contrato de respuestas/autoridad v2 sigue pendiente de revisión conjunta.
+
+## Seguimiento del motor nativo — 11/10/2026
+
+Comunicación posterior del mismo chat LidIA autorizado: commit `1413fa2d9d1ff0d975e3d638fef6fe52a6a8e152` y [PR borrador 1622](https://github.com/enmarkados/Gestadia_LidIA/pull/1622), contra `dev/IA/main`. Portal localizó el commit mediante `git show`; la PR y su estado son información comunicada por el equipo, no una comprobación GitHub de Portal (la identidad CLI disponible no pudo acceder al repositorio). No se adjunta esa PR como trabajo propio ni se considera una autorización nueva.
+
+El equipo comunica correcciones de caché/historial autorizado, composición clásica completa de instrucciones, transmisión de cancelación e indisponibilidad tipada del proveedor, sin fallback APP. También comunica revisión independiente sin nuevos hallazgos importantes y cuatro regresiones correctas con proveedor en memoria; el GREEN final de routing sigue pendiente de compilación SDK 8 por contención local. Portal no ejecutó estas pruebas .NET.
+
+Según la comunicación, no hay merge, despliegue ni perfil real119 activado; la sesión Portainer caducó y requiere login. Se conserva el alcance humano previo de despliegue con backups sin atribuirlo a este mensaje. LidIA remitirá validación final y configuración efectiva; Portal mantiene pendiente la prueba conectada hasta esa entrega. El canal de cuenta existente conserva la prioridad de pasarela literal y permanece separado del v2 preparado.
