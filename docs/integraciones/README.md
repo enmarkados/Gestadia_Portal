@@ -174,3 +174,5 @@ que LidIA ya había creado y le notifica el pago con eventos firmados.
 - [Mapas de pantallas y flujo APP sin cuenta, con capturas para aprobación](../app/2026-10-10-mapas-pantallas-app-anonima.md). Propuesta visual del 10/10/2026; no implementada.
 
 - [Contraste LidIA de mapas APP (10/10/2026)](2026-10-10-contraste-lidia-mapas-portal.md): copia íntegra, fuente 539a6ccc2; precisiones incorporadas en propuesta/mapas.
+
+- [Cierre documental LidIA de mapas APP (10/10/2026)](2026-10-10-cierre-lidia-mapas-portal.md): fuente 0243b2379, copia íntegra separada de la revisión histórica; recorrido listo para decisión humana.

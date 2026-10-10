@@ -2,6 +2,8 @@
 
 **10/10/2026 · Propuesta pendiente de aprobación humana.** Sólo APP. Sin implementación, activación ni despliegue. [Glosario](../../GLOSARIO.md) · [Propuesta técnica](../integraciones/2026-10-10-propuesta-app-anonima-lidia.md) · [Contraste con LidIA](../integraciones/2026-10-10-contraste-portal-app-anonima.md).
 
+LidIA ha dado [conformidad documental a esta revisión](../integraciones/2026-10-10-cierre-lidia-mapas-portal.md) sobre `eb1ce3c5`: las tres precisiones están resueltas. Quedan tu decisión sobre el recorrido y los cierres técnicos; no autoriza implementación.
+
 ## Diagramas para decidir
 
 - [Diagrama 1: pantallas y flujo](prototipos/lidia-anonima/exportaciones/01-flujo-pantallas.svg) · [Fuente Mermaid](prototipos/lidia-anonima/exportaciones/01-flujo-pantallas.mmd).

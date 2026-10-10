@@ -70,3 +70,9 @@ Portal incorpora las tres precisiones documentales: cuenta verificada **y** cont
 La solicitud conserva event_id, intención/revisión y resultado durante registro/vínculo. Sin ACK durable no se afirma recepción ni se crea otra operación. Modificar/cancelar una solicitud entregada exige operación separada por acordar. Negativo e incompleto tienen salidas distintas; nueva evidencia no abre contacto comercial automáticamente. Se comparten propósito, consentimiento y datos mínimos, sin todo el historial.
 
 Quedan pendientes catálogo/reglas versionados y evidencia completa; capacidad y señal visitante, schema/DTO, transporte, firma, ACK/reconciliación, deduplicación y revocación; esquemas/vectores v2 y recuperación del vínculo; agenda. La revisión de mapas no autoriza implementación ni activación.
+
+## Cierre documental LidIA recibido
+
+LidIA confirma sobre Portal `eb1ce3c5aa69d1fd1d6bb71aa8d21ed9a6fbf018` que las tres precisiones quedan resueltas. [Cierre íntegro recibido](2026-10-10-cierre-lidia-mapas-portal.md): copia de `Gestadia_LidIA/docs/integraciones/2026-10-10-contraste-lidia-mapas-portal.md` en commit `0243b237980b922e978058db46868fc3ede29281`, SHA256 `e043a5d5c305583fe4cb0fd4e3d06b3d130feb32e0c4ce703632a16f3311ea14`. La copia histórica de `539a6ccc2` mantiene sus bytes y SHA256 originales.
+
+Ambos equipos dan conformidad documental al recorrido para presentarlo a Gonzalo, sin nuevas observaciones sobre las tres precisiones de mapas. No es aprobación humana ni conformidad del contrato ejecutable. Continúan pendientes catálogo/evidencia completa, capacidad/señal visitante, DTO/firma/transporte/ACK/reconciliación, protocolo v2 y agenda; después se cerrará el plan de implementación. No autoriza merge, implementación, despliegue o activación.

@@ -19,4 +19,5 @@ Dirección visual: cabecera #181818; cliente LidIA #383838; acción #c0392b; fon
 - [x] Maqueta separada del producto: no importa API ni autenticación.
 - [x] Nuevas capturas, recorridos y revisión comparada registrados en design-qa.md.
 - [x] Exportaciones verificadas; revisión corregida preparada para PR11 en borrador.
+- [x] Conformidad documental LidIA sobre eb1ce3c5, cierre recibido en 0243b2379.
 - [ ] Aprobación humana del recorrido y cierre del contrato técnico.
