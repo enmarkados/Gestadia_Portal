@@ -1034,3 +1034,10 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 ### Estado posterior del consumidor v2 (10/10/2026)
 
 `AppS2SClientV2`, `signRequestV2`, `canonicalQueryV2`, `validateContractV2` y `appV2ConversationConfig` ya tienen implementación aislada en los archivos indicados; las menciones anteriores a futuro/propuesta documentan su preparación inicial. No están montados en una API. Wire r3 sustituye el alcance r2: contacto reservado, respuestas pendientes de aceptación y flags off. [Contraste vigente](docs/integraciones/2026-10-10-contraste-portal-wire-v2-r3.md).
+
+### Separación de integraciones APP 119/122 (propuesta)
+
+- **Tipo:** decisión de asociación servidor propuesta.
+- **Definición:** Conservación de la integración y los chats existentes del agente 122, junto a una integración adicional para las nuevas consultas al 119 original. Ambas pertenecen a la misma cuenta Portal; la APP no selecciona agentes o integraciones.
+- **Alcance:** `docs/integraciones/2026-10-10-coordinacion-portal-contrato-v2.md`; futura resolución en `backend/src/app/conversations.js`, configuración y operaciones/lifecycle; `AppIntegration` administrado por LidIA. No está implementada ni activada.
+- **Notas:** Pendiente de conformidad conjunta y configuración efectiva. Se descarta cambiar proyecto/agente en la integración histórica porque su huella y sus sesiones los validan; se conservan claves, permisos, reintentos e historial existentes.
