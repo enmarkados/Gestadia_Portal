@@ -953,3 +953,10 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** Prueba vigente de acceso al recorrido original exigida junto con una cuenta verificada para guardar ese chat en ella. La posesión de un enlace o un contacto autodeclarado no sustituye esta condición.
 - **Alcance:** propuesta/contraste APP, NAVEGACION y maqueta de vínculo bloqueado; futuros servicios de identidad y protocolo v2.
 - **Notas:** Primera entrega: cuenta verificada Y control de instalación original. Instalación perdida bloquea el vínculo hasta aprobar un procedimiento de recuperación separado. Sujeto inmutable por conversación y actor/propietario separados son la arquitectura aceptada en principio; vincular A no revoca B.
+
+## Manual de desarrollo de flujos y pantallas APP
+
+- **Tipo:** referencia documental de desarrollo.
+- **Definición:** Guía de entrada que relaciona navegación, pantallas, maquetas, contratos y evidencias, y explica cómo consultarlos y mantenerlos durante el desarrollo. Distingue comportamiento implementado, propuesta y pruebas observadas.
+- **Alcance:** `docs/app/MANUAL-DESARROLLO.md`, README raíz/APP, AGENTS.md y README del prototipo.
+- **Notas:** No sustituye contratos ni actas recibidas; los enlaza. Incorporar esta documentación a app/main no equivale a implementar o activar el recorrido anónimo.

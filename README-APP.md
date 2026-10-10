@@ -1,5 +1,7 @@
 # Gestadia App
 
+**Referencia para desarrollar:** [Manual de flujos y pantallas](docs/app/MANUAL-DESARROLLO.md). Explica cómo abrir los mapas y las capturas, seguir la navegación y mantenerlos junto al código. [README general](README.md).
+
 Primera demo de Gestadia para **web, iOS y Android**, rama `app/main`, basada en el diseño de `RECURSOS/DISEÑO/GESTADIA-handoff-diseno/index.html`.
 
 Por instrucción del usuario, esta entrega funciona **sin conexiones externas**: splash, acceso/registro de ejemplo, LidIA guiada, gestor, servicios, expedientes y documentos. No crea cuentas reales, no envía mensajes ni solicita pagos. `demoOnly: true` bloquea las conexiones y descarta sesiones reales antiguas.
