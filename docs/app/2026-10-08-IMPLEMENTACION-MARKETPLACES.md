@@ -166,3 +166,25 @@ La auditoría aún informa cuatro alertas altas: Nodemailer y deepmerge-ts con
 sus padres Prisma/config. No se atribuye seguridad total a esta actualización
 ni se fuerza una migración mayor de Prisma. Se requiere seguimiento de esas
 alertas antes de aceptación pública final de tiendas.
+
+
+### Portainer preparado — 10/10/2026
+
+Imágenes finales importadas en Docker local del servidor h.egdlcvmt.com:
+web `gestadia-app:64bfe49` y API `gestadia-mobile-api:0db9d8e` (linux/amd64).
+Stack `gestadia-mobile` cumplimentado en el editor, sin ejecutar Deploy.
+Puerto 8091 sin coincidencias en el listado de contenedores. Plesk confirma
+DOCROOT `/var/www/vhosts/gestadia.com/app.gestadia.com`; directorio privado
+previsto como hermano `gestadia-mobile-private`, fuera de carpetas públicas.
+Ajustes actuales de nginx sin directivas adicionales, modo proxy Apache activo.
+Backend 86/86 con fixture MariaDB; stack Docker 5/5. Las dos observaciones de
+revisión (checkout sin Stripe y archivos en volumen distinto) quedaron resueltas
+bloqueando las rutas ajenas a identidad/cuenta/notificaciones y documentos.
+Fixture y copia restaurada locales retiradas después de las comprobaciones;
+backup privado original conservado. No se ha aplicado ninguna migración real.
+
+Pendiente confirmación en el momento de conceder a la nueva API acceso a DB,
+JWT y claves Apple/FCM en el servidor, requerida por la política del navegador.
+La solicitud incluye carga privada, migraciones y activación HTTPS. Después:
+verificar versión servida, configuración/capacidades y aceptación móvil real.
+Sin push/merge, build distribuida ni publicación en tiendas.
