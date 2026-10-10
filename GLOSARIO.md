@@ -1087,3 +1087,9 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** alta privada de una solicitud recibida por soporte, tras comprobar titularidad y registrar la referencia de esa comprobación y su responsable.
 - **Alcance:** account-deletion.js, AccountDeletionReview.action y backend/scripts/account-deletion.mjs.
 - **Notas:** un correo o un identificador enviados anónimamente no autorizan la ejecución; no existe endpoint público que acepte esta declaración.
+
+### Ensayo de migración Portal
+- **Tipo:** concepto operativo / decisión de validación.
+- **Definición:** restauración de una copia privada en MariaDB efímera local y aplicación de todas las migraciones integradas, comprobando que cada valor original de las tablas de negocio permanece igual.
+- **Alcance:** scripts/verify-portal-migration.mjs.
+- **Notas:** no arranca el backend ni proveedores externos, no modifica producción y no considera una copia antigua como backup suficiente para el corte.
