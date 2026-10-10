@@ -90,7 +90,8 @@ Preparar en el host, fuera de cualquier document root:
 
 - `/opt/gestadia/mobile/mobile-release.json`: solo configuración pública.
 - `/opt/gestadia/mobile/backend.env`: configuración vigente del Portal
-  (DATABASE_URL, JWT_SECRET e integraciones necesarias) más configuración móvil.
+  (únicamente DATABASE_URL y JWT_SECRET) más configuración móvil.
+  No copiar SMTP, Stripe, Zoho ni LIDIA_API_KEY a este contenedor.
   Preservar la clave JWT existente; no crear otra base de usuarios.
 - `/opt/gestadia/mobile/secrets/`: únicamente claves Apple de login, APNs del
   entorno elegido y credencial Firebase FCM. Ajustar las rutas en backend.env a
@@ -157,3 +158,16 @@ La auditoría aún informa cuatro alertas altas: Nodemailer y deepmerge-ts con
 sus padres Prisma/config. No se atribuye seguridad total a esta actualización
 ni se fuerza una migración mayor de Prisma. Se requiere seguimiento de esas
 alertas antes de aceptación pública final de tiendas.
+
+### Versiones preparadas en Portainer — 10/10/2026
+
+Web `gestadia-app:64bfe49` linux/amd64 importada y comprobada contra config
+SHA-256 `4b5f6f7400e01800a682b3179ba39ae32e358b2bcb2c2e718588156ae33babb9`
+del archivo Docker exportado. API `gestadia-mobile-api:0db9d8e` importada,
+ID `45c44fdcb1e190eefb2c4c5dc9b17fde919b5ba6e110ba2048eb980811d68967`.
+Backend 86/86 pruebas con DB fixture; stack Docker 5/5 linux/amd64, incluyendo
+rechazo de checkout, leads, integraciones y documentos. Revisión final sin
+hallazgos importantes después de limitar el proxy. `/lidia/` devuelve 503.
+El stack de producción aún no está desplegado; pendientes montaje privado,
+migración explícita y proxy HTTPS. Backup real restaurado y migrado solo en
+MariaDB aislada; producción sin cambios de esquema.
