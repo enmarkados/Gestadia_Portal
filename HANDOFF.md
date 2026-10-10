@@ -1,5 +1,7 @@
 # Handoff Técnico · Gestadia Portal
 
+**Referencia vigente de desarrollo APP — 10/10/2026:** [Manual de flujos y pantallas](docs/app/MANUAL-DESARROLLO.md) y [NAVEGACION](docs/app/NAVEGACION.md). Mapas, maquetas y cierres documentales se conservan en el repositorio; el flujo anónimo sigue pendiente de aprobación/contrato e implementación. El corte del 03/10 inferior es histórico: sus colores, guion demo y cifras de pruebas no sustituyen las decisiones ni evidencia posteriores.
+
 **Actualización APP — 08/10/2026:** conversaciones, navegación/diseño y recibos se integran en `app/main` conservando la documentación de marketplaces. Backend167/167, APP149/149 y build comprobados en el árbol integrado. [Acta Git y límites de despliegue](docs/app/2026-10-08-integracion-app-main.md) · [README APP](README-APP.md). El corte histórico del portal se conserva a continuación.
 
 **Fecha de corte:** 3 de octubre de 2026, 12:55 CEST  

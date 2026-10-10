@@ -1,6 +1,6 @@
 # Responsabilidades de integración de Gestadia APP
 
-**Actualizado:** 05/10/2026, por aclaración expresa del usuario.
+**Actualizado:** 10/10/2026. Reparto confirmado el 05/10; ampliación de acceso anónimo solicitada el 10/10, en revisión.
 [Glosario](../../GLOSARIO.md) · [Integración conversacional](INTEGRACION-LIDIA.md).
 
 ## Reparto confirmado
@@ -51,3 +51,9 @@ flujos Zoho en los mensajes anteriores. Los documentos fechados de
 [acceso anticipado](2026-10-05-propuesta-acceso-conversion-crm.md) conservan su
 histórico; esta página fija el reparto vigente de responsabilidades.
 El contrato conversacional está aceptado y Portal ha implementado su [API desactivada y pruebas locales](../integraciones/2026-10-05-entrega-portal-conversaciones-app.md). Zoho→Portal sigue en preparación, sin receptor/disparadores nuevos ni flujos activados.
+
+## Ampliación APP sin cuenta — requisito 10/10, contrato pendiente
+
+El usuario permite conversar con LidIA sin registro, también desde un deeplink, recogiendo nombre y teléfono y/o email. Si se llega a agenda, se ofrece el registro y se vincula la misma conversación al acceso verificado. El sondeo anónimo es exclusivo APP; no concede atención de gestor, identidad de cliente ni acceso a expedientes.
+
+Portal asume identidad previa a cuenta, registro/verificación y operación de vinculación; LidIA asume el sondeo, el punto de suspensión de agenda y la conservación de la sesión/estado durante esa vinculación. APP presenta el acceso sin login y conserva el retorno. El reparto concreto y el contrato S2S se están revisando con LidIA en la [propuesta del 10/10](../integraciones/2026-10-10-propuesta-app-anonima-lidia.md). La cuenta resultante es compartida APP/Portal, sin cambiar quién produce los eventos Zoho ni los requisitos comerciales para habilitar trámites.

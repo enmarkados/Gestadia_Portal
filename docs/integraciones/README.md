@@ -2,6 +2,14 @@
 
 Índice de la documentación de integraciones con sistemas externos.
 
+## Gestadia APP — conversación sin cuenta, propuesta 10/10/2026
+
+[Manual de desarrollo APP](../app/MANUAL-DESARROLLO.md): entrada común a pantallas, mapas y contratos.
+
+[Propuesta Portal](2026-10-10-propuesta-app-anonima-lidia.md): consulta sin cuenta ni datos personales al inicio; requisitos completos y voluntad expresa antes de nombre y teléfono O email. Solicitud como visitante, cuenta opcional después para guardar el mismo chat. APP exclusivamente; alta gratuita no habilita trámites pagados.
+
+[Respuesta LidIA exacta](2026-10-10-revision-lidia-app-anonima.md), [contraste Portal](2026-10-10-contraste-portal-app-anonima.md) y [cierre documental LidIA](2026-10-10-cierre-lidia-mapas-portal.md): conformidad documental sobre los mapas eb1ce3c5, con cuenta verificada Y control original para vincular, sujeto por conversación y Atrás al origen. Pendientes aprobación humana, reglas/evidencia completas, capacidad/señal visitante, esquemas/firma/ACK/reconciliación, protocolo v2 y agenda. No implementado ni activado.
+
 ## Gestadia App — conformidad final de nueve muestras (05/10/2026)
 
 [Conformidad offline de atención/routing](2026-10-05-conformidad-final-muestras-app.md): versión final conservada aparte del fixture anterior, DTO/proxy/UI compatibles, rechazo sin fallback y transferencia explícita. No acredita conexión desplegada ni activación.
@@ -164,3 +172,9 @@ que LidIA ya había creado y le notifica el pago con eventos firmados.
 ## Consumidor local APP frente a LidIA PRO — preparación 07/10/2026
 
 - [Namespace acordado y base/cuenta nuevas](2026-10-07-preparacion-portal-validacion-pro.md): consumidor preparado aparte del fixture, sin conexión ni turno hasta confirmar configuración fuente y Playground.
+
+- [Mapas de pantallas y flujo APP sin cuenta, con capturas para aprobación](../app/2026-10-10-mapas-pantallas-app-anonima.md). Propuesta visual del 10/10/2026; no implementada.
+
+- [Contraste LidIA de mapas APP (10/10/2026)](2026-10-10-contraste-lidia-mapas-portal.md): copia íntegra, fuente 539a6ccc2; precisiones incorporadas en propuesta/mapas.
+
+- [Cierre documental LidIA de mapas APP (10/10/2026)](2026-10-10-cierre-lidia-mapas-portal.md): fuente 0243b2379, copia íntegra separada de la revisión histórica; recorrido listo para decisión humana.

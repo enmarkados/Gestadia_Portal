@@ -1,5 +1,7 @@
 # Gestadia App
 
+**Referencia para desarrollar:** [Manual de flujos y pantallas](docs/app/MANUAL-DESARROLLO.md). Explica cómo abrir los mapas y las capturas, seguir la navegación y mantenerlos junto al código. [README general](README.md).
+
 Primera demo de Gestadia para **web, iOS y Android**, rama `app/main`, basada en el diseño de `RECURSOS/DISEÑO/GESTADIA-handoff-diseno/index.html`.
 
 Por instrucción del usuario, esta entrega funciona **sin conexiones externas**: splash, acceso/registro de ejemplo, LidIA guiada, gestor, servicios, expedientes y documentos. No crea cuentas reales, no envía mensajes ni solicita pagos. `demoOnly: true` bloquea las conexiones y descarta sesiones reales antiguas.
@@ -17,6 +19,8 @@ Entrada: `frontend/app/`. Build: `frontend/dist-app/`. El portal conserva su bui
 
 - [Alcance](docs/app/PRIMERA-VERSION.md)
 - [Responsabilidades vigentes: flujos Zoho, backend Gestadia y conversaciones LidIA](docs/app/RESPONSABILIDADES-INTEGRACION.md)
+- [Propuesta en revisión: LidIA sin cuenta, deeplink y vinculación al registrarse, sólo APP](docs/integraciones/2026-10-10-propuesta-app-anonima-lidia.md)
+- [Contraste con LidIA: identidad, captura y solicitud de llamada pendientes](docs/integraciones/2026-10-10-contraste-portal-app-anonima.md)
 - [Ajuste conversacional LidIA y contraste Portal, separado del contrato Zoho](docs/integraciones/2026-10-05-revision-portal-alcance-conversacional-app.md)
 - [Conformidad técnica Portal con adenda conversacional 1.1 y anexos](docs/integraciones/2026-10-05-conformidad-portal-adenda-contexto-v1-1.md)
 - [Conexión con la plataforma LidIA y gestor](docs/app/INTEGRACION-LIDIA.md)
@@ -49,3 +53,5 @@ Diseño de Mensajes y comprobaciones de la lista compacta: [Mensajes](docs/app/M
 [Plan de diseño de todas las pantallas y cobertura](docs/app/PLAN-DISENO-APP.md).
 
 [Crear una nueva conversación con LidIA: contrato, recorrido y verificación](docs/app/2026-10-08-nueva-conversacion-lidia.md).
+
+- [Mapas de pantallas y flujo APP sin cuenta, con capturas para aprobación](docs/app/2026-10-10-mapas-pantallas-app-anonima.md). Propuesta visual del 10/10/2026; no implementada.

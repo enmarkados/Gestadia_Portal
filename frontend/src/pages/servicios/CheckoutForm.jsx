@@ -18,8 +18,8 @@ function toReactRoute(url) {
   return url.replace('/gracias.html', '/gracias').replace('/checkout.html', '/checkout');
 }
 
-// Aplica el prellenado de un intent de LidIA sobre el formulario vacío.
-// El teléfono llega en E.164: se separa el prefijo más largo que encaje.
+// Aplica el prellenado de LidIA o Servicios APP sobre el formulario vacío.
+// Se separa el prefijo internacional; un número nacional conserva el prefijo por defecto.
 function aplicarPrefill(base, prefill) {
   if (!prefill) return base;
   const out = { ...base };
@@ -38,6 +38,8 @@ function aplicarPrefill(base, prefill) {
     if (prefijo) {
       out.prefijo = prefijo.codigo;
       out.telefono = prefill.telefono.slice(prefijo.codigo.length);
+    } else if (!prefill.telefono.startsWith('+')) {
+      out.telefono = prefill.telefono;
     }
   }
   return out;

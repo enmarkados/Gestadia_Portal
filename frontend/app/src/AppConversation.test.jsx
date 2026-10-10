@@ -684,8 +684,8 @@ it("nueva conversación tras cierre remonta el historial sin reutilizar cursor n
   mount(); await screen.findByText(/conversación está cerrada/i);
   fireEvent.click(screen.getByRole("button", { name: "Nueva conversación con LidIA" }));
   fireEvent.click(await screen.findByRole("button", { name: "Iniciar conversación" }));
-  await waitFor(() => expect(screen.queryByText("Selecciona una opción")).toBeNull());
-  expect(screen.getByRole("button", { name: "Enviar consulta" })).toBeInTheDocument();
+  expect(await screen.findByRole("button", { name: "Enviar consulta" })).toBeInTheDocument();
+  expect(screen.queryByText("Selecciona una opción")).toBeNull();
 });
 
 it.each(["requested", "assigned", "in_support"])("una atención %s conserva el compositor y no ofrece pedirla otra vez", async (status) => {

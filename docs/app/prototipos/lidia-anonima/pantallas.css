@@ -1,0 +1,36 @@
+/* Sólo ajustes propios de los estados propuestos. El resto procede de app.css. */
+.prototype-auth h1 {font-family:inherit;font-size:25px;font-weight:750;letter-spacing:-.5px}
+.prototype-auth > .muted {margin-bottom:14px}
+.prototype-auth .form-card {margin-top:14px}
+.prototype-auth .helper .text-btn {min-height:24px;padding:0;font-size:12px}
+.prototype-auth .forgot {display:flex;justify-content:center;color:#000}
+.auth-switch {text-align:center;font-size:13px}
+.return-chat {display:flex;justify-content:center;width:100%;color:#2c2c2c}
+.prototype-auth .legal-links {display:flex;gap:22px;justify-content:center;margin-top:10px}
+.prototype-auth .legal-links .text-btn {font-size:12px;color:var(--muted)}
+.privacy-note {font-size:12px;margin-top:12px}
+.privacy-note .text-btn {min-height:24px;padding:0;font-size:12px}
+.assistant-chat-page .bubble .btn {margin-top:12px;font-size:14px;white-space:normal}
+.assistant-chat-page .bubble .stack {gap:0;margin-bottom:0}
+.defer {align-self:center;color:var(--ink);font-size:13px}
+.linked-state {display:flex;align-items:center;gap:6px;padding-top:12px;color:#22623d;font-size:12px!important}
+.chat-date {text-align:center;color:var(--muted);font-size:11px;margin:0 0 4px}
+.state-page {display:flex;flex-direction:column;gap:10px}
+.state-page .state-icon {display:flex;justify-content:center;align-items:center;width:52px;height:52px;background:#edf7f1;color:#22623d;border-radius:14px;margin:12px 0}
+.state-page .state-icon.warning {background:#fff4dc;color:#785715}
+.state-page .text-btn {align-self:flex-start}
+.request-receipt {display:grid;gap:5px;border-left:3px solid #22623d;padding:8px 12px;margin-top:14px;background:#edf7f1;font-size:13px}
+.request-receipt span {font-size:12px;color:var(--muted)}
+.conversation-link {border:0;background:none;text-align:left}
+.list-scope {margin-top:20px}
+
+.conversation-search {flex-direction:row}
+.connected-messages .messages-title-row h1 {font-family:inherit}
+.review-mode{height:26px;display:flex;justify-content:center;align-items:center;gap:16px;background:#fff4dc;color:#785715;font-size:11px;border-bottom:1px solid #ead9ad}
+.review-mode a{color:inherit}
+.with-review-mode{height:calc(100dvh - 26px)}
+
+.review-mode button{border:0;background:none;color:inherit;text-decoration:underline;font:inherit;padding:0;cursor:pointer}
+.review-mode:has(button){gap:9px;font-size:10px}
+
+.pending-receipt{background:#fff4df!important;border-color:#b58a2d!important;color:#63502b}

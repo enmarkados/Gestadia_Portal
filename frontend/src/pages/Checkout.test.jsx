@@ -2,8 +2,34 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, it, expect, vi } from 'vitest';
 import Checkout from './Checkout.jsx';
+import { checkoutUrl } from '../../app/src/api.js';
 
 describe('Checkout', () => {
+  it.each([
+    ['600 111 222', '+34', '600 111 222'],
+    ['+34600111222', '+34', '600111222'],
+    ['+18095551234', '+1809', '5551234'],
+  ])('conserva el teléfono %s al pasar de Servicios APP al checkout web', async (telefono, prefijo, numero) => {
+    global.fetch = vi.fn(async () => ({ ok: true, json: async () => [{
+      slug: 'canje-carnet', nombre: 'Canje de Carnet Extranjero', descripcion: 'x',
+      precio: 210, checklist: [], requierePais: true, requiereDireccion: true,
+    }] }));
+    const url = new URL(checkoutUrl('canje-carnet', {
+      nombre: 'Ana', apellidos: 'Ruiz', email: 'ana@example.com', telefono,
+      tipoDocumento: 'NIE', numDocumento: 'X1234567L', paisCanje: 'Perú',
+    }));
+    render(<MemoryRouter initialEntries={[url.pathname + url.search]}><Checkout /></MemoryRouter>);
+
+    await waitFor(() => expect(screen.getByLabelText('Nombre')).toHaveValue('Ana'));
+    expect(screen.getByLabelText('Apellidos')).toHaveValue('Ruiz');
+    expect(screen.getByLabelText('Email')).toHaveValue('ana@example.com');
+    expect(screen.getByLabelText('Prefijo')).toHaveValue(prefijo);
+    expect(screen.getByLabelText('Teléfono móvil')).toHaveValue(numero);
+    expect(screen.getByLabelText('Tipo de documento')).toHaveValue('NIE');
+    expect(screen.getByLabelText('Nº de documento')).toHaveValue('X1234567L');
+    expect(screen.getByLabelText('País del permiso')).toHaveValue('peru');
+  });
+
   it('loads the service from ?servicio= and submits to /api/checkout', async () => {
     global.fetch = vi.fn(async (url) => {
       if (String(url).includes('/api/servicios')) {
