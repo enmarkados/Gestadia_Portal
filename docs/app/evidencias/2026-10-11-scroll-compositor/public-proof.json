@@ -1,0 +1,11 @@
+{
+  "info": {
+    "app": "Gestadia",
+    "version": "0.1.0",
+    "revision": "b7f1951"
+  },
+  "conversationStatus": 200,
+  "js": "/assets/index-BmDsgbYH.js",
+  "sha256": "003c0635ac646828b1594f09d520b74c36ff5e73740eb7695cc2ebf240a9fcc7",
+  "assetsMatchNativeAndBuild": true
+}

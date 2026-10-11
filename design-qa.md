@@ -77,4 +77,4 @@ Corrección humana: hora al pie derecho de cada burbuja; en las propias queda 5p
 
 ## 11/10/2026 · Foco del compositor
 
-Petición humana implementada: click/foco lleva al último mensaje con transición280ms, reevalúa el fondo durante el resize del teclado y libera el seguimiento al desenfocar. Foco repetido, portal externo y reducir movimiento cubiertos;200/200pruebas. [Evidencia vigente y límites físicos](docs/app/evidencias/2026-10-11-scroll-compositor/README.md).
+Petición humana implementada: click/foco lleva al último mensaje con transición 280 ms, reevalúa el fondo durante el resize del teclado y libera el seguimiento al desenfocar. Foco repetido, portal externo y reducir movimiento cubiertos;200/200 pruebas. [Evidencia vigente y límites físicos](docs/app/evidencias/2026-10-11-scroll-compositor/README.md).

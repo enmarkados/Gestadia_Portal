@@ -1,0 +1,20 @@
+{
+  "build": "8",
+  "version": "0.1.0",
+  "bundle": "com.gestadia.app",
+  "nonExemptEncryption": false,
+  "signature": "verified strict",
+  "nativeAssetsMatch": true,
+  "assets": {
+    "index-BmDsgbYH.js": "003c0635ac646828b1594f09d520b74c36ff5e73740eb7695cc2ebf240a9fcc7"
+  },
+  "physicalKeyboardAcceptance": "pending",
+  "archive": "ARCHIVE SUCCEEDED",
+  "export": "EXPORT SUCCEEDED",
+  "upload": "Xcode App 0.1.0 (8) uploaded 16:32",
+  "processing": "processed",
+  "testFlight": "En pruebas",
+  "group": "Gestadia QA",
+  "buildId": "1f870fa4-2e7c-4e6a-acbd-addce3d0778b",
+  "notesSaved": true
+}
