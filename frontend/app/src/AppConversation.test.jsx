@@ -665,7 +665,7 @@ it("conserva el recibo terminal de la primera página y libera el envío pendien
 });
 
 
-it("nueva conversación tras cierre remonta el historial sin reutilizar cursor ni mensajes anteriores", async () => {
+it("abrir otra conversación desde fuera del chat cerrado no reutiliza cursor ni mensajes anteriores", async () => {
   closed = true;
   const original = global.fetch; let started = false;
   vi.stubGlobal("fetch", vi.fn(async (url, opts = {}) => {
@@ -682,7 +682,9 @@ it("nueva conversación tras cierre remonta el historial sin reutilizar cursor n
     return original(url, opts);
   }));
   mount(); await screen.findByText(/conversación está cerrada/i);
-  fireEvent.click(screen.getByRole("button", { name: "Nueva conversación con LidIA" }));
+  expect(screen.queryByRole("button", { name: "Nueva conversación con LidIA" })).toBeNull();
+  cleanup();
+  mount(`/lidia/conversacion?nueva=${newIntent}`);
   fireEvent.click(await screen.findByRole("button", { name: "Iniciar conversación" }));
   await waitFor(() => expect(screen.queryByText("Selecciona una opción")).toBeNull());
   expect(screen.getByRole("button", { name: "Enviar consulta" })).toBeInTheDocument();
@@ -722,16 +724,15 @@ it("abrir nueva conversación no recupera ni crea el chat anterior; iniciar cano
   expect(starts).toBe(1);
   expect(screen.queryByText("Selecciona una opción")).toBeNull();
 });
-it("el chat abierto ofrece nueva conversación y protege borrador y envío sin confirmar", async () => {
+it("el chat abierto conserva borrador y envío pendiente sin ofrecer otra conversación", async () => {
   mount("/lidia/conversacion?conversacion=local-1");
   await screen.findByText("Selecciona una opción");
-  const fresh = screen.getByRole("button", { name: "Nueva conversación con LidIA" });
-  expect(fresh).toBeEnabled();
+  expect(screen.queryByRole("button", { name: "Nueva conversación con LidIA" })).toBeNull();
   fireEvent.change(screen.getByLabelText("Tu consulta"), { target: { value: "Borrador" } });
-  expect(fresh).toBeDisabled();
+  expect(screen.getByLabelText("Tu consulta")).toHaveValue("Borrador");
   failSend = true; fireEvent.click(screen.getByRole("button", { name: "Enviar consulta" }));
   await screen.findByText(/sin confirmación/i);
-  expect(fresh).toBeDisabled();
+  expect(screen.queryByRole("button", { name: "Nueva conversación con LidIA" })).toBeNull();
   expect(screen.getByTestId("route")).toHaveTextContent("conversacion=local-1");
 });
 it("respuesta de creación perdida conserva la clave al recargar y reintentar", async () => {
@@ -762,7 +763,7 @@ it("un chat pendiente abierto por id recupera sólo su sesión original", async 
   mount("/lidia/conversacion?conversacion=older-pending");
   await screen.findByRole("button", { name: "Recuperar envío" });
   expect(bodies).toEqual([{ purpose: "sondeo", case_ref: null, conversation_id: "older-pending" }]);
-  expect(screen.getByRole("button", { name: "Nueva conversación con LidIA" })).toBeDisabled();
+  expect(screen.queryByRole("button", { name: "Nueva conversación con LidIA" })).toBeNull();
 });
 
 it("al recuperar un chat no ofrece abrir otro mientras está cargando el historial", async () => {

@@ -1,0 +1,71 @@
+{
+  "fixture": true,
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "chat": {
+    "url": "#/lidia/conversacion",
+    "newChatButtons": 0,
+    "composer": true,
+    "overflow": false
+  },
+  "home": {
+    "url": "http://127.0.0.1:5181/?ui-fixture=lidia-accesos#/",
+    "newChatLinks": 1,
+    "resumeLinks": 1
+  },
+  "messages": {
+    "newChatLinks": 1
+  },
+  "requests": [
+    {
+      "path": "/api/me",
+      "method": "GET"
+    },
+    {
+      "path": "/api/expedientes",
+      "method": "GET"
+    },
+    {
+      "path": "/api/notificaciones",
+      "method": "GET"
+    },
+    {
+      "path": "/api/app/v1/conversations",
+      "method": "GET"
+    },
+    {
+      "path": "/api/app/v1/conversations/ui-chat-lidia/timeline",
+      "method": "GET"
+    },
+    {
+      "path": "/api/app/v1/conversations",
+      "method": "GET"
+    },
+    {
+      "path": "/api/app/v1/conversations/ui-chat-lidia/message-receipts",
+      "method": "GET"
+    },
+    {
+      "path": "/api/app/v1/conversations/ui-chat-lidia/message-receipts",
+      "method": "GET"
+    }
+  ],
+  "receiptSummaryFixture": true,
+  "capturesAfterMotion": true,
+  "source_base_commit": "5979f4a5a15f28ef11328755869bb8eb08939041",
+  "source_sha256": {
+    "frontend/app/src/AppConversation.jsx": "79f38f372bb05557f306682d55f0fb79d24e14e5d718ab4dfe4bc5096722a66a",
+    "frontend/app/src/AppConversation.test.jsx": "4afdca3b80927c8fc3aad8708f73c56c1090c1d3e5100bee6031a76c988558bf",
+    "frontend/app/src/app.css": "549b8b4c8131822c03d682bddbdb0f04533e9436f3294d091a182407e98a188c"
+  },
+  "checks": {
+    "frontend": {
+      "passed": 160,
+      "files": 34
+    },
+    "app_build": "passed",
+    "capacitor_sync": "passed"
+  }
+}

@@ -13,7 +13,6 @@ import {
   clearPending,
   conversationsEnabled,
 } from "./conversationApi.js";
-import { Plus } from "lucide-react";
 import ChatComposer from "./ChatComposer.jsx";
 const pendingStatuses = new Set(["prepared", "outcome_unknown"]);
 const messages = {
@@ -475,21 +474,6 @@ function ConversationBody({ purpose }) {
   const human =
     purpose === "atencion" ||
     ["assigned", "in_support"].includes(timeline?.support?.status);
-  const newChatControl = purpose === "sondeo" && conversation && (
-    <div className="conversation-toolbar">
-      <button
-        className="new-lidia-chat"
-        disabled={bootstrapping || busy || !!pending || !!input.trim()}
-        title={input.trim() ? "Envía o borra tu borrador antes de iniciar otro chat." : pending ? "Recupera primero el envío pendiente." : undefined}
-        onClick={() => {
-          if (bootstrapping || busyRef.current || pending || input.trim()) return;
-          setSearch({ nueva: crypto.randomUUID(), ...(caseRef ? { caso: caseRef } : {}) }, { state: location.state });
-        }}
-      >
-        <Plus size={17} aria-hidden="true" /> Nueva conversación con LidIA
-      </button>
-    </div>
-  );
   return (
     <section
       className={
@@ -635,7 +619,6 @@ function ConversationBody({ purpose }) {
           </button>
         </div>
       )}
-      {composerHost ? createPortal(newChatControl, composerHost) : newChatControl}
       {!closed && conversation?.ready && !pending && (
         <>
           <div className="chips">

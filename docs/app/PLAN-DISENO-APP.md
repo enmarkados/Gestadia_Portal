@@ -77,7 +77,7 @@ Preview conectado: `http://127.0.0.1:5176/#/mensajes`. Requiere que permanezcan 
 
 ## Corrección funcional del 08/10/2026
 
-Detectado por el usuario el acceso ausente a otro chat de LidIA. [Plan, conformidad del equipo LidIA, regresiones y evidencia web/iOS](2026-10-08-nueva-conversacion-lidia.md). Inicio distingue Nueva/Continuar, Mensajes ofrece Nueva y el chat mantiene una acción compacta sobre el compositor. Backend crea sólo con intención explícita y conserva historial/idempotencia. La carga no ofrece abrir otra sesión mientras recupera la seleccionada. Verificación actual: 135 frontend (95 APP), 132 backend, build y sync, creación y respuesta reales en web e iOS. Android compila; su recorrido de interfaz sigue pendiente.
+Detectado por el usuario el acceso ausente a otro chat de LidIA. [Antecedente, conformidad del equipo LidIA y evidencia del 08/10](2026-10-08-nueva-conversacion-lidia.md). Inicio distingue Nueva/Continuar y Mensajes ofrece Nueva. La [corrección humana del 11/10](2026-10-11-lidia-accesos.md) retira esa acción del chat y del compositor. Backend crea sólo con intención explícita y conserva historial/idempotencia. La carga no ofrece abrir otra sesión mientras recupera la seleccionada. Verificación histórica del 08/10: 135 frontend (95 APP), 132 backend, build y sync, creación y respuesta reales en web e iOS. Android compiló; su recorrido de interfaz seguía pendiente. Las capturas de esa fecha conservan su procedencia y no acreditan la corrección posterior.
 
 ## Movimiento del 11/10/2026
 

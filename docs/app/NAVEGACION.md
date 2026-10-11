@@ -23,7 +23,6 @@ flowchart TD
   INICIO -->|Continuar| IA["Habla con LidIA /lidia/conversacion"]
   INICIO --> NUEVA["Nueva conversación /lidia/conversacion?nueva=UUID"]
   M --> NUEVA
-  IA --> NUEVA
   NUEVA -->|Iniciar: sesión independiente; URL con id| IA
   NUEVA -->|Atrás: origen sin crear| INICIO
   NUEVA -->|Origen Mensajes| M
@@ -47,7 +46,7 @@ flowchart TD
   P -->|Misma conversación, sin navegar| G
 ```
 
-Desde el 08/10/2026, Inicio distingue Nueva/Continuar y Mensajes ofrece Nueva; el chat abierto o cerrado conserva una acción compacta sobre el compositor. `nueva=UUID` conserva el intento de creación al recargar/reintentar; sólo Iniciar efectúa POST y conserva los chats anteriores. Una creación pendiente mantiene ese intento hasta confirmar su id. Al abrir un historial se indica «Cargando conversación…»; no se ofrece iniciar otra durante la recuperación. [Plan, conformidad y pruebas](2026-10-08-nueva-conversacion-lidia.md).
+Inicio distingue Nueva/Continuar y Mensajes ofrece Nueva. Por la corrección humana del 11/10/2026, el chat de LidIA no muestra «Nueva conversación con LidIA», tanto abierto como cerrado o pendiente: se vuelve a LidIA o Mensajes para empezar otro. `nueva=UUID` conserva el intento de creación al recargar/reintentar; sólo Iniciar efectúa POST y conserva los chats anteriores. Una creación pendiente mantiene ese intento hasta confirmar su id. Al abrir un historial se indica «Cargando conversación…». [Antecedente del 08/10](2026-10-08-nueva-conversacion-lidia.md) · [Corrección vigente y capturas](2026-10-11-lidia-accesos.md).
 
 El chat conectado se identifica por `conversacion` y, cuando procede, `caso`. Esos parámetros forman parte del retorno; no se sustituye el chat seleccionado por uno nuevo. La validación real admite carga de documentos; el envío final guiado sólo existe en demo. Un error de carga permanece en la misma pantalla y conserva Atrás.
 
@@ -231,7 +230,7 @@ En web el checkout abre una pestaña separada; en nativo abre el navegador del s
 | `/tramites` | Pestañas | No: principal | Sí | Visitante abre acceso y retoma Trámites |
 | `/mensajes` | Pestañas | Principal; acceso visitante sí tiene retorno | Sí salvo acceso visitante | Abre el chat exacto |
 | `/servicios` | Pestañas / notificaciones | No: principal | Sí | Selección desplaza al título; checkout externo o demo |
-| `/lidia/conversacion?nueva=UUID` | LidIA / Mensajes / chat / acceso | Mismo origen; `/` | Sí | Iniciar crea otra; URL canónica con id; no cierra la anterior |
+| `/lidia/conversacion?nueva=UUID` | LidIA / Mensajes / acceso | Mismo origen; `/` | Sí | Iniciar crea otra; URL canónica con id; no cierra la anterior |
 | `/lidia/conversacion` | LidIA / Mensajes / acceso | Origen; `/` | Sí | Mismo chat y origen; no crear al volver |
 | `/mensajes/gestor` | Mensajes / Contacto / validación | Origen; `/mensajes` | Sí | Cerrado mantiene historial; nuevo mantiene origen |
 | `/tramites/:id` | Lista / notificación / documento del chat | Origen con query; `/tramites` | Sí | Demo continúa al gestor con retorno a validación |
