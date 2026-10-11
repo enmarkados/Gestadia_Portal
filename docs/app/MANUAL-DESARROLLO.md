@@ -252,3 +252,7 @@ La plataforma LidIA con su agente gestiona Zoho y las operaciones de agenda de l
 ### Aceptación web LidIA V1.722 — 11/10/2026
 
 Inicio → Nueva conversación → Iniciar → dos turnos informativos seriados → recargar conserva historial/IDs. Permisos history/sondeo; Atrás a LidIA, sin acción de llamada. Detalle administrativo común APP con Contacto pendiente accesible. Marca V1.722/PRO observada; contraste modelo/CRM pedido a LidIA. [Evidencia y límites](evidencias/2026-10-11-lidia-v1722/README.md). No cambia código visual, build nativa ni activa perfil/CRM/account v2.
+
+### Agenda: permiso por chat preparado — 11/10/2026
+
+[Opt-in v1 y pruebas](evidencias/2026-10-11-agenda-opt-in/README.md): configuración privada apagada y grant adicional por chat, sin cambiar la autorización compartida de la cuenta. Sin pantallas/navegación nuevas, despliegue o activación; guest/account v2 fuera de alcance. El usuario exige reserva real y readback para cerrar agenda; los turnos informativos son aceptación parcial.

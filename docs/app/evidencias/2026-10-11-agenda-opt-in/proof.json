@@ -1,0 +1,25 @@
+{
+  "verified_at": "2026-10-11T17:20:08.925Z",
+  "command": "node scripts/test-app-conversations.mjs",
+  "exit_code": 0,
+  "backend_tests": 313,
+  "frontend_tests": 204,
+  "app_build": "PASS",
+  "migrations_applied_to_local_fixture": 15,
+  "production_deployed": false,
+  "callback_default_enabled": false,
+  "real_call_verified": false,
+  "review": {
+    "important_findings": 1,
+    "fixed": 1,
+    "regression": "revocación confirmada antes del lock",
+    "targeted_pass": 11
+  },
+  "sha256": {
+    "backend/src/app/callback-access.js": "ed368437b32b75113221665272893f4176b96e2698f1f880ef58ee64e443bb7f",
+    "backend/src/app/lifecycle.js": "ce5d1887275e8504e118f2cbfad19d76b3b07dffd07673d0ded5f3dc6356c489",
+    "backend/src/app/store.js": "6db8f1343be56dd840269793ea8957aacf4dbd8818d211fb55ed468a18ae176e",
+    "backend/src/config.js": "9c577ea85285f72ade421cb461f8c6db29156ec18e610fa9b130da0b119d1ad8",
+    "backend/prisma/migrations/20261011192000_app_callback_scope/migration.sql": "ad0a5ef0a8f947d0c79befbc7395462172c85bd966c31959090a99b33c361e26"
+  }
+}

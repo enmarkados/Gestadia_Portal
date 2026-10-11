@@ -363,3 +363,7 @@ La cuenta de prueba conserva un chat de atención sin gestor ni caso, con permis
 ### Aceptación web LidIA V1.722 — 11/10/2026
 
 Inicio → Nueva conversación → Iniciar → dos turnos informativos seriados → recargar mantiene historial. Origen/Atrás LidIA, permisos history/sondeo, ninguna acción de llamada/alta. Detalle común administrativo APP abierto con Contacto pendiente. [Capturas, IDs y límites](evidencias/2026-10-11-lidia-v1722/README.md). Sin cambio visual o nativo; gestor, CRM y agenda conservan aceptación separada.
+
+### Agenda v1: preparación sin cambio visual
+
+El backend prepara un grant CRM/agenda exclusivo de un chat existente, apagado por defecto; no modifica origen, Atrás, pantallas o autoridad básica de otros chats. [Estado y verificación](evidencias/2026-10-11-agenda-opt-in/README.md). Activación y reserva real pendientes; no atribuir disponibilidad, completed de turno o pruebas offline a una llamada creada.

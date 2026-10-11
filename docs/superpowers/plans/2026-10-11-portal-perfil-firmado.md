@@ -67,3 +67,24 @@ El usuario rechaza considerar la agenda comprobada sin llegar a reservar una lla
 - [ ] Ante resultado incierto, reconciliar la misma operación sin repetir la creación. Registrar límites y cualquier seguimiento operativo requerido para la prueba.
 
 Solicitados datos al usuario y requisitos al equipo LidIA. El código Portal actual excluye crm_prepare/callback_schedule en currentAccess y rechaza concederlos mediante setConversationAccess; disponer del schema ampliado no activa la agenda.
+
+### Preparación de opt-in v1 acotado
+
+LidIA concreta cuatro permisos history/sondeo/crm_prepare/callback_schedule, contexto monotónico existente y perfil opcional, sin IDs Zoho. Se prepara el gate privado apagado, con cuenta+conversación local+integración+caducidad; exige grant explícito y conserva su callbackConversationId para impedir que retargetear configuración transfiera autoridad. El grant sólo cubre esa conversación existente y activa, de sondeo sin caso. Otras conversaciones conservan history/sondeo, sin permisos CRM; no se añaden defaults.
+
+Cambios previstos: helper callback-access, parseo de configuración cerrado, binding persistido nullable/migración aditiva, setConversationAccess/currentAccess y recuperación de contexto. RED→GREEN con aislamiento, caducidad, gate apagado, retarget y retirada con operación pendiente. Ninguna activación o efecto CRM forma parte de esta preparación. Datos reales y permiso concreto siguen pendientes; LidIA acredita su mapping y guard/readback propios.
+
+Precisión tras revisar el grant compartido: el binding se conserva en AppConversation.callbackGrant, no en AppConversationAccess.callbackConversationId. Los permisos CRM adicionales se intersectan con los permisos básicos existentes sin sustituirlos. Caducar/retirar el piloto no toca la autoridad de otros chats; un cambio de configuración no mueve el grant a otra fila. Una solicitud scoped sin CRM retira sólo callbackGrant.
+
+### Revisión de la preparación
+
+La única revisión independiente encontró P1: revocar la cuenta entre la primera lectura y el bloqueo de cuenta impedía refrescar contexto, pero no abortaba el envío del grant preparado. Regresión con MySQL real y revocación determinista antes del lock: RED observó 2 envíos en lugar de 1; corregido para abortar si la identidad/propiedad ya no es elegible bajo el lock. GREEN dirigido: 11/11. No se modifican los bytes ni claves de la operación anterior; la retirada sigue su lifecycle. Sin otros P1/P2 concretos en esa revisión y sin segunda ronda de revisión.
+
+La preparación local no satisface el criterio humano de reserva real. Las tareas de datos, despliegue con copia/restauración, activación acotada y lectura remota siguen abiertas.
+
+- [x] Opt-in cerrado con binding por conversación, apagado por defecto, migración aditiva preparada.
+- [x] RED→GREEN de aislamiento, retarget, retirada, caducidad, configuración y revocación antes del lock.
+- [x] Revisión independiente y corrección de su único P1.
+- [x] Suite final `node scripts/test-app-conversations.mjs`: exit0, 313 backend, 204 frontend, build APP PASS. Evidencia: [preparación de agenda](../../app/evidencias/2026-10-11-agenda-opt-in/README.md).
+
+Recibidos para contraste esquemas preliminares de `appointment_receipt` de LidIA; pruebas/vectores finales y entrega versionada todavía pendientes. No se han incorporado a los consumidores productivos. Esa entrega y la corrección de `agendar_cita` siguen siendo dependencias anteriores a la reserva real.

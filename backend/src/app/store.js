@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { profileContext, sameProfilePatch } from "./profile.js";
+import { callbackScopeAllows } from './callback-access.js';
 import { accountProof } from "./identity.js";
 import { sha256, canonicalJson, semanticHash } from "./s2s.js";
 import { AppProblem } from "./problem.js";
@@ -81,7 +82,21 @@ export async function currentAccess(tx, c, user, config) {
         ];
     date = user.accountVerifiedAt;
   }
+  // CRM authority is additional and belongs to this row, never the account's
+  // shared sondeo grant. Removing/expiring the pilot preserves basic access.
   permissions = permissions.filter(p => !["crm_prepare", "callback_schedule"].includes(p));
+  const callback = c.callbackGrant;
+  const callbackValidated = new Date(callback?.validated_at), callbackUntil = new Date(callback?.valid_until), now = new Date();
+  if (callbackScopeAllows(config, c, user.id, now) &&
+      permissions.includes('history') && permissions.includes('sondeo') &&
+      Array.isArray(callback?.permissions) && callback.permissions.length === 2 &&
+      callback.permissions.includes('crm_prepare') && callback.permissions.includes('callback_schedule') &&
+      typeof callback.source_ref === 'string' && callback.source_ref.length > 0 && callback.source_ref.length <= 128 &&
+      Number.isFinite(+callbackValidated) && callbackValidated <= now && callbackUntil > now &&
+      callbackUntil <= new Date(config.callbackAccess.scope.expires_at)) {
+    permissions.push('crm_prepare', 'callback_schedule');
+    date = new Date(Math.max(+date, +callbackValidated));
+  }
   if (config.allowedPermissions) permissions = permissions.filter(p => config.allowedPermissions.includes(p));
   if (!permissions.includes("commercial_handoff")) commercial = null;
   if (!permissions.includes("manager_handoff")) manager = null;

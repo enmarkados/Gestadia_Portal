@@ -1531,6 +1531,130 @@ test("permisos CRM del nuevo schema no habilitan grants Portal",async t=>{
  const f=await fixture(t);
  await assert.rejects(setConversationAccess(db,f.u.id,"sondeo",null,{permissions:["history","crm_prepare","callback_schedule"],source_ref:"no-mapping",validated_at:now(),valid_until:new Date(Date.now()+3600000).toISOString()}),{code:"invalid_context"});
 });
+
+// Estos casos detectan grants que se extienden a otro chat/cuenta o sobreviven al opt-in.
+test('grant de agenda sólo alcanza conversación activa autorizada y persiste su binding',async t=>{
+ const f=await fixture(t), other=await fixture(t);
+ const {conversation:c}=await f.service().start(f.a,{purpose:'sondeo'},crypto.randomUUID());
+ const {conversation:d}=await f.service().start(f.a,{purpose:'sondeo',create_new:true},crypto.randomUUID());
+ const {conversation:e}=await other.service().start(other.a,{purpose:'sondeo'},crypto.randomUUID());
+ await f.service().timeline(f.a,c.id); await f.service().timeline(f.a,d.id); await other.service().timeline(other.a,e.id);
+ const expiry=new Date(Date.now()+3600000).toISOString();
+ const cfg={...config,callbackAccess:{enabled:true,scope:{portal_user_id:f.u.id,conversation_id:c.id,integration_id:config.integrationId,expires_at:expiry}}};
+ await setConversationAccess(db,f.u.id,'sondeo',null,{conversation_id:c.id,permissions:['history','sondeo','crm_prepare','callback_schedule'],source_ref:'explicit-test-approval',validated_at:now(),valid_until:expiry},cfg);
+ assert.equal(await db.appConversationAccess.count({where:{userId:f.u.id}}),0);
+ const row=await db.appConversation.findUnique({where:{id:c.id}});
+ assert.equal(row.callbackGrant?.source_ref,'explicit-test-approval');
+ assert.deepEqual(row.context.permissions,['callback_schedule','crm_prepare','history','sondeo','support_handoff']);
+ assert.deepEqual((await db.appConversation.findUnique({where:{id:d.id}})).context.permissions,['history','sondeo','support_handoff']);
+ assert.ok(!(await db.appConversation.findUnique({where:{id:e.id}})).context.permissions.includes('crm_prepare'));
+ await new AppConversationService(db,f.remote,cfg).timeline(f.a,c.id);
+ assert.deepEqual(f.remote.contexts.at(-1).permissions,['callback_schedule','crm_prepare','history','sondeo','support_handoff']);
+});
+test('retargetear opt-in no transfiere a otro chat el grant ya persistido',async t=>{
+ const f=await fixture(t);
+ const {conversation:c}=await f.service().start(f.a,{purpose:'sondeo'},crypto.randomUUID());
+ const {conversation:d}=await f.service().start(f.a,{purpose:'sondeo',create_new:true},crypto.randomUUID());
+ await f.service().timeline(f.a,c.id);await f.service().timeline(f.a,d.id);
+ const expiry=new Date(Date.now()+3600000).toISOString();
+ const scope={portal_user_id:f.u.id,conversation_id:c.id,integration_id:config.integrationId,expires_at:expiry};
+ const cfg={...config,callbackAccess:{enabled:true,scope}};
+ await setConversationAccess(db,f.u.id,'sondeo',null,{conversation_id:c.id,permissions:['history','sondeo','crm_prepare','callback_schedule'],source_ref:'explicit-test-approval',validated_at:now(),valid_until:expiry},cfg);
+ const retarget={...cfg,callbackAccess:{enabled:true,scope:{...scope,conversation_id:d.id}}};
+ await new AppConversationService(db,f.remote,retarget).timeline(f.a,d.id);
+ await new AppConversationService(db,f.remote,retarget).timeline(f.a,c.id);
+ for(const id of [c.id,d.id])assert.deepEqual((await db.appConversation.findUnique({where:{id}})).context.permissions,['history','sondeo','support_handoff']);
+});
+test('agenda rechaza grant ajeno sin binding exacto o fuera de caducidad antes de escribir',async t=>{
+ const f=await fixture(t), other=await fixture(t);
+ const {conversation:c}=await f.service().start(f.a,{purpose:'sondeo'},crypto.randomUUID());await f.service().timeline(f.a,c.id);
+ const expiry=new Date(Date.now()+3600000).toISOString();
+ const cfg={...config,callbackAccess:{enabled:true,scope:{portal_user_id:f.u.id,conversation_id:c.id,integration_id:config.integrationId,expires_at:expiry}}};
+ const grant={conversation_id:c.id,permissions:['history','sondeo','crm_prepare','callback_schedule'],source_ref:'explicit-test-approval',validated_at:now(),valid_until:expiry};
+ for(const [uid,g,cf] of [[f.u.id,{...grant,conversation_id:crypto.randomUUID()},cfg],[other.u.id,grant,cfg],[f.u.id,{...grant,valid_until:new Date(Date.now()+7200000).toISOString()},cfg],[f.u.id,grant,{...cfg,callbackAccess:{...cfg.callbackAccess,enabled:false}}],[f.u.id,grant,{...cfg,callbackAccess:{enabled:true,scope:{...cfg.callbackAccess.scope,integration_id:'different'}}}]]) {
+  await assert.rejects(setConversationAccess(db,uid,'sondeo',null,g,cf),e=>e.code==='invalid_context');
+ }
+ assert.equal(await db.appConversationAccess.count({where:{userId:{in:[f.u.id,other.u.id]}}}),0);
+});
+for (const withdrawal of ['apagar','caducar']) test(`${withdrawal} agenda retira permisos al recuperar contexto sin petición del dispositivo`,async t=>{
+ const f=await fixture(t);
+ const {conversation:c}=await f.service().start(f.a,{purpose:'sondeo'},crypto.randomUUID());await f.service().timeline(f.a,c.id);
+ const expiry=new Date(Date.now()+3600000).toISOString();
+ const scope={portal_user_id:f.u.id,conversation_id:c.id,integration_id:config.integrationId,expires_at:expiry};
+ const cfg={...config,callbackAccess:{enabled:true,scope}};
+ await setConversationAccess(db,f.u.id,'sondeo',null,{conversation_id:c.id,permissions:['history','sondeo','crm_prepare','callback_schedule'],source_ref:'explicit-test-approval',validated_at:now(),valid_until:expiry},cfg);
+ const before=await db.appConversation.findUnique({where:{id:c.id}});
+ const pending=await db.appOperation.findFirst({where:{conversationId:c.id,kind:'context',logicalId:before.contextRevision}});
+ const withdrawn={...cfg,callbackAccess:withdrawal==='apagar'?{enabled:false,scope}:{enabled:true,scope:{...scope,expires_at:new Date(Date.now()-1000).toISOString()}}};
+ await deliverLifecycle(db,f.remote,withdrawn,pending);
+ assert.ok(f.remote.contexts.every(x=>!x.permissions.includes('callback_schedule')));
+ await drainLifecycle(db,f.remote,withdrawn);
+ const after=await db.appConversation.findUnique({where:{id:c.id}});
+ assert.deepEqual(after.context.permissions,['history','sondeo','support_handoff']);
+ assert.equal(after.contextRevision,after.syncedRevision);
+ assert.deepEqual(f.remote.contexts.at(-1).permissions,['history','sondeo','support_handoff']);
+});
+test('configurar ámbito de agenda sin grant explícito no añade permisos',async t=>{
+ const f=await fixture(t);
+ const {conversation:c}=await f.service().start(f.a,{purpose:'sondeo'},crypto.randomUUID());await f.service().timeline(f.a,c.id);
+ const cfg={...config,callbackAccess:{enabled:true,scope:{portal_user_id:f.u.id,conversation_id:c.id,integration_id:config.integrationId,expires_at:new Date(Date.now()+3600000).toISOString()}}};
+ await new AppConversationService(db,f.remote,cfg).timeline(f.a,c.id);
+ assert.deepEqual((await db.appConversation.findUnique({where:{id:c.id}})).context.permissions,['history','sondeo','support_handoff']);
+ assert.equal(await db.appConversationAccess.count({where:{userId:f.u.id}}),0);
+});
+test('retirar grant de agenda concreto conserva permisos básicos y otros chats',async t=>{
+ const f=await fixture(t);
+ const {conversation:c}=await f.service().start(f.a,{purpose:'sondeo'},crypto.randomUUID());
+ const {conversation:d}=await f.service().start(f.a,{purpose:'sondeo',create_new:true},crypto.randomUUID());
+ await f.service().timeline(f.a,c.id); await f.service().timeline(f.a,d.id);
+ const expiry=new Date(Date.now()+3600000).toISOString();
+ const cfg={...config,callbackAccess:{enabled:true,scope:{portal_user_id:f.u.id,conversation_id:c.id,integration_id:config.integrationId,expires_at:expiry}}};
+ const grant={conversation_id:c.id,permissions:['history','sondeo','crm_prepare','callback_schedule'],source_ref:'explicit-test-approval',validated_at:now(),valid_until:expiry};
+ await setConversationAccess(db,f.u.id,'sondeo',null,grant,cfg);
+ await setConversationAccess(db,f.u.id,'sondeo',null,{...grant,permissions:['history','sondeo'],source_ref:'withdraw-test'},cfg);
+ const row=await db.appConversation.findUnique({where:{id:c.id}});
+ assert.equal(row.callbackGrant,null);
+ assert.deepEqual(row.context.permissions,['history','sondeo','support_handoff']);
+ assert.deepEqual((await db.appConversation.findUnique({where:{id:d.id}})).context.permissions,['history','sondeo','support_handoff']);
+ assert.equal(await db.appConversationAccess.count({where:{userId:f.u.id}}),0);
+});
+test('grant de agenda no restaura sondeo retirado y su caducidad no retira permisos básicos',async t=>{
+ const f=await fixture(t);
+ const {conversation:c}=await f.service().start(f.a,{purpose:'sondeo'},crypto.randomUUID());await f.service().timeline(f.a,c.id);
+ const expiry=new Date(Date.now()+3600000).toISOString();
+ const cfg={...config,callbackAccess:{enabled:true,scope:{portal_user_id:f.u.id,conversation_id:c.id,integration_id:config.integrationId,expires_at:expiry}}};
+ const grant={conversation_id:c.id,permissions:['history','sondeo','crm_prepare','callback_schedule'],source_ref:'explicit-test-approval',validated_at:now(),valid_until:expiry};
+ await setConversationAccess(db,f.u.id,'sondeo',null,grant,cfg);
+ const row=await db.appConversation.findUnique({where:{id:c.id}});
+ await db.appConversation.update({where:{id:c.id},data:{callbackGrant:{...row.callbackGrant,valid_until:new Date(Date.now()-1000).toISOString()}}});
+ await drainLifecycle(db,f.remote,cfg);
+ assert.deepEqual((await db.appConversation.findUnique({where:{id:c.id}})).context.permissions,['history','sondeo','support_handoff']);
+ await setConversationAccess(db,f.u.id,'sondeo',null,{permissions:['history'],source_ref:'basic-readonly',validated_at:now(),valid_until:expiry},cfg);
+ await assert.rejects(setConversationAccess(db,f.u.id,'sondeo',null,grant,cfg),e=>e.code==='invalid_context');
+ assert.deepEqual((await db.appConversation.findUnique({where:{id:c.id}})).context.permissions,['history']);
+});
+test('revocación confirmada antes del lock impide emitir un grant de agenda ya preparado',async t=>{
+ const f=await fixture(t);
+ const {conversation:c}=await f.service().start(f.a,{purpose:'sondeo'},crypto.randomUUID());await f.service().timeline(f.a,c.id);
+ const expiry=new Date(Date.now()+3600000).toISOString();
+ const cfg={...config,callbackAccess:{enabled:true,scope:{portal_user_id:f.u.id,conversation_id:c.id,integration_id:config.integrationId,expires_at:expiry}}};
+ await setConversationAccess(db,f.u.id,'sondeo',null,{conversation_id:c.id,permissions:['history','sondeo','crm_prepare','callback_schedule'],source_ref:'explicit-test-approval',validated_at:now(),valid_until:expiry},cfg);
+ const row=await db.appConversation.findUnique({where:{id:c.id}});
+ const pending=await db.appOperation.findFirst({where:{conversationId:c.id,kind:'context',logicalId:row.contextRevision}});
+ let revoked=false;
+ const racingDb=new Proxy(db,{get(target,key){
+   if(key==='$transaction')return async(fn,options)=>{
+     if(!revoked){revoked=true;await db.user.update({where:{id:f.u.id},data:{accountStatus:'disabled'}});}
+     return target.$transaction(fn,options);
+   };
+   const value=Reflect.get(target,key);return typeof value==='function'?value.bind(target):value;
+ }});
+ const deliveries=f.remote.contexts.length;
+ await deliverLifecycle(racingDb,f.remote,cfg,pending);
+ assert.ok(revoked);
+ assert.equal(f.remote.contexts.length,deliveries);
+ assert.equal((await db.appOperation.findUnique({where:{id:pending.id}})).status,'prepared');
+});
 test("dos parches pendientes se entregan por orden y una respuesta perdida bloquea el posterior",async t=>{
  const f=await fixture(t), {conversation:cv}=await f.service().start(f.a,{purpose:"sondeo"},crypto.randomUUID());
  const c=await db.appConversation.findUnique({where:{id:cv.id}});

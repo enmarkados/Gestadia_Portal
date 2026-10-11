@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import { AppProblem } from './app/problem.js';
+import { callbackAccessConfig } from './app/callback-access.js';
 
 export const config = {
   port: process.env.PORT || 3001,
@@ -66,6 +67,7 @@ export const config = {
 
 // APP conversacional: credenciales exclusivas por facultad; nunca reutilizar plugin/WhatsApp.
 export function appConversationConfig(env = process.env) {
+  const callbackAccess = callbackAccessConfig(env);
   const key = role => ({ keyId: env[`APP_LIDIA_${role}_KEY_ID`] || '', secretBase64: env[`APP_LIDIA_${role}_SECRET_BASE64`] || '' });
   let managerRoutes;
   try { managerRoutes = JSON.parse(env.APP_MANAGER_ROUTES_JSON || "[]"); } catch { throw new AppProblem(503, "runtime_unavailable"); }
@@ -73,6 +75,7 @@ export function appConversationConfig(env = process.env) {
   const base = {
     enabled: env.APP_CONVERSATIONS_ENABLED === 'true',
     profileContext: env.APP_LIDIA_PROFILE_CONTEXT_ENABLED === 'true',
+    callbackAccess,
     integrationId: env.APP_LIDIA_INTEGRATION_ID || '', baseUrl: env.APP_LIDIA_BASE_URL || '', audience: env.APP_LIDIA_AUDIENCE || '',
     keys: { session: key('SESSION'), timeline: key('READ'), turn: key('TURN'), handoff: key('HANDOFF'), context: key('CONTEXT'), revocation: key('REVOCATION') },
     managerRoutes,
@@ -89,7 +92,8 @@ export function appConversationConfig(env = process.env) {
     integrationId: env.APP_LIDIA_SONDEO_INTEGRATION_ID || '',
     audience: env.APP_LIDIA_SONDEO_AUDIENCE || '',
     keys: { session: nativeKey('SESSION'), timeline: nativeKey('READ'), turn: nativeKey('TURN'), context: nativeKey('CONTEXT'), revocation: nativeKey('REVOCATION') },
-    generalSupport: false, generalCommercial: false, allowedPermissions: ['sondeo', 'history'],
+    generalSupport: false, generalCommercial: false, allowedPermissions: ['sondeo', 'history',
+      ...(callbackAccess.enabled && callbackAccess.scope.integration_id === env.APP_LIDIA_SONDEO_INTEGRATION_ID ? ['crm_prepare', 'callback_schedule'] : [])],
   } };
 }
 

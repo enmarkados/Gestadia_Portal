@@ -1593,3 +1593,31 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Precisión de implementación de perfil:** profileBaseline/profilePatch/profileRevision y los dos flags privados están implementados en esta rama; profile_revision/stale_profile/profile_conflict/current_profile_revision constan en esquemas v1/v2 recibidos. Contexto v1 Portal preparado y apagado; consumidor account v2 y agenda operativa siguen pendientes.
 
 - **Precisión de alcance de createZohoCallbackAdapter / AppCallbackRequest:** por instrucción del usuario, las operaciones CRM/agenda conversacionales APP corresponden a la plataforma LidIA y su agente. El adaptador directo existente en Portal no es el reparto objetivo y queda pendiente de delegación S2S idempotente; AppCallbackRequest puede conservar recepción/recibo sin ejecutar un CRM paralelo. Alcance: backend/src/app/contact.js, services/zoho-callbacks.js y contrato de integración.
+
+### callbackAccess / callbackConversationId
+- **Tipo:** concepto de autorización runtime y propiedad Prisma propuesta.
+- **Definición:** Opt-in privado que limita los permisos CRM/agenda de una cuenta a una conversación v1, integración y caducidad exactas; el grant conserva también el ID de conversación autorizado. Configurar el opt-in no concede por sí mismo los permisos.
+- **Alcance:** backend/src/app/callback-access.js, config.js, store.js, lifecycle.js y prisma/schema.prisma.
+- **Notas:** Se descarta un grant exclusivo por userId/scopeKey porque afectaría a todos los sondeos de la cuenta. El binding persistido evita que cambiar la configuración transfiera un grant a otro chat. Guest y contexto account v2 quedan fuera.
+
+### APP_LIDIA_CALLBACK_ENABLED / APP_LIDIA_CALLBACK_SCOPE_JSON
+- **Tipo:** configuración privada propuesta.
+- **Definición:** Interruptor apagado por defecto y objeto cerrado con portal_user_id, conversation_id local Portal, integration_id y expires_at UTC. Seleccionan un único ámbito elegible para recibir un grant explícito, sin incluir referencias Zoho o datos de contacto.
+- **Alcance:** backend/src/config.js, backend/.env.example y documentación de agenda real.
+- **Notas:** Cuenta/chat pertenecen al servidor. No son parámetros del móvil ni permisos generales; la caducidad permite retirar autoridad sin borrar registros.
+
+### callbackScopeAllows
+- **Tipo:** función de backend propuesta.
+- **Definición:** Comprueba que la cuenta y la conversación activa coinciden con el opt-in de la integración vigente y que aún no ha caducado. No resuelve CRM ni acredita consentimiento de llamada.
+- **Alcance:** backend/src/app/callback-access.js, store.js y lifecycle.js.
+- **Notas:** Zoho, propiedad y agenda se comprueban en LidIA; Portal valida exclusivamente su ámbito de autoridad.
+
+- **callbackAccessConfig** — función de backend. Valida el objeto cerrado de configuración de agenda y conserva el interruptor explícito; una configuración incompleta activa no es elegible. Alcance: backend/src/app/callback-access.js y config.js. No crea grants ni efectos CRM.
+
+### callbackGrant
+- **Tipo:** propiedad Prisma propuesta de AppConversation.
+- **Definición:** Autorización privada de permisos CRM/agenda conservada en el chat concreto con fuente, validación y caducidad. Complementa los permisos básicos vigentes y no modifica el grant compartido de sondeo de la cuenta.
+- **Alcance:** backend/prisma/schema.prisma, store.js y lifecycle.js.
+- **Notas:** Sustituye la propuesta callbackConversationId en AppConversationAccess: aquella impediría transferir un grant pero su caducidad afectaría también a las demás conversaciones del mismo scope. La fila del chat conserva por sí misma el binding y permite retirarlo sin alterar autoridad ajena.
+
+- **Precisión de preparación de agenda:** callbackAccess/callbackAccessConfig/callbackScopeAllows, ambos flags y AppConversation.callbackGrant implementados y comprobados en fixture aislada; callbackConversationId descartado antes de despliegue. Sin activación ni reserva productiva. Alcance: evidencia 2026-10-11-agenda-opt-in; consumidor v1 únicamente.
