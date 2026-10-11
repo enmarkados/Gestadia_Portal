@@ -244,3 +244,7 @@ La cuenta de prueba conserva un chat de atención sin gestor ni caso, con permis
 ### Backend de perfil opcional preparado — 11/10/2026
 
 [Preparación y pruebas](evidencias/2026-10-11-perfil-contexto/README.md): contexto v1 opcional desde cuenta comprobada, parches/revisión durables y retirada prioritaria con el mismo parche. Esquemas v1/v2 contrastados; consumidor account v2 pendiente. Flags privados apagados, sin nuevos grants CRM, migración productiva ni build/distribución adicional. Pantalla, origen, permisos, Atrás y acción final de la APP no cambian.
+
+### Responsabilidad CRM precisada por el usuario
+
+La plataforma LidIA con su agente gestiona Zoho y las operaciones de agenda de las conversaciones APP. Portal autentica y aporta perfil/contexto, transmite la intención y muestra resultados. La llamada directa del adaptador Portal actual queda pendiente de delegación al receptor LidIA acordado, sin cuestionario o agenda paralelos. [Reparto y desvío identificado](../integraciones/2026-10-11-contraste-portal-perfil-agenda.md).

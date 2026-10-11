@@ -46,3 +46,7 @@ Archivos: backend/src/app/lifecycle.js y conversaciones.test.js.
 Ruling: una única revisión perfil no confirmada — preservar parche y retirada prioritaria — el cambio de User se difiere hasta ACK sin mover baseline. Contraste LidIA conforme. Ruling: consumidor account v2 no existente se mantiene fuera de esta extensión v1; contratos/firma v2 preparados y guest sin autoridad CRM.
 
 RED y GREEN acreditados en evidencia de perfil. 302backend/204frontend/buildPASS, migración sólo base efímera; revisor corrigió P1 retirobloqueado y no ve nuevos hallazgos. Commit/push de esta rama al cerrar; producción sin cambios.
+
+## Precisión del usuario sobre responsabilidades
+
+Zoho y agenda de las conversaciones APP pertenecen a LidIA y su agente. Portal aporta identidad, perfil, contexto y presentación. La integración directa de llamada/resolución de gestor existente en Portal deberá delegarse en LidIA cuando se cierre su contrato idempotente; no ampliar el adaptador CRM Portal. Esta adaptación es un bloque siguiente, no parte completada de la extensión de perfil preparada.
