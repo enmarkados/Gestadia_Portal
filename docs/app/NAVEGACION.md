@@ -359,3 +359,7 @@ La hoja «Hablar con un gestor» acompaña el teclado y permite desplazar su for
 ### Conversación antigua de atención — revisión 11/10/2026
 
 La cuenta de prueba conserva un chat de atención sin gestor ni caso, con permiso exclusivo `history`. El servicio rechaza un turno técnico con `capability_denied`. La pantalla mantiene el historial, desactiva acciones y compositor, explica la restricción y remite a «Solicitar llamada». Origen Mensajes; Atrás devuelve a Mensajes. No se crea una conversación alternativa ni se modifica la asignación. [Evidencia y límites](evidencias/2026-10-11-gestor-carga/README.md).
+
+### Aceptación web LidIA V1.722 — 11/10/2026
+
+Inicio → Nueva conversación → Iniciar → dos turnos informativos seriados → recargar mantiene historial. Origen/Atrás LidIA, permisos history/sondeo, ninguna acción de llamada/alta. Detalle común administrativo APP abierto con Contacto pendiente. [Capturas, IDs y límites](evidencias/2026-10-11-lidia-v1722/README.md). Sin cambio visual o nativo; gestor, CRM y agenda conservan aceptación separada.

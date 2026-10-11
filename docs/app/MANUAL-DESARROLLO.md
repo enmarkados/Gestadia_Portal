@@ -248,3 +248,7 @@ La cuenta de prueba conserva un chat de atención sin gestor ni caso, con permis
 ### Responsabilidad CRM precisada por el usuario
 
 La plataforma LidIA con su agente gestiona Zoho y las operaciones de agenda de las conversaciones APP. Portal autentica y aporta perfil/contexto, transmite la intención y muestra resultados. La llamada directa del adaptador Portal actual queda pendiente de delegación al receptor LidIA acordado, sin cuestionario o agenda paralelos. [Reparto y desvío identificado](../integraciones/2026-10-11-contraste-portal-perfil-agenda.md).
+
+### Aceptación web LidIA V1.722 — 11/10/2026
+
+Inicio → Nueva conversación → Iniciar → dos turnos informativos seriados → recargar conserva historial/IDs. Permisos history/sondeo; Atrás a LidIA, sin acción de llamada. Detalle administrativo común APP con Contacto pendiente accesible. Marca V1.722/PRO observada; contraste modelo/CRM pedido a LidIA. [Evidencia y límites](evidencias/2026-10-11-lidia-v1722/README.md). No cambia código visual, build nativa ni activa perfil/CRM/account v2.

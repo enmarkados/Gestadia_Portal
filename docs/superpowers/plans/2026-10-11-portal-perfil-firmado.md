@@ -50,3 +50,7 @@ RED y GREEN acreditados en evidencia de perfil. 302backend/204frontend/buildPASS
 ## Precisión del usuario sobre responsabilidades
 
 Zoho y agenda de las conversaciones APP pertenecen a LidIA y su agente. Portal aporta identidad, perfil, contexto y presentación. La integración directa de llamada/resolución de gestor existente en Portal deberá delegarse en LidIA cuando se cierre su contrato idempotente; no ampliar el adaptador CRM Portal. Esta adaptación es un bloque siguiente, no parte completada de la extensión de perfil preparada.
+
+## Aceptación conectada posterior
+
+11/10: dos turnos informativos seriales desde APP web completados, recuperados tras recargar y visibles en el detalle común LidIA sin Contacto obligatorio. Marca V1.722/PRO observada; [evidencia e IDs](../../app/evidencias/2026-10-11-lidia-v1722/README.md). No se activó perfil ni permisos CRM. Contraste del modelo/AgentState y ausencia de efectos pedido a LidIA. La delegación del formulario conserva el contrato receptor como dependencia pendiente.

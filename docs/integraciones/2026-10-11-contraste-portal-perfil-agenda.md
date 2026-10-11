@@ -96,3 +96,9 @@ El usuario precisa: «Es la plataforma de lidia la que se encarga de zoho con el
 **Desvío de implementación que requiere adaptación:** `backend/src/app/contact.js` callback llama hoy directamente a verifiedContact/findOrCreateLead/createTask del adaptador Portal. La ruta de contexto también consulta assignedManager en Zoho. Para el recorrido APP deben delegarse en la plataforma LidIA con una petición idempotente, pertenencia y recibo definidos en el contrato. Queda solicitado al equipo LidIA el contrato de solicitud de llamada y resolución de contacto/gestor; no se inventa un endpoint ni se despliega una sustitución sin ese receptor. El objetivo es conservar el formulario aprobado y transmitir sus datos/intención al agente, sin repetir efectos CRM.
 
 La lista anterior de dependencias Owner Lead→Contact corresponde al trabajo de **LidIA**, no a una tarea de configuración de Zoho asumida por Portal. Perfil v1 y contexto account v2 siguen siendo trabajo Portal; las comprobaciones efectivas de Zoho y agenda pertenecen a su plataforma. Esta precisión documental no acredita todavía la sustitución del adaptador directo ni una llamada real.
+
+## Aceptación web tras entrega PRO V1.722
+
+LidIA comunica despliegue `935dbffcdb57bb06f72b47f94dee880fff672296`, migración EF aplicada, copias y conservación de sesiones. Portal observa marca servida V1.722 y backup listado, sin atribuirse comprobación de hashes/restauración. Dos turnos seriales informativos completados y recuperados con el mismo historial; detalle común APP abierto sin Contacto requerido. [Evidencia e IDs](../app/evidencias/2026-10-11-lidia-v1722/README.md).
+
+Permisos history/sondeo, sin solicitud de llamada/alta. Se pidió a LidIA contraste de modelo/agente real y ausencia de efectos CRM. No activa perfil, contexto account v2, CRM ni agenda; receptor del formulario independiente pendiente de contrato.

@@ -1,0 +1,157 @@
+{
+  "conversation_id": "bfa0ecc3-0b91-4de8-9ac2-0b4eaa4b142a",
+  "state_revision": "8",
+  "permissions": [
+    "history",
+    "sondeo"
+  ],
+  "pending_operations": [],
+  "turn_statuses": [
+    {
+      "schema_version": "1.0",
+      "operation_id": "c9858132-1890-4637-97d2-69bcb57950b1",
+      "operation": "turn",
+      "conversation_id": "bfa0ecc3-0b91-4de8-9ac2-0b4eaa4b142a",
+      "turn_id": "ac5454b1-8a28-43a3-b498-dd01aa0f1943",
+      "status": "completed",
+      "receipt_revision": "3",
+      "state_revision": "8",
+      "accepted_at": "2026-10-11T16:49:54.264Z",
+      "updated_at": "2026-10-11T16:49:57.094Z",
+      "completed_at": "2026-10-11T16:49:57.094Z",
+      "retained_until": "2026-11-10T16:49:54.264Z",
+      "result": {
+        "message_ids": [
+          "29b79818-1225-43e1-afde-acd7ca51837c",
+          "c1d4d320-9caa-42d2-b9f8-63a8fbbd0935",
+          "f94fafa5-31bb-4452-8657-dcf51dde52aa"
+        ],
+        "presentation_ids": [],
+        "sondeo_result_id": null,
+        "sondeo_result_revision": "0",
+        "handoff_status": null
+      },
+      "error": null,
+      "retry_after_seconds": null
+    },
+    {
+      "schema_version": "1.0",
+      "operation_id": "fe521f56-afde-444b-948f-5fd97f62b167",
+      "operation": "turn",
+      "conversation_id": "bfa0ecc3-0b91-4de8-9ac2-0b4eaa4b142a",
+      "turn_id": "f1952239-988e-40d9-a2c8-ae26ac2056aa",
+      "status": "completed",
+      "receipt_revision": "3",
+      "state_revision": "5",
+      "accepted_at": "2026-10-11T16:49:35.404Z",
+      "updated_at": "2026-10-11T16:49:41.318Z",
+      "completed_at": "2026-10-11T16:49:41.318Z",
+      "retained_until": "2026-11-10T16:49:35.404Z",
+      "result": {
+        "message_ids": [
+          "60548123-0a72-493d-a961-b6c04d416596",
+          "a351da4c-e964-4c68-acac-9ed15fa12fa8",
+          "987dc7ec-d946-49a8-93aa-15272689269a",
+          "9a32ffd5-a0f1-4d40-961d-c7eec58aab33",
+          "829be569-038b-455a-b740-09d7ee76a52b"
+        ],
+        "presentation_ids": [],
+        "sondeo_result_id": null,
+        "sondeo_result_revision": "0",
+        "handoff_status": null
+      },
+      "error": null,
+      "retry_after_seconds": null
+    }
+  ],
+  "items": [
+    {
+      "message_id": "bb613366-49f7-48be-9c88-a06909835742",
+      "sequence": "1",
+      "occurred_at": "2026-10-11T16:49:24.250Z",
+      "role": "assistant",
+      "text": "¡Hola! Soy LidIA, asistente virtual de Gestadia.\n\nHemos recibido una solicitud de información sobre el canje de carné de conducir. Para ayudarte, voy a hacerte unas preguntas rápidas y comprobar si cumples los requisitos. Puedes consultar nuestra política de privacidad aquí: defensalegalconsumidores.com/privacy-policy\n\n¿Empezamos?",
+      "presentation": null
+    },
+    {
+      "message_id": "37f8eb8d-6e9d-4c42-9b9f-ee4a9c8ddeac",
+      "sequence": "2",
+      "occurred_at": "2026-10-11T16:49:35.404Z",
+      "role": "user",
+      "text": "Es una prueba de conversación. No quiero solicitar llamada, cita ni iniciar ningún trámite. ¿Puedes explicarme brevemente qué información necesitas para orientar un canje?",
+      "presentation": null
+    },
+    {
+      "message_id": "60548123-0a72-493d-a961-b6c04d416596",
+      "sequence": "3",
+      "occurred_at": "2026-10-11T16:49:41.318Z",
+      "role": "assistant",
+      "text": "¡Claro! Te lo explico brevemente.",
+      "presentation": null
+    },
+    {
+      "message_id": "a351da4c-e964-4c68-acac-9ed15fa12fa8",
+      "sequence": "4",
+      "occurred_at": "2026-10-11T16:49:41.318Z",
+      "role": "assistant",
+      "text": "Para orientarte sobre si tu canje es posible, necesito confirmar estos datos:",
+      "presentation": null
+    },
+    {
+      "message_id": "987dc7ec-d946-49a8-93aa-15272689269a",
+      "sequence": "5",
+      "occurred_at": "2026-10-11T16:49:41.318Z",
+      "role": "assistant",
+      "text": "🔹 **País de tu carné de conducir** — es el requisito principal: España tiene convenio con algunos países y UE/EEE con otros.",
+      "presentation": null
+    },
+    {
+      "message_id": "9a32ffd5-a0f1-4d40-961d-c7eec58aab33",
+      "sequence": "6",
+      "occurred_at": "2026-10-11T16:49:41.318Z",
+      "role": "assistant",
+      "text": "🔹 **Vigencia del carné** — debe estar vigente a fecha de hoy.",
+      "presentation": null
+    },
+    {
+      "message_id": "829be569-038b-455a-b740-09d7ee76a52b",
+      "sequence": "7",
+      "occurred_at": "2026-10-11T16:49:41.318Z",
+      "role": "assistant",
+      "text": "🔹 **Residencia legal en España** — es obligatoria (resolución aprobada, TIE, DNI, Certificado UE, etc.).\n\n🔹 **Vigencia de tu residencia** — si está en vigor.\n\n🔹 **Cuándo obtuviste el carné** — en relación a cuándo obtuviste la residencia (hay una regla de 185 días en algunos casos).\n\nCon eso determino si cumples los requisitos y te oriento sobre el precio (210 € o 310 € si incluyes categoría de camión/autobús) y el proceso.\n\nSi en algún momento quieres avanzar con tu canje, aquí estaré. 🙌",
+      "presentation": null
+    },
+    {
+      "message_id": "0beb6349-d8e0-4ac6-9e5a-de41b7fea63a",
+      "sequence": "8",
+      "occurred_at": "2026-10-11T16:49:54.264Z",
+      "role": "user",
+      "text": "Gracias. Mantengo esta prueba solo informativa, sin solicitud de llamada ni alta de trámite. ¿Qué es lo primero que me has indicado que necesitas confirmar?",
+      "presentation": null
+    },
+    {
+      "message_id": "29b79818-1225-43e1-afde-acd7ca51837c",
+      "sequence": "9",
+      "occurred_at": "2026-10-11T16:49:57.094Z",
+      "role": "assistant",
+      "text": "Lo primero que necesito confirmar es:",
+      "presentation": null
+    },
+    {
+      "message_id": "c1d4d320-9caa-42d2-b9f8-63a8fbbd0935",
+      "sequence": "10",
+      "occurred_at": "2026-10-11T16:49:57.094Z",
+      "role": "assistant",
+      "text": "**¿De qué país es tu carné de conducir?**",
+      "presentation": null
+    },
+    {
+      "message_id": "f94fafa5-31bb-4452-8657-dcf51dde52aa",
+      "sequence": "11",
+      "occurred_at": "2026-10-11T16:49:57.094Z",
+      "role": "assistant",
+      "text": "Ese dato determina si hay convenio con España o si eres ciudadano UE/EEE, que son las dos vías posibles para hacer el canje. 🚗",
+      "presentation": null
+    }
+  ]
+}
