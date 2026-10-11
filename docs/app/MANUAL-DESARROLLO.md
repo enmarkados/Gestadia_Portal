@@ -205,3 +205,5 @@ Integración de movimiento d3ca03c en la rama marketplace conservando el flujo r
 ### Escritura de LidIA animada · 11/10/2026
 
 El usuario usa build (2) y solicita animar también el texto. El indicador conserva cursiva, ubicación, permisos y retirada al responder/fallar; texto con pulso suave 1600 ms y puntos secuenciales 1200 ms (0/160/320 ms, 3 px). No cambia origen, navegación, Atrás ni acción final. Movimiento reducido mantiene los cuatro elementos estáticos y legibles. [Verificación del indicador y límites de build (3)](evidencias/2026-10-11-escritura-animada/README.md).
+
+- [Integración app/main y entrega TestFlight (4)](2026-10-11-testflight-appmain-build4.md): revisión, comprobaciones y límites de activación.
