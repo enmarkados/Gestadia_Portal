@@ -30,3 +30,7 @@ Su lectura read-only en BD PRO para la misma ChatSession confirma AgentId122, Pr
 Según ese contraste, contacto sin nombre/teléfono/CRM, appCallback sin zona confirmada ni consentimiento, canje.appointment status none, sin call_id ni CRM/pago; 0 EnrichmentExecutionItems y 0 ChatLogs legacy. Acredita ausencia de resultados/estado CRM registrados, no auditoría exhaustiva de invocaciones remotas. Portal conserva esta atribución al equipo LidIA; no ejecutó esa consulta SQL ni activa llamada/Lead por el resultado.
 
 Su equipo también comprobó dos sesiones distintas mediante fila Sesiones → detalle común. Esa navegación pertenece a su evidencia; la apertura Portal documentada arriba fue directa.
+
+## Criterio de cierre precisado por el usuario
+
+Esta evidencia parcial no satisface por sí sola el objetivo humano: debe llegarse a agendar una llamada real y comprobar su persistencia remota y confirmación en APP. [Pasos pendientes](../../../superpowers/plans/2026-10-11-portal-perfil-firmado.md#criterio-humano-de-aceptacion-reserva-real-obligatoria). Se solicitaron teléfono/zona/franja para la prueba y los requisitos efectivos a LidIA; no consta todavía una reserva ni se considera la agenda validada.

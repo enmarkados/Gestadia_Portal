@@ -54,3 +54,16 @@ Zoho y agenda de las conversaciones APP pertenecen a LidIA y su agente. Portal a
 ## Aceptación conectada posterior
 
 11/10: dos turnos informativos seriales desde APP web completados, recuperados tras recargar y visibles en el detalle común LidIA sin Contacto obligatorio. Marca V1.722/PRO observada; [evidencia e IDs](../../app/evidencias/2026-10-11-lidia-v1722/README.md). No se activó perfil ni permisos CRM. Contraste del modelo/AgentState y ausencia de efectos pedido a LidIA. La delegación del formulario conserva el contrato receptor como dependencia pendiente.
+
+## Criterio humano de aceptación: reserva real obligatoria
+
+El usuario rechaza considerar la agenda comprobada sin llegar a reservar una llamada. La prueba de dos turnos conserva su evidencia como comprobación parcial de conversación, no como cierre del objetivo de agenda.
+
+- [ ] Recibir teléfono, zona y franja reales autorizados para una llamada marcada como prueba técnica, sin inventar datos de elegibilidad ni presentar un sondeo ficticio como real.
+- [ ] LidIA acredita conexión/entorno, vínculo CRM y ruta operativa de agenda. Concretar los requisitos efectivos de contexto y permisos para esta cuenta antes de cambiar Portal.
+- [ ] Preparar, verificar y desplegar lo necesario en Portal tras copia y restauración comprobadas; cualquier autorización queda acotada a la prueba acordada, sin defaults generales ni acceso guest.
+- [ ] Ejecutar por UI APP → agente real → disponibilidad → elección → creación de llamada; conservar conversación, turno, operación y recibos.
+- [ ] Leer la llamada persistida en el sistema remoto y contrastar ID, fecha/hora/zona, teléfono y estado con la confirmación visible en APP. Una respuesta del modelo o HTTP202 no cierra esta comprobación.
+- [ ] Ante resultado incierto, reconciliar la misma operación sin repetir la creación. Registrar límites y cualquier seguimiento operativo requerido para la prueba.
+
+Solicitados datos al usuario y requisitos al equipo LidIA. El código Portal actual excluye crm_prepare/callback_schedule en currentAccess y rechaza concederlos mediante setConversationAccess; disponer del schema ampliado no activa la agenda.
