@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import Icon from "./Icon.jsx";
 export default function Sheet({
   title,
@@ -8,14 +8,36 @@ export default function Sheet({
   className = "",
   children,
   onClose,
+  closing = false,
+  presentation = "panel",
+  anchorRef,
 }) {
   const ref = useRef(null);
-  useEffect(() => {
-    const previous = document.activeElement;
-    ref.current.showModal();
+  useLayoutEffect(() => {
+    const previous = anchorRef?.current || document.activeElement;
+    const dialog = ref.current;
+    dialog.showModal();
+    function position() {
+      if (presentation !== "menu" || !anchorRef?.current) return;
+      const anchor = anchorRef.current.getBoundingClientRect(), box = dialog.getBoundingClientRect();
+      const viewport = window.visualViewport;
+      const leftBound = viewport?.offsetLeft || 0, topBound = viewport?.offsetTop || 0;
+      const width = viewport?.width || window.innerWidth, height = viewport?.height || window.innerHeight;
+      const left = Math.max(leftBound + 8, Math.min(anchor.right - box.width, leftBound + width - box.width - 8));
+      const below = anchor.bottom + 8;
+      const top = Math.max(topBound + 8, Math.min(below, topBound + height - box.height - 8));
+      dialog.style.left = `${left}px`;
+      dialog.style.top = `${top}px`;
+      dialog.style.transformOrigin = `${Math.max(0, Math.min(box.width, anchor.right - left))}px top`;
+    }
+    position();
+    window.addEventListener("resize", position);
+    window.visualViewport?.addEventListener("resize", position);
     return () => {
-      ref.current?.close();
-      previous?.focus?.();
+      window.removeEventListener("resize", position);
+      window.visualViewport?.removeEventListener("resize", position);
+      dialog.close();
+      if (previous?.isConnected) previous.focus?.({ preventScroll: true });
     };
   }, []);
   return (
@@ -23,6 +45,9 @@ export default function Sheet({
       ref={ref}
       className={`sheet ${className}`}
       aria-label={title}
+      data-presentation={presentation}
+      data-motion-closing={closing || undefined}
+      inert={closing ? "" : undefined}
       onCancel={(e) => {
         e.preventDefault();
         onClose();

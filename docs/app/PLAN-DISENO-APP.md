@@ -78,3 +78,7 @@ Preview conectado: `http://127.0.0.1:5176/#/mensajes`. Requiere que permanezcan 
 ## Corrección funcional del 08/10/2026
 
 Detectado por el usuario el acceso ausente a otro chat de LidIA. [Plan, conformidad del equipo LidIA, regresiones y evidencia web/iOS](2026-10-08-nueva-conversacion-lidia.md). Inicio distingue Nueva/Continuar, Mensajes ofrece Nueva y el chat mantiene una acción compacta sobre el compositor. Backend crea sólo con intención explícita y conserva historial/idempotencia. La carga no ofrece abrir otra sesión mientras recupera la seleccionada. Verificación actual: 135 frontend (95 APP), 132 backend, build y sync, creación y respuesta reales en web e iOS. Android compila; su recorrido de interfaz sigue pendiente.
+
+## Movimiento del 11/10/2026
+
+El usuario solicita aplicar la propuesta de movimiento LIA al diseño vigente: 280 ms, desplazamientos cortos y opacidad, acceso con avance/regreso, menús junto al origen, paneles inferiores, pulsación breve y entrada de mensajes nuevos. Cabecera/dock estables y movimiento reducido. La [guía de animaciones](ANIMACIONES.md) recoge implementación, comprobaciones y capturas de esta revisión; no reemplaza los resultados nativos fechados arriba. El [mapa](NAVEGACION.md#movimiento-y-continuidad--11102026) conserva los recorridos y añade su comportamiento visual.

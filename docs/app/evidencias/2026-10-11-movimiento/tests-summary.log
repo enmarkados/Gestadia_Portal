@@ -1,0 +1,6 @@
+NODE_OPTIONS=--no-experimental-webstorage npm test --prefix frontend
+Exit code: 0
+ Test Files  34 passed (34)
+      Tests  160 passed (160)
+   Start at  02:34:44
+   Duration  11.47s (transform 2.00s, setup 3.07s, collect 11.51s, tests 26.60s, environment 19.71s, prepare 3.23s)

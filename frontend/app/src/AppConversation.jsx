@@ -1,4 +1,5 @@
 import DeliveryTicks from "./DeliveryTicks.jsx";
+import { useMessageMotion } from "./motion.jsx";
 import { useMessageReceipts } from "./useMessageReceipts.js";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -457,6 +458,7 @@ function ConversationBody({ purpose }) {
     items,
     enabled: mode === "real" && conversation?.ready && timeline?.permissions?.includes("history"),
   });
+  const animatedMessages = useMessageMotion(items, !!timeline && !timeline.has_more);
   if (mode === "real" && !userId) return <p role="status">Cargando tu cuenta…</p>;
   if (mode !== "real")
     return (
@@ -530,6 +532,7 @@ function ConversationBody({ purpose }) {
       <div className="conversation" aria-live="polite">
         {items.map((m) => (
           <div
+            data-motion-new={animatedMessages.has(m.message_id) || undefined}
             className={`bubble ${m.role === "user" ? "user" : m.role === "operator" ? "manager" : "assistant"}`}
             key={m.message_id}
             data-message-id={m.message_id}

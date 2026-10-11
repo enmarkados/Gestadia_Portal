@@ -14,6 +14,7 @@
 | Material | Estado y uso |
 |---|---|
 | APP en `frontend/app/`, API conversacional y navegación actual | Código existente sin demostración desde `be6806d`; visitante o sesión real. El chat requiere habilitación y aceptación remota. [Integración Git](2026-10-08-integracion-app-main.md) y [README APP](../../README-APP.md). Un build no acredita conexión o despliegue. |
+| Movimiento de la APP | [Reglas, implementación y comprobación](ANIMACIONES.md): 280 ms, desplazamientos cortos, cabecera estable y movimiento reducido. |
 | Diseño común y recorridos actuales | [Plan de diseño y cobertura](PLAN-DISENO-APP.md), [Mensajes](MENSAJES-DISENO.md), [Perfil](PERFIL-LIA.md) y [nueva conversación](2026-10-08-nueva-conversacion-lidia.md). Cada evidencia mantiene fecha/entorno. |
 | LidIA anónima APP | Propuesta con conformidad documental de ambos equipos; aprobación humana, contratos e implementación pendientes. Las pantallas nuevas son maquetas sin API. |
 | Tres imágenes «Actual» del tablero | Referencias de la demo aislada de app/main a6d6e14. No acreditan una conversación remota ni la versión desplegada. |
@@ -73,6 +74,7 @@ Si se pierde la instalación original, el vínculo queda bloqueado aunque la cue
 
 - Cabecera de chat con Atrás al origen; principales con cuatro pestañas. Las hojas cierran sobre quien las abrió; acceso y legales permiten volver aunque oculten el menú.
 - Cliente con LidIA: negro suave. Cliente con gestor: rojo. Cabecera negra Gestadia; listado de Mensajes compacto; etiquetas, campos completos y objetivos táctiles adecuados. [Criterios y evidencia](PLAN-DISENO-APP.md).
+- Movimiento: avance/regreso de contenido en 280 ms, Cuenta junto a su origen, paneles inferiores, pulsación de 120 ms y mensajes nuevos suaves. Cabecera/dock permanecen estables; el historial recuperado no se anima. Respetar y reaccionar a `prefers-reduced-motion`. [Guía y evidencia](ANIMACIONES.md).
 - Las respuestas elegidas muestran su texto legible, no el id del botón. Al recuperar un chat no crear otro, perder su contexto ni ofrecer un inicio durante carga incierta.
 - Servicios conserva selección/borrador al volver y precarga los datos del checkout, incluido teléfono. [Corrección comprobada](2026-10-10-telefono-servicios-checkout.md).
 - APP no selecciona agente, proyecto, entorno, operador ni CRM. El backend resuelve identidad, pertenencia y permisos. [Responsabilidades](RESPONSABILIDADES-INTEGRACION.md).
@@ -83,6 +85,7 @@ Si se pierde la instalación original, el vínculo queda bloqueado aunque la cue
 | Archivo o carpeta | Responsabilidad |
 |---|---|
 | Este manual, README raíz/APP y AGENTS.md | Entrada de desarrollo y reglas para usar la documentación |
+| [ANIMACIONES.md](ANIMACIONES.md) | Duraciones, direcciones, foco, movimiento reducido, plan y evidencia de navegador |
 | [NAVEGACION.md](NAVEGACION.md) | Rutas/estados, origen completo, Atrás, menú, permisos y salida |
 | [Mapas de la propuesta](2026-10-10-mapas-pantallas-app-anonima.md) | Decisiones visibles, diagrama y excepciones de revisión |
 | [Fuente Mermaid](prototipos/lidia-anonima/exportaciones/01-flujo-pantallas.mmd) | Flujo compartido; mismo contenido en propuesta técnica, mapas y sección correspondiente de NAVEGACION |

@@ -4,22 +4,21 @@ import { navigationState } from "./navigation.js";
 import { useApp } from "./AppContext.jsx";
 import { conversationsEnabled } from "./conversationApi.js";
 import Sheet from "./Sheet.jsx";
-export default function Contact({ onClose }) {
+export default function Contact({ onClose, closing }) {
   const { mode } = useApp();
   const navigate = useNavigate();
   const location = useLocation();
   return (
-    <Sheet title="Atención Gestadia" onClose={onClose}>
+    <Sheet title="Atención Gestadia" onClose={onClose} closing={closing}>
       {mode === "real" && conversationsEnabled() ? (
         <>
           <p>Consulta con el equipo desde la conversación de atención.</p>
           <button
             className="btn dark-btn"
             onClick={() => {
-              onClose();
-              navigate("/mensajes/gestor", {
+              onClose(() => navigate("/mensajes/gestor", {
                 state: navigationState(location),
-              });
+              }));
             }}
           >
             Abrir conversación de atención

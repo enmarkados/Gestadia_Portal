@@ -5,7 +5,7 @@ import { useApp } from "./AppContext.jsx";
 import Sheet from "./Sheet.jsx";
 import PushSettings from "./PushSettings.jsx";
 import Icon from "./Icon.jsx";
-export default function Notifications({ onClose }) {
+export default function Notifications({ onClose, closing }) {
   const location = useLocation();
   const { data } = useApp();
   const pending = data.notifications.filter((item) => !item.leida).length;
@@ -15,6 +15,7 @@ export default function Notifications({ onClose }) {
       className="notifications-sheet"
       closeLabel="Cerrar notificaciones"
       onClose={onClose}
+      closing={closing}
       icon={
         <span className={`notification-icon ${pending ? "priority" : ""}`}>
           <Icon name="bell" size={18} />
