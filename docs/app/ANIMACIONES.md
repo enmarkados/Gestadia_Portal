@@ -29,10 +29,14 @@ No se instala ni acredita el movimiento de esta revisión en un iPhone físico o
 
 390 × 844: [acceso](evidencias/2026-10-11-movimiento/auth-mobile.png), [Cuenta junto al origen](evidencias/2026-10-11-movimiento/menu-mobile.png), [panel inferior](evidencias/2026-10-11-movimiento/panel-mobile.png), [mensajes nuevos](evidencias/2026-10-11-movimiento/chat-mobile.png). Escritorio 1280 × 900: [Cuenta](evidencias/2026-10-11-movimiento/menu-desktop.png). Las imágenes se toman tras terminar la entrada; los tiempos se acreditan con mediciones de animaciones, no con capturas estáticas.
 
+## Compatibilidad de la maqueta de desarrollo
+
+La maqueta anónima comparte `app.css` y conserva su composición con una envoltura `.page-motion` estática. No importa `PageMotion` ni añade comportamiento conectado. Su build aislado y tres vistas (consulta/acceso/mensajes visitante) a 390 × 844 conservan padding y no presentan scroll horizontal. [Captura propuesta](evidencias/2026-10-11-movimiento/prototype-consulta.png) · [mediciones](evidencias/2026-10-11-movimiento/prototype-motion-audit.json) · [build](evidencias/2026-10-11-movimiento/prototype-build.log) · [procedencia](evidencias/2026-10-11-movimiento/prototype-manifest.json). Se conserva el 404 de favicon de la maqueta; no se observaron errores JavaScript. Las capturas/actas anteriores mantienen sus bytes y su fecha.
+
 ## Cómo mantenerlo y comprobarlo
 
 - `motion.jsx` concentra duración, dirección de navegación, preferencia, cierre y mensajes nuevos. `app.css` contiene keyframes/tokens y exclusión de movimiento reducido, incluyendo pseudoelementos/backdrop. Evitar duplicar rutas interactivas para simular una salida.
-- Mantener `PageMotion` dentro de main y cabecera/dock fuera. Los selectores de pantalla parten de `.app-main > .page-motion > ...`; al añadir una pantalla, conservar anchuras/padding y comprobar que la animación no introduce scroll lateral.
+- Mantener `PageMotion` dentro de main y cabecera/dock fuera. Los selectores de pantalla parten de `.app-main > .page-motion > ...`; al añadir una pantalla, conservar anchuras/padding y comprobar que la animación no introduce scroll lateral. La maqueta anónima reutiliza este CSS con el mismo contenedor estático; no importa el componente de movimiento ni activa rutas/API del producto.
 - Cuenta usa presentación menu y su referencia de icono; Contacto/Notificaciones usan panel. Escape, X y fondo llaman al mismo cierre. Las acciones de Cuenta/Contacto navegan tras salir; los enlaces de Notificaciones conservan su navegación normal y cancelan la superficie al cambiar de ruta.
 - Pasar a `useMessageMotion` el historial ordenado y una señal de recuperación completa. No animar por cambios de recibo, polling, páginas anteriores o cambios de query; el cuerpo nunca se remonta para reproducir una entrada.
 
