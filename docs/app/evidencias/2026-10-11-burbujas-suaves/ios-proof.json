@@ -1,0 +1,14 @@
+{
+  "CFBundleIdentifier": "com.gestadia.app",
+  "CFBundleShortVersionString": "0.1.0",
+  "CFBundleVersion": "6",
+  "ITSAppUsesNonExemptEncryption": false,
+  "css": [
+    {
+      "path": "public/assets/index-BKrVfkeU.css",
+      "sha256": "0d5cd39a375a72297ac6c905bef5ad717ea77cb5a1348912ebc33c8eca8aa7b1",
+      "messageDelay": true
+    }
+  ],
+  "fixtureIncluded": false
+}
