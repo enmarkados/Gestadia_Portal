@@ -1311,7 +1311,7 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Notas:** distribución manual para asignar candidatos comprobados; no se incluyen testers de otras apps por defecto. El destinatario solicitado puede requerir pruebas externas si no es usuario interno de App Store Connect.
 
 ### Gestadia APP Android Play
-- **Tipo:** decisión de naming / cliente OAuth propuesto.
+- **Tipo:** decisión de naming / cliente OAuth de distribución.
 - **Definición:** cliente Android de Google restringido al paquete `com.gestadia.app` y al certificado con el que Google Play firma las descargas de Gestadia.
 - **Alcance:** Google Auth Platform, proyecto `gestadia-vozia`; `docs/app/MARKETPLACES-CONFIGURACION.md`.
 - **Notas:** complementa al cliente Android Upload para conservar las pruebas APK locales. La firma Play difiere de la de subida; el formulario preparado no acredita creación ni login.
@@ -1335,3 +1335,5 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** comunican a la interfaz el espacio disponible y la duración/curva de la transición del teclado de iOS antes del movimiento.
 - **Alcance:** frontend/ios/App/App/SceneDelegate.swift, frontend/app/src/native.js y app.css.
 - **Notas:** evitan el segundo ajuste tardío del plugin Keyboard en modo native; en iOS se usa resize none y una única transición del contenedor. Android conserva su ajuste nativo.
+
+**Actualización de Gestadia APP Android Play (11/10/2026):** cliente creado con la huella Play confirmada; el ID público se registra en MARKETPLACES-CONFIGURACION.md. El consentimiento visible usa Gestadia; el slug técnico del proyecto permanece gestadia-vozia. Creación no acredita login real.
