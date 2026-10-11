@@ -1,3 +1,4 @@
+import { useMessageMotion } from "./motion.jsx";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link, useLocation } from "react-router-dom";
@@ -98,6 +99,7 @@ export default function Messages() {
 export function ManagerChat({ onContact }) {
   const location = useLocation();
   const { mode, data, setData, isClient } = useApp();
+  const animatedMessages = useMessageMotion(data.managerMessages);
   const [input, setInput] = useState("");
   const [voiceStatus, setVoiceStatus] = useState("");
   const [composerHost, setComposerHost] = useState(null);
@@ -157,6 +159,7 @@ export function ManagerChat({ onContact }) {
             {data.managerMessages.map((msg, i) => (
               <div
                 key={msg.id || i}
+                data-motion-new={animatedMessages.has(msg.id ?? i) || undefined}
                 className={`bubble ${msg.role} ${msg.documents?.length ? "with-documents" : ""}`}
               >
                 <div className="bubble-meta">

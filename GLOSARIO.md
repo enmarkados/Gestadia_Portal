@@ -1073,3 +1073,10 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Definición:** Base MySQL propia con una cuenta ficticia nueva y autorización sondeo/history de24h para comprobar el recorrido APP hacia119. Su volumen durable y manifest privado permiten identificarla y conservarla tras reiniciar el Mac.
 - **Alcance:** preparación privada en `/Users/gonchumon/.codex/private/gestadia-app/fixture-local119/`; procedimiento en `docs/app/2026-10-11-reanudacion-app-119.md`. No es una base de producción ni la base de la suite canónica.
 - **Notas:** Autorización humana verificada en el turno LidIA `01a12843-53c2-79b3-a1eb-96602b78e26f`. Otro principal, sin historia heredada, expediente ni asignaciones; CRM/pagos/SMTP/WhatsApp/v2 apagados. Se descarta tmpfs para el circuito conectado que debe sobrevivir al reinicio.
+
+### `MOTION_MS` / `MOTION_EASING` / `useReducedMotion` / `PageMotion` / `useSheetMotion` / `useMessageMotion`
+
+- **Tipo:** tokens y componentes/hooks de presentación APP.
+- **Definición:** MOTION_MS fija 280 ms y MOTION_EASING la desaceleración para transiciones; useReducedMotion observa la preferencia de accesibilidad del sistema. PageMotion anima sólo el contenido de una ruta y expresa avance/regreso. useSheetMotion conserva la superficie durante su salida; useMessageMotion distingue mensajes nuevos del historial inicial o recuperado.
+- **Alcance:** `frontend/app/src/motion.jsx`, `app.css`, marco `App.jsx`, hojas y conversaciones; guía `docs/app/ANIMACIONES.md`.
+- **Notas:** Movimiento solicitado por el usuario, con desplazamientos cortos/opacidad, cabecera estable y movimiento reducido. No se conserva una segunda pantalla interactiva, no se anima el historial ni se crean efectos de negocio o llamadas externas.

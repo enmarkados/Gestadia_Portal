@@ -1,0 +1,69 @@
+{
+  "created_utc": "2026-10-11T00:36:53.829087+00:00",
+  "base_sha": "2ff1d4555b73075f16a3b9b180a74edbe112a631",
+  "implementation": "codex/app-motion-280, worktree before final commit; exact final source hashes below",
+  "runtime": "http://127.0.0.1:5181/",
+  "mode": "demoOnly=true; browser audit without remote sessions or provider calls",
+  "viewports": [
+    {
+      "width": 320,
+      "height": 844
+    },
+    {
+      "width": 390,
+      "height": 844
+    },
+    {
+      "width": 1280,
+      "height": 900
+    }
+  ],
+  "source_sha256": {
+    "frontend/app/src/AccountMenu.jsx": "16ff748a5e05a6c5ae991a77868b1ff8493e6f6bde8e69b798801da2bd2fd346",
+    "frontend/app/src/App.jsx": "36da4c94043416b7ed0618c63720e2151a76d4f94f874f4c25a14265d833e7a3",
+    "frontend/app/src/AppConversation.jsx": "d6bb399def06c25bdb34fd7d0636509d99e3651f2574737c8fdb08530e743a64",
+    "frontend/app/src/Assistant.jsx": "6bfc1d5fc2521c77e81e87ed0da50c9af90b272d3b53ac7c83b82e656955868c",
+    "frontend/app/src/Contact.jsx": "b996e610412708cb41076a60ebdcd0237ba798fb47066eec2cd75ef5b3de24a2",
+    "frontend/app/src/Messages.jsx": "a247f977ccf53be5b8858f4be5bd17e0a7b427b0ee3232f5a92168420920ff16",
+    "frontend/app/src/Notifications.jsx": "49bb4bd77b69811534137c08c73a7c7bf49f81e01a491ccba10013eba82cf877",
+    "frontend/app/src/PlatformChat.jsx": "c28c3e84ce8b982d14a6e7de8a3e0e062b8837abb599eea10669a1471434c628",
+    "frontend/app/src/Sheet.jsx": "6fbdab05a4406c7ade1585e86840cd6a75282b6a8e876189a181b09d1fefa0b3",
+    "frontend/app/src/app.css": "9a3ae80da94595a5d7f8a087277525eccb140835776354e094b8dbb3638e47d5",
+    "frontend/app/src/motion.jsx": "7c66f2ce15745eee6f73c63e0f440940dc9b8463def613e74d0609a0a5153a35",
+    "frontend/app/src/motion.test.jsx": "7fd1044fae187c787e3d93040800fb530f97e9887641ea07ef7a9d96bab43bb7"
+  },
+  "assets_sha256": {
+    "index-D7hEIbA6.js": "a518b3955d99869e6583ca20d00778874668e43e1bd615be9b03dbc97cae315f",
+    "index-eQErYS5t.css": "8aeb8e9ba6076c6cc1afc26362dda4afe14eaa764e93bb07dd86c9c50298b4e3",
+    "web-BHnxvqWl.js": "029c11787168bc95b7f88ee22243e581fabc18cdf751f9be668d5abbd6867563",
+    "web-R3eBw62r.js": "697f50b882787a3e2a26c8401fd5a46dbcc369572b0bbe2288e2f0f9d842be8f",
+    "web-jvuqPy8j.js": "df28f53c1cfde4ff25999b4654bca72f9c9b4cf04d50a10206f78e5dace15238"
+  },
+  "native_assets_identical": {
+    "ios": true,
+    "android": true
+  },
+  "checks": {
+    "frontend_tests": 160,
+    "frontend_files": 34,
+    "motion_tests": 8,
+    "build_app": "passed",
+    "capacitor_sync": "passed",
+    "browser_geometry_inspections": 45,
+    "horizontal_overflows": 0,
+    "browser_console_errors": 0,
+    "browser_warnings": "React Router future flags, 2 warning types",
+    "native_install_or_motion_acceptance": "not performed in this revision"
+  },
+  "evidence_sha256": {
+    "auth-mobile.png": "4981df97c7f3125f6a2707d463411f476d99b59db78c625ec27789531802ba88",
+    "build-app.log": "0401544712b8421b909bb4c83834a75e8d6bf962ce7ff902c322d358dee4f11d",
+    "capacitor-sync.log": "249f52fe0a181a7c22713305685e797cec1e3c2aea900861daebcd229d34ebaf",
+    "chat-mobile.png": "ab141879e8a2e7fcfc4b34fe490b8c6c7421f21e7ef52d9976e7b17c316d8793",
+    "menu-desktop.png": "db622e0a0eea84efbb259eb823414988354ec8a544ac144551a6582e21505a09",
+    "menu-mobile.png": "88cb9bb029c0262c5dfaab9e1b95c6c258a523ff31cfc3df087b298928d031e3",
+    "motion-audit.json": "ddba5f988434bf6cf5f1f7226ba6d08da376c61423af230c584698882f5c614c",
+    "panel-mobile.png": "23611bc915e8c98c631de47e37f1bc8e5f79a038148b2b385437cbeeb4ac4039",
+    "tests-summary.log": "cfb183d770c87595f9a06d4e58e07c7e1ebdd5487ce81bf9a6fd868d5d7bc518"
+  }
+}

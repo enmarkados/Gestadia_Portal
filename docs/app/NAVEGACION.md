@@ -193,7 +193,7 @@ La cuenta gratuita no habilita expedientes. Los flujos Zoho convierten lead a co
 
 ```mermaid
 flowchart TD
-  BASE["Pantalla actual"] --> AM["Hoja Cuenta"]
+  BASE["Pantalla actual"] --> AM["Menú Cuenta junto a su icono"]
   BASE --> N["Hoja Notificaciones"]
   BASE --> Q["Hoja Contacto / llamada"]
   AM -->|Cerrar / Atrás nativo| BASE
@@ -235,7 +235,7 @@ En web el checkout abre una pestaña separada; en nativo abre el navegador del s
 | `/lidia/conversacion` | LidIA / Mensajes / acceso | Origen; `/` | Sí | Mismo chat y origen; no crear al volver |
 | `/mensajes/gestor` | Mensajes / Contacto / validación | Origen; `/mensajes` | Sí | Cerrado mantiene historial; nuevo mantiene origen |
 | `/tramites/:id` | Lista / notificación / documento del chat | Origen con query; `/tramites` | Sí | Demo continúa al gestor con retorno a validación |
-| `/cuenta` | Hoja Cuenta / enlace directo | Origen; `/` | Sí autenticado; no visitante | Guarda sin navegar |
+| `/cuenta` | Menú Cuenta / enlace directo | Origen; `/` | Sí autenticado; no visitante | Guarda sin navegar |
 | `/acceso` | Trámites / chat / Cuenta / entrada directa | Origen; `/` | No | Pantalla solicitada y contexto; por defecto `/` |
 | `/registro` | Acceso / entrada directa | Mismo origen del acceso; `/` | No | Demo continúa; conectado informa e invita al acceso |
 | `/informacion` | Registro / directo | Origen; `/` | Sí | Regresar al registro |
@@ -272,3 +272,23 @@ El listado conectado utiliza filas compactas. Los accesos «Nueva conversación 
 ### Revisión común de pantallas
 
 El [plan de diseño y matriz visual](PLAN-DISENO-APP.md) actualiza la suite conjunta a **88 pruebas APP aprobadas** y registra 64 inspecciones en cuatro anchuras, además de los retornos recorridos en el simulador iOS. Información y checkout demo mantienen Atrás y dock sin CTA de contacto duplicado. Mi Perfil conectado remite la recuperación al portal y no solicita contraseñas para una operación todavía pendiente. El recorrido de interfaz del APK Android de esta revisión sigue pendiente.
+
+### Movimiento y continuidad · 11/10/2026
+
+Las rutas, permisos y destinos de Atrás de las tablas anteriores se conservan. El contenido de la pantalla entra en 280 ms con opacidad y 12 px de desplazamiento: avance desde la derecha, regreso desde la izquierda. Sólo los cambios de ruta se animan; query/id dentro de una misma pantalla no la remontan. La cabecera y el dock quedan fuera del movimiento.
+
+```mermaid
+flowchart TD
+  A["Acción del usuario"] --> R{"Movimiento reducido"}
+  R -->|Sí| I["Cambio inmediato; conservar foco y contexto"]
+  R -->|No| K{"Superficie"}
+  K --> P["Pantalla: avance / regreso, 12px y opacidad, 280ms"]
+  K --> M["Cuenta: junto al icono, 6px y opacidad, 280ms"]
+  K --> S["Contacto / Notificaciones: desde abajo, 24px y opacidad, 280ms"]
+  K --> N["Mensaje nuevo: 8px y opacidad, 280ms"]
+  M --> C["Cerrar: salida, restaurar foco; después navegar"]
+  S --> C
+  H["Historial recuperado / página anterior / recibos"] --> D["Mostrar directamente, sin repetir entrada"]
+```
+
+Cuenta se abre junto al control de cabecera; las otras hojas siguen en la parte inferior. Escape/X/fondo cierran con salida antes de devolver el foco. Las acciones de Cuenta y Contacto esperan esa salida antes de navegar; enlaces de Notificaciones conservan su navegación normal y cancelan la superficie al cambiar de ruta. Si cambia la preferencia a movimiento reducido durante el cierre, se completa inmediatamente. El detalle de implementación, pruebas y capturas nuevas está en [ANIMACIONES.md](ANIMACIONES.md); las evidencias nativas anteriores no acreditan este movimiento nuevo.

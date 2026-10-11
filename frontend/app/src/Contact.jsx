@@ -6,7 +6,7 @@ import { demoOnly } from "./api.js";
 import { conversationsEnabled } from "./conversationApi.js";
 import Sheet from "./Sheet.jsx";
 import Icon from "./Icon.jsx";
-export default function Contact({ onClose }) {
+export default function Contact({ onClose, closing }) {
   const { isClient, mode, data } = useApp();
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,13 +28,12 @@ export default function Contact({ onClose }) {
   }
   if (mode === "real" && conversationsEnabled())
     return (
-      <Sheet title="Atención Gestadia" onClose={onClose}>
+      <Sheet title="Atención Gestadia" onClose={onClose} closing={closing}>
         <p>Consulta con el equipo desde la conversación de atención.</p>
         <button
           className="btn dark-btn"
           onClick={() => {
-            onClose();
-            navigate("/mensajes/gestor", { state: navigationState(location) });
+            onClose(() => navigate("/mensajes/gestor", { state: navigationState(location) }));
           }}
         >
           Abrir conversación de atención
@@ -46,6 +45,7 @@ export default function Contact({ onClose }) {
       title="Hablar con un gestor"
       className="contact-sheet"
       onClose={onClose}
+      closing={closing}
       subtitle={
         !sent && isClient ? (
           <p className="manager-status">
@@ -77,8 +77,7 @@ export default function Contact({ onClose }) {
               <button
                 className="btn dark-btn contact-chat"
                 onClick={() => {
-                  onClose();
-                  navigate("/mensajes/gestor", { state: navigationState(location) });
+                  onClose(() => navigate("/mensajes/gestor", { state: navigationState(location) }));
                 }}
               >
                 <Icon name="message" size={20} />

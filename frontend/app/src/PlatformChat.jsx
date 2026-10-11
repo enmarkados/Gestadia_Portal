@@ -7,9 +7,11 @@ import { demoEnabled } from "./api.js";
 import Icon from "./Icon.jsx";
 import AssistantContent from "./AssistantContent.jsx";
 import VoiceButton from "./VoiceButton.jsx";
+import { useMessageMotion } from "./motion.jsx";
 export default function PlatformChat({ onContact, manager = false }) {
   const chat = usePluginWeb();
   const app = useApp();
+  const animatedMessages = useMessageMotion(chat.messages, !!chat.session && chat.messages.length > 0);
   const end = useRef(null);
   const [voiceError, setVoiceError] = useState("");
   const [form, setForm] = useState({
@@ -173,6 +175,7 @@ export default function PlatformChat({ onContact, manager = false }) {
             {chat.messages.map((msg, i) => (
               <div
                 className={`bubble ${msg.role}`}
+                data-motion-new={animatedMessages.has(msg.message_id ?? msg.id ?? i) || undefined}
                 key={`${msg.timestamp}-${i}`}
               >
                 {msg.role === "manager" && (
@@ -182,7 +185,7 @@ export default function PlatformChat({ onContact, manager = false }) {
               </div>
             ))}
             {chat.pending && !pendingInHistory && (
-              <div className="bubble user">{chat.pending.text}</div>
+              <div className="bubble user" data-motion-new>{chat.pending.text}</div>
             )}
             {chat.pending && (
               <p role="status" className="helper">
