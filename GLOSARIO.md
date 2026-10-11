@@ -1563,3 +1563,9 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** Capacidades optativas para preparar vínculo CRM y solicitar una llamada bajo identidad, propiedad y configuración de integración acreditadas. No se conceden por propósito de conversación o perfil declarado.
 - **Alcance:** contraste Portal y adenda recibida; futuros enums v1/v2 y configuración servidor de ambas partes.
 - **Notas:** No integrados ni activados en Portal. El match actual por teléfono de findOrCreateLead no satisface la propiedad exigida por esta extensión.
+
+### profile_revision
+- **Tipo:** propiedad de contrato acordada documentalmente, pendiente de esquema ejecutable.
+- **Definición:** Revisión decimal monotónica del perfil de una cuenta dentro del contexto de una conversación, independiente de context_revision. Permite actualizar permisos sin volver a imponer un perfil ya aplicado sobre datos confirmados por el agente.
+- **Alcance:** `docs/integraciones/2026-10-11-contraste-portal-perfil-agenda.md`; futura persistencia/builder y contratos v1/v2 Portal y LidIA.
+- **Notas:** Requerida cuando se incluye profile; misma revisión exige mismo perfil canónico y no reaplica. La revisión se conserva en servidor y no procede del móvil; todavía no está implementada en Portal.

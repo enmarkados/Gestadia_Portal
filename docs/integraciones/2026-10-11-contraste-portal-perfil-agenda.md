@@ -39,3 +39,16 @@ Portal atesta procedencia del perfil autenticado y mantiene permisos/asignacione
 4. Copia y restauración comprobadas antes de cualquier despliegue; verificar SHA/configuración efectiva, misma sesión/historial y recibo de una llamada autorizada. No anunciar cita por disponibilidad o HTTP aceptado.
 
 La APP publicada en Docker `5febdf2` y TestFlight (10) conservan el trabajo de interfaz ya entregado. Esta revisión no requiere otra build móvil ni activa agenda; aceptación física del GIF y teclado de (10) pendiente de la respuesta del usuario.
+
+## Conformidad posterior: revisión independiente de perfil
+
+Respuesta LidIA recibida el 11/10: propone `profile_revision` decimal monotónica independiente de `context_revision`, requerida cuando se incluye `profile`. Portal da conformidad documental: resuelve los puntos 1, 2 y 5 anteriores con las reglas siguientes. No se modifica la copia histórica recibida.
+
+- Ausencia de campo conserva. JSON `null` retira campos textuales; no es la cadena `"null"`. Booleanos no admiten null; false retira confirmación/consentimiento sólo cuando se aplica una revisión de perfil nueva.
+- Misma profile_revision exige mismo perfil canónico, sin reaplicar ni borrar datos obtenidos después por el agente. Cambiar sólo permisos aumenta context_revision y conserva profile_revision/cuerpo de perfil. Un cambio acreditado o retirada explícita de perfil aumenta su revisión.
+- Cambiar o retirar teléfono/zona invalida consentimiento anterior; cambiar o retirar zona invalida confirmación. Una afirmación nueva en el mismo perfil sólo conserva su eficacia si reúne los datos requeridos por el contrato. Guest rechaza profile y profile_revision.
+- La futura persistencia Portal conserva perfil, revisión y huella antes de firmar. Un retry de una operación conserva bytes, revisión y clave; no vuelve a construir el perfil desde User al entregar un reintento. La semántica es por conversación y sujeto verificado, sin modificar ChatSession ni aumentar permisos.
+
+**Detalles que deben quedar en esquema y vectores antes de integrar:** representación decimal sin ceros iniciales y límite compatible con context_revision; profile_revision sin profile rechazado; revisión inferior rechazada como conflicto; revisión igual con distinto canonical rechazada como conflicto. Definir código wire exacto y ACK vigente, incluyendo qué se informa cuando profile está ausente y al vincular guest a account. La comparación no debe cruzar cuentas ni conversaciones. Una revisión posterior que cambia sólo email/nombre no debe reintroducir teléfono/consentimiento anteriores recogidos por el agente: incluir precedencia por campo o construcción de cambios acreditados en los vectores.
+
+LidIA prepara esquemas completos v1/v2/ACK con ocho permisos y vectores. Portal conserva la extensión apagada por defecto y no concede grants CRM. La corrección de lectura administrativa estándar de ChatSession/App comunicada por LidIA queda atribuida al equipo fuente, sin afirmar nueva validación remota desde Portal.
