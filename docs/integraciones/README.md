@@ -2,6 +2,18 @@
 
 Índice de la documentación de integraciones con sistemas externos.
 
+## Revisión APP del 11/10/2026
+
+[Plan, implementación, mapas y evidencia](../app/2026-10-11-recorridos-gestores.md). Consumidor guest v2 y copia exacta [wire r4 LidIA](2026-10-11-app-v2-wire-lidia-r4.md), con muestras/schema, autoridad por chat, recuperación y vínculo. Contacto automático cualificado permanece reservado; callback explícito APP se gestiona por Portal/Zoho. La configuración efectiva y pruebas conectadas, nativas y de tiendas se acreditan por separado.
+
+[Procedimiento conjunto DEV recibido de LidIA](2026-10-11-procedimiento-dev-lidia.md): copia byte a byte del archivo `docs/integraciones/2026-10-11-prueba-conjunta-app-dev.md` en el commit fuente `2446be441675d538d06bfbedb83f87c3ebe2fb19`, fusionado mediante [PR1628](https://github.com/enmarkados/Gestadia_LidIA/pull/1628) / `f6733d01e2df1e45c0828a7cc1534e535642c6f7`. Sus enlaces relativos pertenecen al repositorio de origen. Define responsables, aislamiento, configuración, pruebas y cierre; no acredita provisión, activación ni ejecución. Aplicar junto con la [guía Portal](../app/2026-10-11-configuracion-recorridos.md), manteniendo separados v1 real, v2 local y aceptación conjunta pendiente.
+
+## Gestadia APP — preparación del contrato ejecutable v2 (10/10/2026)
+
+[Coordinación Portal](2026-10-10-coordinacion-portal-contrato-v2.md), [plan por bloques](../superpowers/plans/2026-10-10-app-v2-portal.md) y [contraste vigente del wire r3](2026-10-10-contraste-portal-wire-v2-r3.md): instrucción humana comprobada; transporte/requests aislados preparados y probados. Copias exactas de wire/schema/vectores; respuestas r1 propuestas para revisión conjunta, sin importación runtime. Contacto/ACK reservado y aplazado. No API v2 montada, migración, merge funcional, despliegue ni activación. Las revisiones anteriores conservan su estado histórico.
+
+[Borrador wire LidIA r1 recibido](2026-10-10-app-v2-wire-lidia-r1.md), conservado byte-exacto, y [revisión Portal P1–P4](2026-10-10-revision-portal-wire-v2-r1.md): pull/ACK incorporado; cuatro precisiones de huella, revisión exacta, revocación y consentimiento remitidas. Falta cierre y schema/vectores; no es conformidad ejecutable.
+
 ## Gestadia APP — conversación sin cuenta, propuesta 10/10/2026
 
 [Manual de desarrollo APP](../app/MANUAL-DESARROLLO.md): entrada común a pantallas, mapas y contratos.

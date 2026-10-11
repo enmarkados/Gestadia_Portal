@@ -1247,6 +1247,127 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Alcance:** `docs/app/MANUAL-DESARROLLO.md`, README raíz/APP, AGENTS.md y README del prototipo.
 - **Notas:** No sustituye contratos ni actas recibidas; los enlaza. Incorporar esta documentación a app/main no equivale a implementar o activar el recorrido anónimo.
 
+## AppGuestSession (Portal v2, preparación)
+
+- **Tipo:** entidad Prisma propuesta.
+- **Definición:** Credencial temporal de instalación emitida por Portal para acceder a conversaciones propias sin una cuenta. No representa un usuario verificado ni un contacto CRM.
+- **Alcance:** plan `docs/superpowers/plans/2026-10-10-app-v2-portal.md`; futuros `backend/src/app/v2/installation.js` y `backend/prisma/schema.prisma`.
+- **Notas:** Se almacenará el hash del secreto, con vencimiento y revocación. Se descarta reutilizar AppDeviceSession con un User ficticio o convertir un login fallido en acceso visitante. No implementada.
+
+## AppV2Conversation / AppV2Binding (Portal v2, preparación)
+
+- **Tipo:** entidades Prisma propuestas.
+- **Definición:** AppV2Conversation conserva sujeto inmutable, actor autorizado y revisión de acceso de cada chat v2. AppV2Binding registra la transferencia recuperable de un chat desde su instalación original hacia una cuenta verificada.
+- **Alcance:** plan Portal v2; futuros `backend/src/app/v2/store.js`, `bindings.js` y `backend/prisma/schema.prisma`.
+- **Notas:** La asociación v1 exige User y se conserva intacta. Se descarta vincular globalmente todos los chats de la instalación, cambiar autores históricos o rehabilitar al visitante después de un commit. No implementadas.
+
+## AppS2SClientV2 (Portal, preparación)
+
+- **Tipo:** cliente de integración propuesto.
+- **Definición:** Consumidor servidor-servidor del contrato APP v2 de LidIA, con sujeto, actor y revisión de acceso firmados. Su ámbito es independiente del cliente v1 de cuenta.
+- **Alcance:** plan Portal v2; futuro `backend/src/app/v2/s2s.js` y contratos compartidos recibidos de LidIA.
+- **Notas:** Esquemas, vectores y allowlist de rutas deben aceptarse antes de implementarlo. Se descarta el fallback a v1, PluginWeb o una URL indicada por el móvil. No implementado.
+
+## AppContactRequest / ACK de contacto APP v2
+
+- **Tipo:** entidad durable y concepto de entrega propuestos.
+- **Definición:** AppContactRequest conserva en Portal la solicitud confirmada de contacto por intención/revisión y evento original. El ACK acredita su persistencia y permite reconciliar la entrega de esa misma solicitud con LidIA.
+- **Alcance:** `docs/integraciones/2026-10-10-coordinacion-portal-contrato-v2.md`, plan Portal v2; futuros `backend/src/app/v2/contactRequests.js` y `backend/prisma/schema.prisma`.
+- **Notas:** El nombre y los campos exactos del DTO remoto pertenecen al contrato LidIA pendiente. Persistir un estado pendiente no equivale a confirmar el ACK, entregar a Zoho ni agendar una cita. No implementados.
+
+## payload_json / payload_sha256 (contacto APP v2 r1)
+
+- **Tipo:** propiedades del contrato de transporte propuesto por LidIA.
+- **Definición:** payload_json conserva los bytes representados por una cadena JSON UTF-8 del evento de contacto; payload_sha256 identifica ese contenido exacto. Permiten reconocer el mismo evento durante persistencia y ACK sin reconstruirlo desde un objeto con otro orden o escape.
+- **Alcance:** copia recibida `docs/integraciones/2026-10-10-app-v2-wire-lidia-r1.md`, revisión Portal y futuro consumidor v2.
+- **Notas:** No son tokens ni autenticación. El esquema y los vectores de serialización siguen pendientes; no interpretar el hash de otra revisión como el resultado del envío original.
+
+## portal_request_ref / persisted_at (ACK APP v2 r1)
+
+- **Tipo:** propiedades de ACK propuestas por LidIA.
+- **Definición:** portal_request_ref correlaciona opacamente la solicitud durable de Portal; persisted_at indica cuándo se conservó localmente. No acreditan por sí mismas conversión CRM, contacto efectuado o reserva de agenda.
+- **Alcance:** copia wire v2 r1, revisión Portal y futura entidad AppContactRequest/consumidor S2S.
+- **Notas:** El contrato cerrado debe definir recuperabilidad y unicidad antes de usar estos campos. No se reutiliza un ID de trato/cliente como autenticación.
+
+## Pasarela APP–Portal–LidIA al agente 119
+
+- **Tipo:** decisión de arquitectura y alcance de la integración.
+- **Definición:** La APP envía los mensajes del usuario a Portal, que los transmite a la plataforma LidIA para recibir y mostrar las respuestas del agente 119. Las preguntas y decisiones de canje pertenecen al agente; la pasarela gestiona transporte, identidad y continuidad.
+- **Alcance:** README, `docs/app/MANUAL-DESARROLLO.md`, `docs/app/NAVEGACION.md`, coordinación y plan Portal v2; consumidor conversacional y configuración servidor.
+- **Notas:** Precisión humana del 10/10/2026, mensaje `01a127a2-2b60-7d30-a407-11f47d3af53a` en el chat LidIA. Se descarta crear un cuestionario/calificador/catálogo paralelo en Portal. Texto como base, HTML/dinámicos opcionales si no complican. No cambia por sí sola el agente efectivo, no acredita una ejecución real ni activa el flujo anónimo; las decisiones históricas sobre clones conservan su procedencia.
+
+## Esquemas de respuesta APP v2 — propuesta Portal
+
+- **Tipo:** artefactos de contrato para revisión conjunta.
+- **Definición:** Describen las formas JSON cerradas de las respuestas de sesión, historial, operación, vínculo, contexto, revocación y recibos, contrastadas con las salidas actuales de LidIA. Los ejemplos son fixtures sintéticos y no respuestas de una conversación conectada.
+- **Alcance:** `docs/integraciones/fixtures/app-v2-responses-proposal-r1.json`, `app-v2-response-fixtures-proposal-r1.json`, manifiesto de procedencia y contraste Portal r3.
+- **Notas:** No son un contrato aprobado ni se montan en una API por generarlos. `sondeo` estructurado es null en la pasarela inicial; un recibo conserva su resultado histórico y no prueba autoridad actual. Se descarta un objeto de respuesta abierto o derivar elegibilidad del texto.
+
+## signRequestV2 / canonicalQueryV2 / validateContractV2
+
+- **Tipo:** funciones del consumidor S2S v2 en preparación.
+- **Definición:** signRequestV2 firma el transporte de trece líneas con autoridad actual; canonicalQueryV2 produce y limita la query de cada lectura permitida. validateContractV2 comprueba una petición contra el esquema recibido y las invariantes expresas del contrato de transporte.
+- **Alcance:** `backend/src/app/v2/s2s.js`, `contracts.js` y sus tests; copias exactas wire/schema/vectores r2 en docs/integraciones.
+- **Notas:** No realizan autorización remota ni pruebas de pertenencia por sí solas; no alteran funciones v1. La respuesta exige validador específico, todavía no aportado en el esquema de requests r2.
+
+## appV2ConversationConfig / APP_V2_ENABLED / APP_V2_GUEST_ENABLED
+
+- **Tipo:** configuración backend propuesta para el consumidor v2.
+- **Definición:** appV2ConversationConfig resuelve destino, audiencia y claves por capacidad del nuevo protocolo desde configuración privada. APP_V2_ENABLED habilita ese transporte y APP_V2_GUEST_ENABLED permite sus operaciones de datos visitante; ambas son falsas por defecto.
+- **Alcance:** `backend/src/config.js` y consumidor/test S2S v2.
+- **Notas:** Ninguna bandera pública móvil concede autoridad. Las claves usan el prefijo APP_V2_LIDIA y no caen a las claves v1. Revocación de control se valida aparte para permitir retirar acceso; las banderas no activan rutas por esta entrega.
+
+### Estado posterior del consumidor v2 (10/10/2026)
+
+`AppS2SClientV2`, `signRequestV2`, `canonicalQueryV2`, `validateContractV2` y `appV2ConversationConfig` ya tienen implementación aislada en los archivos indicados; las menciones anteriores a futuro/propuesta documentan su preparación inicial. No están montados en una API. Wire r3 sustituye el alcance r2: contacto reservado, respuestas pendientes de aceptación y flags off. [Contraste vigente](docs/integraciones/2026-10-10-contraste-portal-wire-v2-r3.md).
+
+### Separación de integraciones APP 119/122 (propuesta)
+
+- **Tipo:** decisión de asociación servidor propuesta.
+- **Definición:** Conservación de la integración y los chats existentes del agente 122, junto a una integración adicional para las nuevas consultas al 119 original. Ambas pertenecen a la misma cuenta Portal; la APP no selecciona agentes o integraciones.
+- **Alcance:** `docs/integraciones/2026-10-10-coordinacion-portal-contrato-v2.md`; futura resolución en `backend/src/app/conversations.js`, configuración y operaciones/lifecycle; `AppIntegration` administrado por LidIA. No está implementada ni activada.
+- **Notas:** Pendiente de conformidad conjunta y configuración efectiva. Se descarta cambiar proyecto/agente en la integración histórica porque su huella y sus sesiones los validan; se conservan claves, permisos, reintentos e historial existentes.
+
+### `AppConversationRegistry` / `appConversationIntegrations`
+
+- **Tipo:** servicio de asociación backend y resolución de configuración.
+- **Definición:** AppConversationRegistry conserva la integración guardada de cada chat/operación y elige la ruta de nuevas consultas desde configuración servidor. appConversationIntegrations obtiene los ámbitos configurados para el servicio y el worker.
+- **Alcance:** `backend/src/app/registry.js`, `backend/src/config.js`, `backend/src/app/routes.js`, `backend/src/server.js` y pruebas conversacionales.
+- **Notas:** Mantiene AppConversationService como consumidor de un solo ámbito. No acepta un selector de agente/integración móvil ni reasocia historial; atención conserva el ámbito previo.
+
+### `nativeSondeo` / `APP_LIDIA_SONDEO_*`
+
+- **Tipo:** configuración privada de asociación servidor.
+- **Definición:** nativeSondeo describe la integración adicional del sondeo nativo. APP_LIDIA_SONDEO_ENABLED habilita su elección para consultas nuevas; INTEGRATION_ID y AUDIENCE del mismo prefijo identifican el ámbito, y las capacidades firmadas usan IDs propios de clave; el secreto puede conservarse por la misma capacidad del consumidor existente.
+- **Alcance:** `backend/src/config.js` y `backend/src/app/registry.js`; configuración privada backend. Valores públicos/por defecto apagados; no existen selectores nuevos en el dispositivo.
+- **Notas:** La integración configurada conserva lectura/retirada aunque se apague la selección para nuevos chats. Su autoridad de producto queda limitada a sondeo/history; no hereda soporte, comercial ni expediente. Una selección activada e incompleta falla sin derivar al122.
+
+### `gestadia-app-pro-agent119-validation`
+
+- **Tipo:** identificador de integración y audiencia S2S acordado.
+- **Definición:** Ámbito adicional de la misma cuenta Portal para consultas nuevas dirigidas al119/Project102 en LidIA PRO. Se mantiene distinto de gestadia-app-pro-local-validation y su historial122.
+- **Alcance:** configuración privada APP v1 y registro de coordinación del 11/10/2026; administrado en LidIA, seleccionado únicamente por backend.
+- **Notas:** Conformidad recibida del equipo LidIA; no acredita provisionado, despliegue ni prueba conectada. GuestV2Enabled=false y permisos sondeo/history; claves e identidad existente se conservan sin aumentar autoridad.
+
+### Revisión de asociación y autoridad por integración (11/10/2026)
+
+`AppConversationRegistry.start` fija el candidato implícito antes de refrescarlo y vuelve a resolver la integración para una consulta nueva si el servidor remoto confirmó su cierre. Replays y aperturas explícitas conservan su asociación. `currentAccess` deriva conjuntamente permisos y referencias tras aplicar el límite; `setConversationAccess` recibe la configuración servidor completa (por defecto, la del proceso) y prepara contextos con la del ámbito correspondiente. Si un ámbito no está configurado, conserva el grant durable y su worker preparará el contexto al recuperar esa configuración; no se prepara con una configuración vacía. Alcance: `backend/src/app/registry.js`, `store.js`, `lifecycle.js` y pruebas. No introduce permisos ni modifica los grants existentes por el recorte.
+
+### `gestadia_app_local119` / fixture local119 durable
+
+- **Tipo:** base de prueba local y decisión de persistencia.
+- **Definición:** Base MySQL propia con una cuenta ficticia nueva y autorización sondeo/history de24h para comprobar el recorrido APP hacia119. Su volumen durable y manifest privado permiten identificarla y conservarla tras reiniciar el Mac.
+- **Alcance:** preparación privada en `/Users/gonchumon/.codex/private/gestadia-app/fixture-local119/`; procedimiento en `docs/app/2026-10-11-reanudacion-app-119.md`. No es una base de producción ni la base de la suite canónica.
+- **Notas:** Autorización humana verificada en el turno LidIA `01a12843-53c2-79b3-a1eb-96602b78e26f`. Otro principal, sin historia heredada, expediente ni asignaciones; CRM/pagos/SMTP/WhatsApp/v2 apagados. Se descarta tmpfs para el circuito conectado que debe sobrevivir al reinicio.
+
+### `MOTION_MS` / `MOTION_EASING` / `useReducedMotion` / `PageMotion` / `useSheetMotion` / `useMessageMotion`
+
+- **Tipo:** tokens y componentes/hooks de presentación APP.
+- **Definición:** MOTION_MS fija 280 ms y MOTION_EASING la desaceleración para transiciones; useReducedMotion observa la preferencia de accesibilidad del sistema. PageMotion anima sólo el contenido de una ruta y expresa avance/regreso. useSheetMotion conserva la superficie durante su salida; useMessageMotion distingue mensajes nuevos del historial inicial o recuperado.
+- **Alcance:** `frontend/app/src/motion.jsx`, `app.css`, marco `App.jsx`, hojas y conversaciones; guía `docs/app/ANIMACIONES.md`.
+- **Notas:** Movimiento solicitado por el usuario, con desplazamientos cortos/opacidad, cabecera estable y movimiento reducido. No se conserva una segunda pantalla interactiva, no se anima el historial ni se crean efectos de negocio o llamadas externas.
+
+- **Ampliación de alcance del 11/10/2026:** la maqueta `docs/app/prototipos/lidia-anonima/pantallas.jsx` reutiliza la envoltura CSS `.page-motion` como contenedor estático. No consume hooks de movimiento ni modifica su carácter de propuesta aislada.
 
 ### GESTADIA_IOS_PROFILE_SPECIFIER
 
@@ -1344,3 +1465,43 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** texto en cursiva del indicador de espera de LidIA, con pulso suave de opacidad mientras la respuesta está pendiente.
 - **Alcance:** Gestadia APP; AppConversation.jsx y app.css.
 - **Notas:** completa la secuencia de tres puntos; movimiento reducido mantiene texto y puntos estáticos y legibles. No expresa envío confirmado ni sustituye un recibo remoto.
+## ConversationList / PushSettings promptOnly / notificationDestination
+
+- **Tipo:** componentes y función de presentación APP.
+- **Definición:** ConversationList presenta el historial del propósito correspondiente a su pestaña. PushSettings promptOnly ofrece una única activación inicial; notificationDestination obtiene un destino interno de un aviso autorizado por el servidor.
+- **Alcance:** `frontend/app/src/ConnectedMessages.jsx`, `PushSettings.jsx`, `notificationDestination.js`, notificaciones del portal.
+- **Notas:** Se descarta mezclar chats IA y humanos o interpretar una URL externa de un aviso como navegación confiable. No conceden permisos ni identidad.
+
+## Notificacion.conversationId / notificationView / acceso social por correo verificado
+
+- **Tipo:** propiedad de aviso y decisiones de identidad/presentación.
+- **Definición:** conversationId asocia un aviso a un chat Portal; notificationView sólo entrega su destino y propósito cuando la cuenta destinataria posee ese chat. El acceso social identifica una cuenta Gestadia existente con el email verificado de Apple/Google, conserva su autoridad y vincula el sujeto del proveedor.
+- **Alcance:** `backend/prisma/schema.prisma`, migración `20261011100000_notification_conversations`, `backend/src/routes/portal.js`, `backend/src/services/social-auth.js` y APP.
+- **Notas:** No se crea una cuenta por OAuth, no se modifica asignación CRM ni se aceptan IDs de otro usuario. Se conserva la vinculación explícita autenticada desde Perfil.
+
+## AppCallbackRequest / createAppContactService / createZohoCallbackAdapter / APP_MANAGER_ROUTES_JSON
+
+- **Tipo:** entidad durable, servicios y configuración privada del servidor.
+- **Definición:** AppCallbackRequest conserva una solicitud de llamada y sus confirmaciones CRM; createAppContactService distingue llamada y chat a partir del contexto autorizado. createZohoCallbackAdapter localiza un lead por teléfono y crea su tarea; APP_MANAGER_ROUTES_JSON vincula referencias opacas autorizadas con propietarios CRM comprobados.
+- **Alcance:** `backend/prisma/schema.prisma`, migración `20261011103000_app_callbacks`, `backend/src/app/contact.js`, `backend/src/routes/app-contact.js`, `backend/src/services/zoho-callbacks.js`, configuración backend.
+- **Notas:** El dispositivo sólo envía nombre/teléfono y una intención idempotente. No escoge gestor, proyecto, CRM ni permisos; una respuesta remota perdida se conserva para revisión, sin repetir una creación a ciegas. No se usan conversaciones sondeo como atención.
+
+- **AppCallbackRequest.contactId** — propiedad. Referencia CRM de un contacto existente verificado por el servidor para asociar su tarea de llamada. Alcance: backend/prisma/schema.prisma, backend/src/app/contact.js y services/zoho-callbacks.js. No se acepta desde la APP ni crea un lead adicional para una cuenta ya vinculada.
+- **gestadia.push-revoke-pending** — concepto runtime. Preferencia segura que conserva una retirada del dispositivo pendiente de confirmación remota. Alcance: frontend/app/src/push.js. Se reintenta al recuperar conexión, sin anunciar que el servidor ha retirado el dispositivo antes de confirmarlo.
+
+- **AppGuestInstallation** — entidad Prisma. Instalación anónima comprobada con una credencial aleatoria conservada por el dispositivo y sólo su hash en servidor. Alcance: backend/src/app/v2/guest.js y prisma/schema.prisma. El ID de instalación no es autenticación ni selector de agente.
+- **AppGuestConversation** — entidad Prisma. Sondeo v2 ligado a instalación, sujeto estable y, después de vínculo confirmado, cuenta verificada; preserva el ID de la sesión LidIA. Alcance: backend/src/app/v2/guest.js y prisma/schema.prisma. Caducidad original de invitado de 24 horas, sin renovarla al recuperar una sesión.
+- **AppGuestOperation** — entidad Prisma. Registro de petición y respuesta de una operación v2 que conserva cuerpo y clave para recuperar resultados inciertos. Alcance: backend/src/app/v2/guest.js y prisma/schema.prisma. No se reconstruyen atestaciones o turnos al reintentar.
+- **AppGuestBinding** — entidad Prisma. Preparación y confirmación durable del vínculo de un sondeo invitado a una cuenta verificada bajo control de ambos participantes. Alcance: backend/src/app/v2/guest.js y prisma/schema.prisma. No concede acceso por email, nombre o teléfono declarados.
+- **guestConversationApi** — concepto runtime. Adaptador APP de sondeo v2 y almacenamiento seguro de instalación, separado del transporte autenticado v1. Alcance: frontend/app/src/guestConversations.js. No permite seleccionar agente, entorno, gestor o CRM desde el dispositivo.
+
+- **conversationProtocol** — propiedad derivada de aviso. Identifica la versión de un chat cuyo propietario fue comprobado por el servidor para abrirlo con su adaptador. Alcance: backend/src/routes/portal.js y frontend/app/src/notificationDestination.js. El usuario no selecciona integración ni agente mediante esta propiedad.
+
+- **AppGuestOperation.claimId / leaseUntil** — propiedades. Marca de exclusión y vencimiento de una entrega que permiten recuperar el mismo envío tras detenerse un proceso sin degradar una confirmación concurrente. Alcance: backend/src/app/v2/guest.js y prisma/schema.prisma. Reintentar siempre conserva DTO y clave remota.
+- **app-recorridos-preview** — herramienta de desarrollo. Servidor local con datos ficticios para revisar las pantallas construidas de la APP sin conexiones a LidIA o Zoho. Alcance: scripts/app-recorridos-preview.mjs. No es un backend desplegable ni evidencia de aceptación conectada.
+
+### validateMessageSnapshotSemantics
+- **Tipo:** concepto runtime / función de validación.
+- **Definición:** Comprueba pertenencia, cobertura exacta de mensajes, roles y revisiones de recibos después de validar su esquema de transporte. Conserva el actor histórico guest o account.
+- **Alcance:** backend/src/app/messageReceipts.js y backend/src/app/v2/guest.js.
+- **Notas:** Compartida entre v1 y v2; cada protocolo conserva su propio esquema, sin convertir recibos guest en account.

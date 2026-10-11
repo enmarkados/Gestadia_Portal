@@ -3,7 +3,7 @@ import rateLimit from "express-rate-limit";
 import { randomUUID } from "node:crypto";
 import { AppIdentity } from "./identity.js";
 import { AppS2SClient } from "./s2s.js";
-import { AppConversationService } from "./conversations.js";
+import { AppConversationRegistry } from "./registry.js";
 import { AppProblem, problem } from "./problem.js";
 export function createAppRouter({
   db,
@@ -11,14 +11,13 @@ export function createAppRouter({
   client,
   service,
   identity,
+  clientFactory,
 } = {}) {
   const router = express.Router();
   identity ??= new AppIdentity(db);
-  service ??= new AppConversationService(
-    db,
-    client || new AppS2SClient(config),
-    config,
-  );
+  service ??= new AppConversationRegistry(db, config, {
+    clientFactory: clientFactory || (c => c.integrationId === config.integrationId && client ? client : new AppS2SClient(c)),
+  });
   router.use((req, res, next) => {
     res.set("Cache-Control", "no-store").vary("Authorization");
     req.correlationId = randomUUID();

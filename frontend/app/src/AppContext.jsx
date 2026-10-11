@@ -188,11 +188,12 @@ export function AppProvider({ children }) {
       profile,
     }));
   }
-  async function markRead(id) {
+  async function setNotificationRead(id, leida = true) {
     const version = epoch.current;
     if (mode === "real")
-      await request(`/api/notificaciones/${encodeURIComponent(id)}/leer`, {
-        method: "POST",
+      await request(`/api/notificaciones/${encodeURIComponent(id)}`, {
+        method: "PATCH",
+        body: JSON.stringify({ leida }),
       });
     if (version !== epoch.current) return;
     setData((old) => ({
@@ -201,7 +202,7 @@ export function AppProvider({ children }) {
         n.id === id
           ? {
               ...n,
-              leida: true,
+              leida,
             }
           : n,
       ),
@@ -229,7 +230,8 @@ export function AppProvider({ children }) {
         login,
         acceptSession,
         saveProfile,
-        markRead,
+        markRead: (id) => setNotificationRead(id, true),
+        setNotificationRead,
         isClient: data.expedientes.length > 0,
       }}
     >

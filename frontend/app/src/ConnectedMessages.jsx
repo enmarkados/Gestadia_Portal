@@ -1,8 +1,11 @@
+import { guestConversationApi } from "./guestConversations.js";
 import DeliveryTicks from "./DeliveryTicks.jsx";
 import { useReceiptSummaries } from "./useMessageReceipts.js";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { navigationState } from "./navigation.js";
+import { navigationState, accessState } from "./navigation.js";
+import { getToken } from "./api.js";
+import { useApp } from "./AppContext.jsx";
 import { conversationApi } from "./conversationApi.js";
 import {
   Search,
@@ -14,30 +17,16 @@ import {
   MessageSquare,
 } from "lucide-react";
 export function ConversationHome() {
-  const location = useLocation();
-  const [newKey] = useState(() => crypto.randomUUID());
   return (
-    <section className="assistant-page">
+    <section className="assistant-page lidia-home">
       <h1>¿Qué trámite de Tráfico necesitas gestionar hoy?</h1>
-      <p className="muted">
-        Consulta con LidIA los requisitos de tu canje y recupera tus
-        conversaciones.
-      </p>
-      <Link
-        className="card option"
-        to={`/lidia/conversacion?nueva=${newKey}`}
-        state={navigationState(location)}
-      >
-        Nueva conversación con LidIA <span aria-hidden="true">›</span>
-      </Link>
-      <Link className="home-resume-chat" to="/lidia/conversacion" state={navigationState(location)}>
-        Continuar conversación <ChevronRight size={17} aria-hidden="true" />
-      </Link>
+      <p className="muted">LidIA te ayuda a comprobar los requisitos de tu trámite.</p>
+      <ConversationList kind="lidia" />
     </section>
   );
 }
 const interlocutor = (c) =>
-  c.purpose === "sondeo" ? "LidIA" : "Equipo Gestadia";
+  c.purpose === "sondeo" ? "LidIA" : c.manager_name || "Tu gestor";
 const folded = (s) =>
   s.normalize("NFD").replace(/\p{M}/gu, "").toLocaleLowerCase("es");
 const dateText = (s) =>
@@ -48,7 +37,13 @@ const dateText = (s) =>
     hour: "2-digit",
     minute: "2-digit",
   });
-export default function ConnectedMessages() {
+export default function ConnectedMessages({ onContact }) {
+  return <ConversationList kind="gestores" onContact={onContact} />;
+}
+export function ConversationList({ kind, onContact }) {
+  const app = useApp();
+  const signedIn = app ? app.mode === "real" : !!getToken();
+  const isLidia = kind === "lidia";
   const location = useLocation();
   const [newKey] = useState(() => crypto.randomUUID());
   const renameTrigger = useRef(null);
@@ -60,11 +55,16 @@ export default function ConnectedMessages() {
     [title, setTitle] = useState(""),
     [saving, setSaving] = useState(false),
     [saveError, setSaveError] = useState("");
+  async function loadRows() {
+    const registered = signedIn ? (await conversationApi.list()).conversations : [];
+    const guestRows = isLidia ? (await guestConversationApi.list().catch(() => ({ conversations: [] }))).conversations.filter(c => c.protocol === "v2") : [];
+    return [...registered, ...guestRows].sort((a,b)=>Date.parse(b.last_message_at || b.created_at)-Date.parse(a.last_message_at || a.created_at));
+  }
   async function refresh() {
     setLoading(true);
     setError("");
     try {
-      setRows((await conversationApi.list()).conversations);
+      setRows(await loadRows());
     } catch {
       setError("No se pudieron recuperar tus conversaciones.");
     } finally {
@@ -72,11 +72,11 @@ export default function ConnectedMessages() {
     }
   }
   useEffect(() => {
+    if (!signedIn && !isLidia) { setLoading(false); return; }
     let current = true;
-    conversationApi
-      .list()
+    loadRows()
       .then((r) => {
-        if (current) setRows(r.conversations);
+        if (current) setRows(r);
       })
       .catch(() => {
         if (current) setError("No se pudieron recuperar tus conversaciones.");
@@ -87,14 +87,14 @@ export default function ConnectedMessages() {
     return () => {
       current = false;
     };
-  }, []);
+  }, [signedIn]);
   async function save(event) {
     event.preventDefault();
     if (saving) return;
     setSaving(true);
     setSaveError("");
     try {
-      const updated = await conversationApi.rename(
+      const updated = await (rows.find(c=>c.id===editing)?.protocol === "v2" ? guestConversationApi : conversationApi).rename(
         editing,
         title.trim() || null,
       );
@@ -109,27 +109,44 @@ export default function ConnectedMessages() {
       setSaving(false);
     }
   }
-  const matches = useMemo(() => rows.filter((c) =>
+  const scoped = useMemo(() => rows.filter(c => isLidia ? c.purpose === "sondeo" : c.purpose !== "sondeo"), [rows, isLidia]);
+  const latest = scoped.find(c => c.status !== "closed") || scoped[0];
+  const matches = useMemo(() => scoped.filter((c) =>
     folded(`${c.title || ""} ${interlocutor(c)}`).includes(
       folded(query.trim()),
     ),
-  ), [rows, query]);
+  ), [scoped, query]);
   const summaries = useReceiptSummaries(matches);
   return (
-    <section className="messages-page connected-messages">
+    <section className={`messages-page connected-messages ${isLidia ? "lidia-history" : ""}`}>
       <div className="messages-title-row">
-        <h1>Mensajes</h1>
+        {isLidia ? <h2>Tus conversaciones con LidIA</h2> : <h1>Mensajes</h1>}
         <button
           className="messages-refresh"
           aria-label="Actualizar conversaciones"
           title="Actualizar conversaciones"
-          disabled={loading}
+          disabled={loading || (!signedIn && !isLidia)}
           onClick={refresh}
         >
           <RefreshCw size={18} aria-hidden="true" />
         </button>
       </div>
-      <div className="conversation-search">
+      {isLidia && <div className="lidia-home-actions">
+        <Link className="lidia-home-action" to={`/lidia/conversacion?nueva=${newKey}`} state={navigationState(location)}>
+          <span className="conversation-avatar assistant"><Sparkles size={21} aria-hidden="true" /></span>
+          <span><strong>Nueva conversación con LidIA</strong><small>Consulta otro trámite</small></span>
+          <ChevronRight size={19} aria-hidden="true" />
+        </Link>
+        {latest && <Link className="lidia-home-action resume" aria-label="Continuar conversación con LidIA" to={`/lidia/conversacion?conversacion=${encodeURIComponent(latest.id)}${latest.protocol === "v2" ? "&invitado=1" : ""}`} state={navigationState(location)}>
+          <span className="conversation-avatar team"><MessageSquare size={21} aria-hidden="true" /></span>
+          <span><strong>Continuar conversación</strong><small>{latest.title || "Tu última consulta con LidIA"}</small></span>
+          <ChevronRight size={19} aria-hidden="true" />
+        </Link>}
+      </div>}
+      {!isLidia && <p className="muted">Tus chats con gestores, atención al cliente y postventa.</p>}
+      {!isLidia && onContact && <button className="btn dark-btn messages-contact" onClick={onContact}><MessageSquare size={18} aria-hidden="true" /> Hablar con un gestor</button>}
+      {!signedIn && <p className="helper">{isLidia ? "Puedes consultar con LidIA sin registro. Si ya tienes cuenta, inicia sesión para recuperar tus conversaciones guardadas." : "Inicia sesión para recuperar los chats de tu gestor. También puedes solicitar una llamada sin tener cuenta."} {!isLidia && <Link to="/acceso" state={accessState(location)}>Iniciar sesión</Link>}</p>}
+      <div className={`conversation-search ${!signedIn && !scoped.length ? "is-hidden" : ""}`}>
         <label className="sr-only" htmlFor="conversation-search">
           Buscar conversaciones
         </label>
@@ -154,18 +171,8 @@ export default function ConnectedMessages() {
           </button>
         )}
       </div>
-      <nav className="new-conversation-links" aria-label="Iniciar conversación">
-        <Link to={`/lidia/conversacion?nueva=${newKey}`} state={navigationState(location)}>
-          <Sparkles size={17} aria-hidden="true" />
-          <span>Nueva conversación con LidIA</span>
-        </Link>
-        <Link to="/mensajes/gestor" state={navigationState(location)}>
-          <MessageSquare size={17} aria-hidden="true" />
-          <span>Atención Gestadia</span>
-        </Link>
-      </nav>
       <div className="conversation-list-heading">
-        <h2>Tus conversaciones</h2>
+        <h2>{isLidia ? "Historial" : "Tus conversaciones"}</h2>
         {!loading && !error && (
           <span>
             {matches.length} {matches.length === 1 ? "chat" : "chats"}
@@ -186,7 +193,7 @@ export default function ConnectedMessages() {
         <p role="status" className="messages-empty">
           {query
             ? "No hay conversaciones que coincidan."
-            : "Aún no tienes conversaciones. Inicia una consulta con LidIA o contacta con el equipo."}
+            : isLidia ? "Tu historial de consultas aparecerá aquí." : "Aún no tienes chats con un gestor. Puedes solicitar una llamada para que te asesore."}
         </p>
       )}
       <ul className="conversation-list" aria-label="Conversaciones">
@@ -207,7 +214,7 @@ export default function ConnectedMessages() {
                 <Link
                   className="conversation-link"
                   state={navigationState(location)}
-                  to={`${c.purpose === "sondeo" ? "/lidia/conversacion" : "/mensajes/gestor"}?conversacion=${encodeURIComponent(c.id)}${c.case_ref ? "&caso=" + encodeURIComponent(c.case_ref) : ""}`}
+                  to={`${c.purpose === "sondeo" ? "/lidia/conversacion" : "/mensajes/gestor"}?conversacion=${encodeURIComponent(c.id)}${c.protocol === "v2" ? "&invitado=1" : ""}${c.case_ref ? "&caso=" + encodeURIComponent(c.case_ref) : ""}`}
                 >
                   <span
                     className={`conversation-avatar ${c.purpose === "sondeo" ? "assistant" : "team"}`}
@@ -316,7 +323,7 @@ export default function ConnectedMessages() {
                     </button>
                     <button
                       type="button"
-                      className="text-btn"
+                      className="btn secondary"
                       disabled={saving}
                       onClick={() => {
                         setEditing(null);

@@ -1,45 +1,35 @@
 import React, { useState } from "react";
+import { Bell, BellRing } from "lucide-react";
 import { enablePush, disablePush, pushAvailable } from "./push.js";
 import { useApp } from "./AppContext.jsx";
-export default function PushSettings() {
+export default function PushSettings({ promptOnly = false }) {
   const app = useApp();
-  const [error, setError] = useState(""),
-    [busy, setBusy] = useState(false);
-  if (app.mode !== "real" || !pushAvailable()) return null;
-  async function run(fn) {
-    setBusy(true);
-    setError("");
-    try {
-      await fn();
-    } catch {
-      setError("No se pudo cambiar la inscripción. Reintenta con conexión.");
-    } finally {
-      setBusy(false);
-    }
+  const [error, setError] = useState(""), [busy, setBusy] = useState(false);
+  const status = app.pushStatus || "";
+  const active = status === "Activadas";
+  const configured = active || status.startsWith("Desactivadas");
+  const pending = status === "Activando notificaciones…";
+  if (app.mode !== "real" || !pushAvailable() || (promptOnly && configured)) return null;
+  async function change() {
+    setBusy(true); setError("");
+    try { await (active ? disablePush() : enablePush()); }
+    catch { setError("No se pudo completar el cambio. Reintenta con conexión."); }
+    finally { setBusy(false); }
   }
   return (
-    <div className="card">
-      <h3>Avisos en este dispositivo</h3>
-      <p>
-        Recibe avisos de actualizaciones de Gestadia. El detalle se consulta al
-        abrir la app.
-      </p>
-      <p role="status">{app.pushStatus}</p>
-      <button
-        className="btn secondary"
-        disabled={busy}
-        onClick={() => run(enablePush)}
-      >
-        Activar notificaciones
-      </button>
-      <button
-        className="text-btn"
-        disabled={busy}
-        onClick={() => run(disablePush)}
-      >
-        Desactivar en este dispositivo
-      </button>
-      {error && <p role="alert">{error}</p>}
+    <div className={`push-settings ${promptOnly ? "push-prompt" : ""}`}>
+      <div className="push-settings-row">
+        <span className="push-settings-icon">{active ? <BellRing size={21} /> : <Bell size={21} />}</span>
+        <div><h3>{promptOnly ? "Activa los avisos" : "Notificaciones"}</h3>
+          <p>{promptOnly ? "Entérate cuando tu gestor te escriba o avance tu trámite." : "Avisos de tus chats y trámites en este dispositivo."}</p></div>
+        {!promptOnly && configured && <button type="button" role="switch" aria-checked={active} aria-label="Notificaciones en este dispositivo" className={`settings-switch ${active ? "on" : ""}`} disabled={busy} onClick={change}><span /></button>}
+      </div>
+      {(!configured || promptOnly) && <button className="btn dark-btn" disabled={busy || pending} onClick={change}>{busy || pending ? "Activando…" : "Activar notificaciones"}</button>}
+      {!promptOnly && active && <p className="success push-feedback" role="status">Notificaciones activadas.</p>}
+      {!promptOnly && status.startsWith("Desactivadas") && <p className="push-disabled push-feedback" role="status">{status}</p>}
+      {!active && !status.startsWith("Desactivadas") && status && <p className="helper" role="status">{status}</p>}
+      {!promptOnly && <p className="helper">Puedes cambiar este ajuste cuando quieras desde Mi Perfil.</p>}
+      {error && <p className="error" role="alert">{error}</p>}
     </div>
   );
 }

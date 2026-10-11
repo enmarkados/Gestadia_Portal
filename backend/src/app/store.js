@@ -80,6 +80,9 @@ export async function currentAccess(tx, c, user, config) {
         ];
     date = user.accountVerifiedAt;
   }
+  if (config.allowedPermissions) permissions = permissions.filter(p => config.allowedPermissions.includes(p));
+  if (!permissions.includes("commercial_handoff")) commercial = null;
+  if (!permissions.includes("manager_handoff")) manager = null;
   return {
     permissions: [...permissions].sort(),
     case_ref:
@@ -183,6 +186,7 @@ export function conversationView(c, metadataReady = false) {
     status: c.status,
     ready: !!c.remoteId,
     title: c.title ?? null,
+    manager_name: c.managerName ?? null,
     created_at: (c.remoteCreatedAt || c.createdAt).toISOString(),
     last_message_at: c.lastMessageAt?.toISOString() ?? null,
     metadata_ready: metadataReady,

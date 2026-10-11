@@ -1,0 +1,358 @@
+{
+  "schema_version": "2.0",
+  "revision": "2.0-r4",
+  "source": "Local TestServer/SQLite, gateway in memory, no provider or external channels",
+  "outputs": {
+    "BindingCommitted": {
+      "schema_version": "2.0",
+      "binding_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+      "operation_id": "f3a3758d-9f86-4bbc-a2d0-4519d2225780",
+      "conversation_id": "63940b3a-d262-4100-80a4-4bc52de8f3e2",
+      "lidia_session_id": "63940b3a-d262-4100-80a4-4bc52de8f3e2",
+      "status": "committed",
+      "blocked_reason": null,
+      "access_revision": "2",
+      "state_revision": "8",
+      "context_revision": "2",
+      "effective_permissions": [
+        "history",
+        "sondeo"
+      ],
+      "committed_at": "2026-10-05T10:00:00.000Z",
+      "correlation_id": "binding"
+    },
+    "BindingLookup": {
+      "schema_version": "2.0",
+      "binding_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+      "operation_id": "f3a3758d-9f86-4bbc-a2d0-4519d2225780",
+      "conversation_id": "63940b3a-d262-4100-80a4-4bc52de8f3e2",
+      "lidia_session_id": "63940b3a-d262-4100-80a4-4bc52de8f3e2",
+      "status": "committed",
+      "blocked_reason": null,
+      "access_revision": "2",
+      "state_revision": "8",
+      "context_revision": "2",
+      "effective_permissions": [
+        "history",
+        "sondeo"
+      ],
+      "committed_at": "2026-10-05T10:00:00.000Z",
+      "correlation_id": null
+    },
+    "BindingPrepared": {
+      "schema_version": "2.0",
+      "binding_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+      "operation_id": "da609f58-6a7d-4b94-b263-8305dab60abd",
+      "conversation_id": "63940b3a-d262-4100-80a4-4bc52de8f3e2",
+      "lidia_session_id": "63940b3a-d262-4100-80a4-4bc52de8f3e2",
+      "status": "prepared",
+      "blocked_reason": null,
+      "access_revision": "1",
+      "state_revision": "7",
+      "context_revision": "1",
+      "effective_permissions": [
+        "history",
+        "sondeo"
+      ],
+      "committed_at": null,
+      "correlation_id": "binding"
+    },
+    "ContextAck": {
+      "conversation_id": "63940b3a-d262-4100-80a4-4bc52de8f3e2",
+      "operation_id": "4ccff6cf-441e-4a7f-bdab-a93cde09538c",
+      "context_revision": "1",
+      "current_context_revision": "1",
+      "state_revision": "3",
+      "replayed": false,
+      "effective_permissions": [
+        "history",
+        "sondeo"
+      ],
+      "applied_at": "2026-10-05T10:00:00.000Z",
+      "enforcement_deadline": "2026-10-05T10:01:00.000Z",
+      "correlation_id": "contract",
+      "schema_version": "2.0",
+      "persisted": true,
+      "enforcement_status": "propagating"
+    },
+    "Error": {
+      "type": "urn:lidia:app:error:capability_denied",
+      "title": "Error APP",
+      "status": 403,
+      "code": "capability_denied",
+      "detail": "La solicitud APP no se puede completar.",
+      "correlation_id": "0HNP77NTUCDAF",
+      "retryable": false
+    },
+    "MessageAck": {
+      "schema_version": "2.0",
+      "conversation_id": "63940b3a-d262-4100-80a4-4bc52de8f3e2",
+      "ack_id": "99999999-9999-4999-8999-999999999999",
+      "acked_at": "2026-10-05T10:00:00.000Z",
+      "duplicate": false,
+      "message_receipts_revision": "2",
+      "items": [
+        {
+          "message_id": "3398521e-4855-4fcc-9043-60cd72c23815",
+          "sequence": "1",
+          "turn_id": null,
+          "role": "assistant",
+          "stored_at": "2026-10-05T10:00:00.000Z",
+          "delivery_status": "read",
+          "received_at": "2026-10-05T10:00:00.000Z",
+          "received_by": "guest",
+          "read_at": "2026-10-05T10:00:00.000Z",
+          "read_by": "guest",
+          "receipt_revision": "1"
+        }
+      ]
+    },
+    "MessageSummary": {
+      "schema_version": "2.0",
+      "conversation_id": "63940b3a-d262-4100-80a4-4bc52de8f3e2",
+      "message_receipts_revision": "2",
+      "last_message": {
+        "message_id": "eec59f24-63d8-4a71-908c-b52b649ebc62",
+        "sequence": "3",
+        "role": "assistant",
+        "text": "Respuesta local",
+        "occurred_at": "2026-10-05T10:00:00.000Z",
+        "receipt": {
+          "message_id": "eec59f24-63d8-4a71-908c-b52b649ebc62",
+          "sequence": "3",
+          "turn_id": null,
+          "role": "assistant",
+          "stored_at": "2026-10-05T10:00:00.000Z",
+          "delivery_status": "sent",
+          "received_at": null,
+          "received_by": null,
+          "read_at": null,
+          "read_by": null,
+          "receipt_revision": "0"
+        }
+      }
+    },
+    "OperationReceipt": {
+      "schema_version": "2.0",
+      "operation_id": "04dcf9dc-0bc4-40b5-aeda-178007c11a82",
+      "operation": "turn",
+      "conversation_id": "63940b3a-d262-4100-80a4-4bc52de8f3e2",
+      "turn_id": "88888888-8888-4888-8888-888888888888",
+      "status": "completed",
+      "receipt_revision": "3",
+      "state_revision": "6",
+      "accepted_at": "2026-10-05T10:00:00.000Z",
+      "updated_at": "2026-10-05T10:00:00.000Z",
+      "completed_at": "2026-10-05T10:00:00.000Z",
+      "retained_until": "2026-11-04T10:00:00.000Z",
+      "result": {
+        "message_ids": [
+          "eec59f24-63d8-4a71-908c-b52b649ebc62"
+        ],
+        "presentation_ids": [],
+        "sondeo_result_id": null,
+        "sondeo_result_revision": "0",
+        "handoff_status": null
+      },
+      "error": null,
+      "retry_after_seconds": null
+    },
+    "Receipt": {
+      "schema_version": "2.0",
+      "operation_id": "04dcf9dc-0bc4-40b5-aeda-178007c11a82",
+      "operation": "turn",
+      "conversation_id": "63940b3a-d262-4100-80a4-4bc52de8f3e2",
+      "turn_id": "88888888-8888-4888-8888-888888888888",
+      "status": "accepted",
+      "receipt_revision": "1",
+      "state_revision": "4",
+      "accepted_at": "2026-10-05T10:00:00.000Z",
+      "updated_at": "2026-10-05T10:00:00.000Z",
+      "completed_at": null,
+      "retained_until": "2026-11-04T10:00:00.000Z",
+      "result": null,
+      "error": null,
+      "retry_after_seconds": 1
+    },
+    "ReceiptLookup": {
+      "schema_version": "2.0",
+      "conversation_id": "63940b3a-d262-4100-80a4-4bc52de8f3e2",
+      "state_revision": "6",
+      "receipt": {
+        "schema_version": "2.0",
+        "operation_id": "04dcf9dc-0bc4-40b5-aeda-178007c11a82",
+        "operation": "turn",
+        "conversation_id": "63940b3a-d262-4100-80a4-4bc52de8f3e2",
+        "turn_id": "88888888-8888-4888-8888-888888888888",
+        "status": "completed",
+        "receipt_revision": "3",
+        "state_revision": "6",
+        "accepted_at": "2026-10-05T10:00:00.000Z",
+        "updated_at": "2026-10-05T10:00:00.000Z",
+        "completed_at": "2026-10-05T10:00:00.000Z",
+        "retained_until": "2026-11-04T10:00:00.000Z",
+        "result": {
+          "message_ids": [
+            "eec59f24-63d8-4a71-908c-b52b649ebc62"
+          ],
+          "presentation_ids": [],
+          "sondeo_result_id": null,
+          "sondeo_result_revision": "0",
+          "handoff_status": null
+        },
+        "error": null,
+        "retry_after_seconds": null
+      }
+    },
+    "RevocationAck": {
+      "schema_version": "2.0",
+      "operation_id": "31a8d65a-7234-4344-b761-e9f2af95a2a5",
+      "scope": "account",
+      "effective_at": "2026-10-05T10:00:00.000Z",
+      "access_revision": "3",
+      "state_revision": "9",
+      "propagation": "primary_database"
+    },
+    "SessionAck": {
+      "schema_version": "2.0",
+      "conversation_id": "63940b3a-d262-4100-80a4-4bc52de8f3e2",
+      "lidia_session_id": "63940b3a-d262-4100-80a4-4bc52de8f3e2",
+      "conversation_subject_id": "44444444-4444-4444-8444-444444444444",
+      "actor": "guest:22222222-2222-4222-8222-222222222222",
+      "access_revision": "1",
+      "state_revision": "2",
+      "context_revision": "0",
+      "operation_id": "12f70adb-7eb4-4377-ba80-b63cc62e905e",
+      "purpose": "sondeo",
+      "conversation_status": "active",
+      "created_at": "2026-10-05T10:00:00.000Z",
+      "effective_permissions": [
+        "history",
+        "sondeo"
+      ],
+      "effective_agent": {
+        "id": 201,
+        "display_name": "Canje APP test",
+        "instruction_version": "fixture-v1"
+      },
+      "cursor": null
+    },
+    "SessionRecovery": {
+      "schema_version": "2.0",
+      "operation_id": "12f70adb-7eb4-4377-ba80-b63cc62e905e",
+      "operation": "session",
+      "conversation_id": "63940b3a-d262-4100-80a4-4bc52de8f3e2",
+      "turn_id": null,
+      "status": "completed",
+      "receipt_revision": "1",
+      "state_revision": "2",
+      "accepted_at": "2026-10-05T10:00:00.000Z",
+      "updated_at": "2026-10-05T10:00:00.000Z",
+      "completed_at": "2026-10-05T10:00:00.000Z",
+      "retained_until": "2026-11-04T10:00:00.000Z",
+      "result": {
+        "schema_version": "2.0",
+        "conversation_id": "63940b3a-d262-4100-80a4-4bc52de8f3e2",
+        "lidia_session_id": "63940b3a-d262-4100-80a4-4bc52de8f3e2",
+        "conversation_subject_id": "44444444-4444-4444-8444-444444444444",
+        "actor": "guest:22222222-2222-4222-8222-222222222222",
+        "access_revision": "1",
+        "state_revision": "2",
+        "context_revision": "0",
+        "operation_id": "12f70adb-7eb4-4377-ba80-b63cc62e905e",
+        "purpose": "sondeo",
+        "conversation_status": "active",
+        "created_at": "2026-10-05T10:00:00.000Z",
+        "effective_permissions": [
+          "history",
+          "sondeo"
+        ],
+        "effective_agent": {
+          "id": 201,
+          "display_name": "Canje APP test",
+          "instruction_version": "fixture-v1"
+        },
+        "cursor": null
+      },
+      "error": null,
+      "retry_after_seconds": null
+    },
+    "Timeline": {
+      "schema_version": "2.0",
+      "conversation_id": "63940b3a-d262-4100-80a4-4bc52de8f3e2",
+      "created_at": "2026-10-05T10:00:00.000Z",
+      "last_message_at": "2026-10-05T10:00:00.000Z",
+      "items": [
+        {
+          "message_id": "3398521e-4855-4fcc-9043-60cd72c23815",
+          "sequence": "1",
+          "occurred_at": "2026-10-05T10:00:00.000Z",
+          "role": "assistant",
+          "text": "Saludo de fixture",
+          "presentation": null
+        },
+        {
+          "message_id": "ed3fbad9-4e7f-46e5-8714-d2ae76372837",
+          "sequence": "2",
+          "occurred_at": "2026-10-05T10:00:00.000Z",
+          "role": "user",
+          "text": "Texto de fixture",
+          "presentation": null
+        },
+        {
+          "message_id": "eec59f24-63d8-4a71-908c-b52b649ebc62",
+          "sequence": "3",
+          "occurred_at": "2026-10-05T10:00:00.000Z",
+          "role": "assistant",
+          "text": "Respuesta local",
+          "presentation": null
+        }
+      ],
+      "next_cursor": "WyJ2MiIsImZpeHR1cmUtYXBpLXNjb3BlIiwiNDQ0NDQ0NDQtNDQ0NC00NDQ0LTg0NDQtNDQ0NDQ0NDQ0NDQ0IiwiNjM5NDBiM2EtZDI2Mi00MTAwLTgwYTQtNGJjNTJkZThmM2UyIiwiZ3Vlc3Q6MjIyMjIyMjItMjIyMi00MjIyLTgyMjItMjIyMjIyMjIyMjIyIiwiMSIsIjMiXQ.b6f44309b998d3a86dc61923194fa2145fc610ec3d386e17c304dde437b73eb9",
+      "has_more": false,
+      "conversation_status": "active",
+      "effective_agent": {
+        "id": 201,
+        "display_name": "Canje APP test",
+        "instruction_version": "fixture-v1"
+      },
+      "support": {
+        "status": "none",
+        "operator_display_name": null,
+        "requested_at": null,
+        "assigned_at": null,
+        "attended_at": null,
+        "updated_at": "2026-10-05T10:00:00.000Z"
+      },
+      "turn_statuses": [
+        {
+          "schema_version": "2.0",
+          "operation_id": "04dcf9dc-0bc4-40b5-aeda-178007c11a82",
+          "operation": "turn",
+          "conversation_id": "63940b3a-d262-4100-80a4-4bc52de8f3e2",
+          "turn_id": "88888888-8888-4888-8888-888888888888",
+          "status": "completed",
+          "receipt_revision": "3",
+          "state_revision": "6",
+          "accepted_at": "2026-10-05T10:00:00.000Z",
+          "updated_at": "2026-10-05T10:00:00.000Z",
+          "completed_at": "2026-10-05T10:00:00.000Z",
+          "retained_until": "2026-11-04T10:00:00.000Z",
+          "result": {
+            "message_ids": [
+              "eec59f24-63d8-4a71-908c-b52b649ebc62"
+            ],
+            "presentation_ids": [],
+            "sondeo_result_id": null,
+            "sondeo_result_revision": "0",
+            "handoff_status": null
+          },
+          "error": null,
+          "retry_after_seconds": null
+        }
+      ],
+      "sondeo": null,
+      "state_revision": "6"
+    }
+  }
+}

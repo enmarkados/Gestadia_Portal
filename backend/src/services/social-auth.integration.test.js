@@ -71,21 +71,13 @@ test(
           confirm: false,
         }),
       );
-      const result = await svc.account({
-        attemptId: attempt.id,
-        proof: attempt.proof,
-        action: "create",
-        confirm: true,
-      });
+      await assert.rejects(svc.account({ attemptId: attempt.id, proof: attempt.proof, action: "create", confirm: true }));
+      assert.equal(await db.user.count({ where: { email: claims.email } }), 0);
+      await db.user.create({ data: { email: claims.email, nombre: "Cuenta Portal", apellidos: "Prueba" } });
+      const returning = await svc.start({ provider: "google", platform: "android" });
+      const result = await svc.complete({ attemptId: returning.id, proof: returning.proof, idToken: "fixture" });
       assert.ok(result.token);
-      await assert.rejects(
-        svc.account({
-          attemptId: attempt.id,
-          proof: attempt.proof,
-          action: "create",
-          confirm: true,
-        }),
-      );
+      await assert.rejects(svc.complete({ attemptId: returning.id, proof: returning.proof, idToken: "fixture" }));
       const user = await db.user.findUnique({ where: { email: claims.email } });
       const { accountProof } = await import("../app/identity.js");
       assert.equal(accountProof(user).method, "email");
@@ -98,24 +90,10 @@ test(
         provider: "google",
         platform: "android",
       });
-      assert.equal(
-        (
-          await svc.complete({
-            attemptId: existing.id,
-            proof: existing.proof,
-            idToken: "fixture",
-          })
-        ).status,
-        "existing_account_required",
-      );
-      await assert.rejects(
-        svc.account({
-          attemptId: existing.id,
-          proof: existing.proof,
-          action: "create",
-          confirm: true,
-        }),
-      );
+      const existingResult = await svc.complete({ attemptId: existing.id, proof: existing.proof, idToken: "fixture" });
+      assert.ok(existingResult.token);
+      assert.equal(await db.user.count({ where: { email: claims.email } }), 1);
+      claims = { ...claims, subject: `link-${suffix}` };
       const actor = { user, session };
       const link = await svc.start(
         { provider: "google", platform: "android", purpose: "link" },

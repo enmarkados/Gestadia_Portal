@@ -1,0 +1,14 @@
+vite v5.4.21 building for production...
+transforming...
+✓ 1915 modules transformed.
+rendering chunks...
+computing gzip size...
+../../../../../../../../../../tmp/gestadia-motion-tablero-build/pantalla.html                                0.51 kB │ gzip:  0.32 kB
+../../../../../../../../../../tmp/gestadia-motion-tablero-build/index.html                                   5.52 kB │ gzip:  2.40 kB
+../../../../../../../../../../tmp/gestadia-motion-tablero-build/assets/01-flujo-pantallas-COxujiZW.svg      12.54 kB │ gzip:  2.99 kB
+../../../../../../../../../../tmp/gestadia-motion-tablero-build/assets/tablero-D_zGRrK2.css                  6.59 kB │ gzip:  2.02 kB
+../../../../../../../../../../tmp/gestadia-motion-tablero-build/assets/pantalla-CVgStEb6.css                42.78 kB │ gzip:  8.95 kB
+../../../../../../../../../../tmp/gestadia-motion-tablero-build/assets/modulepreload-polyfill-B5Qt9EMX.js    0.71 kB │ gzip:  0.40 kB
+../../../../../../../../../../tmp/gestadia-motion-tablero-build/assets/tablero-flrODD23.js                   5.08 kB │ gzip:  2.16 kB
+../../../../../../../../../../tmp/gestadia-motion-tablero-build/assets/pantalla-DtVjB3cx.js                183.21 kB │ gzip: 56.54 kB
+✓ built in 1.23s

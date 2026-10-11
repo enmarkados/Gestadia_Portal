@@ -2,6 +2,11 @@
 
 [Manual de desarrollo: cómo consultar y mantener este mapa](MANUAL-DESARROLLO.md).
 
+**Mapa vigente · revisión del 11/10/2026:** [plan y pantallas capturadas](2026-10-11-recorridos-gestores.md). Implementación autorizada por respuesta humana: LidIA recoge IA y su historial; Mensajes recoge gestores/atención/postventa. Guest v2 por instalación está integrado y apagado por defecto. El resultado cualificado/contacto automático y el alta opcional conservan sus dependencias pendientes. Los mapas de propuesta del 10/10 se mantienen como antecedentes.
+
+La precisión humana posterior fija que preguntas y decisiones pertenecen al agente 119. Los estados del diagrama representan lo que la APP muestra del agente; el cuestionario ilustrativo de la maqueta no define un motor de canje en Portal. Texto como respuesta base; contenido dinámico opcional. [Criterios vigentes del manual](MANUAL-DESARROLLO.md#criterios-que-debe-conservar-el-desarrollo).
+
+Auditoría del 07/10/2026. Alcance: rutas reales de `frontend/app/src/App.jsx`, modos visitante/demo/conectado, hojas y vistas de cuenta. Este mapa no valida permisos ni configuración de producción. [Glosario](../../GLOSARIO.md).
 Mapa vivo actualizado el 10/10/2026 tras retirar la demostración. Alcance: rutas reales de `frontend/app/src/App.jsx`, visitante o sesión conectada, hojas y vistas de cuenta. La sección de comprobación del 07/10 conserva evidencia histórica. Este mapa no valida permisos ni conversación en producción. [Glosario](../../GLOSARIO.md).
 
 Regla: las cuatro pestañas son destinos principales y conservan el menú inferior. Una pantalla secundaria tiene Atrás al origen interno completo, o a su destino de reserva si se abre directamente. Acceso/registro y documentos legales pueden ocultar el menú, pero siempre permiten volver. Entrar no pierde la pantalla solicitada. Las hojas cierran sobre la pantalla que las abrió; navegar desde ellas guarda esa pantalla como origen, sin reabrir la hoja al volver.
@@ -12,41 +17,63 @@ La revisión publicada sin demostración es `be6806d`, comprobada de nuevo el 10
 
 ```mermaid
 flowchart TD
-  INICIO["LidIA /"] <--> T["Trámites /tramites"]
-  INICIO <--> M["Mensajes /mensajes"]
-  INICIO <--> S["Servicios /servicios"]
+  L["LidIA /: nueva, continuar e historial IA"] <--> T["Trámites /tramites"]
+  L <--> M["Mensajes /mensajes: gestores y postventa"]
+  L <--> S["Servicios /servicios"]
   T <--> M
   M <--> S
-  T <--> S
-  INICIO -->|Continuar| IA["Habla con LidIA /lidia/conversacion"]
-  INICIO --> NUEVA["Nueva conversación /lidia/conversacion?nueva=UUID"]
-  M --> NUEVA
-  IA --> NUEVA
-  NUEVA -->|Iniciar: sesión independiente; URL con id| IA
-  NUEVA -->|Atrás: origen sin crear| INICIO
-  NUEVA -->|Origen Mensajes| M
-  M --> IA
-  M --> G["Atención /mensajes/gestor"]
-  IA -->|Atrás: origen o LidIA| INICIO
-  IA -->|Origen Mensajes| M
-  G -->|Atrás: origen o Mensajes| M
-  T --> V["Verificación /tramites/:id?documento=..."]
-  N["Hoja Notificaciones"] --> V
-  V -->|Atrás: conserva chat y parámetros| G
-  V -->|Origen lista o entrada directa| T
-  IA --> Q["Solicitud de atención / hoja Contacto"]
-  Q --> G
-  G --> C["Chat cerrado: historial, sin compositor"]
-  C -->|Nuevo chat; conserva origen| G
-  IA --> P["Operación pendiente / error / reintento"]
-  G --> P
-  P -->|Misma conversación, sin navegar| IA
-  P -->|Misma conversación, sin navegar| G
+  L --> NUEVA["Nueva /lidia/conversacion?nueva=UUID"]
+  NUEVA --> CUENTA{Cuenta activa}
+  CUENTA -->|Sí| IA["Habla con LidIA: id propio"]
+  CUENTA -->|No| GATE["Login o continuar sin registro"]
+  GATE --> ACCESO["Acceso con retorno al chat"]
+  GATE -->|Visitante| IA
+  L -->|Continuar o fila| IA
+  IA -->|Atrás conserva origen| L
+  IA --> P["Operación pendiente: mismo id/key"]
+  P --> IA
+  L --> Q["Hoja Hablar con un gestor"]
+  T --> Q
+  M --> Q
+  IA --> Q
+  Q --> CRM{Contexto resuelto por servidor}
+  CRM -->|Visitante/lead| CALL["Nombre y teléfono: solicitar llamada"]
+  CALL --> TASK["Lead/Contact y tarea Zoho; ACK o pendiente"]
+  CRM -->|Contacto/trato con asignación y permisos| NAME["Gestor: nombre y apellidos"]
+  NAME --> G["Chat de gestor /mensajes/gestor?id propio"]
+  M -->|Fila de gestor| G
+  G -->|Atrás al origen o Mensajes| M
+  T --> V["Trámite /tramites/:id?documento=..."]
+  G --> V
+  V -->|Atrás conserva chat/caso| G
+  V -->|Origen lista o directo| T
+  G --> CLOSED["Cerrado: historial sin compositor"]
+  BELL["Campana: todas/no leídas/leídas"] --> V
+  BELL --> IA
+  BELL --> G
 ```
 
-Desde el 08/10/2026, Inicio distingue Nueva/Continuar y Mensajes ofrece Nueva; el chat abierto o cerrado conserva una acción compacta sobre el compositor. `nueva=UUID` conserva el intento de creación al recargar/reintentar; sólo Iniciar efectúa POST y conserva los chats anteriores. Una creación pendiente mantiene ese intento hasta confirmar su id. Al abrir un historial se indica «Cargando conversación…»; no se ofrece iniciar otra durante la recuperación. [Plan, conformidad y pruebas](2026-10-08-nueva-conversacion-lidia.md).
+LidIA distingue Nueva/Continuar e historial. Mensajes ya no ofrece ni lista IA. Dentro de un chat LidIA no se inicia otro: Atrás lleva a su origen. `nueva=UUID` conserva el intento; con cuenta se confirma Iniciar y como visitante la elección Continuar sin registro inicia el mismo intento. Una creación incierta conserva key y operación. La conversación guest se identifica también con `invitado=1`, mantiene id y actor histórico; cuenta comprobada y control de instalación son necesarios para vincular.
 
 El chat conectado se identifica por `conversacion` y, cuando procede, `caso`. Esos parámetros forman parte del retorno; no se sustituye el chat seleccionado por uno nuevo. La validación real admite carga de documentos con FormData y sólo confirma el resultado devuelto por la API. Un error de carga permanece en la misma pantalla y conserva Atrás.
+
+### Asociación backend preparada el 11/10/2026
+
+Las pantallas, los parámetros y sus destinos de Atrás permanecen iguales. El servidor conserva la asociación de cada chat y reevaluará el destino de una consulta implícita si confirma que el candidato está cerrado. Nueva consulta119 exige configuración privada y autoridad vigente; atención e historial122 conservan su asociación. La APP no recibe un selector de agente. [Estado, pruebas y recuperación](2026-10-11-reanudacion-app-119.md).
+
+```mermaid
+flowchart LR
+  NUEVA["APP: Iniciar nueva consulta"] --> AUT["Portal: cuenta y permisos actuales"]
+  AUT --> REG["Registro servidor de integración"]
+  REG -->|Nueva consulta: opt-in119| IA119["LidIA: agente119 / proyecto102"]
+  HIST["APP: abrir chat u operación existente"] --> AUT
+  REG -->|Asociación guardada122| IA122["LidIA: agente122 / proyecto103"]
+  REG -->|Asociación guardada119| IA119
+  IA119 --> TEXTO["Respuesta literal en el mismo chat APP"]
+  IA122 --> TEXTO
+```
+
+Este diagrama explica la resolución integrada. La instancia local5177 quedó configurada para119 con una cuenta ficticia nueva autorizada durante24h; login, nueva consulta, un turno y recuperación fueron observados en UI; la evidencia SQL fuente de la misma sesión119 acredita una llamada real al modelo. La aceptación nativa, el sondeo completo y otros recorridos se registran por separado. No añade pantallas ni habilita visitantes v2. [Instancia y evidencia](2026-10-11-reanudacion-app-119.md#instancia-conectada-preparada--11102026).
 
 ## Acceso, registro y sesión
 
@@ -56,8 +83,8 @@ flowchart TD
   D["Detalle visitante, incluido documento"] --> A
   CHAT["Conversación visitante, incluido id"] --> A
   AM["Hoja Cuenta: Iniciar sesión"] --> A
-  MG["Mensajes visitante /mensajes"] --> LOGIN["Acceso dentro de ruta solicitada"]
-  CG["Perfil visitante /cuenta"] --> LOGIN
+  MG["Mensajes visitante con dock"] --> A
+  CG["Perfil visitante /cuenta"] --> LOGIN["Acceso con retorno al Perfil"]
   A <-->|Conserva origen y continuación| R["Registro /registro"]
   A -->|Privacidad / Términos / Soporte| L["/legal/privacy, /legal/terms, /legal/support, /legal/delete-account"]
   R --> L
@@ -77,7 +104,7 @@ El registro conectado explica el acceso compartido Portal/APP; no crea otra cuen
 
 ### LidIA sin cuenta: mapas actualizados el 10/10 (propuesta)
 
-**Pendiente de aprobación e implementación.** El recorrido actual sigue autenticado. Esta revisión incorpora la corrección humana: **primero requisitos; contacto sólo tras resultado suficiente y voluntad de gestor; solicitud como visitante; cuenta opcional después para guardar el chat**. [Diagrama con capturas](2026-10-10-mapas-pantallas-app-anonima.md) · [Propuesta técnica](../integraciones/2026-10-10-propuesta-app-anonima-lidia.md) · [Contraste con LidIA](../integraciones/2026-10-10-contraste-portal-app-anonima.md).
+**Antecedente de diseño del 10/10.** La consulta guest y vínculo están implementados en la revisión del 11/10; contacto automático cualificado/alta/agenda permanecen propuestos. El historial IA vive ahora en LidIA, aunque las capturas originales llamen Mensajes al destino. Esta propuesta conserva la decisión humana: **primero requisitos; contacto sólo tras resultado suficiente y voluntad de gestor; solicitud como visitante; cuenta opcional después para guardar el chat**. [Diagrama con capturas](2026-10-10-mapas-pantallas-app-anonima.md) · [Propuesta técnica](../integraciones/2026-10-10-propuesta-app-anonima-lidia.md) · [Contraste con LidIA](../integraciones/2026-10-10-contraste-portal-app-anonima.md).
 
 ```mermaid
 flowchart TD
@@ -186,8 +213,15 @@ flowchart TD
   CUENTA --> LEGAL["Privacidad / Términos / Soporte"]
   LEGAL -->|Atrás| CUENTA
   N -->|Ver servicios| S["Servicios /servicios"]
-  Q --> AT["Atención Gestadia"]
+  Q --> CTX{Contexto servidor}
+  CTX -->|Visitante o lead| CALL[Nombre y teléfono: solicitud de llamada]
+  CTX -->|Cuenta con gestor y permisos| AT[Chat con su gestor]
   AT -->|Atrás: origen de la hoja| BASE
+  N --> FILTER[Todas / no leídas / leídas y gesto de lectura]
+  FILTER --> DEST[Conversación o trámite autorizado]
+  CUENTA --> PUSH[Toggle de avisos: confirmación verde o roja]
+  SEG --> RESET[Restablecer contraseña por email]
+  SEG --> SOCIAL[Vincular Google o Apple a cuenta actual]
   S --> SEL["Servicio seleccionado; título y formulario"]
   SEL --> WEB["Checkout web externo con datos precargados"]
   WEB -->|Cerrar navegador del sistema| SEL
@@ -195,21 +229,21 @@ flowchart TD
   U["Ruta desconocida"] -->|Atrás o Volver al inicio| BASE
 ```
 
-En web el checkout abre una pestaña separada; en nativo abre el navegador del sistema, conservando la pantalla y el formulario en la APP. Los bloques de perfil y cambios de servicio son estados de su pantalla, no páginas nuevas. El borrado de cuenta y los permisos mantienen sus restricciones actuales. No se altera la contratación, la asignación CRM ni los mensajes por esta corrección.
+En web el checkout abre una pestaña separada; en nativo abre el navegador del sistema, conservando la pantalla y el formulario en la APP. Los bloques de perfil y cambios de servicio son estados de su pantalla, no páginas nuevas. El borrado de cuenta y los permisos mantienen sus restricciones actuales. La cuenta procede de contratación/eventos Zoho; la APP no elige un operador ni concede permisos por cambiar de ruta.
 
 ## Inventario y decisión de retorno
 
 | Pantalla / estado | Orígenes | Atrás; reserva para entrada directa | Menú inferior | Al completar |
 |---|---|---|---|---|
-| `/` LidIA | Pestañas / marca | No en inicio | Sí | Abrir chat autenticado si hay conexión habilitada |
-| `/tramites` | Pestañas | No: principal | Sí | Visitante abre acceso y retoma Trámites |
-| `/mensajes` | Pestañas | Principal; acceso visitante sí tiene retorno | Sí salvo acceso visitante | Abre el chat exacto |
-| `/servicios` | Pestañas / notificaciones | No: principal | Sí | Selección desplaza al título; checkout externo |
-| `/lidia/conversacion?nueva=UUID` | LidIA / Mensajes / chat / acceso | Mismo origen; `/` | Sí | Iniciar crea otra; URL canónica con id; no cierra la anterior |
-| `/lidia/conversacion` | LidIA / Mensajes / acceso | Origen; `/` | Sí | Mismo chat y origen; no crear al volver |
-| `/mensajes/gestor` | Mensajes / Contacto / validación | Origen; `/mensajes` | Sí | Cerrado mantiene historial; nuevo mantiene origen |
+| `/` LidIA | Pestañas / marca | Principal | Sí | Nueva, continuar e historial IA propios |
+| `/tramites` | Pestañas | Principal | Sí | Visitante abre acceso y retoma Trámites |
+| `/mensajes` | Pestañas / chat | Principal | Sí, también visitante | Sólo gestores/atención/postventa; entrar o solicitar llamada |
+| `/servicios` | Pestañas / notificaciones | Principal | Sí | Selección desplaza al título; checkout externo |
+| `/lidia/conversacion?nueva=UUID` | LidIA / acceso | Origen; `/` | Sí | Cuenta: Iniciar; visitante: elegir Login o continuar sin registro |
+| `/lidia/conversacion?conversacion=ID` | LidIA / notificación / enlace | Origen; `/` | Sí | Misma sesión; `invitado=1` identifica consumidor guest/vinculado |
+| `/mensajes/gestor` | Mensajes / Contacto / trámite | Origen; `/mensajes` | Sí | Id humano propio; cerrado conserva historial; directo sin id abre contexto gestor |
 | `/tramites/:id` | Lista / notificación / documento del chat | Origen con query; `/tramites` | Sí | Carga documental por API; conserva el origen |
-| `/cuenta` | Hoja Cuenta / enlace directo | Origen; `/` | Sí autenticado; no visitante | Guarda sin navegar |
+| `/cuenta` | Menú Cuenta / enlace directo | Origen; `/` | Sí autenticado; no visitante | Datos, restablecimiento, vínculos sociales y toggle push |
 | `/acceso` | Trámites / chat / Cuenta / entrada directa | Origen; `/` | No | Pantalla solicitada y contexto; por defecto `/` |
 | `/registro` | Acceso / entrada directa | Mismo origen del acceso; `/` | No | Informa sobre la cuenta compartida y la invitación; invita al acceso |
 | `/legal/privacy` | Cuenta / Acceso / Registro | Origen completo; `/acceso` | No | Atrás restituye contexto |
@@ -238,7 +272,8 @@ El checkout externo se verifica mediante prueba del destino y de la apertura sep
 
 ### Presentación de Mensajes
 
-El listado conectado utiliza filas compactas. Los accesos «Nueva conversación con LidIA» y «Atención Gestadia» mantienen el origen `/mensajes` y no crean sesiones al pulsarlos: Nueva muestra el inicio explícito de una sesión independiente; los chats del listado recuperan sus ids exactos. Esta pantalla muestra únicamente el dock inferior, sin el botón fijo de contacto duplicado. Renombrar se despliega en la fila seleccionada y devuelve el foco al lápiz al guardar o cancelar.
+Los listados utilizan filas compactas, búsqueda, fechas, estado, recibos y renombrado en la fila con Guardar/Cancelar. LidIA filtra sondeo v1 y guest v2 propios; Mensajes filtra atención/gestor/postventa. El acceso Hablar con un gestor abre el contexto actual y nunca convierte una consulta IA por URL. La apertura de gestor requiere ACK de handoff; un error permanece en la hoja con el borrador. Atrás conserva el origen completo.
+
 
 
 ### Revisión común de pantallas histórica

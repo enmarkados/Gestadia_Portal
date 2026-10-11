@@ -22,8 +22,8 @@ export async function sendEmail(to, subject, message) {
 }
 
 /** Crea una notificación en el portal y la envía por email. */
-export async function notifyUser(user, { titulo, cuerpo, expedienteId = null, email = true }) {
-  const notice = await pushService.notify({userId: user.id, expedienteId, titulo, cuerpo});
+export async function notifyUser(user, { titulo, cuerpo, expedienteId = null, conversationId = null, email = true }) {
+  const notice = await pushService.notify({userId: user.id, expedienteId, conversationId, titulo, cuerpo});
   if (!notice) return;
   if (email) {
     await sendEmail(

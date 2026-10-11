@@ -68,9 +68,9 @@ it("acceso conectado usa sesión APP y el chat no inicia PluginWeb ni muestra un
   await waitFor(() =>
     expect(calls.some((x) => x.url === "/api/app/v1/auth/sessions")).toBe(true),
   );
-  await screen.findByRole("link", { name: "Nueva conversación con LidIA" });
+  await screen.findByRole("link", { name: /Nueva conversación con LidIA/ });
   fireEvent.click(
-    screen.getByRole("link", { name: "Nueva conversación con LidIA" }),
+    screen.getByRole("link", { name: /Nueva conversación con LidIA/ }),
   );
   await screen.findByRole("heading", { name: "Habla con LidIA" });
   await screen.findByRole("button", { name: "Iniciar conversación" });
@@ -78,7 +78,7 @@ it("acceso conectado usa sesión APP y el chat no inicia PluginWeb ni muestra un
   expect(screen.queryByText("Juan Carlos Acero")).toBeNull();
 });
 
-it("Mensajes sin sesión pide acceso y no muestra conversaciones de demostración", () => {
+it("Mensajes visitante conserva navegación, permite solicitar llamada y no muestra chats ficticios", () => {
   render(
     <MemoryRouter initialEntries={["/mensajes"]}>
       <AppProvider>
@@ -89,15 +89,16 @@ it("Mensajes sin sesión pide acceso y no muestra conversaciones de demostració
     </MemoryRouter>,
   );
   expect(
-    screen.getByRole("heading", { name: "Iniciar sesión" }),
+    screen.getByRole("heading", { name: "Mensajes", exact: true }),
   ).toBeInTheDocument();
   expect(screen.queryByText("CONVERSACIONES ACTIVAS")).toBeNull();
   expect(
     screen.queryByRole("button", { name: "Explorar la demostración" }),
   ).toBeNull();
   expect(
-    screen.queryByRole("button", { name: "Hablar con un gestor" }),
-  ).toBeNull();
+    screen.getAllByRole("button", { name: "Hablar con un gestor" }).length,
+  ).toBeGreaterThan(0);
+  expect(screen.getByRole("navigation", { name: "Navegación principal" })).toBeInTheDocument();
 });
 
 it("registro conectado no ofrece cuentas de ejemplo aunque el chat esté desactivado", () => {

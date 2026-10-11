@@ -26,14 +26,14 @@ function SectionHeading({ icon, title, children }) {
 function PasswordSettings() {
   return (
     <div>
-      <p className="helper">Puedes recuperar tu acceso desde el portal.</p>
+      <p className="helper">Para restablecer tu contraseña, te enviaremos un enlace al correo de tu cuenta Gestadia. La nueva contraseña servirá para la app y el portal.</p>
       <a
         className="text-btn"
         href="https://gestadia.com/portal/recuperar"
         target="_blank"
         rel="noopener noreferrer"
       >
-        Recuperar acceso
+        Restablecer contraseña
       </a>
     </div>
   );

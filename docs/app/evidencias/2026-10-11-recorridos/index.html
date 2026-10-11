@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gestadia · Recorridos comprobados</title>
+<style>
+:root{font-family:system-ui,-apple-system,sans-serif;color:#292929;background:#f6f6f5;--red:#bd392b}*{box-sizing:border-box}body{margin:0}header{padding:28px max(24px,calc((100vw - 1440px)/2));background:#191919;color:white}header h1{margin:6px 0 12px;font-size:clamp(24px,3vw,36px);letter-spacing:-.035em}header small{color:#e19d92}header p{max-width:900px;margin:0;color:#d1d1d1;line-height:1.6}main{max-width:1488px;margin:auto;padding:24px}nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 26px}button{font:inherit;min-height:44px;padding:10px 18px;border:1px solid #ddd;border-radius:24px;background:white;cursor:pointer;color:#333}button[aria-pressed=true]{background:#292929;color:white;border-color:#292929}button:focus-visible,a:focus-visible{outline:2px dashed var(--red);outline-offset:4px}.note{padding:14px 18px;border-left:3px solid var(--red);background:#fff;line-height:1.55;margin-bottom:28px}.group{margin:0 0 48px}.group h2{font-size:22px;margin:0 0 8px}.group>p{color:#666;line-height:1.6;margin:0 0 20px}.trail{display:flex;gap:34px;overflow:auto;padding:4px 4px 20px}.screen{flex:0 0 268px;position:relative}.screen:not(:last-child):after{content:'→';position:absolute;right:-27px;top:285px;color:var(--red);font-size:26px}.screen h3{font-size:15px;margin:0 0 10px;min-height:38px}.screen a{display:block;border-radius:18px;overflow:hidden;border:1px solid #ddd;background:white;box-shadow:0 8px 24px #0000000a}.screen img{display:block;width:100%;height:auto}.screen p{font-size:13px;color:#646464;line-height:1.5;margin:12px 0}.screen .tag{font-size:11px;color:var(--red);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:6px}footer{border-top:1px solid #ddd;padding:24px;color:#666;font-size:13px;line-height:1.65}footer a{color:var(--red)}[hidden]{display:none!important}@media(max-width:600px){main{padding:20px}.screen{flex-basis:240px}header{padding:24px}.trail{gap:28px}.screen:not(:last-child):after{right:-23px}}@media(prefers-reduced-motion:no-preference){button{transition:background-color 280ms,color 280ms}button:active{transform:scale(.98)}}
+</style>
+</head>
+<body>
+<header><small>GESTADIA · DESARROLLO · 11/10/2026</small><h1>Lo que ve el usuario</h1><p>Recorridos de la interfaz real con datos ficticios locales. Las capturas permiten revisar el diseño; las conexiones con LidIA, Zoho, OAuth y push requieren sus pruebas independientes.</p></header>
+<main>
+<nav aria-label="Filtrar recorridos">
+<button type="button" data-filter="all" aria-pressed="true">Todos</button><button type="button" data-filter="lidia" aria-pressed="false">LidIA sin registro</button><button type="button" data-filter="gestor" aria-pressed="false">Gestores</button><button type="button" data-filter="avisos" aria-pressed="false">Avisos y perfil</button><button type="button" data-filter="ios" aria-pressed="false">Arranque iOS</button>
+</nav>
+<div class="note">La petición de contacto automática tras cumplir requisitos sigue pendiente de una señal estructurada del agente. Las pantallas de llamada aquí muestran la acción voluntaria «Hablar con un gestor».</div>
+<section class="group" data-group="lidia"><h2>1. Una consulta con LidIA, sin cuenta</h2><p>Nueva conversación → elegir acceso → hablar → Atrás y continuar. Nombre y teléfono no se piden para iniciar.</p><div class="trail">
+<article class="screen"><span class="tag">Web · Respuesta ficticia</span><h3>Elegir cómo entrar</h3><a href="01-entrada-visitante.png"><img src="01-entrada-visitante.png" alt="Elegir iniciar sesión o continuar sin registro"></a><p>La sesión visitante pertenece a esta instalación.</p></article>
+<article class="screen"><span class="tag">Web · Respuesta ficticia</span><h3>Hablar con LidIA</h3><a href="02-chat-visitante.png"><img src="02-chat-visitante.png" alt="Chat LidIA visitante"></a><p>Texto literal. El chat activo no ofrece crear otro.</p></article>
+<article class="screen"><span class="tag">Web · Respuesta ficticia</span><h3>Volver y continuar</h3><a href="03-lidia-continuar.png"><img src="03-lidia-continuar.png" alt="Continuar conversación destacado en LidIA"></a><p>Continuar, nueva consulta e historial IA en LidIA.</p></article>
+</div></section>
+<section class="group" data-group="gestor"><h2>2. Contacto humano</h2><p>Visitante: solicitar llamada voluntaria. Cuenta con contacto/trato y asignación: abrir el chat del gestor. Mensajes conserva únicamente las conversaciones humanas.</p><div class="trail">
+<article class="screen"><span class="tag">Web · Datos ficticios</span><h3>Visitante: pedir llamada</h3><a href="04-llamada-visitante.png"><img src="04-llamada-visitante.png" alt="Nombre y teléfono para solicitar llamada"></a><p>Propósito explícito y privacidad. Confirmación remota pendiente de prueba CRM.</p></article>
+<article class="screen"><span class="tag">Web · Datos ficticios</span><h3>Gestor identificado</h3><a href="07-gestor-asignado.png"><img src="07-gestor-asignado.png" alt="Nombre del gestor y apertura del chat"></a><p>Servidor resuelve contacto, expediente y asignación.</p></article>
+<article class="screen"><span class="tag">Web · Datos ficticios</span><h3>Chat del gestor</h3><a href="08-chat-gestor.png"><img src="08-chat-gestor.png" alt="Chat humano y mensaje del cliente rojo"></a><p>Misma conversación humana; mensaje del cliente rojo.</p></article>
+<article class="screen"><span class="tag">Web · Datos ficticios</span><h3>Mensajes compacto</h3><a href="05-mensajes-gestores.png"><img src="05-mensajes-gestores.png" alt="Listado compacto sin consultas de IA"></a><p>Buscar, estado, fechas y acceso al chat.</p></article>
+<article class="screen"><span class="tag">Web · Datos ficticios</span><h3>Renombrar y Cancelar</h3><a href="06-renombrar-cancelar.png"><img src="06-renombrar-cancelar.png" alt="Controles al renombrar una conversación"></a><p>Cancelar vuelve a la fila sin guardar.</p></article>
+</div></section>
+<section class="group" data-group="avisos"><h2>3. Avisos y cuenta</h2><p>Un aviso abre su recurso autorizado después de confirmar lectura. Perfil explica contraseña, vinculación social y preferencias.</p><div class="trail">
+<article class="screen"><span class="tag">Web · Datos ficticios</span><h3>No leídos / leídos / todos</h3><a href="09-notificaciones-no-leidas.png"><img src="09-notificaciones-no-leidas.png" alt="Filtro de avisos no leídos"></a><p>Pulsar abrió la conversación correspondiente.</p></article>
+<article class="screen"><span class="tag">Web · Datos ficticios</span><h3>Perfil: seguridad</h3><a href="10-perfil-seguridad.png"><img src="10-perfil-seguridad.png" alt="Explicación de restablecer contraseña"></a><p>La contraseña da acceso tanto al Portal como a la APP.</p></article>
+</div></section>
+<section class="group" data-group="ios"><h2>4. Arranque nativo observado</h2><p>iPhone 17 / iOS 26.5, copia Debug configurada para el servidor ficticio. Build, instalación y arranque comprobados; pulsación/escritura automática bloqueadas en Device Hub.</p><div class="trail"><article class="screen"><span class="tag">iOS · Base local ficticia</span><h3>Inicio de LidIA</h3><a href="11-ios-arranque.png"><img src="11-ios-arranque.png" alt="Arranque de Gestadia en el simulador iOS"></a><p>Capture Keyboard activado. No acredita ciclo completo nativo ni dispositivo físico.</p></article></div></section>
+</main>
+<footer>Las capturas mantienen su procedencia y bytes. <a href="README.md">Leer manifiesto y comandos</a>. Guest v2 no activado en PRO; prueba conectada conjunta pendiente. Este tablero no ejecuta operaciones externas.</footer>
+<script>
+document.querySelectorAll('[data-filter]').forEach(button=>button.addEventListener('click',()=>{
+const selected=button.dataset.filter;
+document.querySelectorAll('[data-filter]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
+document.querySelectorAll('[data-group]').forEach(group=>{group.hidden=selected!=='all'&&group.dataset.group!==selected;});
+}));
+</script>
+</body></html>

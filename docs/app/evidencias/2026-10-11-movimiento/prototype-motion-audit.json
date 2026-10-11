@@ -1,0 +1,23 @@
+[
+  {
+    "screen": "consulta",
+    "wrapper": true,
+    "padding": "16px 14px",
+    "documentOverflow": false,
+    "mainOverflow": false
+  },
+  {
+    "screen": "acceso",
+    "wrapper": true,
+    "padding": "28px 20px 24px",
+    "documentOverflow": false,
+    "mainOverflow": false
+  },
+  {
+    "screen": "mensajes-visitante",
+    "wrapper": true,
+    "padding": "20px 16px 24px",
+    "documentOverflow": false,
+    "mainOverflow": false
+  }
+]
