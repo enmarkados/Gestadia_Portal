@@ -1634,3 +1634,9 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** Comprobación semántica del recibo histórico de reserva emitido por LidIA; requiere un turno completado sin error, hora UTC verificada coincidente y zona IANA válida. No acredita disponibilidad ni estado actual de una cita.
 - **Alcance:** backend/src/app/appointment-receipts.js; validadores de respuestas v1/v2.
 - **Notas:** No deducir una llamada del texto del modelo ni del estado completed sin el recibo cerrado. Los IDs CRM permanecen en LidIA.
+
+### AppCrmConfiguration.AccessScope (LidIA)
+- **Tipo:** propiedad de configuración privada / concepto runtime de la integración.
+- **Definición:** Límite adicional de cuenta, sesión e intervalo UTC para las capacidades CRM de una integración APP en LidIA. Su vigencia máxima es una hora; fuera del ámbito conserva sondeo e historial y retira preparación CRM y agenda.
+- **Alcance:** plataforma LidIA, configuración privada `/app/App_Data/app-conversations.json`; conformidad Portal en `docs/integraciones/2026-10-12-lidia-scope-temporal.md`. No introduce propiedades en los DTO móviles/S2S ni sustituye `callbackAccess` de Portal.
+- **Notas:** Adenda aceptada técnicamente y en preparación, todavía sin activar. Se descarta depender únicamente de la caducidad Portal: un contexto CRM remoto antiguo requiere un guard temporal propio y retirada confirmada al cerrar la prueba. La implementación y sus rutas de código pertenecen al glosario de LidIA.
