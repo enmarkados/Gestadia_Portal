@@ -1,0 +1,21 @@
+{
+  "backup": "manager-readonly-20261011",
+  "backup_stack": 99,
+  "sqlBytes": 271854,
+  "sqlSha256": "20b455121e4b3fe50d78bfabb59edc24deddc5c3f6e2599d5b45ac0d52ddffdb",
+  "counts": {
+    "users": 45,
+    "cases": 94,
+    "documents": 14,
+    "migrations": 13
+  },
+  "restoreSql": "PASS sin red; 24 tablas OK; exit0",
+  "restoreFiles": "PASS byte a byte; exit0",
+  "runtimeSha256": "348029ec6790f5f86d9ed04634a6e297e6ba7dbc35e91012248aaf317ac4e3fe",
+  "uploadsSha256": "7d612eb838808d8ddbff599062faeeb5de0c331a6311a9e61fe545a57d8d5d53",
+  "productionDeletion": false,
+  "docker_config_sha256": "d8af2159a6e64407ce5c0dc66c42919370fffe1c7dbd3f157b17680a365ea072",
+  "architecture": "linux/amd64",
+  "stack_readback": "exact match; only APP eaaf71f to5febdf2",
+  "runtime": "APP5febdf2/backendcf68661/Portalbe6806d healthy"
+}

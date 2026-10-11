@@ -23,3 +23,15 @@ iOS0.1.0(9) archivada, exportada y firma estricta válida; Xcode confirma Upload
 Cuenta indicada por el usuario: existe una conversación `atencion` creada a03:38local, sin case_ref ni manager_name. Timeline200, support:none, permissions:[history], único saludo de LidIA, sin recibos de turno ni operaciones pendientes. Un único turno técnico, que excluye llamada/reserva/trámite, obtiene HTTP202 pero operación failed/capability_denied; el mensaje no se añade al timeline. Por tanto, no es el404 del formulario y no acredita gestor asignado. Se traslada la evidencia al chat Gestadia_LidIA por autorización humana previa de revisar esta incidencia.
 
 La revisión posterior elimina la incoherencia de dejar enviar cuando sólo hay historial. Mantiene lectura y Atrás, retira compositor, desactiva acciones y explica cómo contactar desde Solicitar llamada; no amplía permisos ni borra conversaciones. Regresión RED/GREEN y prueba del pie externo. Su distribución se registrará con evidencia independiente. [Diagnóstico técnico](gestor-antiguo-proof.json) · [Denegación](gestor-antiguo-error.png).
+
+## Cierre del servidor y archivo 10
+
+Fuente `5febdf2`: 204 pruebas frontend/49archivos PASS; tras precisar la regresión al propósito atención, suite conversacional38/38PASS. APPbuild y archivo/exportacióniOS10 correctos, codesign estricto válido, APNsproduction conservado. IPA3314130bytes, SHA2567549fcf5e29f7779340214a291cb62e11c0bef1fa5b6622309e50ca91daec8f9.
+
+Nueva copia manager-readonly-20261011: SQL271854bytes, SHA25620b455121e4b3fe50d78bfabb59edc24deddc5c3f6e2599d5b45ac0d52ddffdb;24tablasrestauradasaisladas,45usuarios/94expedientes/14documentos/13migraciones; archivos idénticos. APP5febdf2 desplegada17:24:32local con tres servicios saludables, configdigest AMD64 d8af2159a6e64407ce5c0dc66c42919370fffe1c7dbd3f157b17680a365ea072 comprobado antes de activar; stack leído de nuevo coincide salvo la referencia APP. Sin migración, ampliación de permisos ni borrado. [Copia](backup-readonly-proof.json), [servidor](portainer-build10.png), [recursos/firma](build10-proof.json).
+
+La sesión publicada de Sistemas muestra el historial del chat antiguo, aviso y orientación a Solicitar llamada, sin compositor. [Pantalla](gestor-antiguo-lectura.png). No acredita gestor asignado ni reparación de la sesión remota: esa revisión sigue en LidIA. Xcode confirma Uploaded10; su disponibilidad TestFlight se cerrará al observar En pruebas.
+
+## TestFlight 10 disponible
+
+Apple ha procesado la build `834ad0d6-1cc7-4414-8ec8-3a7745a23a1c`. Se asignó a Gestadia QA y la lista de compilaciones muestra **0.1.0 (10), En pruebas**. Las instrucciones constan como Guardado. [Estado](testflight-10.png) · [Notas](testflight-10-notas.txt). Conserva GIF, teclado, burbujas, hora y scroll de las revisiones anteriores. Se solicita actualizar desde TestFlight para aceptar el teclado y la carga en el iPhone; Apple todavía muestra la (6) instalada. Plan Page actualizado y releído, secuencia 41.

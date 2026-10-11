@@ -1,0 +1,144 @@
+- navigation "Main":
+  - link "Logo":
+    - /url: "#!/home"
+    - img "Logo"
+  - button "Toggle Sidebar":
+  - list:
+    - listitem "Home":
+      - link:
+        - /url: "#!/home"
+    - listitem "local":
+      - generic "local":
+    - navigation "local":
+      - list:
+        - listitem "Dashboard":
+          - link:
+            - /url: "#!/3/docker/dashboard"
+        - button:
+          - link:
+            - /url: "#!/3/docker/templates"
+        - listitem "Stacks":
+          - link:
+            - /url: "#!/3/docker/stacks"
+        - listitem "Containers":
+          - link:
+            - /url: "#!/3/docker/containers"
+        - listitem "Images":
+          - link:
+            - /url: "#!/3/docker/images"
+        - listitem "Networks":
+          - link:
+            - /url: "#!/3/docker/networks"
+        - listitem "Volumes":
+          - link:
+            - /url: "#!/3/docker/volumes"
+        - listitem "Events":
+          - link:
+            - /url: "#!/3/docker/events"
+        - button:
+          - link:
+            - /url: "#!/3/docker/host"
+    - navigation "Additional Functionality":
+      - list:
+        - listitem "Alerting":
+          - link:
+            - /url: "#!/alerting"
+    - navigation "Administration":
+      - list:
+        - button:
+          - link:
+            - /url: "#!/users"
+        - button:
+          - link:
+            - /url: "#!/endpoints"
+        - listitem "Registries":
+          - link:
+            - /url: "#!/registries"
+        - listitem "Licenses":
+          - link:
+            - /url: "#!/licenses"
+        - button:
+          - link:
+            - /url: "#!/auth-logs"
+        - listitem "Notifications":
+          - link:
+            - /url: "#!/notifications"
+        - button:
+          - link:
+            - /url: "#!/settings"
+- link "Containers":
+  - /url: "#!/3/docker/containers"
+- text: ">"
+- link "gestadia-backup-manager-readonly-20261011-dump-1":
+  - /url: "#!/3/docker/containers/03eb5412554189e626081ae758dd76e8e7118fe70f52cca61053a778c9626039"
+- text: ">Logs"
+- heading "Container logs" [level=1]
+- button "Refresh page":
+- link "Ask AI":
+  - /url: https://www.portainer.io/ask-the-ai
+- button "Notifications menu toggle":
+- link "Documentation":
+  - /url: https://docs.portainer.io/lts/user/docker/containers
+- button "User menu toggle":
+  - generic: gonzalo
+- region "Logs":
+  - heading "Logs" [level=2]
+  - textbox "Search input":
+    - /placeholder: Search...
+  - button [disabled]:
+  - checkbox
+  - generic: Filter search results
+  - button "Copy":
+    - generic: Copy
+  - button "Download logs":
+    - generic: Download logs
+  - spinbutton: "2026"
+  - generic: /
+  - spinbutton: "10"
+  - generic: /
+  - spinbutton: "11"
+  - generic: "0"
+  - spinbutton: "5"
+  - generic: ":"
+  - spinbutton: "19"
+  - generic: ":"
+  - spinbutton: "15"
+  - combobox:
+    - option "AM" [disabled]
+    - option "PM" [selected]
+  - generic: –
+  - spinbutton
+  - generic: /
+  - spinbutton
+  - generic: /
+  - spinbutton
+  - spinbutton
+  - generic: ":"
+  - spinbutton
+  - generic: ":"
+  - spinbutton
+  - combobox:
+    - option "--" [selected]
+    - option "AM"
+    - option "PM"
+  - button:
+  - button:
+  - generic: Lines
+  - spinbutton: "1000"
+  - button "Line numbers":
+    - text: Line numbers
+  - button "Timestamp":
+    - text: Timestamp
+  - button "Wrap lines":
+    - text: Wrap lines
+  - button "Auto refresh"
+  - button "Refresh" [disabled]:
+  - button "Full screen" [disabled]:
+  - generic: "1"
+  - generic: 45 94 14 13
+  - generic: "2"
+  - generic: "-- Dump completed on 2026-10-11 15:19:16"
+  - generic: "3"
+  - generic: 20b455121e4b3fe50d78bfabb59edc24deddc5c3f6e2599d5b45ac0d52ddffdb /private/backups/manager-readonly-20261011/portal.sql
+  - generic: "4"
+  - generic: 271854 /private/backups/manager-readonly-20261011/portal.sql

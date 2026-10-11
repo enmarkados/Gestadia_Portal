@@ -1,0 +1,287 @@
+- log
+- log
+- banner "App Store Connect":
+  - heading "App Store Connect" [level=1]:
+    - link "App Store Connect":
+      - /url: /
+  - navigation "Global":
+    - list:
+      - link "Apps":
+        - /url: /apps
+      - link "Xcode Cloud":
+        - /url: /teams/14ccaf86-4c3c-40fe-8ee3-dc21889d39cd/xcode-cloud
+      - link "Tendencias":
+        - /url: /trends
+      - link "Informes":
+        - /url: /itc/payments_and_financial_reports
+      - link "Negocio":
+        - /url: /business
+  - button "Mario Lucero Lopez DEFENSA LEGAL CONSUMIDORES SL Account name menu":
+    - generic: Mario Lucero Lopez
+    - generic: DEFENSA LEGAL CONSUMIDORES SL
+- button "Menú de apps, Gestadia, seleccionado":
+  - generic "Gestadia":
+    - img "Gestadia"
+  - generic: Gestadia
+- navigation "Apps":
+  - list:
+    - link "Distribución":
+      - /url: /apps/6821484915/distribution
+    - link "Análisis":
+      - /url: /apps/6821484915/analytics
+    - link "TestFlight":
+      - /url: /teams/14ccaf86-4c3c-40fe-8ee3-dc21889d39cd/apps/6821484915/testflight
+- main:
+  - navigation "TestFlight":
+    - list:
+      - heading "Compilaciones" [level=2]
+      - list:
+        - link "iOS":
+          - /url: /teams/14ccaf86-4c3c-40fe-8ee3-dc21889d39cd/apps/6821484915/testflight/ios
+          - generic: iOS
+      - separator
+      - heading "Comentarios" [level=2]
+      - list:
+        - link "Errores":
+          - /url: /teams/14ccaf86-4c3c-40fe-8ee3-dc21889d39cd/apps/6821484915/testflight/crashes
+          - generic: Errores
+        - link "Capturas de pantalla":
+          - /url: /teams/14ccaf86-4c3c-40fe-8ee3-dc21889d39cd/apps/6821484915/testflight/screenshots
+          - generic: Capturas de pantalla
+      - separator
+      - heading "Testers" [level=2]
+      - list:
+        - link "Todos":
+          - /url: /teams/14ccaf86-4c3c-40fe-8ee3-dc21889d39cd/apps/6821484915/testflight/testers
+          - generic: Todos
+      - heading "Pruebas internas" [level=3]
+      - button "Nuevo grupo":
+      - list:
+        - link "GQ Gestadia QA":
+          - /url: /teams/14ccaf86-4c3c-40fe-8ee3-dc21889d39cd/apps/6821484915/testflight/groups/0f8fb830-e5da-4efc-8147-f83016d30041
+          - generic: GQ
+          - generic: Gestadia QA
+        - button "Delete":
+          - generic: Delete
+      - heading "Pruebas externas" [level=3]
+      - button "Nuevo grupo":
+      - list
+      - separator
+      - heading "Adicional" [level=2]
+      - list:
+        - link "Información para las pruebas":
+          - /url: /teams/14ccaf86-4c3c-40fe-8ee3-dc21889d39cd/apps/6821484915/testflight/test-info
+          - generic: Información para las pruebas
+        - generic: Acerca de los datos de TestFlight
+        - button: "?"
+  - generic "Gestadia QA":
+    - generic: GQ
+    - generic: Gestadia QA
+  - heading "Gestadia QA" [level=2]
+  - paragraph: Grupo interno ∙ 1 tester ∙ 10 compilaciones
+  - navigation:
+    - generic: Testers
+    - generic: Compilaciones
+    - generic: Ajustes
+  - heading "Compilaciones (10)" [level=3]
+  - button "Añadir compilación a grupo":
+  - grid "Compilaciones":
+    - rowgroup:
+      - row "Compilación Estado Plataforma Sesiones Errores Acciones":
+        - columnheader "Compilación":
+          - button "Compilación":
+            - generic: Compilación
+        - columnheader "Estado":
+          - generic: Estado
+        - columnheader "Plataforma":
+          - generic: Plataforma
+        - columnheader "Sesiones":
+          - generic: Sesiones
+        - columnheader "Errores":
+          - generic: Errores
+        - columnheader "Acciones"
+    - rowgroup:
+      - row "Compilación 0.1.0 (10)":
+        - rowheader "Compilación 0.1.0 (10)":
+          - link "Compilación 0.1.0 (10)":
+            - /url: /teams/14ccaf86-4c3c-40fe-8ee3-dc21889d39cd/apps/6821484915/testflight/ios/834ad0d6-1cc7-4414-8ec8-3a7745a23a1c
+            - generic: Compilación
+            - text: 0.1.0 (10)
+        - gridcell "En pruebas Caduca en 90 días":
+          - text: En pruebas
+          - generic: Caduca en 90 días
+        - gridcell "iOS":
+          - paragraph: iOS
+        - gridcell "–":
+          - paragraph: –
+        - gridcell "–":
+          - paragraph: –
+        - gridcell "Eliminar":
+          - button "Eliminar":
+      - row "Compilación 0.1.0 (9)":
+        - rowheader "Compilación 0.1.0 (9)":
+          - link "Compilación 0.1.0 (9)":
+            - /url: /teams/14ccaf86-4c3c-40fe-8ee3-dc21889d39cd/apps/6821484915/testflight/ios/1f5e2fe3-1faf-4546-9806-21e59dcb459b
+            - generic: Compilación
+            - text: 0.1.0 (9)
+        - gridcell "En pruebas Caduca en 90 días":
+          - text: En pruebas
+          - generic: Caduca en 90 días
+        - gridcell "iOS":
+          - paragraph: iOS
+        - gridcell "–":
+          - paragraph: –
+        - gridcell "–":
+          - paragraph: –
+        - gridcell "Eliminar":
+          - button "Eliminar":
+      - row "Compilación 0.1.0 (8)":
+        - rowheader "Compilación 0.1.0 (8)":
+          - link "Compilación 0.1.0 (8)":
+            - /url: /teams/14ccaf86-4c3c-40fe-8ee3-dc21889d39cd/apps/6821484915/testflight/ios/1f870fa4-2e7c-4e6a-acbd-addce3d0778b
+            - generic: Compilación
+            - text: 0.1.0 (8)
+        - gridcell "En pruebas Caduca en 90 días":
+          - text: En pruebas
+          - generic: Caduca en 90 días
+        - gridcell "iOS":
+          - paragraph: iOS
+        - gridcell "–":
+          - paragraph: –
+        - gridcell "–":
+          - paragraph: –
+        - gridcell "Eliminar":
+          - button "Eliminar":
+      - row "Compilación 0.1.0 (7)":
+        - rowheader "Compilación 0.1.0 (7)":
+          - link "Compilación 0.1.0 (7)":
+            - /url: /teams/14ccaf86-4c3c-40fe-8ee3-dc21889d39cd/apps/6821484915/testflight/ios/2ecf0891-ddc7-4b30-8456-01fae9f31128
+            - generic: Compilación
+            - text: 0.1.0 (7)
+        - gridcell "En pruebas Caduca en 90 días":
+          - text: En pruebas
+          - generic: Caduca en 90 días
+        - gridcell "iOS":
+          - paragraph: iOS
+        - gridcell "–":
+          - paragraph: –
+        - gridcell "–":
+          - paragraph: –
+        - gridcell "Eliminar":
+          - button "Eliminar":
+      - row "Compilación 0.1.0 (6)":
+        - rowheader "Compilación 0.1.0 (6)":
+          - link "Compilación 0.1.0 (6)":
+            - /url: /teams/14ccaf86-4c3c-40fe-8ee3-dc21889d39cd/apps/6821484915/testflight/ios/b43e56da-d45f-4b71-a848-0144768fb415
+            - generic: Compilación
+            - text: 0.1.0 (6)
+        - gridcell "En pruebas Caduca en 90 días":
+          - text: En pruebas
+          - generic: Caduca en 90 días
+        - gridcell "iOS":
+          - paragraph: iOS
+        - gridcell "–":
+          - paragraph: –
+        - gridcell "–":
+          - paragraph: –
+        - gridcell "Eliminar":
+          - button "Eliminar":
+      - row "Compilación 0.1.0 (5)":
+        - rowheader "Compilación 0.1.0 (5)":
+          - link "Compilación 0.1.0 (5)":
+            - /url: /teams/14ccaf86-4c3c-40fe-8ee3-dc21889d39cd/apps/6821484915/testflight/ios/d74b12a2-3c1c-436c-adaa-ba50b1419846
+            - generic: Compilación
+            - text: 0.1.0 (5)
+        - gridcell "En pruebas Caduca en 90 días":
+          - text: En pruebas
+          - generic: Caduca en 90 días
+        - gridcell "iOS":
+          - paragraph: iOS
+        - gridcell "–":
+          - paragraph: –
+        - gridcell "–":
+          - paragraph: –
+        - gridcell "Eliminar":
+          - button "Eliminar":
+      - row "Compilación 0.1.0 (4)":
+        - rowheader "Compilación 0.1.0 (4)":
+          - link "Compilación 0.1.0 (4)":
+            - /url: /teams/14ccaf86-4c3c-40fe-8ee3-dc21889d39cd/apps/6821484915/testflight/ios/40012bc8-7778-42ca-a6b8-9f4f54349b59
+            - generic: Compilación
+            - text: 0.1.0 (4)
+        - gridcell "En pruebas Caduca en 90 días":
+          - text: En pruebas
+          - generic: Caduca en 90 días
+        - gridcell "iOS":
+          - paragraph: iOS
+        - gridcell "–":
+          - paragraph: –
+        - gridcell "–":
+          - paragraph: –
+        - gridcell "Eliminar":
+          - button "Eliminar":
+      - row "Compilación 0.1.0 (3)":
+        - rowheader "Compilación 0.1.0 (3)":
+          - link "Compilación 0.1.0 (3)":
+            - /url: /teams/14ccaf86-4c3c-40fe-8ee3-dc21889d39cd/apps/6821484915/testflight/ios/d2b612b1-e461-4ca4-95b9-f2984591101a
+            - generic: Compilación
+            - text: 0.1.0 (3)
+        - gridcell "En pruebas Caduca en 90 días":
+          - text: En pruebas
+          - generic: Caduca en 90 días
+        - gridcell "iOS":
+          - paragraph: iOS
+        - gridcell "–":
+          - paragraph: –
+        - gridcell "–":
+          - paragraph: –
+        - gridcell "Eliminar":
+          - button "Eliminar":
+      - row "Compilación 0.1.0 (2)":
+        - rowheader "Compilación 0.1.0 (2)":
+          - link "Compilación 0.1.0 (2)":
+            - /url: /teams/14ccaf86-4c3c-40fe-8ee3-dc21889d39cd/apps/6821484915/testflight/ios/e394fc2a-d1ab-44e9-950c-a36442ef1fac
+            - generic: Compilación
+            - text: 0.1.0 (2)
+        - gridcell "En pruebas Caduca en 90 días":
+          - text: En pruebas
+          - generic: Caduca en 90 días
+        - gridcell "iOS":
+          - paragraph: iOS
+        - gridcell "5":
+          - paragraph: "5"
+        - gridcell "–":
+          - paragraph: –
+        - gridcell "Eliminar":
+          - button "Eliminar":
+      - row "Compilación 0.1.0 (1)":
+        - rowheader "Compilación 0.1.0 (1)":
+          - link "Compilación 0.1.0 (1)":
+            - /url: /teams/14ccaf86-4c3c-40fe-8ee3-dc21889d39cd/apps/6821484915/testflight/ios/a42f37ae-dc30-4c23-87f7-add8b53d7ad6
+            - generic: Compilación
+            - text: 0.1.0 (1)
+        - gridcell "En pruebas Caduca en 90 días":
+          - text: En pruebas
+          - generic: Caduca en 90 días
+        - gridcell "iOS":
+          - paragraph: iOS
+        - gridcell "3":
+          - paragraph: "3"
+        - gridcell "–":
+          - paragraph: –
+        - gridcell "Eliminar":
+          - button "Eliminar":
+- contentinfo:
+  - list:
+    - link "App Store Connect":
+      - /url: /apps
+  - list:
+    - listitem: Copyright © 2026 Apple Inc. Todos los derechos reservados. |
+    - link "Condiciones de servicio":
+      - /url: /WebObjects/iTunesConnect.woa/wa/termsOfService
+    - text: "|"
+    - link "Política de privacidad":
+      - /url: https://www.apple.com/legal/privacy
+    - text: "|"
+    - link "Contacta con nosotros":
+      - /url: /contact-us

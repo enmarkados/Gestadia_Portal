@@ -1,0 +1,33 @@
+{
+  "verified_at": "2026-10-11T15:25:25.010896+00:00",
+  "source": "5febdf2",
+  "public_build_info": {
+    "app": "Gestadia",
+    "version": "0.1.0",
+    "revision": "5febdf2"
+  },
+  "assets": [
+    {
+      "path": "/assets/index-DtjnqIU0.js",
+      "sha256": "13af0d4f6adcbf7bc78771bf297a43020e24048cacc385c273d32c39d5855db1",
+      "equal_live_build_archive": true
+    },
+    {
+      "path": "/loading/gestadia-loading.gif",
+      "sha256": "f9065b858dc403b092a1125f763709250c75cf3575260d2e9e85ee720350549b",
+      "equal_live_build_archive": true
+    },
+    {
+      "path": "/loading/gestadia-loading-still.png",
+      "sha256": "945cd8232edaa86bccc2e25e8a21da8048866edf4d65ecf29ca1895bdb0f3ba0",
+      "equal_live_build_archive": true
+    }
+  ],
+  "bundle": "com.gestadia.app",
+  "version": "0.1.0",
+  "build": "10",
+  "archive_signature": "strict PASS",
+  "export_signature": "strict PASS",
+  "ipa_sha256": "7549fcf5e29f7779340214a291cb62e11c0bef1fa5b6622309e50ca91daec8f9",
+  "ipa_bytes": 3314130
+}

@@ -280,3 +280,13 @@ Usuario y TestFlight confirman (2) instalada. Fuente `dcbc47c` añade pulso del 
 ### Hora al pie y TestFlight (7) · 11/10/2026
 
 Fuente 599c6e9, 196 frontend correctos. Hora abajo derecha en LidIA y al lado izquierdo de ticks propios; pie posterior a presentaciones. Usuario confirma fluidez física de ambos tipos de mensajes en (6), instalada según Apple. APP Docker 599c6e9 saludable tras backup/restauración aislada message-footer-build7-20261011; backend cf68661 y Portal be6806d conservados. CSS nativo/web idéntico y 36 burbujas reales con hora al pie. Gestadia (7) procesada y «En pruebas» en Gestadia QA, notas guardadas; colocación física pendiente. Play interno conserva (3). [Evidencia y límites](evidencias/2026-10-11-hora-pie/README.md).
+
+## Revisión 11/10/2026 — carga, teléfono y chat antiguo
+
+APP `5febdf2` está desplegada en el stack 73, con backend `cf68661` y web/Portal `be6806d`; los tres servicios saludables. La configuración y los binds se conservan. El cambio anterior `eaaf71f` corrigió el proxy de contacto que devolvía 404, añadió carga GIF centrada con textos accesibles y adaptó la hoja al espacio del teclado.
+
+La cuenta de prueba conserva una conversación antigua de atención sin caso ni gestor asignado. El historial responde 200 y sólo concede `history`; un turno técnico es rechazado con `capability_denied`. La APP explica el estado, conserva historial, retira el compositor y desactiva acciones. La asignación del servicio se revisa en LidIA; no se amplían permisos ni se crea un destino ficticio.
+
+Nueva copia `manager-readonly-20261011`: SQL 271854 bytes, restauración sin red con 24 tablas correctas, 45 usuarios, 94 expedientes, 14 documentos y 13 migraciones. Configuración, claves y documentos idénticos. Sin migración ni borrado en esta revisión.
+
+204 pruebas frontend correctas, suite conversacional final 38/38, build APP y archivo/exportación iOS correctos; firma estricta válida. Gestadia **0.1.0 (10)** está **En pruebas** en Gestadia QA y las notas están guardadas. JS/GIF/PNG públicos y archivo iOS coinciden por SHA256. La (9) también fue procesada y activada. El iPhone todavía acredita instalada la (6): carga y teclado físicos pendientes de aceptación. Play conserva la (3). OAuth, APNs, agenda/CRM y publicación pública mantienen sus comprobaciones independientes. [Evidencia y capturas](evidencias/2026-10-11-gestor-carga/README.md).

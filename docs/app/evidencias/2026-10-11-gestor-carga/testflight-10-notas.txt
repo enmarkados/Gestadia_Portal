@@ -1,0 +1,110 @@
+- log
+- log
+- banner "App Store Connect":
+  - heading "App Store Connect" [level=1]:
+    - link "App Store Connect":
+      - /url: /
+  - navigation "Global":
+    - list:
+      - link "Apps":
+        - /url: /apps
+      - link "Xcode Cloud":
+        - /url: /teams/14ccaf86-4c3c-40fe-8ee3-dc21889d39cd/xcode-cloud
+      - link "Tendencias":
+        - /url: /trends
+      - link "Informes":
+        - /url: /itc/payments_and_financial_reports
+      - link "Negocio":
+        - /url: /business
+  - button "Mario Lucero Lopez DEFENSA LEGAL CONSUMIDORES SL Account name menu":
+    - generic: Mario Lucero Lopez
+    - generic: DEFENSA LEGAL CONSUMIDORES SL
+- button "Menú de apps, Gestadia, seleccionado":
+  - generic "Gestadia":
+    - img "Gestadia"
+  - generic: Gestadia
+- navigation "Apps":
+  - list:
+    - link "Distribución":
+      - /url: /apps/6821484915/distribution
+    - link "Análisis":
+      - /url: /apps/6821484915/analytics
+    - link "TestFlight":
+      - /url: /teams/14ccaf86-4c3c-40fe-8ee3-dc21889d39cd/apps/6821484915/testflight
+- main:
+  - link "Compilaciones para iOS":
+    - /url: /teams/14ccaf86-4c3c-40fe-8ee3-dc21889d39cd/apps/6821484915/testflight/ios
+    - text: Compilaciones para iOS
+  - heading "0.1.0 (10)" [level=2]
+  - button "Hacer caducar compilación"
+  - button "Guardado" [disabled]:
+    - text: Guardado
+  - tablist:
+    - tab "Información para las pruebas" [selected]:
+      - generic: Información para las pruebas
+    - tab "Metadatos de la compilación":
+      - generic: Metadatos de la compilación
+  - heading "Detalles sobre las pruebas" [level=3]
+  - button "Español (España)" [disabled]
+  - generic: Qué se debe probar
+  - button "Más información": "?"
+  - paragraph: Explica a tus testers qué quieres que prueben en esta compilación. Esta información estará disponible para los testers de todos los grupos que tengan acceso a esta compilación.
+  - textbox "Qué se debe probar": "Gestadia 0.1.0 (10) • Carga y actualización de conversaciones con animación centrada y textos claros; al refrescar se conserva el historial. • Hablar con un gestor: comprobar que el campo de teléfono queda visible sobre el teclado numérico y que la hoja acompaña su movimiento. • Conversaciones antiguas con acceso sólo al historial: conservar lectura, explicar la restricción y ofrecer Solicitar llamada, sin permitir envíos rechazados. La asignación real de gestor sigue pendiente del servidor. • Conserva burbujas suaves, hora abajo a la derecha, ticks y scroll al tocar el campo. Pruebas técnicas y Docker verificados con copia y restauración previas. No solicitar reservas para esta comprobación. Validación física de teclado, carga y movimiento pendiente."
+  - status "Caracteres restantes": "3239"
+  - separator
+  - heading "Grupo (1)" [level=3]
+  - button "Añadir grupo":
+  - paragraph: Añade grupos a esta compilación. Todos los testers de estos grupos tendrán acceso a esta compilación.
+  - grid "Grupo (1)":
+    - rowgroup:
+      - row "Nombre del grupo Tipo de grupo Testers Acciones":
+        - columnheader "Nombre del grupo":
+          - button "Nombre del grupo":
+            - generic: Nombre del grupo
+        - columnheader "Tipo de grupo":
+          - generic: Tipo de grupo
+        - columnheader "Testers":
+          - generic: Testers
+        - columnheader "Acciones"
+    - rowgroup:
+      - row "Gestadia QA Interno 1":
+        - rowheader "Gestadia QA":
+          - link "Gestadia QA":
+            - /url: /teams/14ccaf86-4c3c-40fe-8ee3-dc21889d39cd/apps/6821484915/testflight/groups/0f8fb830-e5da-4efc-8147-f83016d30041
+            - generic: Gestadia QA
+        - rowheader "Interno":
+          - paragraph: Interno
+        - rowheader "1":
+          - paragraph: "1"
+        - gridcell "Eliminar":
+          - button "Eliminar":
+  - heading "Testers individuales (0)" [level=3]
+  - button "Añadir testers":
+  - paragraph: Añade un tester individual a esta compilación concreta.
+  - grid "ITC.apps.tf.labels.testersNotInGroups":
+    - rowgroup:
+      - row "Seleccionar todos Tester Estado":
+        - columnheader "Seleccionar todos":
+          - generic: Seleccionar todos
+        - columnheader "Tester":
+          - generic: Tester
+        - columnheader "Estado":
+          - generic: Estado
+    - rowgroup:
+      - row "No se han añadido testers para esta compilación.":
+        - rowheader "No se han añadido testers para esta compilación.":
+          - paragraph: No se han añadido testers para esta compilación.
+- contentinfo:
+  - list:
+    - link "App Store Connect":
+      - /url: /apps
+  - list:
+    - listitem: Copyright © 2026 Apple Inc. Todos los derechos reservados. |
+    - link "Condiciones de servicio":
+      - /url: /WebObjects/iTunesConnect.woa/wa/termsOfService
+    - text: "|"
+    - link "Política de privacidad":
+      - /url: https://www.apple.com/legal/privacy
+    - text: "|"
+    - link "Contacta con nosotros":
+      - /url: /contact-us
