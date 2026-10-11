@@ -2,6 +2,8 @@
 
 [Manual](MANUAL-DESARROLLO.md) · [Recorridos y evidencia](2026-10-11-recorridos-gestores.md) · [Navegación](NAVEGACION.md) · [Glosario](../../GLOSARIO.md).
 
+El [procedimiento conjunto DEV recibido de LidIA](../integraciones/2026-10-11-procedimiento-dev-lidia.md), conservado con procedencia en el [índice de integraciones](../integraciones/README.md), reparte las comprobaciones y el cierre entre ambos equipos y el responsable CRM. Está preparado, no ejecutado. Antes de iniciar sus casos deben existir configuración, respaldo e identidades DEV comprobados; no modifica la sesión v1 real ni activa PRO.
+
 ## Conversaciones y gestor
 
 La configuración efectiva es privada del backend. La APP sólo recibe su base API y disponibilidad; no selecciona agente, proyecto, entorno, operador ni IDs CRM.

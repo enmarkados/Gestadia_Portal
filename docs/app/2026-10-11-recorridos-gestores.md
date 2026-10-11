@@ -80,6 +80,8 @@ LidIA corrigió la sesión `atencion` para iniciar sin saludo/prospección IA, c
 
 Para cerrar la prueba conectada conjunta hacen falta: integración/keys v2 de DEV con vigencia explícita; cuenta, contacto y trato propios; expediente autorizado; mapping privado entre la asignación LidIA y Owner Zoho; grants **history + manager_handoff + case_context**; versión remota que incorpore la corrección de atención; credenciales CRM y destinos OAuth/push efectivos. No se permiten selectores de agente, operador o CRM enviados por el dispositivo.
 
+El [procedimiento DEV de LidIA](../integraciones/2026-10-11-procedimiento-dev-lidia.md) se recibió del commit documental `2446be441675d538d06bfbedb83f87c3ebe2fb19` / PR1628. Se conserva exacto y su procedencia está en el índice. Incluye los casos conjuntos de texto real, recuperación, vínculo, atención sin IA y revocación, más comprobación previa del aislamiento y cierre explícito de claves. Sigue sin ejecutar; no convierte esta evidencia local en aceptación remota.
+
 ## Configuración y recuperación
 
 Consultar la [guía técnica de configuración y pendientes](2026-10-11-configuracion-recorridos.md). No guardar secretos en esta documentación ni utilizar el servidor ficticio para aceptación remota.
