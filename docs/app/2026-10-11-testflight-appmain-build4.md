@@ -12,7 +12,7 @@ Las tres migraciones nuevas son aditivas. Antes de aplicarlas en producción se 
 
 Visitantes v2 conserva `APP_V2_ENABLED=false` y `APP_V2_GUEST_ENABLED=false` por defecto hasta aceptación conjunta DEV. El chat de gestor depende de asignación y permisos efectivos del servidor LidIA; no se conceden desde la APP. Las pruebas locales no acreditan llamada CRM ni conversación humana real.
 
-Estado de entrega: IPA 0.1.0 (4) archivado/exportado y firma estricta verificada; APNs production, Apple Default y get-task-allow=false. Preflight empaquetado correcto. Xcode confirmó la subida de (4). App Store Connect ha caducado al consultar su procesamiento; asignación a Gestadia QA pendiente de iniciar sesión.
+Estado de entrega: IPA 0.1.0 (4) archivado/exportado y firma estricta verificada; APNs production, Apple Default y get-task-allow=false. Preflight empaquetado correcto. Xcode confirmó la subida de (4). Apple ha procesado la (4), se han guardado las notas de prueba y Gestadia QA muestra «En pruebas». ID de build: `40012bc8-7778-42ca-a6b8-9f4f54349b59`. La última lectura de su tester acredita (3) instalada; instalación y aceptación de (4) pendientes.
 
 Docker: backend cf68661 y APP aa10524 preparados para linux/amd64; configuración nginx validada. Se conserva web/Portal be6806d, configuración privada y bind documental. Backup/restauración/migración están preparados en artifacts/testflight-appmain-build4; no ejecutados en producción por sesión Portainer/Plesk caducada. Las nuevas acciones de avisos/contacto requieren ese backend.
 
