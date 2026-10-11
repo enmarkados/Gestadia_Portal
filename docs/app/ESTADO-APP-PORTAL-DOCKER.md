@@ -275,3 +275,8 @@ Verificado en Git el merge app/main 9c2e62c (PR16, implementación 0096bff), des
 ### Escritura animada y distribución (3) — 11/10/2026
 
 Usuario y TestFlight confirman (2) instalada. Fuente `dcbc47c` añade pulso del texto en cursiva y tres puntos secuenciales, respetando movimiento reducido; conserva la base funcional, animaciones y ajuste del teclado de (2). Suite frontend 178/178 y estilos efectivos verificados. IPA y AAB/APK build 3 firmados, hashes y configuración idéntica acreditados. Apple (3) procesada y «En pruebas» en Gestadia QA; Play (3) «Activo» y disponible para testers internos. Notas guardadas en ambos. [Evidencia y límites](evidencias/2026-10-11-escritura-animada/README.md). Instalación y aceptación de (3) en iPhone pendientes; OAuth/APNs y recorridos PR16 mantienen sus aceptaciones independientes. Sin cambios de servidor, documentos o base de datos ni nuevos emuladores.
+
+
+### Hora al pie y TestFlight (7) · 11/10/2026
+
+Fuente 599c6e9, 196 frontend correctos. Hora abajo derecha en LidIA y al lado izquierdo de ticks propios; pie posterior a presentaciones. Usuario confirma fluidez física de ambos tipos de mensajes en (6), instalada según Apple. APP Docker 599c6e9 saludable tras backup/restauración aislada message-footer-build7-20261011; backend cf68661 y Portal be6806d conservados. CSS nativo/web idéntico y 36 burbujas reales con hora al pie. Gestadia (7) procesada y «En pruebas» en Gestadia QA, notas guardadas; colocación física pendiente. Play interno conserva (3). [Evidencia y límites](evidencias/2026-10-11-hora-pie/README.md).

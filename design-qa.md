@@ -68,3 +68,8 @@ La maqueta representa estados y textos de revisión. No ejecuta el cuestionario 
 Faltan aprobación humana, reglas/resultados completos del agente, permiso visitante y DTO/firma/transporte/ACK/reconciliación de contacto. El runner actual sólo dispone de estados parciales; human_review no abre el gate comercial. Flujos Zoho mantienen conversión y Cerrado ganado. Agenda y emuladores iOS/Android requieren cierres propios después de implementar.
 
 La corrección del teléfono de Servicios es independiente y está documentada en la rama app/main: [pruebas del checkout en app/main](https://github.com/enmarkados/Gestadia_Portal/blob/app/main/docs/app/2026-10-10-telefono-servicios-checkout.md). Este enlace existe en app/main; no forma parte de la implementación de la propuesta anónima.
+
+
+## Hora inferior en conversación real · 11/10/2026
+
+Corrección humana: hora al pie derecho de cada burbuja; en las propias queda 5px a la izquierda de los ticks. AppConversation medido en navegador con fixture (texto arriba, time debajo, ticks después en el mismo eje); historial web real con 36 burbujas y una hora al pie de cada una. Contraste sobre blanco y grafito revisado. Fuente 599c6e9, 196 pruebas correctas, Docker publicado; el usuario valida entrada suave física de (6). [Captura y evidencia](docs/app/evidencias/2026-10-11-hora-pie/README.md). Distribución (7) y aceptación física se registran por separado.
