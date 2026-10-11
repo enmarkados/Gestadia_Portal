@@ -18,9 +18,10 @@ async function getAccessToken() {
   return cachedToken;
 }
 
-async function zohoFetch(path, options = {}) {
+export async function zohoFetch(path, options = {}) {
   const token = await getAccessToken();
   const res = await fetch(`${config.zoho.apiUrl}${path}`, {
+    signal: AbortSignal.timeout(15000),
     ...options,
     headers: {
       Authorization: `Zoho-oauthtoken ${token}`,
@@ -70,7 +71,7 @@ export async function createLead(leadData, clientIp) {
     Lead_Status: config.zoho.leadStatusDefault,
     Pagina_Procedencia: config.zoho.pageSourceDefault,
     Campa_a: servicio,
-    LOPD: true,
+    LOPD: leadData.lopd ?? true,
     Description: `Trámite de interés: ${leadData.tramite}`,
   };
 

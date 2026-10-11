@@ -1,0 +1,13 @@
+{
+  "sourceRevision": "ee64f8d",
+  "version": "0.1.0",
+  "versionCode": 2,
+  "certificateSha256": "10B1E61FC2C711A3527CB5DB75DDB6E9249D8107A26536CACC8D8BC40C09AA6B",
+  "apkSha256": "e038d754c2919bc521bdbf9d8c4c045b8fec5f915371d9e7f97ab7bd79c38a74",
+  "aabSha256": "b72f156989f7619fb914481ab0d625a69c961f31e5c305dd5a278fbd64939082",
+  "apkSignatureVerified": true,
+  "chatEnabled": true,
+  "playUploadVerified": true,
+  "installedVerified": false,
+  "playInternalReleaseActive": true
+}

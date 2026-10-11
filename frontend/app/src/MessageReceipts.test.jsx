@@ -4,7 +4,7 @@ import { render, screen, fireEvent, cleanup, waitFor, act } from "@testing-libra
 import { MemoryRouter, Link } from "react-router-dom";
 import { AppProvider } from "./AppContext.jsx";
 import AppConversation from "./AppConversation.jsx";
-import ConnectedMessages from "./ConnectedMessages.jsx";
+import { ConversationList } from "./ConnectedMessages.jsx";
 import { Capacitor } from "@capacitor/core";
 import { App } from "@capacitor/app";
 import { setToken } from "./api.js";
@@ -87,7 +87,7 @@ it("descarta respuestas y ACK pendientes del chat anterior al navegar",async()=>
  expect(screen.queryByText("Texto incoming")).toBeNull();expect(acks.filter(a=>a.id==="chat-1")).toHaveLength(0);expect(screen.getByLabelText("Enviado a Gestadia")).toBeTruthy();
 });
 it("Mensajes muestra el último mensaje real y sus ticks sin confirmar recepción ni lectura",async()=>{
- receipts.other=receipt(messages["chat-2"][0],"read","3");render(<MemoryRouter><ConnectedMessages/></MemoryRouter>);
+ receipts.other=receipt(messages["chat-2"][0],"read","3");render(<MemoryRouter><ConversationList kind="lidia"/></MemoryRouter>);
  await screen.findByText("Texto other");await screen.findByLabelText("Leído por Gestadia");expect(reads.some(url=>url.includes("summary=true"))).toBe(true);expect(acks).toHaveLength(0);
 });
 
@@ -126,7 +126,7 @@ it("un getState antiguo no reactiva la APP después de un evento de segundo plan
 });
 
 it("Actualizar conversaciones refresca también el tick sin esperar al polling",async()=>{
- receipts.other=receipt(messages["chat-2"][0],"received","2");render(<MemoryRouter><ConnectedMessages/></MemoryRouter>);
+ receipts.other=receipt(messages["chat-2"][0],"received","2");render(<MemoryRouter><ConversationList kind="lidia"/></MemoryRouter>);
  await screen.findByLabelText("Recibido por Gestadia");receipts.other=receipt(messages["chat-2"][0],"read","3");
  fireEvent.click(screen.getByRole("button",{name:"Actualizar conversaciones"}));await screen.findByLabelText("Leído por Gestadia");
 });
@@ -153,7 +153,7 @@ it("buscar y limpiar registra las tarjetas recreadas y actualiza sus ticks sin p
   }
   return original(url,options);
  });
- render(<MemoryRouter><ConnectedMessages/></MemoryRouter>);await screen.findByRole("link",{name:/Conversación 11/});
+ render(<MemoryRouter><ConversationList kind="lidia"/></MemoryRouter>);await screen.findByRole("link",{name:/Conversación 11/});
  act(()=>{for(const o of observers)o.callback([...o.nodes].map(target=>({target,isIntersecting:false,intersectionRatio:0})));});
  fireEvent.change(screen.getByRole("searchbox"),{target:{value:"Conversación 0"}});
  await waitFor(()=>expect(screen.queryByRole("link",{name:/Conversación 11/})).toBeNull());
@@ -179,7 +179,7 @@ it("una hoja modal sobre el chat permite recibir pero no leer hasta cerrarla y o
 });
 
 it("una búsqueda sin coincidencias no pierde el leído confirmado ante una respuesta atrasada",async()=>{
- receipts.other=receipt(messages["chat-2"][0],"read","3");render(<MemoryRouter><ConnectedMessages/></MemoryRouter>);
+ receipts.other=receipt(messages["chat-2"][0],"read","3");render(<MemoryRouter><ConversationList kind="lidia"/></MemoryRouter>);
  await screen.findByLabelText("Leído por Gestadia");
  fireEvent.change(screen.getByRole("searchbox"),{target:{value:"no coincide"}});await screen.findByText("No hay conversaciones que coincidan.");
  receipts.other=receipt(messages["chat-2"][0],"sent","1");

@@ -186,6 +186,7 @@ export function conversationView(c, metadataReady = false) {
     status: c.status,
     ready: !!c.remoteId,
     title: c.title ?? null,
+    manager_name: c.managerName ?? null,
     created_at: (c.remoteCreatedAt || c.createdAt).toISOString(),
     last_message_at: c.lastMessageAt?.toISOString() ?? null,
     metadata_ready: metadataReady,

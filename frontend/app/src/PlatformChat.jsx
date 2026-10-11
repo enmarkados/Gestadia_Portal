@@ -1,16 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { usePluginWeb } from "./PluginWebContext.jsx";
-import { useApp } from "./AppContext.jsx";
 import { TOPICS } from "./qualification.js";
-import { demoEnabled } from "./api.js";
 import Icon from "./Icon.jsx";
 import AssistantContent from "./AssistantContent.jsx";
 import VoiceButton from "./VoiceButton.jsx";
 import { useMessageMotion } from "./motion.jsx";
 export default function PlatformChat({ onContact, manager = false }) {
   const chat = usePluginWeb();
-  const app = useApp();
+
   const animatedMessages = useMessageMotion(chat.messages, !!chat.session && chat.messages.length > 0);
   const end = useRef(null);
   const [voiceError, setVoiceError] = useState("");
@@ -71,16 +69,11 @@ export default function PlatformChat({ onContact, manager = false }) {
           <h2>Tu conversación con Gestadia</h2>
           <p>
             La conexión con LidIA está pendiente de configuración. Puedes
-            explorar los servicios o probar el recorrido de ejemplo.
+            consultar los servicios.
           </p>
           <Link className="btn primary" to="/servicios">
             Ver servicios DGT
           </Link>
-          {app.mode === "visitante" && demoEnabled() && (
-            <button className="btn secondary" onClick={() => app.startDemo()}>
-              Probar demostración
-            </button>
-          )}
         </div>
       ) : !chat.session ? (
         <>

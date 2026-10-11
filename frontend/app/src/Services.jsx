@@ -1,15 +1,13 @@
 import React, { useState, useRef, useLayoutEffect } from "react";
-import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
+import { useSearchParams, useLocation } from "react-router-dom";
 import { SERVICIOS } from "../../../shared/servicios.js";
 import { useApp } from "./AppContext.jsx";
-import { checkoutUrl, countryKey, demoOnly } from "./api.js";
+import { checkoutUrl, countryKey } from "./api.js";
 import { paisesOrdenados } from "../../../shared/paises-canje.js";
 import Icon from "./Icon.jsx";
 import { openExternal } from "./native.js";
-import { navigationState } from "./navigation.js";
 export default function Services() {
-  const { data, mode } = useApp();
-  const navigate = useNavigate();
+  const { data } = useApp();
   const location = useLocation();
   const [params] = useSearchParams();
   const [selected, setSelected] = useState(
@@ -42,21 +40,6 @@ export default function Services() {
   async function submit(e) {
     e.preventDefault();
     try {
-      if (demoOnly()) {
-        const query = new URLSearchParams(location.search);
-        query.set("servicio", service.slug);
-        navigate("/checkout-demo", {
-          state: navigationState(
-            {
-              ...location,
-              search: "?" + query,
-              state: { ...location.state, serviceDraft: profile },
-            },
-            { service: service.slug, profile },
-          ),
-        });
-        return;
-      }
       await openExternal(checkoutUrl(service.slug, profile));
     } catch {
       setError(
@@ -150,19 +133,12 @@ export default function Services() {
           </p>
         )}
         <button className="btn primary" type="submit">
-          {demoOnly() ? "Continuar con el ejemplo" : "Continuar en la web"}{" "}
-          <Icon name={demoOnly() ? "arrow" : "external"} size={18} />
+          Continuar en la web <Icon name="external" size={18} />
         </button>
         <p className="helper service-checkout-help">
-          {demoOnly()
-            ? "Revisarás el servicio y tus datos en este ejemplo, sin pagos ni contratación."
-            : "Se abrirá gestadia.com/checkout con tus datos y el trámite seleccionado ya rellenados."}
+          Se abrirá gestadia.com/checkout con tus datos y el trámite
+          seleccionado ya rellenados.
         </p>
-        {mode === "demo" && !demoOnly() && (
-          <p className="notice">
-            El checkout es real. La demostración no efectúa ningún pago.
-          </p>
-        )}
       </form>
     </section>
   );

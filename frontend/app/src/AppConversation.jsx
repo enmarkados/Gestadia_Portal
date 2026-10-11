@@ -1,3 +1,4 @@
+import { guestConversationApi,guestInstallation } from "./guestConversations.js";
 import DeliveryTicks from "./DeliveryTicks.jsx";
 import { useMessageMotion } from "./motion.jsx";
 import { useMessageReceipts } from "./useMessageReceipts.js";
@@ -16,6 +17,8 @@ import {
 import ChatComposer from "./ChatComposer.jsx";
 const pendingStatuses = new Set(["prepared", "outcome_unknown"]);
 const messages = {
+  guest_session_expired: "La sesión sin registro ha caducado. Puedes empezar una nueva consulta desde LidIA.",
+  binding_in_progress: "Estamos vinculando tu conversación. Espera a que termine el envío y vuelve a cargarla.",
   routing_unavailable:
     "No hay un destino de atención disponible para esta solicitud.",
   identity_link_required:
@@ -37,10 +40,14 @@ export default function AppConversation({ purpose = "sondeo" }) {
     <ConversationBody
       key={`${mode}:${data.profile?.id || ""}:${purpose}:${search.get("caso") || ""}:${search.get("conversacion") || ""}:${search.get("nueva") || ""}`}
       purpose={purpose}
+      guest={purpose === "sondeo" && search.get("invitado") === "1"}
     />
   );
 }
-function ConversationBody({ purpose }) {
+function ConversationBody({ purpose, guest }) {
+  const api = guest ? guestConversationApi : conversationApi;
+  const [guestId, setGuestId] = useState(null);
+  useEffect(() => { if (guest) guestInstallation().then(i => setGuestId(i?.installation_id || null)); }, [guest]);
   const [composerHost, setComposerHost] = useState(null);
   useLayoutEffect(() => {
     setComposerHost(
@@ -50,7 +57,8 @@ function ConversationBody({ purpose }) {
     );
   }, [purpose]);
   const { mode, data } = useApp(),
-    userId = data.profile?.id;
+    userId = guest && mode !== "real" ? guestId : data.profile?.id;
+  const allowed = mode === "real" || guest;
   const [search, setSearch] = useSearchParams();
   const location = useLocation();
   const caseRef = search.get("caso") || null;
@@ -62,6 +70,7 @@ function ConversationBody({ purpose }) {
     [error, setError] = useState(""),
     [input, setInput] = useState(""),
     [busy, setBusy] = useState(false),
+    [awaitingTurn, setAwaitingTurn] = useState(null),
     [voice, setVoice] = useState(""),
     [bootstrapping, setBootstrapping] = useState(!newIntent);
   const cursor = useRef(null),
@@ -73,6 +82,7 @@ function ConversationBody({ purpose }) {
     terminalReceipts = useRef(new Set()),
     end = useRef(null);
   const showError = (e) => {
+    setAwaitingTurn(null);
     setError(
       messages[e.code] ||
         "No se pudo completar la solicitud. Puedes volver a cargar la conversación.",
@@ -85,7 +95,7 @@ function ConversationBody({ purpose }) {
     if (loadingRef.current) return;
     loadingRef.current = true;
     try {
-      let result = await conversationApi.timeline(
+      let result = await api.timeline(
         id,
         cursor.current
           ? { cursor: cursor.current, limit: "50" }
@@ -114,7 +124,7 @@ function ConversationBody({ purpose }) {
         let next = null, snapshotRevision = null;
         do {
           visited.add(next);
-          const page = await conversationApi.timeline(
+          const page = await api.timeline(
             id, next ? { cursor: next, limit: "50" } : { limit: "50" },
           );
           if (version !== generation.current) return;
@@ -139,6 +149,12 @@ function ConversationBody({ purpose }) {
       stateRevision.current = result.state_revision;
       cursor.current = result.next_cursor || null;
       setTimeline(result);
+      setAwaitingTurn(current => {
+        if (!current) return null;
+        const receipt = result.turn_statuses?.find(r => r.turn_id === current.id);
+        const responded = result.items.some(m => m.role === "assistant" && BigInt(m.sequence) > current.afterSequence);
+        return responded || ["completed", "failed"].includes(receipt?.status) ? null : current;
+      });
       setItems((old) => {
         const map = new Map((replaceHistory ? [] : old).map((m) => [m.message_id, m]));
         for (const m of result.items) map.set(m.message_id, m);
@@ -183,13 +199,13 @@ function ConversationBody({ purpose }) {
     terminalReceipts.current.clear();
     cursor.current = null;
     startKey.current = newIntent || crypto.randomUUID();
-    if (mode !== "real" || !userId || !conversationsEnabled()) return;
+    if (!allowed || !userId || !conversationsEnabled()) return;
     if (newIntent) return () => { generation.current++; };
     let timer,
       stopped = false;
     async function bootstrap() {
       try {
-        const result = await conversationApi.list();
+        const result = await api.list();
         if (stopped || version !== generation.current) return;
         const chosen = search.get("conversacion");
         const c = result.conversations.find(
@@ -201,9 +217,10 @@ function ConversationBody({ purpose }) {
           if (chosen) showError({ code: "conversation_not_found" });
           return;
         }
+        if (guest && guestId && mode === "real" && c.ready) await api.bind(c.id);
         setConversation(c);
         if (!c.ready) {
-          const started = await conversationApi.start(
+          const started = await api.start(
             purpose,
             caseRef,
             startKey.current,
@@ -230,7 +247,7 @@ function ConversationBody({ purpose }) {
     };
   }, [mode, userId, purpose, caseRef, search.get("conversacion"), newIntent]);
   useEffect(() => {
-    if (!conversation?.ready || !userId || mode !== "real") return;
+    if (!conversation?.ready || !userId || !allowed) return;
     const version = generation.current;
     let stopped = false,
       timer;
@@ -260,10 +277,10 @@ function ConversationBody({ purpose }) {
     setBusy(true);
     setError("");
     try {
-      const r = await conversationApi.start(purpose, caseRef, startKey.current, !!newIntent);
+      const r = await api.start(purpose, caseRef, startKey.current, !!newIntent);
       if (version !== generation.current) return;
       if (r.conversation.ready && search.get("conversacion") !== r.conversation.id) {
-        setSearch({ conversacion: r.conversation.id, ...(caseRef ? { caso: caseRef } : {}) }, { state: location.state, replace: true });
+        setSearch({ ...(guest ? { invitado: "1" } : {}), conversacion: r.conversation.id, ...(caseRef ? { caso: caseRef } : {}) }, { state: location.state, replace: true });
         return;
       }
       setConversation(r.conversation);
@@ -278,6 +295,9 @@ function ConversationBody({ purpose }) {
       }
     }
   }
+  useEffect(() => {
+    if (guest && guestId && newIntent && !conversation && !busyRef.current) begin();
+  }, [guest, guestId, newIntent]);
   async function sendAction(dto) {
     if (
       busyRef.current ||
@@ -299,15 +319,17 @@ function ConversationBody({ purpose }) {
     busyRef.current = true;
     setBusy(true);
     setPending(turn);
+    setAwaitingTurn({ id: turn.turn_id, afterSequence: items.reduce((last, m) => BigInt(m.sequence) > last ? BigInt(m.sequence) : last, 0n) });
     setError("");
     try {
-      const op = await conversationApi.turn(conversation.id, turn);
+      const op = await api.turn(conversation.id, turn);
       if (version !== generation.current) return;
       if (op.status === "admitted") {
         clearPending(userId, conversation.id);
         setPending(null);
         setInput("");
       } else if (op.status === "failed") {
+        setAwaitingTurn(null);
         clearPending(userId, conversation.id);
         setPending(null);
         setError(
@@ -315,6 +337,7 @@ function ConversationBody({ purpose }) {
             "El envío fue rechazado. Puedes revisar tu borrador.",
         );
       } else {
+        setAwaitingTurn(null);
         const saved = { ...turn, id: op.id, status: op.status };
         rememberPending(userId, conversation.id, saved);
         setPending(saved);
@@ -326,6 +349,7 @@ function ConversationBody({ purpose }) {
       }
     } catch (e) {
       if (version === generation.current) {
+        setAwaitingTurn(null);
         if (e.status >= 400 && e.status < 500) {
           clearPending(userId, conversation.id);
           setPending(null);
@@ -347,14 +371,14 @@ function ConversationBody({ purpose }) {
     setError("");
     try {
       const op = pending.id
-        ? await conversationApi.retry(pending.id)
+        ? await api.retry(pending.id)
         : pending.operation === "handoff"
-          ? await conversationApi.handoff(
+          ? await api.handoff(
               conversation.id,
               pending.target,
               pending.key,
             )
-          : await conversationApi.turn(
+          : await api.turn(
               conversation.id,
               Object.fromEntries(
                 Object.entries(pending).filter(
@@ -377,12 +401,12 @@ function ConversationBody({ purpose }) {
         );
       }
       if (pending.operation === "session") {
-        const rows = await conversationApi.list();
+        const rows = await api.list();
         const c = rows.conversations.find((x) => x.id === conversation.id);
         setConversation(c);
         if (c?.ready) {
           if (newIntent) {
-            setSearch({ conversacion: c.id, ...(caseRef ? { caso: caseRef } : {}) }, { state: location.state, replace: true });
+            setSearch({ ...(guest ? { invitado: "1" } : {}), conversacion: c.id, ...(caseRef ? { caso: caseRef } : {}) }, { state: location.state, replace: true });
             return;
           }
           await load(c.id, version);
@@ -390,6 +414,7 @@ function ConversationBody({ purpose }) {
       } else await load(conversation.id, version);
     } catch (e) {
       if (version === generation.current) {
+        setAwaitingTurn(null);
         if (e.status >= 400 && e.status < 500) {
           clearPending(userId, conversation.id);
           setPending(null);
@@ -418,7 +443,7 @@ function ConversationBody({ purpose }) {
     setBusy(true);
     setPending(saved);
     try {
-      const op = await conversationApi.handoff(conversation.id, target, key);
+      const op = await api.handoff(conversation.id, target, key);
       if (version !== generation.current) return;
       if (op.status === "admitted") {
         clearPending(userId, conversation.id);
@@ -438,6 +463,7 @@ function ConversationBody({ purpose }) {
       await load(conversation.id, version);
     } catch (e) {
       if (version === generation.current) {
+        setAwaitingTurn(null);
         if (e.status >= 400 && e.status < 500) {
           clearPending(userId, conversation.id);
           setPending(null);
@@ -455,18 +481,30 @@ function ConversationBody({ purpose }) {
     userId,
     conversationId: conversation?.id,
     items,
-    enabled: mode === "real" && conversation?.ready && timeline?.permissions?.includes("history"),
+    api,
+    enabled: allowed && conversation?.ready && timeline?.permissions?.includes("history"),
   });
   const animatedMessages = useMessageMotion(items, !!timeline && !timeline.has_more);
-  if (mode === "real" && !userId) return <p role="status">Cargando tu cuenta…</p>;
-  if (mode !== "real")
+  if (allowed && !userId) return <p role="status">Cargando tu cuenta…</p>;
+  if (!allowed)
     return (
       <section className="empty">
-        <h1>Habla con LidIA</h1>
-        <p>Entra con tu cuenta para recuperar tus conversaciones.</p>
+        <h2>Consulta con LidIA</h2>
+        <p>Puedes consultar los requisitos sin crear una cuenta. Tu conversación quedará vinculada a este dispositivo.</p>
         <Link className="btn primary" to="/acceso" state={accessState(location)}>
           Iniciar sesión
         </Link>
+        <button className="btn secondary" disabled={busy} onClick={async () => {
+          setBusy(true);setError("");
+          try {
+            await guestInstallation(true);
+            const next = new URLSearchParams(search); next.set("invitado", "1");
+            if (!next.get("conversacion") && !next.get("nueva")) next.set("nueva", crypto.randomUUID());
+            setSearch(next, { state: location.state, replace: true });
+          } catch { setError("No se pudo abrir la conversación sin registro. Inténtalo de nuevo con conexión."); }
+          finally { setBusy(false); }
+        }}>{busy ? "Abriendo…" : "Continuar sin registro"}</button>
+        {error && <p className="error" role="alert">{error}</p>}
       </section>
     );
   const closed = timeline?.conversation_status === "closed",
@@ -474,6 +512,9 @@ function ConversationBody({ purpose }) {
   const human =
     purpose === "atencion" ||
     ["assigned", "in_support"].includes(timeline?.support?.status);
+  const writing = !human && !closed && !error && (
+    !!awaitingTurn || timeline?.turn_statuses?.some(r => ["accepted", "processing"].includes(r.status))
+  );
   return (
     <section
       className={
@@ -501,12 +542,12 @@ function ConversationBody({ purpose }) {
           <h2>
             {purpose === "sondeo"
               ? (newIntent ? "Nueva conversación con LidIA" : "Consulta con LidIA")
-              : "Atención Gestadia"}
+              : "Habla con tu gestor"}
           </h2>
           <p>
             {purpose === "sondeo"
               ? "Consulta los requisitos de tu canje."
-              : "Abre una conversación con el equipo de Gestadia."}
+              : "Abre el chat con tu gestor asignado."}
           </p>
           <button className="btn primary" disabled={busy} onClick={begin}>
             {newIntent ? "Iniciar conversación" : "Abrir conversación"}
@@ -534,7 +575,7 @@ function ConversationBody({ purpose }) {
                   {m.role === "user"
                     ? "Tú"
                     : m.role === "operator"
-                      ? "Equipo Gestadia"
+                      ? "Tu gestor"
                       : "Gestadia"}
                 </strong>
                 <span className="bubble-time">
@@ -584,6 +625,11 @@ function ConversationBody({ purpose }) {
             )}
           </div>
         ))}
+        {writing && (
+          <p className="lidia-typing" role="status" aria-label="LidIA está escribiendo">
+            <em>LidIA está escribiendo<span className="lidia-typing-dots" aria-hidden="true"><span>.</span><span>.</span><span>.</span></span></em>
+          </p>
+        )}
       </div>
       {["assigned", "in_support"].includes(timeline?.support?.status) &&
         timeline.support.operator_display_name && (
@@ -606,7 +652,7 @@ function ConversationBody({ purpose }) {
           }}>Nueva conversación</button>}
         </div>
       )}
-      {pending && (
+      {pending && !(busy && pending.turn_id) && (
         <div className="card" role="status">
           <p>
             {pending.status === "failed"

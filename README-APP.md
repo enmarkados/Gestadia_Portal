@@ -2,9 +2,9 @@
 
 **Referencia para desarrollar:** [Manual de flujos y pantallas](docs/app/MANUAL-DESARROLLO.md). Explica cómo abrir los mapas y las capturas, seguir la navegación y mantenerlos junto al código. [README general](README.md).
 
-Primera demo de Gestadia para **web, iOS y Android**, rama `app/main`, basada en el diseño de `RECURSOS/DISEÑO/GESTADIA-handoff-diseno/index.html`.
+Gestadia para **web, iOS y Android**, rama `app/main`, con diseño Gestadia, acceso compartido con Portal, conversaciones LidIA y atención de gestores.
 
-Por instrucción del usuario, esta entrega funciona **sin conexiones externas**: splash, acceso/registro de ejemplo, LidIA guiada, gestor, servicios, expedientes y documentos. No crea cuentas reales, no envía mensajes ni solicita pagos. `demoOnly: true` bloquea las conexiones y descarta sesiones reales antiguas.
+La demostración se retiró. Sin cuenta, la APP permite consultar servicios y ofrece Login o continuar sin registro para LidIA. Las conexiones conversacionales, identidad social, CRM y push requieren configuración efectiva; guest v2 queda desactivado por defecto hasta aceptación conjunta. [Revisión vigente y capturas](docs/app/2026-10-11-recorridos-gestores.md).
 
 ```sh
 npm run app:dev
@@ -13,7 +13,7 @@ npm run app:preview
 npm test --prefix frontend
 ```
 
-La nueva [API conversacional APP](docs/integraciones/2026-10-05-entrega-portal-conversaciones-app.md) está incorporada en `app/main`, con cuenta validada, sesiones de dispositivo, S2S, recuperación y recibos de mensajes. La configuración versionada mantiene las conexiones desactivadas y la demo aislada; la integración Git no cambia la configuración ni despliega producción. Pruebas aisladas: `node scripts/test-app-conversations.mjs`. [Acta y reparto aceptado](docs/integraciones/2026-10-05-acta-inicio-conversacional.md).
+La nueva [API conversacional APP](docs/integraciones/2026-10-05-entrega-portal-conversaciones-app.md) está incorporada en `app/main`, con cuenta validada, sesiones de dispositivo, S2S, recuperación y recibos de mensajes. La configuración versionada mantiene las conexiones desactivadas; la integración Git no cambia la configuración ni despliega producción. Pruebas aisladas: `node scripts/test-app-conversations.mjs`. [Acta y reparto aceptado](docs/integraciones/2026-10-05-acta-inicio-conversacional.md).
 
 Entrada: `frontend/app/`. Build: `frontend/dist-app/`. El portal conserva su build propio en `frontend/dist/`.
 
@@ -45,6 +45,9 @@ Los proyectos nativos empaquetan el mismo frontend con Capacitor. Ejecutar `npm 
 
 La preparación para tiendas solicitada el 08/10/2026 tiene una auditoría y propuesta escrita en los documentos anteriores. Está pendiente de revisión e implementación; el comportamiento actual continúa siendo el de la demo.
 
+Preparación de tiendas y evidencia: [MARKETPLACES-CONFIGURACION](docs/app/MARKETPLACES-CONFIGURACION.md).
+
+[Documento maestro APP Portal Docker y tiendas](docs/app/00-MAESTRO-APP-PORTAL-DOCKER.md) · [Plan de acción](docs/superpowers/plans/2026-10-10-app-portal-docker-tiendas.md)
 Diseño de Mensajes y comprobaciones de la lista compacta: [Mensajes](docs/app/MENSAJES-DISENO.md).
 
 [Plan de diseño de todas las pantallas y cobertura](docs/app/PLAN-DISENO-APP.md).

@@ -1,0 +1,33 @@
+# Verificación temporal de UID/GID. Solo metadatos públicos de usuarios/grupos;
+# no monta documentos, configuración privada, socket Docker ni rutas de escritura.
+services:
+  gestadia-host-metadata:
+    image: gestadia-backend:b42ce6a
+    user: "65534:65534"
+    network_mode: none
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    restart: "no"
+    entrypoint: ["node", "--input-type=module", "-e"]
+    command:
+      - |
+        import fs from 'node:fs';
+        const user=fs.readFileSync('/host-passwd','utf8').split('\n').map(x=>x.split(':')).find(x=>x[0]==='gestadia.com_vx391aaj8xf');
+        const group=fs.readFileSync('/host-group','utf8').split('\n').map(x=>x.split(':')).find(x=>x[0]==='psacln');
+        if(!user||!group)throw Error('Propietario esperado no encontrado');
+        console.log(JSON.stringify({uid:Number(user[2]),gid:Number(user[3]),psaclnGid:Number(group[2]),documentsMounted:false,secretsMounted:false}));
+    volumes:
+      - type: bind
+        source: /etc/passwd
+        target: /host-passwd
+        read_only: true
+        bind: {create_host_path: false}
+      - type: bind
+        source: /etc/group
+        target: /host-group
+        read_only: true
+        bind: {create_host_path: false}
+    logging:
+      driver: json-file
+      options: {max-size: "1m", max-file: "1"}

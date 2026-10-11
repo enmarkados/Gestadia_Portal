@@ -1,4 +1,6 @@
 import { PAISES, claveDesdeISO } from "../../../shared/paises-canje.js";
+import { Capacitor } from "@capacitor/core";
+import { nativeSession } from "./sessionStorage.js";
 const config = () => globalThis.GESTADIA_APP_CONFIG || {};
 export function countryKey(value) {
   const slug = String(value || "")
@@ -22,23 +24,24 @@ export function countryKey(value) {
 }
 const TOKEN_KEY = "gestadia_app_token";
 export const getToken = () => {
+  if (Capacitor.isNativePlatform()) return nativeSession.get();
   try {
     return sessionStorage.getItem(TOKEN_KEY);
   } catch {
     return null;
   }
 };
-export const setToken = (token) =>
+export const setToken = (token) => {
+  if (Capacitor.isNativePlatform()) return nativeSession.set(token);
   token
     ? sessionStorage.setItem(TOKEN_KEY, token)
     : sessionStorage.removeItem(TOKEN_KEY);
-export const demoEnabled = () => config().demoEnabled !== false;
-export const demoOnly = () => config().demoOnly === true;
+};
+export const logoutSession = () =>
+  Capacitor.isNativePlatform() ? nativeSession.logout() : setToken(null);
+export const platform = () =>
+  Capacitor.isNativePlatform() ? Capacitor.getPlatform() : undefined;
 export async function request(path, { auth = true, ...options } = {}) {
-  if (demoOnly())
-    throw new Error(
-      "Esta versión de demostración no realiza conexiones externas.",
-    );
   const token = auth ? getToken() : null;
   const headers = new Headers(options.headers);
   if (token) headers.set("Authorization", `Bearer ${token}`);
@@ -60,7 +63,7 @@ export async function request(path, { auth = true, ...options } = {}) {
   }
   const body = await response.json().catch(() => null);
   if (response.status === 401 && token && getToken() === token) {
-    setToken(null);
+    await setToken(null);
     window.dispatchEvent(new Event("gestadia-session-expired"));
   }
   if (!response.ok) {

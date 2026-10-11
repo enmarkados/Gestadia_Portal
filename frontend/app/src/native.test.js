@@ -46,13 +46,12 @@ afterEach(() => {
   document.body.innerHTML = "";
   vi.restoreAllMocks();
 });
-it("el arranque nativo de la demo no carga configuración externa ni abre navegador", async () => {
+it("el arranque empaquetado conserva su configuración revisada y permite enlaces reales", async () => {
+  window.GESTADIA_APP_CONFIG = { appId: "com.gestadia.app" };
   await loadNativeConfig();
-  await expect(openExternal("https://gestadia.com")).rejects.toThrow(
-    "no abre conexiones",
-  );
+  await openExternal("https://gestadia.com");
   expect(bridge.get).not.toHaveBeenCalled();
-  expect(bridge.open).not.toHaveBeenCalled();
+  expect(bridge.open).toHaveBeenCalledWith({ url: "https://gestadia.com" });
 });
 it("en Android los enlaces internos y eventos ya atendidos no abren el navegador", () => {
   window.GESTADIA_APP_CONFIG = { demoOnly: false };

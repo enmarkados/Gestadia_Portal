@@ -1,5 +1,5 @@
 const routes =
-  /^(?:\/(?:acceso|registro|cuenta|tramites|mensajes|servicios|informacion|checkout-demo)?|\/lidia\/conversacion|\/mensajes\/gestor|\/tramites\/[^/?#]+|\/legal\/(?:privacy|terms|support|delete-account))(?:\?[^#]*)?$/;
+  /^(?:\/(?:acceso|registro|cuenta|tramites|mensajes|servicios)?|\/lidia\/conversacion|\/mensajes\/gestor|\/tramites\/[^/?#]+|\/legal\/(?:privacy|terms|support|delete-account))(?:\?[^#]*)?$/;
 
 export function routePath(location) {
   return location.pathname + (location.search || "");

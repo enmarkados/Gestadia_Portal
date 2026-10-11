@@ -407,8 +407,8 @@ test("grant caducado y cambio de dueño generan retiro durable; nunca permiten h
     },
   });
   await setConversationAccess(db, f.u.id, "atencion", exp.id, {
-    permissions: ["history", "case_context"],
-    manager_assignment_ref: null,
+    permissions: ["history", "case_context", "manager_handoff"],
+    manager_assignment_ref: "manager-fixture",
     commercial_assignment_ref: null,
     validated_at: now(),
     valid_until: new Date(Date.now() + 60000).toISOString(),
