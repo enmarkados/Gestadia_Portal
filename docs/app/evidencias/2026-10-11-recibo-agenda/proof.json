@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-11",
+  "base_commit": "2a1140cc2eafb2daeb4fe96c6b316d89e50e5338",
+  "runtime_schemas": "exact copies received, hashes recorded in provenance.json",
+  "unit_tests": 37,
+  "integration_red": "authorized receipt missing when caller omitted permissions",
+  "integration_green": "receipt visible with current scoped permissions; withdrawal in flight rejected; flag off removes projection and retains stored bytes",
+  "backend_tests": 351,
+  "frontend_tests": 207,
+  "frontend_files": 49,
+  "app_build": "PASS",
+  "review": "No P1/P2, readonly independent review",
+  "production_deploy": "not performed",
+  "crm_grant": "not activated",
+  "real_call_readback": "pending",
+  "account_v2_durable_context": "separate pending block"
+}

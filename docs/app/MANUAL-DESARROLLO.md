@@ -264,3 +264,8 @@ El editor común de nombres mantiene campo y acciones dentro del área desplazab
 
 
 Entrega del editor: Gestadia 0.1.0 (11) procesada por Apple y «En pruebas» en Gestadia QA. Firma y configuración verificadas; teclado físico pendiente de aceptación. [Registro](evidencias/2026-10-11-editor-nombre/README.md).
+
+
+### Recibo opcional de agenda preparado — 11/10/2026
+
+Consumidor de respuesta v1/v2 valida el recibo histórico de reserva de LidIA y limita su proyección a permisos CRM vigentes. Pantallas, origen, Atrás, envío y confirmación por el mensaje del agente se conservan; no añade tarjeta de estado vivo. Consumer v2 limitado no obtiene autoridad CRM. [Pruebas, procedencia y límites](evidencias/2026-10-11-recibo-agenda/README.md). Sin deploy, grants ni llamada real.

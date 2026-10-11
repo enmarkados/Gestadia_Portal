@@ -1727,3 +1727,36 @@ test("retirada urgente conserva el mismo parche y no espera al ACK perdido",asyn
  const latest=await db.appConversation.findUnique({where:{id:c.id}});
  assert.equal(latest.profileRevision,'2');assert.deepEqual(Object.keys(latest.context.profile),['email']);
 });
+
+test('recibo de reserva conserva proyección autorizada y la retira al apagar el grant',async t=>{
+ const f=await fixture(t),started=await f.service().start(f.a,{purpose:'sondeo'},crypto.randomUUID()),id=started.conversation.id;
+ await f.service().timeline(f.a,id);
+ const expiry=new Date(Date.now()+3600000).toISOString(),cfg={...config,callbackAccess:{enabled:true,scope:{portal_user_id:f.u.id,conversation_id:id,integration_id:config.integrationId,expires_at:expiry}}};
+ await setConversationAccess(db,f.u.id,'sondeo',null,{conversation_id:id,permissions:['history','sondeo','crm_prepare','callback_schedule'],source_ref:'explicit-test-approval',validated_at:now(),valid_until:expiry},cfg);
+ const sample=JSON.parse(readFileSync(new URL('../../../docs/integraciones/fixtures/app-appointment-receipts-723/v1-receipt-lookup.json',import.meta.url))).receipt;
+ let completed;
+ const call=f.remote.call.bind(f.remote);
+ f.remote.call=async(...args)=>{
+  const r=await call(...args),path=args[2],opts=args[5]||{};
+  if(path.endsWith('/turns')){
+   completed={...sample,conversation_id:r.data.conversation_id,turn_id:r.data.turn_id,operation_id:r.data.operation_id,retained_until:r.data.retained_until};
+   r.data=structuredClone(completed);
+  }else if(path.endsWith('/timeline')&&completed){
+   if(opts.query?.turn_id)r.data.receipt=structuredClone(completed);
+   else r.data.turn_statuses=[structuredClone(completed)];
+   r.data.state_revision=completed.state_revision;
+  }
+  return r;
+ };
+ const service=new AppConversationService(db,f.remote,cfg),op=await service.turn(f.a,id,{turn_id:crypto.randomUUID(),kind:'text',text:'Fixture local de recibo, sin CRM real'});
+ assert.deepEqual(op.receipt.result.appointment_receipt,sample.result.appointment_receipt);
+ assert.deepEqual((await service.timeline(f.a,id)).turn_statuses[0].result.appointment_receipt,sample.result.appointment_receipt);
+ assert.deepEqual((await service.timeline(f.a,id,{turn_id:completed.turn_id})).receipt.result.appointment_receipt,sample.result.appointment_receipt);
+ f.remote.beforeReturn=async()=>setConversationAccess(db,f.u.id,'sondeo',null,{conversation_id:id,permissions:['history','sondeo'],source_ref:'withdraw-test-approval',validated_at:now(),valid_until:expiry},cfg);
+ await assert.rejects(service.timeline(f.a,id),{code:'context_unavailable'},'la retirada durante la lectura no deja salir una respuesta con autoridad antigua');
+ const off=new AppConversationService(db,f.remote,{...cfg,callbackAccess:{...cfg.callbackAccess,enabled:false}});
+ assert.equal((await off.operation(f.a,op.id)).receipt.result.appointment_receipt,undefined);
+ assert.equal((await off.timeline(f.a,id)).turn_statuses[0].result.appointment_receipt,undefined);
+ assert.equal((await off.timeline(f.a,id,{turn_id:completed.turn_id})).receipt.result.appointment_receipt,undefined);
+ assert.deepEqual((await db.appOperation.findUnique({where:{id:op.id}})).response.result.appointment_receipt,sample.result.appointment_receipt,'el snapshot persistido no se borra');
+});

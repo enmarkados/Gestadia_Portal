@@ -389,7 +389,7 @@ export class AppConversationService {
       });
       if (query.turn_id)
         return {
-          receipt: receiptView(r.data.receipt, id),
+          receipt: receiptView(r.data.receipt, id, access.permissions),
           state_revision: r.data.state_revision,
         };
       const pending = await tx.appOperation.findMany({
@@ -413,12 +413,12 @@ export class AppConversationService {
         metadata_ready: r.data.created_at !== undefined && Object.hasOwn(r.data, "last_message_at"),
         support: r.data.support,
         turn_statuses: r.data.turn_statuses.map((receipt) =>
-          receiptView(receipt, id),
+          receiptView(receipt, id, access.permissions),
         ),
         sondeo: r.data.sondeo,
         state_revision: r.data.state_revision,
         permissions: access.permissions,
-        pending_operations: pending.map(operationView),
+        pending_operations: pending.map(op => operationView(op, access.permissions)),
       };
     });
   }
@@ -564,6 +564,7 @@ export class AppConversationService {
         },
       });
       if (!op) throw new AppProblem(404, "operation_not_found");
+      let permissions = [];
       if (op.conversationId) {
         const c = await ownedConversation(
             tx,
@@ -573,13 +574,14 @@ export class AppConversationService {
           ),
           access = await currentAccess(tx, c, user, this.config);
         requireAccess(c, access);
+        permissions = access.permissions;
       }
       if (
         op.status === "retired" ||
         (op.response && op.retainedUntil <= new Date())
       )
         throw new AppProblem(410, "operation_retired");
-      return operationView(op);
+      return operationView(op, permissions);
     });
   }
   async retry(token, id) {

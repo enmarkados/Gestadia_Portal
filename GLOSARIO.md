@@ -1627,3 +1627,10 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** Mantiene el formulario del campo enfocado dentro del área visible de su contenedor cuando el teclado modifica su altura. Deja de seguirlo al perder foco o cerrar la edición.
 - **Alcance:** frontend/app/src/useFocusedFormScroll.js y ConnectedMessages.jsx; editor del nombre de conversaciones.
 - **Notas:** Desplaza sólo lo necesario para ver campo y acciones, con movimiento reducido inmediato. Se descarta activar el desplazamiento nativo global porque alteraría la sincronización del teclado en los chats; tampoco fuerza el final de la lista, que puede pertenecer a otro chat.
+
+
+### validAppointmentReceipts
+- **Tipo:** concepto runtime / función de validación.
+- **Definición:** Comprobación semántica del recibo histórico de reserva emitido por LidIA; requiere un turno completado sin error, hora UTC verificada coincidente y zona IANA válida. No acredita disponibilidad ni estado actual de una cita.
+- **Alcance:** backend/src/app/appointment-receipts.js; validadores de respuestas v1/v2.
+- **Notas:** No deducir una llamada del texto del modelo ni del estado completed sin el recibo cerrado. Los IDs CRM permanecen en LidIA.

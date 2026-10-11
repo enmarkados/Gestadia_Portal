@@ -228,3 +228,8 @@ Corrección solicitada por fotografía del iPhone. Implementación, dos regresio
 
 
 Entrega del editor: Gestadia 0.1.0 (11) procesada por Apple y «En pruebas» en Gestadia QA. Firma y configuración verificadas; teclado físico pendiente de aceptación. [Registro](evidencias/2026-10-11-editor-nombre/README.md).
+
+
+### Consumidor de recibo preparado — 11/10/2026
+
+Schemas exactos de LidIA723 y tres fixtures preservados; validación v1/v2 y proyección del snapshot histórico con permisos vigentes implementadas. 351backend/207frontend/buildPASS y revisión independiente sin P1/P2. Sin despliegue/CRM/reserva real ni cambios en TestFlight11. [Paquete](evidencias/2026-10-11-recibo-agenda/README.md). Siguiente: cerrar marca/commit723 con LidIA, copiar/restaurar antes de desplegar Portal y pedir confirmación concreta del permiso cuando se vaya a activar; sólo después probar UI→Zoho/readback.
