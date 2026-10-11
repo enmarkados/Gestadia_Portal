@@ -1465,6 +1465,12 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** texto en cursiva del indicador de espera de LidIA, con pulso suave de opacidad mientras la respuesta está pendiente.
 - **Alcance:** Gestadia APP; AppConversation.jsx y app.css.
 - **Notas:** completa la secuencia de tres puntos; movimiento reducido mantiene texto y puntos estáticos y legibles. No expresa envío confirmado ni sustituye un recibo remoto.
+
+### LidiaTypingIndicator
+- **Tipo:** componente de presentación APP.
+- **Definición:** indicador de espera de LidIA en negrita, con entrada y salida suaves y tres puntos que suben de forma secuencial en una ola.
+- **Alcance:** frontend/app/src/LidiaTypingIndicator.jsx, AppConversation.jsx y app.css.
+- **Notas:** revisión solicitada el 11/10/2026, sustituye la cursiva del indicador anterior. Conserva el elemento durante la salida de 280 ms; sin movimiento reducido no se elimina de golpe. No cambia recibos, permisos ni atención humana.
 ## ConversationList / PushSettings promptOnly / notificationDestination
 
 - **Tipo:** componentes y función de presentación APP.

@@ -1,5 +1,6 @@
 import { guestConversationApi,guestInstallation } from "./guestConversations.js";
 import DeliveryTicks from "./DeliveryTicks.jsx";
+import LidiaTypingIndicator from "./LidiaTypingIndicator.jsx";
 import { useMessageMotion } from "./motion.jsx";
 import { useMessageReceipts } from "./useMessageReceipts.js";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
@@ -625,11 +626,7 @@ function ConversationBody({ purpose, guest }) {
             )}
           </div>
         ))}
-        {writing && (
-          <p className="lidia-typing" role="status" aria-label="LidIA está escribiendo">
-            <em><span className="lidia-typing-label">LidIA está escribiendo</span><span className="lidia-typing-dots" aria-hidden="true"><span>.</span><span>.</span><span>.</span></span></em>
-          </p>
-        )}
+        <LidiaTypingIndicator active={!!writing} />
       </div>
       {["assigned", "in_support"].includes(timeline?.support?.status) &&
         timeline.support.operator_display_name && (

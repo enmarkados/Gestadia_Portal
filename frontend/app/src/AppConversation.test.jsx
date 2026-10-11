@@ -821,10 +821,41 @@ it("muestra escritura durante el envío y la retira al recibir la respuesta del 
   mount();
   fireEvent.click(await screen.findByRole("button", { name: "Sí" }));
   expect(await screen.findByRole("status", { name: "LidIA está escribiendo" })).toBeInTheDocument();
+  expect(screen.getByRole("status", { name: "LidIA está escribiendo" }).querySelector("strong")).not.toBeNull();
   expect(screen.queryByText(/Envío sin confirmación/)).not.toBeInTheDocument();
   await act(async () => release());
   expect(await screen.findByText("Respuesta recibida")).toBeInTheDocument();
   expect(screen.queryByRole("status", { name: "LidIA está escribiendo" })).not.toBeInTheDocument();
+});
+
+it("conserva el indicador durante la salida suave y lo retira sin anunciar escritura tras responder", async () => {
+  vi.stubGlobal("matchMedia", () => ({ matches: false, addEventListener() {}, removeEventListener() {} }));
+  const original = fetch;
+  let release, turnId, replied = false;
+  vi.stubGlobal("fetch", vi.fn(async (url, opts = {}) => {
+    if (url.endsWith("/turns")) {
+      turnId = JSON.parse(opts.body).turn_id;
+      await new Promise(resolve => { release = resolve; });
+      replied = true;
+      return { ok: true, status: 200, json: async () => ({ status: "admitted" }) };
+    }
+    if (url.includes("/timeline") && replied) {
+      const data = timeline();
+      data.items.push({ message_id: "smooth-reply", sequence: "2", occurred_at: "2026-10-11T10:00:00Z", role: "assistant", text: "Respuesta con salida suave" });
+      data.turn_statuses = [{ turn_id: turnId, status: "completed" }];
+      return { ok: true, status: 200, json: async () => data };
+    }
+    return original(url, opts);
+  }));
+  mount();
+  fireEvent.click(await screen.findByRole("button", { name: "Sí" }));
+  const indicator = await screen.findByRole("status", { name: "LidIA está escribiendo" });
+  await act(async () => release());
+  await screen.findByText("Respuesta con salida suave");
+  expect(indicator.isConnected).toBe(true);
+  expect(indicator).toHaveAttribute("aria-hidden", "true");
+  expect(screen.queryByRole("status", { name: "LidIA está escribiendo" })).not.toBeInTheDocument();
+  await waitFor(() => expect(indicator.isConnected).toBe(false));
 });
 
 it("mantiene escritura con un turno confirmado en procesamiento y la retira al fallar", async () => {

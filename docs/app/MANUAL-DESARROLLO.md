@@ -207,3 +207,7 @@ Integración de movimiento d3ca03c en la rama marketplace conservando el flujo r
 El usuario usa build (2) y solicita animar también el texto. El indicador conserva cursiva, ubicación, permisos y retirada al responder/fallar; texto con pulso suave 1600 ms y puntos secuenciales 1200 ms (0/160/320 ms, 3 px). No cambia origen, navegación, Atrás ni acción final. Movimiento reducido mantiene los cuatro elementos estáticos y legibles. [Verificación del indicador y límites de build (3)](evidencias/2026-10-11-escritura-animada/README.md).
 
 - [Integración app/main y entrega TestFlight (4)](2026-10-11-testflight-appmain-build4.md): revisión, comprobaciones y límites de activación.
+
+### Escritura en negrita y puntos en ola · revisión del 11/10/2026
+
+La petición humana sustituye la cursiva por negrita y añade entrada/salida suaves280ms, pulso de texto1800ms y ola visible de tres puntos1400ms con desfases0/200/400ms y subida5px. LidiaTypingIndicator conserva el DOM durante la salida y retira el anuncio accesible al responder; movimiento reducido permanece estático con retirada inmediata. Pantalla, origen, permisos, destino de Atrás y acción final se conservan. [Evidencia local y estado de distribución build(5)](evidencias/2026-10-11-escritura-ola/README.md).
