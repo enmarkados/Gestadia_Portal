@@ -21,3 +21,7 @@ Tras recargar el panel de producción se observa `V1.723-agenda-app-verificada`.
 ![Versión efectiva de LidIA](lidia-v1723.png)
 
 Se presenta una única petición humana para confirmar los permisos de contacto y agenda en Portal y LidIA durante una hora, exclusivamente para la cuenta/conversación previstas y conexión Zoho Production EU 4. Se piden nombre, teléfono internacional, zona y fecha/franja reales con su destino explícito. Al registrar este paso no hay respuesta ni activación, escritura CRM o llamada reservada. La reserva se solicitará al agente; no se ejecutará una herramienta manual saltando la conversación.
+
+## Verificación posterior del detalle administrativo
+
+Este chat abre y recarga el detalle común de la misma sesión APP en `/admin/chats/6b9a40ec-a9a9-442a-9f49-70e35d642f02`, sin error de permisos y con el historial informativo conservado. Recarga posterior observada: `V1.725-sesiones-contraste`. LidIA acredita SHA PRO `02a429275c396f27bfcfc992e74383a510d8cbbc` y cambios visuales del ancho/contraste, con el contrato de agenda 723 conservado. No se atribuye una Call a esta lectura. Permisos y mapping CRM siguen apagados; la respuesta humana y la reserva/readback/reapertura posterior de esa misma sesión permanecen pendientes.
