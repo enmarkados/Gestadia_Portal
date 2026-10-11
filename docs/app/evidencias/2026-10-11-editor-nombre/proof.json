@@ -1,0 +1,25 @@
+{
+  "source_commit": "344b0335ffb1e4a48677983fcba60b58e0b0c216",
+  "date": "2026-10-11",
+  "environment": "local browser isolated fixture and frontend tests",
+  "targeted_tests": 10,
+  "frontend_tests": 207,
+  "frontend_files": 49,
+  "app_build": "PASS",
+  "review": "No P1/P2",
+  "fixture": {
+    "frame_width": 390,
+    "reduced_height": 460,
+    "main_top": 69,
+    "main_bottom": 408,
+    "input_top": 257.3828,
+    "input_bottom": 303.3828,
+    "actions_top": 340.1797,
+    "actions_bottom": 396.1797,
+    "scroll_top": 339.5
+  },
+  "screenshot_sha256": "4c6c07799ad978ecaaccc11465b4686cb702e8f64bcb4ada3b54ab7677af442d",
+  "native_build": 11,
+  "physical_keyboard_acceptance": "pending",
+  "production_deployment": "not performed"
+}

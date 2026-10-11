@@ -1,0 +1,5 @@
+Corrección del editor de nombres de conversaciones.
+
+En LidIA → Historial, edita el nombre de un chat situado al final de la lista. Al abrir el teclado deben mantenerse visibles el campo, Guardar y Cancelar, con desplazamiento suave. Comprueba también cancelar sin modificar el título y guardar un nombre nuevo.
+
+Conserva animaciones de mensajes, indicador de escritura, hora al pie, carga de chats y mejoras anteriores del teclado. La revisión de agenda real sigue pendiente.

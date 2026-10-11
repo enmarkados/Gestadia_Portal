@@ -225,3 +225,6 @@ Verificado en Git el merge app/main 9c2e62c (PR16, implementación 0096bff), des
 ### Acción prioritaria: nombre de chat visible — 11/10/2026
 
 Corrección solicitada por fotografía del iPhone. Implementación, dos regresiones RED/GREEN, 207 pruebas frontend, build y revisión independiente completas. Siguientes pasos: archivar/firmar11, subir a Apple, comprobar procesamiento y activar Gestadia QA; después aceptación del teclado físico por el usuario. No requiere cambio de BD/backend ni cierra la reserva real pendiente. [Registro](evidencias/2026-10-11-editor-nombre/README.md).
+
+
+Entrega del editor: Gestadia 0.1.0 (11) procesada por Apple y «En pruebas» en Gestadia QA. Firma y configuración verificadas; teclado físico pendiente de aceptación. [Registro](evidencias/2026-10-11-editor-nombre/README.md).

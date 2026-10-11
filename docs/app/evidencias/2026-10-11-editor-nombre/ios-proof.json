@@ -1,0 +1,19 @@
+{
+  "source_commit": "344b0335ffb1e4a48677983fcba60b58e0b0c216",
+  "version": "0.1.0",
+  "build": "11",
+  "app_id": "com.gestadia.app",
+  "codesign_strict": "PASS",
+  "aps_environment": "production",
+  "profile": "Gestadia App Store",
+  "assets_config_match": "PASS",
+  "ipa_bytes": 3314271,
+  "ipa_sha256": "5ca9ba1c73704938c6d2fc96f74e009416630bfa6640ecbb0280a2db9ae3e8c3",
+  "archive": "PASS",
+  "export": "PASS",
+  "upload": "Xcode confirms App 0.1.0 (11) uploaded",
+  "testflight": "En pruebas, Gestadia QA, 1 tester",
+  "apple_build_id": "330d2ebb-470d-47cf-9821-d26f6be90fe5",
+  "plan_page_sequence": 42,
+  "physical_keyboard_acceptance": "pending"
+}

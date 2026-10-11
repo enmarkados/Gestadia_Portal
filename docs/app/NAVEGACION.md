@@ -372,3 +372,6 @@ El backend prepara un grant CRM/agenda exclusivo de un chat existente, apagado p
 ### Renombrar conversación con teclado — 11/10/2026
 
 LidIA → Historial (o Mensajes) → Editar nombre: foco desplaza el formulario dentro del espacio visible y acompaña el teclado. Guardar mantiene la API y permisos existentes; Cancelar conserva título y devuelve foco al disparador. Atrás/origen no cambian. [Captura local, pruebas y aceptación pendiente](evidencias/2026-10-11-editor-nombre/README.md).
+
+
+Entrega del editor: Gestadia 0.1.0 (11) procesada por Apple y «En pruebas» en Gestadia QA. Firma y configuración verificadas; teclado físico pendiente de aceptación. [Registro](evidencias/2026-10-11-editor-nombre/README.md).
