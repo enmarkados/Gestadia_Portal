@@ -1517,3 +1517,10 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** segmentos visibles de un mensaje de LidIA cuyo texto histórico contiene el separador `[SPLIT]`. Conservan la identidad del mensaje original.
 - **Alcance:** `frontend/app/src/AppConversation.jsx` y sus pruebas; burbujas de conversaciones APP.
 - **Notas:** no modifica el histórico ni interpreta acciones o reservas. Los mensajes de cliente y operador conservan su texto literal.
+
+### `useComposerAutoScroll`
+
+- **Tipo:** hook de presentación.
+- **Definición:** desplazamiento al último mensaje al enfocar o tocar el campo de conversación, manteniendo el final visible durante los cambios de altura del teclado.
+- **Alcance:** `frontend/app/src/useComposerAutoScroll.js`, `AppConversation.jsx` y eventos de textarea en `ChatComposer.jsx`; chats LidIA y gestor, cuenta o visitante habilitado.
+- **Notas:** usa el contenedor real aunque el compositor esté en un portal; respeta movimiento reducido y cancela al desenfocar/salir. Se descarta un retraso fijo tras abrir el teclado para evitar saltos tardíos. No envía mensajes ni modifica permisos.

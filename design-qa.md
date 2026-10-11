@@ -73,3 +73,8 @@ La corrección del teléfono de Servicios es independiente y está documentada e
 ## Hora inferior en conversación real · 11/10/2026
 
 Corrección humana: hora al pie derecho de cada burbuja; en las propias queda 5px a la izquierda de los ticks. AppConversation medido en navegador con fixture (texto arriba, time debajo, ticks después en el mismo eje); historial web real con 36 burbujas y una hora al pie de cada una. Contraste sobre blanco y grafito revisado. Fuente 599c6e9, 196 pruebas correctas, Docker publicado; el usuario valida entrada suave física de (6). [Captura y evidencia](docs/app/evidencias/2026-10-11-hora-pie/README.md). Distribución (7) y aceptación física se registran por separado.
+
+
+## 11/10/2026 · Foco del compositor
+
+Petición humana implementada: click/foco lleva al último mensaje con transición280ms, reevalúa el fondo durante el resize del teclado y libera el seguimiento al desenfocar. Foco repetido, portal externo y reducir movimiento cubiertos;200/200pruebas. [Evidencia vigente y límites físicos](docs/app/evidencias/2026-10-11-scroll-compositor/README.md).

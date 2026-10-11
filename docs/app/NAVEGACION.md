@@ -345,3 +345,8 @@ La recarga directa de `/lidia/conversacion` y `/lidia/conversacion/` se sirve ta
 ### Hora al pie de las burbujas · 11/10/2026
 
 Corrección solicitada para `/lidia/conversacion` (cuenta o visitante habilitado) y las conversaciones de gestor: la hora procedente de `occurred_at` se muestra al final, alineada a la derecha. En mensajes propios queda inmediatamente a la izquierda de los ticks de entrega confirmados por el servidor; en LidIA y gestor se muestra sin ticks. Si existe una presentación con botones, el pie queda después de ella. Conserva origen, Atrás, permisos, envío y entrada animada; no modifica mensajes persistidos. [Evidencia de esta revisión](evidencias/2026-10-11-hora-pie/README.md).
+
+
+### Desplazamiento al tocar el compositor — 11/10/2026
+
+Tocar o enfocar el campo de las conversaciones lleva suavemente al último mensaje en280ms; otro toque también funciona si el campo ya está enfocado. Mientras tiene foco, adapta el destino al cambio de altura del teclado. Al salir del campo se puede leer el historial libremente. Reducir movimiento lleva directamente al fondo. Pantalla, origen, permisos, destino de Atrás y envío se conservan; no envía mensajes ni ejecuta reservas. [Evidencia y distribución de esta revisión](evidencias/2026-10-11-scroll-compositor/README.md).

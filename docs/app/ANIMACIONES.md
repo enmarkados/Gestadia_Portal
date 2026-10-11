@@ -71,3 +71,8 @@ La petición humana sustituye la cursiva por negrita y añade entrada/salida sua
 ### Burbujas nuevas de LidIA · revisión del 11/10/2026
 
 Corrección solicitada para `/lidia/conversacion`: entrada suave 280 ms/8 px desde el primer fotograma, conservación de la referencia del historial al recibir páginas nuevas y desplazamiento suave al llegar respuestas. Los segmentos históricos `[SPLIT]` de LidIA se presentan como burbujas separadas; los segmentos nuevos de un mismo mensaje entran con desfases de 80 ms (máximo320ms). Identidad, recibos y acciones se conservan; la presentación interactiva aparece una sola vez, en el último segmento. No cambia origen, permisos, destino de Atrás ni acción final; no confirma ni crea reservas. Carga inicial/páginas antiguas y movimiento reducido permanecen directos. [Evidencia de esta revisión y estado build (6)](evidencias/2026-10-11-burbujas-suaves/README.md).
+
+
+### Desplazamiento al tocar el compositor — 11/10/2026
+
+Tocar o enfocar el campo de las conversaciones lleva suavemente al último mensaje en280ms; otro toque también funciona si el campo ya está enfocado. Mientras tiene foco, adapta el destino al cambio de altura del teclado. Al salir del campo se puede leer el historial libremente. Reducir movimiento lleva directamente al fondo. Pantalla, origen, permisos, destino de Atrás y envío se conservan; no envía mensajes ni ejecuta reservas. [Evidencia y distribución de esta revisión](evidencias/2026-10-11-scroll-compositor/README.md).

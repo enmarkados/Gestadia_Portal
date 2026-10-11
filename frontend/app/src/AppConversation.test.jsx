@@ -121,6 +121,21 @@ function mount(entry = "/") {
     </MemoryRouter>,
   );
 }
+it("el compositor real, también en el pie externo, lleva al último mensaje al enfocarlo o tocarlo de nuevo", async () => {
+  vi.stubGlobal("matchMedia", () => ({ matches: false, addEventListener() {}, removeEventListener() {} }));
+  const { container } = render(<><div id="lidia-composer"/><main className="app-main"><MemoryRouter><AppProvider><AppConversation/></AppProvider></MemoryRouter></main></>);
+  const input = await screen.findByRole("textbox", { name: "Tu consulta" });
+  const main = container.querySelector(".app-main");
+  expect(main.contains(input)).toBe(false);
+  expect(container.querySelector("#lidia-composer").contains(input)).toBe(true);
+  Object.defineProperties(main, { scrollHeight: { value: 1200 }, clientHeight: { value: 400 } });
+  main.scrollTop = 100;
+  act(() => input.focus());
+  await waitFor(() => expect(main.scrollTop).toBe(800));
+  main.scrollTop = 200;
+  fireEvent.click(input);
+  await waitFor(() => expect(main.scrollTop).toBe(800));
+});
 it("el separador de presentación no transforma texto de cliente u operador ni inventa mensajes vacíos", () => {
   expect(assistantMessageParts({ role: "user", text: "Literal [SPLIT] del cliente" })).toEqual(["Literal [SPLIT] del cliente"]);
   expect(assistantMessageParts({ role: "operator", text: "Literal [SPLIT] del gestor" })).toEqual(["Literal [SPLIT] del gestor"]);

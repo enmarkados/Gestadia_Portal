@@ -16,6 +16,7 @@ import {
   conversationsEnabled,
 } from "./conversationApi.js";
 import ChatComposer from "./ChatComposer.jsx";
+import { useComposerAutoScroll } from "./useComposerAutoScroll.js";
 const pendingStatuses = new Set(["prepared", "outcome_unknown"]);
 const messages = {
   guest_session_expired: "La sesión sin registro ha caducado. Puedes empezar una nueva consulta desde LidIA.",
@@ -87,6 +88,7 @@ function ConversationBody({ purpose, guest }) {
     stateRevision = useRef("0"),
     terminalReceipts = useRef(new Set()),
     end = useRef(null);
+  const composerScroll = useComposerAutoScroll(end, conversation?.id);
   const showError = (e) => {
     setAwaitingTurn(null);
     setError(
@@ -705,6 +707,7 @@ function ConversationBody({ purpose, guest }) {
           {composerHost ? (
             createPortal(
               <ChatComposer
+                {...composerScroll}
                 value={input}
                 onChange={setInput}
                 onSend={() => {
@@ -724,6 +727,7 @@ function ConversationBody({ purpose, guest }) {
             )
           ) : (
             <ChatComposer
+              {...composerScroll}
               value={input}
               onChange={setInput}
               onSend={() => {
