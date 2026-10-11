@@ -1315,3 +1315,23 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** cliente Android de Google restringido al paquete `com.gestadia.app` y al certificado con el que Google Play firma las descargas de Gestadia.
 - **Alcance:** Google Auth Platform, proyecto `gestadia-vozia`; `docs/app/MARKETPLACES-CONFIGURACION.md`.
 - **Notas:** complementa al cliente Android Upload para conservar las pruebas APK locales. La firma Play difiere de la de subida; el formulario preparado no acredita creación ni login.
+
+**Actualización de Gestadia QA (11/10/2026):** Google Play utiliza una lista exclusiva con ese mismo nombre y el destinatario indicado por el usuario, sin reutilizar TESTERS.
+
+### Movimiento APP de 280 ms
+- **Tipo:** concepto de presentación.
+- **Definición:** entradas y salidas breves de pantallas, menús, paneles y mensajes nuevos, con cabecera estable.
+- **Alcance:** frontend/app/src/motion.jsx, app.css y docs/app/ANIMACIONES.md; integración del commit d3ca03c conservando la retirada de demos.
+- **Notas:** 280 ms; pulsación 120 ms. Historial no se reproduce; movimiento reducido evita transiciones.
+
+### Indicador de escritura LidIA
+- **Tipo:** concepto de interfaz aprobado.
+- **Definición:** aviso transitorio «LidIA está escribiendo…», en cursiva y con puntos animados, durante un envío o turno confirmado en curso.
+- **Alcance:** frontend/app/src/AppConversation.jsx y app.css.
+- **Notas:** desaparece al responder, fallar o perder confirmación; no se muestra para atención humana y respeta reducción de movimiento.
+
+### GestadiaKeyboardFrame / GestadiaViewController
+- **Tipo:** evento nativo y controlador iOS.
+- **Definición:** comunican a la interfaz el espacio disponible y la duración/curva de la transición del teclado de iOS antes del movimiento.
+- **Alcance:** frontend/ios/App/App/SceneDelegate.swift, frontend/app/src/native.js y app.css.
+- **Notas:** evitan el segundo ajuste tardío del plugin Keyboard en modo native; en iOS se usa resize none y una única transición del contenedor. Android conserva su ajuste nativo.

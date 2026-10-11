@@ -63,6 +63,7 @@ function ConversationBody({ purpose }) {
     [error, setError] = useState(""),
     [input, setInput] = useState(""),
     [busy, setBusy] = useState(false),
+    [awaitingTurn, setAwaitingTurn] = useState(null),
     [voice, setVoice] = useState(""),
     [bootstrapping, setBootstrapping] = useState(!newIntent);
   const cursor = useRef(null),
@@ -74,6 +75,7 @@ function ConversationBody({ purpose }) {
     terminalReceipts = useRef(new Set()),
     end = useRef(null);
   const showError = (e) => {
+    setAwaitingTurn(null);
     setError(
       messages[e.code] ||
         "No se pudo completar la solicitud. Puedes volver a cargar la conversación.",
@@ -140,6 +142,12 @@ function ConversationBody({ purpose }) {
       stateRevision.current = result.state_revision;
       cursor.current = result.next_cursor || null;
       setTimeline(result);
+      setAwaitingTurn(current => {
+        if (!current) return null;
+        const receipt = result.turn_statuses?.find(r => r.turn_id === current.id);
+        const responded = result.items.some(m => m.role === "assistant" && BigInt(m.sequence) > current.afterSequence);
+        return responded || ["completed", "failed"].includes(receipt?.status) ? null : current;
+      });
       setItems((old) => {
         const map = new Map((replaceHistory ? [] : old).map((m) => [m.message_id, m]));
         for (const m of result.items) map.set(m.message_id, m);
@@ -300,6 +308,7 @@ function ConversationBody({ purpose }) {
     busyRef.current = true;
     setBusy(true);
     setPending(turn);
+    setAwaitingTurn({ id: turn.turn_id, afterSequence: items.reduce((last, m) => BigInt(m.sequence) > last ? BigInt(m.sequence) : last, 0n) });
     setError("");
     try {
       const op = await conversationApi.turn(conversation.id, turn);
@@ -309,6 +318,7 @@ function ConversationBody({ purpose }) {
         setPending(null);
         setInput("");
       } else if (op.status === "failed") {
+        setAwaitingTurn(null);
         clearPending(userId, conversation.id);
         setPending(null);
         setError(
@@ -316,6 +326,7 @@ function ConversationBody({ purpose }) {
             "El envío fue rechazado. Puedes revisar tu borrador.",
         );
       } else {
+        setAwaitingTurn(null);
         const saved = { ...turn, id: op.id, status: op.status };
         rememberPending(userId, conversation.id, saved);
         setPending(saved);
@@ -327,6 +338,7 @@ function ConversationBody({ purpose }) {
       }
     } catch (e) {
       if (version === generation.current) {
+        setAwaitingTurn(null);
         if (e.status >= 400 && e.status < 500) {
           clearPending(userId, conversation.id);
           setPending(null);
@@ -391,6 +403,7 @@ function ConversationBody({ purpose }) {
       } else await load(conversation.id, version);
     } catch (e) {
       if (version === generation.current) {
+        setAwaitingTurn(null);
         if (e.status >= 400 && e.status < 500) {
           clearPending(userId, conversation.id);
           setPending(null);
@@ -439,6 +452,7 @@ function ConversationBody({ purpose }) {
       await load(conversation.id, version);
     } catch (e) {
       if (version === generation.current) {
+        setAwaitingTurn(null);
         if (e.status >= 400 && e.status < 500) {
           clearPending(userId, conversation.id);
           setPending(null);
@@ -475,6 +489,9 @@ function ConversationBody({ purpose }) {
   const human =
     purpose === "atencion" ||
     ["assigned", "in_support"].includes(timeline?.support?.status);
+  const writing = !human && !closed && !error && (
+    !!awaitingTurn || timeline?.turn_statuses?.some(r => ["accepted", "processing"].includes(r.status))
+  );
   const newChatControl = purpose === "sondeo" && conversation && (
     <div className="conversation-toolbar">
       <button
@@ -600,6 +617,11 @@ function ConversationBody({ purpose }) {
             )}
           </div>
         ))}
+        {writing && (
+          <p className="lidia-typing" role="status" aria-label="LidIA está escribiendo">
+            <em>LidIA está escribiendo<span className="lidia-typing-dots" aria-hidden="true"><span>.</span><span>.</span><span>.</span></span></em>
+          </p>
+        )}
       </div>
       {["assigned", "in_support"].includes(timeline?.support?.status) &&
         timeline.support.operator_display_name && (
@@ -622,7 +644,7 @@ function ConversationBody({ purpose }) {
           }}>Nueva conversación</button>}
         </div>
       )}
-      {pending && (
+      {pending && !(busy && pending.turn_id) && (
         <div className="card" role="status">
           <p>
             {pending.status === "failed"

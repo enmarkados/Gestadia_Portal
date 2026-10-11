@@ -45,3 +45,13 @@ npm run mobile:sync
 ```
 
 Arrancar con `npm run app:dev` y recorrer acceso→registro→regreso, Cuenta→X/Escape→Perfil, Notificaciones/Contacto, mensaje nuevo y recarga. En el navegador activar también la emulación `prefers-reduced-motion: reduce`; en iOS/Android revisar la preferencia de accesibilidad del sistema con un nuevo build. Registrar su evidencia por separado y actualizar [mapa](NAVEGACION.md), [manual](MANUAL-DESARROLLO.md) y esta guía junto al cambio.
+
+## Candidato nativo con escritura y teclado · 11/10/2026
+
+El usuario confirma el diseño «LidIA está escribiendo…» y solicita que la versión instalada incluya las animaciones del otro chat. La integración marketplace incorpora d3ca03c conservando el acceso real, botones oficiales y retirada de demostraciones. La build TestFlight 0.1.0 (1), fuente 82d011a, es anterior al movimiento; sincronizar Capacitor no actualiza un binario instalado.
+
+El indicador aparece bajo los mensajes durante el envío o un recibo remoto accepted/processing. Desaparece con respuesta/recibo terminal o error; una operación incierta mantiene su recuperación, sin afirmar escritura. Atención humana no muestra este indicador. Tres puntos animados en cursiva; movimiento reducido deja los puntos estáticos.
+
+La investigación del teclado iOS identifica en Keyboard 8.0.6 un resize native diferido por la duración del teclado + 0,2 s. GestadiaViewController comunica geometría y duración desde keyboardWillChangeFrame; resize none evita el segundo ajuste. El contenedor común mueve campo y menú en una única transición de altura. Se traducen las curvas UIKit estándar; para curvas especiales se usa ease-in-out. No se afirma igualdad de curvas spring ni aceptación física antes de la prueba del iPhone. Android conserva el ajuste del sistema.
+
+Verificación local: seis regresiones nuevas de escritura/teclado, primero RED y después GREEN; suite frontend 178/178 en 43 archivos. La suite también imprime tres avisos históricos de JSDOM sobre navegación externa en CheckoutForm; no son pruebas fallidas. Se preparará build iOS 0.1.0 (2) para actualizar TestFlight. La recepción APNs y fluidez física continúan pendientes; el emulador LIA ajeno se conserva y no se arranca otro.

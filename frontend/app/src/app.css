@@ -2704,3 +2704,10 @@ select:focus {
 }
 @keyframes surface-fade-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes surface-fade-out { from { opacity: 1; } to { opacity: 0; } }
+
+.lidia-typing { margin: 10px 0 4px; color: var(--muted); font-size: 13px; }
+.lidia-typing-dots > span { display: inline-block; animation: lidia-typing-dot 1200ms ease-in-out infinite; }
+.lidia-typing-dots > span:nth-child(2) { animation-delay: 160ms; }
+.lidia-typing-dots > span:nth-child(3) { animation-delay: 320ms; }
+@keyframes lidia-typing-dot { 0%, 70%, 100% { opacity: .45; transform: translateY(0); } 35% { opacity: 1; transform: translateY(-2px); } }
+@media (prefers-reduced-motion: reduce) { .lidia-typing-dots > span { animation: none; } }

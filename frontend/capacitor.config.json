@@ -36,7 +36,7 @@
       }
     },
     "Keyboard": {
-      "resize": "native",
+      "resize": "none",
       "resizeOnFullScreen": true
     }
   }

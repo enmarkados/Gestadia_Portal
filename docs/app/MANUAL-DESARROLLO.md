@@ -166,3 +166,7 @@ Segunda recepción real Android 82d011a en canal propio gestadia_updates comprob
 ### Distribución interna — 11/10/2026
 
 Gestadia 82d011a distribuida: TestFlight 0.1.0 (1) «En pruebas», un tester invitado; Play 0.1.0 (1) «Disponible para testers internos», sin testers configurados. La firma Play requiere un cliente OAuth Android adicional preparado, creación pendiente. Instalaciones desde tiendas, OAuth y APNs no comprobados. Por indicación humana mantener LIA abierto y revisar iOS después, sin iniciar otro emulador. [Evidencia y límites](evidencias/2026-10-11-marketplaces/README.md).
+
+### Actualización nativa solicitada · 11/10/2026
+
+Integración de movimiento d3ca03c en la rama marketplace conservando el flujo real sin demos. El usuario aprueba escritura LidIA y pide sincronizar compositor/menú con el teclado iOS. No cambia pantalla, origen, permisos, destino de Atrás ni acción final. [Detalle de implementación y límites](ANIMACIONES.md#candidato-nativo-con-escritura-y-teclado--11102026). Nueva build TestFlight (2) en preparación; no atribuir estas mejoras a la build instalada (1).

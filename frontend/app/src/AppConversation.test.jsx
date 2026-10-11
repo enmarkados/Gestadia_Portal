@@ -797,3 +797,72 @@ it("recuperar una creación pendiente conserva su id y canoniza la ruta sin otra
   await screen.findByRole("button", { name: "Enviar consulta" });
   expect(starts).toBe(1); expect(retries).toBe(1);
 });
+
+// El servidor externo se controla para observar la espera real de la pantalla.
+it("muestra escritura durante el envío y la retira al recibir la respuesta del mismo turno", async () => {
+  const original = fetch;
+  let release, turnId, replied = false;
+  vi.stubGlobal("fetch", vi.fn(async (url, opts = {}) => {
+    if (url.endsWith("/turns")) {
+      turnId = JSON.parse(opts.body).turn_id;
+      await new Promise(resolve => { release = resolve; });
+      replied = true;
+      return { ok: true, status: 200, json: async () => ({ status: "admitted", receipt: { turn_id: turnId, status: "completed" } }) };
+    }
+    if (url.includes("/timeline") && replied) {
+      const data = timeline();
+      data.items.push({ message_id: "reply", sequence: "2", occurred_at: "2026-10-11T10:00:00Z", role: "assistant", text: "Respuesta recibida" });
+      data.turn_statuses = [{ turn_id: turnId, status: "completed" }];
+      return { ok: true, status: 200, json: async () => data };
+    }
+    return original(url, opts);
+  }));
+  mount();
+  fireEvent.click(await screen.findByRole("button", { name: "Sí" }));
+  expect(await screen.findByRole("status", { name: "LidIA está escribiendo" })).toBeInTheDocument();
+  expect(screen.queryByText(/Envío sin confirmación/)).not.toBeInTheDocument();
+  await act(async () => release());
+  expect(await screen.findByText("Respuesta recibida")).toBeInTheDocument();
+  expect(screen.queryByRole("status", { name: "LidIA está escribiendo" })).not.toBeInTheDocument();
+});
+
+it("mantiene escritura con un turno confirmado en procesamiento y la retira al fallar", async () => {
+  const original = fetch;
+  let receiptStatus = "processing";
+  vi.stubGlobal("fetch", vi.fn(async (url, opts = {}) => {
+    if (url.includes("/timeline")) {
+      const data = timeline();
+      data.turn_statuses = [{ turn_id: "remote-turn", status: receiptStatus }];
+      return { ok: true, status: 200, json: async () => data };
+    }
+    return original(url, opts);
+  }));
+  mount();
+  expect(await screen.findByRole("status", { name: "LidIA está escribiendo" })).toBeInTheDocument();
+  receiptStatus = "failed";
+  await waitFor(() => expect(screen.queryByRole("status", { name: "LidIA está escribiendo" })).not.toBeInTheDocument(), { timeout: 4500 });
+});
+
+it("no presenta un envío incierto ni un turno de atención humana como escritura LidIA", async () => {
+  failSend = true;
+  mount();
+  fireEvent.click(await screen.findByRole("button", { name: "Sí" }));
+  await screen.findByText(/Envío sin confirmación/);
+  expect(screen.queryByRole("status", { name: "LidIA está escribiendo" })).not.toBeInTheDocument();
+  cleanup();
+  sessionStorage.clear();
+  setToken("ga_test");
+  const original = fetch;
+  vi.stubGlobal("fetch", vi.fn(async (url, opts = {}) => {
+    if (url.includes("/timeline")) {
+      const data = timeline();
+      data.support = { status: "in_support", operator_display_name: "Equipo" };
+      data.turn_statuses = [{ turn_id: "human-turn", status: "processing" }];
+      return { ok: true, status: 200, json: async () => data };
+    }
+    return original(url, opts);
+  }));
+  mount();
+  await screen.findByText("Te atiende Equipo.");
+  expect(screen.queryByRole("status", { name: "LidIA está escribiendo" })).not.toBeInTheDocument();
+});

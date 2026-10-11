@@ -13,8 +13,30 @@ export const nativeOrigin = () =>
     : null;
 
 export async function setupNativeKeyboard() {
-  if (isNative() && Capacitor.getPlatform() === "ios")
-    await Keyboard.setResizeMode({ mode: "native" });
+  if (!isNative() || Capacitor.getPlatform() !== "ios") return;
+  // iOS supplies the target frame before its animation. A second native resize
+  // after keyboardDidShow would make the footer jump at the end.
+  await Keyboard.setResizeMode({ mode: "none" });
+  await Keyboard.setScroll({ isDisabled: true });
+  const update = ({ detail }) => {
+    if (!Number.isFinite(detail?.viewportHeight) || detail.viewportHeight <= 0) return;
+    const shell = document.querySelector(".app-shell");
+    if (!shell) return;
+    const height = `${detail.viewportHeight}px`;
+    if (shell.style.height === height) return;
+    const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    const duration = Number.isFinite(detail.duration) ? Math.max(0, detail.duration) * 1000 : 0;
+    const easing = ["ease-in-out", "ease-in", "ease-out", "linear"][detail.curve] || "ease-in-out";
+    shell.style.transition = reduced || !duration ? "none" : `height ${duration}ms ${easing}`;
+    shell.style.height = height;
+  };
+  window.addEventListener("gestadiaKeyboardFrame", update);
+  return () => {
+    window.removeEventListener("gestadiaKeyboardFrame", update);
+    const shell = document.querySelector(".app-shell");
+    shell?.style.removeProperty("height");
+    shell?.style.removeProperty("transition");
+  };
 }
 
 export async function loadNativeConfig() {

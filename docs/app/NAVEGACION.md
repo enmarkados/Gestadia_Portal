@@ -287,3 +287,7 @@ flowchart TD
 ```
 
 Cuenta se abre junto al control de cabecera; las otras hojas siguen en la parte inferior. Escape/X/fondo cierran con salida antes de devolver el foco. Las acciones de Cuenta y Contacto esperan esa salida antes de navegar; enlaces de Notificaciones conservan su navegación normal y cancelan la superficie al cambiar de ruta. Si cambia la preferencia a movimiento reducido durante el cierre, se completa inmediatamente. El detalle de implementación, pruebas y capturas nuevas está en [ANIMACIONES.md](ANIMACIONES.md); las evidencias nativas anteriores no acreditan este movimiento nuevo.
+
+### Actualización nativa solicitada · 11/10/2026
+
+Integración de movimiento d3ca03c en la rama marketplace conservando el flujo real sin demos. El usuario aprueba escritura LidIA y pide sincronizar compositor/menú con el teclado iOS. No cambia pantalla, origen, permisos, destino de Atrás ni acción final. [Detalle de implementación y límites](ANIMACIONES.md#candidato-nativo-con-escritura-y-teclado--11102026). Nueva build TestFlight (2) en preparación; no atribuir estas mejoras a la build instalada (1).
