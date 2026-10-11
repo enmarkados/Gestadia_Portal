@@ -188,3 +188,14 @@ iOS 3fa8bbb: archive y exportación correctos; IPA 2494016 bytes SHA-256 b7ca8bb
 ### Aceptación correo, botones y FCM Android — 11/10/2026
 
 El usuario confirma recepción del correo corregido y logo/botón correctos tanto en claro como oscuro de Thunderbird. Android Release 0bbda4e conserva la sesión real tras actualizar sin borrar datos, muestra ambos proveedores con marca oficial y activa la inscripción FCM. Aviso de prueba sin email, cuenta sistemas únicamente: notificación 73ecce5a-786a-4773-8315-a76ff17487b9, visible en el panel Android; al pulsarla vuelve a Mi Perfil con la sesión correcta. Se observa el canal genérico de Firebase: se prepara la creación de gestadia_updates antes del registro/resume, sin invocar canales Android en iOS. Regresión roja por ausencia del canal, cuatro pruebas verdes después de la corrección. La segunda aceptación del canal y la revisión visual iOS siguen pendientes. OAuth y tiendas mantienen sus pruebas independientes.
+
+
+### Canal Android y subida Apple comprobados — 11/10/2026
+
+Candidato 82d011a: suite frontend 164/164; APK 7181331 bytes SHA-256 9262bb8f55b8e120ffec3e041df41cf8a161a30f982db2bee551a9f506763c81, AAB 6713175 bytes SHA-256 311809ca254dde40729d5ded1d161e14f1b7f2636cdff4ecdbfd9dbd239d8f86 e IPA 3293631 bytes SHA-256 7748d47caf1125736f2d52a0915c6c76264b5f6dc85814591be26555da81d712. Firmas y configuración con chat verificadas. Android instalado conserva sesión; segundo aviso técnico recibido en canal gestadia_updates, FCM accepted en un intento a las 00:17:03.760Z. No hay nuevo correo ni cambios en trámites. [Evidencia actual](evidencias/2026-10-11-marketplaces/README.md).
+
+Ficha Gestadia creada en App Store Connect, Apple ID 6821484915, paquete/SKU com.gestadia.app. Xcode confirma subida de 0.1.0 (1) a las 02:21 hora local; TestFlight muestra compilación procesada «Lista para enviar» tras revisar y guardar el uso de cifrado del sistema Apple. La instalación TestFlight, OAuth y APNs reales siguen pendientes. Se pide el Apple ID del iPhone para invitar únicamente al destinatario indicado. No se publica todavía ni se modifica LIA.
+
+La relectura de Play permite ahora abrir Crear aplicación: Gestadia, paquete disponible com.gestadia.app, es-ES, aplicación y descarga sin coste, protección automática predeterminada conservada. Falta confirmar en el momento de la acción las dos declaraciones de políticas y exportación y pulsar Crear; todavía no existe ficha ni AAB subido. No se mantiene el bloqueo histórico de verificación como estado actual.
+
+El usuario confirma el nuevo correo correcto en Thunderbird claro/oscuro. Los botones oficiales se observaron en Android; la revisión iOS y los flujos OAuth conservan su evidencia independiente. El control de emuladores cambia por actividad concurrente: no se inicia otro simulador ni se cierra uno ajeno sin aclarar su uso.

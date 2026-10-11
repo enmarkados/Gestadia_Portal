@@ -216,3 +216,12 @@ La configuración privada del nuevo contenedor copia únicamente DATABASE_URL
  y JWT_SECRET del Portal, además de su configuración móvil; excluye también
 SMTP, Stripe y Zoho. El backend actualizado supera 86/86 pruebas contra
 MariaDB aislada, sin omisiones.
+
+### Ficha Apple y candidato 82d011a — 11/10/2026
+
+Sesión Apple recuperada. Creada ficha **Gestadia**, Apple ID **6821484915**, iOS, español (España), paquete/SKU `com.gestadia.app`, acceso limitado. URL: https://appstoreconnect.apple.com/apps/6821484915/distribution. Estado inicial «1.0 En preparación para el envío»; no acredita publicación. El candidato nativo de pruebas es 0.1.0 (1), fuente 82d011a, con marca oficial Apple/Google y canal Android corregido. APK/AAB/IPA firmados y conservados en carpetas nuevas; Xcode confirma subida completada de 0.1.0 (1), y TestFlight muestra «Lista para enviar» tras guardar información de exportación. No se ha instalado aún mediante TestFlight. Procesamiento TestFlight, disponibilidad e instalación son estados independientes.
+
+Android Release: inicio de sesión real por email/contraseña y persistencia tras actualización; permiso del sistema y registro FCM concedidos. Dos avisos técnicos, solo sistemas@enmarkados.com, sin email ni trámite; primero detecta fallback Firebase, segundo usa efectivamente gestadia_updates. Google/Apple OAuth todavía no completados. Durante la revisión aparece un emulador LIA y después iOS activo por actividad concurrente. Gestadia Android se cierra conservando datos; revisión visual iOS pendiente de coordinar ese uso, sin modificar dispositivos ajenos.
+
+
+Relectura Play 11/10: Crear aplicación accesible, com.gestadia.app disponible. Formulario preparado para Gestadia, es-ES, descarga gratuita; declaraciones legales pendientes de confirmación concreta, ficha todavía no creada. [Evidencia](evidencias/2026-10-11-marketplaces/README.md).

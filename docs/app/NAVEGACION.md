@@ -264,3 +264,6 @@ Petición humana: botones oficiales Apple/Google en Android e iOS. Acceso `/acce
 
 
 Aviso Android real recibido en segundo plano: pulsarlo abre Mi Perfil para la sesión propietaria; la campana indica avisos pendientes. No se publica el contenido del trámite en la notificación del sistema. Se crea el canal gestadia_updates antes de registrar Android, incluyendo la reapertura de una instalación ya activada. iOS conserva su registro APNs independiente.
+
+
+Segunda recepción real Android 82d011a en canal propio gestadia_updates comprobada; mantiene marca oficial y sesión real. [Capturas nuevas y límites de aceptación](evidencias/2026-10-11-marketplaces/README.md). iOS 0.1.0 (1) subido y procesado en TestFlight; no acredita OAuth, APNs ni instalación.

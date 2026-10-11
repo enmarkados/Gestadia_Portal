@@ -1289,3 +1289,9 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 
 
 **Actualización de gestadia_updates (11/10/2026):** la APP crea este canal Android, visible como «Actualizaciones de Gestadia», antes del registro FCM inicial y de su reanudación. Importancia predeterminada 3 y visibilidad privada 0; iOS no llama a la API de canales Android. Alcance adicional: `frontend/app/src/push.test.js`.
+
+### SKU de Gestadia en App Store Connect
+- **Tipo:** decisión de naming / identificador de distribución.
+- **Definición:** referencia interna de la ficha Apple de Gestadia; se fija como `com.gestadia.app`, igual que el identificador del paquete, para evitar confundirla con otras apps del equipo.
+- **Alcance:** App Store Connect, registro Apple ID `6821484915`; documentación `docs/app/MARKETPLACES-CONFIGURACION.md`.
+- **Notas:** ficha iOS creada en español (España), nombre Gestadia y acceso limitado; no representa una publicación ni una build procesada en TestFlight.

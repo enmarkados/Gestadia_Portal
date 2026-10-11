@@ -1,6 +1,6 @@
 # Estado APP Portal Docker y tiendas
 
-Actualizado: 10/10/2026. [Documento maestro](00-MAESTRO-APP-PORTAL-DOCKER.md) · [Artifact editable](https://chatgpt.com/space/page_2a257ea775a08191acdfa746f4c9098e).
+Actualizado: 11/10/2026. [Documento maestro](00-MAESTRO-APP-PORTAL-DOCKER.md) · [Artifact editable](https://chatgpt.com/space/page_2a257ea775a08191acdfa746f4c9098e).
 
 ## Inventario anterior al corte (histórico)
 
@@ -28,14 +28,14 @@ Se dispone de copia previa de DB restaurada y dos migraciones móviles comprobad
 |---|---|---|
 | Inventario | Verificado | Copias restauradas, inventario y corte del 10/10 acreditados |
 | Integración Git | Verificado localmente | Merge 08d2bbc, builds APP y Portal |
-| Identidad y push común | Verificado localmente | 204 backend + 165 frontend; proveedores reales pendientes |
+| Identidad y push común | Aceptación parcial | FCM Android real, canal Gestadia comprobado; OAuth y APNs pendientes |
 | Docker APP/web/Portal/backend | Desplegado | gestadia-common ID 73; tres servicios saludables; frontends sin demo be6806d publicados |
-| Datos y LidIA | En curso | Bind documental persistente verificado; 14 referencias anteriores conservadas; LidIA real pendiente |
+| Datos y LidIA | Aceptación parcial | Bind persistente y chat web real verificados; 14 referencias anteriores conservadas; chat nativo pendiente |
 | Privacidad/baja | Verificado localmente | Textos conectados y procesador de baja probados; operaciones de producción y proveedores reales pendientes |
-| Despliegue | Desplegado; aceptación en curso | Migraciones y proxies activos; login, chat y push reales pendientes |
-| Firma/distribución | Pendiente | Release exacta en TestFlight/Play |
-| Aceptación nativa | Pendiente | Emuladores uno por vez; iPhone físico |
-| Tiendas | Pendiente | Revisión y disponibilidad |
+| Despliegue | Desplegado; aceptación en curso | Backend e8f1a86, frontends be6806d; acceso y chat web reales, acceso email y FCM Android verificados |
+| Firma/distribución | En curso | 82d011a firmado; iOS 0.1.0 (1) procesado en TestFlight; instalación y Play interno pendientes |
+| Aceptación nativa | Parcial Android | Botones oficiales, sesión email y FCM reales; revisión iOS, OAuth y APNs pendientes. Emuladores uno por vez |
+| Tiendas | En curso | Ficha Apple 6821484915 creada; Play preparado y declaraciones pendientes; revisión y disponibilidad sin completar |
 
 ## Revocación y productor común
 
@@ -235,3 +235,17 @@ APK Release 3fa8bbb: después del acceso completado por el usuario, Mi cuenta y 
 ### Aceptación correo, botones y FCM Android — 11/10/2026
 
 El usuario confirma recepción del correo corregido y logo/botón correctos tanto en claro como oscuro de Thunderbird. Android Release 0bbda4e conserva la sesión real tras actualizar sin borrar datos, muestra ambos proveedores con marca oficial y activa la inscripción FCM. Aviso de prueba sin email, cuenta sistemas únicamente: notificación 73ecce5a-786a-4773-8315-a76ff17487b9, visible en el panel Android; al pulsarla vuelve a Mi Perfil con la sesión correcta. Se observa el canal genérico de Firebase: se prepara la creación de gestadia_updates antes del registro/resume, sin invocar canales Android en iOS. Regresión roja por ausencia del canal, cuatro pruebas verdes después de la corrección. La segunda aceptación del canal y la revisión visual iOS siguen pendientes. OAuth y tiendas mantienen sus pruebas independientes.
+
+
+### Canal Android y subida Apple comprobados — 11/10/2026
+
+Candidato 82d011a: suite frontend 164/164; APK 7181331 bytes SHA-256 9262bb8f55b8e120ffec3e041df41cf8a161a30f982db2bee551a9f506763c81, AAB 6713175 bytes SHA-256 311809ca254dde40729d5ded1d161e14f1b7f2636cdff4ecdbfd9dbd239d8f86 e IPA 3293631 bytes SHA-256 7748d47caf1125736f2d52a0915c6c76264b5f6dc85814591be26555da81d712. Firmas y configuración con chat verificadas. Android instalado conserva sesión; segundo aviso técnico recibido en canal gestadia_updates, FCM accepted en un intento a las 00:17:03.760Z. No hay nuevo correo ni cambios en trámites. [Evidencia actual](evidencias/2026-10-11-marketplaces/README.md).
+
+Ficha Gestadia creada en App Store Connect, Apple ID 6821484915, paquete/SKU com.gestadia.app. Xcode confirma subida de 0.1.0 (1) a las 02:21 hora local; TestFlight muestra compilación procesada «Lista para enviar» tras revisar y guardar el uso de cifrado del sistema Apple. La instalación TestFlight, OAuth y APNs reales siguen pendientes. Se pide el Apple ID del iPhone para invitar únicamente al destinatario indicado. No se publica todavía ni se modifica LIA.
+
+La relectura de Play permite ahora abrir Crear aplicación: Gestadia, paquete disponible com.gestadia.app, es-ES, aplicación y descarga sin coste, protección automática predeterminada conservada. Falta confirmar en el momento de la acción las dos declaraciones de políticas y exportación y pulsar Crear; todavía no existe ficha ni AAB subido. No se mantiene el bloqueo histórico de verificación como estado actual.
+
+El usuario confirma el nuevo correo correcto en Thunderbird claro/oscuro. Los botones oficiales se observaron en Android; la revisión iOS y los flujos OAuth conservan su evidencia independiente. El control de emuladores cambia por actividad concurrente: no se inicia otro simulador ni se cierra uno ajeno sin aclarar su uso.
+
+
+Gestadia Android se cierra mediante emu kill conservando datos tras observar iOS activo por otra actividad. No se inicia iOS ni se cierra un emulador ajeno. Lectura final del base.apk instalado coincide con el SHA-256 del APK 82d011a.

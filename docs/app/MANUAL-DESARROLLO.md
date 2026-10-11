@@ -153,3 +153,8 @@ La misma corrección de arranque supera también la instalación y apertura del 
 ### Acceso social con marca oficial — 11/10/2026
 
 Por petición del usuario, conservar el diseño oficial de Apple/Google en acceso y vinculación. Recursos locales en `frontend/app/public/brand/social/`; fuente Google Sans con licencia incluida. La documentación oficial permite la imagen Apple generada por su CDN y el botón Google personalizado conforme a sus reglas. No sustituir el símbolo Google por un icono monocromo ni por un dibujo anterior. [Apple](https://developer.apple.com/documentation/signinwithapple/incorporating-sign-in-with-apple-into-other-platforms) · [Google](https://developers.google.com/identity/branding-guidelines). La validación visual no acredita completar OAuth.
+
+Android Release actualizado conserva sesión y recibe avisos reales mediante FCM. Canal gestadia_updates creado antes de registro/reanudación; suite frontend 164/164. La recepción SMTP y el diseño del correo en Thunderbird claro/oscuro quedan confirmados por el destinatario. La ficha Apple Gestadia se crea con Apple ID 6821484915; subir un archivo no equivale a publicación o aceptación nativa iOS.
+
+
+Segunda recepción real Android 82d011a en canal propio gestadia_updates comprobada; mantiene marca oficial y sesión real. [Capturas nuevas y límites de aceptación](evidencias/2026-10-11-marketplaces/README.md). iOS 0.1.0 (1) subido y procesado en TestFlight; no acredita OAuth, APNs ni instalación.
