@@ -1,0 +1,22 @@
+{
+  "bundleId": "com.gestadia.app",
+  "version": "0.1.0",
+  "build": "2",
+  "ipaSha256": "05f9b286d244aaac70342051559e71a3267b72f999896cecc51733b4a2d878ce",
+  "strictCodesign": true,
+  "apns": "production",
+  "appleLogin": [
+    "Default"
+  ],
+  "debuggable": false,
+  "motionAndTypingPackaged": true,
+  "chatEnabled": true,
+  "physicalUpdateVerified": false,
+  "sourceRevision": "ee64f8da1bd6b5850e116472f3eb1a4e3cb3c9b5",
+  "appleUploadVerified": true,
+  "appleProcessingCompleted": true,
+  "testflightGroupAssigned": true,
+  "exportDeclarationSaved": true,
+  "testflightState": "En pruebas",
+  "testflightGroup": "Gestadia QA"
+}

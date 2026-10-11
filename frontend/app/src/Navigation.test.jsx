@@ -179,27 +179,6 @@ it("cambiar entre documentos legales no pierde el destino tras el acceso", async
   await signIn();
   await screen.findByRole("heading", { name: "Mis trámites" });
 });
-it("volver del checkout demo restaura servicio seleccionado y datos escritos", async () => {
-  window.GESTADIA_APP_CONFIG = {
-    demoOnly: true,
-    demoEnabled: true,
-    conversationsEnabled: false,
-  };
-  start("/servicios");
-  fireEvent.click(screen.getByRole("button", { name: /Duplicado de Carnet/ }));
-  fireEvent.change(screen.getByLabelText("Nombre"), {
-    target: { value: "Borrador de prueba" },
-  });
-  fireEvent.click(
-    screen.getByRole("button", { name: "Continuar con el ejemplo" }),
-  );
-  await screen.findByRole("heading", { name: "Revisa tu servicio" });
-  fireEvent.click(screen.getByRole("link", { name: "Volver a Servicios" }));
-  expect(screen.getByLabelText("Nombre")).toHaveValue("Borrador de prueba");
-  expect(
-    screen.getByRole("button", { name: /Duplicado de Carnet/ }),
-  ).toHaveAttribute("aria-pressed", "true");
-});
 it("Mensajes visitante desde una pestaña vuelve al origen al cancelar y retoma Mensajes al entrar", async () => {
   start();
   fireEvent.click(screen.getByRole("link", { name: "Mensajes", exact: true }));
@@ -222,14 +201,6 @@ it("las entradas directas secundarias tienen un retorno seguro aunque el origen 
     screen.getByRole("heading", { name: "Mis trámites" }),
   ).toBeInTheDocument();
 });
-it("el checkout abierto directamente ofrece Servicios como retorno", () => {
-  start("/checkout-demo");
-  fireEvent.click(screen.getByRole("link", { name: "Volver a Servicios" }));
-  expect(screen.getByLabelText("Ruta de prueba")).toHaveTextContent(
-    "/servicios",
-  );
-});
-
 it("Perfil conectado no solicita contraseñas para una operación que no está disponible", async () => {
   start({ pathname: "/acceso", state: { returnTo: "/cuenta" } });
   await signIn();
@@ -244,8 +215,5 @@ it("Perfil conectado no solicita contraseñas para una operación que no está d
     "https://gestadia.com/portal/recuperar",
   );
   expect(recover).toHaveAttribute("target", "_blank");
-  expect(screen.getByRole("switch", { name: "Avisos push" })).toBeDisabled();
-  expect(
-    screen.getByText(/Los avisos push aún no están disponibles/),
-  ).toBeInTheDocument();
+  expect(screen.queryByRole("switch", { name: "Avisos push" })).toBeNull();
 });

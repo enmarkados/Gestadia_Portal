@@ -10,8 +10,6 @@ services:
       LIDIA_UPSTREAM: ${LIDIA_UPSTREAM:-https://lidia.gestadia.com}
       LIDIA_HOST: ${LIDIA_HOST:-lidia.gestadia.com}
       APP_CHECKOUT_URL: ${APP_CHECKOUT_URL:-https://gestadia.com}
-      APP_DEMO_ENABLED: ${APP_DEMO_ENABLED:-true}
-      APP_DEMO_ONLY: ${APP_DEMO_ONLY:-true}
       APP_PLUGIN_KEY: ${APP_PLUGIN_KEY:-}
     security_opt:
       - no-new-privileges:true

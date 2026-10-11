@@ -1,6 +1,47 @@
-# Publicar Gestadia App en Docker, Portainer y Plesk
+# Publicar Gestadia APP, web y Portal en Docker, Portainer y Plesk
 
 [Glosario](../../GLOSARIO.md) · [Alcance y validación](PRIMERA-VERSION.md)
+
+## Conjunto común vigente — preparación del 10/10/2026
+
+El alcance aprobado incorpora la web completa y Portal a Docker, con APP independiente y una API común. Usar `deploy/gestadia/portainer-stack.yml`, no el stack móvil paralelo histórico. La base y los documentos vigentes se conservan. El despliegue aún no está aplicado en producción.
+
+- Construir las tres imágenes desde la misma revisión integrada: APP con `APP_PROXY_TEMPLATE=common.conf.template`, Portal con `deploy/portal/Dockerfile`, backend con `deploy/app/Dockerfile.backend`; cada build recibe `VCS_REF` y usa linux/amd64.
+- APP publica solo 127.0.0.1:8091; web/Portal publica 127.0.0.1:8092; la API no publica ningún puerto host. Plesk conserva TLS y reenvía cada dominio a su puerto.
+- `GESTADIA_CONFIG_DIR` contiene `mobile-release.json` público, `backend.env` privado y `secrets/` privado fuera de webroot. El archivo del backend preserva la configuración REAL de Portal (DB/JWT/Stripe/Zoho/SMTP/LidIA), además de la configuración móvil y las facultades APP autorizadas. No usar el candidato móvil recortado.
+- `GESTADIA_UPLOADS_DIR` apunta a `/var/www/vhosts/gestadia.com/httpdocs/backend/uploads`. Es un bind existente, no un volumen nuevo vacío.
+- Configurar `GESTADIA_BACKEND_UID` y `GESTADIA_BACKEND_GID` con los IDs efectivos del propietario del almacén y de los archivos privados; verificar acceso sin ampliar permisos públicos. No se presupone UID 1000 en Plesk.
+- Ambos frontends y el backend usan usuarios sin privilegios y capacidades descartadas. Backend tiene raíz de solo lectura y /tmp efímero; únicamente el almacén documental admite escritura persistente.
+- Las rutas comerciales/webhooks siguen en Portal. APP admite identidad, bandeja, documentos autenticados y `/api/app/v1/`; bloquea checkout/leads/integraciones comerciales y acceso directo a archivos. El navegador no selecciona agente ni CRM.
+- La configuración `conversationsEnabled` solo se activa con el contrato APP autorizado y operativo; la prueba local usa un entorno ficticio aislado. Las credenciales de proveedores no forman parte de las imágenes.
+- Health web prueba Nginx; health backend prueba proceso y conexión DB. El esquema se migra explícitamente antes del arranque. Los healthchecks no prueban entrega push, login de proveedores ni publicación.
+- Cada servicio limita los logs a tres archivos de 10 MB. Antes del corte verificar que no se impriman documentos/tokens ni se dupliquen workers del servicio anterior.
+
+Prueba reproducible local del conjunto: `node deploy/gestadia/test-stack.mjs`. Crea MariaDB efímera, aplica las migraciones versionadas, prueba los proxies y cuentas/documentos ficticios y elimina únicamente su propio conjunto. Requiere las imágenes candidatas locales y rechaza un endpoint Docker remoto. La prueba no usa configuración ni clientes de producción.
+
+Antes del corte: backup fresco completo, restauración/migraciones en copia, UID/GID y mounts comprobados, callbacks reales preservados, imágenes identificadas y configuración de proxy preparada. Mantener la versión anterior detenida para el retorno; no restaurar una DB antigua automáticamente después de nuevas escrituras.
+
+### Preparación final verificada b42ce6a
+
+Las etiquetas `gestadia-app:b42ce6a`, `gestadia-portal-web:b42ce6a` y `gestadia-backend:b42ce6a` están importadas en Portainer local. Sus config digests y la revisión completa están registrados en [el estado](ESTADO-APP-PORTAL-DOCKER.md). El formulario del stack `gestadia-common` está preparado, sin desplegar.
+
+Propietario real `gestadia.com_vx391aaj8xf`: UID 10019 y GID 1003 (psacln). Configuración en `/var/www/vhosts/gestadia.com/gestadia-mobile-private`, fuera de los dos document roots y con permisos 0700. El backend conserva DATABASE_URL/JWT_SECRET y los 21 ajustes de negocio vigentes; añadir las tres claves móviles como archivos de lectura, propiedad 10019:1003 y permiso 0600. `mobile-release.json` solo contiene configuración pública y necesita lectura del usuario Nginx en su bind individual; puede tener permiso 0644 dentro del directorio padre privado 0700. Las claves de firma iOS/Android permanecen en el equipo de compilación.
+
+Se preparó una copia de la versión anterior mediante el gestor de archivos: shared, frontend, backend (incluidos uploads y configuración), versión Node, paquetes, server.js y páginas de la web. Se excluyeron únicamente node_modules de la raíz, tmp y bk_wp.zip; los dependientes del backend/frontend se conservan. Archivo `portal-before-common-b42ce6a-20261010.zip`, 93.1 MB según Plesk, dentro del directorio privado y permiso 0600. Es una copia de preparación; antes del corte asegurar que no haya escrituras concurrentes y obtener el backup final consistente.
+
+Plesk gestadia.com: directivas Apache HTTP/HTTPS y Nginx adicionales vacías, Proxy mode activo, Smart static activo, archivos directos/caché desactivados y límite de cuerpo 128 MB. No hay reglas Docker vigentes. El formulario de regla ofrece contenedor y puerto; al corte elegir el frontend Portal 8080 → 8092 para gestadia.com y APP 8080 → 8091 para app.gestadia.com, URL raíz. Plesk permite mapear en loopback y publicar por su Nginx; [referencia oficial](https://docs.plesk.com/en-US/obsidian/administrator-guide/plesk-administration/using-docker.75823/). No modificar el mapeo desde Plesk ni recrear los contenedores del stack: Portainer conserva la gestión Compose.
+
+Orden del cambio: verificar copia/restauración, transmitir los archivos privados con la confirmación concreta, comprobar propietarios y montajes, detener el proceso/worker anterior, renovar la copia final, aplicar migraciones explícitamente con la imagen identificada sin arrancar proveedores, arrancar el conjunto privado y validar, y finalmente aplicar los proxies. No usar Intro sobre controles de navegación con carga asíncrona: un formulario recién abierto puede enviarse con el valor predeterminado.
+
+Vuelta atrás del servicio: retirar únicamente las dos reglas Docker del corte, detener el nuevo backend y recuperar Node.js 24.21.0 con application root `/httpdocs/backend`, inicio `src/server.js` y document root `/httpdocs`; conservar la configuración anterior y un único worker. Las migraciones requieren comprobar compatibilidad del código anterior; la copia de preparación prueba preservación de todos los valores originales, no aceptación comercial completa. No restaurar la DB antigua tras nuevas escrituras sin decisión explícita y conciliación.
+
+## Estado vigente tras el corte
+
+El conjunto gestadia-common está activo en Portainer y las dos reglas raíz Plesk están aplicadas: APP 8091 y web/Portal 8092. El backend común permanece privado; el proceso Node anterior está detenido. Los detalles, copias y evidencias están en ESTADO-APP-PORTAL-DOCKER.md. Las frases de preparación anteriores a este corte describen el estado previo. El modo demostración se retira por instrucción del usuario del 10/10/2026.
+
+## Preparación histórica de demo y stack móvil
+
+Los siguientes apartados registran los pasos anteriores; el alcance vigente los sustituye cuando contradigan el conjunto común descrito arriba.
 
 La primera versión tiene su propia imagen Nginx y funciona **exclusivamente en demo**, por instrucción del usuario. No necesita base de datos, Firebase, key de LidIA ni backend. `APP_DEMO_ONLY=true` bloquea `/api/` y `/lidia/` sin consultar upstreams. El recorrido de Servicios finaliza dentro de la app, sin abrir el checkout real.
 
@@ -66,3 +107,119 @@ El puerto del contenedor solo se publica en loopback. Plesk es la entrada HTTPS 
 Para volver atrás, desplegar la imagen anterior en el stack de la app y reiniciarlo. El contenedor no realiza migraciones ni altera la base del portal.
 
 Nginx usa timeouts explícitos, mantiene cuerpos/cabeceras y no reintenta automáticamente POST de chat. [Módulo proxy de Nginx](https://nginx.org/en/docs/http/ngx_http_proxy_module.html). Los puertos y variables siguen la [especificación Compose](https://docs.docker.com/reference/compose-file/services/).
+
+## Stack móvil conectado — 10 de octubre de 2026
+
+La APP en `app.gestadia.com` requiere web Nginx y API Express. La configuración
+se encuentra en `deploy/app/portainer-mobile-stack.yml`; el stack demo anterior
+conserva su funcionamiento. Consulte [el glosario](../../GLOSARIO.md).
+
+Construir desde la raíz del checkout aprobado, para el servidor x86_64:
+
+```sh
+docker build --platform linux/amd64 -f deploy/app/Dockerfile --build-arg APP_PROXY_TEMPLATE=mobile.conf.template --build-arg VCS_REF=<sha> -t gestadia-app:<sha> .
+docker build --platform linux/amd64 -f deploy/app/Dockerfile.backend -t gestadia-mobile-api:<sha> .
+docker save gestadia-app:<sha> gestadia-mobile-api:<sha> | gzip > gestadia-mobile-images.tar.gz
+```
+
+Importar imágenes en el entorno `local` de Portainer. Establecer las variables
+`GESTADIA_APP_IMAGE` y `GESTADIA_API_IMAGE` con esas etiquetas, y comprobar que
+8091 está libre antes de crear el stack. Solo Nginx publica
+`127.0.0.1:8091`; la API permanece dentro de la red Docker.
+
+Preparar en el host, fuera de cualquier document root:
+
+- `/opt/gestadia/mobile/mobile-release.json`: solo configuración pública.
+- `/opt/gestadia/mobile/backend.env`: configuración vigente del Portal
+  (únicamente DATABASE_URL y JWT_SECRET) más configuración móvil.
+  No copiar SMTP, Stripe, Zoho ni LIDIA_API_KEY a este contenedor.
+  Preservar la clave JWT existente; no crear otra base de usuarios.
+- `/opt/gestadia/mobile/secrets/`: únicamente claves Apple de login, APNs del
+  entorno elegido y credencial Firebase FCM. Ajustar las rutas en backend.env a
+  `/run/gestadia-secrets/<archivo>`. No incluir claves de firma de tiendas.
+
+Asignar propietario UID 1000 al archivo privado y los secretos, permiso 0400
+a archivos y 0700 al directorio privado. Todos se montan en solo lectura.
+La imagen API inicia con `node --import dotenv/config src/server.js` para cargar
+el archivo antes de evaluar la configuración ESM. Los uploads tienen volumen
+persistente. Plesk proporciona TLS y el proxy hacia 127.0.0.1:8091. La plantilla
+`mobile.conf.template` conserva la IP de cliente de Plesk para Express, cuyo
+proxy de confianza tiene un salto. No publicar directamente el puerto Nginx.
+
+Antes de conectar la API: verificar acceso de Docker a la base compartida,
+obtener una copia consistente de la base y comprobar las migraciones existentes.
+Aplicar las pendientes explícitamente con `npm run migrate:deploy` en la imagen
+API; el arranque no modifica el esquema. Los healthchecks comprueban procesos,
+no prueban acceso a base ni login/push real.
+
+Validación local realizada con base MariaDB 11.4.12 de prueba: seis migraciones
+aplicadas, cinco comprobaciones Docker aprobadas (configuración pública, rechazo
+de secretos/configuración incompleta, demo heredada y paso Nginx → API con
+capacidades móviles reales, 401 sin sesión y navegación SPA). Se usaron
+credenciales de proveedor ficticias; no se envió push ni se inició sesión Apple
+/Google en dispositivo. Ejecutar la prueba de integración contra el stack local:
+
+```sh
+GESTADIA_STACK_TEST_URL=http://127.0.0.1:18091 GESTADIA_STACK_TEST_CONFIG=/ruta/publica/mobile-release.json node --test deploy/app/40-app-config.test.mjs deploy/app/mobile-stack.test.mjs
+```
+
+Inspección del servidor: Plesk contiene el subdominio (dominio 252, suscripción
+74), certificado Lets Encrypt válido hasta 2027-01-08, redirección HTTPS activa
+y ninguna regla Docker para la APP. HTTPS responde con 404 en
+`/api/mobile/capabilities`: la API móvil todavía no está desplegada. Portainer
+está accesible en el navegador Codex, entorno local Docker 29.9.0, Debian 12
+x86_64; no se observó stack/contenedor Gestadia APP en los filtros.
+
+Base compartida real accesible desde Docker local: `gestadia_portal_db` en
+`gestadia.com:3306`. `prisma migrate status` confirmó las cuatro primeras
+migraciones aplicadas y las dos móviles pendientes; no se modificó el esquema.
+Si se transfieren los archivos con Plesk, usar un directorio privado fuera de
+httpdocs/app.gestadia.com y establecer `GESTADIA_MOBILE_CONFIG_DIR` con su ruta
+absoluta; conservar los permisos privados y propietario del proceso Node.
+
+### Preparación del host y copia de seguridad — 10/10/2026
+
+Imagen web `gestadia-app:50f8385` importada en Portainer local; ID
+`sha256:084c83edec7951bb8f4e7a1994b78fca86d1a579ab44da09a6185584ac1d99b1`,
+linux/amd64, 63.6 MB. Importación no equivale a arranque ni proxy publicado.
+Copia consistente de la base real completada (170019 bytes, ocho tablas),
+SHA-256 `b90586ba6ab036cf8981497083f558c46be9852a66ba3f6b2ce06c58a3ba87f2`.
+Se restauró en MariaDB aislada y se aplicaron allí las dos migraciones móviles
+pendientes correctamente. El esquema de producción permanece intacto.
+
+La configuración privada candidata conserva DATABASE_URL y JWT_SECRET y
+ajusta las tres rutas Apple/FCM al montaje `/run/gestadia-secrets`. No incluye
+LIDIA_API_KEY: no activa un segundo worker de pagos LidIA durante este despliegue.
+
+Revisión de dependencias del backend: se aplicaron actualizaciones dentro de
+los rangos existentes de Express, body-parser, qs, proxy-addr y Nodemailer.
+La corrección de proxy-addr 2.0.8 elimina la alerta crítica
+[GHSA-jqcg-44mw-7w3h](https://github.com/advisories/GHSA-jqcg-44mw-7w3h).
+La auditoría aún informa cuatro alertas altas: Nodemailer y deepmerge-ts con
+sus padres Prisma/config. No se atribuye seguridad total a esta actualización
+ni se fuerza una migración mayor de Prisma. Se requiere seguimiento de esas
+alertas antes de aceptación pública final de tiendas.
+
+### Versiones preparadas en Portainer — 10/10/2026
+
+Web `gestadia-app:64bfe49` linux/amd64 importada y comprobada contra config
+SHA-256 `4b5f6f7400e01800a682b3179ba39ae32e358b2bcb2c2e718588156ae33babb9`
+del archivo Docker exportado. API `gestadia-mobile-api:0db9d8e` importada,
+ID `45c44fdcb1e190eefb2c4c5dc9b17fde919b5ba6e110ba2048eb980811d68967`.
+Backend 86/86 pruebas con DB fixture; stack Docker 5/5 linux/amd64, incluyendo
+rechazo de checkout, leads, integraciones y documentos. Revisión final sin
+hallazgos importantes después de limitar el proxy. `/lidia/` devuelve 503.
+El stack de producción aún no está desplegado; pendientes montaje privado,
+migración explícita y proxy HTTPS. Backup real restaurado y migrado solo en
+MariaDB aislada; producción sin cambios de esquema.
+
+Evaluación del contenido, dependencias del Portal y límites antes de activar:
+[EVALUACION-SUBDOMINIO.md](EVALUACION-SUBDOMINIO.md).
+
+### Persistencia y autorización confirmadas
+
+La aplicación que se publica se llama **Gestadia APP**. LidIA es el servicio de conversación integrado; LIA es otro producto, consultado solo como referencia de almacenamiento y sin cambios en sus stacks.
+
+El usuario confirma transferencia de configuración/claves al servidor, acceso del backend y corte Plesk después de verificar copias, y exige backup antes de cualquier cambio o borrado. El bind actual de documentos es almacenamiento permanente del host: recrear/actualizar contenedores no debe eliminarlo. Nunca sustituirlo por una carpeta creada vacía ni seleccionar eliminación de volúmenes/datos al actualizar el stack. Portainer confirma el patrón de binds del servidor en LidIA Gestadia (/var/lib/lidia-stacks/gestadia-pro/App_Data y Logs) y volumen nombrado de audios en LIA. Las 14 referencias antiguas se conservan, aunque el usuario cree que eran pruebas.
+
+Actualización frontend del 10/10 a las 11:03 UTC: APP y web/Portal be6806d publicados sin demostración, backend b42ce6a conservado. El stack gestadia-common y los dos proxies existentes siguen operativos; verificaciones públicas y navegador acreditadas en ESTADO-APP-PORTAL-DOCKER.md.

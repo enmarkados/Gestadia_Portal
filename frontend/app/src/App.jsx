@@ -10,17 +10,13 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { useApp } from "./AppContext.jsx";
-import { demoEnabled, demoOnly } from "./api.js";
 import AppConversation from "./AppConversation.jsx";
 import ConnectedMessages, { ConversationHome } from "./ConnectedMessages.jsx";
 import { conversationsEnabled } from "./conversationApi.js";
 import Login from "./Login.jsx";
 import { backNavigation, accessState, navigationState } from "./navigation.js";
 import Register from "./Register.jsx";
-import DemoCheckout from "./DemoCheckout.jsx";
-import DemoInfo from "./DemoInfo.jsx";
 import Icon from "./Icon.jsx";
-import Assistant from "./Assistant.jsx";
 import PlatformChat from "./PlatformChat.jsx";
 import Services from "./Services.jsx";
 import Account from "./Account.jsx";
@@ -28,7 +24,7 @@ import AccountMenu from "./AccountMenu.jsx";
 import LegalPage from "./LegalPage.jsx";
 import { legalDocuments } from "./legalContent.js";
 import Expedientes, { ExpedienteDetalle } from "./Expedientes.jsx";
-import Messages, { ManagerChat } from "./Messages.jsx";
+import Messages from "./Messages.jsx";
 import Contact from "./Contact.jsx";
 import Notifications from "./Notifications.jsx";
 const TABS = [
@@ -42,9 +38,9 @@ export default function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const connected = conversationsEnabled();
+
   const { sheet, closing, openSheet, closeSheet } = useSheetMotion(location.pathname);
   const accountTrigger = useRef(null), backIntent = useRef(false);
-  const [assistantReset, setAssistantReset] = useState(0);
   useLayoutEffect(() => {
     const main = document.getElementById("main");
     if (main) main.scrollTop = 0;
@@ -56,7 +52,6 @@ export default function App() {
     ["/acceso", "/registro"].includes(location.pathname) ||
     (app.mode === "visitante" &&
       (location.pathname === "/cuenta" ||
-        (location.pathname === "/" && demoOnly()) ||
         (connected && location.pathname === "/mensajes")));
   const legalKind = location.pathname.startsWith("/legal/")
     ? location.pathname.slice(7)
@@ -70,9 +65,7 @@ export default function App() {
         ? "/tramites"
         : managerChat
           ? "/mensajes"
-          : location.pathname === "/checkout-demo"
-            ? "/servicios"
-            : "/",
+          : "/",
   );
   const secondaryScreen = ![
     "/",
@@ -93,20 +86,9 @@ export default function App() {
     </Link>
   );
   const assistantChat =
-    (connected && location.pathname === "/lidia/conversacion") ||
-    (location.pathname === "/" &&
-      app.mode === "demo" &&
-      !!app.data.assistantState?.messages?.length);
+    connected && location.pathname === "/lidia/conversacion";
   function returnToLidIA() {
-    if (connected && app.mode !== "demo") {
-      navigate("/");
-      return;
-    }
-    app.setData((old) => ({
-      ...old,
-      assistantState: { topic: null, answers: {}, messages: [] },
-    }));
-    setAssistantReset((old) => old + 1);
+    navigate("/");
   }
   const validationRoute = useMatch("/tramites/:id");
   const validationExpediente = app.data.expedientes.find(
@@ -157,22 +139,7 @@ export default function App() {
         </header>
       ) : assistantChat ? (
         <header className="manager-chat-header">
-          {app.mode === "demo" && location.pathname === "/" ? (
-            <button
-              className="icon-btn"
-              data-app-back
-              aria-label={back.label}
-              onClick={() => {
-                returnToLidIA();
-                if (back.to !== "/")
-                  navigate(back.to, { state: back.state, replace: true });
-              }}
-            >
-              <Icon name="back" size={20} />
-            </button>
-          ) : (
-            contextualBack
-          )}
+          {contextualBack}
           <h1>Habla con LidIA</h1>
           <button
             className="icon-btn"
@@ -186,7 +153,7 @@ export default function App() {
         <header className="manager-chat-header">
           {contextualBack}
           <h1>
-            {connected && app.mode !== "demo" && !app.isClient
+            {connected && !app.isClient
               ? "Habla con Gestadia"
               : "Habla con tu gestor"}
           </h1>
@@ -234,12 +201,6 @@ export default function App() {
           </div>
         </header>
       )}
-      {app.mode === "visitante" && demoEnabled() && !demoOnly() ? (
-        <div className="mode-bar">
-          <span>Descubre Gestadia</span>
-          <button onClick={() => app.startDemo()}>Probar demo</button>
-        </div>
-      ) : null}
       <main
         id="main"
         tabIndex="-1"
@@ -269,11 +230,7 @@ export default function App() {
             <Route
               path="/"
               element={
-                app.mode === "demo" ? (
-                  <Assistant key={assistantReset} onContact={onContact} />
-                ) : demoOnly() ? (
-                  <Login />
-                ) : connected ? (
+                connected ? (
                   <ConversationHome />
                 ) : (
                   <PlatformChat onContact={onContact} />
@@ -296,8 +253,6 @@ export default function App() {
             />
             <Route path="/acceso" element={<Login />} />
             <Route path="/registro" element={<Register />} />
-            <Route path="/checkout-demo" element={<DemoCheckout />} />
-            <Route path="/informacion" element={<DemoInfo />} />
             {Object.keys(legalDocuments).map((kind) => (
               <Route
                 key={kind}
@@ -316,7 +271,7 @@ export default function App() {
             <Route
               path="/mensajes"
               element={
-                connected && app.mode !== "demo" ? (
+                connected ? (
                   app.mode === "real" ? (
                     <ConnectedMessages key={app.data.profile?.id} />
                   ) : (
@@ -330,9 +285,7 @@ export default function App() {
             <Route
               path="/mensajes/gestor"
               element={
-                app.mode === "demo" ? (
-                  <ManagerChat onContact={onContact} />
-                ) : connected ? (
+                connected ? (
                   <AppConversation purpose="atencion" />
                 ) : (
                   <PlatformChat onContact={onContact} manager />
@@ -356,12 +309,7 @@ export default function App() {
       </main>
       {!legalDocument && !authScreen && (
         <footer className="app-footer">
-          {![
-            "/servicios",
-            "/cuenta",
-            "/checkout-demo",
-            "/informacion",
-          ].includes(location.pathname) &&
+          {!["/servicios", "/cuenta"].includes(location.pathname) &&
             !(
               location.pathname === "/mensajes" &&
               connected &&
@@ -374,18 +322,15 @@ export default function App() {
                     <span>Hablar con un gestor</span>
                   </button>
                 )}
-                {((location.pathname === "/" && app.mode === "demo") ||
-                  (connected && assistantChat)) && (
+                {connected && assistantChat && (
                   <div id="lidia-composer" className="footer-lidia-composer" />
                 )}
-                {managerChat &&
-                  ((app.mode === "demo" && app.isClient) ||
-                    (connected && app.mode === "real")) && (
-                    <div
-                      id="manager-composer"
-                      className="footer-lidia-composer"
-                    />
-                  )}
+                {managerChat && connected && app.mode === "real" && (
+                  <div
+                    id="manager-composer"
+                    className="footer-lidia-composer"
+                  />
+                )}
               </div>
             )}
           <div className="dock-zone">

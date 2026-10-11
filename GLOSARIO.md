@@ -516,6 +516,169 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Alcance:** `docs/app/ACCESO-SOCIAL.md`; futura configuración Apple y del backend para Android.
 - **Notas:** Distinto del bundle ID iOS. El valor concreto no se ha elegido ni registrado.
 
+## Interfaces de implementación marketplaces (08/10/2026)
+
+### API de acceso social y dispositivos
+- **Tipo:** contrato de rutas backend.
+- **Definición:** `/api/auth/social/attempts`, `/complete`, `/account` y `/apple/callback` organizan intento, verificación, decisión de cuenta y retorno Apple. `/api/push/devices` registra/revoca instalaciones y `/api/auth/logout` revoca la sesión móvil.
+- **Alcance:** `backend/src/routes/social-auth.js`, `push.js` y `auth.js`; `docs/app/2026-10-08-IMPLEMENTACION-MARKETPLACES.md`.
+- **Notas:** Rutas Gestadia autenticadas donde procede; no rutas LidIA ni permiso implícito para expedientes.
+
+### `MobileConfig`, `gestadia_updates` y preflight móvil
+- **Tipo:** configuración / decisión de naming / concepto de build.
+- **Definición:** Configuración pública y privada separadas de las capacidades móviles; `gestadia_updates` es el canal Android de avisos del servicio. El preflight comprueba la configuración antes de preparar una release.
+- **Alcance:** `backend/src/mobile-config.js`, `scripts/mobile-preflight.mjs`, `frontend/app/src/push.js` y manifiesto Android.
+- **Notas:** La activación del servidor se controla con `MOBILE_FEATURES_ENABLED`; flags del frontend no otorgan autorización ni sustituyen firma.
+
+### Almacenamiento seguro de sesión
+- **Tipo:** concepto runtime / selección de dependencia.
+- **Definición:** Persistencia nativa de tokens y cierres pendientes mediante Keychain iOS/Keystore Android, con copia sólo en memoria durante la ejecución. Se usa `@aparajita/capacitor-secure-storage` y sin sincronización iCloud.
+- **Alcance:** `frontend/app/src/session-storage.js`; consumo desde API/arranque.
+- **Notas:** Se descarta usar el fallback web del plugin, que escribe localStorage sin cifrar; la web conserva sessionStorage.
+
+### `AccountDeletionRequest` y `accessRevokedAt`
+- **Tipo:** entidad Prisma / propiedad de usuario.
+- **Definición:** Petición durable de retirada de una cuenta, con estado observable y revisión de los datos sujetos a retención. `accessRevokedAt` marca que esa cuenta ya no puede abrir ni mantener sesiones.
+- **Alcance:** schema Prisma, servicio de retirada y middleware de autenticación; pantalla Cuenta.
+- **Notas:** Petición aceptada no equivale a borrado completado; no se destruyen expedientes sin política de retención acordada.
+
+### Prueba de canje y cifrado de credenciales móviles
+- **Tipo:** conceptos runtime.
+- **Definición:** Un secreto efímero retenido por el cliente cuyo hash liga el canje de un retorno social a su iniciador. El cifrado AES-GCM protege registros push y credenciales Apple almacenados server-side con una clave privada del entorno.
+- **Alcance:** `backend/src/services/mobile-crypto.js`, social-auth y push; `frontend/app/src/social-auth.js`.
+- **Notas:** El código de retorno o el ID de instalación solos no autentican. No versionar la clave de cifrado ni usar JWT_SECRET como clave alternativa.
+
+### Estados del acceso social
+- **Tipo:** concepto runtime.
+- **Definición:** `account_required` pide confirmar un alta; `existing_account_required` exige acceder a la cuenta Gestadia existente; `link_required` pide confirmar una vinculación autenticada. Un intento transita de `pending` a `verified` y termina `consumed` una sola vez.
+- **Alcance:** backend `services/social-auth.js`, rutas sociales y adaptador APP.
+- **Notas:** No se convierte una coincidencia de email en vinculación automática.
+
+### Reserva de entrega push
+- **Tipo:** concepto runtime (`claimId`, `lockedUntil`).
+- **Definición:** Reserva temporal de un intento de entrega para que sólo un worker procese una fila a la vez. Los estados son `pending`, `sending`, `accepted`, `cancelled` y `failed`; `accepted` acredita únicamente aceptación del proveedor.
+- **Alcance:** `PushDelivery`, backend `services/push.js`.
+- **Notas:** Entrega al menos una vez ante caída tras enviar; el identificador del aviso permite deduplicar. No equivale a lectura.
+
+### Cola local de revocaciones
+- **Tipo:** concepto runtime (`gestadia.pending-revocations`).
+- **Definición:** Sesiones cerradas localmente cuya revocación de servidor sigue pendiente por falta de conexión; nunca vuelven a restaurarse como sesión activa.
+- **Alcance:** APP `sessionStorage.js`, Keychain/Keystore sin sincronización ni migración entre dispositivos.
+- **Notas:** Conservar cifrada la credencial hasta revocar permite completar logout offline al reconectar.
+
+### Preferencia push del dispositivo
+- **Tipo:** concepto runtime (`gestadia.push-enabled`, `gestadia.installation`).
+- **Definición:** Preferencia explícita de recibir avisos e identificador aleatorio de esta instalación; no identifican ni autentican al usuario.
+- **Alcance:** APP `push.js`, almacenamiento seguro local y `PushDevice.installationId` en servidor.
+- **Notas:** El permiso del sistema y la inscripción autenticada se comprueban por separado.
+
+### Revocación de identidad Apple
+- **Tipo:** propiedad (`appleAudience`, `appleRevokedAt`).
+- **Definición:** Cliente Apple que emitió la credencial de revocación y fecha de confirmación de su retirada por Apple.
+- **Alcance:** `SocialIdentity`, `apple-auth.js`, `account-deletion.js`.
+- **Notas:** Audiencia retenida junto al refresh token cifrado para distinguir App ID iOS y Services ID Android.
+
+### Capacidades públicas del backend móvil
+- **Tipo:** ruta API (`GET /api/mobile/capabilities`).
+- **Definición:** Declara habilitación móvil y clientes públicos efectivos para comprobar coherencia con la configuración empaquetada.
+- **Alcance:** backend `app.js`, script `mobile-release.mjs`.
+- **Notas:** No sustituye pruebas de login/push ni acredita firma o recepción. Sólo contiene identificadores públicos.
+
+### Clave de subida Android Gestadia
+- **Tipo:** decisión naming (`gestadia-upload`).
+- **Definición:** Alias de la clave privada local que firma los paquetes enviados a Play; es distinta de la clave de firma que Play aplica a la app distribuida.
+- **Alcance:** almacén privado fuera de Git, configuración de firma Android e inventario de certificados.
+- **Notas:** OAuth Android necesita registrar las huellas de cada firma efectiva, incluida Play App Signing; el certificado de subida no acredita publicación.
+
+### Retirada local de sesión y revocación pendiente
+- **Tipo:** concepto runtime.
+- **Definición:** cierre inmediato del acceso en el dispositivo conservando de forma segura la obligación de invalidar la sesión en el servidor cuando vuelva la conexión. La demostración conserva esa obligación sin realizar llamadas externas.
+- **Alcance:** APP; `frontend/app/src/sessionStorage.js`, `AppContext.jsx`, `Login.jsx`.
+- **Notas:** se descarta borrar el token sin conservar la revocación, porque dejaría una sesión activa en el servidor.
+
+### Renovación del lease push
+- **Tipo:** concepto runtime.
+- **Definición:** mantenimiento temporal de la propiedad exclusiva de un envío pendiente mientras el proveedor procesa la petición. Su caducidad permite recuperar trabajo tras la caída de un worker.
+- **Alcance:** backend; `backend/src/services/push.js`.
+- **Notas:** un temporizador fijo sin renovación permite reclamar el mismo envío durante reintentos internos lentos de FCM; la entrega sigue siendo al menos una vez tras caídas.
+
+### certificateSha256
+- **Tipo:** propiedad.
+- **Definición:** huella SHA-256 aprobada del certificado de la clave de subida Android usada para preparar una release. Identifica material público de firma, no la contraseña ni la clave privada.
+- **Alcance:** scripts de distribución; `scripts/mobile-preflight.mjs`, configuración privada de firma fuera de Git.
+- **Notas:** se descarta comprobar sólo que existe el keystore: también podría ser una clave de depuración o una clave distinta.
+
+### Nombres de recursos móviles Gestadia
+- **Tipo:** decisión naming.
+- **Definición:** `Gestadia APP Web`, `Gestadia APP iOS` y `Gestadia APP Android Upload` identifican los clientes OAuth del backend y de cada plataforma en `gestadia-vozia`. `Gestadia APNs` (producción), `Gestadia APNs Sandbox` (pruebas) y `Gestadia Apple Login` identifican claves separadas de notificaciones y autenticación del equipo Apple confirmado.
+- **Alcance:** Google Cloud/Apple Developer; `docs/app/MARKETPLACES-CONFIGURACION.md`, configuración privada de distribución fuera de Git y clientes públicos de APP/backend.
+- **Notas:** se descarta reutilizar nombres o credenciales LIA; una etiqueta nueva no acredita que el recurso ya esté creado.
+
+### com.gestadia.app.login
+- **Tipo:** decisión naming.
+- **Definición:** Services ID previsto para el acceso Apple desde Android mediante callback HTTPS del backend. Está vinculado al App ID principal `com.gestadia.app`.
+- **Alcance:** Apple Developer, configuración pública móvil y backend; `docs/app/MARKETPLACES-CONFIGURACION.md`.
+- **Notas:** registro y dominio pendientes; no usar el bundle nativo como cliente del flujo web Android.
+
+### gestadia-mobile-push
+- **Tipo:** decisión naming.
+- **Definición:** cuenta de servicio prevista exclusivamente para enviar notificaciones FCM en `gestadia-vozia`. Su identidad completa es `gestadia-mobile-push@gestadia-vozia.iam.gserviceaccount.com`.
+- **Alcance:** IAM Google Cloud y credencial privada del backend fuera de Git.
+- **Notas:** se descarta reutilizar Firebase Admin general o roles Owner/Editor; solicitar únicamente `roles/firebasecloudmessaging.admin` para envío.
+
+### Gestadia App Store
+- **Tipo:** decisión naming.
+- **Definición:** perfil de aprovisionamiento previsto para distribuir `com.gestadia.app` con el certificado Apple Distribution del equipo `X27NG7M487`.
+- **Alcance:** Apple Developer y firma Xcode de distribución; `docs/app/MARKETPLACES-CONFIGURACION.md`.
+- **Notas:** se descarta usar un perfil LIA; un perfil no acredita que una build haya sido publicada.
+
+### Gestadia APP Android
+- **Tipo:** decisión naming.
+- **Definición:** alias de la aplicación Firebase Android con paquete `com.gestadia.app` en `gestadia-vozia`, destinada al registro de dispositivos FCM.
+- **Alcance:** Firebase Console y archivo privado `google-services.json` de preparación Android.
+- **Notas:** es la aplicación Firebase, distinta del cliente OAuth Android Upload; no se añade Firebase iOS porque sus notificaciones usan APNs directamente.
+
+### Configuración privada APNs por entorno
+- **Tipo:** decisión naming / configuración runtime.
+- **Definición:** `backend-mobile.env` prepara notificaciones APNs de producción; `backend-mobile-sandbox.env` prepara APNs de desarrollo con su clave específica. Ambos mantienen la misma configuración de identidad y cifrado del backend.
+- **Alcance:** archivos privados fuera de Git en `mobile-credentials`; consumo `backend/src/mobile-config.js` y `docs/app/MARKETPLACES-CONFIGURACION.md`.
+- **Notas:** se descarta usar una clave de entorno incorrecto o empaquetar secretos en la app; preparación local no activa el servidor.
+
+### Actualización de recursos móviles 09/10/2026
+- **Tipo:** estado de decisiones naming anteriores.
+- **Definición:** los recursos Gestadia descritos como previstos ya están creados: tres OAuth, tres claves Apple, Services ID/dominio/retorno, cuenta FCM limitada, Firebase Android y perfil App Store. La configuración continúa pendiente de backend conectado y distribución.
+- **Alcance:** consolas Google/Apple e inventario `docs/app/MARKETPLACES-CONFIGURACION.md`.
+- **Notas:** reemplaza las notas históricas de registro/dominio pendientes; no acredita login, recepción push ni publicación.
+
+### Stack Docker móvil Gestadia
+- **Tipo:** decisión naming / despliegue.
+- **Definición:** `portainer-mobile-stack.yml` agrupa la web `gestadia-app` y la API `gestadia-mobile-api` del subdominio existente `app.gestadia.com`. La API conserva las cuentas y base de datos del Portal; Plesk termina HTTPS.
+- **Alcance:** `deploy/app/portainer-mobile-stack.yml`, `deploy/app/Dockerfile.backend`, configuración privada de servidor fuera de Git.
+- **Notas:** se descarta una nueva base de usuarios aislada y empaquetar secretos en la imagen. Migraciones requieren backup y ejecución explícita antes de activar móvil.
+
+### APP_PUBLIC_CONFIG_FILE
+- **Tipo:** variable de despliegue.
+- **Definición:** ruta de la configuración pública completa que el contenedor web publica al arrancar, incluyendo los clientes sociales y flags de notificaciones.
+- **Alcance:** `deploy/app/40-app-config.sh`; montaje de sólo lectura en `/run/gestadia-public-config.json`.
+- **Notas:** no contiene claves privadas. Si no se configura, conserva la preparación demo existente.
+
+### APP_PROXY_TEMPLATE y gestadia_client_chain
+- **Tipo**: decisión naming de despliegue / concepto runtime.
+- **Definición**: `APP_PROXY_TEMPLATE` elige la plantilla Nginx al construir la imagen; `gestadia_client_chain` conserva la cadena de IP que proporciona Plesk para la API móvil interna.
+- **Alcance**: `deploy/app/Dockerfile`, `deploy/app/mobile.conf.template`, stack móvil.
+- **Notas**: La plantilla demo permanece como predeterminada. La entrada del stack solo admite el proxy local de Plesk; no se agrega otro salto al proxy de confianza de Express.
+
+### Backend común Gestadia
+- **Tipo:** concepto runtime / decisión de despliegue propuesta.
+- **Definición:** un único backend en Docker atiende las cuentas, expedientes, documentos, avisos y contratos APP del Portal y de la aplicación móvil. Los dos frontends acceden mediante sus respectivos proxies HTTPS.
+- **Alcance:** plan `docs/superpowers/plans/2026-10-10-app-portal-docker-tiendas.md`; servicio previsto `gestadia-backend` en `deploy/gestadia/portainer-stack.yml`.
+- **Notas:** evita dos implementaciones activas de identidad y reglas comerciales sobre la misma base. La API móvil aislada preparada anteriormente conserva valor como prueba, pero no será la imagen definitiva del conjunto integrado.
+
+### gestadia-portal-web y gestadia-backend
+- **Tipo:** decisión naming de servicios Docker propuesta.
+- **Definición:** `gestadia-portal-web` sirve el frontend de la web y Portal; `gestadia-backend` ejecuta la API común y sus procesos durables. `gestadia-app` conserva el nombre del frontend APP separado.
+- **Alcance:** futuro `deploy/gestadia/portainer-stack.yml`, `deploy/portal/Dockerfile`, `deploy/portal/default.conf.template`; Plesk publica los dominios.
+- **Notas:** MariaDB y los archivos vigentes se conservan inicialmente en su ubicación; no se propone trasladar datos de producción a un volumen vacío. La extensión de la web completa depende de la respuesta del usuario.
 ## Implementación conversacional Portal (05/10/2026)
 
 ### `AppDeviceSession`
@@ -853,6 +1016,129 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Alcance:** frontend/app/src/useMessageReceipts.js.
 - **Notas:** se descarta usar sólo intersección geométrica, porque una hoja modal puede tapar el historial. Cerrar la hoja exige observación nueva.
 
+### Sesión móvil compartida con conversaciones APP
+- **Tipo:** concepto runtime / adaptación de identidad.
+- **Definición:** una AuthSession revocable emitida tras login móvil autentica también el contrato conversacional APP, conservando su prueba de cuenta y autorización server-side. Las sesiones AppDeviceSession anteriores siguen siendo compatibles.
+- **Alcance:** backend/src/app/identity.js; frontend/app/src/AppContext.jsx; backend/src/services/auth-sessions.js.
+- **Notas:** un JWT del Portal sin sesión móvil no habilita conversaciones. El alta social registra prueba fechada del correo que validó el proveedor; no transforma una coincidencia de correo de otra cuenta en autorización. La retirada de acceso bloquea ambas familias de sesiones.
+
+### revokeAccountAccess
+- **Tipo:** concepto runtime / función de ciclo de vida.
+- **Definición:** retirada transaccional del acceso de una cuenta que invalida sesiones móviles y conversacionales, desactiva dispositivos push y conserva una revocación durable del canal APP.
+- **Alcance:** backend/src/app/lifecycle.js y backend/src/services/account-deletion.js.
+- **Notas:** se comparte la operación dentro de la transacción existente; se evita que cada superficie invalide solo su propia familia de sesiones. No purga expedientes ni modifica el canal WhatsApp.
+
+### Stack común Gestadia
+- **Tipo:** decisión de despliegue.
+- **Definición:** conjunto Docker que sirve APP y web/Portal mediante frontends separados y una única API con sus procesos durables.
+- **Alcance:** deploy/gestadia/portainer-stack.yml, deploy/portal, deploy/app.
+- **Notas:** sustituye la propuesta de API móvil paralela; conserva MariaDB y el almacén documental vigente mediante bind, con ingreso TLS en Plesk.
+
+### expedienteAutorizado (subida documental)
+- **Tipo:** propiedad interna de petición.
+- **Definición:** expediente cuya pertenencia a la cuenta autenticada se ha comprobado antes de aceptar el archivo de una subida.
+- **Alcance:** backend/src/routes/portal.js.
+- **Notas:** impide escribir archivos de solicitudes de usuarios ajenos; la validación se realiza antes de Multer y no depende de IDs de propietario enviados por el cliente.
+
+### connectedLegalDocuments
+- **Tipo:** contenido compartido / concepto de interfaz.
+- **Definición:** textos públicos que explican privacidad, uso, soporte y solicitud de baja del servicio conectado de Gestadia.
+- **Alcance:** shared/legal-content.js, frontend/app/src/LegalPage.jsx y frontend/src/pages/legal/Privacidad.jsx.
+- **Notas:** se comparte la política entre web, Portal y APP; el contenido local de demostración permanece separado y no anuncia una eliminación remota ejecutada.
+
+### Recursos APP desde la raíz
+- **Tipo:** decisión de rutas de despliegue.
+- **Definición:** los recursos de arranque de la APP se resuelven desde la raíz de su origen, con independencia de la ruta interna abierta o recargada.
+- **Alcance:** frontend/vite.app.config.js y frontend/app/index.html.
+- **Notas:** evita que /legal y otras entradas directas soliciten sus scripts desde carpetas inexistentes; Capacitor sirve el paquete desde la raíz de su origen local.
+
+### GestadiaRouter
+- **Tipo:** decisión de navegación / componente.
+- **Definición:** el enrutador de la APP utiliza rutas web directas en navegador y rutas hash dentro del paquete nativo.
+- **Alcance:** frontend/app/src/main.jsx.
+- **Notas:** preserva el enrutamiento nativo de Capacitor y permite abrir las URLs públicas /legal desde las tiendas; el fallback Nginx sirve el documento raíz y los recursos usan rutas desde la raíz.
+
+### Resultado y comunicación de AccountDeletionRequest
+- **Tipo:** propiedades de entidad / concepto operativo.
+- **Definición:** resultado trazable de la solicitud de baja, con categorías eliminadas o motivos pendientes, y destino temporal cifrado para comunicar su resolución.
+- **Alcance:** backend/prisma/schema.prisma, backend/src/services/account-deletion.js y docs/legal/OPERACION-BAJA.md.
+- **Notas:** completed y completedAt acreditan ejecución; no sustituyen la revisión de conservación ni recibos de terceros. El destino de respuesta se retira tras aceptación del envío; no se considera prueba de recepción en buzón.
+
+### pendingActions de baja / comunicación con lease
+- **Tipo:** propiedades de resultado / concepto runtime.
+- **Definición:** motivos que impiden completar una baja y reserva temporal del envío de su resolución. service_retention_review identifica expedientes por revisar; remote_data_review identifica correlaciones externas por resolver; apple_revocation y app_access_revocation requieren sus actuaciones confirmadas.
+- **Alcance:** backend/src/services/account-deletion.js y AccountDeletionRequest.notificationStatus, notificationClaimId, notificationLockedUntil, notificationAttempts, notificationNextAttempt.
+- **Notas:** pending_review permanece mientras exista un motivo; accepted describe aceptación SMTP, no recepción en buzón. Un fallo de comunicación no rehabilita una cuenta eliminada ni anuncia un envío inexistente.
+
+### AccountDeletionReview / revisión de baja
+- **Tipo:** entidad / concepto operativo.
+- **Definición:** decisión operativa registrada con responsable y referencia de autorización sobre categorías concretas de datos a conservar y actuaciones remotas acreditadas. Su huella liga la revisión al inventario examinado.
+- **Alcance:** backend/prisma/schema.prisma, backend/src/services/account-deletion-review.js y backend/scripts/account-deletion.mjs.
+- **Notas:** no procede del dispositivo ni de un endpoint público; una nueva dependencia deja la decisión anterior sin cobertura. No se infiere una obligación legal para todos los expedientes.
+
+### Archivo restringido de baja
+- **Tipo:** propiedad de entidad / concepto de conservación.
+- **Definición:** campos de servicio expresamente seleccionados en una revisión de baja, cifrados y separados del perfil de cuenta eliminado, con categoría, fundamento y plazo o criterio registrados.
+- **Alcance:** AccountDeletionRequest.retainedDataEncrypted y herramienta privada de operación de baja.
+- **Notas:** las credenciales y asociaciones sociales nunca se incluyen; los documentos conservados permanecen en los expedientes. La lectura operativa queda registrada y no se expone a la APP ni al Portal.
+
+### verified_intake de baja externa
+- **Tipo:** acción operativa registrada.
+- **Definición:** alta privada de una solicitud recibida por soporte, tras comprobar titularidad y registrar la referencia de esa comprobación y su responsable.
+- **Alcance:** account-deletion.js, AccountDeletionReview.action y backend/scripts/account-deletion.mjs.
+- **Notas:** un correo o un identificador enviados anónimamente no autorizan la ejecución; no existe endpoint público que acepte esta declaración.
+
+### Ensayo de migración Portal
+- **Tipo:** concepto operativo / decisión de validación.
+- **Definición:** restauración de una copia privada en MariaDB efímera local y aplicación de todas las migraciones integradas, comprobando que cada valor original de las tablas de negocio permanece igual.
+- **Alcance:** scripts/verify-portal-migration.mjs.
+- **Notas:** no arranca el backend ni proveedores externos, no modifica producción y no considera una copia antigua como backup suficiente para el corte.
+
+### gestadia-host-metadata
+- **Tipo:** servicio temporal de operación.
+- **Definición:** contenedor sin privilegios ni red que identifica los UID/GID del propietario de Gestadia a partir de los metadatos públicos de usuarios y grupos del host.
+- **Alcance:** deploy/gestadia/host-metadata.yml.
+- **Notas:** solo monta passwd y group como lectura; no monta documentos, claves, configuración, socket Docker ni almacenamiento de escritura. Se retira tras verificar los identificadores.
+
+### gestadia-mobile-private
+- **Tipo:** decisión naming / directorio de despliegue.
+- **Definición:** Directorio del servidor reservado a configuración privada, claves de proveedores y copias previas al cambio de Gestadia APP y Portal.
+- **Alcance:** `/var/www/vhosts/gestadia.com/gestadia-mobile-private`; `deploy/gestadia/portainer-stack.yml` mediante `GESTADIA_CONFIG_DIR`; guía `docs/app/DOCKER-PLESK.md`.
+- **Notas:** se sitúa fuera de los document roots y se limita al propietario del Portal. Se descarta almacenar claves en imágenes, código o carpetas públicas.
+
+### gestadia-common
+- **Tipo:** decisión naming / stack de despliegue.
+- **Definición:** Conjunto de Portainer que agrupa los servicios de Gestadia APP, web/Portal y backend común.
+- **Alcance:** nombre del stack de producción previsto para `deploy/gestadia/portainer-stack.yml`.
+- **Notas:** mantiene la configuración y los documentos existentes mediante montajes explícitos; se descarta el backend móvil paralelo como despliegue vigente.
+# gestadia-deploy-check
+
+- **Tipo:** concepto operativo.
+- **Definición:** comprobación temporal del montaje privado, permisos, conexión de base y almacenamiento persistente antes del arranque del backend común.
+- **Alcance:** preparación de Docker en Portainer; `artifacts/portainer-common-b42ce6a/deploy-check.yml` (evidencia local ignorada).
+- **Notas:** ejecuta únicamente validación y un archivo ficticio propio; no inicia servidores, workers ni proveedores, ni aplica migraciones.
+
+
+## Gestadia APP — identidad del producto
+
+- **Tipo:** decisión de nomenclatura.
+- **Definición:** aplicación móvil y frontend app.gestadia.com de Gestadia, con identidad, expedientes, notificaciones y conversación integrada.
+- **Alcance:** aplicación del presente repositorio; documento maestro, despliegue y fichas Apple/Google.
+- **Notas:** LidIA designa el servicio de chat integrado; no denominar el producto «app de LidIA». LIA es otro producto del usuario y sus stacks solo se consultan como referencia.
+
+## gestadia-migration
+
+- **Tipo:** concepto operativo.
+- **Definición:** proceso temporal que aplica explícitamente las migraciones Prisma del backend común, tras detener el servicio anterior y verificar la copia final de base.
+- **Alcance:** Portainer; `artifacts/portainer-common-b42ce6a/migration.yml` (preparación local ignorada).
+- **Notas:** usa la misma imagen identificada y configuración de DB, sin iniciar servidores ni workers; se conserva el SQL anterior y no se restaura automáticamente tras nuevas escrituras.
+
+## Retirada del modo demostración de Gestadia APP
+- **Tipo:** decisión de producto y obsolescencia.
+- **Definición:** Gestadia APP sólo mantiene sesiones reales o visitantes; se retiran cuentas, conversaciones, documentos y avisos ficticios.
+- **Alcance:** `frontend/app/` y configuración Docker APP. Las entradas anteriores de demostración quedan obsoletas desde el 10/10/2026.
+- **Notas:** No se borran cuentas, expedientes ni documentos del servidor; se conserva la copia de la fuente anterior.
+
 ## Sujeto previo al registro APP
 - **Tipo:** concepto runtime propuesto (10/10/2026).
 - **Definición:** Identidad opaca de un visitante sin cuenta que permite conversar con LidIA exclusivamente por APP. El nombre y los datos de contacto declarados no constituyen prueba de identidad de una cuenta.
@@ -1082,3 +1368,93 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Notas:** Movimiento solicitado por el usuario, con desplazamientos cortos/opacidad, cabecera estable y movimiento reducido. No se conserva una segunda pantalla interactiva, no se anima el historial ni se crean efectos de negocio o llamadas externas.
 
 - **Ampliación de alcance del 11/10/2026:** la maqueta `docs/app/prototipos/lidia-anonima/pantallas.jsx` reutiliza la envoltura CSS `.page-motion` como contenedor estático. No consume hooks de movimiento ni modifica su carácter de propuesta aislada.
+
+### GESTADIA_IOS_PROFILE_SPECIFIER
+
+- **Tipo:** decisión naming / configuración de compilación.
+- **Definición:** nombre o UUID del perfil de distribución iOS autorizado para Gestadia APP. Se aplica únicamente al target App en Release.
+- **Alcance:** frontend/ios/App/App.xcodeproj/project.pbxproj; compilación iOS de publicación.
+- **Notas:** no se fija el perfil mediante PROVISIONING_PROFILE_SPECIFIER global, porque las dependencias Swift Package no admiten perfiles de la app. El valor se aporta desde la custodia privada.
+
+### Correo transaccional Gestadia
+
+- **Tipo:** concepto de presentación y comunicación.
+- **Definición:** Mensaje de recuperación, acceso tras contratación o aviso de expediente con identidad visual común, alternativa de texto y pie de privacidad.
+- **Alcance:** backend, `src/services/email-templates.js`, `src/services/notify.js`, rutas auth/checkout y logo incrustado en `src/assets/`.
+- **Notas:** Contacto y Reply-To `info@gestadia.com`; se conserva el remitente SMTP autenticado. Logo CID para evitar depender de imágenes externas; no introduce comunicaciones comerciales.
+
+
+### Emulador Gestadia QA
+
+- **Tipo:** concepto runtime.
+- **Definición:** dispositivo virtual Android dedicado a comprobar la APP Gestadia sin modificar los dispositivos virtuales de LIA.
+- **Alcance:** QA móvil; AVD local `Gestadia_QA_API_36`, evidencias en `artifacts/android-qa-20261011/`.
+- **Notas:** Android API 36, Pixel 8; se ejecuta solo un emulador a la vez. Se descarta reutilizar el almacenamiento de LIA para mantener sus pruebas intactas.
+
+Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB de RAM y cuatro núcleos** el 11/10/2026. Se conserva el AVD y la instalación; iOS permanece apagado durante esta prueba.
+
+<!-- Arranque nativo revisado el 11/10/2026. -->
+
+## Arranque APP (`startApp`)
+
+- **Tipo:** concepto runtime y función de inicialización.
+- **Definición:** secuencia que prepara configuración, sesión segura, teclado y retornos sociales antes de mostrar Gestadia. La evaluación del módulo de entrada termina antes de esperar plugins que pueden volver a importarlo.
+- **Alcance:** APP web y nativa; `frontend/app/src/main.jsx` y `main.boot.test.jsx`.
+- **Notas:** se retira la espera de nivel superior porque crea un ciclo con el chunk nativo de SecureStorage; un fallo de preparación presenta la recuperación existente y retira el splash.
+
+### provider-button
+- **Tipo:** concepto de presentación.
+- **Definición:** botón de acceso Apple o Google que conserva la identidad visual oficial del proveedor y un área táctil de 48 píxeles CSS. La misma presentación sirve al acceso y a la vinculación; el propósito de la acción se explica fuera del botón.
+- **Alcance:** APP iOS/Android; `frontend/app/src/SocialAccess.jsx`, `frontend/app/src/App.css` y `frontend/app/public/brand/social/`.
+- **Notas:** reemplaza los botones secundarios genéricos. Apple usa la imagen española generada por su CDN; Google conserva el símbolo degradado del paquete oficial y Google Sans Medium, con márgenes propios de iOS y Android. No cambia el protocolo OAuth.
+
+
+**Actualización de gestadia_updates (11/10/2026):** la APP crea este canal Android, visible como «Actualizaciones de Gestadia», antes del registro FCM inicial y de su reanudación. Importancia predeterminada 3 y visibilidad privada 0; iOS no llama a la API de canales Android. Alcance adicional: `frontend/app/src/push.test.js`.
+
+### SKU de Gestadia en App Store Connect
+- **Tipo:** decisión de naming / identificador de distribución.
+- **Definición:** referencia interna de la ficha Apple de Gestadia; se fija como `com.gestadia.app`, igual que el identificador del paquete, para evitar confundirla con otras apps del equipo.
+- **Alcance:** App Store Connect, registro Apple ID `6821484915`; documentación `docs/app/MARKETPLACES-CONFIGURACION.md`.
+- **Notas:** ficha iOS creada en español (España), nombre Gestadia y acceso limitado; no representa una publicación ni una build procesada en TestFlight.
+
+
+### Ficha Gestadia en Google Play
+- **Tipo:** identificador de distribución.
+- **Definición:** ficha Android de Gestadia con paquete `com.gestadia.app`, idioma inicial es-ES y descarga gratuita. Su referencia interna Play es `4974812323816991329`.
+- **Alcance:** Google Play Console, cuenta de Defensa Legal Consumidores; `docs/app/MARKETPLACES-CONFIGURACION.md`.
+- **Notas:** creación autorizada por el usuario tras confirmar las declaraciones de políticas y exportación; separada de LIA. Canal de prueba interna `4699474819749065461`. Crear una ficha no acredita publicación.
+
+
+### Gestadia QA (grupo TestFlight)
+- **Tipo:** concepto de distribución de pruebas.
+- **Definición:** grupo interno de TestFlight exclusivo para comprobar candidatos de Gestadia con las personas indicadas por el usuario.
+- **Alcance:** App Store Connect, Gestadia `6821484915`; `docs/app/MARKETPLACES-CONFIGURACION.md`.
+- **Notas:** distribución manual para asignar candidatos comprobados; no se incluyen testers de otras apps por defecto. El destinatario solicitado puede requerir pruebas externas si no es usuario interno de App Store Connect.
+
+### Gestadia APP Android Play
+- **Tipo:** decisión de naming / cliente OAuth de distribución.
+- **Definición:** cliente Android de Google restringido al paquete `com.gestadia.app` y al certificado con el que Google Play firma las descargas de Gestadia.
+- **Alcance:** Google Auth Platform, proyecto `gestadia-vozia`; `docs/app/MARKETPLACES-CONFIGURACION.md`.
+- **Notas:** complementa al cliente Android Upload para conservar las pruebas APK locales. La firma Play difiere de la de subida; el formulario preparado no acredita creación ni login.
+
+**Actualización de Gestadia QA (11/10/2026):** Google Play utiliza una lista exclusiva con ese mismo nombre y el destinatario indicado por el usuario, sin reutilizar TESTERS.
+
+### Movimiento APP de 280 ms
+- **Tipo:** concepto de presentación.
+- **Definición:** entradas y salidas breves de pantallas, menús, paneles y mensajes nuevos, con cabecera estable.
+- **Alcance:** frontend/app/src/motion.jsx, app.css y docs/app/ANIMACIONES.md; integración del commit d3ca03c conservando la retirada de demos.
+- **Notas:** 280 ms; pulsación 120 ms. Historial no se reproduce; movimiento reducido evita transiciones.
+
+### Indicador de escritura LidIA
+- **Tipo:** concepto de interfaz aprobado.
+- **Definición:** aviso transitorio «LidIA está escribiendo…», en cursiva y con puntos animados, durante un envío o turno confirmado en curso.
+- **Alcance:** frontend/app/src/AppConversation.jsx y app.css.
+- **Notas:** desaparece al responder, fallar o perder confirmación; no se muestra para atención humana y respeta reducción de movimiento.
+
+### GestadiaKeyboardFrame / GestadiaViewController
+- **Tipo:** evento nativo y controlador iOS.
+- **Definición:** comunican a la interfaz el espacio disponible y la duración/curva de la transición del teclado de iOS antes del movimiento.
+- **Alcance:** frontend/ios/App/App/SceneDelegate.swift, frontend/app/src/native.js y app.css.
+- **Notas:** evitan el segundo ajuste tardío del plugin Keyboard en modo native; en iOS se usa resize none y una única transición del contenedor. Android conserva su ajuste nativo.
+
+**Actualización de Gestadia APP Android Play (11/10/2026):** cliente creado con la huella Play confirmada; el ID público se registra en MARKETPLACES-CONFIGURACION.md. El consentimiento visible usa Gestadia; el slug técnico del proyecto permanece gestadia-vozia. Creación no acredita login real.

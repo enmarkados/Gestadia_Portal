@@ -1,10 +1,13 @@
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { config } from "../config.js";
+import { createSessionService } from "../services/auth-sessions.js";
 import { randomBytes } from "node:crypto";
 import { sha256 } from "./s2s.js";
 import { AppProblem } from "./problem.js";
 import { UUID } from "./contracts.js";
 export function accountProof(user) {
-  if (!user || user.accountStatus !== "active")
+  if (!user || user.accountStatus !== "active" || user.accessRevokedAt)
     throw new AppProblem(403, "account_disabled");
   if (
     !UUID.test(user.id || "") ||
@@ -32,6 +35,8 @@ export async function recordAccountProof(db, userId, method, now = new Date()) {
         accountVerificationMethod: method,
       },
     });
+    await tx.authSession.updateMany({ where: { userId, revokedAt: null }, data: { revokedAt: now } });
+    await tx.pushDevice.updateMany({ where: { userId }, data: { active: false } });
     await tx.appDeviceSession.updateMany({
       where: { userId, revokedAt: null },
       data: { revokedAt: now },
@@ -40,8 +45,9 @@ export async function recordAccountProof(db, userId, method, now = new Date()) {
   return db.$transaction ? db.$transaction(apply) : apply(db);
 }
 export class AppIdentity {
-  constructor(db, { clock = () => new Date() } = {}) {
-    Object.assign(this, { db, clock });
+  constructor(db, { clock = () => new Date(), sessionSecret = config.jwtSecret } = {}) {
+    Object.assign(this, { db, clock, sessionSecret });
+    this.mobileSessions = createSessionService({ db, secret: sessionSecret, enabled: true, now: clock });
   }
   async login(email, password, deviceLabel = "Dispositivo") {
     if (
@@ -87,6 +93,17 @@ export class AppIdentity {
     };
   }
   async authenticate(token) {
+    if (typeof token === "string" && !token.startsWith("ga_")) {
+      let payload;
+      try {
+        payload = jwt.verify(token, this.sessionSecret, { algorithms: ["HS256"], clockTimestamp: Math.floor(this.clock().getTime() / 1000) });
+      } catch { throw new AppProblem(401, "session_expired"); }
+      const session = await this.mobileSessions.verify(payload);
+      if (!session) throw new AppProblem(401, "session_expired");
+      const user = await this.db.user.findUnique({ where: { id: session.userId } });
+      accountProof(user);
+      return { user, session };
+    }
     if (typeof token !== "string" || !/^ga_[A-Za-z0-9_-]{43}$/.test(token))
       throw new AppProblem(401, "session_expired");
     const session = await this.db.appDeviceSession.findUnique({
@@ -100,13 +117,18 @@ export class AppIdentity {
   }
   async logout(token, sessionId) {
     const { user, session } = await this.authenticate(token);
+    if (session.platform) return this.mobileSessions.revoke(user.id, sessionId || session.id);
     await this.db.appDeviceSession.updateMany({
       where: { userId: user.id, id: sessionId || session.id, revokedAt: null },
       data: { revokedAt: this.clock() },
     });
   }
   async list(token) {
-    const { user } = await this.authenticate(token);
+    const { user, session } = await this.authenticate(token);
+    if (session.platform) return (await this.db.authSession.findMany({
+      where: { userId: user.id, revokedAt: null, expiresAt: { gt: this.clock() } },
+      orderBy: { createdAt: "desc" },
+    })).map(x => ({ session_id: x.id, device_label: x.platform, created_at: x.createdAt.toISOString(), expires_at: x.expiresAt.toISOString() }));
     return (
       await this.db.appDeviceSession.findMany({
         where: {

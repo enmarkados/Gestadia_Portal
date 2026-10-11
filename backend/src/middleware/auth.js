@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { mobileSessions } from '../services/auth-sessions.js';
 import { AppIdentity } from '../app/identity.js';
 import { config } from '../config.js';
 import { db } from '../db.js';
@@ -17,10 +18,14 @@ export async function requireAuth(req, res, next) {
       req.user = identity.user; req.appSession = identity.session;
       return next();
     }
-    const payload = jwt.verify(token, config.jwtSecret);
+    const payload = jwt.verify(token, config.jwtSecret, { algorithms: ['HS256'] });
     const user = await db.user.findUnique({ where: { id: payload.sub } });
-    if (user?.accountStatus && user.accountStatus !== 'active') return res.status(403).json({ error: 'Cuenta no disponible' });
-    if (!user) return res.status(401).json({ error: 'Sesión no válida' });
+    if (!user || user.accessRevokedAt) return res.status(401).json({ error: 'Sesión no válida' });
+    if (user.accountStatus && user.accountStatus !== 'active') return res.status(403).json({ error: 'Cuenta no disponible' });
+    if (payload.jti) {
+      req.authSession = await mobileSessions.verify(payload);
+      if (!req.authSession) return res.status(401).json({ error: 'Sesión no válida' });
+    }
     req.user = user;
     next();
   } catch {

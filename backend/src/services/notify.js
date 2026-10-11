@@ -1,6 +1,8 @@
 import nodemailer from 'nodemailer';
 import { config } from '../config.js';
 import { db } from '../db.js';
+import { pushService } from './push/runtime.js';
+import { noticeEmail } from './email-templates.js';
 
 const transporter = config.smtp.enabled
   ? nodemailer.createTransport({
@@ -11,29 +13,23 @@ const transporter = config.smtp.enabled
     })
   : null;
 
-export async function sendEmail(to, subject, html) {
+export async function sendEmail(to, subject, message) {
   if (!transporter) {
-    const links = [...html.matchAll(/href="([^"]+)"/g)].map((m) => `  → ${m[1]}`).join('\n');
-    console.log(`\n[email:demo] Para: ${to}\nAsunto: ${subject}\n${html.replace(/<[^>]+>/g, '')}\n${links}\n`);
-    return;
+    throw new Error('Correo no disponible: SMTP no configurado');
   }
-  const info = await transporter.sendMail({ from: config.smtp.from, to, subject, html });
-  const preview = nodemailer.getTestMessageUrl(info);
-  if (preview) console.log(`[email] enviado a ${to} · vista previa (Ethereal): ${preview}`);
+  const { html, text, attachments } = message;
+  await transporter.sendMail({ from: config.smtp.from, replyTo: 'info@gestadia.com', to, subject, html, text, attachments });
 }
 
 /** Crea una notificación en el portal y la envía por email. */
 export async function notifyUser(user, { titulo, cuerpo, expedienteId = null, email = true }) {
-  await db.notificacion.create({
-    data: { userId: user.id, expedienteId, titulo, cuerpo },
-  });
+  const notice = await pushService.notify({userId: user.id, expedienteId, titulo, cuerpo});
+  if (!notice) return;
   if (email) {
     await sendEmail(
       user.email,
       titulo,
-      `<p>Hola ${user.nombre},</p><p>${cuerpo}</p>
-       <p><a href="${config.baseUrl}/portal/mis-servicios">Ver en mi área de cliente</a></p>
-       <p>— El equipo de Gestadia</p>`
+      noticeEmail({ baseUrl: config.baseUrl, nombre: user.nombre, titulo, cuerpo })
     );
   }
 }

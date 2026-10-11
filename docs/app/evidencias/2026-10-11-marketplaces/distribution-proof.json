@@ -1,0 +1,44 @@
+{
+  "sourceRevision": "82d011a",
+  "checkedAtLocal": "2026-10-11",
+  "apple": {
+    "appId": "6821484915",
+    "version": "0.1.0",
+    "build": 1,
+    "testFlightGroup": "Gestadia QA",
+    "groupId": "0f8fb830-e5da-4efc-8147-f83016d30041",
+    "manualDistribution": true,
+    "testerCount": 1,
+    "testerState": "Invitado",
+    "buildState": "En pruebas",
+    "installedFromTestFlight": false
+  },
+  "googlePlay": {
+    "appId": "4974812323816991329",
+    "packageName": "com.gestadia.app",
+    "defaultLanguage": "es-ES",
+    "freeDownload": true,
+    "trackId": "4699474819749065461",
+    "releaseId": "1",
+    "releaseName": "0.1.0 (1)",
+    "releaseState": "Disponible para testers internos",
+    "trackState": "Inactivo",
+    "testerConfigured": false,
+    "aabSha256": "311809ca254dde40729d5ded1d161e14f1b7f2636cdff4ecdbfd9dbd239d8f86",
+    "appSigningSha1": "5A:15:21:16:2A:2A:C3:D3:D8:45:31:5B:7F:A5:49:1E:AC:57:73:A9",
+    "appSigningSha256": "D8:D0:19:84:AF:07:46:70:20:0E:E1:DB:7F:9E:A4:84:67:97:EF:DB:61:5E:61:EB:8D:4B:F4:F3:CD:0E:5D:35",
+    "uploadSigningSha1": "0B:5E:E3:18:B3:74:40:23:6A:51:19:A7:6B:14:9B:13:42:F4:94:B7",
+    "playOAuthClientState": "Formulario preparado; confirmación de creación solicitada",
+    "installedFromPlay": false,
+    "warnings": [
+      "Sin testers asignados",
+      "Sin archivo de desofuscación",
+      "Bibliotecas nativas sin símbolos"
+    ]
+  },
+  "publicStoreAvailabilityVerified": false,
+  "nativeOAuthVerified": false,
+  "apnsDeliveryVerified": false,
+  "iosSimulatorDeferredByUser": true,
+  "liaEmulatorPreserved": true
+}

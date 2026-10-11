@@ -5,36 +5,30 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { createDemo, DEMO_KEY, readDemo } from "./demo.js";
-import { getToken, request, setToken, demoOnly } from "./api.js";
+import { getToken, request, setToken, platform, logoutSession } from "./api.js";
 import { clearPluginSessions } from "./pluginStorage.js";
+import { socialClient } from "./social-auth.js";
+import { connectPush, pushAvailable } from "./push.js";
+import { nativeSession, watchSessionRevocations } from "./sessionStorage.js";
 import {
   conversationsEnabled,
   clearConversationStorage,
 } from "./conversationApi.js";
 const Context = createContext(null);
 export const useApp = () => useContext(Context);
+const PENDING_LOGOUT =
+  "Cierre local realizado; la revocación del servidor sigue pendiente. Abre la app con conexión para completarla.";
 const EMPTY = {
   profile: null,
   expedientes: [],
   notifications: [],
-  consultations: [],
-  managerMessages: [],
 };
 export function AppProvider({ children }) {
   const epoch = useRef(0);
-  const [mode, setMode] = useState(() => {
-    if (demoOnly()) {
-      setToken(null);
-      clearPluginSessions();
-      return "demo";
-    }
-    return getToken() ? "real" : "visitante";
-  });
-  const [data, setData] = useState(() =>
-    demoOnly() ? readDemo() || createDemo() : EMPTY,
-  );
+  const [mode, setMode] = useState(() => (getToken() ? "real" : "visitante"));
+  const [data, setData] = useState(EMPTY);
   const [loading, setLoading] = useState(false);
+  const [pushStatus, setPushStatus] = useState("");
   const [error, setError] = useState("");
   async function refresh() {
     const version = epoch.current;
@@ -62,6 +56,47 @@ export function AppProvider({ children }) {
     }
   }
   useEffect(() => {
+    if (!platform()) return;
+    let disposed = false,
+      cleanup;
+    watchSessionRevocations({
+      onStatus: ({ pending }) => {
+        if (!disposed)
+          setError((old) =>
+            pending ? PENDING_LOGOUT : old === PENDING_LOGOUT ? "" : old,
+          );
+      },
+    })
+      .then((fn) => {
+        if (disposed) fn();
+        else cleanup = fn;
+      })
+      .catch(() => {
+        if (!disposed) setError(PENDING_LOGOUT);
+      });
+    return () => {
+      disposed = true;
+      cleanup?.();
+    };
+  }, [mode]);
+  useEffect(() => {
+    if (mode !== "real" || !pushAvailable()) return;
+    let disposed = false,
+      cleanup;
+    connectPush(setPushStatus, () => refresh())
+      .then((fn) => {
+        if (disposed) fn();
+        else cleanup = fn;
+      })
+      .catch(() =>
+        setPushStatus("Avisos no disponibles. Reintenta con conexión."),
+      );
+    return () => {
+      disposed = true;
+      cleanup?.();
+    };
+  }, [mode, data.profile?.id]);
+  useEffect(() => {
     if (mode === "real") refresh();
   }, [mode]);
   useEffect(() => {
@@ -77,29 +112,6 @@ export function AppProvider({ children }) {
     window.addEventListener("gestadia-session-expired", expire);
     return () => window.removeEventListener("gestadia-session-expired", expire);
   }, []);
-  useEffect(() => {
-    if (mode === "demo") {
-      try {
-        localStorage.setItem(DEMO_KEY, JSON.stringify(data));
-      } catch {
-        /* almacenamiento no disponible */
-      }
-    }
-  }, [data, mode]);
-  function startDemo(type = "cliente", reset = false) {
-    if (mode === "real" && conversationsEnabled())
-      request("/api/app/v1/auth/sessions/current", { method: "DELETE" }).catch(
-        () => {},
-      );
-    clearConversationStorage();
-    epoch.current++;
-    clearPluginSessions();
-    setLoading(false);
-    setToken(null);
-    setError("");
-    setData(reset ? createDemo(type) : readDemo() || createDemo(type));
-    setMode("demo");
-  }
   function logout() {
     if (mode === "real" && conversationsEnabled())
       request("/api/app/v1/auth/sessions/current", { method: "DELETE" }).catch(
@@ -107,43 +119,60 @@ export function AppProvider({ children }) {
       );
     clearConversationStorage();
     epoch.current++;
+    socialClient.cancel().catch(() => {});
     clearPluginSessions();
     setLoading(false);
-    setToken(null);
+    const version = epoch.current;
+    const closed = logoutSession();
+    closed
+      ?.then(({ pending } = {}) => {
+        if (version === epoch.current && pending) setError(PENDING_LOGOUT);
+      })
+      .catch(() => {
+        if (version === epoch.current) setError(PENDING_LOGOUT);
+      });
     setMode("visitante");
     setData(EMPTY);
     setError("");
   }
-  function deleteDemoAccount() {
-    if (mode !== "demo")
-      throw new Error(
-        "El borrado de cuentas reales no está conectado en esta versión.",
-      );
-    // If storage cannot be erased, keep the session and report the failure.
-    localStorage.removeItem(DEMO_KEY);
-    logout();
-  }
   async function login(email, password) {
     const version = epoch.current;
     const body = await request(
-      conversationsEnabled() ? "/api/app/v1/auth/sessions" : "/api/auth/login",
+      conversationsEnabled() && !platform()
+        ? "/api/app/v1/auth/sessions"
+        : "/api/auth/login",
       {
         auth: false,
         method: "POST",
         body: JSON.stringify({
           email,
           password,
+          ...(!conversationsEnabled() || platform()
+            ? { platform: platform() }
+            : {}),
         }),
       },
     );
-    if (version !== epoch.current)
+    if (version !== epoch.current) {
+      if (body.token && platform()) await nativeSession.discard(body.token);
       throw new Error("El acceso se ha cancelado al cambiar de sesión.");
+    }
     if (!body.token) throw new Error("No se pudo abrir la sesión.");
+    await acceptSession(body.token);
+  }
+  async function acceptSession(token) {
+    const version = epoch.current;
+    await setToken(token);
+    if (version !== epoch.current) {
+      if (platform()) await nativeSession.discard(token);
+      if (getToken() === token) await setToken(null);
+      throw new Error("El acceso se ha cancelado al cambiar de sesión.");
+    }
     epoch.current++;
     clearConversationStorage();
     clearPluginSessions();
-    setToken(body.token);
     setData(EMPTY);
+    setError("");
     setMode("real");
   }
   async function saveProfile(profile) {
@@ -186,11 +215,19 @@ export function AppProvider({ children }) {
         setData,
         loading,
         error,
+        pushStatus,
         refresh,
-        startDemo,
         logout,
-        deleteDemoAccount,
+        requestDeletion: async () => {
+          const result = await request("/api/me/deletion-request", {
+            method: "POST",
+            body: JSON.stringify({ confirm: true }),
+          });
+          logout();
+          return result;
+        },
         login,
+        acceptSession,
         saveProfile,
         markRead,
         isClient: data.expedientes.length > 0,

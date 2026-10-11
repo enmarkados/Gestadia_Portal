@@ -13,12 +13,36 @@ export const nativeOrigin = () =>
     : null;
 
 export async function setupNativeKeyboard() {
-  if (isNative() && Capacitor.getPlatform() === "ios")
-    await Keyboard.setResizeMode({ mode: "native" });
+  if (!isNative() || Capacitor.getPlatform() !== "ios") return;
+  // iOS supplies the target frame before its animation. A second native resize
+  // after keyboardDidShow would make the footer jump at the end.
+  await Keyboard.setResizeMode({ mode: "none" });
+  await Keyboard.setScroll({ isDisabled: true });
+  const update = ({ detail }) => {
+    if (!Number.isFinite(detail?.viewportHeight) || detail.viewportHeight <= 0) return;
+    const shell = document.querySelector(".app-shell");
+    if (!shell) return;
+    const height = `${detail.viewportHeight}px`;
+    if (shell.style.height === height) return;
+    const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    const duration = Number.isFinite(detail.duration) ? Math.max(0, detail.duration) * 1000 : 0;
+    const easing = ["ease-in-out", "ease-in", "ease-out", "linear"][detail.curve] || "ease-in-out";
+    shell.style.transition = reduced || !duration ? "none" : `height ${duration}ms ${easing}`;
+    shell.style.height = height;
+  };
+  window.addEventListener("gestadiaKeyboardFrame", update);
+  return () => {
+    window.removeEventListener("gestadiaKeyboardFrame", update);
+    const shell = document.querySelector(".app-shell");
+    shell?.style.removeProperty("height");
+    shell?.style.removeProperty("transition");
+  };
 }
 
 export async function loadNativeConfig() {
-  if (!isNative() || globalThis.GESTADIA_APP_CONFIG?.demoOnly) return;
+  if (!isNative()) return;
+  // La release empaquetada conserva el origen y los clientes revisados al firmar.
+  if (globalThis.GESTADIA_APP_CONFIG?.appId === "com.gestadia.app") return;
   const base = new URL(
     import.meta.env.VITE_GESTADIA_SERVER_URL || "https://app.gestadia.com",
   );
@@ -43,7 +67,7 @@ export async function loadNativeConfig() {
       throw new Error("Configuración no disponible");
     remote = response.data;
   } catch {
-    // La demo empaquetada sigue disponible; no se anuncia conexión real.
+    // Conserva el origen configurado; las peticiones mostrarán el fallo de conexión.
   }
   globalThis.GESTADIA_APP_CONFIG = {
     ...local,
@@ -57,8 +81,6 @@ export async function loadNativeConfig() {
 }
 
 export async function openExternal(url) {
-  if (globalThis.GESTADIA_APP_CONFIG?.demoOnly)
-    throw new Error("La demo no abre conexiones externas.");
   if (isNative()) await Browser.open({ url });
   else window.open(url, "_blank", "noopener,noreferrer");
 }

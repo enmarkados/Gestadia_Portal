@@ -31,9 +31,15 @@ Antes de editar una pantalla, anota su ruta o ID de maqueta, estado, origen, des
 | Movimiento de la APP | [Reglas, implementación y comprobación](ANIMACIONES.md): 280 ms, desplazamientos cortos, cabecera estable y movimiento reducido. |
 | Diseño común y recorridos actuales | [Plan de diseño y cobertura](PLAN-DISENO-APP.md), [Mensajes](MENSAJES-DISENO.md), [Perfil](PERFIL-LIA.md), [antecedente de nueva conversación](2026-10-08-nueva-conversacion-lidia.md) y [corrección de accesos LidIA del 11/10](2026-10-11-lidia-accesos.md). Cada evidencia mantiene fecha/entorno. |
 | LidIA anónima APP | Mapas con conformidad documental; nuevas pantallas son maquetas sin API. Desarrollo técnico autorizado el 10/10; transporte Portal preparado en rama aislada, respuestas/API/autoridad durables y aceptación visual/nativa pendientes. Contacto reservado por wire r3; sus pantallas se conservan como propuesta futura. |
+| APP en `frontend/app/`, API conversacional y navegación actual | Código existente sin demostración desde `be6806d`; visitante o sesión real. El chat requiere habilitación y aceptación remota. [Integración Git](2026-10-08-integracion-app-main.md) y [README APP](../../README-APP.md). Un build no acredita conexión o despliegue. |
+| Movimiento de la APP | [Reglas, implementación y comprobación](ANIMACIONES.md): 280 ms, desplazamientos cortos, cabecera estable y movimiento reducido. |
+| Diseño común y recorridos actuales | [Plan de diseño y cobertura](PLAN-DISENO-APP.md), [Mensajes](MENSAJES-DISENO.md), [Perfil](PERFIL-LIA.md) y [nueva conversación](2026-10-08-nueva-conversacion-lidia.md). Cada evidencia mantiene fecha/entorno. |
+| LidIA anónima APP | Propuesta con conformidad documental de ambos equipos; aprobación humana, contratos e implementación pendientes. Las pantallas nuevas son maquetas sin API. |
 | Tres imágenes «Actual» del tablero | Referencias de la demo aislada de app/main a6d6e14. No acreditan una conversación remota ni la versión desplegada. |
 | Veintitrés vistas «Propuesta» | Doce estados principales y once alternativas, capturados a 390 × 844. No son rutas ni permisos nuevos del producto. |
 | Handoff y actas anteriores | Antecedentes con fecha. Las decisiones vigentes posteriores prevalecen; no aplicar las burbujas rojas antiguas a LidIA ni interpretar el cuestionario demo como evaluación real. |
+
+La evidencia de retirada de demostración se conserva en [NAVEGACION.md](NAVEGACION.md) y [estado Docker](ESTADO-APP-PORTAL-DOCKER.md). Las referencias «Actual» del tablero mantienen sus bytes y la procedencia antigua.
 
 La documentación y los prototipos se incorporan a `app/main` como referencia de desarrollo por esta petición. Eso no aprueba ni activa el flujo anónimo. Las menciones de rama/PR en documentos fechados describen su entrega histórica; para el estado vigente, consulta este manual, el código y la configuración efectiva.
 
@@ -166,3 +172,33 @@ El desarrollo del contrato técnico está autorizado en el chat LidIA, según la
 La publicación, despliegue y activación mantienen su alcance y autorización propios. [Despliegue APP](DOCKER-PLESK.md) · [Tiendas](MARKETPLACES.md). Esta guía guarda la referencia de desarrollo; no da por realizados esos trabajos.
 
 Comprobación documental del 10/10/2026: 212 enlaces locales válidos entre las entradas, mapas, plan y coordinación revisados; inventario de 12 estados principales, 11 alternativas y 3 referencias, con sus 26 capturas JPEG a 390 × 844; Mermaid idéntico en navegación, mapas y propuesta técnica. El tablero arrancó desde este checkout en 5190 y su compilación aislada terminó correctamente. Esta comprobación acredita que la referencia se puede consultar; no valida el flujo anónimo conectado ni la APP nativa.
+
+### Comprobación autenticada en APP — 11/10/2026
+
+Sesión real de la cuenta de pruebas: Inicio → Nueva conversación → Iniciar → consulta → respuesta de LidIA → opción No → segunda respuesta → Mensajes → mismo historial recuperado. Dos turnos y dos respuestas observadas; opciones consumidas y retorno Volver a Mensajes. No se solicita atención, contratación ni expediente. [Captura nueva del historial](evidencias/2026-10-11-chat-real/chat-recuperado.png). Esta prueba acredita el recorrido web autenticado; OAuth y entrega push nativos conservan su aceptación independiente. Las maquetas anónimas no se activan.
+
+
+### Arranque nativo comprobado — 11/10/2026
+
+La entrada esperada por SecureStorageNative contenía una espera de nivel superior que bloqueaba su importación circular. El arranque se ejecuta ahora desde startApp después de terminar la evaluación del módulo; mantiene el orden configuración, sesión segura, teclado y retorno social. Si la preparación falla se muestra la recuperación existente (Recargar) y se retira el splash. Dos regresiones reproducen primero el bloqueo y el rechazo sin recuperación, y pasan tras el cambio. Suite frontend 162/162. Android debug abre Home real con 4 GB/cuatro núcleos; captura [home-debug.png](evidencias/2026-10-11-arranque-android/home-debug.png). Aún sin atribuir firma de distribución, login o push a esa captura.
+
+
+La misma corrección de arranque supera también la instalación y apertura del APK Release firmado, con hash instalado idéntico. [Home Release Android](evidencias/2026-10-11-arranque-android/home-release.png). Acceso preparado para el usuario; OAuth y push todavía pendientes.
+
+### Acceso social con marca oficial — 11/10/2026
+
+Por petición del usuario, conservar el diseño oficial de Apple/Google en acceso y vinculación. Recursos locales en `frontend/app/public/brand/social/`; fuente Google Sans con licencia incluida. La documentación oficial permite la imagen Apple generada por su CDN y el botón Google personalizado conforme a sus reglas. No sustituir el símbolo Google por un icono monocromo ni por un dibujo anterior. [Apple](https://developer.apple.com/documentation/signinwithapple/incorporating-sign-in-with-apple-into-other-platforms) · [Google](https://developers.google.com/identity/branding-guidelines). La validación visual no acredita completar OAuth.
+
+Android Release actualizado conserva sesión y recibe avisos reales mediante FCM. Canal gestadia_updates creado antes de registro/reanudación; suite frontend 164/164. La recepción SMTP y el diseño del correo en Thunderbird claro/oscuro quedan confirmados por el destinatario. La ficha Apple Gestadia se crea con Apple ID 6821484915; subir un archivo no equivale a publicación o aceptación nativa iOS.
+
+
+Segunda recepción real Android 82d011a en canal propio gestadia_updates comprobada; mantiene marca oficial y sesión real. [Capturas nuevas y límites de aceptación](evidencias/2026-10-11-marketplaces/README.md). iOS 0.1.0 (1) subido y procesado en TestFlight; no acredita OAuth, APNs ni instalación.
+
+
+### Distribución interna — 11/10/2026
+
+Gestadia 82d011a distribuida: TestFlight 0.1.0 (1) «En pruebas», un tester invitado; Play 0.1.0 (1) «Disponible para testers internos», sin testers configurados. La firma Play requiere un cliente OAuth Android adicional preparado, creación pendiente. Instalaciones desde tiendas, OAuth y APNs no comprobados. Por indicación humana mantener LIA abierto y revisar iOS después, sin iniciar otro emulador. [Evidencia y límites](evidencias/2026-10-11-marketplaces/README.md).
+
+### Actualización nativa solicitada · 11/10/2026
+
+Integración de movimiento d3ca03c en la rama marketplace conservando el flujo real sin demos. El usuario aprueba escritura LidIA y pide sincronizar compositor/menú con el teclado iOS. No cambia pantalla, origen, permisos, destino de Atrás ni acción final. [Detalle de implementación y límites](ANIMACIONES.md#candidato-nativo-con-escritura-y-teclado--11102026). Nueva build TestFlight (2) en preparación; no atribuir estas mejoras a la build instalada (1).

@@ -85,6 +85,7 @@ try {
   if (!/^127\.0\.0\.1:\d+$/.test(address))
     throw new Error("Unexpected fixture endpoint");
   env.DATABASE_URL = `mysql://app_test:local-test-only@${address}/gestadia_app_test`;
+  env.GESTADIA_MOBILE_TEST_DATABASE_URL = env.DATABASE_URL;
   run("npm", [
     "exec",
     "--prefix",

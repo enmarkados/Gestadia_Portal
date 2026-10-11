@@ -1,21 +1,23 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { HashRouter } from "react-router-dom";
+import { HashRouter, BrowserRouter } from "react-router-dom";
 import { AppProvider, useApp } from "./AppContext.jsx";
 import { PluginWebProvider } from "./PluginWebContext.jsx";
 import App from "./App.jsx";
 import {
+  isNative,
   loadNativeConfig,
   setupNativeNavigation,
   setupNativeKeyboard,
   finishSplash,
 } from "./native.js";
 import { conversationsEnabled } from "./conversationApi.js";
-import { demoOnly } from "./api.js";
+import { setupSocialReturn } from "./social-auth.js";
+import { initializeNativeSession } from "./sessionStorage.js";
 import "./app.css";
 class ErrorBoundary extends React.Component {
   state = {
-    failed: false,
+    failed: Boolean(this.props.failed),
   };
   static getDerivedStateFromError() {
     return {
@@ -49,7 +51,6 @@ function ConnectedApp() {
       key={`${mode}:${data.profile?.id || "visitor"}`}
       identity={`${mode}:${data.profile?.id || "visitor"}`}
       enabled={
-        !demoOnly() &&
         !conversationsEnabled() &&
         (mode === "visitante" || (mode === "real" && Boolean(data.profile?.id)))
       }
@@ -58,15 +59,27 @@ function ConnectedApp() {
     </PluginWebProvider>
   );
 }
-await loadNativeConfig();
-await setupNativeKeyboard();
-setupNativeNavigation();
-createRoot(document.getElementById("root")).render(
-  <ErrorBoundary>
-    <HashRouter>
-      <AppProvider>
-        <ConnectedApp />
-      </AppProvider>
-    </HashRouter>
-  </ErrorBoundary>,
-);
+async function startApp() {
+  await loadNativeConfig();
+  await initializeNativeSession();
+  await setupNativeKeyboard();
+  setupNativeNavigation();
+  await setupSocialReturn();
+  const GestadiaRouter = isNative() ? HashRouter : BrowserRouter;
+  createRoot(document.getElementById("root")).render(
+    <ErrorBoundary>
+      <GestadiaRouter>
+        <AppProvider>
+          <ConnectedApp />
+        </AppProvider>
+      </GestadiaRouter>
+    </ErrorBoundary>,
+  );
+}
+
+// Los chunks de los plugins pueden importar esta entrada; debe terminar de
+// evaluarse antes de esperar la preparación nativa.
+startApp().catch(() => {
+  createRoot(document.getElementById("root")).render(<ErrorBoundary failed />);
+  finishSplash().catch(() => {});
+});

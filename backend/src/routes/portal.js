@@ -75,12 +75,18 @@ portalRouter.get('/api/expedientes/:id', async (req, res) => {
 });
 
 // Subida de documentos del checklist
-portalRouter.post('/api/expedientes/:id/documentos', upload.single('fichero'), async (req, res) => {
-  const e = await db.expediente.findFirst({
-    where: { id: req.params.id, userId: req.user.id },
-    include: { documentos: true },
-  });
-  if (!e) return res.status(404).json({ error: 'Expediente no encontrado' });
+portalRouter.post('/api/expedientes/:id/documentos', async (req, res, next) => {
+  try {
+    const e = await db.expediente.findFirst({
+      where: { id: req.params.id, userId: req.user.id },
+      include: { documentos: true },
+    });
+    if (!e) return res.status(404).json({ error: 'Expediente no encontrado' });
+    req.expedienteAutorizado = e;
+    next();
+  } catch (error) { next(error); }
+}, upload.single('fichero'), async (req, res) => {
+  const e = req.expedienteAutorizado;
   if (!req.file) return res.status(400).json({ error: 'No se ha recibido ningún fichero' });
 
   const clave = String(req.body.clave || 'otro');
@@ -127,6 +133,10 @@ portalRouter.get('/api/notificaciones', async (req, res) => {
     where: { userId: req.user.id }, orderBy: { createdAt: 'desc' }, take: 50,
   });
   res.json(items);
+});
+
+portalRouter.get('/api/notificaciones/:id', async (req,res,next) => {
+  try {const item=await db.notificacion.findFirst({where:{id:req.params.id,userId:req.user.id}});if(!item)return res.status(404).json({error:'Aviso no encontrado'});res.json(item);}catch(error){next(error);}
 });
 
 portalRouter.post('/api/notificaciones/:id/leer', async (req, res) => {

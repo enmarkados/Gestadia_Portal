@@ -7,8 +7,11 @@
 La precisión humana posterior fija que preguntas y decisiones pertenecen al agente 119. Los estados del diagrama representan lo que la APP muestra del agente; el cuestionario ilustrativo de la maqueta no define un motor de canje en Portal. Texto como respuesta base; contenido dinámico opcional. [Criterios vigentes del manual](MANUAL-DESARROLLO.md#criterios-que-debe-conservar-el-desarrollo).
 
 Auditoría del 07/10/2026. Alcance: rutas reales de `frontend/app/src/App.jsx`, modos visitante/demo/conectado, hojas y vistas de cuenta. Este mapa no valida permisos ni configuración de producción. [Glosario](../../GLOSARIO.md).
+Mapa vivo actualizado el 10/10/2026 tras retirar la demostración. Alcance: rutas reales de `frontend/app/src/App.jsx`, visitante o sesión conectada, hojas y vistas de cuenta. La sección de comprobación del 07/10 conserva evidencia histórica. Este mapa no valida permisos ni conversación en producción. [Glosario](../../GLOSARIO.md).
 
 Regla: las cuatro pestañas son destinos principales y conservan el menú inferior. Una pantalla secundaria tiene Atrás al origen interno completo, o a su destino de reserva si se abre directamente. Acceso/registro y documentos legales pueden ocultar el menú, pero siempre permiten volver. Entrar no pierde la pantalla solicitada. Las hojas cierran sobre la pantalla que las abrió; navegar desde ellas guarda esa pantalla como origen, sin reabrir la hoja al volver.
+
+La revisión publicada sin demostración es `be6806d`, comprobada de nuevo el 10/10 a las 21:05 UTC. [Registro público observado](evidencias/2026-10-10-sin-demo/registro-web.png) · [Estado Docker y límites pendientes](ESTADO-APP-PORTAL-DOCKER.md). Chat, login social y push nativos requieren su aceptación real por separado.
 
 ## Pestañas, conversaciones y trámites
 
@@ -32,7 +35,6 @@ flowchart TD
   IA -->|Origen Mensajes| M
   G -->|Atrás: origen o Mensajes| M
   T --> V["Verificación /tramites/:id?documento=..."]
-  G -->|Documento en demo| V
   N["Hoja Notificaciones"] --> V
   V -->|Atrás: conserva chat y parámetros| G
   V -->|Origen lista o entrada directa| T
@@ -48,7 +50,7 @@ flowchart TD
 
 Inicio distingue Nueva/Continuar y Mensajes ofrece Nueva. Por la corrección humana del 11/10/2026, el chat de LidIA no muestra «Nueva conversación con LidIA», tanto abierto como cerrado o pendiente: se vuelve a LidIA o Mensajes para empezar otro. `nueva=UUID` conserva el intento de creación al recargar/reintentar; sólo Iniciar efectúa POST y conserva los chats anteriores. Una creación pendiente mantiene ese intento hasta confirmar su id. Al abrir un historial se indica «Cargando conversación…». [Antecedente del 08/10](2026-10-08-nueva-conversacion-lidia.md) · [Corrección vigente y capturas](2026-10-11-lidia-accesos.md).
 
-El chat conectado se identifica por `conversacion` y, cuando procede, `caso`. Esos parámetros forman parte del retorno; no se sustituye el chat seleccionado por uno nuevo. La validación real admite carga de documentos; el envío final guiado sólo existe en demo. Un error de carga permanece en la misma pantalla y conserva Atrás.
+El chat conectado se identifica por `conversacion` y, cuando procede, `caso`. Esos parámetros forman parte del retorno; no se sustituye el chat seleccionado por uno nuevo. La validación real admite carga de documentos con FormData y sólo confirma el resultado devuelto por la API. Un error de carga permanece en la misma pantalla y conserva Atrás.
 
 ### Asociación backend preparada el 11/10/2026
 
@@ -85,18 +87,15 @@ flowchart TD
   L -->|Origen Registro| R
   A -->|Acceso correcto| DEST["Pantalla solicitada con sus parámetros"]
   LOGIN -->|Acceso correcto| DEST
-  R -->|Cuenta de ejemplo, sólo demo| DEST
   A -->|Atrás / cancelar| ORIG["Pantalla de origen o LidIA"]
   LOGIN -->|Atrás / cancelar| ORIG
   R -->|Atrás / cancelar| ORIG
   A --> REC["Recuperación web externa; la APP permanece abierta"]
-  R --> INFO["Información demo /informacion"]
-  INFO -->|Atrás| R
   EXP["Sesión caducada"] -->|Mensajes / Cuenta| LOGIN
   EXP -->|Conversación| CHAT
 ```
 
-El registro conectado explica el acceso compartido Portal/APP; no crea otra cuenta. Recuperación abre el navegador del sistema en nativo, o una pestaña separada en web. La demo permite explorar sin contraseña real. Ni cancelar ni Atrás efectúan logout o crean una conversación.
+El registro conectado explica el acceso compartido Portal/APP; no crea otra cuenta. Recuperación abre el navegador del sistema en nativo, o una pestaña separada en web. Ni cancelar ni Atrás efectúan logout o crean una conversación.
 
 ### LidIA sin cuenta: mapas actualizados el 10/10 (propuesta)
 
@@ -205,16 +204,14 @@ flowchart TD
   CUENTA --> PREF["Preferencias / misma vista"]
   CUENTA --> BOR["Confirmación de borrado"]
   BOR -->|Cancelar| CUENTA
-  BOR -->|Borrado demo o logout| A["Acceso; retorno seguro al inicio"]
+  BOR -->|Baja confirmada por API o cerrar sesión| A["Acceso; retorno seguro al inicio"]
   CUENTA --> LEGAL["Privacidad / Términos / Soporte"]
   LEGAL -->|Atrás| CUENTA
   N -->|Ver servicios| S["Servicios /servicios"]
   Q --> AT["Atención Gestadia"]
   AT -->|Atrás: origen de la hoja| BASE
   S --> SEL["Servicio seleccionado; título y formulario"]
-  SEL -->|Demo| DC["Revisión /checkout-demo"]
-  DC -->|Atrás / revisar: restaura servicio y borrador| SEL
-  SEL -->|Conectado| WEB["Checkout web externo con datos precargados"]
+  SEL --> WEB["Checkout web externo con datos precargados"]
   WEB -->|Cerrar navegador del sistema| SEL
   AM -->|Cerrar sesión| A
   U["Ruta desconocida"] -->|Atrás o Volver al inicio| BASE
@@ -226,7 +223,7 @@ En web el checkout abre una pestaña separada; en nativo abre el navegador del s
 
 | Pantalla / estado | Orígenes | Atrás; reserva para entrada directa | Menú inferior | Al completar |
 |---|---|---|---|---|
-| `/` LidIA | Pestañas / marca | No en inicio; la conversación demo vuelve a su origen o reinicia LidIA | Sí; no en acceso demo visitante | Abrir chat |
+| `/` LidIA | Pestañas / marca | No en inicio | Sí | Abrir chat autenticado si hay conexión habilitada |
 | `/tramites` | Pestañas | No: principal | Sí | Visitante abre acceso y retoma Trámites |
 | `/mensajes` | Pestañas | Principal; acceso visitante sí tiene retorno | Sí salvo acceso visitante | Abre el chat exacto |
 | `/servicios` | Pestañas / notificaciones | No: principal | Sí | Selección desplaza al título; checkout externo o demo |
@@ -235,20 +232,24 @@ En web el checkout abre una pestaña separada; en nativo abre el navegador del s
 | `/mensajes/gestor` | Mensajes / Contacto / validación | Origen; `/mensajes` | Sí | Cerrado mantiene historial; nuevo mantiene origen |
 | `/tramites/:id` | Lista / notificación / documento del chat | Origen con query; `/tramites` | Sí | Demo continúa al gestor con retorno a validación |
 | `/cuenta` | Menú Cuenta / enlace directo | Origen; `/` | Sí autenticado; no visitante | Guarda sin navegar |
+| `/servicios` | Pestañas / notificaciones | No: principal | Sí | Selección desplaza al título; checkout externo |
+| `/lidia/conversacion?nueva=UUID` | LidIA / Mensajes / chat / acceso | Mismo origen; `/` | Sí | Iniciar crea otra; URL canónica con id; no cierra la anterior |
+| `/lidia/conversacion` | LidIA / Mensajes / acceso | Origen; `/` | Sí | Mismo chat y origen; no crear al volver |
+| `/mensajes/gestor` | Mensajes / Contacto / validación | Origen; `/mensajes` | Sí | Cerrado mantiene historial; nuevo mantiene origen |
+| `/tramites/:id` | Lista / notificación / documento del chat | Origen con query; `/tramites` | Sí | Carga documental por API; conserva el origen |
+| `/cuenta` | Hoja Cuenta / enlace directo | Origen; `/` | Sí autenticado; no visitante | Guarda sin navegar |
 | `/acceso` | Trámites / chat / Cuenta / entrada directa | Origen; `/` | No | Pantalla solicitada y contexto; por defecto `/` |
-| `/registro` | Acceso / entrada directa | Mismo origen del acceso; `/` | No | Demo continúa; conectado informa e invita al acceso |
-| `/informacion` | Registro / directo | Origen; `/` | Sí | Regresar al registro |
-| `/checkout-demo` | Servicios / directo | Origen con servicio y borrador; `/servicios` | Sí | Revisar o ir al inicio |
+| `/registro` | Acceso / entrada directa | Mismo origen del acceso; `/` | No | Informa sobre la cuenta compartida y la invitación; invita al acceso |
 | `/legal/privacy` | Cuenta / Acceso / Registro | Origen completo; `/acceso` | No | Atrás restituye contexto |
 | `/legal/terms` | Cuenta / Acceso / Registro | Origen completo; `/acceso` | No | Atrás restituye contexto |
-| `/legal/delete-account` | Cuenta / navegación legal / directo | Origen completo; `/acceso` | No | Borrado demo con confirmación; real sin conectar |
+| `/legal/delete-account` | Cuenta / navegación legal / directo | Origen completo; `/acceso` | No | Explica la baja real y la conservación justificada de expedientes |
 | `/legal/support` | Cuenta / Acceso / Registro | Origen completo; `/acceso` | No | Enlaces externos sin perder la APP |
 | Cuenta: datos, seguridad, preferencias | Dentro de Perfil | Cabecera del Perfil; bloques sin navegación | Como Perfil | Permanecer en vista |
 | Borrado / renombrado / hojas | Perfil / Mensajes / cabecera / llamada | Cancelar o cerrar primero; devuelve foco al control de apertura | Pantalla de fondo | No usar historial hasta cerrar |
 | Error / carga / sin permisos / chat cerrado | Ruta vigente | Conserva retorno de la ruta | Según ruta | Reintento no cambia origen |
 | Ruta inexistente | Enlace / entrada directa | Origen válido; `/` | Sí | Volver al inicio |
 
-## Hallazgos y comprobación
+## Hallazgos y comprobación históricos del 07/10
 
 Antes del cambio: se reprodujo en navegador Trámites visitante → Entrar al portal → `/cuenta`, sin menú ni Atrás; acceso enviaba siempre a LidIA. El análisis de rutas confirmó retorno fijo del expediente al gestor y del chat IA al inicio, y pérdida del formulario al regresar del checkout demo.
 
@@ -268,9 +269,32 @@ El checkout externo se verifica mediante prueba del destino y de la apertura sep
 El listado conectado utiliza filas compactas. Los accesos «Nueva conversación con LidIA» y «Atención Gestadia» mantienen el origen `/mensajes` y no crean sesiones al pulsarlos: Nueva muestra el inicio explícito de una sesión independiente; los chats del listado recuperan sus ids exactos. Esta pantalla muestra únicamente el dock inferior, sin el botón fijo de contacto duplicado. Renombrar se despliega en la fila seleccionada y devuelve el foco al lápiz al guardar o cancelar.
 
 
-### Revisión común de pantallas
+### Revisión común de pantallas histórica
 
 El [plan de diseño y matriz visual](PLAN-DISENO-APP.md) actualiza la suite conjunta a **88 pruebas APP aprobadas** y registra 64 inspecciones en cuatro anchuras, además de los retornos recorridos en el simulador iOS. Información y checkout demo mantienen Atrás y dock sin CTA de contacto duplicado. Mi Perfil conectado remite la recuperación al portal y no solicita contraseñas para una operación todavía pendiente. El recorrido de interfaz del APK Android de esta revisión sigue pendiente.
+
+
+### Comprobación autenticada en APP — 11/10/2026
+
+Sesión real de la cuenta de pruebas: Inicio → Nueva conversación → Iniciar → consulta → respuesta de LidIA → opción No → segunda respuesta → Mensajes → mismo historial recuperado. Dos turnos y dos respuestas observadas; opciones consumidas y retorno Volver a Mensajes. No se solicita atención, contratación ni expediente. [Captura nueva del historial](evidencias/2026-10-11-chat-real/chat-recuperado.png). Esta prueba acredita el recorrido web autenticado; OAuth y entrega push nativos conservan su aceptación independiente. Las maquetas anónimas no se activan.
+
+
+### Arranque nativo comprobado — 11/10/2026
+
+La entrada esperada por SecureStorageNative contenía una espera de nivel superior que bloqueaba su importación circular. El arranque se ejecuta ahora desde startApp después de terminar la evaluación del módulo; mantiene el orden configuración, sesión segura, teclado y retorno social. Si la preparación falla se muestra la recuperación existente (Recargar) y se retira el splash. Dos regresiones reproducen primero el bloqueo y el rechazo sin recuperación, y pasan tras el cambio. Suite frontend 162/162. Android debug abre Home real con 4 GB/cuatro núcleos; captura [home-debug.png](evidencias/2026-10-11-arranque-android/home-debug.png). Aún sin atribuir firma de distribución, login o push a esa captura.
+
+
+La misma corrección de arranque supera también la instalación y apertura del APK Release firmado, con hash instalado idéntico. [Home Release Android](evidencias/2026-10-11-arranque-android/home-release.png). Acceso preparado para el usuario; OAuth y push todavía pendientes.
+
+### Identidad visual del acceso social — 11/10/2026
+
+Petición humana: botones oficiales Apple/Google en Android e iOS. Acceso `/acceso` y vinculación en Mi Perfil conservan origen, permisos y acciones existentes. Se reemplaza la presentación genérica por la imagen española generada por Apple y el símbolo degradado del paquete vigente de Google, con Google Sans Medium. Ambos controles tienen 48 px CSS de altura y el mismo ancho; Google usa márgenes 12/10 px en Android y 16/12 px en iOS. Los recursos son locales y no requieren cargar un SDK remoto para dibujar el botón. La vinculación se explica antes del botón «Continuar con», preservando el propósito `link`. Compilación y aceptación visual nativa se registran por separado en el estado Docker.
+
+
+Aviso Android real recibido en segundo plano: pulsarlo abre Mi Perfil para la sesión propietaria; la campana indica avisos pendientes. No se publica el contenido del trámite en la notificación del sistema. Se crea el canal gestadia_updates antes de registrar Android, incluyendo la reapertura de una instalación ya activada. iOS conserva su registro APNs independiente.
+
+
+Segunda recepción real Android 82d011a en canal propio gestadia_updates comprobada; mantiene marca oficial y sesión real. [Capturas nuevas y límites de aceptación](evidencias/2026-10-11-marketplaces/README.md). iOS 0.1.0 (1) subido y procesado en TestFlight; no acredita OAuth, APNs ni instalación.
 
 ### Movimiento y continuidad · 11/10/2026
 
@@ -291,3 +315,7 @@ flowchart TD
 ```
 
 Cuenta se abre junto al control de cabecera; las otras hojas siguen en la parte inferior. Escape/X/fondo cierran con salida antes de devolver el foco. Las acciones de Cuenta y Contacto esperan esa salida antes de navegar; enlaces de Notificaciones conservan su navegación normal y cancelan la superficie al cambiar de ruta. Si cambia la preferencia a movimiento reducido durante el cierre, se completa inmediatamente. El detalle de implementación, pruebas y capturas nuevas está en [ANIMACIONES.md](ANIMACIONES.md); las evidencias nativas anteriores no acreditan este movimiento nuevo.
+
+### Actualización nativa solicitada · 11/10/2026
+
+Integración de movimiento d3ca03c en la rama marketplace conservando el flujo real sin demos. El usuario aprueba escritura LidIA y pide sincronizar compositor/menú con el teclado iOS. No cambia pantalla, origen, permisos, destino de Atrás ni acción final. [Detalle de implementación y límites](ANIMACIONES.md#candidato-nativo-con-escritura-y-teclado--11102026). Nueva build TestFlight (2) en preparación; no atribuir estas mejoras a la build instalada (1).

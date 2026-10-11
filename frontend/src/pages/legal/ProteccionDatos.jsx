@@ -51,7 +51,8 @@ export default function ProteccionDatos() {
 
         <div className={styles.legalSection}>
           <h2>Ejercicio de derechos</h2>
-          <p>El interesado puede ejercer sus derechos de acceso, rectificación, supresión, oposición, limitación del tratamiento y portabilidad dirigiéndose a <strong>info@gestadia.com</strong>, indicando el derecho que desea ejercer y adjuntando copia de su DNI/NIE.</p>
+          <p>Consulta el alcance, los datos y la conservación de la web, Portal y APP en nuestra <Link to="/privacidad">política de privacidad</Link>.</p>
+          <p>El interesado puede ejercer sus derechos de acceso, rectificación, supresión, oposición, limitación del tratamiento y portabilidad dirigiéndose a <strong>info@gestadia.com</strong>, indicando el derecho que desea ejercer. Verificaremos la titularidad y solicitaremos información adicional solo cuando sea necesaria.</p>
           <p>Asimismo, tiene derecho a presentar una reclamación ante la Agencia Española de Protección de Datos (www.aepd.es) si considera que el tratamiento no es conforme a la normativa vigente.</p>
         </div>
       </div>
