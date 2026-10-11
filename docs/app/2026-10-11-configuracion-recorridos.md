@@ -15,6 +15,8 @@ La configuración efectiva es privada del backend. La APP sólo recibe su base A
 
 `APP_V2_ENABLED` y `APP_V2_GUEST_ENABLED` son `false` por defecto. Su activación exige la configuración y prueba conjunta de DEV, separadas de PRO. No usar claves v1 como fallback.
 
+**Precisión de LidIA al revisar la entrega:** las rutas de asignación tienen fechas de vigencia, pero las claves S2S actuales sólo tienen estado `Active`; no caducan automáticamente. Una ventana de prueba debe fijar responsable y hora de cierre, verificar el aislamiento efectivo de DEV y desactivar esas claves al terminar. No confundir el TTL del sujeto visitante ni la fecha de un grant con la caducidad de la clave que firma la petición.
+
 | Variable privada | Uso |
 |---|---|
 | `APP_V2_LIDIA_BASE_URL` | Destino S2S autorizado |
