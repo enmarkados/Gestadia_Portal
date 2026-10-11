@@ -13,3 +13,5 @@ Las tres migraciones nuevas son aditivas. Antes de aplicarlas en producción se 
 Visitantes v2 conserva `APP_V2_ENABLED=false` y `APP_V2_GUEST_ENABLED=false` por defecto hasta aceptación conjunta DEV. El chat de gestor depende de asignación y permisos efectivos del servidor LidIA; no se conceden desde la APP. Las pruebas locales no acreditan llamada CRM ni conversación humana real.
 
 Estado inicial: integración validada; archivo firmado, despliegue y disponibilidad TestFlight pendientes de evidencia.
+
+El proxy Docker permite únicamente `context`, `chat` y `callback` de `/api/app/contact/`, con autorización y rate limit en backend. Conserva bloqueadas las rutas guest hasta su aceptación DEV; no modifica claves, grants ni aislamiento de red.

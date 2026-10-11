@@ -49,6 +49,18 @@ server {
     proxy_buffering off;
   }
 
+  # Contacto APP resuelto por el backend; no admite selectores de agente/CRM.
+  location ~ ^/api/app/contact/(context|chat|callback)$ {
+    resolver 127.0.0.11 valid=30s ipv6=off;
+    set $backend_upstream "${PORTAL_UPSTREAM}";
+    proxy_pass $backend_upstream$request_uri;
+    proxy_set_header Host ${PORTAL_HOST};
+    proxy_set_header X-Forwarded-For $gestadia_client_chain;
+    proxy_set_header X-Forwarded-Proto $http_x_forwarded_proto;
+    proxy_read_timeout 180s;
+    proxy_next_upstream off;
+  }
+
   location /api/ { return 404; }
   location /webhooks/ { return 404; }
   location /uploads { return 404; }
