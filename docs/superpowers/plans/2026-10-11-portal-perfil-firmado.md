@@ -88,3 +88,8 @@ La preparación local no satisface el criterio humano de reserva real. Las tarea
 - [x] Suite final `node scripts/test-app-conversations.mjs`: exit0, 313 backend, 204 frontend, build APP PASS. Evidencia: [preparación de agenda](../../app/evidencias/2026-10-11-agenda-opt-in/README.md).
 
 Recibidos para contraste esquemas preliminares de `appointment_receipt` de LidIA; pruebas/vectores finales y entrega versionada todavía pendientes. No se han incorporado a los consumidores productivos. Esa entrega y la corrección de `agendar_cita` siguen siendo dependencias anteriores a la reserva real.
+
+
+### Consumidor del recibo de agenda preparado
+
+Recibida y conservada nueva entrega de tres fixtures y schemas de revisión723. Consumidor de respuesta v1/v2 con invariantes temporales/IANA y proyección por permisos actuales, sin nuevo estado vivo de llamada. Rechazo del campo CRM en v2 limitado incluso vinculado. 351backend/207frontend/buildPASS, revisión independiente sin P1/P2. [Bloque y límites](2026-10-11-consumidor-recibo-agenda.md). Account v2 durable queda separado; no se activa la autoridad ni se completa la reserva real por estas pruebas.

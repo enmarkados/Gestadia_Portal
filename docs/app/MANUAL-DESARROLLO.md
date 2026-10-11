@@ -263,3 +263,9 @@ Inicio → Nueva conversación → Iniciar → dos turnos informativos seriados 
 ### Editor de nombre y teclado — 11/10/2026
 
 El editor común de nombres mantiene campo y acciones dentro del área desplazable al enfocar y durante el cambio de altura del teclado. Conserva autorización, renombrado, navegación y foco al cancelar. Diez pruebas del componente, 207 frontend y build APP PASS; revisión independiente sin P1/P2. [Evidencia local y límites de distribución](evidencias/2026-10-11-editor-nombre/README.md). iPhone/TestFlight11 pendientes de verificación.
+Entrega del editor: Gestadia 0.1.0 (11) procesada por Apple y «En pruebas» en Gestadia QA. Firma y configuración verificadas; teclado físico pendiente de aceptación. [Registro](evidencias/2026-10-11-editor-nombre/README.md).
+
+
+### Recibo opcional de agenda preparado — 11/10/2026
+
+Consumidor de respuesta v1/v2 valida el recibo histórico de reserva de LidIA y limita su proyección a permisos CRM vigentes. Pantallas, origen, Atrás, envío y confirmación por el mensaje del agente se conservan; no añade tarjeta de estado vivo. Consumer v2 limitado no obtiene autoridad CRM. [Pruebas, procedencia y límites](evidencias/2026-10-11-recibo-agenda/README.md). Sin deploy, grants ni llamada real.

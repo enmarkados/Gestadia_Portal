@@ -439,6 +439,9 @@
               "type": "null"
             }
           ]
+        },
+        "appointment_receipt": {
+          "$ref": "#/$defs/AppointmentReceipt"
         }
       },
       "required": [
@@ -1695,6 +1698,51 @@
         "access_revision",
         "state_revision",
         "propagation"
+      ]
+    },
+    "AppointmentReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "status": {
+          "const": "scheduled"
+        },
+        "appointment_ref": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{32}$"
+        },
+        "requested_start": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$"
+        },
+        "zoho_start": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$"
+        },
+        "client_time_zone": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^(UTC|[A-Za-z_]+(?:/[A-Za-z0-9_+.-]+)+)$"
+        },
+        "verified_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$"
+        }
+      },
+      "required": [
+        "schema_version",
+        "status",
+        "appointment_ref",
+        "requested_start",
+        "zoho_start",
+        "client_time_zone",
+        "verified_at"
       ]
     }
   }

@@ -1633,3 +1633,9 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** Permite acceder al backend de prueba por HTTP exclusivamente en loopback, manteniendo HTTPS obligatorio para los demás destinos.
 - **Alcance:** frontend/android/app/src/debug/AndroidManifest.xml y res/xml/gestadia_qa_network_security.xml.
 - **Notas:** Se usa con adb reverse y API privada local; no se incluye en Release ni habilita tráfico HTTP general, certificados no confiables o exposición del backend a la red.
+
+### validAppointmentReceipts
+- **Tipo:** concepto runtime / función de validación.
+- **Definición:** Comprobación semántica del recibo histórico de reserva emitido por LidIA; requiere un turno completado sin error, hora UTC verificada coincidente y zona IANA válida. No acredita disponibilidad ni estado actual de una cita.
+- **Alcance:** backend/src/app/appointment-receipts.js; validadores de respuestas v1/v2.
+- **Notas:** No deducir una llamada del texto del modelo ni del estado completed sin el recibo cerrado. Los IDs CRM permanecen en LidIA.

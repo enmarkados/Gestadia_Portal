@@ -5,6 +5,7 @@ import { accountProof } from "./identity.js";
 import { sha256, canonicalJson, semanticHash } from "./s2s.js";
 import { AppProblem } from "./problem.js";
 import { validateContract } from "./contracts.js";
+import { validAppointmentReceipts } from './appointment-receipts.js';
 export const scopeKey = (purpose, caseId) =>
   sha256(`${purpose}\0${caseId || ""}`);
 export async function accountTransaction(db, userId, fn) {
@@ -221,10 +222,15 @@ export function conversationView(c, metadataReady = false) {
     metadata_ready: metadataReady,
   };
 }
-export function receiptView(receipt, id) {
+export function receiptView(receipt, id, permissions = []) {
   if (!receipt) return null;
+  const result = receipt.result && { ...receipt.result };
+  if (result && (!Array.isArray(permissions) ||
+    !['history', 'crm_prepare', 'callback_schedule'].every(p => permissions.includes(p)) ||
+    !validAppointmentReceipts(receipt))) delete result.appointment_receipt;
   return {
     ...receipt,
+    result,
     conversation_id: id,
     error: receipt.error
       ? {
@@ -239,14 +245,14 @@ export function receiptView(receipt, id) {
       : null,
   };
 }
-export function operationView(op) {
+export function operationView(op, permissions = []) {
   return {
     id: op.id,
     operation: op.kind,
     status: op.status,
     error_code: op.errorCode,
     receipt: ["turn", "handoff"].includes(op.kind)
-      ? receiptView(op.response, op.conversationId)
+      ? receiptView(op.response, op.conversationId, permissions)
       : null,
   };
 }

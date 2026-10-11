@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
 import { AppProblem } from "./problem.js";
+import { validAppointmentReceipts } from "./appointment-receipts.js";
 const ajv = new Ajv2020({
   strict: false,
   allErrors: false,
@@ -39,6 +40,7 @@ export function validateContract(name, dto, { response = false } = {}) {
     !valid ||
     !unicode(dto) ||
     !valid(dto) ||
+    (['Receipt', 'ReceiptLookup', 'Timeline'].includes(name) && !validAppointmentReceipts(dto)) ||
     (name === "TurnRequest" && dto.kind === "text" && !dto.text.trim())
   )
     throw new AppProblem(
