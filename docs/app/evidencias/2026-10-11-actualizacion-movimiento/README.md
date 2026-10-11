@@ -7,3 +7,5 @@ Una firma correcta no acredita instalación física ni fluidez. Subida, procesam
 Tres avisos históricos de JSDOM en CheckoutForm relativos a navegación externa aparecen en la suite; ninguna prueba fallida. Evidencia detallada privada: .superpowers/releases/ios-motion-build2 y logs de QA.
 
 Actualización de distribución: Apple confirma subida y procesamiento de 0.1.0 (2); queda la declaración de cifrado y asignación a Gestadia QA. Play 0.1.0 (2) está Activo y disponible para testers internos. Las dos advertencias Play son desofuscación y símbolos nativos, sin bloqueo. Ninguna actualización física comprobada todavía.
+
+Cierre de distribución iOS: el usuario confirma guardar la declaración de cifrado; Apple la guarda y la compilación 0.1.0 (2) queda asignada a Gestadia QA, «En pruebas». Captura testflight-build2-en-pruebas.jpg. La lista de testers muestra (1) instalada en iPhone 13 Pro Max; actualización a (2) y aceptación de animaciones/teclado se solicitan al usuario y siguen pendientes.

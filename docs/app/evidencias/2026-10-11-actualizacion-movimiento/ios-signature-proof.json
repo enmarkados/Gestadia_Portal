@@ -15,5 +15,8 @@
   "sourceRevision": "ee64f8da1bd6b5850e116472f3eb1a4e3cb3c9b5",
   "appleUploadVerified": true,
   "appleProcessingCompleted": true,
-  "testflightGroupAssigned": false
+  "testflightGroupAssigned": true,
+  "exportDeclarationSaved": true,
+  "testflightState": "En pruebas",
+  "testflightGroup": "Gestadia QA"
 }
