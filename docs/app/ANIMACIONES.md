@@ -55,3 +55,7 @@ El indicador aparece bajo los mensajes durante el envío o un recibo remoto acce
 La investigación del teclado iOS identifica en Keyboard 8.0.6 un resize native diferido por la duración del teclado + 0,2 s. GestadiaViewController comunica geometría y duración desde keyboardWillChangeFrame; resize none evita el segundo ajuste. El contenedor común mueve campo y menú en una única transición de altura. Se traducen las curvas UIKit estándar; para curvas especiales se usa ease-in-out. No se afirma igualdad de curvas spring ni aceptación física antes de la prueba del iPhone. Android conserva el ajuste del sistema.
 
 Verificación local: seis regresiones nuevas de escritura/teclado, primero RED y después GREEN; suite frontend 178/178 en 43 archivos. La suite también imprime tres avisos históricos de JSDOM sobre navegación externa en CheckoutForm; no son pruebas fallidas. Se preparará build iOS 0.1.0 (2) para actualizar TestFlight. La recepción APNs y fluidez física continúan pendientes; el emulador LIA ajeno se conserva y no se arranca otro.
+
+### Escritura de LidIA animada · 11/10/2026
+
+El usuario usa build (2) y solicita animar también el texto. El indicador conserva cursiva, ubicación, permisos y retirada al responder/fallar; texto con pulso suave 1600 ms y puntos secuenciales 1200 ms (0/160/320 ms, 3 px). No cambia origen, navegación, Atrás ni acción final. Movimiento reducido mantiene los cuatro elementos estáticos y legibles. [Verificación del indicador y límites de build (3)](evidencias/2026-10-11-escritura-animada/README.md).

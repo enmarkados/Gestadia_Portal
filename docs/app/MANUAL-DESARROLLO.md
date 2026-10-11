@@ -170,3 +170,7 @@ Gestadia 82d011a distribuida: TestFlight 0.1.0 (1) «En pruebas», un tester inv
 ### Actualización nativa solicitada · 11/10/2026
 
 Integración de movimiento d3ca03c en la rama marketplace conservando el flujo real sin demos. El usuario aprueba escritura LidIA y pide sincronizar compositor/menú con el teclado iOS. No cambia pantalla, origen, permisos, destino de Atrás ni acción final. [Detalle de implementación y límites](ANIMACIONES.md#candidato-nativo-con-escritura-y-teclado--11102026). Nueva build TestFlight (2) en preparación; no atribuir estas mejoras a la build instalada (1).
+
+### Escritura de LidIA animada · 11/10/2026
+
+El usuario usa build (2) y solicita animar también el texto. El indicador conserva cursiva, ubicación, permisos y retirada al responder/fallar; texto con pulso suave 1600 ms y puntos secuenciales 1200 ms (0/160/320 ms, 3 px). No cambia origen, navegación, Atrás ni acción final. Movimiento reducido mantiene los cuatro elementos estáticos y legibles. [Verificación del indicador y límites de build (3)](evidencias/2026-10-11-escritura-animada/README.md).

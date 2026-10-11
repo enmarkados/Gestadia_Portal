@@ -1337,3 +1337,10 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Notas:** evitan el segundo ajuste tardío del plugin Keyboard en modo native; en iOS se usa resize none y una única transición del contenedor. Android conserva su ajuste nativo.
 
 **Actualización de Gestadia APP Android Play (11/10/2026):** cliente creado con la huella Play confirmada; el ID público se registra en MARKETPLACES-CONFIGURACION.md. El consentimiento visible usa Gestadia; el slug técnico del proyecto permanece gestadia-vozia. Creación no acredita login real.
+
+## lidia-typing-label
+
+- **Tipo:** concepto de presentación CSS.
+- **Definición:** texto en cursiva del indicador de espera de LidIA, con pulso suave de opacidad mientras la respuesta está pendiente.
+- **Alcance:** Gestadia APP; AppConversation.jsx y app.css.
+- **Notas:** completa la secuencia de tres puntos; movimiento reducido mantiene texto y puntos estáticos y legibles. No expresa envío confirmado ni sustituye un recibo remoto.

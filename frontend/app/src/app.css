@@ -2706,8 +2706,13 @@ select:focus {
 @keyframes surface-fade-out { from { opacity: 1; } to { opacity: 0; } }
 
 .lidia-typing { margin: 10px 0 4px; color: var(--muted); font-size: 13px; }
-.lidia-typing-dots > span { display: inline-block; animation: lidia-typing-dot 1200ms ease-in-out infinite; }
+.lidia-typing-label { display: inline-block; animation: lidia-typing-label 1600ms ease-in-out infinite; }
+.lidia-typing-dots { display: inline-flex; margin-left: 3px; }
+.lidia-typing-dots > span { display: inline-block; width: 5px; font-size: 18px; line-height: 1; animation: lidia-typing-dot 1200ms ease-in-out infinite; }
 .lidia-typing-dots > span:nth-child(2) { animation-delay: 160ms; }
 .lidia-typing-dots > span:nth-child(3) { animation-delay: 320ms; }
-@keyframes lidia-typing-dot { 0%, 70%, 100% { opacity: .45; transform: translateY(0); } 35% { opacity: 1; transform: translateY(-2px); } }
-@media (prefers-reduced-motion: reduce) { .lidia-typing-dots > span { animation: none; } }
+@keyframes lidia-typing-label { 0%, 100% { opacity: .68; } 50% { opacity: 1; } }
+@keyframes lidia-typing-dot { 0%, 60%, 100% { opacity: .35; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+@media (prefers-reduced-motion: reduce) {
+  .lidia-typing-label, .lidia-typing-dots > span { animation: none; opacity: 1; transform: none; }
+}

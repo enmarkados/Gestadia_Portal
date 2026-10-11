@@ -619,7 +619,7 @@ function ConversationBody({ purpose }) {
         ))}
         {writing && (
           <p className="lidia-typing" role="status" aria-label="LidIA está escribiendo">
-            <em>LidIA está escribiendo<span className="lidia-typing-dots" aria-hidden="true"><span>.</span><span>.</span><span>.</span></span></em>
+            <em><span className="lidia-typing-label">LidIA está escribiendo</span><span className="lidia-typing-dots" aria-hidden="true"><span>.</span><span>.</span><span>.</span></span></em>
           </p>
         )}
       </div>
