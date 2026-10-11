@@ -1,0 +1,27 @@
+{
+  "base_sha": "0cf2a165d6f644300beabf773d91780587cf1e04",
+  "runtime": "http://127.0.0.1:5195/pantalla.html?s=consulta&captura=1",
+  "mode": "maqueta aislada; no API, identidad ni conversaciones reales",
+  "source_sha256": {
+    "docs/app/prototipos/lidia-anonima/pantallas.jsx": "e12746264e4153bb255154fa2faf4a40d5811cfca350bf40c19b4b67e861d372",
+    "frontend/app/src/app.css": "9a3ae80da94595a5d7f8a087277525eccb140835776354e094b8dbb3638e47d5"
+  },
+  "checks": {
+    "build_tablero": "passed",
+    "viewport": "390 x 844",
+    "screens": [
+      "consulta",
+      "acceso",
+      "mensajes-visitante"
+    ],
+    "nonzero_padding": true,
+    "horizontal_overflows": 0,
+    "javascript_errors": 0,
+    "console_resource_error": "favicon.ico 404 de la maqueta existente"
+  },
+  "evidence_sha256": {
+    "prototype-consulta.png": "fcb84606a8e2fa2d2e594e14fbfcff746fa253ffd129b0ead2b5ad1f20c17a49",
+    "prototype-motion-audit.json": "1e58793be6deca0472c5fbc61e1d5bd64df4f2b2ed74c859e9c9d74ddeccb2e9",
+    "prototype-build.log": "271e2e655357d12e91f9b1e297ecd043170f4d8d34e2bd1475fb72386d1d1665"
+  }
+}
