@@ -150,7 +150,10 @@ it("separa SPLIT sólo en mensajes de LidIA y conserva identidad y entrada secue
     if (!url.includes("/timeline")) return original(url, opts);
     const body = timeline();
     body.items[0].text = "Histórico uno [SPLIT] Histórico dos";
-    if (sent) body.items.push({ message_id: "parts", sequence: "2", role: "assistant", occurred_at: "2026-10-11T10:00:00Z", text: "Respuesta uno [SPLIT] Respuesta dos [SPLIT] " });
+    if (sent) body.items.push(
+      { message_id: "mine", sequence: "2", role: "user", occurred_at: "2026-10-11T10:00:00Z", text: "Mi consulta" },
+      { message_id: "parts", sequence: "3", role: "assistant", occurred_at: "2026-10-11T10:00:00Z", text: "Respuesta uno [SPLIT] Respuesta dos [SPLIT] " },
+    );
     return { ok: true, status: 200, json: async () => body };
   }));
   mount();
@@ -163,6 +166,7 @@ it("separa SPLIT sólo en mensajes de LidIA y conserva identidad y entrada secue
   expect(first).toHaveAttribute("data-message-id", "parts");
   expect(second).toHaveAttribute("data-message-id", "parts");
   expect(first).toHaveAttribute("data-motion-new", "true");
+  expect(screen.getByText("Mi consulta").closest(".bubble")).toHaveAttribute("data-motion-new", "true");
   expect(second.style.getPropertyValue("--message-enter-delay")).toBe("80ms");
   expect(screen.queryByText(/\[SPLIT\]/)).toBeNull();
 });

@@ -65,6 +65,9 @@ server {
   location /webhooks/ { return 404; }
   location /uploads { return 404; }
 
+  # Ruta de pantalla APP: sirve el mismo índice que acceso y trámites.
+  location ~ ^/lidia/conversacion/?$ { try_files $uri /index.html; }
+
   location /lidia/ {
     # Pendiente de contrato APP resuelto en servidor y validación real del canal.
     return 503 '{"error":"Canal APP pendiente de activacion."}';
