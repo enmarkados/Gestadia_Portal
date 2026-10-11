@@ -275,3 +275,7 @@ Consumidor de respuesta v1/v2 valida el recibo histórico de reserva de LidIA y 
 ### Backend de agenda desplegado — 11/10/2026
 
 Nueva copia SQL/configuración/documentos restaurada y verificada antes del cambio. Dos migraciones aplicadas (15 en total), backend `0af593f` activo en stack 73 y contrato/vínculo/permisos leídos dentro del contenedor real. Perfil y permiso adicional de agenda apagados; llamada y lectura real Zoho pendientes. Pantallas y recorridos existentes conservados. [Evidencia del despliegue y límites](evidencias/2026-10-11-agenda-despliegue/README.md).
+
+### Autorización de la llamada real — 12/10/2026
+
+El usuario confirma el acceso de una hora por cuenta/conversación y aporta datos reales para el 13/10 a las 10:00 de Madrid. Copia Portal nueva restaurada sin red, recuentos/tablas y archivos verificados. La ventana no ha empezado: activación, llamada y readback siguen pendientes de preparación conjunta con LidIA. [Estado y evidencia](evidencias/2026-10-12-agenda-real/README.md). No se cambia la navegación, el agente ni la asignación desde el dispositivo.
