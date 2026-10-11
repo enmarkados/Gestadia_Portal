@@ -126,6 +126,36 @@ it("el separador de presentación no transforma texto de cliente u operador ni i
   expect(assistantMessageParts({ role: "operator", text: "Literal [SPLIT] del gestor" })).toEqual(["Literal [SPLIT] del gestor"]);
   expect(assistantMessageParts({ role: "assistant", text: " [SPLIT] Uno [SPLIT] [SPLIT] Dos " })).toEqual(["Uno", "Dos"]);
 });
+it("sitúa la hora al final de cada burbuja, después de las acciones y antes de los ticks propios", async () => {
+  const original = fetch;
+  vi.stubGlobal("fetch", vi.fn(async (url, opts = {}) => {
+    if (url.includes("/message-receipts")) return { ok: true, status: 200, json: async () => ({ conversation_id: "local-1", items: [{ message_id: "mine-footer", sequence: "2", role: "user", delivery_status: "read", receipt_revision: "1" }] }) };
+    if (!url.includes("/timeline")) return original(url, opts);
+    const body = timeline();
+    body.items[0].text = "Primera parte [SPLIT] Segunda parte";
+    body.items.push({ message_id: "mine-footer", sequence: "2", role: "user", occurred_at: "2026-10-11T10:16:00Z", text: "Mi mensaje" });
+    return { ok: true, status: 200, json: async () => body };
+  }));
+  const { container } = mount();
+  await screen.findByText("Mi mensaje");
+  const bubbles = container.querySelectorAll(".bubble");
+  expect(bubbles).toHaveLength(3);
+  for (const bubble of bubbles) {
+    const footer = bubble.lastElementChild;
+    expect(footer).toHaveClass("bubble-delivery");
+    const time = footer.querySelector("time");
+    expect(time).not.toBeNull();
+    expect(time.textContent).toBe(new Date(time.dateTime).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" }));
+    expect(bubble.querySelectorAll("time")).toHaveLength(1);
+    expect(bubble.querySelector(".bubble-meta .bubble-time")).toBeNull();
+    expect(footer.firstElementChild).toBe(time);
+  }
+  expect(bubbles[1].querySelector(".stack").nextElementSibling).toBe(bubbles[1].lastElementChild);
+  expect(bubbles[2].querySelector("time")).toHaveAttribute("datetime", "2026-10-11T10:16:00Z");
+  expect(bubbles[0].querySelector(".delivery-ticks")).toBeNull();
+  await screen.findByRole("img", { name: "Leído por Gestadia" });
+  expect(bubbles[2].querySelector("time").nextElementSibling).toHaveClass("delivery-ticks", "read");
+});
 it("muestra mensajes/presentaciones del timeline y envía la revisión exacta de la acción", async () => {
   mount();
   await screen.findByText("Selecciona una opción");

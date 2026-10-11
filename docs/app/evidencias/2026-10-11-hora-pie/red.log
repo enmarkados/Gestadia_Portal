@@ -1,0 +1,34 @@
+
+> test
+> vitest run --reporter=dot app/src/AppConversation.test.jsx
+
+
+ RUN  v4.1.11 /Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend
+
+·x··································
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  app/src/AppConversation.test.jsx > sitúa la hora al final de cada burbuja, después de las acciones y antes de los ticks propios
+Error: expect(element).toHaveClass("bubble-delivery")
+
+Expected the element to have class:
+  bubble-delivery
+Received:
+
+ ❯ app/src/AppConversation.test.jsx:144:20
+    142|   for (const bubble of bubbles) {
+    143|     const footer = bubble.lastElementChild;
+    144|     expect(footer).toHaveClass("bubble-delivery");
+       |                    ^
+    145|     const time = footer.querySelector("time");
+    146|     expect(time).not.toBeNull();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 35 passed (36)
+   Start at  16:06:19
+   Duration  10.96s (transform 163ms, setup 77ms, import 353ms, tests 9.87s, environment 441ms)
+

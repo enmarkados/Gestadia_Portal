@@ -566,9 +566,11 @@ svg {
 }
 .bubble-time {
   font-size: 11px;
-  color: #d1d5db;
+  color: #657080;
+  line-height: 17px;
   white-space: nowrap;
 }
+.bubble.manager .bubble-time { color: #d1d5db; }
 .bubble.user .bubble-time {
   color: #ffffffd9;
 }
@@ -2644,7 +2646,7 @@ select:focus {
 
 .delivery-ticks { display:inline-flex; flex:0 0 auto; align-items:center; color:#657080; vertical-align:middle; }
 .delivery-ticks.read { color:#087ab5; }
-.bubble-delivery { display:flex; justify-content:flex-end; min-height:17px; margin-top:4px; }
+.bubble-delivery { display:flex; align-items:center; justify-content:flex-end; gap:5px; min-height:17px; margin-top:6px; }
 .bubble.user .delivery-ticks { color:#e3e3e3; }
 .bubble.user .delivery-ticks.read { color:#80ddff; }
 .conversation-preview { display:flex; gap:5px; align-items:center; min-width:0; margin:4px 0; font-size:13px; line-height:1.4; color:var(--muted); }

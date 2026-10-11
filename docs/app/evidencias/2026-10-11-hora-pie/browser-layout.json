@@ -1,0 +1,163 @@
+[
+  {
+    "align": "flex-end",
+    "dateTime": "2026-10-11T10:00:00Z",
+    "footerLast": "bubble-delivery",
+    "footerRect": {
+      "bottom": 32.2890625,
+      "right": 697.078125,
+      "x": 482,
+      "y": 15.2890625
+    },
+    "role": "bubble assistant",
+    "textRect": {
+      "bottom": 9.2890625,
+      "right": 697.078125,
+      "x": 482,
+      "y": -11.0078125
+    },
+    "ticksRect": null,
+    "time": "12:00",
+    "timeRect": {
+      "bottom": 32.2890625,
+      "right": 697.078125,
+      "x": 667.890625,
+      "y": 15.2890625
+    }
+  },
+  {
+    "align": "flex-end",
+    "dateTime": "2026-10-11T10:00:00Z",
+    "footerLast": "bubble-delivery",
+    "footerRect": {
+      "bottom": 153.5859375,
+      "right": 697.078125,
+      "x": 482,
+      "y": 136.5859375
+    },
+    "role": "bubble assistant",
+    "textRect": {
+      "bottom": 130.5859375,
+      "right": 697.078125,
+      "x": 482,
+      "y": 110.2890625
+    },
+    "ticksRect": null,
+    "time": "12:00",
+    "timeRect": {
+      "bottom": 153.5859375,
+      "right": 697.078125,
+      "x": 667.890625,
+      "y": 136.5859375
+    }
+  },
+  {
+    "align": "flex-end",
+    "dateTime": "2026-10-11T10:01:00Z",
+    "footerLast": "bubble-delivery",
+    "footerRect": {
+      "bottom": 264.8828125,
+      "right": 801,
+      "x": 684.625,
+      "y": 247.8828125
+    },
+    "role": "bubble user",
+    "textRect": {
+      "bottom": 241.8828125,
+      "right": 801,
+      "x": 684.625,
+      "y": 221.5859375
+    },
+    "ticksRect": {
+      "bottom": 264.8828125,
+      "right": 801,
+      "x": 784,
+      "y": 247.8828125
+    },
+    "time": "12:01",
+    "timeRect": {
+      "bottom": 264.8828125,
+      "right": 779,
+      "x": 751.6328125,
+      "y": 247.8828125
+    }
+  },
+  {
+    "align": "flex-end",
+    "dateTime": "2026-10-11T10:01:00Z",
+    "footerLast": "bubble-delivery",
+    "footerRect": {
+      "bottom": 380.1796875,
+      "right": 697.078125,
+      "x": 482,
+      "y": 363.1796875
+    },
+    "role": "bubble assistant",
+    "textRect": {
+      "bottom": 357.1796875,
+      "right": 697.078125,
+      "x": 482,
+      "y": 336.8828125
+    },
+    "ticksRect": null,
+    "time": "12:01",
+    "timeRect": {
+      "bottom": 380.1796875,
+      "right": 697.078125,
+      "x": 669.7109375,
+      "y": 363.1796875
+    }
+  },
+  {
+    "align": "flex-end",
+    "dateTime": "2026-10-11T10:01:00Z",
+    "footerLast": "bubble-delivery",
+    "footerRect": {
+      "bottom": 501.4765625,
+      "right": 697.078125,
+      "x": 482,
+      "y": 484.4765625
+    },
+    "role": "bubble assistant",
+    "textRect": {
+      "bottom": 478.4765625,
+      "right": 697.078125,
+      "x": 482,
+      "y": 458.1796875
+    },
+    "ticksRect": null,
+    "time": "12:01",
+    "timeRect": {
+      "bottom": 501.4765625,
+      "right": 697.078125,
+      "x": 669.7109375,
+      "y": 484.4765625
+    }
+  },
+  {
+    "align": "flex-end",
+    "dateTime": "2026-10-11T10:01:00Z",
+    "footerLast": "bubble-delivery",
+    "footerRect": {
+      "bottom": 622.7734375,
+      "right": 697.078125,
+      "x": 482,
+      "y": 605.7734375
+    },
+    "role": "bubble assistant",
+    "textRect": {
+      "bottom": 599.7734375,
+      "right": 697.078125,
+      "x": 482,
+      "y": 579.4765625
+    },
+    "ticksRect": null,
+    "time": "12:01",
+    "timeRect": {
+      "bottom": 622.7734375,
+      "right": 697.078125,
+      "x": 669.7109375,
+      "y": 605.7734375
+    }
+  }
+]

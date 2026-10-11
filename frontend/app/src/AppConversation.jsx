@@ -595,16 +595,9 @@ function ConversationBody({ purpose, guest }) {
                       ? "Tu gestor"
                       : "Gestadia"}
                 </strong>
-                <span className="bubble-time">
-                  {new Date(m.occurred_at).toLocaleTimeString("es-ES", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </span>
               </div>
             )}
             <p>{text}</p>
-            {m.role === "user" && <div className="bubble-delivery"><DeliveryTicks receipt={messageReceipts[m.message_id]} /></div>}
             {m.presentation && part === assistantMessageParts(m).length - 1 && (
               <div className="stack">
                 <strong>{m.presentation.title}</strong>
@@ -640,6 +633,15 @@ function ConversationBody({ purpose, guest }) {
                 </div>
               </div>
             )}
+            <div className="bubble-delivery">
+              <time className="bubble-time" dateTime={m.occurred_at}>
+                {new Date(m.occurred_at).toLocaleTimeString("es-ES", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </time>
+              {m.role === "user" && <DeliveryTicks receipt={messageReceipts[m.message_id]} />}
+            </div>
           </div>
         )))}
         <LidiaTypingIndicator active={!!writing} />
