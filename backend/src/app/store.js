@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { profileContext, sameProfilePatch } from "./profile.js";
 import { accountProof } from "./identity.js";
 import { sha256, canonicalJson, semanticHash } from "./s2s.js";
 import { AppProblem } from "./problem.js";
@@ -80,6 +81,7 @@ export async function currentAccess(tx, c, user, config) {
         ];
     date = user.accountVerifiedAt;
   }
+  permissions = permissions.filter(p => !["crm_prepare", "callback_schedule"].includes(p));
   if (config.allowedPermissions) permissions = permissions.filter(p => config.allowedPermissions.includes(p));
   if (!permissions.includes("commercial_handoff")) commercial = null;
   if (!permissions.includes("manager_handoff")) manager = null;
@@ -147,9 +149,20 @@ export async function claim(
   return { operation, created: true };
 }
 export async function queueContext(tx, c, user, config) {
-  const access = await currentAccess(tx, c, user, config),
-    hash = sha256(canonicalJson(access));
+  const access = await currentAccess(tx, c, user, config);
   if (!c.remoteId) return { conversation: c, access };
+  const lastProfile = c.profileRevision && c.profileRevision !== "0" ? {
+    profile_revision: c.profileRevision, profile: c.profilePatch,
+  } : null;
+  const admitted = lastProfile ? await tx.appOperation.findMany({
+    where: { userId: user.id, integrationId: c.integrationId, conversationId: c.id, kind: "context", status: "admitted", request: { path: "$.profile_revision", equals: c.profileRevision } },
+  }) : [];
+  const awaitingProfile = !!lastProfile && !admitted.some(op => sameProfilePatch(op.request, lastProfile));
+  const profile = profileContext(c, user, config.profileContext === true && !awaitingProfile);
+  // Do not advance the baseline while the last patch is uncertain. Authority
+  // changes can carry that exact patch and be delivered with priority.
+  if (awaitingProfile) profile.wire = lastProfile;
+  const hash = sha256(canonicalJson({ ...access, ...profile.wire }));
   if (c.contextHash !== hash) {
     const revision = String(BigInt(c.contextRevision) + 1n);
     if (revision.length > 20) throw new AppProblem(409, "context_conflict");
@@ -158,12 +171,13 @@ export async function queueContext(tx, c, user, config) {
       portal_user_id: user.id,
       context_revision: revision,
       ...access,
+      ...profile.wire,
       correlation_id: randomUUID(),
     };
     validateContract("ConversationContextRequest", dto);
     c = await tx.appConversation.update({
       where: { id: c.id },
-      data: { contextRevision: revision, contextHash: hash, context: dto },
+      data: { contextRevision: revision, contextHash: hash, context: dto, ...profile.data },
     });
     await claim(tx, {
       userId: user.id,

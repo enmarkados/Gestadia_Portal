@@ -72,6 +72,7 @@ export function appConversationConfig(env = process.env) {
   if (!Array.isArray(managerRoutes) || managerRoutes.length > 200 || managerRoutes.some(r => !r || Object.keys(r).some(k => !["assignmentRef", "zohoOwnerId"].includes(k)) || !/^[A-Za-z0-9._:-]{1,128}$/.test(r.assignmentRef || "") || !/^\d{5,30}$/.test(r.zohoOwnerId || "")) || new Set(managerRoutes.map(r => r.assignmentRef)).size !== managerRoutes.length) throw new AppProblem(503, "runtime_unavailable");
   const base = {
     enabled: env.APP_CONVERSATIONS_ENABLED === 'true',
+    profileContext: env.APP_LIDIA_PROFILE_CONTEXT_ENABLED === 'true',
     integrationId: env.APP_LIDIA_INTEGRATION_ID || '', baseUrl: env.APP_LIDIA_BASE_URL || '', audience: env.APP_LIDIA_AUDIENCE || '',
     keys: { session: key('SESSION'), timeline: key('READ'), turn: key('TURN'), handoff: key('HANDOFF'), context: key('CONTEXT'), revocation: key('REVOCATION') },
     managerRoutes,
@@ -84,6 +85,7 @@ export function appConversationConfig(env = process.env) {
   return { ...base, nativeSondeo: {
     ...base,
     createNew: env.APP_LIDIA_SONDEO_ENABLED === 'true',
+    profileContext: env.APP_LIDIA_SONDEO_PROFILE_CONTEXT_ENABLED === 'true',
     integrationId: env.APP_LIDIA_SONDEO_INTEGRATION_ID || '',
     audience: env.APP_LIDIA_SONDEO_AUDIENCE || '',
     keys: { session: nativeKey('SESSION'), timeline: nativeKey('READ'), turn: nativeKey('TURN'), context: nativeKey('CONTEXT'), revocation: nativeKey('REVOCATION') },

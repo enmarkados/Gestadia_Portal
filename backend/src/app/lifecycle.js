@@ -1,3 +1,4 @@
+import { sameProfilePatch } from "./profile.js";
 import { randomUUID } from "node:crypto";
 import {
   accountTransaction,
@@ -27,6 +28,7 @@ export async function setConversationAccess(
     validatedAt = new Date(grant.validated_at),
     validUntil = new Date(grant.valid_until);
   if (
+    grant.permissions?.some(p => ["crm_prepare", "callback_schedule"].includes(p)) ||
     !grant.source_ref ||
     grant.source_ref.length > 128 ||
     !Number.isFinite(+validUntil) ||
@@ -103,18 +105,30 @@ export async function deliverLifecycle(db, client, config, op) {
   const c = op.conversationId
     ? await db.appConversation.findUnique({ where: { id: op.conversationId } })
     : null;
+  let profileRecovered = false;
   if (op.kind === "context") {
     const user = await db.user.findUnique({ where: { id: op.userId } });
     if (user?.accountStatus !== "active") return;
+    const previousPatches = await db.appOperation.findMany({
+      where: { userId: op.userId, integrationId: op.integrationId, conversationId: c.id, kind: "context", status: { in: ["prepared", "outcome_unknown", "admitted"] } },
+    });
+    const recovered = request => previousPatches.some(previous => previous.status === "admitted" && sameProfilePatch(previous.request, request));
+    profileRecovered = recovered(op.request);
+    if (previousPatches.some(previous => previous.status !== "admitted" && previous.request.profile_revision && BigInt(previous.request.context_revision) < BigInt(op.request.context_revision) && !sameProfilePatch(previous.request, op.request) && !recovered(previous.request))) return;
+    // A higher authority revision can carry the very same patch, including
+    // withdrawal. Distinct unconfirmed patches cannot be superseded.
+    const orderedProfile = !!op.request.profile_revision && !profileRecovered && !sameProfilePatch(c.context, op.request);
     // Withdraw a newer snapshot before recovering an obsolete unknown operation.
     if (
       BigInt(c.contextRevision) > BigInt(op.request.context_revision) &&
+      !orderedProfile &&
       op.status === "outcome_unknown" &&
       c.syncedRevision !== c.contextRevision
     )
       return;
     if (
       BigInt(c.contextRevision) > BigInt(op.request.context_revision) &&
+      !orderedProfile &&
       op.status === "prepared"
     ) {
       await db.appOperation.update({
@@ -151,6 +165,12 @@ export async function deliverLifecycle(db, client, config, op) {
         BigInt(r.data.current_context_revision) > BigInt(c.contextRevision))
     )
       throw new AppProblem(502, "invalid_upstream_response");
+    if (op.kind === "context" && op.request.profile_revision && (
+      r.data.profile_revision !== op.request.profile_revision ||
+      !r.data.current_profile_revision ||
+      BigInt(r.data.current_profile_revision) < BigInt(op.request.profile_revision) ||
+      BigInt(r.data.current_profile_revision) > BigInt(c.profileRevision || c.context?.profile_revision || "0")
+    )) throw new AppProblem(502, "invalid_upstream_response");
     await accountTransaction(db, op.userId, async (tx) => {
       await tx.appOperation.update({
         where: { id: op.id },
@@ -183,7 +203,8 @@ export async function deliverLifecycle(db, client, config, op) {
         op.kind === "context" &&
         e instanceof AppProblem &&
         e.status === 409 &&
-        e.code === "stale_context"
+        e.code === "stale_context" &&
+        (!op.request.profile_revision || profileRecovered || sameProfilePatch(c.context, op.request))
       ) {
         const confirmed = await tx.appConversation.findUnique({
           where: { id: c.id },

@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import Ajv2020 from "ajv/dist/2020.js";
+import addFormats from "ajv-formats";
 import { AppProblem } from "../problem.js";
 const schema = JSON.parse(
   readFileSync(new URL("./contracts/app-v2-schema.json", import.meta.url)),
@@ -9,6 +10,7 @@ const ajv = new Ajv2020({
   coerceTypes: false,
   removeAdditional: false,
 });
+addFormats(ajv);
 ajv.addSchema(schema);
 const validators = new Map(
   Object.keys(schema.$defs).map((name) => [

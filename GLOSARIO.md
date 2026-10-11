@@ -1573,3 +1573,21 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **profile_revision — precisión de parche:** cada revisión nueva transporta sólo cambios acreditados, no un snapshot completo; igualdad se compara con el parche canónico persistido, no con el perfil acumulado. Alcance: contraste perfil/agenda, futura persistencia Portal/LidIA. Permite conservar cambios obtenidos por el agente al actualizar otro campo.
 - **stale_profile / profile_conflict** — códigos de contrato propuestos. Rechazos HTTP409 para revisión de perfil inferior y revisión igual con parche distinto, respectivamente. Alcance: adenda perfil/agenda v1/v2, pendiente de esquema ejecutable Portal; no se usan aún en runtime Portal.
 - **current_profile_revision** — propiedad de ACK propuesta. Revisión vigente del perfil al responder o recuperar una operación, independiente de la revisión original de esa petición. Alcance: futura extensión de ACK v1/v2; se omite si no hay perfil, sin reponer datos históricos en replay.
+
+### profileBaseline / profilePatch / profileRevision
+- **Tipo:** propiedades Prisma propuestas para AppConversation.
+- **Definición:** Base del perfil atestado por Portal y último parche/revisión durables de esa conversación. La base permite emitir sólo cambios del perfil Portal sin reimponer datos obtenidos por el agente; no almacena el estado efectivo del agente.
+- **Alcance:** backend/prisma/schema.prisma, futura migración aditiva y backend/src/app/profile.js/store.js.
+- **Notas:** Propiedades privadas de servidor, no campos elegidos por el móvil; preservan operaciones previas en AppOperation.
+
+### APP_LIDIA_PROFILE_CONTEXT_ENABLED
+- **Tipo:** configuración privada propuesta.
+- **Definición:** Habilitación explícita de la proyección del perfil de cuenta en contexto firmado. Apagada por defecto, no concede capacidades CRM/agenda.
+- **Alcance:** backend/src/config.js y builder de contexto v1 Portal.
+- **Notas:** No se activa en producción con esta implementación. El protocolo v2 se contrasta en esquema; su consumidor de contexto account requiere trabajo separado.
+
+- **APP_LIDIA_SONDEO_PROFILE_CONTEXT_ENABLED** — configuración privada. Habilitación optativa del perfil para la integración de sondeo, independiente del flag de la integración general. Alcance: backend/src/config.js; apagada por defecto y sin nuevos permisos.
+- **profileContext** — función de backend. Calcula un parche acreditado de perfil Portal frente a la base durable de una conversación y conserva la revisión/último parche para cambios sólo de permisos. Alcance: backend/src/app/profile.js y store.js; no infiere país ni confirma teléfono, zona o consentimiento.
+
+- **sameProfilePatch** — función de backend. Comprueba igualdad de revisión y parche canónico para acreditar entrega sin reimponer campos del perfil. Alcance: backend/src/app/profile.js, store.js y lifecycle.js. Un ACK admitido o una retirada que transporta exactamente ese parche conserva su efecto sin perder la prioridad de autoridad.
+- **Precisión de implementación de perfil:** profileBaseline/profilePatch/profileRevision y los dos flags privados están implementados en esta rama; profile_revision/stale_profile/profile_conflict/current_profile_revision constan en esquemas v1/v2 recibidos. Contexto v1 Portal preparado y apagado; consumidor account v2 y agenda operativa siguen pendientes.

@@ -240,3 +240,7 @@ La cuenta de prueba conserva un chat de atención sin gestor ni caso, con permis
 ### Contraste de perfil y agenda APP — 11/10/2026
 
 [Revisión Portal de la adenda LidIA](../integraciones/2026-10-11-contraste-portal-perfil-agenda.md): conformidad de arquitectura y reparto, wire y mapping CRM pendientes. Perfil opcional autenticado sin zona/consentimiento inventados; el agente conserva preguntas y confirma datos operativos. Ningún cambio de pantallas, permisos, asignación, despliegue o build móvil por esta revisión documental.
+
+### Backend de perfil opcional preparado — 11/10/2026
+
+[Preparación y pruebas](evidencias/2026-10-11-perfil-contexto/README.md): contexto v1 opcional desde cuenta comprobada, parches/revisión durables y retirada prioritaria con el mismo parche. Esquemas v1/v2 contrastados; consumidor account v2 pendiente. Flags privados apagados, sin nuevos grants CRM, migración productiva ni build/distribución adicional. Pantalla, origen, permisos, Atrás y acción final de la APP no cambian.

@@ -1,0 +1,23 @@
+{
+  "source_base": "abfc195",
+  "verification": "node scripts/test-app-conversations.mjs",
+  "exit_code": 0,
+  "database": "MySQL efímero local, tmpfs; 14 migraciones aplicadas",
+  "backend_tests_passed": 302,
+  "frontend_tests_passed": 204,
+  "frontend_files": 49,
+  "app_build": "PASS",
+  "schema_fixture_hashes": {
+    "app-v2-vectors-perfil-20261011.json": "e9799036cdfd5895d3368d739423bf215aebfd9e398d6a447e35a6f93fd2a8b7",
+    "app-context-v1-1.schema-perfil-20261011.json": "a582689ef1cd18f3d0f590ec3f4e9ad975f572115e8c9d6b89cbd1a340fd90f5",
+    "app-v2-schema-perfil-20261011.json": "70d18449517ce159293dd6222f00aec9ff20232e2a8fb04fff8e8a97434adf21",
+    "app-context-v1-1-vectors-perfil-20261011.json": "10c2b763bb200337892241105678531b80be57849ac5fb8c910225317ae03c10",
+    "app-v2-responses.schema-perfil-20261011.json": "3052262b001f5a3d5ac2c7986bf8f3eb246d5192e8afb83c520b4eb11e67011b"
+  },
+  "review": "P1 de retirada bloqueada corregido con RED/GREEN y revisión independiente sin nuevos hallazgos",
+  "deployment": false,
+  "production_migration": false,
+  "crm_permissions_enabled": false,
+  "default_profile_flags": false,
+  "v2_account_context_consumer": "pendiente; contratos preparados, guest sin nuevos datos/grants"
+}

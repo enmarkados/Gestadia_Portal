@@ -64,3 +64,11 @@ LidIA propone aplicar cada parche transaccionalmente al AgentState común al ace
 ACK incluye profile_revision sólo cuando la petición lo llevaba y current_profile_revision si existe; ambos omitidos cuando no aplican. En replay profile_revision identifica la petición original y current_profile_revision el estado vigente, sin restituir perfil antiguo. Guest no tiene perfil: después de binding confirmado, el primer perfil requiere contexto de cuenta comprobada sobre la misma ChatSession. Debe incluirse el vector de cambio sólo email que preserve teléfono y consentimiento obtenidos por119, más incompatibilidad guest y límites de revisión.
 
 Los detalles pendientes anteriores de precedencia/parche, códigos y ACK quedan resueltos documentalmente por esta precisión. Esquemas y vectores ejecutables compartidos siguen pendientes de entrega y contraste. Ningún grant, conexión, despliegue o build móvil cambia por este acuerdo.
+
+## Preparación Portal y cierre de contraste
+
+[Segunda revisión LidIA recibida íntegra](2026-10-11-adenda-perfil-agenda-lidia-r2-recibida.md), SHA256 `b82ea59eb054d28afe48659a15a840a770ae6791783f7cabbbd8eae6d324a383`. Los enlaces relativos de la copia pertenecen al repositorio fuente. [Pruebas y huellas](../app/evidencias/2026-10-11-perfil-contexto/README.md). Esquemas runtime v1/v2 y ACK iguales a los artefactos recibidos; cinco vectores nuevos de firma comprobados.
+
+Implementado en esta rama, desactivado por defecto: builder v1 limitado a perfil Portal, revisión/parche/base durables, migración aditiva preparada y gates que rechazan permisos CRM. La precisión de entrega acordada con LidIA admite como máximo una revisión de perfil no confirmada por conversación: queueContext difiere el siguiente diff sin avanzar la base; una retirada de permisos adelanta el mismo parche/revisión. Así se preserva el parche sin bloquear retirada. Después de ACK se prepara el cambio de User pendiente; no necesita un turno del modelo.
+
+302 pruebas backend, 204 frontend y build APP correctos en base efímera; revisión independiente sin hallazgos pendientes tras corregir el P1 de retirada bloqueada. Los contratos v2 están preparados, pero el consumidor de contexto account v2 no se implementa en este cambio. Sin despliegue ni migración productiva; sin activación de perfil, CRM o agenda.

@@ -290,3 +290,9 @@ La cuenta de prueba conserva una conversación antigua de atención sin caso ni 
 Nueva copia `manager-readonly-20261011`: SQL 271854 bytes, restauración sin red con 24 tablas correctas, 45 usuarios, 94 expedientes, 14 documentos y 13 migraciones. Configuración, claves y documentos idénticos. Sin migración ni borrado en esta revisión.
 
 204 pruebas frontend correctas, suite conversacional final 38/38, build APP y archivo/exportación iOS correctos; firma estricta válida. Gestadia **0.1.0 (10)** está **En pruebas** en Gestadia QA y las notas están guardadas. JS/GIF/PNG públicos y archivo iOS coinciden por SHA256. La (9) también fue procesada y activada. El iPhone todavía acredita instalada la (6): carga y teclado físicos pendientes de aceptación. Play conserva la (3). OAuth, APNs, agenda/CRM y publicación pública mantienen sus comprobaciones independientes. [Evidencia y capturas](evidencias/2026-10-11-gestor-carga/README.md).
+
+### Preparación adicional de backend — perfil firmado
+
+Contexto v1 de cuenta opcional preparado con flags apagados por integración, baseline/parche/revisión durables y retirada de permisos que conserva el mismo parche. Esquemas v1/v2/ACK iguales a artefactos LidIA; cinco vectores nuevos de firma exacta. Migración aditiva preparada y probada sólo en MySQL tmpfs local. **302 pruebas backend, 204 frontend y build APP correctos**; revisión independiente P1 corregido, sin nuevos hallazgos. [Evidencia](evidencias/2026-10-11-perfil-contexto/README.md).
+
+No desplegado: backend productivo cf68661, APP Docker5febdf2 y TestFlight(10) conservan su estado previo. No grants CRM/agenda, conexiones o nuevas solicitudes reales. Consumidor account de contexto v2 pendiente; runtime LidIA compatible y mapping Zoho deberán acreditarse antes de habilitar operaciones, con copia/restauración nuevas antes del despliegue.

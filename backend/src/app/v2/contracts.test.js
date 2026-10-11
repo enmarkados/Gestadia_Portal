@@ -27,13 +27,13 @@ const contact = {
   confirmed_at: "2026-10-05T09:59:00.000Z",
   source_message_ids: [subject],
 };
-test("schema runtime es copia exacta del artefacto r2", () => {
+test("schema runtime es copia exacta de la extensión recibida de perfil", () => {
   const bytes = readFileSync(
     new URL("./contracts/app-v2-schema.json", import.meta.url),
   );
   assert.equal(
     createHash("sha256").update(bytes).digest("hex"),
-    "7e164b639a64add04bcc61d8f6bec935f3dd2faa9c3ad33c2c05a3cc54bfe714",
+    createHash("sha256").update(readFileSync(new URL("../../../../docs/integraciones/fixtures/app-v2-schema-perfil-20261011.json", import.meta.url))).digest("hex"),
   );
 });
 test("requests válidos conservan Unicode y campos declarados sin coerción", async () => {

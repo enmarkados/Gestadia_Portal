@@ -39,3 +39,13 @@ test('STRIPE_MODE selecciona las claves dev o pro', async () => {
   const def = (await import('./config.js?t=' + Date.now() + 'c')).config;
   assert.equal(def.stripe.mode, 'pro');
 });
+
+test('perfil firmado exige opt-in independiente de cada integración',async()=>{
+ const {appConversationConfig}=await import('./config.js');
+ const off=appConversationConfig({APP_CONVERSATIONS_ENABLED:'true'});
+ assert.equal(off.profileContext,false);assert.equal(off.nativeSondeo.profileContext,false);
+ const general=appConversationConfig({APP_LIDIA_PROFILE_CONTEXT_ENABLED:'true'});
+ assert.equal(general.profileContext,true);assert.equal(general.nativeSondeo.profileContext,false);
+ const sondeo=appConversationConfig({APP_LIDIA_SONDEO_PROFILE_CONTEXT_ENABLED:'true'});
+ assert.equal(sondeo.profileContext,false);assert.equal(sondeo.nativeSondeo.profileContext,true);
+});
