@@ -47,7 +47,7 @@ export default function SocialAccess({ purpose = "login", onDone = () => {} }) {
   }
   if (!available) return null;
   return (
-    <div className="card social-access">
+    <div className="card social-access" data-platform={platform()}>
       <p>
         {purpose === "link"
           ? "Vincular acceso a esta cuenta"
@@ -58,12 +58,20 @@ export default function SocialAccess({ purpose = "login", onDone = () => {} }) {
         .map((provider) => (
           <button
             key={provider}
-            className="btn secondary"
+            type="button"
+            className={`provider-button provider-button-${provider}`}
+            aria-label={`Continuar con ${provider === "apple" ? "Apple" : "Google"}`}
             disabled={busy}
             onClick={() => run(() => socialClient.start(provider, purpose))}
           >
-            {purpose === "link" ? "Vincular" : "Continuar con"}{" "}
-            {provider === "apple" ? "Apple" : "Google"}
+            {provider === "apple" ? (
+              <img src="/brand/social/apple-continue-es.png" width="220" height="48" alt="" aria-hidden="true" />
+            ) : (
+              <>
+                <img src="/brand/social/google-g.svg" width="20" height="20" alt="" aria-hidden="true" />
+                <span>Continuar con Google</span>
+              </>
+            )}
           </button>
         ))}
       {result?.status === "account_required" && (

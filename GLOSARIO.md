@@ -1280,3 +1280,9 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** secuencia que prepara configuración, sesión segura, teclado y retornos sociales antes de mostrar Gestadia. La evaluación del módulo de entrada termina antes de esperar plugins que pueden volver a importarlo.
 - **Alcance:** APP web y nativa; `frontend/app/src/main.jsx` y `main.boot.test.jsx`.
 - **Notas:** se retira la espera de nivel superior porque crea un ciclo con el chunk nativo de SecureStorage; un fallo de preparación presenta la recuperación existente y retira el splash.
+
+### provider-button
+- **Tipo:** concepto de presentación.
+- **Definición:** botón de acceso Apple o Google que conserva la identidad visual oficial del proveedor y un área táctil de 48 píxeles CSS. La misma presentación sirve al acceso y a la vinculación; el propósito de la acción se explica fuera del botón.
+- **Alcance:** APP iOS/Android; `frontend/app/src/SocialAccess.jsx`, `frontend/app/src/App.css` y `frontend/app/public/brand/social/`.
+- **Notas:** reemplaza los botones secundarios genéricos. Apple usa la imagen española generada por su CDN; Google conserva el símbolo degradado del paquete oficial y Google Sans Medium, con márgenes propios de iOS y Android. No cambia el protocolo OAuth.

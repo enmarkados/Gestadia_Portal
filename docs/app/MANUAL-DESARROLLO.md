@@ -149,3 +149,7 @@ La entrada esperada por SecureStorageNative contenía una espera de nivel superi
 
 
 La misma corrección de arranque supera también la instalación y apertura del APK Release firmado, con hash instalado idéntico. [Home Release Android](evidencias/2026-10-11-arranque-android/home-release.png). Acceso preparado para el usuario; OAuth y push todavía pendientes.
+
+### Acceso social con marca oficial — 11/10/2026
+
+Por petición del usuario, conservar el diseño oficial de Apple/Google en acceso y vinculación. Recursos locales en `frontend/app/public/brand/social/`; fuente Google Sans con licencia incluida. La documentación oficial permite la imagen Apple generada por su CDN y el botón Google personalizado conforme a sus reglas. No sustituir el símbolo Google por un icono monocromo ni por un dibujo anterior. [Apple](https://developer.apple.com/documentation/signinwithapple/incorporating-sign-in-with-apple-into-other-platforms) · [Google](https://developers.google.com/identity/branding-guidelines). La validación visual no acredita completar OAuth.

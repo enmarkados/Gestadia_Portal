@@ -2504,6 +2504,58 @@ select:focus {
 .legal-page > .btn {
   margin-top: 18px;
 }
+@font-face {
+  font-family: "Google Sans";
+  src: url("/brand/social/google-sans-medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+.social-access {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+.provider-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 140px;
+  max-width: 320px;
+  height: 48px;
+  min-height: 48px;
+  align-self: center;
+  border-radius: 4px;
+  cursor: pointer;
+  overflow: hidden;
+}
+.provider-button:focus-visible {
+  outline: 3px solid #2463eb;
+  outline-offset: 3px;
+}
+.provider-button:disabled { cursor: wait; opacity: 0.65; }
+.provider-button-apple {
+  padding: 0;
+  border: 1px solid #000;
+  background: #000;
+  color: #fff;
+}
+.provider-button-apple img { display: block; width: 220px; height: 48px; max-width: 100%; object-fit: contain; }
+.provider-button-google {
+  padding: 0 12px;
+  gap: 10px;
+  border: 1px solid #747775;
+  background: #fff;
+  color: #1f1f1f;
+  font: 500 14px/20px "Google Sans", Arial, sans-serif;
+  letter-spacing: 0;
+}
+.provider-button-google img { display: block; flex: 0 0 20px; width: 20px; height: 20px; }
+.provider-button-google span { flex: 1; text-align: center; }
+.social-access[data-platform="ios"] .provider-button-google { padding: 0 16px; gap: 12px; }
+
 .auth-page .form-card {
   padding: 16px;
 }

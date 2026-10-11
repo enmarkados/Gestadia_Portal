@@ -257,3 +257,7 @@ La entrada esperada por SecureStorageNative contenía una espera de nivel superi
 
 
 La misma corrección de arranque supera también la instalación y apertura del APK Release firmado, con hash instalado idéntico. [Home Release Android](evidencias/2026-10-11-arranque-android/home-release.png). Acceso preparado para el usuario; OAuth y push todavía pendientes.
+
+### Identidad visual del acceso social — 11/10/2026
+
+Petición humana: botones oficiales Apple/Google en Android e iOS. Acceso `/acceso` y vinculación en Mi Perfil conservan origen, permisos y acciones existentes. Se reemplaza la presentación genérica por la imagen española generada por Apple y el símbolo degradado del paquete vigente de Google, con Google Sans Medium. Ambos controles tienen 48 px CSS de altura y el mismo ancho; Google usa márgenes 12/10 px en Android y 16/12 px en iOS. Los recursos son locales y no requieren cargar un SDK remoto para dibujar el botón. La vinculación se explica antes del botón «Continuar con», preservando el propósito `link`. Compilación y aceptación visual nativa se registran por separado en el estado Docker.
