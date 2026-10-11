@@ -236,3 +236,7 @@ La hoja «Hablar con un gestor» acompaña el teclado y permite desplazar su for
 ### Conversación antigua de atención — revisión 11/10/2026
 
 La cuenta de prueba conserva un chat de atención sin gestor ni caso, con permiso exclusivo `history`. El servicio rechaza un turno técnico con `capability_denied`. La pantalla mantiene el historial, desactiva acciones y compositor, explica la restricción y remite a «Solicitar llamada». Origen Mensajes; Atrás devuelve a Mensajes. No se crea una conversación alternativa ni se modifica la asignación. [Evidencia y límites](evidencias/2026-10-11-gestor-carga/README.md).
+
+### Contraste de perfil y agenda APP — 11/10/2026
+
+[Revisión Portal de la adenda LidIA](../integraciones/2026-10-11-contraste-portal-perfil-agenda.md): conformidad de arquitectura y reparto, wire y mapping CRM pendientes. Perfil opcional autenticado sin zona/consentimiento inventados; el agente conserva preguntas y confirma datos operativos. Ningún cambio de pantallas, permisos, asignación, despliegue o build móvil por esta revisión documental.

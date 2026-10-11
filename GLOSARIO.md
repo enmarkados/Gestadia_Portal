@@ -1543,3 +1543,23 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** Un timeline que sólo concede `history` permite consultar la conversación; no acredita envío, gestor asignado ni transferencia.
 - **Alcance:** `frontend/app/src/AppConversation.jsx`; compositor y acciones desactivados si no hay capacidad de sondeo o handoff.
 - **Notas:** No ampliar grants para resolver una denegación de una conversación antigua; conservar historial y contacto por llamada.
+
+## Perfil y agenda APP — extensión en revisión (11/10/2026)
+
+### profile / display_name / callback_phone
+- **Tipo:** concepto de contrato firmado propuesto y propiedades.
+- **Definición:** Perfil opcional procedente de una cuenta Portal comprobada; aporta nombre de presentación y teléfono de devolución de llamada declarado. No acredita identidad civil, control del teléfono ni propiedad CRM.
+- **Alcance:** `docs/integraciones/2026-10-11-contraste-portal-perfil-agenda.md` y adenda recibida; futura extensión de context v1/v2. Todavía no hay propiedades de estos nombres en el DTO ejecutable Portal.
+- **Notas:** No aceptar perfil operativo de guest ni reconstruirlo desde campos libres del móvil.
+
+### time_zone / time_zone_confirmed / callback_consent
+- **Tipo:** propiedades de contrato propuestas.
+- **Definición:** Zona cliente IANA y confirmaciones específicas de zona y propósito de llamada para los datos operativos vigentes. La zona del dispositivo y la aceptación de privacidad no equivalen a estas confirmaciones.
+- **Alcance:** contraste Portal y adenda de perfil/agenda del 11/10; sin persistencia en User ni transmisión Portal actuales.
+- **Notas:** Datos ausentes se recogen en el agente; precedencia, retirada y JSON null pendientes de precisión compartida.
+
+### crm_prepare / callback_schedule
+- **Tipo:** permisos de contrato propuestos.
+- **Definición:** Capacidades optativas para preparar vínculo CRM y solicitar una llamada bajo identidad, propiedad y configuración de integración acreditadas. No se conceden por propósito de conversación o perfil declarado.
+- **Alcance:** contraste Portal y adenda recibida; futuros enums v1/v2 y configuración servidor de ambas partes.
+- **Notas:** No integrados ni activados en Portal. El match actual por teléfono de findOrCreateLead no satisface la propiedad exigida por esta extensión.

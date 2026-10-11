@@ -1,0 +1,41 @@
+# Contraste Portal: perfil firmado y agenda APP
+
+**Fecha:** 11/10/2026. **Estado:** conformidad de arquitectura y reparto; precisiones del contrato ejecutable pendientes. Revisión documental, sin cambios de permisos, conexiones, base de datos o runtime. Base Portal revisada: `5b0f94f2625d7422aa3930de473844b3756833f5`.
+
+[Adenda LidIA recibida íntegra](2026-10-11-adenda-perfil-agenda-lidia-recibida.md) · [Glosario](../../GLOSARIO.md) · [Evidencia del chat antiguo y TestFlight (10)](../app/evidencias/2026-10-11-gestor-carga/README.md).
+
+## Procedencia
+
+La copia conserva los bytes del documento `docs/integraciones/2026-10-11-app-contexto-perfil-y-agenda.md` del worktree LidIA `gestadia-app-conversacional`. SHA256: `4f65cfda774acf7698cf4199b7ed8d9c818bd8ebd9c797573d4be8db19a5ff90`. Los enlaces relativos de esa copia pertenecen al repositorio fuente. No acredita código integrado, configuración efectiva ni una llamada real.
+
+## Datos que puede aportar hoy Portal
+
+| Dato | Evidencia en código actual | Alcance de la atestación |
+| --- | --- | --- |
+| Nombre | `User.nombre` y `User.apellidos`, `backend/prisma/schema.prisma` | Dato conservado en una cuenta autenticada y comprobada; no identidad civil verificada ni nombre confirmado expresamente para la llamada. Construir display_name con recorte y límite, sin inventar ausencias. |
+| Email | `User.email`, `emailVerified`, `accountVerifiedAt`, `accountVerificationMethod` | Dirección del perfil; la verificación depende de su evidencia propia. accountVerifiedAt no equivale por sí solo a emailVerified. No usar coincidencia de email como propiedad CRM. |
+| Teléfono | `User.telefono` opcional | Dato declarado. No consta verificación de control del número. El helper callbackPhone valida formato pero añade +34 a números nacionales: no aplicar esa suposición a un perfil internacional sin país confirmado. |
+| Zona y confirmación | No hay campos de zona/confirmación en User | Omitirlos; el agente recoge y confirma la zona. La zona del dispositivo, el idioma o Europe/Madrid operativa no prueban zona cliente confirmada. |
+| Consentimiento de llamada | No hay campo específico en User; callback explícito conserva nombre/teléfono en AppCallbackRequest | No convertir aceptación de privacidad, emailVerified o una solicitud anterior en consentimiento vigente del chat. El agente lo recoge para teléfono, zona y propósito actuales. |
+| Vínculo CRM | `User.zohoContactId`; assignedManager comprueba Deals.Contact_Name.id y Owner | Son referencias existentes, no un mapping universal. verifiedContact comprueba existencia del ID remoto; no acredita por sí solo namespace/entorno/propietario. No conceder crm_prepare ni callback_schedule con ese único dato. |
+
+Portal atesta procedencia del perfil autenticado y mantiene permisos/asignaciones en servidor. El agente conserva el sondeo, confirma los datos operativos y solicita los ausentes. No se añade un segundo cuestionario en la APP.
+
+## Precisiones para cerrar el wire
+
+1. **Nulos y ausencia:** sustituir «valor textual null» por JSON `null`, nunca cadena `"null"`. Especificar para cada campo si admite null; ausencia conserva, null retira, false revoca confirmación/consentimiento. Definir qué invalida una retirada de teléfono/zona. Un objeto profile vacío no borra todo.
+2. **Precedencia y revisión:** aplicar una sola vez por context_revision impide reimponer en cada turno, pero no resuelve un snapshot antiguo reenviado en una revisión nueva por cambio de permisos. Mantener origen/revisión del perfil o una regla explícita que preserve el dato confirmado por el agente; sólo una modificación acreditada de perfil lo sustituye y vuelve a pedir consentimiento. Incluir ese caso en vectores.
+3. **Esquemas exactos:** v1/v2 actuales tienen additionalProperties=false y enum/maxItems de seis permisos. Hoy rechazan profile y los permisos nuevos. Entregar JSON Schema completo y vectores válidos/inválidos, con nuevos límites y ACK/effective_permissions coherentes; no basta aceptar una propiedad en el DTO LidIA. Mantener consumidores antiguos con extensión omitida.
+4. **Contexto durable:** queueContext actualmente calcula la huella sobre currentAccess. El futuro perfil debe participar en la huella y en el DTO persistido antes de firmar; cualquier retry conserva cuerpo y clave originales. En v2, actualizar sólo autoridad de cuenta y la misma conversación/sujeto, nunca reiniciar ChatSession.
+5. **Consentimiento:** señalar finalidad y vínculo al teléfono/zona que se confirman. Si el consentimiento se recoge en el agente, Portal no debe reintroducir un false antiguo por otra revisión; una retirada explícita sí prevalece. Revalidación inmediatamente antes de efectos y recibo remoto, también para edición de llamada existente.
+6. **Permisos y ownership CRM:** opt-in con intersección en ambas integraciones, sin defaults para cuentas o propósitos y guest rechazado. No usar el adaptador actual findOrCreateLead como prueba de cumplimiento: busca por teléfono y admite un único match, pero esa coincidencia no acredita propietario. Necesita mapping de conexión/entorno/módulo y correlación única respaldada por Zoho antes de habilitar esta agenda.
+7. **Migración del chat antiguo:** context_revision puede actualizar la sesión existente; history exclusivo conserva sólo lectura. Un perfil o el propósito atencion no concede envío ni gestor. El caso diagnosticado sigue pendiente de asignación autorizada; no convertirlo en sondeo para evitar capability_denied.
+
+## Orden de trabajo y aceptación
+
+1. LidIA devuelve esquema/vectores y regla de precedencia/nulos cerrados; Portal contrasta bytes, validación y compatibilidad v1/v2.
+2. Portal prepara perfil server-side opcional, omitido por defecto, sin consentimiento/zona inventados y sin permisos CRM nuevos. Verificar cambio de perfil frente a cambio sólo de permisos y retry con body idéntico.
+3. Acreditar configuración concreta de Zoho y vínculo de registros existentes; preparar pruebas de acceso cruzado, guest, teléfono coincidente sin propiedad, revocación, edición e interrupción remota.
+4. Copia y restauración comprobadas antes de cualquier despliegue; verificar SHA/configuración efectiva, misma sesión/historial y recibo de una llamada autorizada. No anunciar cita por disponibilidad o HTTP aceptado.
+
+La APP publicada en Docker `5febdf2` y TestFlight (10) conservan el trabajo de interfaz ya entregado. Esta revisión no requiere otra build móvil ni activa agenda; aceptación física del GIF y teclado de (10) pendiente de la respuesta del usuario.
