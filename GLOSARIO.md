@@ -666,7 +666,7 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Tipo**: decisión naming de despliegue / concepto runtime.
 - **Definición**: `APP_PROXY_TEMPLATE` elige la plantilla Nginx al construir la imagen; `gestadia_client_chain` conserva la cadena de IP que proporciona Plesk para la API móvil interna.
 - **Alcance**: `deploy/app/Dockerfile`, `deploy/app/mobile.conf.template`, stack móvil.
-- **Notas**: La plantilla demo permanece como predeterminada. La entrada del stack solo admite el proxy local de Plesk; no se agrega otro salto al proxy de confianza de Express.
+- **Notas**: Desde el 11/10/2026, `common.conf.template` es la predeterminada e incluye las rutas exactas de contacto; la plantilla antigua queda disponible mediante selección explícita. La entrada del stack solo admite el proxy local de Plesk; no se agrega otro salto al proxy de confianza de Express.
 
 ### Backend común Gestadia
 - **Tipo:** concepto runtime / decisión de despliegue propuesta.
@@ -1524,3 +1524,15 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** desplazamiento al último mensaje al enfocar o tocar el campo de conversación, manteniendo el final visible durante los cambios de altura del teclado.
 - **Alcance:** `frontend/app/src/useComposerAutoScroll.js`, `AppConversation.jsx` y eventos de textarea en `ChatComposer.jsx`; chats LidIA y gestor, cuenta o visitante habilitado.
 - **Notas:** usa el contenedor real aunque el compositor esté en un portal; respeta movimiento reducido y cancela al desenfocar/salir. Se descarta un retraso fijo tras abrir el teclado para evitar saltos tardíos. No envía mensajes ni modifica permisos.
+
+### `--app-visible-height`, `--app-keyboard-duration`, `--app-keyboard-easing`
+- **Tipo:** propiedades CSS de runtime.
+- **Definición:** espacio visible y tiempo de adaptación que iOS comunica antes de animar el teclado. Pantalla y diálogos comparten estos valores para mantener visibles los formularios.
+- **Alcance:** `frontend/app/src/native.js`, `Sheet.jsx`, `app.css`.
+- **Notas:** se descarta un segundo ajuste al finalizar la apertura, que provocaba saltos; Android mantiene su redimensionado nativo.
+
+### `ChatLoading`
+- **Tipo:** componente de presentación.
+- **Definición:** estado de espera centrado con animación GIF propia y texto contextual para historial y conversación. Mantiene el historial visible al actualizar y usa imagen fija con movimiento reducido.
+- **Alcance:** `frontend/app/src/ChatLoading.jsx`, `ConnectedMessages.jsx`, `AppConversation.jsx`, `Contact.jsx`, `frontend/app/public/loading/`.
+- **Notas:** no representa escritura de LidIA ni oculta errores o concede permisos. Diseño aprobado por el usuario el 11/10/2026.

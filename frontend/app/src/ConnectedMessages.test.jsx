@@ -95,3 +95,21 @@ it("LidIA contiene nueva, continuar e historial y Mensajes sólo gestores", asyn
   expect(screen.queryByRole("link", { name: /Nueva conversación con LidIA/ })).toBeNull();
   expect(screen.getAllByText("Sin actualizar").length).toBeGreaterThan(0);
 });
+
+it("la carga inicial muestra una animación y al actualizar conserva el historial hasta completar o fallar", async () => {
+  let finish;
+  vi.stubGlobal("fetch", vi.fn(url => String(url) === "/api/app/v1/conversations" ? new Promise(resolve => { finish = resolve; }) : Promise.resolve({ ok: true, status: 200, json: async () => ({ conversations: [] }) })));
+  mount();
+  const initial = screen.getByRole("status");
+  expect(initial).toHaveTextContent("Cargando conversaciones…");
+  expect(initial.querySelector('img[src$=".gif"]')).not.toBeNull();
+  finish({ ok: true, status: 200, json: async () => ({ conversations: rows }) });
+  await screen.findByRole("link", { name: /Mi canje de Perú/ });
+  fireEvent.click(screen.getByRole("button", { name: "Actualizar conversaciones" }));
+  expect(screen.getByRole("status")).toHaveTextContent("Actualizando conversaciones…");
+  expect(screen.getByRole("link", { name: /Mi canje de Perú/ })).toBeInTheDocument();
+  finish({ ok: false, status: 503, json: async () => ({ code: "runtime_unavailable" }) });
+  await screen.findByRole("alert");
+  expect(screen.queryByRole("status")).toBeNull();
+  expect(screen.getByRole("link", { name: /Mi canje de Perú/ })).toBeInTheDocument();
+});

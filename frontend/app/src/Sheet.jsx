@@ -17,8 +17,27 @@ export default function Sheet({
     const previous = anchorRef?.current || document.activeElement;
     const dialog = ref.current;
     dialog.showModal();
+    let frame;
+    function revealField() {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const field = document.activeElement;
+        if (!dialog.contains(field) || !field.matches("input, textarea, select")) return;
+        const box = dialog.getBoundingClientRect(), target = field.getBoundingClientRect();
+        const delta = target.bottom > box.bottom - 16 ? target.bottom - box.bottom + 16
+          : target.top < box.top + 16 ? target.top - box.top - 16 : 0;
+        if (delta) dialog.scrollTop += delta;
+      });
+    }
     function position() {
-      if (presentation !== "menu" || !anchorRef?.current) return;
+      if (presentation !== "menu") {
+        const viewport = window.visualViewport;
+        dialog.style.setProperty("--sheet-viewport-height", `${viewport?.height || window.innerHeight}px`);
+        dialog.style.setProperty("--sheet-viewport-bottom", `${(viewport?.offsetTop || 0) + (viewport?.height || window.innerHeight)}px`);
+        revealField();
+        return;
+      }
+      if (!anchorRef?.current) return;
       const anchor = anchorRef.current.getBoundingClientRect(), box = dialog.getBoundingClientRect();
       const viewport = window.visualViewport;
       const leftBound = viewport?.offsetLeft || 0, topBound = viewport?.offsetTop || 0;
@@ -33,9 +52,17 @@ export default function Sheet({
     position();
     window.addEventListener("resize", position);
     window.visualViewport?.addEventListener("resize", position);
+    window.visualViewport?.addEventListener("scroll", position);
+    dialog.addEventListener("focusin", revealField);
+    const observer = typeof ResizeObserver === "function" ? new ResizeObserver(revealField) : null;
+    observer?.observe(dialog);
     return () => {
       window.removeEventListener("resize", position);
       window.visualViewport?.removeEventListener("resize", position);
+      window.visualViewport?.removeEventListener("scroll", position);
+      dialog.removeEventListener("focusin", revealField);
+      observer?.disconnect();
+      cancelAnimationFrame(frame);
       dialog.close();
       if (previous?.isConnected) previous.focus?.({ preventScroll: true });
     };

@@ -1513,9 +1513,10 @@ input[readonly] {
 }
 .sheet {
   position: fixed;
-  inset: auto 0 0;
+  inset: auto 0 max(0px, calc(100dvh - var(--app-visible-height, var(--sheet-viewport-bottom, 100dvh))));
   width: min(100%, 600px);
-  max-height: 85dvh;
+  max-height: min(85dvh, calc(var(--app-visible-height, var(--sheet-viewport-height, 100dvh)) - 16px));
+  transition: bottom var(--app-keyboard-duration, 0ms) var(--app-keyboard-easing, ease-in-out), max-height var(--app-keyboard-duration, 0ms) var(--app-keyboard-easing, ease-in-out);
   max-width: 600px;
   border: 0;
   border-radius: 24px 24px 0 0;
@@ -2772,3 +2773,22 @@ select:focus {
 .contact-form .helper { font-weight: 400; font-size: 12px; }
 .contact-confirmation { display: grid; gap: 14px; justify-items: center; text-align: center; padding: 12px 0; }
 .contact-confirmation h3, .contact-confirmation p { margin: 0; }
+
+.chat-loading {
+  min-height: 216px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 28px 20px;
+  text-align: center;
+  color: var(--muted);
+  animation: chat-loading-enter 240ms ease-out 120ms both;
+}
+.chat-loading picture, .chat-loading img { display: block; width: 48px; height: 48px; }
+.chat-loading p { margin: 0; max-width: 32ch; font-size: 14px; line-height: 1.5; }
+.chat-loading.is-compact { min-height: 100px; padding: 16px; gap: 8px; }
+.chat-loading.is-compact picture, .chat-loading.is-compact img { width: 32px; height: 32px; }
+@keyframes chat-loading-enter { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .chat-loading { animation: none; } }

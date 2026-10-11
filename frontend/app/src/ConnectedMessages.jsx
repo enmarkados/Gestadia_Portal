@@ -1,5 +1,6 @@
 import { guestConversationApi } from "./guestConversations.js";
 import DeliveryTicks from "./DeliveryTicks.jsx";
+import ChatLoading from "./ChatLoading.jsx";
 import { useReceiptSummaries } from "./useMessageReceipts.js";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -185,9 +186,7 @@ export function ConversationList({ kind, onContact }) {
         </p>
       )}
       {loading && (
-        <p role="status" className="muted messages-feedback">
-          Actualizando conversaciones…
-        </p>
+        <ChatLoading label={rows.length ? "Actualizando conversaciones…" : "Cargando conversaciones…"} compact={rows.length > 0} />
       )}
       {!loading && !error && !matches.length && (
         <p role="status" className="messages-empty">

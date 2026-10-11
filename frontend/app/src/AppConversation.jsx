@@ -16,6 +16,7 @@ import {
   conversationsEnabled,
 } from "./conversationApi.js";
 import ChatComposer from "./ChatComposer.jsx";
+import ChatLoading from "./ChatLoading.jsx";
 import { useComposerAutoScroll } from "./useComposerAutoScroll.js";
 const pendingStatuses = new Set(["prepared", "outcome_unknown"]);
 const messages = {
@@ -503,7 +504,7 @@ function ConversationBody({ purpose, guest }) {
     api,
     enabled: allowed && conversation?.ready && timeline?.permissions?.includes("history"),
   });
-  if (allowed && !userId) return <p role="status">Cargando tu cuenta…</p>;
+  if (allowed && !userId) return <ChatLoading label="Cargando tu cuenta…" />;
   if (!allowed)
     return (
       <section className="empty">
@@ -554,7 +555,7 @@ function ConversationBody({ purpose, guest }) {
           </button>
         </div>
       )}
-      {bootstrapping && !error && <p role="status">Cargando conversación…</p>}
+      {(bootstrapping || (!conversation && busy)) && !error && <ChatLoading label="Cargando conversación…" />}
       {!conversation && !error && !bootstrapping && (
         <div className="card empty">
           <h2>

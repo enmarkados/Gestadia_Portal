@@ -350,3 +350,8 @@ Corrección solicitada para `/lidia/conversacion` (cuenta o visitante habilitado
 ### Desplazamiento al tocar el compositor — 11/10/2026
 
 Tocar o enfocar el campo de las conversaciones lleva suavemente al último mensaje en 280 ms; otro toque también funciona si el campo ya está enfocado. Mientras tiene foco, adapta el destino al cambio de altura del teclado. Al salir del campo se puede leer el historial libremente. Reducir movimiento lleva directamente al fondo. Pantalla, origen, permisos, destino de Atrás y envío se conservan; no envía mensajes ni ejecuta reservas. [Evidencia y distribución de esta revisión](evidencias/2026-10-11-scroll-compositor/README.md).
+
+
+### Contacto visible y carga de chats — 11/10/2026
+
+La hoja «Hablar con un gestor» acompaña el teclado y permite desplazar su formulario para mantener visible el teléfono. La carga de conversaciones/mensajes y comprobación del gestor incorpora GIF propio centrado y texto contextual; movimiento reducido usa imagen fija. Actualizar conserva el historial y los errores retiran el indicador. No cambia origen, Atrás, permisos, asignación ni envío. El proxy Docker común admite las tres rutas exactas de contacto que faltaban en la plantilla seleccionada. [Verificación y límites](evidencias/2026-10-11-gestor-carga/README.md).

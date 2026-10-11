@@ -5,6 +5,7 @@ import { navigationState } from "./navigation.js";
 import { useApp } from "./AppContext.jsx";
 import { request } from "./api.js";
 import Sheet from "./Sheet.jsx";
+import ChatLoading from "./ChatLoading.jsx";
 export default function Contact({ onClose, closing }) {
   const { data } = useApp(), navigate = useNavigate(), location = useLocation();
   const alive = useRef(true), key = useRef(crypto.randomUUID());
@@ -39,7 +40,7 @@ export default function Contact({ onClose, closing }) {
   }
   return <Sheet title="Hablar con un gestor" className="contact-sheet" onClose={onClose} closing={closing}>
     {sent ? <div className="contact-confirmation"><span className="notification-check"><Check size={25} /></span><h3>{sent === "confirmed" ? "Llamada solicitada" : "Solicitud registrada"}</h3><p>{sent === "confirmed" ? "Un gestor tiene tu solicitud y te llamará al teléfono indicado." : "Tus datos se han guardado. La confirmación del envío al gestor está pendiente; no necesitas volver a enviarlos."}</p><button className="btn secondary" onClick={onClose}>Volver a la app</button></div> : <>
-      {!target && <p className="helper" role="status">Comprobando cómo puede atenderte tu gestor…</p>}
+      {!target && <ChatLoading compact label="Comprobando cómo puede atenderte tu gestor…" />}
       {target?.kind === "manager" && <div className="contact-manager"><span className="avatar dark"><MessageSquare size={21} /></span><div><strong>{target.manager_name}</strong><p>Tu gestor asignado</p></div></div>}
       <p className="contact-description">{target?.kind === "manager" ? "Habla con tu gestor sobre el trámite. Puedes abrir el chat o pedir que te llame." : "Déjanos tu nombre y teléfono para que un gestor te llame y te ayude con tu trámite."}</p>
       {target?.kind === "manager" && <><button className="btn dark-btn contact-chat" disabled={busy} onClick={openChat}><MessageSquare size={19} /><span>{busy ? "Abriendo chat…" : `Abrir chat con ${target.manager_name}`}</span></button><p className="contact-divider">O solicita una llamada</p></>}

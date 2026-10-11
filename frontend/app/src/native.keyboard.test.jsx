@@ -37,3 +37,14 @@ it("ignora eventos malformados y conserva el ajuste propio de Android y web", as
   frame({ viewportHeight: -50, duration: 0.35, curve: 0, keyboardVisible: true });
   expect(document.querySelector(".app-shell").style.height).toBe("");
 });
+it("comparte con los diálogos el espacio visible y conserva la animación al repetir el frame", async () => {
+  stop = await setupNativeKeyboard();
+  frame({ viewportHeight: 524, duration: 0.35, curve: 0 });
+  const root = document.documentElement.style;
+  expect(root.getPropertyValue("--app-visible-height")).toBe("524px");
+  expect(root.getPropertyValue("--app-keyboard-duration")).toBe("350ms");
+  frame({ viewportHeight: 524, duration: 0, curve: 0 });
+  expect(root.getPropertyValue("--app-keyboard-duration")).toBe("350ms");
+  stop(); stop = null;
+  expect(root.getPropertyValue("--app-visible-height")).toBe("");
+});

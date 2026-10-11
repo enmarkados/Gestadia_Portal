@@ -10,7 +10,7 @@ RUN npm run build:app
 FROM nginx:1.28-alpine
 RUN apk add --no-cache ca-certificates jq
 COPY --from=build /workspace/frontend/dist-app /usr/share/nginx/html
-ARG APP_PROXY_TEMPLATE=default.conf.template
+ARG APP_PROXY_TEMPLATE=common.conf.template
 COPY deploy/app/${APP_PROXY_TEMPLATE} /etc/nginx/templates/default.conf.template
 COPY deploy/app/40-app-config.sh /docker-entrypoint.d/40-app-config.sh
 ARG APP_VERSION=0.1.0
