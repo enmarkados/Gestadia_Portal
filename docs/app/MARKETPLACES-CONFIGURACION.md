@@ -225,3 +225,14 @@ Android Release: inicio de sesión real por email/contraseña y persistencia tra
 
 
 Relectura Play 11/10: Crear aplicación accesible, com.gestadia.app disponible. Formulario preparado para Gestadia, es-ES, descarga gratuita; declaraciones legales pendientes de confirmación concreta, ficha todavía no creada. [Evidencia](evidencias/2026-10-11-marketplaces/README.md).
+
+
+## Distribución interna y coordinación confirmadas — 11/10/2026
+
+El usuario autoriza aceptar las dos declaraciones Play y crear Gestadia. Ficha creada: ID 4974812323816991329, paquete com.gestadia.app, es-ES y descarga gratuita. AAB 82d011a aceptado y versión 0.1.0 (1) publicada en canal interno 4699474819749065461: «Disponible para testers internos», sin revisar. Canal «Inactivo» por no tener testers configurados; cuenta Google de pruebas consultada al usuario. No hay publicación pública ni instalación desde Play acreditada. Advertencias no bloqueantes: testers ausentes, archivo de desofuscación y símbolos de bibliotecas nativas no incluidos.
+
+TestFlight: grupo interno Gestadia QA, ID 0f8fb830-e5da-4efc-8147-f83016d30041, distribución manual, un tester indicado por el usuario y build 0.1.0 (1) «En pruebas». Invitación comprobada como «Invitado», sin ampliar roles de App Store Connect ni invitar personas de otras apps. Instalación y aceptación física del iPhone pendientes; se solicita al usuario instalar desde la invitación.
+
+Firma Play diferente de la local: SHA-1 5A:15:21:16:2A:2A:C3:D3:D8:45:31:5B:7F:A5:49:1E:AC:57:73:A9 y SHA-256 D8:D0:19:84:AF:07:46:70:20:0E:E1:DB:7F:9E:A4:84:67:97:EF:DB:61:5E:61:EB:8D:4B:F4:F3:CD:0E:5D:35 observadas en Play. La lista de clientes de gestadia-vozia solo contiene Web, iOS y Android Upload. Preparado «Gestadia APP Android Play» restringido a paquete y SHA-1 Play, con confirmación en el momento de crear pendiente. No sustituir el cliente Upload ni atribuir login social completado a estas configuraciones. [Requisito Google](https://developers.google.com/android/guides/client-auth).
+
+El usuario confirma que LIA_Pixel_9_API_36_CLEAN pertenece a otro chat: conservarlo abierto y revisar iOS después. Gestadia Android sigue detenido conservando datos; no se inicia otro emulador ni se altera LIA. OAuth nativo, chat nativo, APNs real y publicación pública siguen pendientes. No se modifican datos de Gestadia ni producción en este bloque. [Pruebas de distribución](evidencias/2026-10-11-marketplaces/README.md).

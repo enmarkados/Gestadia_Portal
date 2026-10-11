@@ -158,3 +158,8 @@ Android Release actualizado conserva sesión y recibe avisos reales mediante FCM
 
 
 Segunda recepción real Android 82d011a en canal propio gestadia_updates comprobada; mantiene marca oficial y sesión real. [Capturas nuevas y límites de aceptación](evidencias/2026-10-11-marketplaces/README.md). iOS 0.1.0 (1) subido y procesado en TestFlight; no acredita OAuth, APNs ni instalación.
+
+
+### Distribución interna — 11/10/2026
+
+Gestadia 82d011a distribuida: TestFlight 0.1.0 (1) «En pruebas», un tester invitado; Play 0.1.0 (1) «Disponible para testers internos», sin testers configurados. La firma Play requiere un cliente OAuth Android adicional preparado, creación pendiente. Instalaciones desde tiendas, OAuth y APNs no comprobados. Por indicación humana mantener LIA abierto y revisar iOS después, sin iniciar otro emulador. [Evidencia y límites](evidencias/2026-10-11-marketplaces/README.md).

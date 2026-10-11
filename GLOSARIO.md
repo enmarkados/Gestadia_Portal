@@ -1295,3 +1295,23 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** referencia interna de la ficha Apple de Gestadia; se fija como `com.gestadia.app`, igual que el identificador del paquete, para evitar confundirla con otras apps del equipo.
 - **Alcance:** App Store Connect, registro Apple ID `6821484915`; documentación `docs/app/MARKETPLACES-CONFIGURACION.md`.
 - **Notas:** ficha iOS creada en español (España), nombre Gestadia y acceso limitado; no representa una publicación ni una build procesada en TestFlight.
+
+
+### Ficha Gestadia en Google Play
+- **Tipo:** identificador de distribución.
+- **Definición:** ficha Android de Gestadia con paquete `com.gestadia.app`, idioma inicial es-ES y descarga gratuita. Su referencia interna Play es `4974812323816991329`.
+- **Alcance:** Google Play Console, cuenta de Defensa Legal Consumidores; `docs/app/MARKETPLACES-CONFIGURACION.md`.
+- **Notas:** creación autorizada por el usuario tras confirmar las declaraciones de políticas y exportación; separada de LIA. Canal de prueba interna `4699474819749065461`. Crear una ficha no acredita publicación.
+
+
+### Gestadia QA (grupo TestFlight)
+- **Tipo:** concepto de distribución de pruebas.
+- **Definición:** grupo interno de TestFlight exclusivo para comprobar candidatos de Gestadia con las personas indicadas por el usuario.
+- **Alcance:** App Store Connect, Gestadia `6821484915`; `docs/app/MARKETPLACES-CONFIGURACION.md`.
+- **Notas:** distribución manual para asignar candidatos comprobados; no se incluyen testers de otras apps por defecto. El destinatario solicitado puede requerir pruebas externas si no es usuario interno de App Store Connect.
+
+### Gestadia APP Android Play
+- **Tipo:** decisión de naming / cliente OAuth propuesto.
+- **Definición:** cliente Android de Google restringido al paquete `com.gestadia.app` y al certificado con el que Google Play firma las descargas de Gestadia.
+- **Alcance:** Google Auth Platform, proyecto `gestadia-vozia`; `docs/app/MARKETPLACES-CONFIGURACION.md`.
+- **Notas:** complementa al cliente Android Upload para conservar las pruebas APK locales. La firma Play difiere de la de subida; el formulario preparado no acredita creación ni login.
