@@ -13,3 +13,11 @@ Lectura dentro del contenedor activo: esquema v1 SHA256 `4151ef56af4c24033792d0c
 ![Backend nuevo en ejecución](backend-active.png)
 
 La agenda sigue pendiente: V1.723 de LidIA aún no acreditada como servida en este momento, confirmación humana del alcance CRM por una hora y datos operativos de llamada pendientes. Este despliegue no acredita llamada creada, lectura de Zoho ni una nueva build nativa. El usuario acepta físicamente el editor de nombre de TestFlight (11) en un [acta separada](../2026-10-11-editor-nombre/aceptacion-iphone.json).
+
+## Verificación posterior de LidIA
+
+Tras recargar el panel de producción se observa `V1.723-agenda-app-verificada`. El equipo LidIA acredita stack 26 saludable y SHA PRO `c3ee7dbe53cf28436b5d1c85463bce98917a4c29` servido; esta atribución es independiente de la lectura visual realizada en este chat.
+
+![Versión efectiva de LidIA](lidia-v1723.png)
+
+Se presenta una única petición humana para confirmar los permisos de contacto y agenda en Portal y LidIA durante una hora, exclusivamente para la cuenta/conversación previstas y conexión Zoho Production EU 4. Se piden nombre, teléfono internacional, zona y fecha/franja reales con su destino explícito. Al registrar este paso no hay respuesta ni activación, escritura CRM o llamada reservada. La reserva se solicitará al agente; no se ejecutará una herramienta manual saltando la conversación.
