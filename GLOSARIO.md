@@ -1511,3 +1511,9 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** Comprueba pertenencia, cobertura exacta de mensajes, roles y revisiones de recibos después de validar su esquema de transporte. Conserva el actor histórico guest o account.
 - **Alcance:** backend/src/app/messageReceipts.js y backend/src/app/v2/guest.js.
 - **Notas:** Compartida entre v1 y v2; cada protocolo conserva su propio esquema, sin convertir recibos guest en account.
+### `assistantMessageParts`
+
+- **Tipo:** función de presentación.
+- **Definición:** segmentos visibles de un mensaje de LidIA cuyo texto histórico contiene el separador `[SPLIT]`. Conservan la identidad del mensaje original.
+- **Alcance:** `frontend/app/src/AppConversation.jsx` y sus pruebas; burbujas de conversaciones APP.
+- **Notas:** no modifica el histórico ni interpreta acciones o reservas. Los mensajes de cliente y operador conservan su texto literal.

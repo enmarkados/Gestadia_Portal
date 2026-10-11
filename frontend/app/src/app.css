@@ -2682,7 +2682,8 @@ select:focus {
   animation: surface-fade-out var(--motion-duration) var(--motion-ease) forwards;
 }
 .bubble[data-motion-new] {
-  animation: message-enter var(--motion-duration) var(--motion-ease);
+  animation: message-enter var(--motion-duration) var(--motion-ease) both;
+  animation-delay: var(--message-enter-delay, 0ms);
 }
 @keyframes sheet-slide-out {
   from { transform: translateY(0); opacity: 1; }

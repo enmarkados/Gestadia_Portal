@@ -34,6 +34,11 @@ const messages = {
   operation_retired: "El detalle de esta operación ya no está disponible.",
   conversation_closed: "Esta conversación está cerrada.",
 };
+export function assistantMessageParts(message) {
+  if (message.role !== "assistant" || !/\[SPLIT\]/i.test(message.text)) return [message.text];
+  const parts = message.text.split(/\[SPLIT\]/i).map(part => part.trim()).filter(Boolean);
+  return parts.length ? parts : [message.text];
+}
 export default function AppConversation({ purpose = "sondeo" }) {
   const { mode, data } = useApp();
   const [search] = useSearchParams();
@@ -268,9 +273,20 @@ function ConversationBody({ purpose, guest }) {
       clearTimeout(timer);
     };
   }, [conversation?.id, conversation?.ready, userId, mode]);
+  const animatedMessages = useMessageMotion(items, !!timeline && !timeline.has_more);
+  const scrolledMessages = useRef(new Set());
   useEffect(() => {
-    end.current?.scrollIntoView?.({ block: "end" });
-  }, [items.length]);
+    // Wait for the layout effect to mark new arrivals before choosing how to
+    // reveal them. History is positioned directly; live replies move smoothly.
+    const frame = requestAnimationFrame(() => {
+      const fresh = [...animatedMessages].some(id => !scrolledMessages.current.has(id));
+      animatedMessages.forEach(id => scrolledMessages.current.add(id));
+      end.current?.scrollIntoView?.({
+        block: "end", behavior: fresh ? "smooth" : "auto",
+      });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [items.length, animatedMessages]);
   async function begin() {
     if (busyRef.current) return;
     const version = generation.current;
@@ -485,7 +501,6 @@ function ConversationBody({ purpose, guest }) {
     api,
     enabled: allowed && conversation?.ready && timeline?.permissions?.includes("history"),
   });
-  const animatedMessages = useMessageMotion(items, !!timeline && !timeline.has_more);
   if (allowed && !userId) return <p role="status">Cargando tu cuenta…</p>;
   if (!allowed)
     return (
@@ -556,11 +571,12 @@ function ConversationBody({ purpose, guest }) {
         </div>
       )}
       <div className="conversation" aria-live="polite">
-        {items.map((m) => (
+        {items.flatMap((m) => assistantMessageParts(m).map((text, part) => (
           <div
             data-motion-new={animatedMessages.has(m.message_id) || undefined}
+            style={animatedMessages.has(m.message_id) ? { "--message-enter-delay": `${Math.min(part, 4) * 80}ms` } : undefined}
             className={`bubble ${m.role === "user" ? "user" : m.role === "operator" ? "manager" : "assistant"}`}
-            key={m.message_id}
+            key={`${m.message_id}:${part}`}
             data-message-id={m.message_id}
           >
             {m.role === "assistant" ? (
@@ -587,9 +603,9 @@ function ConversationBody({ purpose, guest }) {
                 </span>
               </div>
             )}
-            <p>{m.text}</p>
+            <p>{text}</p>
             {m.role === "user" && <div className="bubble-delivery"><DeliveryTicks receipt={messageReceipts[m.message_id]} /></div>}
-            {m.presentation && (
+            {m.presentation && part === assistantMessageParts(m).length - 1 && (
               <div className="stack">
                 <strong>{m.presentation.title}</strong>
                 {m.presentation.description && (
@@ -625,7 +641,7 @@ function ConversationBody({ purpose, guest }) {
               </div>
             )}
           </div>
-        ))}
+        )))}
         <LidiaTypingIndicator active={!!writing} />
       </div>
       {["assigned", "in_support"].includes(timeline?.support?.status) &&
