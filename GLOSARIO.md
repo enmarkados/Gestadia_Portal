@@ -1621,3 +1621,9 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Notas:** Sustituye la propuesta callbackConversationId en AppConversationAccess: aquella impediría transferir un grant pero su caducidad afectaría también a las demás conversaciones del mismo scope. La fila del chat conserva por sí misma el binding y permite retirarlo sin alterar autoridad ajena.
 
 - **Precisión de preparación de agenda:** callbackAccess/callbackAccessConfig/callbackScopeAllows, ambos flags y AppConversation.callbackGrant implementados y comprobados en fixture aislada; callbackConversationId descartado antes de despliegue. Sin activación ni reserva productiva. Alcance: evidencia 2026-10-11-agenda-opt-in; consumidor v1 únicamente.
+
+### useFocusedFormScroll
+- **Tipo:** hook de interfaz.
+- **Definición:** Mantiene el formulario del campo enfocado dentro del área visible de su contenedor cuando el teclado modifica su altura. Deja de seguirlo al perder foco o cerrar la edición.
+- **Alcance:** frontend/app/src/useFocusedFormScroll.js y ConnectedMessages.jsx; editor del nombre de conversaciones.
+- **Notas:** Desplaza sólo lo necesario para ver campo y acciones, con movimiento reducido inmediato. Se descarta activar el desplazamiento nativo global porque alteraría la sincronización del teclado en los chats; tampoco fuerza el final de la lista, que puede pertenecer a otro chat.

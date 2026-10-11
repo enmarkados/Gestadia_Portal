@@ -367,3 +367,8 @@ Inicio → Nueva conversación → Iniciar → dos turnos informativos seriados 
 ### Agenda v1: preparación sin cambio visual
 
 El backend prepara un grant CRM/agenda exclusivo de un chat existente, apagado por defecto; no modifica origen, Atrás, pantallas o autoridad básica de otros chats. [Estado y verificación](evidencias/2026-10-11-agenda-opt-in/README.md). Activación y reserva real pendientes; no atribuir disponibilidad, completed de turno o pruebas offline a una llamada creada.
+
+
+### Renombrar conversación con teclado — 11/10/2026
+
+LidIA → Historial (o Mensajes) → Editar nombre: foco desplaza el formulario dentro del espacio visible y acompaña el teclado. Guardar mantiene la API y permisos existentes; Cancelar conserva título y devuelve foco al disparador. Atrás/origen no cambian. [Captura local, pruebas y aceptación pendiente](evidencias/2026-10-11-editor-nombre/README.md).
