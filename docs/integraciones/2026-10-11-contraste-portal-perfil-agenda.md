@@ -102,3 +102,5 @@ La lista anterior de dependencias Owner Lead→Contact corresponde al trabajo de
 LidIA comunica despliegue `935dbffcdb57bb06f72b47f94dee880fff672296`, migración EF aplicada, copias y conservación de sesiones. Portal observa marca servida V1.722 y backup listado, sin atribuirse comprobación de hashes/restauración. Dos turnos seriales informativos completados y recuperados con el mismo historial; detalle común APP abierto sin Contacto requerido. [Evidencia e IDs](../app/evidencias/2026-10-11-lidia-v1722/README.md).
 
 Permisos history/sondeo, sin solicitud de llamada/alta. Se pidió a LidIA contraste de modelo/agente real y ausencia de efectos CRM. No activa perfil, contexto account v2, CRM ni agenda; receptor del formulario independiente pendiente de contrato.
+
+LidIA respondió con lectura PRO de la misma sesión: agente122/project103, dos llamadas reales al modelo correctas, AgentFlowState persistido y ausencia de resultado/estado CRM/llamada registrado. [Atribución y límites](../app/evidencias/2026-10-11-lidia-v1722/README.md#contraste-posterior-recibido-del-equipo-lidia). No es auditoría exhaustiva de invocaciones remotas ni aceptación de agenda.

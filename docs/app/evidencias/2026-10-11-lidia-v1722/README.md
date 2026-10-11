@@ -22,3 +22,11 @@ Se solicitó confirmar para estos IDs agente 122 real, modelo/AgentState y ausen
 Zoho/agenda pertenecen a LidIA y su agente. El formulario independiente aprobado sigue disponible; delegarlo necesita el contrato que LidIA está concretando. No se activa un endpoint reservado ni se repiten solicitudes pendientes.
 
 Hallazgo visual: marcadores `**...**` se muestran literales en APP y detalle. Comunicado para seguimiento; sin cambiar el renderer durante este ensayo.
+
+## Contraste posterior recibido del equipo LidIA
+
+Su lectura read-only en BD PRO para la misma ChatSession confirma AgentId122, Project103, Instruction10116, Channel2 APP, WhatsAppContactId NULL, IsSimulation false, WhatsAppActive false y Enrichment false. Dos LlmCallLogs de conversación con Success=true, Anthropic `claude-haiku-4-5-20251001`, timestamps 16:49:41.161 UTC y 16:49:57.044 UTC, correlacionados con los dos turnos completed. AgentFlowState común persistido en esa sesión.
+
+Según ese contraste, contacto sin nombre/teléfono/CRM, appCallback sin zona confirmada ni consentimiento, canje.appointment status none, sin call_id ni CRM/pago; 0 EnrichmentExecutionItems y 0 ChatLogs legacy. Acredita ausencia de resultados/estado CRM registrados, no auditoría exhaustiva de invocaciones remotas. Portal conserva esta atribución al equipo LidIA; no ejecutó esa consulta SQL ni activa llamada/Lead por el resultado.
+
+Su equipo también comprobó dos sesiones distintas mediante fila Sesiones → detalle común. Esa navegación pertenece a su evidencia; la apertura Portal documentada arriba fue directa.
