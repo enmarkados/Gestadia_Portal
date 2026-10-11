@@ -24,3 +24,15 @@ TestFlight Gestadia 0.1.0 (2), código ee64f8d, asignada a Gestadia QA y En prue
 Conservar equipo Apple X27NG7M487, bundle com.gestadia.app, firma Android Upload/Play, clientes OAuth públicos y configuración privada fuera de Git. No copiar claves al documento ni regenerar credenciales al hacer merge. Se mantiene el emulador LIA del otro chat y no se abre un segundo emulador.
 
 Producción Docker mantiene versiones anteriores: APP/Portal be6806d y backend e8f1a86. Integrar la rama, compilar o publicar el build (2) no acredita redespliegue de esos servicios. Cualquier nuevo candidato deberá identificar SHA, build number siguiente y pruebas de recorridos antes de nueva distribución.
+
+## Entrega posterior recibida: referencia del siguiente paquete
+
+El commit local Git `9c2e62c5506fe95141de5c5b4a4b605a4236e286` confirma el merge de PR16, implementación `0096bff`, en app/main. Se comprueba que `f7cf8ac` es antecesor de esa entrega. Las diferencias descritas arriba corresponden a la base anterior; no representan el contrato corregido en este merge. El documento de entrega y configuración se han leído mediante git show, sin integrar el código en esta rama ni cambiar producción o distribución.
+
+Referencia de preparación: `docs/app/2026-10-11-recorridos-gestores.md` y `docs/app/2026-10-11-configuracion-recorridos.md` en ese commit. La entrega documenta 285 pruebas backend/191 frontend y build APP, sync y arranque iOS Debug. Son resultados de la entrega, no una nueva ejecución de release en este chat.
+
+Contrato corregido documentado: identidad social vinculada o email verificado de cuenta activa permite acceder; email desconocido explica cuenta/servicios sin alta OAuth. Vinculación de Perfil sigue requiriendo sesión y confirmación. Campana configura la preferencia inicial; Perfil gestiona cambios; ACK del registro confirma activación. Si la revocación remota falla, se conserva pendiente de reconciliación. Lectura/no lectura y destinos requieren autorización y ACK. La separación IA/gestores y el contexto CRM se resuelven en servidor.
+
+Para el siguiente candidato: guest v2 está deshabilitado por defecto. La aceptación DEV conjunta requiere integración/keys v2 vigentes, cuenta/contacto/trato y expediente propios, mapping privado asignación–Owner Zoho, grants history/manager_handoff/case_context y versión remota de atención corregida. No activar guest PRO, ampliar grants ni sustituir credenciales solo para conseguir una captura. La interacción nativa automatizada de Device Hub está pendiente; el arranque Debug no cierra chat nativo, OAuth, APNs o FCM reales.
+
+La build distribuida 0.1.0 (2), fuente ee64f8d, contiene movimiento/escritura/teclado y no esta entrega de recorridos. El siguiente paquete deberá integrar y comprobar la entrega y usar un número superior al 2. Esta recepción no implica nueva publicación, redespliegue ni actualización física.
