@@ -1066,3 +1066,10 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 ### Revisión de asociación y autoridad por integración (11/10/2026)
 
 `AppConversationRegistry.start` fija el candidato implícito antes de refrescarlo y vuelve a resolver la integración para una consulta nueva si el servidor remoto confirmó su cierre. Replays y aperturas explícitas conservan su asociación. `currentAccess` deriva conjuntamente permisos y referencias tras aplicar el límite; `setConversationAccess` recibe la configuración servidor completa (por defecto, la del proceso) y prepara contextos con la del ámbito correspondiente. Si un ámbito no está configurado, conserva el grant durable y su worker preparará el contexto al recuperar esa configuración; no se prepara con una configuración vacía. Alcance: `backend/src/app/registry.js`, `store.js`, `lifecycle.js` y pruebas. No introduce permisos ni modifica los grants existentes por el recorte.
+
+### `gestadia_app_local119` / fixture local119 durable
+
+- **Tipo:** base de prueba local y decisión de persistencia.
+- **Definición:** Base MySQL propia con una cuenta ficticia nueva y autorización sondeo/history de24h para comprobar el recorrido APP hacia119. Su volumen durable y manifest privado permiten identificarla y conservarla tras reiniciar el Mac.
+- **Alcance:** preparación privada en `/Users/gonchumon/.codex/private/gestadia-app/fixture-local119/`; procedimiento en `docs/app/2026-10-11-reanudacion-app-119.md`. No es una base de producción ni la base de la suite canónica.
+- **Notas:** Autorización humana verificada en el turno LidIA `01a12843-53c2-79b3-a1eb-96602b78e26f`. Otro principal, sin historia heredada, expediente ni asignaciones; CRM/pagos/SMTP/WhatsApp/v2 apagados. Se descarta tmpfs para el circuito conectado que debe sobrevivir al reinicio.

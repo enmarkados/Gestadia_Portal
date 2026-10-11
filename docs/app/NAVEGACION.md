@@ -67,7 +67,7 @@ flowchart LR
   IA122 --> TEXTO
 ```
 
-Este diagrama explica la resolución preparada, no acredita activación ni una conversación remota. No añade pantallas ni habilita visitantes v2.
+Este diagrama explica la resolución integrada. La instancia local5177 quedó configurada para119 con una cuenta ficticia nueva autorizada durante24h; login, nueva consulta, un turno y recuperación fueron observados en UI; la evidencia SQL fuente de la misma sesión119 acredita una llamada real al modelo. La aceptación nativa, el sondeo completo y otros recorridos se registran por separado. No añade pantallas ni habilita visitantes v2. [Instancia y evidencia](2026-10-11-reanudacion-app-119.md#instancia-conectada-preparada--11102026).
 
 ## Acceso, registro y sesión
 

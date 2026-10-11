@@ -23,13 +23,13 @@ No se han modificado pantallas, Atrás, campos o colores; las capturas anteriore
 - El payload recuperado coincide con119/102/PRO (`gestadia-app-pro-agent119-validation`) y122/103/PRO (`gestadia-app-pro-local-validation`), con audiencias distintas y key IDs globalmente únicos. Las claves no conceden por sí solas autoridad de cuenta.
 - El equipo LidIA comunica PRO718, SHA84ef05902b87439dd92008ef73a8deaa2a5d7b99, backups previos, migración de recibos y configuración119 adicional/122 conservada. Portal localizó ese commit y observó HTTP200 en `/health` y `/`; esa observación pública no acredita SHA/configuración efectivos. Playground119 comunicado por LidIA es una prueba distinta del recorrido APP.
 
-## Cuenta y base: puerta pendiente
+## Cuenta y base: recuperación histórica pendiente
 
 La base Portal anterior era MySQL temporal/tmpfs y ya no existe. El SQL y tar de recuperación indicados por el acta del07/10 estaban en `/private/tmp`; no se localizaron tras reiniciar ni en worktrees, directorio privado, Descargas, Escritorio o Documentos. Los contenedores MariaDB/tmpfs detenidos pertenecen a LidIA; no se reinterpretan como la base Portal. No se ha arrancado ni sobrescrito una base ajena.
 
 Se leyó la respuesta humana original del chat LidIA, turno `01a11574-f232-73a0-80b4-a293ca2ce538`: autoriza renovar24h **las autorizaciones existentes** de `cliente.local@example.test`, sólo en la base local, conservando permisos/asignaciones/historial. Esa instrucción no autoriza reconstruir una cuenta/grant desde metadatos históricos. No se ha renovado ni creado autoridad.
 
-LidIA ha pedido al usuario decidir entre facilitar un respaldo para restaurar o autorizar una cuenta ficticia local nueva con sondeo/history durante24h, sinCRM/pagos/WhatsApp. Esperar la respuesta humana directa; las mutaciones dependientes quedan pendientes. La cuenta nueva, si se autoriza, tendrá otro principal y no heredará chats ni probará la recuperación del historial perdido122.
+LidIA ha pedido al usuario decidir entre facilitar un respaldo para restaurar o autorizar una cuenta ficticia local nueva con sondeo/history durante24h, sinCRM/pagos/WhatsApp. La respuesta humana posterior del turno `01a12843-53c2-79b3-a1eb-96602b78e26f`, leída directamente, fue «Crear cuenta ficticia local y probar el119». Autoriza el fixture nuevo de24h, no reconstruir los chats de la cuenta perdida ni ampliar facultades. El principal nuevo no hereda chats ni prueba recuperación del historial perdido122.
 
 ## Procedimiento de recuperación y prueba
 
@@ -51,3 +51,44 @@ La integración Git del código revisado en `app/main` cuenta con la autorizaci�
 ## Cierre Git comprobado
 
 PR12 fusionada en app/main mediante `be6bed66327e9efe521ecd380d549fcb07a307c2`; checkout principal actualizado ff-only, limpio y0/0 frente a origin. Backend/frontend/scripts son idénticos al snapshot0f30eca probado (201backend/152frontend/build); los cambios posteriores fueron documentales. Worktree conservado para la prueba conectada; v2 sigue separado. No se han creado ni renovado permisos ni cambiado la configuración pública por esta integración.
+
+## Instancia conectada preparada — 11/10/2026
+
+- APP **http://127.0.0.1:5177/#/acceso**, backend **http://127.0.0.1:3004**, ambos sólo loopback.5174 conserva demo: el texto «Explorar demostración» proviene de `demoOnly=true`, no de una versión antigua. El override público de5177 tiene `conversationsEnabled=true`, `demoEnabled=false` y `demoOnly=false`; no modifica el archivo demo versionado ni contiene claves.
+- Código `e61504e2c05ca4ba7851b8ee2375aacc44d00f8d`. Wrapper privado importa `createApp` y el worker real del registro revisado. Stripe/Zoho/SMTP/LidIA legacy/v2 apagados; sondeo119 adicional activo,122 conservado.
+- Base `gestadia_app_local119`, contenedor `gestadia-app-local119-a5c084d2`, volumen `gestadia-app-local119-data-a5c084d2`, owner `a5c084d2-1fa7-4e3c-8a8c-8f699284dde2`. Publicación MySQL sólo127.0.0.1, sin tmpfs ni eliminación automática. Siete migraciones aplicadas exclusivamente en esta base nueva.
+- Principal ficticio `64a53aba-39a3-4559-93a1-cfb86ed0e09e`, grant `history/sondeo`, validado2026-10-11T00:06:08.018Z y válido hasta2026-10-12T00:06:08.018Z. Verificación de cuenta sintética local: no se envió correo ni se usaron datos reales. Un usuario, cero expedientes, cero conversaciones al preparar; referencias de expediente/comercial/gestor nulas.
+- Directorio privado persistente `/Users/gonchumon/.codex/private/gestadia-app/fixture-local119/` modo0700. `manifest.json`, `credential.json`, `runtime.env`, scripts y SQL modo0600; secretos fuera de Git. `database-seed.sql` tiene22960bytes y hash registrado en manifest. No publicar ni copiar estos archivos a documentación.
+- Preflight ejecutado: health200, login201, perfil200, listado vacío y sesión de preflight revocada. No se abrió una conversación ni hubo llamada LLM en ese chequeo. Son comprobaciones de preparación, no aceptación conversacional.
+- LidIA recibe URL/rutas privadas/UUID/vigencia/SHA y reserva el primer turno desde UI para evitar duplicarlo. El ciclo UI y recuperación ya están comunicados por LidIA y las capturas se inspeccionaron; su atribución SQL/LlmCallLog también quedó comprobada en la evidencia fuente al cerrar el ciclo. El historial remoto122 anterior se conserva; su recuperación por la cuenta perdida no se prueba con este principal.
+
+### Retomar esta instancia después de otro reinicio
+
+1. Leer el manifest privado, comprobar etiquetas owner del contenedor/volumen y vigencia del grant. Si ha caducado, no ejecutar el seed ni renovar automáticamente; la autoridad24h no se amplía por reiniciar.
+2. Con Docker Desktop disponible, arrancar **únicamente** el contenedor anterior si está detenido. Comprobar su puerto local con `docker port gestadia-app-local119-a5c084d2 3306/tcp` y comparar con manifest/runtime privado antes de continuar. No crear otra identidad o reasociar historial para recuperar procesos.
+3. Si3004/5177 están libres y el código coincide con manifest, ejecutar en terminales separadas:
+
+```sh
+python3 /Users/gonchumon/.codex/private/gestadia-app/fixture-local119/runner.py backend
+python3 /Users/gonchumon/.codex/private/gestadia-app/fixture-local119/runner.py frontend
+```
+
+Estos wrappers cargan sólo la configuración privada de la prueba y actualizan sus PID. No cargar `.env` de producción ni volver a ejecutar `seed`. Los scripts privados dependen de este equipo; un checkout nuevo requiere preparar su entorno bajo la autoridad correspondiente. Conservar SQL/manifest/volumen, y al detener verificar PID/comando/owner actuales.
+
+## Recorrido observado en APP — 11/10/2026
+
+LidIA efectuó login y una nueva conversación desde la UI de5177. Portal inspeccionó las capturas originales y consultó en sólo lectura su base local: conversación APP `bd407295-a152-4763-bb7b-a4764585af7c` enlaza con sesión remota `352cceb4-9c5f-4774-9291-549ae2fe90f5`, integración `gestadia-app-pro-agent119-validation`, estado activo y contexto1 sincronizado1. Hay una sola operación de turno, admitted200, turnId `ce76b66b-c0e8-448b-b4e7-74f0b6fead35`, operación Portal `2b12bd8b-fba8-46ae-a72a-f824cf1797ba` y remota `7f5498c8-cb32-4fde-b37c-d74ff959d856`.
+
+La UI muestra el saludo original, el texto «Hola, quiero consultar el canje de mi carné.» y la respuesta que pregunta el país. Tras recargar mantiene el mismo chat y los tres mensajes; no se envió un segundo turno. Son capturas de navegador desktop1280×720, no aceptación nativa/emulador/iPhone. LidIA aportó la consulta SQL al modelo remoto; Portal inspeccionó el JSON seleccionado y su captura con exit0. [Procedencia y hashes](evidencia/2026-10-11-lidia119/manifest.json).
+
+![Respuesta en APP conectada](evidencia/2026-10-11-lidia119/app119-first-turn.jpg)
+
+![Mismo chat tras recargar](evidencia/2026-10-11-lidia119/app119-recovered.jpg)
+
+Backup privado posterior `database-postturn.sql`,28145bytes, SHA256 `e30fc571219c87fc42b6c22b1efd0cc72f4b63d9fbc280aaebe868fb94e4c3a5`, guardado en el directorio persistente del fixture con0600. Contiene sólo esta cuenta nueva y el ciclo local autorizado; no se copia a Git. Manifest y evidencia seleccionada registran permisos `history/sondeo`, vigencia y referencias nulas.
+
+### Atribución real y límites de cierre
+
+La [evidencia SQL seleccionada](evidencia/2026-10-11-lidia119/app119-model-proof.json) y [captura de consulta fuente](evidencia/2026-10-11-lidia119/app119-sql.jpg), aportadas por LidIA y copiadas sin modificar sus bytes, atribuyen la misma sesión a **Agent119 / Project102 / instrucción10115 / Channel2(APP)**, sin WhatsApp ni contacto asociado. Su único **LlmCallLog39316**,2026-10-11T00:07:18.811392UTC, registra Anthropic `claude-haiku-4-5-20251001`, Purpose`conversation`, Success=true. La captura muestra salida0. No se deduce éxito de un HttpStatus: el campo es null y el éxito lo registra el modelo.
+
+Queda comprobado este recorrido de cuenta **login → nueva consulta → un mensaje → respuesta del119 real → recuperación del mismo chat**, en navegador local y con permisos acotados. No es un sondeo completo, flujo CRM/contacto, conversación con gestor, recuperación del historial122 perdido ni aceptación iOS/Android/iPhone. V2/anónimo sigue fuera de esta prueba; la conformidad de sus mapas no lo activa. La configuración pública de5174 y del repositorio permanece demo.

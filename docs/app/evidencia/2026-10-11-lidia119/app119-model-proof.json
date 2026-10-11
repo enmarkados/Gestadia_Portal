@@ -1,0 +1,27 @@
+{
+  "sessions": [
+    {
+      "SessionId": "352cceb4-9c5f-4774-9291-549ae2fe90f5",
+      "AgentId": 119,
+      "ProjectId": 102,
+      "AgentInstructionId": 10115,
+      "Channel": 2,
+      "IsWhatsAppActive": false,
+      "WhatsAppContactId": null
+    }
+  ],
+  "calls": [
+    {
+      "Id": 39316,
+      "Timestamp": "2026-10-11T00:07:18.811392",
+      "SessionId": "352cceb4-9c5f-4774-9291-549ae2fe90f5",
+      "AgentId": 119,
+      "ProjectId": 102,
+      "Provider": "Anthropic",
+      "Model": "claude-haiku-4-5-20251001",
+      "Purpose": "conversation",
+      "Success": true,
+      "HttpStatus": null
+    }
+  ]
+}

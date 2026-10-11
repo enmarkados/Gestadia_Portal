@@ -1,0 +1,36 @@
+{
+  "captured_by": "Gestadia_LidIA - Actualizar rama dev/IA/main",
+  "observed_by_portal": "Imágenes inspeccionadas y asociación/operaciones comprobadas mediante lectura BBDD local",
+  "environment": "APP web local autenticada5177, desktop1280x720; no emulador ni iPhone",
+  "app_sha": "e61504e2c05ca4ba7851b8ee2375aacc44d00f8d",
+  "portal_conversation_id": "bd407295-a152-4763-bb7b-a4764585af7c",
+  "lidia_session_id": "352cceb4-9c5f-4774-9291-549ae2fe90f5",
+  "turn_id": "ce76b66b-c0e8-448b-b4e7-74f0b6fead35",
+  "files": [
+    {
+      "filename": "app119-first-turn.jpg",
+      "source": "/Users/gonchumon/.codex/app-native-verification/20261011/evidence/app119-first-turn.jpg",
+      "sha256": "88598136988a568049c240424efb8699c7f1d20508986468b89aac61efd22e8d",
+      "bytes": 56274
+    },
+    {
+      "filename": "app119-recovered.jpg",
+      "source": "/Users/gonchumon/.codex/app-native-verification/20261011/evidence/app119-recovered.jpg",
+      "sha256": "35faf50735dfea51ccb9a09fb262e0303b22bd1fd1f07ab17a32571214b54d82",
+      "bytes": 56279
+    },
+    {
+      "filename": "app119-model-proof.json",
+      "source": "/Users/gonchumon/.codex/app-native-verification/20261011/evidence/app119-model-proof.json",
+      "sha256": "dd83a2eb16ca5765b95722e4479bc4bfa1ee4ff33143e7ff92b2bd2fbec44d4b",
+      "bytes": 619
+    },
+    {
+      "filename": "app119-sql.jpg",
+      "source": "/Users/gonchumon/.codex/app-native-verification/20261011/evidence/app119-sql.jpg",
+      "sha256": "d5451c641e876345a7a7fe3a5d085d662720d19e2d51bd018d9b093c4f461032",
+      "bytes": 149761
+    }
+  ],
+  "source_sql_attribution": "LidIA consulta SQL de sólo lectura exit0; sesión119/102/10115 APP, único LlmCallLog39316 Anthropic claude-haiku-4-5-20251001 Success=true"
+}
