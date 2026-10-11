@@ -1640,3 +1640,9 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** Límite adicional de cuenta, sesión e intervalo UTC para las capacidades CRM de una integración APP en LidIA. Su vigencia máxima es una hora; fuera del ámbito conserva sondeo e historial y retira preparación CRM y agenda.
 - **Alcance:** plataforma LidIA, configuración privada `/app/App_Data/app-conversations.json`; conformidad Portal en `docs/integraciones/2026-10-12-lidia-scope-temporal.md`. No introduce propiedades en los DTO móviles/S2S ni sustituye `callbackAccess` de Portal.
 - **Notas:** Adenda aceptada técnicamente y en preparación, todavía sin activar. Se descarta depender únicamente de la caducidad Portal: un contexto CRM remoto antiguo requiere un guard temporal propio y retirada confirmada al cerrar la prueba. La implementación y sus rutas de código pertenecen al glosario de LidIA.
+
+### AppCrmConfiguration.AccessScopeRequired (LidIA)
+- **Tipo:** propiedad de configuración privada / decisión de fallo cerrado.
+- **Definición:** Exige un AccessScope válido para conservar capacidades CRM en la integración de prueba. Impide tratar una configuración ausente o malformada como una integración general sin límite temporal.
+- **Alcance:** plataforma LidIA, configuración privada `/app/App_Data/app-conversations.json`; adenda `docs/integraciones/2026-10-12-lidia-scope-temporal.md`.
+- **Notas:** En preparación; no es un permiso ni amplía autoridad. Las fechas se validan en la política desde texto ISO con zona para retirar únicamente CRM cuando sean inválidas, conservando sondeo e historial.
