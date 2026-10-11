@@ -36,3 +36,9 @@ Contrato corregido documentado: identidad social vinculada o email verificado de
 Para el siguiente candidato: guest v2 está deshabilitado por defecto. La aceptación DEV conjunta requiere integración/keys v2 vigentes, cuenta/contacto/trato y expediente propios, mapping privado asignación–Owner Zoho, grants history/manager_handoff/case_context y versión remota de atención corregida. No activar guest PRO, ampliar grants ni sustituir credenciales solo para conseguir una captura. La interacción nativa automatizada de Device Hub está pendiente; el arranque Debug no cierra chat nativo, OAuth, APNs o FCM reales.
 
 La build distribuida 0.1.0 (2), fuente ee64f8d, contiene movimiento/escritura/teclado y no esta entrega de recorridos. El siguiente paquete deberá integrar y comprobar la entrega y usar un número superior al 2. Esta recepción no implica nueva publicación, redespliegue ni actualización física.
+
+### Follow-up documental posterior
+
+Comprobados `abd0831` y `ff9e9a008c7a06f63d883011ceb6247c49698347`: sólo cambian documentación; `9c2e62c` es antecesor de `ff9e9a0`. Leído el procedimiento conservado en `docs/integraciones/2026-10-11-procedimiento-dev-lidia.md`, preparado y todavía no ejecutado. La evidencia funcional sigue PR16/0096bff/9c2e62c, sin aceptación adicional ni release nuevo.
+
+Precisión obligatoria para preparar DEV: las claves S2S sólo tienen estado Active y no caducan automáticamente. La prueba debe fijar responsable e inicio/cierre UTC, verificar aislamiento DEV, desactivar las claves al finalizar y comprobar rechazo. El TTL del visitante, las fechas del grant y la vigencia de rutas no hacen caducar la clave firmante. Guest continúa apagado por defecto. Consultar ambas revisiones documentales junto al código de PR16 antes del siguiente paquete; no sustituirlas por una supuesta ejecución DEV.
