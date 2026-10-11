@@ -121,6 +121,23 @@ function mount(entry = "/") {
     </MemoryRouter>,
   );
 }
+it("un chat antiguo con sólo historial conserva mensajes y desactiva acciones y compositor", async () => {
+  const original = fetch;
+  vi.stubGlobal("fetch", vi.fn(async (url, opts = {}) => {
+    if (url === "/api/app/v1/conversations") return { ok: true, status: 200, json: async () => ({ conversations: [{ id: "local-1", purpose: "atencion", case_ref: null, ready: true, status: "active" }] }) };
+    if (!url.includes("/timeline")) return original(url, opts);
+    const body = timeline();
+    body.permissions = ["history"];
+    return { ok: true, status: 200, json: async () => body };
+  }));
+  render(<><div id="manager-composer"/><MemoryRouter><AppProvider><AppConversation purpose="atencion"/></AppProvider></MemoryRouter></>);
+  await screen.findByText("Selecciona una opción");
+  expect(screen.getByRole("button", { name: "Sí", exact: true })).toBeDisabled();
+  expect(screen.queryByRole("textbox", { name: "Tu consulta" })).toBeNull();
+  expect(screen.getByText("Puedes consultar el historial. El envío de mensajes no está habilitado en esta conversación.")).toBeInTheDocument();
+  expect(screen.getByText("Usa «Solicitar llamada» para contactar con Gestadia.")).toBeInTheDocument();
+  expect(calls.filter(c => c.url.endsWith("/turns"))).toHaveLength(0);
+});
 it("el compositor real, también en el pie externo, lleva al último mensaje al enfocarlo o tocarlo de nuevo", async () => {
   vi.stubGlobal("matchMedia", () => ({ matches: false, addEventListener() {}, removeEventListener() {} }));
   const { container } = render(<><div id="lidia-composer"/><main className="app-main"><MemoryRouter><AppProvider><AppConversation/></AppProvider></MemoryRouter></main></>);

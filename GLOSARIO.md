@@ -1536,3 +1536,10 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** estado de espera centrado con animación GIF propia y texto contextual para historial y conversación. Mantiene el historial visible al actualizar y usa imagen fija con movimiento reducido.
 - **Alcance:** `frontend/app/src/ChatLoading.jsx`, `ConnectedMessages.jsx`, `AppConversation.jsx`, `Contact.jsx`, `frontend/app/public/loading/`.
 - **Notas:** no representa escritura de LidIA ni oculta errores o concede permisos. Diseño aprobado por el usuario el 11/10/2026.
+
+### `permissions`: historial sin envío
+
+- **Tipo:** concepto runtime existente.
+- **Definición:** Un timeline que sólo concede `history` permite consultar la conversación; no acredita envío, gestor asignado ni transferencia.
+- **Alcance:** `frontend/app/src/AppConversation.jsx`; compositor y acciones desactivados si no hay capacidad de sondeo o handoff.
+- **Notas:** No ampliar grants para resolver una denegación de una conversación antigua; conservar historial y contacto por llamada.

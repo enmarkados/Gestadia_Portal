@@ -323,6 +323,7 @@ function ConversationBody({ purpose, guest }) {
       busyRef.current ||
       pending ||
       !conversation?.ready ||
+      !canSend ||
       timeline?.conversation_status === "closed"
     )
       return;
@@ -528,6 +529,7 @@ function ConversationBody({ purpose, guest }) {
     );
   const closed = timeline?.conversation_status === "closed",
     permissions = timeline?.permissions || [];
+  const canSend = permissions.some(p => ["sondeo", "manager_handoff", "commercial_handoff", "support_handoff"].includes(p));
   const human =
     purpose === "atencion" ||
     ["assigned", "in_support"].includes(timeline?.support?.status);
@@ -615,6 +617,7 @@ function ConversationBody({ purpose, guest }) {
                         busy ||
                         !!pending ||
                         closed ||
+                        !canSend ||
                         !a.enabled ||
                         Date.parse(a.expires_at) <= Date.now() ||
                         Date.parse(m.presentation.expires_at) <= Date.now()
@@ -670,6 +673,12 @@ function ConversationBody({ purpose, guest }) {
           }}>Nueva conversación</button>}
         </div>
       )}
+      {!closed && conversation?.ready && timeline && !canSend && (
+        <div className="card" role="status">
+          <p>Puedes consultar el historial. El envío de mensajes no está habilitado en esta conversación.</p>
+          {purpose === "atencion" && <p>Usa «Solicitar llamada» para contactar con Gestadia.</p>}
+        </div>
+      )}
       {pending && !(busy && pending.turn_id) && (
         <div className="card" role="status">
           <p>
@@ -683,7 +692,7 @@ function ConversationBody({ purpose, guest }) {
           </button>
         </div>
       )}
-      {!closed && conversation?.ready && !pending && (
+      {!closed && conversation?.ready && canSend && !pending && (
         <>
           <div className="chips">
             {["manager", "commercial", "support"]

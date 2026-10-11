@@ -232,3 +232,7 @@ Tocar o enfocar el campo de las conversaciones lleva suavemente al último mensa
 ### Contacto visible y carga de chats — 11/10/2026
 
 La hoja «Hablar con un gestor» acompaña el teclado y permite desplazar su formulario para mantener visible el teléfono. La carga de conversaciones/mensajes y comprobación del gestor incorpora GIF propio centrado y texto contextual; movimiento reducido usa imagen fija. Actualizar conserva el historial y los errores retiran el indicador. No cambia origen, Atrás, permisos, asignación ni envío. El proxy Docker común admite las tres rutas exactas de contacto que faltaban en la plantilla seleccionada. [Verificación y límites](evidencias/2026-10-11-gestor-carga/README.md).
+
+### Conversación antigua de atención — revisión 11/10/2026
+
+La cuenta de prueba conserva un chat de atención sin gestor ni caso, con permiso exclusivo `history`. El servicio rechaza un turno técnico con `capability_denied`. La pantalla mantiene el historial, desactiva acciones y compositor, explica la restricción y remite a «Solicitar llamada». Origen Mensajes; Atrás devuelve a Mensajes. No se crea una conversación alternativa ni se modifica la asignación. [Evidencia y límites](evidencias/2026-10-11-gestor-carga/README.md).

@@ -1,0 +1,46 @@
+{
+  "verified_at": "2026-10-11T15:16:58.000Z",
+  "account": "sistemas@enmarkados.com",
+  "conversation": {
+    "id": "528e87c6-146f-4697-b937-58c74cde0f0c",
+    "purpose": "atencion",
+    "case_ref": null,
+    "status": "active",
+    "ready": true,
+    "title": null,
+    "manager_name": null,
+    "created_at": "2026-10-11T01:38:36.027Z",
+    "last_message_at": "2026-10-11T01:38:36.027Z",
+    "metadata_ready": true
+  },
+  "timeline": {
+    "http": 200,
+    "permissions": [
+      "history"
+    ],
+    "support": {
+      "status": "none",
+      "operator_display_name": null,
+      "requested_at": null,
+      "assigned_at": null,
+      "attended_at": null,
+      "updated_at": "2026-10-11T01:38:36.027Z"
+    },
+    "message_count": 1,
+    "pending_operations": [],
+    "turn_statuses": []
+  },
+  "technical_send": {
+    "http": 202,
+    "status": "failed",
+    "error_code": "capability_denied",
+    "operation": "4fc64cbb-afba-419a-8c13-41a86bd6a23e",
+    "no_reservation_requested": true
+  },
+  "remote_cursor_tuple": [
+    "gestadia-app-pro-local-validation",
+    "c4764d4a-3c13-4421-8dab-ac812ca1f83c",
+    "c803f642-e6c2-4b77-a97c-588125a9aed9",
+    "1"
+  ]
+}

@@ -11,3 +11,15 @@ Fallo independiente reproducido en servidor: `/api/app/contact/context` devolví
 Verificación: 203 pruebas frontend en49archivos PASS; build APP PASS; dos pruebas de proxy Docker PASS. iOS0.1.0(9) en preparación. Despliegue, restauración, disponibilidad TestFlight y aceptación física se documentarán sólo después de observarlos. Play conserva build3. Gestor real requiere asignación y permisos existentes; no equivale a un formulario de contacto ni a sondeo de LidIA.
 
 [Carga centrada](carga-movil.png) · [Teléfono](telefono-viewport.png) · [Espacio reducido](telefono-320.json).
+
+## Cierre observado de la revisión 9
+
+Copia y restauración verificadas antes del despliegue: SQL271105bytes, hash54be58275ef78d94f51a38455a8127937e7c11094a3e0156d84e286a50ca60b3,45usuarios/94expedientes/14documentos/13migraciones;24tablasOK. Archivos/configuración/claves coinciden byte a byte. Stack73APP `eaaf71f`, backend `cf68661`, Portal `be6806d`: los tres saludables. Imagen AMD64 verificada. Contacto real de Sistemas devuelve200 `kind:call`, sin alerta404. JS/GIF/PNG públicos idénticos al archivo iOS.
+
+iOS0.1.0(9) archivada, exportada y firma estricta válida; Xcode confirma Uploaded y Apple/GestadiaQA muestran En pruebas. [TestFlight](testflight-9.png), [firma](ios-proof.json), [copia](backup-proof.json), [servidor](public-proof.json). iPhone todavía acredita instalada la(6); teclado físico y carga(9) pendientes de aceptación. Play conserva(3).
+
+## Diagnóstico independiente de la conversación antigua
+
+Cuenta indicada por el usuario: existe una conversación `atencion` creada a03:38local, sin case_ref ni manager_name. Timeline200, support:none, permissions:[history], único saludo de LidIA, sin recibos de turno ni operaciones pendientes. Un único turno técnico, que excluye llamada/reserva/trámite, obtiene HTTP202 pero operación failed/capability_denied; el mensaje no se añade al timeline. Por tanto, no es el404 del formulario y no acredita gestor asignado. Se traslada la evidencia al chat Gestadia_LidIA por autorización humana previa de revisar esta incidencia.
+
+La revisión posterior elimina la incoherencia de dejar enviar cuando sólo hay historial. Mantiene lectura y Atrás, retira compositor, desactiva acciones y explica cómo contactar desde Solicitar llamada; no amplía permisos ni borra conversaciones. Regresión RED/GREEN y prueba del pie externo. Su distribución se registrará con evidencia independiente. [Diagnóstico técnico](gestor-antiguo-proof.json) · [Denegación](gestor-antiguo-error.png).
