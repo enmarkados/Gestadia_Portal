@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import Icon from "./Icon.jsx";
 import ChatComposer from "./ChatComposer.jsx";
+import { useMessageMotion } from "./motion.jsx";
 import { useApp } from "./AppContext.jsx";
 import { detectTopic, TOPICS } from "./qualification.js";
 import { demoOnly } from "./api.js";
@@ -15,6 +16,7 @@ export default function Assistant({ onContact }) {
   const [topic, setTopic] = useState(data.assistantState?.topic || null);
   const [answers, setAnswers] = useState(data.assistantState?.answers || {});
   const [messages, setMessages] = useState(data.assistantState?.messages || []);
+  const animatedMessages = useMessageMotion(messages);
   const [input, setInput] = useState("");
   const [voiceError, setVoiceError] = useState("");
   const [recording, setRecording] = useState(false);
@@ -220,7 +222,7 @@ export default function Assistant({ onContact }) {
         <>
           <div className="conversation" aria-live="polite">
             {messages.map((msg, i) => (
-              <div className={`bubble ${msg.role}`} key={i}>
+              <div className={`bubble ${msg.role}`} key={i} data-motion-new={animatedMessages.has(msg.id ?? i) || undefined}>
                 {msg.role === "user" ? (
                   <>
                     <div className="bubble-meta">

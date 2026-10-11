@@ -1,0 +1,1541 @@
+{
+  "auth": {
+    "probe": [
+      {
+        "classes": "page-motion",
+        "frames": [
+          {
+            "opacity": 0,
+            "transform": "translateX(12px)"
+          },
+          {
+            "opacity": 1,
+            "transform": "translateX(0)"
+          }
+        ],
+        "options": {
+          "duration": 280,
+          "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)"
+        }
+      },
+      {
+        "classes": "page-motion",
+        "frames": [
+          {
+            "opacity": 0,
+            "transform": "translateX(-12px)"
+          },
+          {
+            "opacity": 1,
+            "transform": "translateX(0)"
+          }
+        ],
+        "options": {
+          "duration": 280,
+          "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)"
+        }
+      },
+      {
+        "classes": "page-motion",
+        "frames": [
+          {
+            "opacity": 0,
+            "transform": "translateX(-12px)"
+          },
+          {
+            "opacity": 1,
+            "transform": "translateX(0)"
+          }
+        ],
+        "options": {
+          "duration": 280,
+          "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)"
+        }
+      },
+      {
+        "classes": "page-motion",
+        "frames": [
+          {
+            "opacity": 0,
+            "transform": "translateX(12px)"
+          },
+          {
+            "opacity": 1,
+            "transform": "translateX(0)"
+          }
+        ],
+        "options": {
+          "duration": 280,
+          "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)"
+        }
+      }
+    ],
+    "headerBefore": {
+      "x": 0,
+      "y": 0,
+      "width": 390,
+      "height": 69,
+      "top": 0,
+      "right": 390,
+      "bottom": 69,
+      "left": 0
+    },
+    "headerAfter": {
+      "x": 0,
+      "y": 0,
+      "width": 390,
+      "height": 69,
+      "top": 0,
+      "right": 390,
+      "bottom": 69,
+      "left": 0
+    }
+  },
+  "menu": {
+    "anchor": {
+      "x": 326,
+      "y": 12,
+      "width": 44,
+      "height": 44
+    },
+    "box": {
+      "x": 50,
+      "y": 58,
+      "width": 320,
+      "height": 286,
+      "top": 58,
+      "right": 370,
+      "bottom": 344,
+      "left": 50
+    },
+    "duration": "0.28s",
+    "presentation": "menu",
+    "origin": "320px 0px",
+    "closing": true,
+    "exitDuration": "0.28s",
+    "closeElapsed": 295,
+    "focus": "Mi cuenta",
+    "finalBox": {
+      "x": 50,
+      "y": 64,
+      "width": 320,
+      "height": 286
+    }
+  },
+  "panel": {
+    "duration": "0.28s",
+    "presentation": "panel",
+    "animations": [
+      [
+        {
+          "offset": 0,
+          "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+          "composite": "auto",
+          "opacity": "0",
+          "transform": "translateY(24px)",
+          "computedOffset": 0
+        },
+        {
+          "offset": 1,
+          "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+          "composite": "auto",
+          "opacity": "1",
+          "transform": "translateY(0px)",
+          "computedOffset": 1
+        }
+      ]
+    ]
+  },
+  "reduced": {
+    "menu": "none",
+    "backdrop": "none",
+    "closeElapsed": 5,
+    "focus": "Mi cuenta",
+    "routeAnimations": 0,
+    "header": {
+      "x": 0,
+      "y": 0,
+      "width": 390,
+      "height": 69,
+      "top": 0,
+      "right": 390,
+      "bottom": 69,
+      "left": 0
+    },
+    "press": "0s",
+    "messages": [
+      {
+        "animation": "none",
+        "active": 0
+      },
+      {
+        "animation": "none",
+        "active": 0
+      },
+      {
+        "animation": "none",
+        "active": 0
+      },
+      {
+        "animation": "none",
+        "active": 0
+      },
+      {
+        "animation": "none",
+        "active": 0
+      },
+      {
+        "animation": "none",
+        "active": 0
+      },
+      {
+        "animation": "none",
+        "active": 0
+      },
+      {
+        "animation": "none",
+        "active": 0
+      },
+      {
+        "animation": "none",
+        "active": 0
+      },
+      {
+        "animation": "none",
+        "active": 0
+      },
+      {
+        "animation": "none",
+        "active": 0
+      },
+      {
+        "animation": "none",
+        "active": 0
+      },
+      {
+        "animation": "none",
+        "active": 0
+      },
+      {
+        "animation": "none",
+        "active": 0
+      },
+      {
+        "animation": "none",
+        "active": 0
+      }
+    ],
+    "pressed": {
+      "duration": "0s",
+      "transform": "none"
+    },
+    "markedAfterReduce": 0,
+    "afterResume": {
+      "marked": 0,
+      "animations": 0
+    }
+  },
+  "messages": {
+    "before": 11,
+    "beforeMarked": 3,
+    "after": 13,
+    "marked": [
+      {
+        "duration": "0.28s",
+        "active": [
+          {
+            "duration": 280,
+            "keyframes": [
+              {
+                "offset": 0,
+                "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+                "composite": "auto",
+                "opacity": "0",
+                "transform": "translateY(8px)",
+                "computedOffset": 0
+              },
+              {
+                "offset": 1,
+                "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+                "composite": "auto",
+                "opacity": "1",
+                "transform": "translateY(0px)",
+                "computedOffset": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "duration": "0.28s",
+        "active": [
+          {
+            "duration": 280,
+            "keyframes": [
+              {
+                "offset": 0,
+                "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+                "composite": "auto",
+                "opacity": "0",
+                "transform": "translateY(8px)",
+                "computedOffset": 0
+              },
+              {
+                "offset": 1,
+                "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+                "composite": "auto",
+                "opacity": "1",
+                "transform": "translateY(0px)",
+                "computedOffset": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "restored": {
+      "bubbles": 15,
+      "marked": 0
+    }
+  },
+  "desktop": {
+    "anchor": {
+      "x": 1113,
+      "y": 12,
+      "width": 44,
+      "height": 44
+    },
+    "menu": {
+      "x": 837,
+      "y": 64,
+      "width": 320,
+      "height": 286,
+      "top": 64,
+      "right": 1157,
+      "bottom": 350,
+      "left": 837
+    },
+    "duration": "0.28s"
+  },
+  "press": {
+    "duration": "0.12s",
+    "transform": "matrix(0.98, 0, 0, 0.98, 0, 0)"
+  },
+  "geometry": [
+    {
+      "route": "/",
+      "width": 320,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 65,
+        "top": 0,
+        "right": 320,
+        "bottom": 65,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": -1281,
+        "width": 320,
+        "height": 2110.53125,
+        "top": -1281,
+        "right": 320,
+        "bottom": 829.53125,
+        "left": 0
+      }
+    },
+    {
+      "route": "/acceso",
+      "width": 320,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 69,
+        "top": 0,
+        "right": 320,
+        "bottom": 69,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 69,
+        "width": 320,
+        "height": 839.7734375,
+        "top": 69,
+        "right": 320,
+        "bottom": 908.7734375,
+        "left": 0
+      }
+    },
+    {
+      "route": "/registro",
+      "width": 320,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 69,
+        "top": 0,
+        "right": 320,
+        "bottom": 69,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 69,
+        "width": 320,
+        "height": 1042.1796875,
+        "top": 69,
+        "right": 320,
+        "bottom": 1111.1796875,
+        "left": 0
+      }
+    },
+    {
+      "route": "/cuenta",
+      "width": 320,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 69,
+        "top": 0,
+        "right": 320,
+        "bottom": 69,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 69,
+        "width": 320,
+        "height": 3172.359375,
+        "top": 69,
+        "right": 320,
+        "bottom": 3241.359375,
+        "left": 0
+      }
+    },
+    {
+      "route": "/tramites",
+      "width": 320,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 69,
+        "top": 0,
+        "right": 320,
+        "bottom": 69,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 69,
+        "width": 320,
+        "height": 372.6796875,
+        "top": 69,
+        "right": 320,
+        "bottom": 441.6796875,
+        "left": 0
+      }
+    },
+    {
+      "route": "/tramites/demo-canje",
+      "width": 320,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 69,
+        "top": 0,
+        "right": 320,
+        "bottom": 69,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 69,
+        "width": 320,
+        "height": 837.7421875,
+        "top": 69,
+        "right": 320,
+        "bottom": 906.7421875,
+        "left": 0
+      }
+    },
+    {
+      "route": "/mensajes",
+      "width": 320,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 69,
+        "top": 0,
+        "right": 320,
+        "bottom": 69,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 69,
+        "width": 320,
+        "height": 475.765625,
+        "top": 69,
+        "right": 320,
+        "bottom": 544.765625,
+        "left": 0
+      }
+    },
+    {
+      "route": "/mensajes/gestor",
+      "width": 320,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 65,
+        "top": 0,
+        "right": 320,
+        "bottom": 65,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 65,
+        "width": 320,
+        "height": 810.828125,
+        "top": 65,
+        "right": 320,
+        "bottom": 875.828125,
+        "left": 0
+      }
+    },
+    {
+      "route": "/servicios",
+      "width": 320,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 69,
+        "top": 0,
+        "right": 320,
+        "bottom": 69,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 69,
+        "width": 320,
+        "height": 1359.921875,
+        "top": 69,
+        "right": 320,
+        "bottom": 1428.921875,
+        "left": 0
+      }
+    },
+    {
+      "route": "/legal/privacy",
+      "width": 320,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 71.1484375,
+        "top": 0,
+        "right": 320,
+        "bottom": 71.1484375,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 71.1484375,
+        "width": 320,
+        "height": 2158.1484375,
+        "top": 71.1484375,
+        "right": 320,
+        "bottom": 2229.296875,
+        "left": 0
+      }
+    },
+    {
+      "route": "/legal/terms",
+      "width": 320,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 71.1484375,
+        "top": 0,
+        "right": 320,
+        "bottom": 71.1484375,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 71.1484375,
+        "width": 320,
+        "height": 1817.46875,
+        "top": 71.1484375,
+        "right": 320,
+        "bottom": 1888.6171875,
+        "left": 0
+      }
+    },
+    {
+      "route": "/legal/support",
+      "width": 320,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 71.1484375,
+        "top": 0,
+        "right": 320,
+        "bottom": 71.1484375,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 71.1484375,
+        "width": 320,
+        "height": 1555.2109375,
+        "top": 71.1484375,
+        "right": 320,
+        "bottom": 1626.359375,
+        "left": 0
+      }
+    },
+    {
+      "route": "/legal/delete-account",
+      "width": 320,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 71.1484375,
+        "top": 0,
+        "right": 320,
+        "bottom": 71.1484375,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 71.1484375,
+        "width": 320,
+        "height": 1268.078125,
+        "top": 71.1484375,
+        "right": 320,
+        "bottom": 1339.2265625,
+        "left": 0
+      }
+    },
+    {
+      "route": "/informacion",
+      "width": 320,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 69,
+        "top": 0,
+        "right": 320,
+        "bottom": 69,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 69,
+        "width": 320,
+        "height": 695.390625,
+        "top": 69,
+        "right": 320,
+        "bottom": 764.390625,
+        "left": 0
+      }
+    },
+    {
+      "route": "/checkout-demo",
+      "width": 320,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 69,
+        "top": 0,
+        "right": 320,
+        "bottom": 69,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 69,
+        "width": 320,
+        "height": 541.828125,
+        "top": 69,
+        "right": 320,
+        "bottom": 610.828125,
+        "left": 0
+      }
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 65,
+        "top": 0,
+        "right": 390,
+        "bottom": 65,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": -1200,
+        "width": 390,
+        "height": 1968.453125,
+        "top": -1200,
+        "right": 390,
+        "bottom": 768.453125,
+        "left": 0
+      }
+    },
+    {
+      "route": "/acceso",
+      "width": 390,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 69,
+        "top": 0,
+        "right": 390,
+        "bottom": 69,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 69,
+        "width": 390,
+        "height": 832.2734375,
+        "top": 69,
+        "right": 390,
+        "bottom": 901.2734375,
+        "left": 0
+      }
+    },
+    {
+      "route": "/registro",
+      "width": 390,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 69,
+        "top": 0,
+        "right": 390,
+        "bottom": 69,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 69,
+        "width": 390,
+        "height": 1054.1796875,
+        "top": 69,
+        "right": 390,
+        "bottom": 1123.1796875,
+        "left": 0
+      }
+    },
+    {
+      "route": "/cuenta",
+      "width": 390,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 69,
+        "top": 0,
+        "right": 390,
+        "bottom": 69,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 69,
+        "width": 390,
+        "height": 2913.171875,
+        "top": 69,
+        "right": 390,
+        "bottom": 2982.171875,
+        "left": 0
+      }
+    },
+    {
+      "route": "/tramites",
+      "width": 390,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 69,
+        "top": 0,
+        "right": 390,
+        "bottom": 69,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 69,
+        "width": 390,
+        "height": 373.8828125,
+        "top": 69,
+        "right": 390,
+        "bottom": 442.8828125,
+        "left": 0
+      }
+    },
+    {
+      "route": "/tramites/demo-canje",
+      "width": 390,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 69,
+        "top": 0,
+        "right": 390,
+        "bottom": 69,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 69,
+        "width": 390,
+        "height": 793.171875,
+        "top": 69,
+        "right": 390,
+        "bottom": 862.171875,
+        "left": 0
+      }
+    },
+    {
+      "route": "/mensajes",
+      "width": 390,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 69,
+        "top": 0,
+        "right": 390,
+        "bottom": 69,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 69,
+        "width": 390,
+        "height": 459.171875,
+        "top": 69,
+        "right": 390,
+        "bottom": 528.171875,
+        "left": 0
+      }
+    },
+    {
+      "route": "/mensajes/gestor",
+      "width": 390,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 65,
+        "top": 0,
+        "right": 390,
+        "bottom": 65,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 65,
+        "width": 390,
+        "height": 746.234375,
+        "top": 65,
+        "right": 390,
+        "bottom": 811.234375,
+        "left": 0
+      }
+    },
+    {
+      "route": "/servicios",
+      "width": 390,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 69,
+        "top": 0,
+        "right": 390,
+        "bottom": 69,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 69,
+        "width": 390,
+        "height": 1295.125,
+        "top": 69,
+        "right": 390,
+        "bottom": 1364.125,
+        "left": 0
+      }
+    },
+    {
+      "route": "/legal/privacy",
+      "width": 390,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 71.1484375,
+        "top": 0,
+        "right": 390,
+        "bottom": 71.1484375,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 71.1484375,
+        "width": 390,
+        "height": 1934.8984375,
+        "top": 71.1484375,
+        "right": 390,
+        "bottom": 2006.046875,
+        "left": 0
+      }
+    },
+    {
+      "route": "/legal/terms",
+      "width": 390,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 71.1484375,
+        "top": 0,
+        "right": 390,
+        "bottom": 71.1484375,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 71.1484375,
+        "width": 390,
+        "height": 1660.5546875,
+        "top": 71.1484375,
+        "right": 390,
+        "bottom": 1731.703125,
+        "left": 0
+      }
+    },
+    {
+      "route": "/legal/support",
+      "width": 390,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 71.1484375,
+        "top": 0,
+        "right": 390,
+        "bottom": 71.1484375,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 71.1484375,
+        "width": 390,
+        "height": 1375.3515625,
+        "top": 71.1484375,
+        "right": 390,
+        "bottom": 1446.5,
+        "left": 0
+      }
+    },
+    {
+      "route": "/legal/delete-account",
+      "width": 390,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 71.1484375,
+        "top": 0,
+        "right": 390,
+        "bottom": 71.1484375,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 71.1484375,
+        "width": 390,
+        "height": 1184.3359375,
+        "top": 71.1484375,
+        "right": 390,
+        "bottom": 1255.484375,
+        "left": 0
+      }
+    },
+    {
+      "route": "/informacion",
+      "width": 390,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 69,
+        "top": 0,
+        "right": 390,
+        "bottom": 69,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 69,
+        "width": 390,
+        "height": 622.203125,
+        "top": 69,
+        "right": 390,
+        "bottom": 691.203125,
+        "left": 0
+      }
+    },
+    {
+      "route": "/checkout-demo",
+      "width": 390,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 69,
+        "top": 0,
+        "right": 390,
+        "bottom": 69,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 69,
+        "width": 390,
+        "height": 522.8828125,
+        "top": 69,
+        "right": 390,
+        "bottom": 591.8828125,
+        "left": 0
+      }
+    },
+    {
+      "route": "/",
+      "width": 1280,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 91,
+        "y": 0,
+        "width": 1098,
+        "height": 65,
+        "top": 0,
+        "right": 1189,
+        "bottom": 65,
+        "left": 91
+      },
+      "content": {
+        "x": 91,
+        "y": -855.5,
+        "width": 1098,
+        "height": 1680.1875,
+        "top": -855.5,
+        "right": 1189,
+        "bottom": 824.6875,
+        "left": 91
+      }
+    },
+    {
+      "route": "/acceso",
+      "width": 1280,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 91,
+        "y": 0,
+        "width": 1098,
+        "height": 69,
+        "top": 0,
+        "right": 1189,
+        "bottom": 69,
+        "left": 91
+      },
+      "content": {
+        "x": 91,
+        "y": 69,
+        "width": 1098,
+        "height": 766.2890625,
+        "top": 69,
+        "right": 1189,
+        "bottom": 835.2890625,
+        "left": 91
+      }
+    },
+    {
+      "route": "/registro",
+      "width": 1280,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 91,
+        "y": 0,
+        "width": 1098,
+        "height": 69,
+        "top": 0,
+        "right": 1189,
+        "bottom": 69,
+        "left": 91
+      },
+      "content": {
+        "x": 91,
+        "y": 69,
+        "width": 1098,
+        "height": 1002.2890625,
+        "top": 69,
+        "right": 1189,
+        "bottom": 1071.2890625,
+        "left": 91
+      }
+    },
+    {
+      "route": "/cuenta",
+      "width": 1280,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 91,
+        "y": 0,
+        "width": 1098,
+        "height": 69,
+        "top": 0,
+        "right": 1189,
+        "bottom": 69,
+        "left": 91
+      },
+      "content": {
+        "x": 91,
+        "y": 69,
+        "width": 1098,
+        "height": 2486.171875,
+        "top": 69,
+        "right": 1189,
+        "bottom": 2555.171875,
+        "left": 91
+      }
+    },
+    {
+      "route": "/tramites",
+      "width": 1280,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 91,
+        "y": 0,
+        "width": 1098,
+        "height": 69,
+        "top": 0,
+        "right": 1189,
+        "bottom": 69,
+        "left": 91
+      },
+      "content": {
+        "x": 91,
+        "y": 69,
+        "width": 1098,
+        "height": 364.1875,
+        "top": 69,
+        "right": 1189,
+        "bottom": 433.1875,
+        "left": 91
+      }
+    },
+    {
+      "route": "/tramites/demo-canje",
+      "width": 1280,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 91,
+        "y": 0,
+        "width": 1098,
+        "height": 69,
+        "top": 0,
+        "right": 1189,
+        "bottom": 69,
+        "left": 91
+      },
+      "content": {
+        "x": 91,
+        "y": 69,
+        "width": 1098,
+        "height": 793.171875,
+        "top": 69,
+        "right": 1189,
+        "bottom": 862.171875,
+        "left": 91
+      }
+    },
+    {
+      "route": "/mensajes",
+      "width": 1280,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 91,
+        "y": 0,
+        "width": 1098,
+        "height": 69,
+        "top": 0,
+        "right": 1189,
+        "bottom": 69,
+        "left": 91
+      },
+      "content": {
+        "x": 91,
+        "y": 69,
+        "width": 1098,
+        "height": 439.6015625,
+        "top": 69,
+        "right": 1189,
+        "bottom": 508.6015625,
+        "left": 91
+      }
+    },
+    {
+      "route": "/mensajes/gestor",
+      "width": 1280,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 91,
+        "y": 0,
+        "width": 1098,
+        "height": 65,
+        "top": 0,
+        "right": 1189,
+        "bottom": 65,
+        "left": 91
+      },
+      "content": {
+        "x": 91,
+        "y": 65,
+        "width": 1098,
+        "height": 644.75,
+        "top": 65,
+        "right": 1189,
+        "bottom": 709.75,
+        "left": 91
+      }
+    },
+    {
+      "route": "/servicios",
+      "width": 1280,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 91,
+        "y": 0,
+        "width": 1098,
+        "height": 69,
+        "top": 0,
+        "right": 1189,
+        "bottom": 69,
+        "left": 91
+      },
+      "content": {
+        "x": 91,
+        "y": 69,
+        "width": 1098,
+        "height": 1202.703125,
+        "top": 69,
+        "right": 1189,
+        "bottom": 1271.703125,
+        "left": 91
+      }
+    },
+    {
+      "route": "/legal/privacy",
+      "width": 1280,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 91,
+        "y": 0,
+        "width": 1098,
+        "height": 71.1484375,
+        "top": 0,
+        "right": 1189,
+        "bottom": 71.1484375,
+        "left": 91
+      },
+      "content": {
+        "x": 91,
+        "y": 71.1484375,
+        "width": 1098,
+        "height": 1344.515625,
+        "top": 71.1484375,
+        "right": 1189,
+        "bottom": 1415.6640625,
+        "left": 91
+      }
+    },
+    {
+      "route": "/legal/terms",
+      "width": 1280,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 91,
+        "y": 0,
+        "width": 1098,
+        "height": 71.1484375,
+        "top": 0,
+        "right": 1189,
+        "bottom": 71.1484375,
+        "left": 91
+      },
+      "content": {
+        "x": 91,
+        "y": 71.1484375,
+        "width": 1098,
+        "height": 1243.734375,
+        "top": 71.1484375,
+        "right": 1189,
+        "bottom": 1314.8828125,
+        "left": 91
+      }
+    },
+    {
+      "route": "/legal/support",
+      "width": 1280,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 91,
+        "y": 0,
+        "width": 1098,
+        "height": 71.1484375,
+        "top": 0,
+        "right": 1189,
+        "bottom": 71.1484375,
+        "left": 91
+      },
+      "content": {
+        "x": 91,
+        "y": 71.1484375,
+        "width": 1098,
+        "height": 1045.3125,
+        "top": 71.1484375,
+        "right": 1189,
+        "bottom": 1116.4609375,
+        "left": 91
+      }
+    },
+    {
+      "route": "/legal/delete-account",
+      "width": 1280,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 91,
+        "y": 0,
+        "width": 1098,
+        "height": 71.1484375,
+        "top": 0,
+        "right": 1189,
+        "bottom": 71.1484375,
+        "left": 91
+      },
+      "content": {
+        "x": 91,
+        "y": 71.1484375,
+        "width": 1098,
+        "height": 964.1640625,
+        "top": 71.1484375,
+        "right": 1189,
+        "bottom": 1035.3125,
+        "left": 91
+      }
+    },
+    {
+      "route": "/informacion",
+      "width": 1280,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 91,
+        "y": 0,
+        "width": 1098,
+        "height": 69,
+        "top": 0,
+        "right": 1189,
+        "bottom": 69,
+        "left": 91
+      },
+      "content": {
+        "x": 91,
+        "y": 69,
+        "width": 1098,
+        "height": 435.828125,
+        "top": 69,
+        "right": 1189,
+        "bottom": 504.828125,
+        "left": 91
+      }
+    },
+    {
+      "route": "/checkout-demo",
+      "width": 1280,
+      "documentOverflow": false,
+      "mainOverflow": false,
+      "contentOverflow": false,
+      "header": {
+        "x": 91,
+        "y": 0,
+        "width": 1098,
+        "height": 69,
+        "top": 0,
+        "right": 1189,
+        "bottom": 69,
+        "left": 91
+      },
+      "content": {
+        "x": 91,
+        "y": 69,
+        "width": 1098,
+        "height": 471.0859375,
+        "top": 69,
+        "right": 1189,
+        "bottom": 540.0859375,
+        "left": 91
+      }
+    }
+  ]
+}

@@ -21,15 +21,14 @@ export function AccountAvatar({ profile }) {
   );
 }
 
-export default function AccountMenu({ onClose }) {
+export default function AccountMenu({ onClose, closing, anchorRef }) {
   const app = useApp();
   const navigate = useNavigate();
   const location = useLocation();
   const profile = app.data.profile;
   const name = [profile?.nombre, profile?.apellidos].filter(Boolean).join(" ");
   function open(path, state = path === "/acceso" ? accessState(location) : navigationState(location)) {
-    onClose();
-    navigate(path, { state });
+    onClose(() => navigate(path, { state }));
   }
   return (
     <Sheet
@@ -37,6 +36,9 @@ export default function AccountMenu({ onClose }) {
       className="account-menu"
       closeLabel="Cerrar menú de cuenta"
       onClose={onClose}
+      closing={closing}
+      presentation="menu"
+      anchorRef={anchorRef}
     >
       <div className="account-summary">
         <AccountAvatar profile={profile} />

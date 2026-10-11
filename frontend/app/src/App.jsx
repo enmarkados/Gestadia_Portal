@@ -1,4 +1,5 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useLayoutEffect, useRef } from "react";
+import { PageMotion, useSheetMotion } from "./motion.jsx";
 import {
   NavLink,
   Routes,
@@ -41,13 +42,14 @@ export default function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const connected = conversationsEnabled();
-  const [sheet, setSheet] = useState(null);
+  const { sheet, closing, openSheet, closeSheet } = useSheetMotion(location.pathname);
+  const accountTrigger = useRef(null), backIntent = useRef(false);
   const [assistantReset, setAssistantReset] = useState(0);
   useLayoutEffect(() => {
     const main = document.getElementById("main");
     if (main) main.scrollTop = 0;
   }, [location.pathname]);
-  const onContact = () => setSheet("contact");
+  const onContact = () => openSheet("contact");
   const hasNotifications = app.data.notifications.some((item) => !item.leida);
   const managerChat = location.pathname === "/mensajes/gestor";
   const authScreen =
@@ -111,7 +113,9 @@ export default function App() {
     (item) => item.id === validationRoute?.params.id,
   );
   return (
-    <div className="app-shell">
+    <div className="app-shell" onClickCapture={(event) => {
+      if (event.target.closest?.("[data-app-back]")) backIntent.current = true;
+    }}>
       <a
         href="#main"
         className="skip-link"
@@ -207,7 +211,7 @@ export default function App() {
           <div className="header-actions">
             <button
               className="icon-btn"
-              onClick={() => setSheet("notifications")}
+              onClick={() => openSheet("notifications")}
               aria-label={
                 hasNotifications
                   ? "Notificaciones pendientes"
@@ -222,7 +226,8 @@ export default function App() {
               aria-label="Mi cuenta"
               aria-haspopup="dialog"
               aria-expanded={sheet === "account"}
-              onClick={() => setSheet("account")}
+              ref={accountTrigger}
+              onClick={() => openSheet("account")}
             >
               <Icon name="user" />
             </button>
@@ -254,6 +259,7 @@ export default function App() {
             )}
           </div>
         )}
+        <PageMotion backIntent={backIntent}>
         {app.loading ? (
           <div className="empty" role="status">
             Cargando tu portal…
@@ -346,6 +352,7 @@ export default function App() {
             />
           </Routes>
         )}
+        </PageMotion>
       </main>
       {!legalDocument && !authScreen && (
         <footer className="app-footer">
@@ -408,10 +415,10 @@ export default function App() {
           </div>
         </footer>
       )}
-      {sheet === "contact" && <Contact onClose={() => setSheet(null)} />}
-      {sheet === "account" && <AccountMenu onClose={() => setSheet(null)} />}
+      {sheet === "contact" && <Contact closing={closing} onClose={closeSheet} />}
+      {sheet === "account" && <AccountMenu closing={closing} anchorRef={accountTrigger} onClose={closeSheet} />}
       {sheet === "notifications" && (
-        <Notifications onClose={() => setSheet(null)} />
+        <Notifications closing={closing} onClose={closeSheet} />
       )}
     </div>
   );
