@@ -261,3 +261,6 @@ La misma corrección de arranque supera también la instalación y apertura del 
 ### Identidad visual del acceso social — 11/10/2026
 
 Petición humana: botones oficiales Apple/Google en Android e iOS. Acceso `/acceso` y vinculación en Mi Perfil conservan origen, permisos y acciones existentes. Se reemplaza la presentación genérica por la imagen española generada por Apple y el símbolo degradado del paquete vigente de Google, con Google Sans Medium. Ambos controles tienen 48 px CSS de altura y el mismo ancho; Google usa márgenes 12/10 px en Android y 16/12 px en iOS. Los recursos son locales y no requieren cargar un SDK remoto para dibujar el botón. La vinculación se explica antes del botón «Continuar con», preservando el propósito `link`. Compilación y aceptación visual nativa se registran por separado en el estado Docker.
+
+
+Aviso Android real recibido en segundo plano: pulsarlo abre Mi Perfil para la sesión propietaria; la campana indica avisos pendientes. No se publica el contenido del trámite en la notificación del sistema. Se crea el canal gestadia_updates antes de registrar Android, incluyendo la reapertura de una instalación ya activada. iOS conserva su registro APNs independiente.

@@ -1286,3 +1286,6 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** botón de acceso Apple o Google que conserva la identidad visual oficial del proveedor y un área táctil de 48 píxeles CSS. La misma presentación sirve al acceso y a la vinculación; el propósito de la acción se explica fuera del botón.
 - **Alcance:** APP iOS/Android; `frontend/app/src/SocialAccess.jsx`, `frontend/app/src/App.css` y `frontend/app/public/brand/social/`.
 - **Notas:** reemplaza los botones secundarios genéricos. Apple usa la imagen española generada por su CDN; Google conserva el símbolo degradado del paquete oficial y Google Sans Medium, con márgenes propios de iOS y Android. No cambia el protocolo OAuth.
+
+
+**Actualización de gestadia_updates (11/10/2026):** la APP crea este canal Android, visible como «Actualizaciones de Gestadia», antes del registro FCM inicial y de su reanudación. Importancia predeterminada 3 y visibilidad privada 0; iOS no llama a la API de canales Android. Alcance adicional: `frontend/app/src/push.test.js`.

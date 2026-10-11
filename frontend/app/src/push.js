@@ -56,6 +56,18 @@ export function createPushClient({
     if (!active) await handle.remove();
     else handles.push(handle);
   }
+  async function register() {
+    if (platform() === "android") {
+      await push.createChannel({
+        id: "gestadia_updates",
+        name: "Actualizaciones de Gestadia",
+        description: "Avisos sobre tu cuenta y tus trámites. El detalle se consulta en la app.",
+        importance: 3,
+        visibility: 0,
+      });
+    }
+    if (valid() && enabled) await push.register();
+  }
   const service = {
     async attach() {
       enabled =
@@ -124,7 +136,7 @@ export function createPushClient({
       if (status !== "granted") return;
       enabled = true;
       await secure.set("gestadia.push-enabled", true, false, false, 1);
-      if (valid()) await push.register();
+      if (valid()) await register();
     },
     async disable() {
       enabled = false;
@@ -136,7 +148,7 @@ export function createPushClient({
     async resume() {
       if (!valid()) return;
       const status = await permission();
-      if (enabled && status === "granted" && valid()) await push.register();
+      if (enabled && status === "granted" && valid()) await register();
       else if (status !== "granted" && enabled) {
         await installation();
         await revoke();
