@@ -270,3 +270,8 @@ Animaciones del otro chat integradas en 0344ea3, escritura y teclado en ee64f8d.
 ### Referencia recibida para el siguiente paquete
 
 Verificado en Git el merge app/main 9c2e62c (PR16, implementación 0096bff), descendiente de f7cf8ac. Leídos recorridos/configuración de esa revisión: acceso social existente por email verificado, sin alta OAuth, preferencias y revocación push pendiente, separación IA/gestores y guest deshabilitado por defecto. La entrega documenta 285 backend/191 frontend y arranque iOS Debug; no se repiten ni se atribuyen a un release firmado aquí. Aceptación DEV conectada, interacción nativa, proveedores reales y siguiente distribución pendientes. Build (2) conserva únicamente sus cambios previos. [Handoff con revisión posterior](HANDOFF-RECORRIDOS-MARKETPLACES-20261011.md).
+
+
+### Escritura animada y distribución (3) — 11/10/2026
+
+Usuario y TestFlight confirman (2) instalada. Fuente `dcbc47c` añade pulso del texto en cursiva y tres puntos secuenciales, respetando movimiento reducido; conserva la base funcional, animaciones y ajuste del teclado de (2). Suite frontend 178/178 y estilos efectivos verificados. IPA y AAB/APK build 3 firmados, hashes y configuración idéntica acreditados. Apple (3) procesada y «En pruebas» en Gestadia QA; Play (3) «Activo» y disponible para testers internos. Notas guardadas en ambos. [Evidencia y límites](evidencias/2026-10-11-escritura-animada/README.md). Instalación y aceptación de (3) en iPhone pendientes; OAuth/APNs y recorridos PR16 mantienen sus aceptaciones independientes. Sin cambios de servidor, documentos o base de datos ni nuevos emuladores.
