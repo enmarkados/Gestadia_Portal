@@ -99,6 +99,7 @@ model Notificacion {
   userId       String
   user         User     @relation(fields: [userId], references: [id])
   expedienteId String?
+  conversationId String?
   titulo       String
   cuerpo       String   @db.Text
   canal        String   @default("portal")
@@ -288,6 +289,7 @@ model AppConversation {
   purpose String @db.VarChar(16)
   caseId String?
   title           String? @db.VarChar(120)
+  managerName     String? @db.VarChar(120)
   remoteCreatedAt DateTime?
   lastMessageAt   DateTime?
   remoteId String? @db.VarChar(128)
@@ -341,4 +343,71 @@ model AppConversationAccess {
   validatedAt DateTime
   validUntil DateTime
   @@unique([userId, scopeKey])
+}
+
+model AppCallbackRequest {
+  id String @id @default(uuid())
+  actorScope String @db.VarChar(64)
+  idempotencyKey String @db.VarChar(128)
+  payloadHash String @db.VarChar(64)
+  payload Json
+  status String @default("prepared") @db.VarChar(32)
+  contactId String? @db.VarChar(64)
+  leadId String? @db.VarChar(128)
+  taskId String? @db.VarChar(128)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([actorScope, idempotencyKey])
+  @@index([status, updatedAt])
+}
+
+model AppGuestInstallation {
+ id String @id @default(uuid())
+ tokenHash String @unique @db.VarChar(64)
+ createdAt DateTime @default(now())
+ expiresAt DateTime
+ revokedAt DateTime?
+}
+model AppGuestConversation {
+ id String @id @default(uuid())
+ installationId String @db.VarChar(191)
+ integrationId String @db.VarChar(128)
+ remoteId String? @db.VarChar(128)
+ ownerUserId String? @db.VarChar(191)
+ permissions Json?
+ accessRevision String @default("0") @db.VarChar(20)
+ status String @default("active") @db.VarChar(32)
+ title String? @db.VarChar(120)
+ expiresAt DateTime
+ createdAt DateTime @default(now())
+ lastMessageAt DateTime?
+ @@index([installationId, createdAt])
+ @@index([ownerUserId, createdAt])
+}
+model AppGuestOperation {
+ id String @id @default(uuid())
+ conversationId String @db.VarChar(191)
+ kind String @db.VarChar(32)
+ key String @db.VarChar(128)
+ hash String @db.VarChar(64)
+ request Json
+ response Json?
+ status String @default("prepared") @db.VarChar(32)
+ errorCode String? @db.VarChar(64)
+ remoteOperationId String? @db.VarChar(128)
+ claimId String? @db.VarChar(36)
+ leaseUntil DateTime?
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ @@unique([conversationId, kind, key])
+}
+model AppGuestBinding {
+ id String @id @default(uuid())
+ conversationId String @unique @db.VarChar(191)
+ targetUserId String @db.VarChar(191)
+ request Json
+ response Json?
+ status String @default("preparing") @db.VarChar(32)
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
 }

@@ -13,6 +13,10 @@ export function receiptQuery(query) {
 export function validateMessageSnapshot(data,remoteId,{query,ack}={}) {
   const summary=query?.summary === "true";
   validateContract(ack?"MessageReceiptAckResponse":summary?"MessageReceiptSummary":"MessageReceiptSnapshot",data,{response:true});
+  return validateMessageSnapshotSemantics(data,remoteId,{query,ack});
+}
+export function validateMessageSnapshotSemantics(data,remoteId,{query,ack}={}) {
+  const summary=query?.summary === "true";
   const bad=()=>{throw new AppProblem(502,"invalid_upstream_response");};
   if(data.conversation_id!==remoteId || (ack && data.ack_id!==ack.ack_id)) bad();
   const items=summary?(data.last_message?.receipt?[data.last_message.receipt]:[]):data.items;

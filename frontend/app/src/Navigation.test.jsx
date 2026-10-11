@@ -179,14 +179,14 @@ it("cambiar entre documentos legales no pierde el destino tras el acceso", async
   await signIn();
   await screen.findByRole("heading", { name: "Mis trámites" });
 });
-it("Mensajes visitante desde una pestaña vuelve al origen al cancelar y retoma Mensajes al entrar", async () => {
+it("Mensajes visitante conserva pestañas y acceso explícito vuelve a Mensajes al cancelar o entrar", async () => {
   start();
   fireEvent.click(screen.getByRole("link", { name: "Mensajes", exact: true }));
-  fireEvent.click(screen.getByRole("link", { name: "Volver a Trámites" }));
-  expect(
-    screen.getByRole("heading", { name: "Mis trámites" }),
-  ).toBeInTheDocument();
-  fireEvent.click(screen.getByRole("link", { name: "Mensajes", exact: true }));
+  expect(screen.getByRole("navigation", { name: "Navegación principal" })).toBeInTheDocument();
+  fireEvent.click(screen.getByRole("link", { name: "Iniciar sesión", exact: true }));
+  fireEvent.click(screen.getByRole("link", { name: "Volver a Mensajes" }));
+  expect(screen.getByRole("heading", { name: "Mensajes" })).toBeInTheDocument();
+  fireEvent.click(screen.getByRole("link", { name: "Iniciar sesión", exact: true }));
   await signIn();
   await screen.findByRole("heading", { name: "Mensajes" });
 });
@@ -209,7 +209,7 @@ it("Perfil conectado no solicita contraseñas para una operación que no está d
   expect(
     screen.queryByRole("button", { name: "Cambiar contraseña" }),
   ).toBeNull();
-  const recover = screen.getByRole("link", { name: "Recuperar acceso" });
+  const recover = screen.getByRole("link", { name: "Restablecer contraseña" });
   expect(recover).toHaveAttribute(
     "href",
     "https://gestadia.com/portal/recuperar",

@@ -1,3 +1,4 @@
+import { notificationDestination } from "./notificationDestination.js";
 import { Capacitor } from "@capacitor/core";
 import { PushNotifications } from "@capacitor/push-notifications";
 import { SecureStorage } from "@aparajita/capacitor-secure-storage";
@@ -16,6 +17,7 @@ export function createPushClient({
   const owner = current();
   let active = true,
     enabled = false,
+    registered = false, preferenceSet = false,
     id = null;
   const handles = [];
   const valid = () => active && owner && current() === owner;
@@ -45,8 +47,8 @@ export function createPushClient({
     onStatus(
       status.receive === "granted"
         ? enabled
-          ? "Activadas"
-          : "Permiso concedido; activa los avisos"
+          ? registered ? "Activadas" : "Activando notificaciones…"
+          : preferenceSet ? "Desactivadas en este dispositivo" : "Permiso concedido; activa los avisos"
         : "Permiso no concedido. Puedes cambiarlo en los ajustes del sistema.",
     );
     return status.receive;
@@ -70,8 +72,8 @@ export function createPushClient({
   }
   const service = {
     async attach() {
-      enabled =
-        (await secure.get("gestadia.push-enabled", false, false)) === true;
+      const saved = await secure.get("gestadia.push-enabled", false, false);
+      enabled = saved === true; preferenceSet = saved === true || saved === false;
       await listen("registration", async ({ value }) => {
         if (!valid() || !enabled) return;
         try {
@@ -86,7 +88,7 @@ export function createPushClient({
             }),
           });
           if (!valid() || !enabled) await revoke();
-          else onStatus("Activadas");
+          else { registered = true; onStatus("Activadas"); }
         } catch {
           if (valid())
             onStatus("Inscripción pendiente. Reintenta con conexión.");
@@ -116,12 +118,8 @@ export function createPushClient({
               `/api/notificaciones/${encodeURIComponent(notificationId)}`,
             );
             if (!valid()) return;
-            onNotification();
-            navigate(
-              n.expedienteId
-                ? `/tramites/${encodeURIComponent(n.expedienteId)}`
-                : "/cuenta",
-            );
+            await request(`/api/notificaciones/${encodeURIComponent(notificationId)}/leer`, { method: "POST" });
+            if (valid()) { onNotification(); navigate(notificationDestination(n)); }
           } catch {
             if (valid())
               onStatus("Este aviso no está disponible para tu sesión actual.");
@@ -134,22 +132,35 @@ export function createPushClient({
       if (!valid()) return;
       const status = await permission(true);
       if (status !== "granted") return;
-      enabled = true;
+      enabled = true; preferenceSet = true;
+      onStatus("Activando notificaciones…");
       await secure.set("gestadia.push-enabled", true, false, false, 1);
       if (valid()) await register();
     },
     async disable() {
-      enabled = false;
+      enabled = false; registered = false; preferenceSet = true;
       await secure.set("gestadia.push-enabled", false, false, false, 1);
       await installation();
-      await revoke();
-      if (valid()) onStatus("Desactivadas en este dispositivo");
+      await secure.set("gestadia.push-revoke-pending", true, false, false, 1);
+      try {
+        await revoke();
+        await secure.set("gestadia.push-revoke-pending", false, false, false, 1);
+        if (valid()) onStatus("Desactivadas en este dispositivo");
+      } catch (error) {
+        if (valid()) onStatus("Desactivadas; retirada del servidor pendiente de conexión");
+        throw error;
+      }
     },
     async resume() {
       if (!valid()) return;
       const status = await permission();
       if (enabled && status === "granted" && valid()) await register();
-      else if (status !== "granted" && enabled) {
+      else if (!enabled && await secure.get("gestadia.push-revoke-pending", false, false)) {
+        await installation();
+        await revoke();
+        await secure.set("gestadia.push-revoke-pending", false, false, false, 1);
+        if (valid()) onStatus("Desactivadas en este dispositivo");
+      } else if (status !== "granted" && enabled) {
         await installation();
         await revoke();
       }

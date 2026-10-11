@@ -201,6 +201,10 @@ export class AppConversationService {
         return { conversation, operation: previous, created: false };
       }
       const scope = scopeKey(input.purpose, caseId);
+      if (input.purpose === "atencion") {
+        const access = await currentAccess(tx, { purpose: input.purpose, caseId, scopeKey: scope }, user, this.config);
+        if (!["manager_handoff", "support_handoff", "commercial_handoff"].some(p => access.permissions.includes(p))) throw new AppProblem(409, "identity_link_required");
+      }
       let c = input.create_new === true ? null : await selectConversation(tx, user);
       if (c) requireAccess(c, await currentAccess(tx, c, user, this.config));
       if (c?.remoteId)

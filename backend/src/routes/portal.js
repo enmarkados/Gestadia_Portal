@@ -132,11 +132,26 @@ portalRouter.get('/api/notificaciones', async (req, res) => {
   const items = await db.notificacion.findMany({
     where: { userId: req.user.id }, orderBy: { createdAt: 'desc' }, take: 50,
   });
-  res.json(items);
+  res.json(await Promise.all(items.map(notificationView)));
 });
 
 portalRouter.get('/api/notificaciones/:id', async (req,res,next) => {
-  try {const item=await db.notificacion.findFirst({where:{id:req.params.id,userId:req.user.id}});if(!item)return res.status(404).json({error:'Aviso no encontrado'});res.json(item);}catch(error){next(error);}
+  try {const item=await db.notificacion.findFirst({where:{id:req.params.id,userId:req.user.id}});if(!item)return res.status(404).json({error:'Aviso no encontrado'});res.json(await notificationView(item));}catch(error){next(error);}
+});
+
+async function notificationView(item) {
+  if (!item.conversationId) return item;
+  const conversation = await db.appConversation.findFirst({ where: { id: item.conversationId, userId: item.userId }, select: { id: true, purpose: true } });
+  const guest = conversation ? null : await db.appGuestConversation.findFirst({ where: { id: item.conversationId, ownerUserId: item.userId }, select: { id: true } });
+  return { ...item, conversationId: conversation?.id || guest?.id || null, conversationPurpose: conversation?.purpose || (guest ? "sondeo" : null), conversationProtocol: guest ? "v2" : null };
+}
+portalRouter.patch('/api/notificaciones/:id', async (req, res, next) => {
+  try {
+    if (typeof req.body?.leida !== 'boolean' || Object.keys(req.body).some(k => k !== 'leida')) return res.status(400).json({ error: 'Estado de lectura inválido' });
+    const result = await db.notificacion.updateMany({ where: { id: req.params.id, userId: req.user.id }, data: { leida: req.body.leida } });
+    if (!result.count) return res.status(404).json({ error: 'Aviso no encontrado' });
+    res.json({ ok: true, leida: req.body.leida });
+  } catch (error) { next(error); }
 });
 
 portalRouter.post('/api/notificaciones/:id/leer', async (req, res) => {

@@ -15,8 +15,10 @@ import { socialAuthRouter } from "./routes/social-auth.js";
 import { portalRouter } from "./routes/portal.js";
 import { webhooksRouter } from "./routes/webhooks.js";
 import { integrationsRouter } from "./routes/integrations.js";
-import { appConversationConfig } from './config.js';
+import { appConversationConfig, appV2ConversationConfig } from './config.js';
 import { db } from './db.js';
+import { createAppGuestRouter } from "./routes/app-guest.js";
+import { createAppContactRouter } from "./routes/app-contact.js";
 import { createAppRouter } from './app/routes.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -76,6 +78,8 @@ export function createApp() {
     }),
   );
 
+  app.use("/api/app/guest", createAppGuestRouter({ db, config: appV2ConversationConfig() }));
+  app.use("/api/app/contact", createAppContactRouter({ db, config: appConversationConfig() }));
   app.use(leadsRouter);
   app.use(authRouter);
   app.use(socialAuthRouter);

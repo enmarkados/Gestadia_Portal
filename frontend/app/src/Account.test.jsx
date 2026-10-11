@@ -61,7 +61,7 @@ it("el perfil guarda sólo mediante el Portal y ofrece recuperación real", asyn
     ),
   ).toBe(true);
   expect(
-    screen.getByRole("link", { name: "Recuperar acceso" }),
+    screen.getByRole("link", { name: "Restablecer contraseña" }),
   ).toHaveAttribute("href", "https://gestadia.com/portal/recuperar");
   expect(document.body.textContent).not.toMatch(/demo|demostración|ejemplo/i);
 });

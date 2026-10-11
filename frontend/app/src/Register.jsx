@@ -8,8 +8,9 @@ export default function Register() {
     <section className="auth-page">
       <h1>Tu cuenta Gestadia</h1>
       <p>
-        Usa el acceso compartido con tu portal. Si has recibido una invitación,
-        verifica el correo y crea tu contraseña mediante ese enlace.
+        Tu cuenta Gestadia se crea cuando contratas un servicio. Con el mismo
+        email y contraseña accedes a la app y al portal para gestionar tus trámites.
+        Si has recibido el correo de acceso, usa su enlace para crear tu contraseña.
       </p>
       <Link
         className="btn primary"
@@ -18,6 +19,9 @@ export default function Register() {
       >
         Iniciar sesión
       </Link>
+      <Link className="btn secondary" to="/servicios" state={authFlowState(location)}>Ver servicios</Link>
+      <p className="helper">Puedes hablar con LidIA sin contratar un servicio ni crear una cuenta.</p>
+      <Link className="text-btn" to="/" state={authFlowState(location)}>Ir a LidIA</Link>
       <LegalLinks compact />
     </section>
   );

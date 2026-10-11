@@ -2,6 +2,10 @@
 
 Índice de la documentación de integraciones con sistemas externos.
 
+## Revisión APP del 11/10/2026
+
+[Plan, implementación, mapas y evidencia](../app/2026-10-11-recorridos-gestores.md). Consumidor guest v2 y copia exacta [wire r4 LidIA](2026-10-11-app-v2-wire-lidia-r4.md), con muestras/schema, autoridad por chat, recuperación y vínculo. Contacto automático cualificado permanece reservado; callback explícito APP se gestiona por Portal/Zoho. La configuración efectiva y pruebas conectadas, nativas y de tiendas se acreditan por separado.
+
 ## Gestadia APP — preparación del contrato ejecutable v2 (10/10/2026)
 
 [Coordinación Portal](2026-10-10-coordinacion-portal-contrato-v2.md), [plan por bloques](../superpowers/plans/2026-10-10-app-v2-portal.md) y [contraste vigente del wire r3](2026-10-10-contraste-portal-wire-v2-r3.md): instrucción humana comprobada; transporte/requests aislados preparados y probados. Copias exactas de wire/schema/vectores; respuestas r1 propuestas para revisión conjunta, sin importación runtime. Contacto/ACK reservado y aplazado. No API v2 montada, migración, merge funcional, despliegue ni activación. Las revisiones anteriores conservan su estado histórico.

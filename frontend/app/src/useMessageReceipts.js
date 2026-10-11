@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Capacitor } from "@capacitor/core";
 import { App } from "@capacitor/app";
 import { getToken } from "./api.js";
+import { guestConversationApi } from "./guestConversations.js";
 import { conversationApi } from "./conversationApi.js";
 
 const rank = { sent: 0, received: 1, read: 2 };
@@ -24,7 +25,7 @@ function watchActivity(onChange) {
   }
   return { active, stop() { alive = false; document.removeEventListener("visibilitychange", changed); listener?.remove(); } };
 }
-export function useMessageReceipts({ userId, conversationId, items, enabled }) {
+export function useMessageReceipts({ userId, conversationId, items, enabled, api = conversationApi }) {
   const [receipts, setReceipts] = useState({});
   const cache = useRef({ userId: null, conversationId: null, items: {} });
   const idsKey = items.filter(m => ["user", "assistant", "operator"].includes(m.role)).map(m => m.message_id).join(",");
@@ -64,7 +65,7 @@ export function useMessageReceipts({ userId, conversationId, items, enabled }) {
             && (entry.body.state !== "read" || (readActive() && entry.body.message_ids.every(id => visible.has(id)))));
           if (!op) break;
           try {
-            const result = await conversationApi.ackMessages(conversationId, op.body, op.key);
+            const result = await api.ackMessages(conversationId, op.body, op.key);
             if (!alive) return;
             // Only a matching authoritative response settles an unknown outcome.
             if (result?.ack_id !== op.body.ack_id || result.conversation_id !== conversationId || !Array.isArray(result.items)
@@ -103,7 +104,7 @@ export function useMessageReceipts({ userId, conversationId, items, enabled }) {
         // A long loaded history costs one lookup per poll, rather than unbounded requests.
         const selected = all ? batches : [batches[page++ % batches.length]];
         for (const ids of selected) {
-          const snapshot = await conversationApi.messageReceipts(conversationId, { message_ids: ids.join(",") });
+          const snapshot = await api.messageReceipts(conversationId, { message_ids: ids.join(",") });
           if (!alive) return;
           merge(snapshot);
         }
@@ -160,7 +161,7 @@ export function useReceiptSummaries(rows) {
   const key = rows.filter(c => c.ready).map(c => c.id).join(",");
   useEffect(() => {
     if (!token || cache.current.token !== token) cache.current = { token, items: {} };
-    if (!key || !token) { setSummaries({}); return; }
+    if (!key || (!token && !rows.some(c=>c.protocol==="v2"))) { setSummaries({}); return; }
     let alive = true, fetching = false, timer, observer;
     const ids = key.split(","), current = cache.current.items, visible = new Set(ids.slice(0, 10));
     setSummaries({ ...current });
@@ -178,7 +179,7 @@ export function useReceiptSummaries(rows) {
         if (getToken() !== token) return;
         const targets = [...visible].slice(0, 20);
         for (let i = 0; i < targets.length; i += 4) await Promise.all(targets.slice(i, i + 4).map(async id => {
-          try { merge(id, await conversationApi.messageReceipts(id, { summary: "true" })); } catch { /* No synthetic tick/preview on error. */ }
+          try { merge(id, await (rows.find(c=>c.id===id)?.protocol === "v2" ? guestConversationApi : conversationApi).messageReceipts(id, { summary: "true" })); } catch { /* No synthetic tick/preview on error. */ }
         }));
       } finally { fetching = false; }
     }

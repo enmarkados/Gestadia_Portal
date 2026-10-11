@@ -67,10 +67,14 @@ export const config = {
 // APP conversacional: credenciales exclusivas por facultad; nunca reutilizar plugin/WhatsApp.
 export function appConversationConfig(env = process.env) {
   const key = role => ({ keyId: env[`APP_LIDIA_${role}_KEY_ID`] || '', secretBase64: env[`APP_LIDIA_${role}_SECRET_BASE64`] || '' });
+  let managerRoutes;
+  try { managerRoutes = JSON.parse(env.APP_MANAGER_ROUTES_JSON || "[]"); } catch { throw new AppProblem(503, "runtime_unavailable"); }
+  if (!Array.isArray(managerRoutes) || managerRoutes.length > 200 || managerRoutes.some(r => !r || Object.keys(r).some(k => !["assignmentRef", "zohoOwnerId"].includes(k)) || !/^[A-Za-z0-9._:-]{1,128}$/.test(r.assignmentRef || "") || !/^\d{5,30}$/.test(r.zohoOwnerId || "")) || new Set(managerRoutes.map(r => r.assignmentRef)).size !== managerRoutes.length) throw new AppProblem(503, "runtime_unavailable");
   const base = {
     enabled: env.APP_CONVERSATIONS_ENABLED === 'true',
     integrationId: env.APP_LIDIA_INTEGRATION_ID || '', baseUrl: env.APP_LIDIA_BASE_URL || '', audience: env.APP_LIDIA_AUDIENCE || '',
     keys: { session: key('SESSION'), timeline: key('READ'), turn: key('TURN'), handoff: key('HANDOFF'), context: key('CONTEXT'), revocation: key('REVOCATION') },
+    managerRoutes,
     generalSupport: env.APP_LIDIA_GENERAL_SUPPORT === 'true', generalCommercial: env.APP_LIDIA_GENERAL_COMMERCIAL === 'true',
   };
   const nativeKey = role => ({
@@ -102,4 +106,13 @@ export function appConversationIntegrations(config) {
     ids.add(key.keyId);
   }
   return [config, native];
+}
+
+export function appV2ConversationConfig(env = process.env) {
+  const roles = {'app.sessions.write':'SESSION','app.timeline.read':'READ','app.turns.write':'TURN','app.handoff.request':'HANDOFF','app.context.attest':'CONTEXT','app.bindings.write':'BINDING_WRITE','app.bindings.read':'BINDING_READ','app.subjects.revoke':'REVOCATION'};
+  return {
+    enabled: env.APP_V2_ENABLED === 'true', guestEnabled: env.APP_V2_GUEST_ENABLED === 'true',
+    integrationId: env.APP_V2_LIDIA_INTEGRATION_ID || '', baseUrl: env.APP_V2_LIDIA_BASE_URL || '', audience: env.APP_V2_LIDIA_AUDIENCE || '',
+    keys: Object.fromEntries(Object.entries(roles).map(([cap,role])=>[cap,{keyId:env[`APP_V2_LIDIA_${role}_KEY_ID`]||'',secretBase64:env[`APP_V2_LIDIA_${role}_SECRET_BASE64`]||''}])),
+  };
 }

@@ -1458,3 +1458,44 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Notas:** evitan el segundo ajuste tardío del plugin Keyboard en modo native; en iOS se usa resize none y una única transición del contenedor. Android conserva su ajuste nativo.
 
 **Actualización de Gestadia APP Android Play (11/10/2026):** cliente creado con la huella Play confirmada; el ID público se registra en MARKETPLACES-CONFIGURACION.md. El consentimiento visible usa Gestadia; el slug técnico del proyecto permanece gestadia-vozia. Creación no acredita login real.
+
+## ConversationList / PushSettings promptOnly / notificationDestination
+
+- **Tipo:** componentes y función de presentación APP.
+- **Definición:** ConversationList presenta el historial del propósito correspondiente a su pestaña. PushSettings promptOnly ofrece una única activación inicial; notificationDestination obtiene un destino interno de un aviso autorizado por el servidor.
+- **Alcance:** `frontend/app/src/ConnectedMessages.jsx`, `PushSettings.jsx`, `notificationDestination.js`, notificaciones del portal.
+- **Notas:** Se descarta mezclar chats IA y humanos o interpretar una URL externa de un aviso como navegación confiable. No conceden permisos ni identidad.
+
+## Notificacion.conversationId / notificationView / acceso social por correo verificado
+
+- **Tipo:** propiedad de aviso y decisiones de identidad/presentación.
+- **Definición:** conversationId asocia un aviso a un chat Portal; notificationView sólo entrega su destino y propósito cuando la cuenta destinataria posee ese chat. El acceso social identifica una cuenta Gestadia existente con el email verificado de Apple/Google, conserva su autoridad y vincula el sujeto del proveedor.
+- **Alcance:** `backend/prisma/schema.prisma`, migración `20261011100000_notification_conversations`, `backend/src/routes/portal.js`, `backend/src/services/social-auth.js` y APP.
+- **Notas:** No se crea una cuenta por OAuth, no se modifica asignación CRM ni se aceptan IDs de otro usuario. Se conserva la vinculación explícita autenticada desde Perfil.
+
+## AppCallbackRequest / createAppContactService / createZohoCallbackAdapter / APP_MANAGER_ROUTES_JSON
+
+- **Tipo:** entidad durable, servicios y configuración privada del servidor.
+- **Definición:** AppCallbackRequest conserva una solicitud de llamada y sus confirmaciones CRM; createAppContactService distingue llamada y chat a partir del contexto autorizado. createZohoCallbackAdapter localiza un lead por teléfono y crea su tarea; APP_MANAGER_ROUTES_JSON vincula referencias opacas autorizadas con propietarios CRM comprobados.
+- **Alcance:** `backend/prisma/schema.prisma`, migración `20261011103000_app_callbacks`, `backend/src/app/contact.js`, `backend/src/routes/app-contact.js`, `backend/src/services/zoho-callbacks.js`, configuración backend.
+- **Notas:** El dispositivo sólo envía nombre/teléfono y una intención idempotente. No escoge gestor, proyecto, CRM ni permisos; una respuesta remota perdida se conserva para revisión, sin repetir una creación a ciegas. No se usan conversaciones sondeo como atención.
+
+- **AppCallbackRequest.contactId** — propiedad. Referencia CRM de un contacto existente verificado por el servidor para asociar su tarea de llamada. Alcance: backend/prisma/schema.prisma, backend/src/app/contact.js y services/zoho-callbacks.js. No se acepta desde la APP ni crea un lead adicional para una cuenta ya vinculada.
+- **gestadia.push-revoke-pending** — concepto runtime. Preferencia segura que conserva una retirada del dispositivo pendiente de confirmación remota. Alcance: frontend/app/src/push.js. Se reintenta al recuperar conexión, sin anunciar que el servidor ha retirado el dispositivo antes de confirmarlo.
+
+- **AppGuestInstallation** — entidad Prisma. Instalación anónima comprobada con una credencial aleatoria conservada por el dispositivo y sólo su hash en servidor. Alcance: backend/src/app/v2/guest.js y prisma/schema.prisma. El ID de instalación no es autenticación ni selector de agente.
+- **AppGuestConversation** — entidad Prisma. Sondeo v2 ligado a instalación, sujeto estable y, después de vínculo confirmado, cuenta verificada; preserva el ID de la sesión LidIA. Alcance: backend/src/app/v2/guest.js y prisma/schema.prisma. Caducidad original de invitado de 24 horas, sin renovarla al recuperar una sesión.
+- **AppGuestOperation** — entidad Prisma. Registro de petición y respuesta de una operación v2 que conserva cuerpo y clave para recuperar resultados inciertos. Alcance: backend/src/app/v2/guest.js y prisma/schema.prisma. No se reconstruyen atestaciones o turnos al reintentar.
+- **AppGuestBinding** — entidad Prisma. Preparación y confirmación durable del vínculo de un sondeo invitado a una cuenta verificada bajo control de ambos participantes. Alcance: backend/src/app/v2/guest.js y prisma/schema.prisma. No concede acceso por email, nombre o teléfono declarados.
+- **guestConversationApi** — concepto runtime. Adaptador APP de sondeo v2 y almacenamiento seguro de instalación, separado del transporte autenticado v1. Alcance: frontend/app/src/guestConversations.js. No permite seleccionar agente, entorno, gestor o CRM desde el dispositivo.
+
+- **conversationProtocol** — propiedad derivada de aviso. Identifica la versión de un chat cuyo propietario fue comprobado por el servidor para abrirlo con su adaptador. Alcance: backend/src/routes/portal.js y frontend/app/src/notificationDestination.js. El usuario no selecciona integración ni agente mediante esta propiedad.
+
+- **AppGuestOperation.claimId / leaseUntil** — propiedades. Marca de exclusión y vencimiento de una entrega que permiten recuperar el mismo envío tras detenerse un proceso sin degradar una confirmación concurrente. Alcance: backend/src/app/v2/guest.js y prisma/schema.prisma. Reintentar siempre conserva DTO y clave remota.
+- **app-recorridos-preview** — herramienta de desarrollo. Servidor local con datos ficticios para revisar las pantallas construidas de la APP sin conexiones a LidIA o Zoho. Alcance: scripts/app-recorridos-preview.mjs. No es un backend desplegable ni evidencia de aceptación conectada.
+
+### validateMessageSnapshotSemantics
+- **Tipo:** concepto runtime / función de validación.
+- **Definición:** Comprueba pertenencia, cobertura exacta de mensajes, roles y revisiones de recibos después de validar su esquema de transporte. Conserva el actor histórico guest o account.
+- **Alcance:** backend/src/app/messageReceipts.js y backend/src/app/v2/guest.js.
+- **Notas:** Compartida entre v1 y v2; cada protocolo conserva su propio esquema, sin convertir recibos guest en account.

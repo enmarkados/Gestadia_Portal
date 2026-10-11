@@ -468,7 +468,7 @@ it("cambio de operador no atribuye mensajes históricos al operador actual", asy
   mount();
   const historic = await screen.findByText("Mensaje de un operador anterior");
   expect(historic.closest(".bubble").querySelector("strong").textContent).toBe(
-    "Equipo Gestadia",
+    "Tu gestor",
   );
   expect(screen.getByText("Te atiende Nueva Gestora.")).toBeInTheDocument();
 });
@@ -494,7 +494,7 @@ it("atención local LidIA muestra Segundo como actual sin atribuirle la historia
   mount();
   const operator = await screen.findByText("Continúo");
   expect(operator.closest(".bubble").querySelector("strong").textContent).toBe(
-    "Equipo Gestadia",
+    "Tu gestor",
   );
   expect(screen.getByText("Te atiende Segundo.")).toBeInTheDocument();
   expect(screen.queryByText("Canje APP test")).toBeNull();

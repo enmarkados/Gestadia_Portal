@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { authFlowState } from "./navigation.js";
 import { useApp } from "./AppContext.jsx";
 import { platform } from "./api.js";
 import { socialClient, takeSocialResult } from "./social-auth.js";
 export default function SocialAccess({ purpose = "login", onDone = () => {} }) {
   const app = useApp();
+  const location = useLocation();
   const [result, setResult] = useState(null),
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false);
@@ -48,11 +51,8 @@ export default function SocialAccess({ purpose = "login", onDone = () => {} }) {
   if (!available) return null;
   return (
     <div className="card social-access" data-platform={platform()}>
-      <p>
-        {purpose === "link"
-          ? "Vincular acceso a esta cuenta"
-          : "También puedes acceder con"}
-      </p>
+      <h3>{purpose === "link" ? "Vincula tu cuenta" : "Accede con Apple o Google"}</h3>
+      <p>{purpose === "link" ? "Vincula Apple o Google para entrar con esos proveedores a esta misma cuenta Gestadia. Tus trámites y conversaciones se conservan." : "Usa el mismo correo que en tu cuenta Gestadia. Si coincide con el correo verificado del proveedor, accederás directamente."}</p>
       {["apple", "google"]
         .filter((provider) => available[provider])
         .map((provider) => (
@@ -74,31 +74,11 @@ export default function SocialAccess({ purpose = "login", onDone = () => {} }) {
             )}
           </button>
         ))}
-      {result?.status === "account_required" && (
-        <>
-          <p>
-            Se creará una cuenta Gestadia nueva, sin trámites asociados.{" "}
-            {result.emailAvailable
-              ? "Confirma para continuar."
-              : "El proveedor no ha facilitado un email verificado. Vuelve a iniciar el acceso compartiendo tu email."}
-          </p>
-          {result.emailAvailable && (
-            <button
-              className="btn primary"
-              disabled={busy}
-              onClick={() => run(() => socialClient.confirm("create"))}
-            >
-              Confirmar creación de cuenta
-            </button>
-          )}
-        </>
-      )}
-      {result?.status === "existing_account_required" && (
-        <p role="status">
-          Accede primero con tu email y contraseña de Gestadia. Después puedes
-          vincular Apple o Google desde Mi Perfil.
-        </p>
-      )}
+      {["account_required", "existing_account_required"].includes(result?.status) && <div className="social-account-required" role="status">
+        <p>{result.emailAvailable ? "No encontramos una cuenta Gestadia con el correo verificado de este proveedor." : "Necesitamos que el proveedor comparta un correo verificado para identificar tu cuenta Gestadia."}</p>
+        <p>La cuenta Gestadia se crea al contratar un servicio. Si ya tienes una, prueba con el correo que usas en el portal.</p>
+        <Link className="btn secondary" to="/registro" state={authFlowState(location)} onClick={() => socialClient.cancel().catch(() => {})}>Tu cuenta Gestadia</Link>
+      </div>}
       {result?.status === "link_required" && (
         <>
           <p>Este proveedor se vinculará a tu cuenta Gestadia actual.</p>
@@ -119,7 +99,7 @@ export default function SocialAccess({ purpose = "login", onDone = () => {} }) {
       {result?.status === "linked" && <p role="status">Acceso vinculado.</p>}
       {result && result.status !== "linked" && (
         <button
-          className="text-btn"
+          className="btn secondary"
           onClick={() => {
             socialClient.cancel().catch(() => {});
             setResult(null);

@@ -7,6 +7,7 @@ import {
   Link,
   useLocation,
   useMatch,
+  useSearchParams,
   useNavigate,
 } from "react-router-dom";
 import { useApp } from "./AppContext.jsx";
@@ -38,6 +39,7 @@ export default function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const connected = conversationsEnabled();
+  const [query] = useSearchParams();
 
   const { sheet, closing, openSheet, closeSheet } = useSheetMotion(location.pathname);
   const accountTrigger = useRef(null), backIntent = useRef(false);
@@ -51,8 +53,7 @@ export default function App() {
   const authScreen =
     ["/acceso", "/registro"].includes(location.pathname) ||
     (app.mode === "visitante" &&
-      (location.pathname === "/cuenta" ||
-        (connected && location.pathname === "/mensajes")));
+      (location.pathname === "/cuenta"));
   const legalKind = location.pathname.startsWith("/legal/")
     ? location.pathname.slice(7)
     : null;
@@ -153,9 +154,7 @@ export default function App() {
         <header className="manager-chat-header">
           {contextualBack}
           <h1>
-            {connected && !app.isClient
-              ? "Habla con Gestadia"
-              : "Habla con tu gestor"}
+            Habla con tu gestor
           </h1>
           <button
             className="icon-btn"
@@ -272,11 +271,7 @@ export default function App() {
               path="/mensajes"
               element={
                 connected ? (
-                  app.mode === "real" ? (
-                    <ConnectedMessages key={app.data.profile?.id} />
-                  ) : (
-                    <Login />
-                  )
+                  <ConnectedMessages key={app.data.profile?.id || "visitante"} onContact={onContact} />
                 ) : (
                   <Messages onContact={onContact} />
                 )
@@ -286,7 +281,7 @@ export default function App() {
               path="/mensajes/gestor"
               element={
                 connected ? (
-                  <AppConversation purpose="atencion" />
+                  query.get("conversacion") ? <AppConversation purpose="atencion" /> : <section className="empty manager-entry"><h2>Habla con tu gestor</h2><p>Consulta tu trámite con el gestor que te atiende. Si todavía no tienes uno asignado, puedes pedir que te llame.</p><button className="btn dark-btn" onClick={onContact}>Contactar con un gestor</button></section>
                 ) : (
                   <PlatformChat onContact={onContact} manager />
                 )

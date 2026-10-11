@@ -2,7 +2,7 @@ import React from "react";
 import { beforeEach, afterEach, it, expect, vi } from "vitest";
 import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import ConnectedMessages, { ConversationHome } from "./ConnectedMessages.jsx";
+import ConnectedMessages, { ConversationHome, ConversationList } from "./ConnectedMessages.jsx";
 import { setToken } from "./api.js";
 let rows, patches, failRename;
 beforeEach(() => {
@@ -25,20 +25,20 @@ beforeEach(() => {
   }));
 });
 afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
-const mount = () => render(<MemoryRouter><ConnectedMessages /></MemoryRouter>);
+const mount = () => render(<MemoryRouter><ConversationList kind="lidia" /></MemoryRouter>);
 it("busca por nombre sin tildes y muestra fechas/estado confirmado sin inventarlo ante fallo", async () => {
   const view = mount();
   await screen.findByRole("link", { name: /Mi canje de Perú/ });
   expect(screen.getByText("Cerrada")).toBeInTheDocument();
-  expect(screen.getAllByText("Sin actualizar").length).toBeGreaterThan(0);
+  expect(screen.queryByText("Sin actualizar")).toBeNull();
   expect(screen.queryByText("Abierta")).toBeNull();
   expect(view.container.querySelector('time[datetime="2026-10-07T10:05:00.000Z"]')).not.toBeNull();
   fireEvent.change(screen.getByRole("searchbox", { name: "Buscar conversaciones" }), { target: { value: "PERU" } });
   expect(screen.getByRole("link", { name: /Mi canje de Perú/ })).toBeInTheDocument();
-  expect(screen.queryByRole("button", { name: "Renombrar Equipo Gestadia" })).toBeNull();
+  expect(screen.queryByRole("button", { name: "Renombrar Tu gestor" })).toBeNull();
   fireEvent.change(screen.getByRole("searchbox"), { target: { value: "equipo" } });
   expect(screen.queryByRole("link", { name: /Mi canje de Perú/ })).toBeNull();
-  expect(screen.getByRole("button", { name: "Renombrar Equipo Gestadia" })).toBeInTheDocument();
+  expect(screen.queryByRole("button", { name: "Renombrar Tu gestor" })).toBeNull();
 });
 it("renombrar actualiza la cuenta y se conserva tras remontar sin cambiar actividad", async () => {
   mount(); await screen.findByRole("button", { name: "Renombrar Mi canje de Perú" });
@@ -84,12 +84,14 @@ it("despliega sólo el nombre seleccionado y cancelar restituye foco y nombre", 
   expect(patches).toEqual([]);
 });
 
-it("Inicio y Mensajes distinguen iniciar un chat independiente de recuperar el historial", async () => {
+it("LidIA contiene nueva, continuar e historial y Mensajes sólo gestores", async () => {
   render(<MemoryRouter><ConversationHome /></MemoryRouter>);
   expect(screen.getByRole("link", { name: /Nueva conversación con LidIA/ })).toHaveAttribute("href", expect.stringMatching(/^\/lidia\/conversacion\?nueva=[a-f0-9-]{36}$/));
-  expect(screen.getByRole("link", { name: /Continuar conversación/ })).toHaveAttribute("href", "/lidia/conversacion");
-  cleanup(); mount();
-  await screen.findByRole("link", { name: /Mi canje de Perú/ });
-  expect(screen.getByRole("link", { name: /Nueva conversación con LidIA/ })).toHaveAttribute("href", expect.stringMatching(/^\/lidia\/conversacion\?nueva=[a-f0-9-]{36}$/));
-  expect(screen.getByRole("link", { name: /Mi canje de Perú/ })).toHaveAttribute("href", "/lidia/conversacion?conversacion=chat-1");
+  expect(await screen.findByRole("link", { name: /Continuar conversación/ })).toHaveAttribute("href", "/lidia/conversacion?conversacion=chat-1");
+  expect(screen.queryByRole("button", { name: "Renombrar Tu gestor" })).toBeNull();
+  cleanup(); render(<MemoryRouter><ConnectedMessages /></MemoryRouter>);
+  await screen.findByRole("button", { name: "Renombrar Tu gestor" });
+  expect(screen.queryByRole("link", { name: /Mi canje de Perú/ })).toBeNull();
+  expect(screen.queryByRole("link", { name: /Nueva conversación con LidIA/ })).toBeNull();
+  expect(screen.getAllByText("Sin actualizar").length).toBeGreaterThan(0);
 });

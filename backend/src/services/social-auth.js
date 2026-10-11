@@ -61,8 +61,12 @@ export function createSocialAuth({
       },
       include: { user: true },
     });
+    if (identity && (identity.user.accessRevokedAt || identity.user.accountStatus !== "active")) fail();
     if (identity)
       return db.$transaction(async (tx) => {
+        await tx.$queryRaw`SELECT id FROM User WHERE id=${identity.userId} FOR UPDATE`;
+        const currentUser = await tx.user.findUnique({where:{id:identity.userId}});
+        if (!currentUser || currentUser.accessRevokedAt || currentUser.accountStatus !== "active") fail();
         const fresh = await attempt(
           { attemptId: a.id, proof: actor.proof },
           null,
@@ -78,16 +82,31 @@ export function createSocialAuth({
               appleRevokedAt: null,
             },
           });
-        return sessionFactory(tx).issue(identity.user, a.platform);
+        return sessionFactory(tx).issue(currentUser, a.platform);
       });
-    const existing =
-      a.claims.email &&
-      (await db.user.findUnique({ where: { email: a.claims.email } }));
-    return {
-      status: existing ? "existing_account_required" : "account_required",
-      attemptId: a.id,
-      emailAvailable: !!a.claims.email,
-    };
+    if (!a.claims.email) return { status: "account_required", attemptId: a.id, emailAvailable: false };
+    return db.$transaction(async tx => {
+      const fresh = await attempt({ attemptId: a.id, proof: actor.proof }, null, tx);
+      if (fresh.status !== "verified" || !fresh.claims?.email) fail();
+      let existing = await tx.user.findUnique({ where: { email: fresh.claims.email } });
+      if (!existing) return { status: "account_required", attemptId: a.id, emailAvailable: true };
+      await tx.$queryRaw`SELECT id FROM User WHERE id=${existing.id} FOR UPDATE`;
+      existing = await tx.user.findUnique({where:{id:existing.id}});
+      if (!existing || existing.email !== fresh.claims.email) fail();
+      if (existing.accessRevokedAt || existing.accountStatus !== "active") fail();
+      // El proveedor ha comprobado el mismo email de una cuenta Portal existente.
+      // No creamos usuarios ni concedemos contextos CRM/gestor por esta coincidencia.
+      if (!existing.accountVerifiedAt || !existing.emailVerified) existing = await tx.user.update({
+        where: { id: existing.id }, data: { emailVerified: true, accountVerifiedAt: existing.accountVerifiedAt || now(), accountVerificationMethod: existing.accountVerificationMethod || "email" },
+      });
+      await consume(tx, fresh);
+      await tx.socialIdentity.create({ data: {
+        userId: existing.id, issuer: fresh.claims.issuer, subject: fresh.claims.subject,
+        provider: fresh.provider, appleRefreshEncrypted: fresh.appleRefreshEncrypted,
+        appleAudience: fresh.provider === "apple" ? fresh.audience : null,
+      } });
+      return sessionFactory(tx).issue(existing, fresh.platform);
+    });
   }
   return {
     async start({ provider, platform, purpose = "login" }, actor) {
@@ -246,7 +265,7 @@ export function createSocialAuth({
       return decision(a, { ...actor, proof: input.proof });
     },
     async account(input, actor) {
-      if (input.confirm !== true || !["create", "link"].includes(input.action))
+      if (input.confirm !== true || input.action !== "link")
         fail();
       return db.$transaction(async (tx) => {
         const a = await attempt(input, actor, tx);
@@ -266,22 +285,6 @@ export function createSocialAuth({
           )
             fail();
           user = live.user;
-        } else {
-          if (
-            !a.claims.email ||
-            (await tx.user.findUnique({ where: { email: a.claims.email } }))
-          )
-            fail();
-          user = await tx.user.create({
-            data: {
-              email: a.claims.email,
-              nombre: a.claims.name || "Usuario",
-              apellidos: "",
-              emailVerified: true,
-              accountVerifiedAt: now(),
-              accountVerificationMethod: "email",
-            },
-          });
         }
         await consume(tx, a);
         await tx.socialIdentity.create({
@@ -294,9 +297,7 @@ export function createSocialAuth({
             appleAudience: a.provider === "apple" ? a.audience : null,
           },
         });
-        return input.action === "link"
-          ? { status: "linked" }
-          : sessionFactory(tx).issue(user, a.platform);
+        return { status: "linked" };
       });
     },
   };
