@@ -265,7 +265,13 @@ El editor común de nombres mantiene campo y acciones dentro del área desplazab
 
 Entrega del editor: Gestadia 0.1.0 (11) procesada por Apple y «En pruebas» en Gestadia QA. Firma y configuración verificadas; teclado físico pendiente de aceptación. [Registro](evidencias/2026-10-11-editor-nombre/README.md).
 
+Aceptación posterior 11/10: el usuario confirma que actualizó a la (11) y ahora ve el campo con el teclado en su iPhone. [Acta](evidencias/2026-10-11-editor-nombre/aceptacion-iphone.json). Esta aceptación visual no cierra la reserva real de agenda.
+
 
 ### Recibo opcional de agenda preparado — 11/10/2026
 
 Consumidor de respuesta v1/v2 valida el recibo histórico de reserva de LidIA y limita su proyección a permisos CRM vigentes. Pantallas, origen, Atrás, envío y confirmación por el mensaje del agente se conservan; no añade tarjeta de estado vivo. Consumer v2 limitado no obtiene autoridad CRM. [Pruebas, procedencia y límites](evidencias/2026-10-11-recibo-agenda/README.md). Sin deploy, grants ni llamada real.
+
+### Backend de agenda desplegado — 11/10/2026
+
+Nueva copia SQL/configuración/documentos restaurada y verificada antes del cambio. Dos migraciones aplicadas (15 en total), backend `0af593f` activo en stack 73 y contrato/vínculo/permisos leídos dentro del contenedor real. Perfil y permiso adicional de agenda apagados; llamada y lectura real Zoho pendientes. Pantallas y recorridos existentes conservados. [Evidencia del despliegue y límites](evidencias/2026-10-11-agenda-despliegue/README.md).

@@ -24,3 +24,7 @@ iOS 0.1.0 (11) en preparación; firma, subida, procesamiento, activación TestFl
 ## Distribución observada
 
 Fuente nativa `344b033`, archivada/exportada 0.1.0 (11); codesign --deep --strict PASS, APNs production, perfil Gestadia App Store. Configuración pública y assets idénticos al build preparado. IPA3314271bytes, SHA2565ca9ba1c73704938c6d2fc96f74e009416630bfa6640ecbb0280a2db9ae3e8c3. Xcode confirma [subida completa](xcode-upload11.png); Apple finaliza el procesamiento y Gestadia QA muestra **0.1.0 (11), En pruebas**, con un tester existente. [Estado TestFlight](testflight11.png), [registro de firma](ios-proof.json). El frontend respecto a la (10) sólo incorpora el editor y sus pruebas. Sin cambios de producción o DB. Actualizar desde TestFlight para comprobar el teclado físico; esa aceptación permanece pendiente. Plan Page actualizado y releído, secuencia42.
+
+## Aceptación posterior del usuario
+
+El 11/10 el usuario confirma: «Ya actualicé a la 11 y ahora se ve el input». Se cierra la visibilidad del campo con teclado en su iPhone, según su observación; se conservan intactos los registros previos de preparación. [Acta de aceptación](aceptacion-iphone.json). La llamada real con LidIA continúa pendiente de creación y lectura en Zoho.

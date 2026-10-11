@@ -1,0 +1,9 @@
+{
+  "date": "2026-10-11",
+  "app_version": "0.1.0",
+  "native_build": 11,
+  "evidence_source": "human user message in this chat",
+  "statement": "Ya actualicé a la 11 y ahora se ve el input.",
+  "physical_keyboard_input_visibility": "confirmed by user",
+  "appointment_acceptance": "pending real scheduling and Zoho readback"
+}
