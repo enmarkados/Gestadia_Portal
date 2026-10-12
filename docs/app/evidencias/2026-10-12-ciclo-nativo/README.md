@@ -200,3 +200,7 @@ QA contrasta el cambio del lector, sus fases sanitizadas, 74checks/preflight y e
 Ops ejecuta R3 una vez. La [captura original](pro119-export-r3-actual.png) acredita que se alcanza verify_prompt_pin y se detiene con pro119_prompt_pin_mismatch; no hay escrituras ni contenido impreso. [Resultado](pro119-export-r3-stopped.json). No se importa ni se toma esta lectura por un snapshot completo.
 
 Se solicita una observación mínima actual de119PRO (identidad/proyecto/instrucción/version/hash/modelo seguro/destino) sin contenido. La referencia ec616/v1.8 deberá contrastarse con el estado real antes de preparar otro pin; no se relaja automáticamente ni se usa122 como equivalente. R2/R3 y sus marcadores permanecen conservados. Los ciclos nativos y la instalación física siguen pendientes.
+
+### Referencia de versión: inspección mínima preparada
+
+El código Playground añade una «v» al valor almacenado al renderizarlo. La parada R3 no acredita por sí sola un cambio de contenido. Se prepara y revisa un inspector de tres SQL exactas para119/122 y sus referencias, con versión cruda/hash/longitud y sin contenido. QA contrasta31checks/preflight, transporte y tres archivos exactos; conformidad limitada a una lectura mínima. [Revisión](pro119-current-inspector-review.json). El informe real todavía no se ha recibido; no se normaliza ni modifica el pin ni se atribuye igualdad funcional119/122.
