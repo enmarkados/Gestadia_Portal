@@ -172,3 +172,9 @@ La inspección real encuentra119DEV «GestadIA v2 - Agente por defecto», instru
 Se reabre sólo el simulador propio y se vuelve a comprobar la escritura nativa: `Device → Keyboard → Keyboard Capture` muestra el indicador Capturing Keyboard; correo visible y contraseña enmascarada llegan a los campos. No se envía el formulario mientras S2S siga apagado. Los clicks del espejo web no cambiaban la APP; el tap del helper oficial, dirigido al UUID propio y verificado por captura, sí abre Nueva/Acceso. Se libera la captura del teclado al terminar.
 
 El simulador propio y su espejo quedan detenidos mientras se prepara la configuración del agente. El iPhone17 original vuelve aBooted, con bootstatus terminado y datos conservados. No hay otra sesión conectada ni chat real acreditados por esta preparación.
+
+### Exportación119PRO R2 preparada y revisada
+
+LidIA congela un exportador de lectura con modelos nativos y cuatro SaveChanges bloqueadas, queries de tablas permitidas y transacción READ ONLY/RR. QA contrasta script/transporte/payload exacto de tres archivos, hashes, shell y los logs51offline/preflight sin DB/HTTP; se comunica conformidad para una ejecución de lectura por Ops en el CID PRO ya acreditado/UID1654. Pins de DLL/versión/BD/instrucción y configuración APP inicial/final; fingerprint observado se declara nuevo, sin un pin previo inventado.
+
+[Revisión y hashes](pro119-export-r2-review.json). No se ha recibido todavía el snapshot real ni se ha importado/activado un agente DEV. El contenido privado se trasladará con su hash fuera deGit; conexiones/credenciales, contactos y chats no forman parte de ese contenido. Parámetros configurados no acreditan caches/modelo/proveedor ni un turno nativo.
