@@ -204,3 +204,9 @@ Se solicita una observación mínima actual de119PRO (identidad/proyecto/instruc
 ### Referencia de versión: inspección mínima preparada
 
 El código Playground añade una «v» al valor almacenado al renderizarlo. La parada R3 no acredita por sí sola un cambio de contenido. Se prepara y revisa un inspector de tres SQL exactas para119/122 y sus referencias, con versión cruda/hash/longitud y sin contenido. QA contrasta31checks/preflight, transporte y tres archivos exactos; conformidad limitada a una lectura mínima. [Revisión](pro119-current-inspector-review.json). El informe real todavía no se ha recibido; no se normaliza ni modifica el pin ni se atribuye igualdad funcional119/122.
+
+### Referencia actual confirmada por bytes originales
+
+El [informe original](pro119-current-inspector-original.json) recuperado por Ops coincide con SHA3135a1be… recalculado por QA.119esLidIA Canje v4/102/instrucción10115; valor DB1.8-mario-adaptado,65532caracteres yhashec616c2687189eaded1a77d904d2c720aa12c8ab9f629850f74bc4202bcd0286, igual al pin de contenido anterior. La parada R3 correspondía a la «v» de presentación incluida erróneamente en el pin de versión; no acredita cambio del contenido real.
+
+Dos transcripciones intermedias de hashes en mensajes eran incorrectas y quedan sustituidas por los bytes originales, sin alterar evidencia histórica. El fingerprint PRO c92ed76… ya está observado y puede fijarse en la nueva preparación.119/122coinciden en hash/version/longitud de sus distintas instrucciones; no se acredita equivalencia funcional completa. [Contraste y límites](pro119-current-inspector-result.json). Aún falta obtener el snapshot funcional, importarlo inactivo en DEV y entregar recursos S2S/CRM propios para los ciclos nativos.
