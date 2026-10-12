@@ -253,3 +253,15 @@ Source identifica que GetAppliedMigrationsAsync genera una comprobación INFORMA
 ### Preview R5 corregido y revisado
 
 QA comprueba la proyección SQL real y el interceptor,39tests y43checks de paquete/transporte. La consulta directa del historial resuelve el defecto conservando el guard estricto. [Conformidad R5](dev25-import-r5-package-review.json), sujeta al preflight final Source y a la ejecución única RO por Ops. No hay todavía resultado remoto de preview, apply, activación ni conversación nativa acreditados.
+
+
+### Guard de sujeto PortalQA preparado
+
+El namespace y los grants de una cuenta no restringen por sí solos qué sujetos puede atestar el poseedor de la clave. Se prepara un wrapper privado que controla todos los envíos S2S antes de la red: sujeto64a propio, destinoDEV exacto, claves11 propias, principal del DTO si aparece, vigencia y rutas v1. El cliente real firma normalmente; no se reemplaza el motor, el adapter ni su respuesta. Once pruebas offline incluyen AppS2SClient real, cero envíos denegados y preservación de bytes. [Hashes y límites](qa-subject-guard-preparation.json).
+
+Scope pendiente apagado, sin fechas/proof; bootstrap privado preparado sin aplicarlo al proceso3005. La vigencia máxima de cuatro horas es un límite técnico propuesto, no una cita de autorización humana. Guestv2 continúa apagado en esta fase. La solicitud humana del gestor conserva su fase CRM/ruta propia; soporte técnico sería evidencia parcial y no se añadirá un arnés o pantalla para sustituir ese recorrido.
+
+
+### Guard de sujeto R2: revisión cruzada corregida
+
+Source detectó que un objeto Request con headers firmados dentro de input podía saltarse la detección de init.headers. También se fijó el UID64a en el propio helper para evitar deriva del principal en el archivo privado. Ambos casos tuvieron RED observable y están corregidos en una revisión separada:13tests PASS, envíos denegados0, cliente real conservado. [Proof R2](qa-subject-guard-r2-preparation.json). R1 queda idéntica por hashes y retirada antes de aplicar. Bootstrap R2 y scope siguen pendientes/apagados; no hay ejecución externa o aceptación nativa acreditadas por estas pruebas.

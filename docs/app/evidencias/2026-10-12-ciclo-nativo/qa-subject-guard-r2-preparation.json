@@ -1,0 +1,20 @@
+{
+  "preparedAt": "2026-10-12T23:21:11.954333+00:00",
+  "status": "r2_subject_guard_frozen_not_applied",
+  "r1OriginalPreserved": true,
+  "offlineTestsPassed": 13,
+  "hardPinnedQaSubject": "64a53aba-39a3-4559-93a1-cfb86ed0e09e",
+  "requestObjectHiddenSignedHeadersRejected": true,
+  "deniedRequestsProduceZeroOutgoingCalls": true,
+  "realProductClientUsedInOfflineTest": true,
+  "mockResponseDoesNotProveConversation": true,
+  "scopeEnabled": false,
+  "activeBackendModified": false,
+  "remoteExecuted": false,
+  "privateFileSha256": {
+    "qa-subject-r2/qa-subject-guard.mjs": "8e96b1bee2dd16338a7caaf49eb67369e3fa8b1aeea10417b54940fd06e8fe81",
+    "qa-subject-r2/qa-subject-guard.test.mjs": "e64b67ca4089e1d15c1b8be6094128157cd24e3e52be9abfb541d4e2fcb42de7",
+    "backend-dev-s2s-scope-r2-pending.mjs": "4fafae2736685b9caa8a119b2288f7d2471772d04d3521951712ab5389c31c81",
+    "qa-subject-scope.pending.json": "bc51f21db3a8c7ea1f6f26eaa767b635d0e7ff3a1731a5c8ae86e646bb4b024d"
+  }
+}

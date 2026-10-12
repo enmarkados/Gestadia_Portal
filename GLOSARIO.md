@@ -1662,3 +1662,11 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Término:** Dev25BackupSnapshot. **Tipo:** helper privado de respaldo. **Definición:** conserva una instantánea coherente de la BD y archivos actuales de DEV25 para comprobar su restauración aislada. **Alcance:** equipo LidIA, .local/dev25-backup-pre-import-r5; revisión Portal en el mismo directorio de evidencia. **Notas:** respaldo198/260 diferente del anterior188/257; no carga credenciales ni ejecuta APP al restaurar.
 
 - **Revisión de Dev25LiteralImport:** R5/Dev25LiteralImportR5 conserva el concepto y el alcance anteriores con consulta mínima explícita del historial; R4 queda preservada y retirada para preview. La revisión vigente vive en .local/dev25-literal-import-r5 del equipo LidIA y en dev25-import-r5-package-review.json de Portal.
+
+
+## qa-subject-guard
+
+- **Tipo:** guard privado de la aceptación nativa.
+- **Definición:** impide que la instancia PortalQA envíe solicitudes S2S a LidIA para un sujeto diferente de la cuenta propia de prueba. Verifica además destino DEV, claves propias y vigencia antes de la red.
+- **Alcance:** wrapper privado qa-native-20261012 fuera deGit; referencia en docs/app/evidencias/2026-10-12-ciclo-nativo.
+- **Notas:** integrationId/grant no son allowlists de sujetos; el cliente y el adapter reales se conservan. No añade un permiso de producto ni simula respuestas de LidIA.
