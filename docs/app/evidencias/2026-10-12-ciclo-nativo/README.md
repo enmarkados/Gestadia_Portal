@@ -284,3 +284,13 @@ Se coordina seguir revisiones remotas DEV por separado. QA acepta que el backup 
 ### Preview R5 observado; backup todavía inconcluso
 
 Ops ejecuta una vez ambos paquetes en DEV/UID1654. QA ve las capturas originales: [preview](dev25-import-r5-preview-actual.png) con hashes/preflight correctos y activation_parity_ready=true, sin escritura; [backup](dev25-backup-r5-actual.png) con preflight correcto pero salida inconclusa sin fase. [Estado y límites](dev25-preview-and-backup-actual.json). Espera original de preview antes de revisar el apply. El respaldo no se repite ni restaura; Source prepara conciliación mínima de archivos/diagnóstico seguro antes de otra acción. No hay importación, activación, ciclo nativo ni instalación nueva acreditados. El bloqueo manual del Mac no impidió a Ops operar PortainerIAB.
+
+
+### Preview original R5 recibido y conforme
+
+Se recibe5937bytes/SHA8d9988e40ffd7affdc726382feebcbc9d219bf8fc58abca5ef43e95681c77a7d. QA verifica raw=canónico y todos los gates de configuración/modelo/null/persona/Serialize/TodayOnly/aux, sin credenciales ni caches/wire/TTS acreditados. [Revisión](dev25-import-r5-preview-original-review.json). El valor58d… de la transcripción anterior era incorrecto y queda sustituido por el original; no se altera la evidencia anterior. Conforme importación de tres entidades inactivas sólo cuando backup/restauración actual pasen y se revaliden los mismos pins/defaults. No hay todavía apply, activación, conversación nativa o instalación nueva.
+
+
+### Country R2 revisada y conforme para preflight
+
+QA contrasta fuentes/ownership/recibos/baseline,24tests y41checks de paquete; [revisión](dev25-country-r2-package-review.json). Sólo stage/preflight sin BD; preview espera import/readback reales. Una fila country inactiva y un join propios, sin editar core, reglas ni handlers; hora sin fila. El apply requiere baseline actual restaurado y recibos posteriores revisados. Se revisa además la conciliación FS limitada de13nombres del respaldo, sin leer contenido/SQL/export/restore/replay. No hay escritura, activación, ciclo nativo o instalación nueva acreditados por estas conformidades.
