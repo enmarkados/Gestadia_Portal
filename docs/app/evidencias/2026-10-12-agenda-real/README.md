@@ -305,3 +305,9 @@ Resultado real: pro119_export_inconclusive, System.Text.Json.JsonReaderException
 ### Formato del archivo servido corroborado
 
 Se ejecuta una lectura administrativa mínima de appsettings.json: pins de DLL PRO y configuración APP originales PASS; sólo tamaño, SHA256 y primeros tres bytes, sin valores ni DB/HTTP. Resultado servido: 4.563 bytes, SHA256 8b090f7dc91022419a4301a190de857c96a4a9d1e889f10c33e4a7d02d8ae11a, cabecera EF BB BF (BOM UTF8), idéntico al candidato local. LidIA conserva prueba RED donde el proveedor JSON nativo acepta ese BOM y el Parse(bytes) del exportador produce JsonReaderException; prepara una revisión independiente del lector. No se modifica el archivo de configuración ni se repite R2.
+
+## Lectura PRO119 R3 con parser corregido y pin de prompt no coincidente
+
+R3 se prepara en carpeta independiente, conservando R2: StreamReader con detección BOM, SHA de bytes originales, lectura de configuración antes de abrir DB y diagnóstico limitado a fases/posiciones sin contenido. Fuente revisada por ambos equipos, 74 comprobaciones offline y preflight PASS; Root coteja transporte, tres archivos del payload con publish y shell. Script 3193a6952820f01b5ae4fb8dee6c52303c322acf51d7ead2714e547dcf7403e4, transporte d53b13b7f771fee692db399370a4d7d2056b95da6d5280a70470990af68d86aa, DLL f8f725475d7eb799ad892496661796e194fb17adef0cf36df050a14b7f92ab4f.
+
+Una ejecución real R3 supera el parseo y se detiene en verify_prompt_pin con pro119_prompt_pin_mismatch. No escribe DB ni imprime contenido; tampoco acredita snapshot o importación. No se cambia el pin automáticamente ni el agente para hacer coincidir una referencia histórica. Se solicita observación mínima del 119 actual —identificadores funcionales, versión y SHA/longitud del contenido— para determinar la diferencia antes de revisar la siguiente acción. La cuenta/conversación de la llamada siguen sin permisos nuevos ni reserva, a la espera de la confirmación humana.
