@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-12T22:33:50.202401+00:00",
+  "status": "r4_reviewed_original_reception_pending",
+  "rawVersionPin": "1.8-mario-adaptado",
+  "contentHashPin": "ec616c2687189eaded1a77d904d2c720aa12c8ab9f629850f74bc4202bcd0286",
+  "databaseFingerprintPin": "c92ed76f7d65cff21bbf2f81c846aeb1909b2ec80f3383d21f3ed37ac17b60cb",
+  "sourceMetadataOriginalSha": "3135a1be571bb7c5e431f18f55d2a308312420665ffc2d96d1a5c69a5e9a81a7",
+  "sourceMetadataOriginalBytes": 2084,
+  "offlineChecks": 78,
+  "nativePreflightReported": "3files/4Saveguards/noDB/noHTTP",
+  "transportAndPayloadIndependentlyMatched": true,
+  "transportSha": "4f1d1de3ac22b9edec24ed09a3e3b44b713fc2bff5e6357ede3e44bfa9bdf28b",
+  "scriptSha": "65ae0ae932d5ab270c985f44a1ee75dbd9317998015d9d88b01473efcb131d01",
+  "payloadSha": "d4e70d8e4d5ee5f018c8f973618e655465eb6652b4a617b1e8063a590e17d156",
+  "files": {
+    "Pro119PrivateExportR4.dll": "0611fdd4ec7b5b1af0fa030c730d15bf7da86dfd891b0cc17b79bb7636d35e8d",
+    "Pro119PrivateExportR4.deps.json": "d197fac959ba3df36b523aa8e01319375d5a82bc6e1b9374bfac83c04e02e2c1",
+    "Pro119PrivateExportR4.runtimeconfig.json": "3f8ba25fbf7f815e8d280c0d7bd319d8a6153665989cec0cf5a057c37ed3458d"
+  },
+  "decision": "Conforme para una exportación de lectura R4, sin import/activación; preservar las anteriores.",
+  "actualCompletionReportedByOps": true,
+  "actualOriginalReportReceived": false,
+  "actualPrivateSnapshotReceived": false,
+  "nativeCyclePassed": false
+}
