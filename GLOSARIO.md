@@ -1646,3 +1646,10 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** identificadores propios que separan el sondeo y la atención de la prueba nativa del12/10/2026. Cada integración tiene audiencia y claves por operación independientes; su configuración pendiente no acredita activación.
 - **Alcance:** APP/API Portal, registro en `backend/src/config.js`, configuración privada de DEV25 y `docs/app/evidencias/2026-10-12-ciclo-nativo/PLAN-ACEPTACION.md`.
 - **Notas:** se descartan identidades, credenciales y namespaces de la reserva humana PRO; el registro rechaza reutilizar KeyId entre ambos perfiles. La revocación utiliza su clave dedicada y no concede ese permiso a TURN.
+
+## `crm-read-scope`
+
+- **Tipo:** concepto de QA y decisión de naming de configuración privada.
+- **Definición:** autoridad temporal de lectura para el contacto y trato CRM propios y comprobados de la prueba nativa. Su estado pendiente no concede acceso; excluye operaciones de escritura de negocio y datos de otras fichas.
+- **Alcance:** wrapper privado de la instancia PortalQA3005, `~/.codex/private/gestadia-app/qa-native-20261012/`, y `docs/app/evidencias/2026-10-12-ciclo-nativo/PLAN-ACEPTACION.md`. No es un endpoint ni permiso nuevo del producto.
+- **Notas:** se descarta simular assignedManager con datos administrativos cacheados y trasladar OAuth amplio sin límites. Se conserva el adapter real del producto y se exige organización/dominio, identidad, IDs verificados y caducidad antes de activarlo.

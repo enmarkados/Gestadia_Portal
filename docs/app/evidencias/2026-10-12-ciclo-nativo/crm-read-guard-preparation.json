@@ -1,0 +1,24 @@
+{
+  "reviewedAt": "2026-10-12T19:49:45.120407+00:00",
+  "privateWrapperOnly": true,
+  "productCodeChanged": false,
+  "files": {
+    "crm-read-guard.mjs": "f3e56deb7effdccb1c6dafa32e22d748cad638468fda7f59cb96d83458143d31",
+    "crm-read-guard.test.mjs": "e7b4ffcc5450bd8e56c0fc5dd14fd42329a7d55aa5f70a703f3ac45844f32d59",
+    "backend-dev-readonly-pending.mjs": "497a70b29be9469de80f0ed3acc5198161bc79798cd6b320c6b578ae2f6d0aea",
+    "crm-read-scope.pending.json": "02b7d9fd853674cb1079442a2e15e07cd590c6581b76d9194aca36c4f2854580"
+  },
+  "redObservedMissingPolicy": true,
+  "redObservedRedirectAndTokenDomain": true,
+  "redObservedOAuthGrant": true,
+  "testCount": 8,
+  "testsPassed": 8,
+  "testExternalZohoHttp": false,
+  "testLoopbackHttpOnly": true,
+  "testOAuthResponseSynthetic": true,
+  "runtimeApplied": false,
+  "credentialsDelivered": false,
+  "realCrmIdsDelivered": false,
+  "scopeEnabled": false,
+  "productionCrmReadObserved": false
+}

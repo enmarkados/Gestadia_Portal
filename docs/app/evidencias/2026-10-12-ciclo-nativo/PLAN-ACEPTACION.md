@@ -57,3 +57,11 @@ Guest APP se comprueba con su autoridad v2 por instalación cuando el receptor l
 Cada plataforma requiere capturas sin secretos, ids propios de conversación/operación/mensaje, estado del operador, recibos y resultado de recuperación. Los checks de código, API, interfaz nativa y distribución física tienen resultados separados. Un fallo o una dependencia pendiente impide declarar el ciclo completo PASS.
 
 Tras superar ambos ciclos, comprobar cuál es la última fuente móvil aceptada, firmar/instalar el Release correspondiente en iGonchu, abrirlo y verificar versión y endpointHTTPS. Nunca instalar en el iPhone la copia del simulador con loopback. Si ya tiene el mismo número, verificar procedencia del paquete antes de atribuirle la fuente validada. La instalación no activa por sí sola canales ni permisos en PRO.
+
+## Lectura CRM en la instancia PortalQA
+
+El lector administrativo de LidIA verifica referencias, pero no sustituye el recorrido vigente de `createAppContactService.context → crm.assignedManager`. Para probarlo se conserva el adapter real de Portal. La conexión privada de lectura y el caso propio siguen pendientes de entrega verificada; no se usa una respuesta cacheada como assignedManager.
+
+Se ha preparado un wrapper privado pendiente que exige User64a... y relación local Contact–Deal–Owner/case propia coherente con la comprobación real, limita GET a los dos IDs CRM, caduca en una hora y verifica los dominios EU. Sólo permite renovar OAuth mediante refresh_token y contrasta api_domain; no sigue redirecciones. Se aplica antes de cargar los adapters. No se han entregado credenciales ni IDs reales ni se ha aplicado ese wrapper al proceso3005.
+
+Ocho pruebas privadas pasaron tras observar sus fallos antes de implementar: política, rechazo de escrituras/otras fichas/caducidad, redirección HTTP local y renovación/dominio. La respuesta OAuth de prueba es explícitamente sintética y no acredita Zoho. [Estado y hashes saneados](crm-read-guard-preparation.json).
