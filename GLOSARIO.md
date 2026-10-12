@@ -1639,3 +1639,10 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** Comprobación semántica del recibo histórico de reserva emitido por LidIA; requiere un turno completado sin error, hora UTC verificada coincidente y zona IANA válida. No acredita disponibilidad ni estado actual de una cita.
 - **Alcance:** backend/src/app/appointment-receipts.js; validadores de respuestas v1/v2.
 - **Notas:** No deducir una llamada del texto del modelo ni del estado completed sin el recibo cerrado. Los IDs CRM permanecen en LidIA.
+
+## `gestadia-app-qa-native-20261012-sondeo` / `gestadia-app-qa-native-20261012-atencion`
+
+- **Tipo:** decisión de naming de integraciones S2S de QA.
+- **Definición:** identificadores propios que separan el sondeo y la atención de la prueba nativa del12/10/2026. Cada integración tiene audiencia y claves por operación independientes; su configuración pendiente no acredita activación.
+- **Alcance:** APP/API Portal, registro en `backend/src/config.js`, configuración privada de DEV25 y `docs/app/evidencias/2026-10-12-ciclo-nativo/PLAN-ACEPTACION.md`.
+- **Notas:** se descartan identidades, credenciales y namespaces de la reserva humana PRO; el registro rechaza reutilizar KeyId entre ambos perfiles. La revocación utiliza su clave dedicada y no concede ese permiso a TURN.

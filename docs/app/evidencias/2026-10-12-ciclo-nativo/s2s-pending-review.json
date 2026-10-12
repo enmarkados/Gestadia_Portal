@@ -1,0 +1,15 @@
+{
+  "reviewedAt": "2026-10-12T18:53:56.773Z",
+  "sourcePortalKeysSha256": "0818cbfff9f618cacfc13fed2cc07756b58895856d98621fbb9c5394d68330d0",
+  "sourceConfigSha256": "cf7781daabacf6438e261d75638b0102e58ea0b38c237aa9d7fa8c27be05941e",
+  "all11KeysUnique": true,
+  "roleCapabilitiesMatch": true,
+  "portalRegistryValidation": true,
+  "preparedPrivateConfig": true,
+  "applied": false,
+  "remoteEnabled": false,
+  "endpointDelivered": false,
+  "projectAgentIdsDelivered": false,
+  "operatorRouteDelivered": false,
+  "crmRelationshipVerified": false
+}

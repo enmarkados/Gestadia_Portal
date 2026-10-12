@@ -10,7 +10,8 @@ Petición humana: comprobar LidIA y el gestor `integraciones@vozenter.com` en iO
 - Rama propia de QA: `codex/app-prueba-real-ios-android-20261012`, worktree `app-motion-280`. Reutiliza la fuente del build 11 y conserva los documentos posteriores de app/main. Esta preparación local no publica ni activa canales.
 - Backend Portal real en loopback3005 y MySQL durable exclusivo de QA. Copia previa y configuración privada bajo `~/.codex/private/gestadia-app/qa-native-20261012/`; no contiene un proveedor conversacional simulado.
 - La autoridad antigua de sondeo/history caducó el12/10 a00:06UTC. V1/v2 se mantienen apagados hasta recibir configuración y autoridad verificables para nuestra prueba.
-- DEV LidIA stack24 continúa en V1.705 al auditarlo el12/10; el equipo fuente debe acreditar runtime726, aislamiento, namespace y operador propios. No reutilizar la ventana de agenda PRO de otro chat.
+- La auditoría de los stacks24/25 confirma V1.705 en ambos y selecciona25 (`lidia-gestadia-dev`) por la presencia efectiva de119/proyecto102;24 corresponde aVozenter. El equipo fuente prepara sobre30be1692e el nuevo proyecto/clon APP y sus namespaces. No reutilizar la ventana de agenda PRO de otro chat. [Auditoría saneada](dev-audit-review.json).
+- El usuario autoriza Zoho Production para esta QA propia mediante «Contra produccion»; se sustituye el requisito previo de Sandbox. El ámbito APP permanece DEV y el vínculo CRM todavía debe verificarse. [Decisión y secuencia](PLAN-ACEPTACION.md#decisión-vigente-sobre-zoho).
 
 ## Matriz de ejecución
 
@@ -115,3 +116,19 @@ El equipo LidIA comunica que su paquete V1.728 superó199 pruebas y compiló con
 Portal principal inició una única solicitud de redeploy del stack26 y está reconciliando el resultado. A la recepción de este mensaje todavía no estaban certificados el runtime728 ni una llamada real. Los permisos CRM continúan cerrados.
 
 DEV24 sigue V1.705; namespace, aislamiento y relación CRM aún no están acreditados. Se conserva S2S QA desactivado y no se reutiliza la cuenta ni la conversación PRO. Este avance no modifica la matriz de aceptación ni habilita la instalación física pendiente de los dos ciclos conectados.
+
+## Actualización de coordinación: elección DEV25 y Zoho Production
+
+Los informes originales24/25 han sido recuperados y verificados por SHA.25 contiene119, proyecto102 y conexión4 Production;24 corresponde aVozenter y no contiene119. Ningún informe acredita activación APP ni ruta del operador. Se conserva el proyecto102 original con sus otros canales y se prepara un proyecto APP nuevo, una copia funcional de119 con id libre y namespaces/credenciales propios. La fuente propuesta es30be1692e; la referencia anterior de25 esdesarrollo/gestadia64ced36a y requiere backup/rollback antes de actualizar.
+
+El usuario respondió «Contra produccion» al requisito de Sandbox. Esta decisión se ha transmitido y confirmado por ambos equipos; no implica reusar la identidad/conversación de la otra prueba humana. Portal no dispone aún de la entrega S2S nueva ni de Contact–Deal–Owner/mapping propios. El ciclo conectado permanece pendiente y los simuladores propios siguen detenidos mientras se prepara el receptor.
+
+LidIA verifica en AppProtocol.Route que message-receipts GET exige app.timeline.read y POST/ack exige app.turns.write. Las claves por operación de sondeo cubren sessions.write/timeline.read/turns.write/context.attest y subjects.revoke, cada una con su capability mínima; los cinco KeyId de sondeo son distintos entre sí y de atención, como exige el registro Portal. Los permisos son history+sondeo, sin handoff/agenda. La retirada usa la clave REVOCATION separada. Este contraste de fuente prepara la prueba; todavía no acredita ningún tick nativo real.
+
+### Entrega privada y conformidad técnica del paquete propuesto
+
+Las dos configuraciones pending recibidas se han contrastado por SHA, modo privado y correspondencia de sus once secretos/KeyId/capability entre receptor y Portal. El registro real de0af593f valida ambos perfiles en memoria; la instancia no se ha modificado. Se preparó una configuración privada local con S2S y guest apagados, sinURL ni IDs/ruta inventados. [Revisión saneada](s2s-pending-review.json).
+
+Se revisó y comunicó conformidad con el [plan recibido de LidIA](../../../integraciones/2026-10-12-dev25-qa-nativa-preparacion-lidia-recibida.md): backup/restauración aislada de25; EFhistory y migraciones oficiales; nueva referenciaQA y rollback; actualización con APP apagada; comparación funcional119DEV/real; nuevo proyecto/clon y sólo después habilitar sondeo con recursos verificados. Esta conformidad y las claves pendientes no acreditan despliegue ni conversación.
+
+Los archivos de código anterior y aprobado se contrastaron por tamaño/SHA; el aprobado incluye las tres migraciones APP citadas. No se han restaurado ni aplicado al runtime. [Contraste de archivos](dev25-source-review.json).
