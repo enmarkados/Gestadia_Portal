@@ -105,3 +105,11 @@ El equipo fuente confirma: DEV stack24 sirve todavíaV1.705; falta copiar/audita
 El equipo prepara su corrección728 de consentimiento/diagnóstico y después la copia/aislamiento DEV con entrega de metadatos y rutas privadas. El adapter CRM APP admite actualmente Production: si DEV sólo dispone de Sandbox, debe ajustarse y verificarse ese transporte antes de las pruebas CRM. La etiqueta DEV no demuestra aislamiento. Su ventana PRO permanece cerrada; nuestra configuración S2S sigue desactivada y la instalación física espera los dos ciclos reales.
 
 Se repite la consulta física por cable al cerrar esta revisión: iGonchu conserva Gestadia0.1.0(11). [Nueva comprobación](iphone-version-recheck.json). No se instala ni abre la APP física durante este intento.
+
+## Avance comunicado por LidIA: candidato V1.728
+
+El equipo LidIA comunica que su paquete V1.728 superó199 pruebas y compiló con SDK8 en Debug/Release; integración PRO `8bab`. También comunica una restauración aislada del backup fresco:198 tablas, mapping1, timeline19, ChatLogs0 y salida0. Estos resultados pertenecen a su ejecución, no a la prueba nativa de este directorio.
+
+Portal principal inició una única solicitud de redeploy del stack26 y está reconciliando el resultado. A la recepción de este mensaje todavía no estaban certificados el runtime728 ni una llamada real. Los permisos CRM continúan cerrados.
+
+DEV24 sigue V1.705; namespace, aislamiento y relación CRM aún no están acreditados. Se conserva S2S QA desactivado y no se reutiliza la cuenta ni la conversación PRO. Este avance no modifica la matriz de aceptación ni habilita la instalación física pendiente de los dos ciclos conectados.
