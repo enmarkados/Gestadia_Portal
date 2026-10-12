@@ -27,6 +27,12 @@
 
 Antes de editar una pantalla, anota su ruta o ID de maqueta, estado, origen, destino de Atrás, permisos y acción final. Busca ese recorrido en NAVEGACION y compara sus capturas. Si la decisión sólo aparece en una propuesta, conserva esa distinción en la tarea. Al terminar, actualiza los archivos afectados de la tabla de mantenimiento y registra versión, entorno y resultado de las comprobaciones. [AGENTS.md](../../AGENTS.md) exige este procedimiento a quienes trabajan en el repositorio.
 
+## Escribir en Device Hub durante QA nativa
+
+En la ventana del dispositivo que se está probando, enfoca primero el campo de la APP y activa `Device → Keyboard → Keyboard Capture`. Debe aparecer **Capturing Keyboard** y el texto debe verse en el campo; un mensaje de éxito de la herramienta no demuestra que se haya escrito. Tab cambia de campo y Return envía el formulario cuando procede. Al terminar, desactiva la captura desde el mismo menú para devolver el teclado al Mac.
+
+Si hay dos ventanas con el mismo nombre, selecciona expresamente la del dispositivo propio; no repares SpringBoard ni cierres otras pruebas para ocultar un fallo. Un tap por el helper oficial debe dirigirse al UUID propio, usar una captura reciente y comprobar el cambio visible. La prueba del12/10 confirmó escritura mediante Device Hub; el click del espejo web y su ACK no cambiaban la APP. [Procedencia y límites](evidencias/2026-10-12-ciclo-nativo/README.md#segunda-preparación-de-entrada-ios).
+
 ## Qué está implementado y qué está en revisión
 
 | Material | Estado y uso |

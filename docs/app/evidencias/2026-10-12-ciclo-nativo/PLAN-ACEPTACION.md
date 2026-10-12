@@ -71,3 +71,19 @@ El lector administrativo de LidIA verifica referencias, pero no sustituye el rec
 Se ha preparado un wrapper privado pendiente que exige User64a... y relación local Contact–Deal–Owner/case propia coherente con la comprobación real, limita GET a los dos IDs CRM, caduca en una hora y verifica los dominios EU. Sólo permite renovar OAuth mediante refresh_token y contrasta api_domain; no sigue redirecciones. Se aplica antes de cargar los adapters. No se han entregado credenciales ni IDs reales ni se ha aplicado ese wrapper al proceso3005.
 
 Ocho pruebas privadas pasaron tras observar sus fallos antes de implementar: política, rechazo de escrituras/otras fichas/caducidad, redirección HTTP local y renovación/dominio. La respuesta OAuth de prueba es explícitamente sintética y no acredita Zoho. [Estado y hashes saneados](crm-read-guard-preparation.json).
+
+## Recepción de la configuración119PRO para DEV
+
+Antes de activar S2S, contrastar el snapshot privado recibido con el hash original de exportación, el reporte saneado y los metadatos de la lectura real. Esa lectura no necesita conversaciones, contactos ni tokens. El snapshot debe conservar su procedencia; no sustituirlo por una reconstrucción desde capturas.
+
+- Origen acreditado: runtime/BD PRO, agente119, proyecto e instrucción reales. Resolver explícitamente modelo, parámetros, personalidad y defaults configurados; la configuración no acredita todavía el proveedor/modelo de una respuesta real.
+- Destino: runtime V1.728 y fingerprint25; proyecto/agente/instrucción nuevos inicialmente inactivos. Guardar los IDs generados en BD y el resultado de la transacción; no inventarlos ni reutilizar119/122.
+- Conservar originales119/122 y proyecto102, así como conexiones/ajustes/chats/contactos existentes. Una diferencia de esquema o pin detiene el import antes de escribir.
+- Reproducir prompts/flujo y overrides funcionales, contrastando hashes de campos. Resolver referencias de herramientas, transferencias, personalidad y herencias; ninguna referencia puede apuntar accidentalmente a otro agente/proyecto de DEV.
+- No heredar Woztell, WhatsApp, Vozenter360, default global, jobs o automatismos de los proyectos originales. Si cambia la disponibilidad de una herramienta respecto de PRO, declararlo y revisar su efecto en el sondeo.
+- Cualquier conexión Zoho debe ser la organización Production autorizada y verificada; los tokens no forman parte del snapshot ni del reporte público. La clave del modelo se conserva privada en el runtime, sin copiarla a Portal.
+- Revisar y activar únicamente namespaces, actor y permisos propios de QA; renovar el grant básico caducado después de la entrega efectiva. CRM/agenda siguen sin concederse al sondeo. No activar el archivo de claves pending con IDs0 ni el entorno PRO antiguo.
+- Verificar destino HTTPS y correlación proxy/runtime mediante IDs de sesión propios y evidencia fuente. El acceso UI con badge DEV es una señal útil y no sustituye la atribución de esa sesión al agente/proyecto configurados.
+- Empezar el ciclo nativo sólo después de comprobar configuración cargada y autoridad. El turno real debe conservar su agente/proyecto y mensaje literal; un fallo no se evita habilitando permisos generales, borrando datos o creando una key de reintento distinta.
+
+La rama móvil y los binarios siguen en fuente344b033/build11; esta recepción no implica rediseño ni publicación. La entrega de configuración119PRO y su importación inactiva están pendientes al redactar este apartado.
