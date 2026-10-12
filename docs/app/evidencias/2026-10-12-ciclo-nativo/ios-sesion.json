@@ -1,0 +1,35 @@
+{
+  "checkedAt": "2026-10-12T15:24:00.453Z",
+  "app": {
+    "version": "0.1.0",
+    "build": "11",
+    "frontendCommit": "344b0335ffb1e4a48677983fcba60b58e0b0c216",
+    "backendSourceCommit": "0af593f",
+    "backendQaCommit": "b2250c3"
+  },
+  "environment": {
+    "simulator": "2AC06980-1E46-47E7-8E8C-A387E044690A",
+    "os": "iOS 26.5",
+    "api": "http://127.0.0.1:3005",
+    "nativeSessionBackend": true,
+    "remoteLidIAEnabled": false
+  },
+  "loginObserved": true,
+  "uiPasswordMasked": true,
+  "activeBeforeLogin": 0,
+  "activeAfterLogin": 1,
+  "persistenceAfterTerminateAndRelaunchObserved": true,
+  "logoutObserved": true,
+  "activeAfterLogout": 0,
+  "sessions": [
+    {
+      "platform": "ios",
+      "createdAt": "2026-10-12T15:21:47.621Z",
+      "revokedAt": "2026-10-12T15:23:46.804Z"
+    }
+  ],
+  "conversationCyclePassed": false,
+  "managerChatCyclePassed": false,
+  "managerCallSheetObserved": true,
+  "crmMutationSubmitted": false
+}

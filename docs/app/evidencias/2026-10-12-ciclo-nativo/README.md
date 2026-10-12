@@ -16,8 +16,8 @@ Petición humana: comprobar LidIA y el gestor `integraciones@vozenter.com` en iO
 |---|---|---|
 | Compilación de fuente build11 | PASS, Debug Simulator | PASS, assembleDebug |
 | Arranque y pantalla | APP y entrada Login/Continuar sin registro observadas | APP y acceso observados en primer arranque |
-| Login desde controles nativos | Pendiente: pulsaciones/AX no fiables en Xcode27 | PASS: email y contraseña en controles, retorno solicitado |
-| Conservar sesión al reiniciar y revocar al cerrar | Pendiente | PASS: force-stop/reinicio conserva cuenta; logout pasa de1 a0 sesiones activas |
+| Login desde controles nativos | PASS: teclado de Device Hub, retorno a nueva consulta y sesión `ios` en BD | PASS: email y contraseña en controles, retorno solicitado |
+| Conservar sesión al reiniciar y revocar al cerrar | PASS: terminate/relaunch conserva cuenta; logout pasa de1 a0 sesiones activas | PASS: force-stop/reinicio conserva cuenta; logout pasa de1 a0 sesiones activas |
 | Nueva sesión real119 + respuesta del modelo | Pendiente de autoridad/namespace propios | Pendiente de autoridad/namespace propios |
 | Recuperación, respuesta legible, historial y permisos | Pendiente | Pendiente |
 | Chat con gestor Integraciones, envío en ambos sentidos | Pendiente de Contact–Deal–Owner QA verificables | Pendiente de Contact–Deal–Owner QA verificables |
@@ -42,7 +42,7 @@ El primer intento de login falló al reiniciar el wrapper local sin cargar DATAB
 ## Secuencia que debe ejecutarse
 
 1. Acreditar DEV, claves S2S, namespace APP, principal QA, vigencias y operador Integraciones. Guardar referencias de sesión/operación propias, nunca claves.
-2. Ejecutar iOS y Android por separado; AVD propio con4096MB/cuatro núcleos. No modificar AVDs de LIA ni apagar simuladores ajenos.
+2. Ejecutar iOS y Android por separado; AVD propio con4096MB/cuatro núcleos. No modificar AVDs de LIA. Sólo apagar temporalmente un simulador ajeno con autorización humana específica y restaurarlo al terminar.
 3. LidIA: acceso → nueva consulta → mensaje/elección de botón con texto visible → respuesta del119 → abandonar/recuperar mismo chat → renombrar/buscar → permisos/cierre según contrato.
 4. Gestor: relación QA Contact–Deal–Owner confirmada por servidor → abrir chat nombrado → entrada del operador Integraciones → mensajes en ambos sentidos → recibido/leído verificados en los dos extremos → historial tras cierre.
 5. Verificar navegación, teclado, permisos y estados de error. La cita CRM real, OAuth y APNs se registran como pruebas diferentes.
@@ -85,3 +85,23 @@ Verificación nueva del conjunto: **351backend /207frontend /build APP PASS**, h
 LidIA confirma que su ventana PRO quedó cerrada/restaurada, sin Call acreditada. Esto permite retomar la auditoría DEV, pero no entrega aún recursos nativos: stack24 continúaV1.705/30a5365. Se solicitan namespace/autoridad propios y Contact–Deal–Owner/routing de Integraciones verificables. El operador, la matriz de conexiones y el aislamiento deben acreditarse; no se construye un caso CRM ficticio para saltar el guard.
 
 La ejecución iOS espera también resolver la convivencia con el simulador iPhone17 de la tarea LIA: se solicita permiso al usuario para cerrarlo temporalmente, conservando su dispositivo y datos. No se toca mientras la respuesta esté pendiente.
+
+## Revisión posterior: acceso nativo iOS y restauración del simulador ajeno
+
+El usuario autorizó expresamente cerrar temporalmente el simulador iPhone17 de la otra tarea. Se apagó sin borrar datos; el simulador propio completó el arranque en16s. Sólo el dispositivo propio estuvo activo durante esta prueba.
+
+El teclado del helper serve-sim no introducía caracteres aunque devolvía éxito. Su diagnóstico identificó dos ventanas con el mismo nombre y la caída al modo HID anterior. En cambio, al enfocar Device Hub y capturar su teclado, la escritura sí llegó al campo: correo QA verificado y contraseña enmascarada. No se cambió la autenticación, no se reparó SpringBoard ni se modificó la configuración del teclado del usuario. XcodeBuildMCP sigue sin exponer botones del WebView; los ACK de esa herramienta no son la evidencia de acceso.
+
+El acceso con la cuenta propia crea exactamente una sesión de plataforma `ios` en la BD local, vuelve a la nueva consulta solicitada y conserva la identidad tras `simctl terminate`/`launch`. El menú muestra la misma cuenta recuperada. Cerrar sesión devuelve a visitante y revoca esa sesión:0→1→0. [Resultado saneado](ios-sesion.json), [acceso](ios-build11-sesion-iniciada.png), [cuenta recuperada](ios-build11-sesion-recuperada.png) y [salida](ios-build11-sesion-cerrada.png).
+
+El intento de iniciar la consulta muestra el [error recuperable](ios-build11-consulta-pendiente.png) esperado sin autoridad S2S vigente. La [hoja de llamada al gestor](ios-build11-gestor-llamada.png) pide nombre/teléfono a la cuenta sin expediente; no se envió el formulario ni se creó una relación CRM. Ninguna de estas capturas acredita un turno real del119, un chat de Integraciones o recibos leído/recibido.
+
+Al terminar, se cerró el espejo y se apagó sólo el simulador propio. El iPhone17 original volvió a `Booted`, con boot terminado y datos conservados; no se lanzó ni modificó su app de LIA. Android QA permanece apagado. El iPhone físico sigue pendiente del orden humano: terminar los ciclos conectados y después instalar el Release preparado.
+
+## Bloqueo confirmado por el equipo LidIA tras la prueba nativa
+
+El equipo fuente confirma: DEV stack24 sirve todavíaV1.705; falta copiar/auditar BD, conexiones y operador, y desplegar el canal APP actual. No existe todavía namespace QA/S2S autorizado en el receptor ni vínculo Contacto–Trato–Owner acreditado. El login, el teléfono y el correo no sirven para deducir ese vínculo.
+
+El equipo prepara su corrección728 de consentimiento/diagnóstico y después la copia/aislamiento DEV con entrega de metadatos y rutas privadas. El adapter CRM APP admite actualmente Production: si DEV sólo dispone de Sandbox, debe ajustarse y verificarse ese transporte antes de las pruebas CRM. La etiqueta DEV no demuestra aislamiento. Su ventana PRO permanece cerrada; nuestra configuración S2S sigue desactivada y la instalación física espera los dos ciclos reales.
+
+Se repite la consulta física por cable al cerrar esta revisión: iGonchu conserva Gestadia0.1.0(11). [Nueva comprobación](iphone-version-recheck.json). No se instala ni abre la APP física durante este intento.
