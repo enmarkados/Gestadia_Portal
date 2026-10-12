@@ -243,3 +243,13 @@ Para el gestor, se comparte la referencia directa de los dos mensajes humanos de
 Se revisan fuentes, manifiestos, transporte y pruebas de [importación inactiva R4](dev25-import-r4-package-review.json), [backup actual R5](dev25-backup-r5-package-review.json) y [metadata Zoho R2](zoho-metadata-r2-review.json). Importación:36checks/41de paquete, preview RO único y tres entidades propias inactivas; apply espera preview original y backup198/260 restaurado. Backup:22guards/8tests, admite sólo Enabled=false observado y preserva versiones anteriores. Zoho:63assertions, cancelación efectiva5min/20s también en cuerpo/BD, sin refresh/scopes ni fichas de clientes. La revisión descubrió y corrigió antes de ejecutar dos defectos: timeout del cuerpo HTTP y guard del flag APP apagado.
 
 Ops recibe conformidad para los preparativos/lecturas concretos. No se ha recibido todavía su resultado real; no hay importación/activación, relación CRM propia, ciclo conversacional nativo o nueva instalación física acreditados. Los helpers privados conservan originales y hashes fuera deGit.
+
+
+### Revisión independiente adicional: preview R4 detenido
+
+Source identifica que GetAppliedMigrationsAsync genera una comprobación INFORMATION_SCHEMA/punto y coma que rechaza el guard estricto del helper. Retira la ejecución de preview R4 antes de ejecutarlo y prepara R5 con una proyección mínima directa del historial, sin ampliar permisos o modificar producto/esquema. [Observación y alcance](dev25-import-r4-hold-review.json). La conformidad inicial de R4 queda sustituida para preview por esta parada; se conservan sus bytes y revisión. BackupR5 y ZohoR2 continúan conformes.
+
+
+### Preview R5 corregido y revisado
+
+QA comprueba la proyección SQL real y el interceptor,39tests y43checks de paquete/transporte. La consulta directa del historial resuelve el defecto conservando el guard estricto. [Conformidad R5](dev25-import-r5-package-review.json), sujeta al preflight final Source y a la ejecución única RO por Ops. No hay todavía resultado remoto de preview, apply, activación ni conversación nativa acreditados.
