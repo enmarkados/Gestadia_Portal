@@ -272,3 +272,10 @@ Source detectó que un objeto Request con headers firmados dentro de input podí
 Ops recupera el informe privado17862bytes/SHA226dfb7b… cotejado por QA y conservado600 fuera deGit. SieteGET: sólo organización responde401OAUTH_SCOPE_MISMATCH; Users/Fields/Layouts/Pipeline responden200. La página completa de21usuarios no contiene integraciones@vozenter.com, por lo que no se acredita ese Owner CRM. Contact requiere Last_Name; Deal requiere Deal_Name/Servicio/Pipeline/Stage. Se observa Gestor_encargado, sin asumir su uso o contenido; el adapter actualPortal consulta Owner. [Revisión saneada](zoho-viability-r2-original-review.json).
 
 Se coordina alternativa mínima para el casoQA/ruta explícita hacia el operador Integraciones de LidIA, con propiedadCRM real y diferencia de identidades declarada. No se crean usuarios/licencias/scopes, casos, vínculos o grants por esta lectura. El acceso del operadorDEV sigue autenticado en su bandeja oficial, sin abrir otros chats; eso tampoco acredita handoff. SondeoDEV puede continuar por separado.
+
+
+### Continuación bloqueada en la interfaz nativa del Mac
+
+Cua informa Mac bloqueado y pide desbloqueo manual; se solicita al humano, sin intentar eludirlo. La API3005 sigue devolviendo health, pero la lectura de la cuenta local no alcanza MySQL60670 y el ping del daemonDocker agota5s. No se acredita todavía causa o pérdida de datos; no se reinicia Docker global ni se borra el volumen. La inspección de sólo lectura del contenedor propio queda pendiente de respuesta.
+
+Se coordina seguir revisiones remotas DEV por separado. QA acepta que el backup actual198/260 previo a import sea baseline de reversión del conjunto de cambios propios, junto recibos/readback posteriores; no hace falta un fullbackup por cada fila ni se afirma que incluya las nuevas filas. El paquete country necesita reflejar esa precisión y su revisión concreta antes de apply. Sin desbloqueo y base local disponible no se reinician los ciclos nativos ni se instala el iPhone.
