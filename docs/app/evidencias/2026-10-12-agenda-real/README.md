@@ -287,3 +287,11 @@ El paquete administrativo del Contact continúa en revisión y preflight; no se 
 ![Runtime DEV25 verificado con APP apagada](dev25-runtime-728-pass.png)
 
 ![Copia nueva de LidIA restaurada sin red ni aplicación](lidia-restore-contact-pass.png)
+
+## Preparación de asociación y nueva autorización pendiente
+
+R2 administrativo del contacto: 51 comprobaciones offline, paquete Source revisado y tres payloads cotejados con publish. Instalación privada en carpeta nueva persistente, runtime/configuración/dependencias verificados, sin autorización instalada. Preflight real en PRO PASS, cuatro Save bloqueados y cero DB/HTTP. El guard de identidad conserva continuidad Guest→account mediante el propietario de la misma conversación y no atribuye propiedad por teléfono.
+
+La lectura administrativa inicial informa token caducado. Se prepara y revisa mantenimiento nativo de conexión 4 mediante GetAccessTokenAsync: 21 comprobaciones offline, transporte y restricciones verificados, preflight real PASS. Antes de renovar, preview RO observa token ya vigente hasta 22:36:57 UTC, cero POST y cero Save. Root **no ejecuta renew ni crea su marcador**; no atribuye esa renovación a sus acciones. R2 comprueba nuevamente token válido sin Contact/HTTP/salida de tokens/escrituras. La correlación del Contact sigue sin modificar y no existen permisos temporales ni aprobación administrativa activos.
+
+Se formula una única autorización humana nueva al acto: dejar guardado el vínculo de la ficha elegida con la cuenta, preservar datos y Lead independiente, habilitar una hora sólo para cuenta/conversación y reservar la llamada informativa del 13/10 a las 10:00 Madrid; retirar permisos al terminar y conservar únicamente correlación. Respuesta todavía pendiente. La reserva no se acreditará sin Call real, recibo durable y reapertura de la misma sesión.
