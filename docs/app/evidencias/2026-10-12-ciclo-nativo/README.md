@@ -75,3 +75,13 @@ El segundo boot iOS se quedó en Waiting on System App y no permitió recuperar 
 ## Preflight físico por cable
 
 `devicectl device info apps --bundle-id com.gestadia.app`, con destino exclusivo a iGonchu, confirma **Gestadia0.1.0/bundleVersion11 ya instalada**. No se reinstaló ni lanzó la APP en esta prueba; la reexportación Ad Hoc preparada permanece sin instalar. La versión instalada no acredita el ciclo conectado ni el origen exacto del paquete. [Resultado saneado](iphone-version.json).
+
+## Reanudación tras el cierre de la ventana PRO ajena
+
+Se incorpora a la rama QA el backend `0af593f` ya entregado por el otro equipo, mediante `b2250c3`; igualdad exacta de `backend/` comprobada contra fuente. `frontend/app/` conserva igualdad con344b033 y los binarios móviles no cambian. Los conflictos documentales conservan las entradas anteriores y las fuentes recibidas.
+
+Verificación nueva del conjunto: **351backend /207frontend /build APP PASS**, harness aislado. [Resultado](tests-backend0af.json). Se reinicia sólo el backend privado3005 con la configuración existente, S2S desactivado; sin migración nueva, despliegue o grants.
+
+LidIA confirma que su ventana PRO quedó cerrada/restaurada, sin Call acreditada. Esto permite retomar la auditoría DEV, pero no entrega aún recursos nativos: stack24 continúaV1.705/30a5365. Se solicitan namespace/autoridad propios y Contact–Deal–Owner/routing de Integraciones verificables. El operador, la matriz de conexiones y el aislamiento deben acreditarse; no se construye un caso CRM ficticio para saltar el guard.
+
+La ejecución iOS espera también resolver la convivencia con el simulador iPhone17 de la tarea LIA: se solicita permiso al usuario para cerrarlo temporalmente, conservando su dispositivo y datos. No se toca mientras la respuesta esté pendiente.

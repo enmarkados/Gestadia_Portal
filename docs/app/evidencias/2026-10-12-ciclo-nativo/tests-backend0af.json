@@ -1,0 +1,13 @@
+{
+  "qaCodeCommit": "b2250c3",
+  "backendSource": "0af593f",
+  "frontendSource": "344b0335ffb1e4a48677983fcba60b58e0b0c216",
+  "backendMatchesSource": true,
+  "frontendMatchesSource": true,
+  "backendTests": 351,
+  "frontendTests": 207,
+  "appBuild": true,
+  "remoteAuthorityEnabled": false,
+  "realLidiaCycle": false,
+  "realManagerCycle": false
+}
