@@ -1,0 +1,23 @@
+{
+  "reviewedAt": "2026-10-12T19:30:59.580476+00:00",
+  "stack": 123,
+  "containerId": "263878d492373160afaabd98cfff544331c411c66202c0235f913c846b24ed4e",
+  "fixtureSha256": "739e00d928ea11c813d340b6d488466435f111bd625f84ae795a84b18a9b6047",
+  "sourceAxFile": "/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/artifacts/dev-audit-20261012/dev25-restore-r2-logs-ax.txt",
+  "sourceAxSha256": "2bc689d7236a6d7e7ac266f46d7af65ac7dedab5498fd3b93689ba36bfb3d2ab",
+  "screenshotSha256": "8ca4609cdba582925d2a7b57b4c07abaab4cadac1cfc779a2d07f970bc183514",
+  "passMarkersIndependentlyRead": [
+    "DEV25 ROW COUNTS RESTORE PASS: 188 tablas",
+    "DEV25 SQL RESTORE PASS: 188 tablas; agente119/proyecto102 presentes",
+    "DEV25 FILES RESTORE PASS: runtime, persistencia y entorno/comando identicos",
+    "DEV25 RESTORE COMPLETE: sin red, puertos, eventos ni aplicacion; credenciales no cargadas"
+  ],
+  "lastEfMigration": "20261001214018_AddWhatsAppTemplatePrice",
+  "exitCodeReportedByOps": 0,
+  "exitCodeDirectlyInspectedByPortalQa": false,
+  "screenshotVisuallyInspected": true,
+  "backupRepeated": false,
+  "runtimeDev25Updated": false,
+  "s2sActivated": false,
+  "nativeConversationCyclePassed": false
+}

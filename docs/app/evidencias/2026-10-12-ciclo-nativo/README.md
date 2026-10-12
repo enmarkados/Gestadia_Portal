@@ -132,3 +132,21 @@ Las dos configuraciones pending recibidas se han contrastado por SHA, modo priva
 Se revisó y comunicó conformidad con el [plan recibido de LidIA](../../../integraciones/2026-10-12-dev25-qa-nativa-preparacion-lidia-recibida.md): backup/restauración aislada de25; EFhistory y migraciones oficiales; nueva referenciaQA y rollback; actualización con APP apagada; comparación funcional119DEV/real; nuevo proyecto/clon y sólo después habilitar sondeo con recursos verificados. Esta conformidad y las claves pendientes no acreditan despliegue ni conversación.
 
 Los archivos de código anterior y aprobado se contrastaron por tamaño/SHA; el aprobado incluye las tres migraciones APP citadas. No se han restaurado ni aplicado al runtime. [Contraste de archivos](dev25-source-review.json).
+
+### Revisión de copia y restauración R2
+
+Se devolvieron dos observaciones sobre R1 antes de ejecutarlo: sintaxis YAML y consistencia/recuentos de la exportación. R1 se conserva y no se ejecutó. R2 mantiene una transacción READ ONLY/REPEATABLE READ en la misma conexión/comando, comprueba las variables e identidad de conexión antes y después, exige InnoDB y revalida los recuentos de todas las tablas. La restauración compara esos recuentos y los manifiestos de archivos.
+
+Los hashes de fuente/script/transporte/plantilla se han comprobado directamente; shell, parser YAML y shell extraído deCompose pasaron. La plantilla mantiene cuatro hashes pendientes y falla antes de importar hasta completarlos con la copia real. Se comunicó conformidad para ejecutar la copia limitada a25; todavía no acredita exportación, restauración ni actualización. [Revisión saneada](dev25-backup-r2-review.json).
+
+### Exportación DEV25: archivos originales contrastados
+
+La exportación reporta188tablas,345.140filas y239.559.868bytes SQL, con snapshot/recuentos comprobados. PortalQA ha contrastado porhash los bytes originales del informe, manifiesto y TSV, y ha recomputado188nombres únicos/suma345.140. Se conserva el [informe original](dev25-backup-original-report.json) y el [manifiesto original](dev25-backup-original-SHA256SUMS.txt) sin modificar; el SQL y entorno permanecen privados en servidor.
+
+El archivo pinned para restauración cambia exactamente cuatro hashes de la plantilla, todos desde el manifiesto original. ParserYAML/shell y límites de aislamiento pasaron; se comunicó conformidad de ejecución. No se ha observado todavía la restauración ni la actualización. [Procedencia, límites y revisión](dev25-backup-original-review.json).
+
+### Restauración real comprobada
+
+Ops ejecutó una vez el fixturepinned en el stack temporal123, sin repetir la copia. PortalQA leyó el AX original y vio la [captura](dev25-restore-r2-pass.png): recuentos188tablas PASS, SQL119/proyecto102 PASS, runtime/persistencia/entorno/comando PASS y RESTORECOMPLETE sin red/eventos/aplicación. Ops inspeccionó el contenedor detenido con salida0; esa salida se atribuye a su inspección. El historialEF restaurado termina en20261001214018_AddWhatsAppTemplatePrice.
+
+El diff64ced36a→30be1692e contiene exactamente las tres migracionesAPP citadas y el ModelSnapshot. Se comunicó conformidad para preparar la actualización de25 con APP apagada y rollback preservado. No se ha acreditado aún la actualización, el clon funcional119 ni S2S; la matriz nativa permanece pendiente. [Procedencia y límites](dev25-restore-r2-review.json).
