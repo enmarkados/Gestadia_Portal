@@ -156,3 +156,49 @@ Resultado real: las cuatro copias existen, están inactivas, no son globales y t
 ![Herramientas preparadas e inactivas](tool-status728-ready-inactive.png)
 
 Con runtime V1.728 servido, copias/restauraciones completas, metadata y entorno Zoho acreditados, previsualización y herramientas verificadas, se presenta **una única pregunta humana** para renovar una hora, exclusivamente en la misma cuenta/conversación y conexión 4. La petición conserva los datos y horario reales ya aportados, sin pedir país del carné. La ventana nueva todavía no empieza: pendiente de respuesta; no se aplica configuración ni se activan herramientas o concesiones por iniciativa propia. **La llamada continúa sin agendar.**
+
+## Segunda ventana autorizada: activación y primer turno real
+
+Respuesta humana directa `human:call_37239e27ed314de1b007a4762947ca66`: habilitar una hora y agendar la llamada. Ventana común 12/10/2026 18:05–19:05 UTC (20:05–21:05 Madrid); misma cuenta y conversación, conexión Zoho EU 4. Registro de autorización y datos de contacto permanecen privados.
+
+LidIA aplica el alcance con CAS sobre la configuración original y editor V1.728; resultado SHA256 `8014843dd818240962f6edf9265320e9e055c54161d2d59aa932a1a7754508c8`. Un intento previo de transporte se rechaza por sintaxis antes de ejecutar el script; el transporte base64 conserva los bytes y completa apply. Único reinicio del contenedor; V1.728 vuelve a servir. Cuatro herramientas asignadas exclusivamente al agente APP; activación devuelve `tools_activated_for_scoped_app`, assigned 4, sin HTTP CRM.
+
+Se detecta en el generador privado Portal un escape literal de salto de línea en el código del archivo de entorno. Se corrige a `String.fromCharCode(10)` y una fixture con el comando real generado verifica saltos independientes, claves originales preservadas y una sola definición de cada flag. Stack 117 termina con salida 0. Archivo privado nuevo SHA256 `9dbfe147d218427fb2812e629b35a5a24e5283f038b975f4174335d4dcd126c7`. La primera lectura DOM del compose era parcial por virtualización; se obtiene el contenido completo copiando las 79 líneas y se comprueba que sólo cambia el bind del archivo de alcance. La primera actualización no queda reflejada al reconciliar config y contenedor; se vuelve a aplicar la edición visible. Backend nuevo `cc01a166d120b019d3585934963bbe7fdcbe35cd48b8bd9b9661e4351b651ee7`, saludable y con bind nuevo. No se repiten grants ni mensajes de resultado incierto.
+
+La concesión comprueba el hash del archivo privado, flags, identidad, alcance y hora antes de escribir. ACK real: revisión 4 sincronizada 4; permisos exactos `history`, `sondeo`, `crm_prepare`, `callback_schedule`, caducidad 19:05 UTC. Un único turno APP a las 18:07 UTC solicita la llamada informativa real del 13/10 a las 10:00 Madrid, con consentimiento de contacto y llamada y sin solicitud de canje. LidIA responde que el registro no está verificado.
+
+El lector del resultado se ejecuta una sola vez, sin escritura DB ni HTTP CRM. Log seguro V1.728: `PrepareAppCrmAsync` rechaza con `crm_owner_resolution_required` a las 18:07:46.197 UTC; `ExecuteAppAppointmentAsync` devuelve el mismo código a las 18:07:46.249 UTC. Se solicita diagnóstico acotado y lectura del ledger antes de cualquier reintento. **La llamada no está acreditada ni se da por reservada.** Los permisos se retirarán tras finalizar la prueba o al vencer la hora.
+
+Lectura compacta del mismo reporte existente, sin repetir SELECT ni HTTP: `crm_binding=null`, `committed_appointment=null`, `ledger=[]`, `owner_ledger=[]`. Esto acredita ausencia de claim/efectos registrados en esos ledgers, sin afirmar por ello que no exista un contacto anterior en Zoho. Se solicita lectura CRM acotada que discrimine coincidencia legacy, propietario ambiguo y paginación ambigua.
+
+![Concesión de la segunda ventana sincronizada](phase2-grant-ack.png)
+
+![Resultado de los ledgers tras el único turno](phase2-ledger-empty.png)
+
+## Diagnóstico CRM real: contacto legacy sin atribución acreditada
+
+Lector privado revisado y ejecutado una vez bajo la misma ventana, hash de configuración aplicado y conexión 4 Production/EU. Fuente SHA256 `dd8d75188e28cfb9591dce0011c65201bc2ddc79cbfcae21074c4a99f2d9a967`, script `19903368c43949b90d0ca1bc2fb5d299c2141285411dd03a8e53ba8cc5d580d0`, DLL `00e45c5fd4139eaf949ed3a932f72c0980f1171f7d1c75d13a3ad3aa9337d93a`. Preflight servido correcto, cuatro variantes de SaveChanges bloqueadas; cliente HTTP sólo permite cuatro GET exactos y sin redirecciones, bloquea POST OAuth y cualquier escritura CRM.
+
+Lectura del 12/10 18:15:48 UTC: búsqueda de clave de propietario sin resultados en Leads ni Contacts (204). Búsqueda por variantes del teléfono devuelve una fila en cada módulo, sin más páginas. El Lead no coincide exactamente con nombre, correo ni teléfono normalizado; el Contact sí coincide en teléfono, pero no en nombre ni correo. Ambos carecen de clave de propietario. Los IDs de esos registros quedan ocultos en el informe porque no se acredita la atribución por los tres datos ni por la clave propia. Cuatro GET, cero escrituras DB/CRM/OAuth.
+
+Se identifica una coincidencia legacy no atribuida como motivo del rechazo, sin ambigüedad de paginación ni de clave propia. No se vincula por teléfono ni se crea un duplicado para sortear el guard. Se pide al usuario únicamente el nombre/correo de su ficha anterior, si existe, para contrastarla. La reserva sigue pendiente y no hay cita confirmada; la retirada de permisos está preparada.
+
+![Diagnóstico acotado del contacto previo](phase2-owner-diagnostic.png)
+
+## Cierre físico de la segunda ventana
+
+Sin resolver la atribución del contacto, se retira el acceso antes de finalizar la hora. Revocación con comprobación de la nueva referencia humana y preservación de concesiones concurrentes: `withdrawal_ack_confirmed`, revisión 5 sincronizada 5, ACK admitted y permisos exactos `history`, `sondeo`. La solicitud queda en la misma conversación; no se repite el turno ni se modifica el Contact encontrado.
+
+LidIA restaura las cuatro herramientas a inactivas y sin asociaciones al agente 122; cero definiciones eliminadas y agente original 119 intacto. Configuración restaurada byte a byte contra la copia V1.728, SHA256 original `abd00800b8bc6bdbed8371f2dbcb3b8610ef9b658847465451c4d6fb26588d2c`, sin cambios de claves u otras integraciones. Reinicio único de retirada; V1.728 vuelve a servir y el contenedor queda healthy. Lectura independiente de las cuatro filas, informe nuevo `tool-status-after-phase2.json`: todas inactivas/no globales, cero asociaciones propias o ajenas, snapshot original idéntico; sin escrituras DB, consultas de contactos/tokens ni HTTP CRM.
+
+Portal restaura sólo el bind del archivo de entorno original mediante comparación del compose completo aplicado; conserva imágenes, claves y volúmenes. Backend nuevo `a9a9f784a190716b6b154336ad4b99cc5e8802c120dd0243faab26806e9ec8d7`, healthy; APP y web Portal healthy. Readback final: cuenta activa, grant ausente, revisión 5 sincronizada 5, `callbackFlag=false`, `profileContext=false`, integración habilitada y permisos `history`, `sondeo`. La APP autenticada conserva tras recargar el único turno de las 20:07 Madrid y su respuesta en la misma conversación.
+
+![Retirada firmada de la segunda ventana](phase2-withdrawal-ack.png)
+
+![Configuración original de LidIA restaurada](phase2-lidia-restored.png)
+
+![Cuatro herramientas nuevamente inactivas y sin asociaciones](phase2-tools-final-inactive.png)
+
+![Portal restaurado, sin concesión ni flag de agenda](phase2-portal-closed.png)
+
+**Resultado: prueba real ejecutada y bloqueo legacy localizado; llamada aún sin reservar.** Pendiente de la información humana solicitada para acreditar la ficha previa y preparar una asociación administrativa revisable. No se elimina ni se modifica ningún registro CRM. TestFlight (11) y Play interno (3) permanecen sin nuevas subidas.
