@@ -2,6 +2,8 @@
 
 Petición humana: comprobar LidIA y el gestor `integraciones@vozenter.com` en iOS y Android; **después** instalar la última versión en iGonchu. No se acredita un ciclo conectado con fixtures ni con la prueba de otra cuenta.
 
+[Plan de aceptación y reparto para preparar DEV](PLAN-ACEPTACION.md), confirmado como objetivo humano al retomar el12/10. Mantener separado el avance documental de los resultados realmente ejecutados.
+
 ## Fuente y entorno
 
 - Fuente vigente para ambos paquetes (iOS0.1.0/build11; Android0.1.0/versionCode4): `344b0335ffb1e4a48677983fcba60b58e0b0c216`, Gestadia 0.1.0 (11), con el editor de nombre aceptado. La APP web servida `5febdf2` y el backend `0af593f` son referencias distintas.
