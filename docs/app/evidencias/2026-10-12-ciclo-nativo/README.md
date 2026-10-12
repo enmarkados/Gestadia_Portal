@@ -214,3 +214,13 @@ Dos transcripciones intermedias de hashes en mensajes eran incorrectas y quedan 
 ### R4 revisada y lectura real comunicada como completa
 
 QA contrasta el diff mínimo, rawversion exacta, pin de fingerprint antes de SELECT, referencia del informe original,78checks/preflight y transporte/payload de tres archivos. [Revisión](pro119-export-r4-review.json). Ops comunica una ejecución R4 completa en22:32:43UTC, snapshot103806bytes, sin escrituras/HTTP/Host/filas nuevas/import. Los originales y hashes están aún en recuperación: la comunicación no se trata como entrega de bytes ni permite importar. Se conservan R2/R3/inspector; no se repite la exportación.
+
+### Informe R4 original recibido
+
+El [informe R4 original](pro119-export-r4-original-report.json) de2600bytes coincide con SHA3344fca2… recalculado por QA. Acredita ejecución de lectura completa, fingerprint/pins y prompt exactos,8tools asignadas/0candidatos globales, sin escrituras/HTTP/Host/import. Espera snapshot103806bytes/SHA b5ea5b60…; todavía no se ha recibido ese contenido. Flags/modelo configurados no acreditan cache/proveedor real ni una conversación.
+
+### Snapshot funcional real recibido y contrastado
+
+Se recibe el contenido original privado103806bytes/SHA b5ea5b60…; QA recalcula el hash y conserva copia600 fuera deGit. [Revisión saneada](pro119-r4-snapshot-review.json). Se observa modelo configuradoclaude-haiku-4-5,8tools asignadas/0globales, flowsnull y personalidad desactivada. Timeout/automatización del agentePRO requieren aislamiento explícito en la copia; no se heredan en QA.
+
+Se coordina preparación de importación inactiva con IDs nuevos y mapping de instrucciones/tools/flags. El snapshot no acredita caché/proveedor ni respuesta real; aún no hay importación ni S2SQA activa, casoCRM propio o ciclo nativo. Las claves y contenido de instrucciones no se versionan.

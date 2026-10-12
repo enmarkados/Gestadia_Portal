@@ -20,7 +20,13 @@
   },
   "decision": "Conforme para una exportación de lectura R4, sin import/activación; preservar las anteriores.",
   "actualCompletionReportedByOps": true,
-  "actualOriginalReportReceived": false,
-  "actualPrivateSnapshotReceived": false,
-  "nativeCyclePassed": false
+  "actualOriginalReportReceived": true,
+  "actualPrivateSnapshotReceived": true,
+  "nativeCyclePassed": false,
+  "actualOriginalReport": "pro119-export-r4-original-report.json",
+  "actualOriginalReportSha256": "3344fca2ea6961818667bdd6bcd76f8bf9cb43888ad5e465b19307d8ffa3083b",
+  "actualOriginalReportBytes": 2600,
+  "snapshotExpectedBytes": 103806,
+  "snapshotExpectedSha256": "b5ea5b60cf925844210a77409b6ecd811faa8f39f195579683554954c8893d34",
+  "snapshotOriginalSha256Verified": true
 }
