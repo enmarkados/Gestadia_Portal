@@ -184,3 +184,9 @@ LidIA congela un exportador de lectura con modelos nativos y cuatro SaveChanges 
 Ops ejecuta R2 una vez en PRO/UID1654. PortalQA ve y conserva la [captura original](pro119-export-actual.png): `System.Text.Json.JsonReaderException`, sin escrituras y sin contenido del snapshot impreso. [Resultado y límites](pro119-export-r2-inconclusive.json). No se repite el paquete ni se borra su marcador; esta salida no permite importar ni acreditar paridad.
 
 Se solicita diagnóstico de fase/codificación/BOM/posición limitado a los archivos permitidos, sin valores de configuración. Comentarios y trailing commas ya estaban contemplados en R2; un BOM sigue siendo una hipótesis hasta la comprobación real. S2S QA e import DEV continúan pendientes.
+
+### Causa de lectura confirmada: marca UTF8
+
+La [comprobación RO servida](pro119-config-format-actual.png) confirma el mismo archivo/hash/tamaño que el candidato local: appsettings.json4563bytes/SHA8b090f… y BOM EFBBBF. LidIA reproduce RED: el proveedor nativo admite esa marca; JsonDocument sobre bytes de R2 falla en línea0/byte0. [Procedencia](pro119-config-format-review.json).
+
+Se prepara una nueva revisión del lector con StreamReader, hashes sobre bytes originales y carpeta/marcador distintos. No se cambia el archivo válido de producción ni el agente. R2 y su resultado inconcluso se conservan; la lectura nueva todavía necesita revisión y ejecución.
