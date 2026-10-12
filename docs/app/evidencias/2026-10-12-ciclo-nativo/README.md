@@ -265,3 +265,10 @@ Scope pendiente apagado, sin fechas/proof; bootstrap privado preparado sin aplic
 ### Guard de sujeto R2: revisión cruzada corregida
 
 Source detectó que un objeto Request con headers firmados dentro de input podía saltarse la detección de init.headers. También se fijó el UID64a en el propio helper para evitar deriva del principal en el archivo privado. Ambos casos tuvieron RED observable y están corregidos en una revisión separada:13tests PASS, envíos denegados0, cliente real conservado. [Proof R2](qa-subject-guard-r2-preparation.json). R1 queda idéntica por hashes y retirada antes de aplicar. Bootstrap R2 y scope siguen pendientes/apagados; no hay ejecución externa o aceptación nativa acreditadas por estas pruebas.
+
+
+### Zoho R2 real: resultado original recibido
+
+Ops recupera el informe privado17862bytes/SHA226dfb7b… cotejado por QA y conservado600 fuera deGit. SieteGET: sólo organización responde401OAUTH_SCOPE_MISMATCH; Users/Fields/Layouts/Pipeline responden200. La página completa de21usuarios no contiene integraciones@vozenter.com, por lo que no se acredita ese Owner CRM. Contact requiere Last_Name; Deal requiere Deal_Name/Servicio/Pipeline/Stage. Se observa Gestor_encargado, sin asumir su uso o contenido; el adapter actualPortal consulta Owner. [Revisión saneada](zoho-viability-r2-original-review.json).
+
+Se coordina alternativa mínima para el casoQA/ruta explícita hacia el operador Integraciones de LidIA, con propiedadCRM real y diferencia de identidades declarada. No se crean usuarios/licencias/scopes, casos, vínculos o grants por esta lectura. El acceso del operadorDEV sigue autenticado en su bandeja oficial, sin abrir otros chats; eso tampoco acredita handoff. SondeoDEV puede continuar por separado.
