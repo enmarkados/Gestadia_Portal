@@ -102,3 +102,57 @@ El usuario confirma el inicio de sesión y se recupera Portainer con el usuario 
 La revisión independiente del paquete final de metadata verifica los tres binarios y los hashes de fuente/transporte. Fixture y preflight nativo pasan con el DLL final: construyen configuración, modelo EF y servicio Zoho, bloquean las cuatro variantes de SaveChanges y no ejecutan SQL ni HTTP. El script exige repetir ambas comprobaciones contra las bibliotecas reales y sus seis hashes antes de consultar metadata. Todavía no se ha ejecutado en servidor.
 
 Se cede Portainer al equipo LidIA para comprobar la restauración de la copia SQL reciente antes del único despliegue autorizado de V1.728. La recuperación del acceso no renueva la ventana CRM de la cuenta APP. Permisos cerrados, sin nueva subida móvil ni llamada acreditada.
+
+## Restauración reciente antes de V1.728
+
+La sesión de Portainer del equipo está aislada; la operación se realiza en este chat, sin pedir otro inicio de sesión. La primera fixture, stack 110, termina con salida 1 antes de importar SQL: el verificador llevaba mal transcrito el hash del runtime, con 63 caracteres. Se conserva esa evidencia y el verificador original; no se despliega producción. La lectura independiente de los archivos reales confirma SQL SHA256 `63e10fff7cec4103bfd18ee99f319b494cf745b756083e298c04c67f40a48e87`, runtime `ae47ab8dce4f83da7baaf34662595277c830172e39a186227b5cb942ed30a3c1` y configuración original `abd00800b8bc6bdbed8371f2dbcb3b8610ef9b658847465451c4d6fb26588d2c`.
+
+La revisión nueva corrige únicamente ese pin y añade un marcador explícito tras comprobar los hashes. Los tres pins tienen 64 caracteres hexadecimales, Compose valida la configuración y la revisión independiente confirma el diff. YAML SHA256 `f991c1be5421452de1711541e4ecbd4231344f545d040c5603dc98e46146a2ad`.
+
+Stack 111, contenedor `55a4bc5a2ccdf23f4f9decf8ad78db5f22062e8776fff044c19969a828f21d2f`: restauración aislada de la copia pre727 reciente completada el 12/10 de 18:38:21 a 18:39:38 de Madrid, **salida 0**. SQL RESTORE PASS: 198 tablas, vínculo 1, 19 mensajes externos (14 asistente y 5 usuario), ChatLogs 0. FILES RESTORE PASS: runtime contrastado por manifiesto y configuración, entorno y comando idénticos. Sin red, puertos ni aplicación en esa fixture.
+
+![Restauración de la copia reciente completada](lidia-pre728-fresh-restore-pass.png)
+
+Después de ese resultado se inicia una única actualización Git de stack 26, con la rama `produccion/gestadia` verificada en `8bab2547d9b7ffb73e7c76ffaa8032ce9aee419a`. Este registro de inicio no acredita por sí solo el nuevo runtime servido. No se modifican los permisos temporales ni las herramientas del agente.
+
+## V1.728 servida y unicidad CRM comprobada
+
+La única actualización devuelve un 504 al navegador y, durante la reconciliación, el archivo Compose aparece temporalmente inaccesible. No se repite Pull. Después de esperar y recargar, stack 26 muestra `8bab2547d9b7ffb73e7c76ffaa8032ce9aee419a`, contenedor nuevo `26d8088243ffe855abaa26284a22a3a15a6604f47252efd4d2c7c3aca0e8b071` saludable y el sitio sirve `V1.728-app-diagnostico`. La configuración original conserva SHA256 `abd00800b8bc6bdbed8371f2dbcb3b8610ef9b658847465451c4d6fb26588d2c`.
+
+El helper administrativo final se ejecuta una vez tras comprobar directorio e informe ausentes. Los seis hashes de dependencias servidas, fixture y preflight nativo pasan en el contenedor nuevo. Dos GET de metadata confirman el campo exacto en Leads (171 campos) y Contacts (153): texto, longitud 64, sin flags de sólo lectura. La proyección inicial no interpreta `casesensitive` como texto y conserva null; ese primer informe permanece intacto.
+
+La [documentación oficial V2 de Zoho](https://www.zoho.com/crm/developer/docs/api/v2/field-meta.html) ejemplifica `unique.casesensitive` con la cadena `"0"`. Revisión R2 limitada a la proyección y sus fixtures: normaliza exclusivamente booleanos y cadenas `0`, `1`, `true`, `false`; informa número, nombres y tipo de propiedades sin copiar valores arbitrarios. Diez formas de metadata se comprueban antes y después del cambio. Fixture y preflight con el DLL publicado pasan localmente desde el directorio previsto; los primeros comandos desde otro CWD o con un argumento local no admitido fallaron y no ejecutaron SQL ni HTTP. Script SHA256 `07382ab859fe76685a2608025c336b7894bd2887f64174a5fddb615b652349b5`, transporte `062788f834af598602a5712a668c13168633d34b636b32057bb7cc81aefacf6f`, DLL `9808ff2468432774ab479b9107df00878f8914ae52699de2ed694e534e697e2b`.
+
+Lectura real R2 del 12/10 a las 16:54:04 UTC, tras hashes, fixture y preflight contra `/app`: ambos módulos devuelven `unique` con una propiedad `casesensitive`, de tipo cadena, normalizada a false. Se acredita la unicidad configurada en ambos campos, sin distinción de mayúsculas, con la misma longitud 64. Informe nuevo SHA256 `1c530dbeba196045fc04b9ec5b5c12d8d0fdc67de03ebe2dde6019bad1d0024c`. Dos GET, cero registros CRM consultados, cero escrituras DB, cero POST OAuth y permisos APP intactos. No se guardan mapeos ni se modifica el esquema de Zoho.
+
+![Metadata real del campo único en ambos módulos](metadata-r2-real-unique-conn4.png)
+
+La hora anterior sigue cerrada. Se preparan nuevas copias de Portal/LidIA y una ventana revisable con V1.728 antes de solicitar una nueva autorización de una hora. **La llamada real sigue sin reservarse.**
+
+## Copias y previsualización de la segunda prueba
+
+Portal, copia nueva del 12/10 a las 16:56:05 UTC: SQL 298263 bytes, SHA256 `1c8a9fbfa103dbf30fdce70df2afe7e30d94ac955e3ae31060999ea53a639228`, 45 usuarios, 94 expedientes, 14 documentos y 15 migraciones. Stack 112 termina sus tres procesos con salida 0. Stack 113 restaura SQL sin red/eventos: 24 tablas correctas y los mismos recuentos; configuración, claves y documentos coinciden byte a byte. Ambos procesos de restauración terminan con salida 0.
+
+LidIA, copia SQL nueva `manual_20261012_165647.sql`, terminada a las 16:57:11 UTC, conservada junto al runtime V1.728, configuración, entorno y comando. Siete hashes, tar y comparaciones correctos; permisos 700/600, UID 1654. La primera fixture de esta copia, stack 114, se detiene antes de importar por otro error de transcripción visual del hash SQL. Se conservan el intento y sus valores. Para eliminar esa fuente de error, stack 115 audita la copia en modo lectura y sin red: siete OK, salida 0 y hashes obtenidos de los logs de texto mediante extracción automática.
+
+Valores exactos del texto real: SQL 1290700177 bytes, SHA256 `f2d888d433c5c24f2dae49bba3e68b740728929d0682a0e16a00fe69a4fd0d42`; runtime 42788484 bytes, SHA256 `074d7f6f986bd388137fa42489d5dbcd0f8bae91585617dbdf5bebd94bd94c83`; configuración original SHA256 `abd00800b8bc6bdbed8371f2dbcb3b8610ef9b658847465451c4d6fb26588d2c`. El nuevo YAML cambia exclusivamente el pin SQL desde ese texto, conserva el anterior y pasa revisión/Compose; SHA256 `e62c674491e589bc77ae997393887373444fa004dad258b71800c0006101f3aa`.
+
+Stack 116, contenedor `bc4fb730ce7dff34ba454b9a5038ba64b227e908e9b45ad3a1ca0168ac265504`: **restauración real terminada con salida 0**, 198 tablas, vínculo 1, 19 mensajes (14 asistente y 5 usuario), ChatLogs 0; runtime verificado y configuración, entorno y comando idénticos. Sin red, puertos ni aplicación en la fixture.
+
+![Restauración de la copia V1.728 completada](lidia-phase2-restore-r2-pass.png)
+
+Editor privado V1.728 subido una vez a un directorio nuevo, sin ejecutar apply: DLL SHA256 `133725a406d0ebdf7f42cc96dd259c5f9b703a2af000a71eaafcb58e0a93a9b5`. La previsualización devuelve `preview_only_no_write`, fuente original, sin cambios de claves ni otras integraciones. La lectura administrativa de conexión 4 verifica literalmente Provider `Zoho CRM`, Environment `Production`, IsActive true. Se descarta esa posible discrepancia de entorno, sin atribuirle el fallo anterior. La propuesta incluye CRM y agenda ligados a un alcance válido; todavía no está aplicada.
+
+El generador Portal nuevo conserva la evidencia anterior y usa otro archivo de entorno. Revisión local y del equipo: YAML con saltos reales, sólo dos flags sustituidos, resto del entorno preservado y archivo 600; el argumento de ejecución mantiene literalmente `db.$disconnect()` mediante comillas POSIX, probado con un stub sin Prisma/DB/red. Caducidad y referencia humana definitivas quedan pendientes de aprobación; no se genera ni ejecuta una concesión real en estas comprobaciones.
+
+La APP conserva la sesión autenticada y el mismo historial al recargar. Queda comprobar las cuatro copias de herramientas y formular una única renovación humana de una hora. **Permisos cerrados; llamada aún no agendada.**
+
+## Preparación cerrada y renovación humana pendiente
+
+La UI de Tools lista sólo herramientas activas y no permite acreditar por sí sola las cuatro copias inactivas. Se revisa y ejecuta una vez un lector administrativo mínimo, sin modificar el editor: SELECT fijo de IDs 10368–10371 dentro del proyecto 103, estado, conexión y recuento de asociaciones; no lee contactos ni tokens y no hace HTTP. Snapshot original verificado por SHA256 `d2a3ff56c079c0c86acf1ca843a178fa11d6b720512986492c235950ed50919a`; DLL del lector `5131d1134309dfe0367ce99081f870a0cbe3bd42b0f84ef68e25b524bee94ce7`, paquete `69b17c2bf3710b586650e28aa3c7aee5bc7fb6f87c86d017daeaa72709466cae`. Directorio/informe nuevos, sin sobrescritura.
+
+Resultado real: las cuatro copias existen, están inactivas, no son globales y tienen cero asociaciones al agente APP o a cualquier otro. Tres usan conexión 4; el comprobador de país conserva conexión null. Informe `tool_metadata_read_only`, `ready_for_future_activation=true`, sin escritura DB, HTTP CRM, consulta de tokens ni de contactos.
+
+![Herramientas preparadas e inactivas](tool-status728-ready-inactive.png)
+
+Con runtime V1.728 servido, copias/restauraciones completas, metadata y entorno Zoho acreditados, previsualización y herramientas verificadas, se presenta **una única pregunta humana** para renovar una hora, exclusivamente en la misma cuenta/conversación y conexión 4. La petición conserva los datos y horario reales ya aportados, sin pedir país del carné. La ventana nueva todavía no empieza: pendiente de respuesta; no se aplica configuración ni se activan herramientas o concesiones por iniciativa propia. **La llamada continúa sin agendar.**
