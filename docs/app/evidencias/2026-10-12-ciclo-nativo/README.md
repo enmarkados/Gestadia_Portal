@@ -224,3 +224,9 @@ El [informe R4 original](pro119-export-r4-original-report.json) de2600bytes coin
 Se recibe el contenido original privado103806bytes/SHA b5ea5b60…; QA recalcula el hash y conserva copia600 fuera deGit. [Revisión saneada](pro119-r4-snapshot-review.json). Se observa modelo configuradoclaude-haiku-4-5,8tools asignadas/0globales, flowsnull y personalidad desactivada. Timeout/automatización del agentePRO requieren aislamiento explícito en la copia; no se heredan en QA.
 
 Se coordina preparación de importación inactiva con IDs nuevos y mapping de instrucciones/tools/flags. El snapshot no acredita caché/proveedor ni respuesta real; aún no hay importación ni S2SQA activa, casoCRM propio o ciclo nativo. Las claves y contenido de instrucciones no se versionan.
+
+### Propuesta de importación inactiva revisada
+
+QA lee la propuesta original14333bytes/SHA20dd4174… y acepta preparar la utilidad/preview/readback de tres entidades nuevas inactivas, prompt/apertura fieles, modeloHaiku/19overrides, paridad de defaults y resets operativos. [Conformidad y observaciones](dev25-import-r4-plan-review.json). El paquete y preview concreto se revisarán antes de escribir.
+
+Se solicita incluir las lecturas mínimas DEV de paridad en el mismo preview y preparar en paralelo la revisión country builtin existente. Country/time será una restricciónQA explícita, no equivalencia funcional completa. No hay import, activación, casoCRM ni aceptación nativa acreditados por esta propuesta. El objetivo humano de gestor/iOS/Android/instalación permanece pendiente.

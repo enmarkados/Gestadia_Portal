@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-12T22:48:42.420118+00:00",
+  "status": "inactive_import_plan_reviewed_preparation_allowed",
+  "planOriginalSha256": "20dd4174eb9a0e9c79a9b44440a86cae231a857661e70b2887f5a6887bdf128b",
+  "planBytes": 14333,
+  "sourceSnapshotSha": "b5ea5b60cf925844210a77409b6ecd811faa8f39f195579683554954c8893d34",
+  "mapping": "3newinactiveentities, internalFK/newDBids, literalprompt/opening/rawversion/modelHaiku,19explicitflags",
+  "resetOperationalInheritance": true,
+  "sharedGlobalChangesAllowed": false,
+  "toolsInitiallyExecutable": false,
+  "genPersonaSerializeAndAuxiliaryDefaultsNeedDevPreview": true,
+  "countryTimeScope": "Restricted QA, not full functional equivalence with PRO",
+  "reviewDecision": "Conforme preparar utilidad privada/preview/readback, revisar paquete y preview antes de escrituras; tareas DEV ya pedidas por humano.",
+  "observations": [
+    "Incluir lecturas mínimas suficientes de paridad DEV en un preview.",
+    "Preparar revisión de country builtin original en paralelo, sin handlers nuevos/CRM; gestor sigue pendiente y separado."
+  ],
+  "importPerformed": false,
+  "appActivated": false,
+  "nativeCyclePassed": false
+}
