@@ -230,3 +230,9 @@ Se coordina preparación de importación inactiva con IDs nuevos y mapping de in
 QA lee la propuesta original14333bytes/SHA20dd4174… y acepta preparar la utilidad/preview/readback de tres entidades nuevas inactivas, prompt/apertura fieles, modeloHaiku/19overrides, paridad de defaults y resets operativos. [Conformidad y observaciones](dev25-import-r4-plan-review.json). El paquete y preview concreto se revisarán antes de escribir.
 
 Se solicita incluir las lecturas mínimas DEV de paridad en el mismo preview y preparar en paralelo la revisión country builtin existente. Country/time será una restricciónQA explícita, no equivalencia funcional completa. No hay import, activación, casoCRM ni aceptación nativa acreditados por esta propuesta. El objetivo humano de gestor/iOS/Android/instalación permanece pendiente.
+
+### Pin del binario DEV servido y preparación CRM independiente
+
+Ops entrega [informe DEV original](dev25-served-runtime-sha-original.json),273bytes/SHAa230a3ba… cotejado por QA. La DLL real delCID462d/UID1654 tiene SHA09417948… y61000704bytes; este pin evita confundirla con el binarioPRO3ba. Se prepara backup/restauración actualizado198tablas/260migraciones, preservando el backup188 anterior como evidencia previa, no como rollback del estado actual.
+
+Para el gestor, se comparte la referencia directa de los dos mensajes humanos de este turno (ciclo nativo con Integraciones y «Contra produccion»). Se prepara sólo metadata/org/Owner/layout de Zoho en lectura; el límite de una hora es una propuesta técnica, no una cita humana. No se crean registros ni se concede/transfiere OAuth con esta petición; cualquier acceso sensible nuevo se concretará antes de decidirlo. El casoCRM y los dos ciclos nativos aún están pendientes.
