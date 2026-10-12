@@ -202,3 +202,32 @@ Portal restaura sólo el bind del archivo de entorno original mediante comparaci
 ![Portal restaurado, sin concesión ni flag de agenda](phase2-portal-closed.png)
 
 **Resultado: prueba real ejecutada y bloqueo legacy localizado; llamada aún sin reservar.** Pendiente de la información humana solicitada para acreditar la ficha previa y preparar una asociación administrativa revisable. No se elimina ni se modifica ningún registro CRM. TestFlight (11) y Play interno (3) permanecen sin nuevas subidas.
+
+## Inventario DEV para la coordinación de pruebas móviles
+
+Después del cierre PRO se revisa el lector `DevRuntimeAudit`, sin Host, Seeder, EF ni HTTP: SELECT de metadatos, rol del operador y recuentos, sin contactos ni credenciales; artefactos nuevos privados 700/600. Fuente SHA256 `59cf73925b4e4c83536b090974c5521f66bb84ef7509bd76e3f6392f9782a69a`, script `efe18748ac2bca16fe7191fc106a640228efd037e4b4dc43c98e0ceac18b722c`, DLL `b74d5308971f3c91d3ee8792c9922abd9dc0b756320326204a744c5618a597b4`. Se corroboran ambos contenedores y volúmenes en UI antes de una sola ejecución por entorno. No se activa APP ni se modifica configuración, OAuth, registros o colas.
+
+| Dato observado | Stack 24 | Stack 25 |
+| --- | --- | --- |
+| Nombre | lidia-vozenter-dev | lidia-gestadia-dev |
+| Versión servida | V1.705-usuarios-departamentos-ui | V1.705-usuarios-departamentos-ui |
+| Base conectada | lidia_v360_dev | lidia_gestadia_dev_db |
+| Informe SHA256 | a31047bc5d958757d0574c2a831eeff9b9d6f79506a237b79d52ff380dac3b6e | 8005593eedb108a48268c86f99264ade68507073770baf807375a04067a8858c |
+| Conexión CRM activa relevante | Zoho 2, Production | Zoho 4, Production |
+| Host CRM observado | www.zohoapis.eu | www.zohoapis.eu |
+| Operador Integraciones | 1, rol Admin | 1, rol Admin |
+| Fichero APP / overrides env | Ausente / 0 | Ausente / 0 |
+
+Las huellas de destino DB son distintas entre los dos DEV; no se ha medido en este lector la huella PRO. El nombre o `ASPNETCORE_ENVIRONMENT=Development` no prueban aislamiento externo. Fichero APP ausente y cero overrides tampoco prueban la configuración efectiva completa. Stack 24 contiene proyectos y conexiones de Vozenter; no se selecciona por defecto como QA de Gestadia. Stack 25 contiene proyecto 102 `GestadIA v2`, con conexión 4 Production y canales heredados: **candidato a preparar, no entorno aislado acreditado**. El agente 119 existe en ese proyecto; su ID 122 ya corresponde a otro agente y no equivale al clon 122 de PRO.
+
+Una lectura provisional de las filas de cola se había descrito como pendiente en comentario; se rectifica al consultar las definiciones del código: OutboxStatus 1 corresponde a Sent (21 filas en 24) y EvaluationJobStatus 2 a Completed (2 filas en 24). Stack 25 devuelve esos recuentos vacíos. Son datos históricos, no prueba de desactivación de procesos futuros ni de estado enum medido por reflexión del runtime.
+
+Los informes originales se recuperan desde binds de archivo RO y un lector sin red, sin repetir SELECT. Primer lector, stack 118, conserva hashes pero Compose sustituye una variable de comando y falla la lectura; segundo, stack 119, obtiene texto que Portainer transforma de JSON a key=value incluso al descargarlo. Se preservan ambos. Tercero, stack 120, transporta los bytes en base64 con tags fijos; salida 0 y ambos hashes coinciden exactamente con los archivos originales. Los datos íntegros quedan privados.
+
+Metadata de stack 25 comprobada en UI, sin guardar ajustes ni redeploy: repositorio Gestadia_LidIA, referencia `refs/heads/desarrollo/gestadia`, commit desplegado mostrado `64ced36a9a7d98edf1936cb27814d6d822814279`, `compose.yaml`; imagen `lidia-app:gestadia-dev`, contenedor `9b0062d3e2ac76d391ba65c0c7de758acd3344e9c912d73880fb177e2ba53cb7`. Puerto 8084 → 8080/tcp, IPv4/IPv6; APP_UID 1654, GID no observado. App_Data y Logs tienen binds propios bajo `/var/lib/lidia-stacks/gestadia-dev`. GitOps está habilitado; una actualización futura debe contemplar su comportamiento, copia/restauración propia y revisión previa.
+
+Ambos equipos reciben archivos y hashes. Se plantea para 25 una integración APP propia inicialmente limitada a history/sondeo, con proyecto/agente/namespace propios y CRM deshabilitado hasta disponer de Sandbox real y mapping probado. Es propuesta de preparación, **no activación realizada**; móviles y PRO mantienen su estado anterior.
+
+## Nueva petición humana para aclarar la ficha CRM
+
+El usuario confirma que el móvil es suyo y solicita consultar al agente de Gestadia LidIA los datos mínimos del Lead/Contact para determinar si son residuales y evitar errores. Se transmite esa solicitud para una lectura administrativa acotada de conexión 4, sin datos de expediente, notas, credenciales, escrituras, vinculación ni nuevo turno. Deben distinguirse formatos nacionales/internacionales del teléfono antes de atribuir un resultado. Cualquier dato de contacto recuperado permanecerá privado; la llamada aún no está reservada y los permisos APP temporales siguen retirados.
