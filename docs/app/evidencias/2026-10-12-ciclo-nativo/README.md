@@ -236,3 +236,10 @@ Se solicita incluir las lecturas mínimas DEV de paridad en el mismo preview y p
 Ops entrega [informe DEV original](dev25-served-runtime-sha-original.json),273bytes/SHAa230a3ba… cotejado por QA. La DLL real delCID462d/UID1654 tiene SHA09417948… y61000704bytes; este pin evita confundirla con el binarioPRO3ba. Se prepara backup/restauración actualizado198tablas/260migraciones, preservando el backup188 anterior como evidencia previa, no como rollback del estado actual.
 
 Para el gestor, se comparte la referencia directa de los dos mensajes humanos de este turno (ciclo nativo con Integraciones y «Contra produccion»). Se prepara sólo metadata/org/Owner/layout de Zoho en lectura; el límite de una hora es una propuesta técnica, no una cita humana. No se crean registros ni se concede/transfiere OAuth con esta petición; cualquier acceso sensible nuevo se concretará antes de decidirlo. El casoCRM y los dos ciclos nativos aún están pendientes.
+
+
+### 13/10/2026 — paquetes DEV y lectura CRM revisados
+
+Se revisan fuentes, manifiestos, transporte y pruebas de [importación inactiva R4](dev25-import-r4-package-review.json), [backup actual R5](dev25-backup-r5-package-review.json) y [metadata Zoho R2](zoho-metadata-r2-review.json). Importación:36checks/41de paquete, preview RO único y tres entidades propias inactivas; apply espera preview original y backup198/260 restaurado. Backup:22guards/8tests, admite sólo Enabled=false observado y preserva versiones anteriores. Zoho:63assertions, cancelación efectiva5min/20s también en cuerpo/BD, sin refresh/scopes ni fichas de clientes. La revisión descubrió y corrigió antes de ejecutar dos defectos: timeout del cuerpo HTTP y guard del flag APP apagado.
+
+Ops recibe conformidad para los preparativos/lecturas concretos. No se ha recibido todavía su resultado real; no hay importación/activación, relación CRM propia, ciclo conversacional nativo o nueva instalación física acreditados. Los helpers privados conservan originales y hashes fuera deGit.

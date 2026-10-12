@@ -1653,3 +1653,10 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** autoridad temporal de lectura para el contacto y trato CRM propios y comprobados de la prueba nativa. Su estado pendiente no concede acceso; excluye operaciones de escritura de negocio y datos de otras fichas.
 - **Alcance:** wrapper privado de la instancia PortalQA3005, `~/.codex/private/gestadia-app/qa-native-20261012/`, y `docs/app/evidencias/2026-10-12-ciclo-nativo/PLAN-ACEPTACION.md`. No es un endpoint ni permiso nuevo del producto.
 - **Notas:** se descarta simular assignedManager con datos administrativos cacheados y trasladar OAuth amplio sin límites. Se conserva el adapter real del producto y se exige organización/dominio, identidad, IDs verificados y caducidad antes de activarlo.
+
+
+## Helpers administrativos de la aceptación DEV del12/10
+
+- **Término:** ProZohoQaViability. **Tipo:** helper privado de diagnóstico. **Definición:** lectura mínima de organización, gestor y metadata CRM de la conexión Production existente, sin fichas de clientes ni renovación OAuth. **Alcance:** equipo LidIA, .local/pro-zoho-qa-viability-r2; evidencia Portal docs/app/evidencias/2026-10-12-ciclo-nativo. **Notas:** R2 corrige cancelación del cuerpo; su prueba offline no acredita ejecución real.
+- **Término:** Dev25LiteralImport. **Tipo:** helper privado de preparación. **Definición:** importa la configuración literal119PRO como tres entidades propias inicialmente inactivas en DEV25. **Alcance:** equipo LidIA, .local/dev25-literal-import-r4; revisión Portal en el mismo directorio de evidencia. **Notas:** IDs generados en BD; preview y respaldo restaurado preceden al apply, que no activa APP.
+- **Término:** Dev25BackupSnapshot. **Tipo:** helper privado de respaldo. **Definición:** conserva una instantánea coherente de la BD y archivos actuales de DEV25 para comprobar su restauración aislada. **Alcance:** equipo LidIA, .local/dev25-backup-pre-import-r5; revisión Portal en el mismo directorio de evidencia. **Notas:** respaldo198/260 diferente del anterior188/257; no carga credenciales ni ejecuta APP al restaurar.

@@ -1,0 +1,20 @@
+{
+  "reviewedAt": "2026-10-12T23:11:45.370324+00:00",
+  "serverExecutedByReview": false,
+  "nativeCyclePassed": false,
+  "physicalInstallPerformed": false,
+  "status": "preview_package_conforming",
+  "sourceSnapshotSha256": "b5ea5b60cf925844210a77409b6ecd811faa8f39f195579683554954c8893d34",
+  "targetRuntimeSha256": "094179482515164d3fa94f6877ed3b7db51b7920722ebe1e501d80c27d04fb6e",
+  "transportSha256": "5f972688af99726f759993a64cfcae258b37361240fc1a8163043fa498f7a1cb",
+  "helperSha256": "ea88bfce857fbfc5ce4f793d472233af212a422ac0b1abc2bda5a45ca1b70afb",
+  "packageChecks": 41,
+  "offlineChecksPassed": 36,
+  "newRecords": 3,
+  "initiallyInactive": true,
+  "generatedDatabaseIds": true,
+  "toolsImported": 0,
+  "originals119And122Protected": true,
+  "appOffRequiresExactFalseOnly": true,
+  "conformance": "One readonly preview by Ops; apply waits for exact preview review and current backup/isolated restore. Activation has its own parity/resource review."
+}
