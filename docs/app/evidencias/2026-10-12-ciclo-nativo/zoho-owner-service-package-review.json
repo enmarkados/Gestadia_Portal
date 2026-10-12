@@ -1,0 +1,20 @@
+{
+  "reviewedAt": "2026-10-12T23:43:20.721521+00:00",
+  "status": "two_readonly_gets_package_conforming",
+  "urls": [
+    "https://www.zohoapis.eu/crm/v8/users?type=CurrentUser",
+    "https://www.zohoapis.eu/crm/v8/settings/fields/588164000009534011/pick_list_values?module=Deals"
+  ],
+  "metadataOriginalRefSha256": "226dfb7bc631f4a882c15708dd858977c66208d89920cdf729e3cd53bd463aef",
+  "helperSha256": "ebf2e45fa51d4d945daba47b38b11edfbd8a5c8c9622a401f63839987f4c27cf",
+  "transportSha256": "acde38346173ceba5cccc558d5ba3af0fc211241f39db503a78ce4b2202f664d",
+  "offlineAssertions": 54,
+  "packageChecks": 38,
+  "ownerOrServiceAutomaticallySelected": false,
+  "organizationConfiguredMetadataIsNotApiProof": true,
+  "oauthRefresh": false,
+  "customerWrites": false,
+  "conformance": "Stage/preflight without DB. One inspect only with actual token lifetime greater than5min and same pins, no replay or scope expansion. Separate explicit own Contact/Deal creation proposal still required.",
+  "remoteExecutedByReview": false,
+  "nativeCyclePassed": false
+}

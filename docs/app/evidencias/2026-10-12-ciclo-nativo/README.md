@@ -294,3 +294,8 @@ Se recibe5937bytes/SHA8d9988e40ffd7affdc726382feebcbc9d219bf8fc58abca5ef43e95681
 ### Country R2 revisada y conforme para preflight
 
 QA contrasta fuentes/ownership/recibos/baseline,24tests y41checks de paquete; [revisión](dev25-country-r2-package-review.json). Sólo stage/preflight sin BD; preview espera import/readback reales. Una fila country inactiva y un join propios, sin editar core, reglas ni handlers; hora sin fila. El apply requiere baseline actual restaurado y recibos posteriores revisados. Se revisa además la conciliación FS limitada de13nombres del respaldo, sin leer contenido/SQL/export/restore/replay. No hay escritura, activación, ciclo nativo o instalación nueva acreditados por estas conformidades.
+
+
+### Preparación CRM siguiente: Owner y Servicio, dos lecturas
+
+QA revisa el paquete independiente de CurrentUser y picklist Servicio del layout observado:54assertions/38checks propios de manifiesto/transporte, sin selección automática, clientes, CRUD o renovación. [Conformidad](zoho-owner-service-package-review.json). Se contrasta el endpoint/layout_associations/actual_value con la documentación oficial Zoho. Stage/preflight sinBD y una lectura posterior sólo si el token actual supera5min; no se presume la vigencia anterior. El Owner real podrá mapearse explícitamente al operador LidIA distinto bajo assignmentRef/ruta manager, preservando el nombre real devuelto por assignedManager. No hay todavía caso/grant real o ciclo del gestor.

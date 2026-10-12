@@ -1678,3 +1678,11 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** crea una única definición local de comprobar_pais_carne, inicialmente inactiva, y su relación al agente propio acreditado por el recibo de importación. Conserva las reglas literales del handler existente.
 - **Alcance:** equipo LidIA, .local/dev25-country-tool; revisión Portal en docs/app/evidencias/2026-10-12-ciclo-nativo.
 - **Notas:** GetCurrentTime permanece compilada sin fila; no activa agentes, herramientas o S2S. El respaldo previo del conjunto se distingue de los recibos posteriores, sin atribuirles una copia que no los contiene.
+
+
+## ProZohoQaOwnerServiceRead
+
+- **Tipo:** helper privado de diagnóstico CRM.
+- **Definición:** observa el usuario actual de la conexión ZohoProduction y las opciones reales de Servicio asociadas al layout acreditado, sin decidir un propietario o servicio ni crear registros.
+- **Alcance:** equipo LidIA, .local/pro-zoho-qa-owner-service-read; revisión Portal en docs/app/evidencias/2026-10-12-ciclo-nativo.
+- **Notas:** separado del lector previo; OrganizationId configurado no acredita una lectura de organización, y los IDs CRM no identifican al operador de LidIA.
