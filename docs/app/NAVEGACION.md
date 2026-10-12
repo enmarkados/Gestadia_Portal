@@ -1,5 +1,7 @@
 # Navegación de Gestadia APP
 
+
+**Prueba nativa del12/10 en curso:** [matriz, fuente build11, firma física y dependencias](evidencias/2026-10-12-ciclo-nativo/README.md). Compilación y firma preparadas; ciclo conectado y posterior instalación aún pendientes. Las autoridades y capturas del11/10 no acreditan esta ejecución.
 [Manual de desarrollo: cómo consultar y mantener este mapa](MANUAL-DESARROLLO.md).
 
 **Mapa vigente · revisión del 11/10/2026:** [plan y pantallas capturadas](2026-10-11-recorridos-gestores.md). Implementación autorizada por respuesta humana: LidIA recoge IA y su historial; Mensajes recoge gestores/atención/postventa. Guest v2 por instalación está integrado y apagado por defecto. El resultado cualificado/contacto automático y el alta opcional conservan sus dependencias pendientes. Los mapas de propuesta del 10/10 se mantienen como antecedentes.

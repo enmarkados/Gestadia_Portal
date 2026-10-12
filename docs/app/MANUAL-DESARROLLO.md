@@ -1,5 +1,7 @@
 # Manual de desarrollo: flujos y pantallas de Gestadia APP
 
+
+**Prueba nativa del12/10 en curso:** [matriz, fuente build11, firma física y dependencias](evidencias/2026-10-12-ciclo-nativo/README.md). Compilación y firma preparadas; ciclo conectado y posterior instalación aún pendientes. Las autoridades y capturas del11/10 no acreditan esta ejecución.
 **Referencia viva del proyecto · 11/10/2026.** Petición del usuario: conservar lo trabajado en el proyecto y usarlo para guiar el desarrollo. [README del repositorio](../../README.md) · [README APP](../../README-APP.md) · [Glosario](../../GLOSARIO.md).
 
 ## Cómo empezar

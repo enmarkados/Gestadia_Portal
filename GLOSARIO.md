@@ -1627,3 +1627,9 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** Mantiene el formulario del campo enfocado dentro del área visible de su contenedor cuando el teclado modifica su altura. Deja de seguirlo al perder foco o cerrar la edición.
 - **Alcance:** frontend/app/src/useFocusedFormScroll.js y ConnectedMessages.jsx; editor del nombre de conversaciones.
 - **Notas:** Desplaza sólo lo necesario para ver campo y acciones, con movimiento reducido inmediato. Se descarta activar el desplazamiento nativo global porque alteraría la sincronización del teclado en los chats; tampoco fuerza el final de la lista, que puede pertenecer a otro chat.
+
+### gestadia_qa_network_security
+- **Tipo:** configuración Android Debug.
+- **Definición:** Permite acceder al backend de prueba por HTTP exclusivamente en loopback, manteniendo HTTPS obligatorio para los demás destinos.
+- **Alcance:** frontend/android/app/src/debug/AndroidManifest.xml y res/xml/gestadia_qa_network_security.xml.
+- **Notas:** Se usa con adb reverse y API privada local; no se incluye en Release ni habilita tráfico HTTP general, certificados no confiables o exposición del backend a la red.

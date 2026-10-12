@@ -1,0 +1,15 @@
+{
+  "version": "0.1.0",
+  "build": "11",
+  "bundle": "com.gestadia.app",
+  "profileName": "iOS Team Ad Hoc Provisioning Profile: com.gestadia.app",
+  "team": [
+    "X27NG7M487"
+  ],
+  "devicesCount": 1,
+  "includesIphone": true,
+  "getTaskAllow": false,
+  "apsEnvironment": "production",
+  "expiration": "2027-07-05 15:55:58",
+  "ipaSha256": "7cab357b01d6e882d4ac30c8de76bc563bc5e134854387683870e51db2d3205f"
+}

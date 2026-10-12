@@ -1,0 +1,9 @@
+{
+  "observedVia": "devicectl, bundle-id exacto",
+  "bundleIdentifier": "com.gestadia.app",
+  "version": "0.1.0",
+  "bundleVersion": "11",
+  "installedBeforeThisAttempt": true,
+  "installedInThisAttempt": false,
+  "realConversationCycleVerified": false
+}

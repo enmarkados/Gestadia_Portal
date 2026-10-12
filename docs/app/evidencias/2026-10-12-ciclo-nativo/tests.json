@@ -1,0 +1,11 @@
+{
+  "source": "344b0335ffb1e4a48677983fcba60b58e0b0c216",
+  "backendTests": 313,
+  "frontendTests": 207,
+  "frontendFiles": 49,
+  "appBuild": true,
+  "isolatedHarness": "node scripts/test-app-conversations.mjs",
+  "frontendCompatibility": "NODE_OPTIONS=--no-experimental-webstorage npm test -- --maxWorkers=1 --no-fileParallelism",
+  "realNativeLidiaCycle": false,
+  "realNativeManagerCycle": false
+}
