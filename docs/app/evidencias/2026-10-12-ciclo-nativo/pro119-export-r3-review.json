@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-12T22:02:05.405673+00:00",
+  "status": "r3_prepared_read_only_reviewed_not_executed",
+  "sourceThread": "01a1071b-1f23-7101-afd4-13935b20bd04",
+  "offlineChecks": 74,
+  "r2FrozenFilesIndependentlyUnchanged": true,
+  "nativePreflightReported": "PRO119_NATIVE_PREFLIGHT_PASS_4_SAVES_BLOCKED_NO_DB_NO_HTTP",
+  "transportDecodeAndPayloadIndependentlyVerified": true,
+  "shellSyntaxPassed": true,
+  "metadataSha256": "6e45ea30843c6c84f9959138c0b07031e767b38c0243eb93d16f40e93160f81c",
+  "stageScriptSha256": "3193a6952820f01b5ae4fb8dee6c52303c322acf51d7ead2714e547dcf7403e4",
+  "transportSha256": "d53b13b7f771fee692db399370a4d7d2056b95da6d5280a70470990af68d86aa",
+  "payloadSha256": "d4bcefa5de83c1aeed11b415cb80491699a13c99624ada60f9f382c88106e159",
+  "files": {
+    "Pro119PrivateExportR3.dll": "f8f725475d7eb799ad892496661796e194fb17adef0cf36df050a14b7f92ab4f",
+    "Pro119PrivateExportR3.deps.json": "8b98dd6418ae9b2e8b01511889f81d3b9a6e30b67989d0ccca8a83314df05798",
+    "Pro119PrivateExportR3.runtimeconfig.json": "3f8ba25fbf7f815e8d280c0d7bd319d8a6153665989cec0cf5a057c37ed3458d"
+  },
+  "configurationParser": "StreamReader with BOM detection; hashes retain original bytes",
+  "diagnosticFailureOutput": "enum phase, types and JSON line/position; no Message/Path/Stack or data values",
+  "reviewDecision": "Conforme para una nueva lectura R3 por Ops en CID PRO acreditado/UID1654; no importación ni activación.",
+  "snapshotReceived": false,
+  "nativeCyclePassed": false
+}

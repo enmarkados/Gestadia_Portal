@@ -190,3 +190,7 @@ Se solicita diagnóstico de fase/codificación/BOM/posición limitado a los arch
 La [comprobación RO servida](pro119-config-format-actual.png) confirma el mismo archivo/hash/tamaño que el candidato local: appsettings.json4563bytes/SHA8b090f… y BOM EFBBBF. LidIA reproduce RED: el proveedor nativo admite esa marca; JsonDocument sobre bytes de R2 falla en línea0/byte0. [Procedencia](pro119-config-format-review.json).
 
 Se prepara una nueva revisión del lector con StreamReader, hashes sobre bytes originales y carpeta/marcador distintos. No se cambia el archivo válido de producción ni el agente. R2 y su resultado inconcluso se conservan; la lectura nueva todavía necesita revisión y ejecución.
+
+### R3 corregida, congelada y revisada
+
+QA contrasta el cambio del lector, sus fases sanitizadas, 74checks/preflight y el transporte exacto/payload de tres archivos; todos los archivos R2 registrados siguen idénticos. Se comunica conformidad para una nueva lectura R3 con carpeta/marcador distintos, pins de bytes originales y configuración leída antes de abrir la BD. [Hashes y límites](pro119-export-r3-review.json). No se ha recibido aún el archivo real ni hay importación/activación DEV o conversación nativa acreditada.
