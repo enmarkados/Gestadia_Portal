@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-12T22:10:41.517782+00:00",
+  "status": "r3_stopped_at_prompt_pin",
+  "phaseObserved": "verify_prompt_pin",
+  "reasonObserved": "pro119_prompt_pin_mismatch",
+  "dbWriteObserved": false,
+  "snapshotContentPrintedObserved": false,
+  "snapshotReceived": false,
+  "proof": {
+    "path": "pro119-export-r3-actual.png",
+    "sha256": "7c39cd5a0d9489e662387ceaac3f80c4aac0f2003955068a5ec357825a643ceb",
+    "originalBytesPreserved": true
+  },
+  "nextRequiredEvidence": "Metadata actual119PRO, instrucción/version/hash y destino; contraste de referencia vigente antes de preparar un pin nuevo.",
+  "oldReferenceHash": "ec616c2687189eaded1a77d904d2c720aa12c8ab9f629850f74bc4202bcd0286",
+  "pinsAutomaticallyRelaxed": false,
+  "devImportPerformed": false,
+  "nativeConnectedCyclePassed": false
+}

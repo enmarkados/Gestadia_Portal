@@ -194,3 +194,9 @@ Se prepara una nueva revisión del lector con StreamReader, hashes sobre bytes o
 ### R3 corregida, congelada y revisada
 
 QA contrasta el cambio del lector, sus fases sanitizadas, 74checks/preflight y el transporte exacto/payload de tres archivos; todos los archivos R2 registrados siguen idénticos. Se comunica conformidad para una nueva lectura R3 con carpeta/marcador distintos, pins de bytes originales y configuración leída antes de abrir la BD. [Hashes y límites](pro119-export-r3-review.json). No se ha recibido aún el archivo real ni hay importación/activación DEV o conversación nativa acreditada.
+
+### R3 real: formato resuelto, referencia de instrucción distinta
+
+Ops ejecuta R3 una vez. La [captura original](pro119-export-r3-actual.png) acredita que se alcanza verify_prompt_pin y se detiene con pro119_prompt_pin_mismatch; no hay escrituras ni contenido impreso. [Resultado](pro119-export-r3-stopped.json). No se importa ni se toma esta lectura por un snapshot completo.
+
+Se solicita una observación mínima actual de119PRO (identidad/proyecto/instrucción/version/hash/modelo seguro/destino) sin contenido. La referencia ec616/v1.8 deberá contrastarse con el estado real antes de preparar otro pin; no se relaja automáticamente ni se usa122 como equivalente. R2/R3 y sus marcadores permanecen conservados. Los ciclos nativos y la instalación física siguen pendientes.
