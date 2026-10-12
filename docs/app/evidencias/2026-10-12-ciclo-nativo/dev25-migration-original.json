@@ -1,0 +1,1 @@
+{"status":"dev25_ef_migrations_verified","applied":["20261005204814_AddAppConversations","20261008123405_AddAppMessageReceipts","20261011021704_AddAppGuestContinuity"],"history_count":260,"app_enabled":false,"host_started":false,"crm_http":false}

@@ -34,6 +34,12 @@ Portal ha preparado un candidato privado nuevo, `runtime-dev-pending.env`, conse
 
 El inventario administrativo identifica 24 como `lidia-vozenter-dev`, sin agente119, y 25 como `lidia-gestadia-dev`, con agente119 en el proyecto102 y conexión4 Production. Se elige 25 como candidato por sus registros efectivos; la auditoría no lo activa. LidIA prepara un proyecto APP propio y una copia de119 con un id libre, porque122 está ocupado. El proyecto original102 mantiene otros canales y debe preservarse. Los dos informes originales, sus hashes y la revisión saneada se conservan por separado en [dev-audit-review.json](dev-audit-review.json).
 
+### Hallazgo después del despliegue DEV25
+
+V1.728 y las tres migraciones APP se han observado en ejecución real, con APP todavía apagada. El [informe119 original](dev25-agent119-original.json) demuestra que119DEV usa una instrucción1.0 antigua y no coincide con el119PRO Canje v4/v1.8. Se detiene la copia desde ese119DEV y se prepara importación de la configuración funcionalPRO a un proyecto/agente DEV nuevos, sin contactos/chats/secretos ni cambios en119/122 originales. El snapshot, defaults y mapping de herramientas/conexiones se revisarán antes de activar. Este hallazgo sustituye la suposición de equivalencia, no el aislamiento DEV.
+
+El [acceso del operador Integraciones](dev-integraciones-acceso.json) sí funciona en la UI DEV oficial`/admin/chats`. Falta validar routing y el chat propio, y correlacionar el proxy al contenedor. Los ciclos nativos siguen pendientes; no se traslada nuestra QA al runtime PRO por este hallazgo.
+
 ## Secuencia por plataforma
 
 iOS y Android se ejecutan por separado, sobre la misma fuente móvil y backend acordados. iOS usa el simulador propio; si se cierra temporalmente el iPhone17 ajeno bajo autorización humana, se restaurará al terminar. Android usa el AVD propio con4096MB/cuatro núcleos. No borrar sus datos para ocultar errores de recuperación.

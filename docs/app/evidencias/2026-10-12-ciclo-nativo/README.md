@@ -150,3 +150,19 @@ El archivo pinned para restauración cambia exactamente cuatro hashes de la plan
 Ops ejecutó una vez el fixturepinned en el stack temporal123, sin repetir la copia. PortalQA leyó el AX original y vio la [captura](dev25-restore-r2-pass.png): recuentos188tablas PASS, SQL119/proyecto102 PASS, runtime/persistencia/entorno/comando PASS y RESTORECOMPLETE sin red/eventos/aplicación. Ops inspeccionó el contenedor detenido con salida0; esa salida se atribuye a su inspección. El historialEF restaurado termina en20261001214018_AddWhatsAppTemplatePrice.
 
 El diff64ced36a→30be1692e contiene exactamente las tres migracionesAPP citadas y el ModelSnapshot. Se comunicó conformidad para preparar la actualización de25 con APP apagada y rollback preservado. No se ha acreditado aún la actualización, el clon funcional119 ni S2S; la matriz nativa permanece pendiente. [Procedencia y límites](dev25-restore-r2-review.json).
+
+### Migraciones y runtime DEV25 observados
+
+Ops ejecutó las tres migraciones oficiales y un único Pull. PortalQA ha visto y conservado los bytes originales de las capturas: [aplicación EF](dev25-ef-apply-actual.png) y [comprobación posterior](dev25-post-runtime-actual.png). El resultado visible confirma198tablas/historial260 y V1.728-app-diagnostico, con configuración APP ausente y entorno false. El 504 del Pull se reconcilió con el nuevo contenedor saludable; no se repitió el despliegue. SHA30be y CID462d se atribuyen al reporte de Ops.
+
+El inspector119 está congelado, revisado por LidIA y pendiente de lectura real; el proxy, clon funcional, autoridad S2S y caso CRM propios siguen pendientes. Los JSON originales de ejecución aún no se han recibido: la captura no se transcribe como un original. [Revisión y límites](dev25-migration-runtime-review.json). Esto no modifica los pendientes de aceptación nativa ni autoriza usar la identidad PRO ajena.
+
+### Acceso real del operador DEV
+
+Login ordinario de Integraciones comprobado desde la UI en`https://dev-lidia.gestadia.com/admin/chats`: el menú confirma su usuario/correo y la pantalla muestra V1.728 y BD DEV. [Captura sin filas de chats ajenos](dev-integraciones-acceso.png) y [resultado](dev-integraciones-acceso.json). La ruta genérica`/admin` daba404 y el navegador la bloqueaba; la ruta oficial funciona sin cambiar seguridad, IP o host. La sesión queda preparada para el chat propio; no se abrieron conversaciones ajenas ni se modificaron permisos. Acceso al panel no acredita routing, chat, ticks ni correlación del proxy al contenedor25.
+
+### Originales de ejecución recibidos y diferencia real del119
+
+Se han recuperado los cinco informes originales de ejecución, sin transcribir capturas ni cambiar bytes: [migración](dev25-migration-original.json), [preview](dev25-preview-original.json), [postEF](dev25-postef-original.json), [postruntime](dev25-postruntime-original.json) e [inspección119](dev25-agent119-original.json). Los hashes de migración/runtime/agente comunicados por Ops coinciden con el cálculo independiente; el informe runtime vincula el mismo hash de migración.
+
+La inspección real encuentra119DEV «GestadIA v2 - Agente por defecto», instrucción10111/version1.0/hash91b461…, distinta del119PRO Canje v4/v1.8/hashec616… informado por LidIA. No se ejecuta la copia literal desde ese agente antiguo. Se prepara un snapshot privado de configuración funcionalPRO para importar en un proyecto/agente DEV nuevos; no se trasladan chats/contactos/secretos ni se alteran119/122 originales. Defaults, herramientas y conexiones requieren revisión explícita antes de activar el namespace. [Decisión, procedencia y límites](dev25-agent119-review.json). La comparación PRO se atribuye al equipo fuente y no reemplaza una nueva captura/lectura actual.

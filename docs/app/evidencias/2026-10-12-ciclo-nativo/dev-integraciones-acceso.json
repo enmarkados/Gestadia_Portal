@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-12T21:00:58.753442+00:00",
+  "status": "operator_dev_ui_login_observed",
+  "url": "https://dev-lidia.gestadia.com/admin/chats",
+  "operator": "integraciones@vozenter.com",
+  "runtimeVersionObserved": "V1.728-app-diagnostico",
+  "databaseLabelObserved": "lidia_gestadia_dev_db",
+  "proof": {
+    "path": "dev-integraciones-acceso.png",
+    "sha256": "2544cc81ec6e9dc93b505c3bd8fdd4ef06b879a0fadf180c24978660730988a4",
+    "clipExcludesUnrelatedChatRows": true
+  },
+  "configChanged": false,
+  "unrelatedChatsOpened": false,
+  "managerCyclePassed": false,
+  "proxyCorrelationVerified": false
+}

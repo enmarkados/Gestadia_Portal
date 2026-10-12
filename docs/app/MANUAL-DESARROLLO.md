@@ -1,7 +1,7 @@
 # Manual de desarrollo: flujos y pantallas de Gestadia APP
 
 
-**Prueba nativa del12/10 en curso:** [matriz, fuente build11, firma física y dependencias](evidencias/2026-10-12-ciclo-nativo/README.md). Acceso, recuperación de sesión y revocación comprobados desde iOS y Android. Ciclos conectados de LidIA/gestor y posterior instalación física aún pendientes de autoridad DEV y relación CRM propias. Las autoridades y capturas del11/10 no acreditan esta ejecución. El candidato actual es Gestadia DEV25; Zoho Production está autorizado para QA propia. [Decisión y plan](evidencias/2026-10-12-ciclo-nativo/PLAN-ACEPTACION.md#decisión-vigente-sobre-zoho).
+**Prueba nativa del12/10 en curso:** [matriz, fuente build11, firma física y dependencias](evidencias/2026-10-12-ciclo-nativo/README.md). Acceso, recuperación de sesión y revocación comprobados desde iOS y Android. Ciclos conectados de LidIA/gestor y posterior instalación física aún pendientes de autoridad DEV y relación CRM propias. Las autoridades y capturas del11/10 no acreditan esta ejecución. Gestadia DEV25 ya sirve V1.728 con APP apagada; la inspección confirma que su119 conserva una instrucción antigua y requiere importar la configuración funcional del119PRO a un proyecto/agente DEV propios antes del ciclo. Zoho Production está autorizado para QA propia. [Decisión y plan](evidencias/2026-10-12-ciclo-nativo/PLAN-ACEPTACION.md#decisión-vigente-sobre-zoho).
 **Referencia viva del proyecto · 11/10/2026.** Petición del usuario: conservar lo trabajado en el proyecto y usarlo para guiar el desarrollo. [README del repositorio](../../README.md) · [README APP](../../README-APP.md) · [Glosario](../../GLOSARIO.md).
 
 ## Cómo empezar
