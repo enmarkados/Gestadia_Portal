@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-12T21:50:19.252932+00:00",
+  "status": "pro119_export_inconclusive",
+  "exceptionTypeObserved": "System.Text.Json.JsonReaderException",
+  "proof": {
+    "path": "pro119-export-actual.png",
+    "sha256": "a519f38fa6c7289921f99b66c1c0acabe4162ba98465941e1e2db8b464a15c07",
+    "originalBytesPreserved": true,
+    "directlyViewed": true
+  },
+  "dbWriteObserved": false,
+  "snapshotContentPrintedObserved": false,
+  "snapshotReceived": false,
+  "executionBy": "Ops por consola Portainer, UID1654, una ejecución",
+  "diagnosisPending": "Comprobar fase y codificación/BOM de configuración permitida; comentarios/trailing commas ya estaban admitidos. No se afirma una causa sin diagnóstico real.",
+  "automaticReplay": false,
+  "oldMarkerDeleted": false,
+  "devImportPerformed": false,
+  "nativeConnectedCyclePassed": false
+}

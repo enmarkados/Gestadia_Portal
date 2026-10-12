@@ -178,3 +178,9 @@ El simulador propio y su espejo quedan detenidos mientras se prepara la configur
 LidIA congela un exportador de lectura con modelos nativos y cuatro SaveChanges bloqueadas, queries de tablas permitidas y transacción READ ONLY/RR. QA contrasta script/transporte/payload exacto de tres archivos, hashes, shell y los logs51offline/preflight sin DB/HTTP; se comunica conformidad para una ejecución de lectura por Ops en el CID PRO ya acreditado/UID1654. Pins de DLL/versión/BD/instrucción y configuración APP inicial/final; fingerprint observado se declara nuevo, sin un pin previo inventado.
 
 [Revisión y hashes](pro119-export-r2-review.json). No se ha recibido todavía el snapshot real ni se ha importado/activado un agente DEV. El contenido privado se trasladará con su hash fuera deGit; conexiones/credenciales, contactos y chats no forman parte de ese contenido. Parámetros configurados no acreditan caches/modelo/proveedor ni un turno nativo.
+
+### Exportación119PRO R2 real: resultado inconcluso
+
+Ops ejecuta R2 una vez en PRO/UID1654. PortalQA ve y conserva la [captura original](pro119-export-actual.png): `System.Text.Json.JsonReaderException`, sin escrituras y sin contenido del snapshot impreso. [Resultado y límites](pro119-export-r2-inconclusive.json). No se repite el paquete ni se borra su marcador; esta salida no permite importar ni acreditar paridad.
+
+Se solicita diagnóstico de fase/codificación/BOM/posición limitado a los archivos permitidos, sin valores de configuración. Comentarios y trailing commas ya estaban contemplados en R2; un BOM sigue siendo una hipótesis hasta la comprobación real. S2S QA e import DEV continúan pendientes.
