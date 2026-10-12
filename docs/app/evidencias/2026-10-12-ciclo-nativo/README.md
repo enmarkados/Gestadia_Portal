@@ -279,3 +279,8 @@ Se coordina alternativa mínima para el casoQA/ruta explícita hacia el operador
 Cua informa Mac bloqueado y pide desbloqueo manual; se solicita al humano, sin intentar eludirlo. La API3005 sigue devolviendo health, pero la lectura de la cuenta local no alcanza MySQL60670 y el ping del daemonDocker agota5s. No se acredita todavía causa o pérdida de datos; no se reinicia Docker global ni se borra el volumen. La inspección de sólo lectura del contenedor propio queda pendiente de respuesta.
 
 Se coordina seguir revisiones remotas DEV por separado. QA acepta que el backup actual198/260 previo a import sea baseline de reversión del conjunto de cambios propios, junto recibos/readback posteriores; no hace falta un fullbackup por cada fila ni se afirma que incluya las nuevas filas. El paquete country necesita reflejar esa precisión y su revisión concreta antes de apply. Sin desbloqueo y base local disponible no se reinician los ciclos nativos ni se instala el iPhone.
+
+
+### Preview R5 observado; backup todavía inconcluso
+
+Ops ejecuta una vez ambos paquetes en DEV/UID1654. QA ve las capturas originales: [preview](dev25-import-r5-preview-actual.png) con hashes/preflight correctos y activation_parity_ready=true, sin escritura; [backup](dev25-backup-r5-actual.png) con preflight correcto pero salida inconclusa sin fase. [Estado y límites](dev25-preview-and-backup-actual.json). Espera original de preview antes de revisar el apply. El respaldo no se repite ni restaura; Source prepara conciliación mínima de archivos/diagnóstico seguro antes de otra acción. No hay importación, activación, ciclo nativo ni instalación nueva acreditados. El bloqueo manual del Mac no impidió a Ops operar PortainerIAB.

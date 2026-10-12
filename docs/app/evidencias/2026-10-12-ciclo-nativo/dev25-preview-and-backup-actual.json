@@ -1,0 +1,25 @@
+{
+  "observedAt": "2026-10-12T23:35:55.762851+00:00",
+  "status": "preview_seen_backup_inconclusive",
+  "source": "Ops original console screenshots, viewed by Portal QA",
+  "runtimeUidGid": "1654:1654",
+  "preview": {
+    "preflightPassed": true,
+    "status": "preview_written_private_inactive_only",
+    "canonicalHashFromConsole": "58d9988e40ffd7affdc726382feecbcb9d219bf8fc58abca5ef43e95681c77a7d",
+    "activationParityReady": true,
+    "databaseWrite": false,
+    "fullOriginalReportReceived": false
+  },
+  "backup": {
+    "preflightPassed": true,
+    "status": "DEV25_BACKUP_INCONCLUSIVE_NO_DETAILS_DO_NOT_REPEAT",
+    "phaseKnown": false,
+    "repeated": false,
+    "restored": false
+  },
+  "agentImported": false,
+  "appActivated": false,
+  "nativeCyclePassed": false,
+  "physicalInstallPerformed": false
+}
