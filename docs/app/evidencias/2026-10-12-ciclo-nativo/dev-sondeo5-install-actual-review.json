@@ -1,0 +1,35 @@
+{
+  "status": "sondeo5_configuration_installed_real_env_still_off",
+  "install_review": {
+    "bytes": 1122,
+    "sha256": "a2b539c00c326dd872c3c3d712c830d711e394c86986000d0eaef8c334e767de"
+  },
+  "preparation_review_sha256": "954435987f611cb019c03102d7c00b808b8dda0b787fbf654d022042a4ba69a5",
+  "configuration_manifest_sha256": "2fac41fe57fdea061dd13622d5c11e393d4abd9cc35862711dc2944ae9916064",
+  "configuration_sha256": "7fa7ce7e23492adb46d72d62085e740cd3420c09ef5920da1167026914ff4986",
+  "configuration_bytes": 1241,
+  "configuration_mode": "0600",
+  "uid_gid": 1654,
+  "transport_manifest_sha256": "09b55fd99dc013fb43beb77427fd2c2d3c553e1a5789ef4aa6e220d67486bbcd",
+  "provision_exit": 0,
+  "provision_ok_sha256": "b9b25df498ea2f9da20c6d4713805c7c42fd96ad66d09acce49ef80b0ee02978",
+  "install_exit": 0,
+  "intent": {
+    "bytes": 441,
+    "sha256": "554cd2b47e43534a5c1f6fc986f79ebd65c441b03a1bcdcdb8efe6f2e813b61d"
+  },
+  "result": {
+    "bytes": 493,
+    "sha256": "f70a623089af9a1f501bf20df27536cb4c79785c06ad1ba44886563ab40b9f80"
+  },
+  "chain_verified": true,
+  "historical_install_review_1d7_consumed": false,
+  "keys_regenerated": false,
+  "app_environment_enabled": false,
+  "restart_performed": false,
+  "served_verified": false,
+  "portal_enabled": false,
+  "crm_enabled": false,
+  "attention_routes_installed": false,
+  "native_cycles_passed": false
+}
