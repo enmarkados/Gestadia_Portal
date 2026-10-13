@@ -512,3 +512,10 @@ Original nuevo read.metadata.private.json1703bytes/600:99641deea83a1f794e40876d1
 Original started51bytes/600:27354467ef9cd882593b74fb9efedaa60aad04241f0dd90654c6a69d091084f1. Observación real de permisos600:1654:1654 y hashes coincidentes; lector aislado sin red/volumenRO exit0 exportó tar982bytes/dba7bc6bc96d22c84b7cd543bbbfbfe39cf371ffa62dda909096ba1aadf2f47f. Originales y capturas bajo artifacts/guest-access-20261013/mini-ro-originals. Clone anterior/fallo/freeze se preservan; la alternativa requiere revisión nueva antes de cualquier preparación o activación pública.
 
 Además, el YAML vigente de DEV25 sí se recuperó posteriormente desde la referencia oficial visible de Portainer:17915bytes/e2ba0ac8ce3595cc0a6666b9a07f893eb559f8cb605e3fd1715c26e986a3f437, idéntico al blob30be. La limitación de comparación escrita en el hito anterior queda superada por este original nuevo; APP continúa OFF y no hay prueba funcional móvil acreditada por esta lectura.
+
+
+### 13/10 — preparación DEV de activación mínima comprobada
+
+Freeze final Dev25AppActivation633d/215edd/bab24b/b0fc revisado por Source, QA y Ops. Ops reprodujo116PASS/0FAIL en copia privada; la primera ejecución de esa copia falló en dos comprobaciones por faltar el fixture relativo de definición Country, y la siguiente conservó todos los bytes originales añadiendo sólo la definición eff exacta.52 hashes/modes600, cuatro archivos tar1654, dos scripts y transporte gzip comprobados.
+
+Una preparación real en DEV25/462d/UID1654 verificó native094/payloadb43/helper+wrapper y el preflight nativo: cuatro SaveChanges bloqueados, cinco propiedades bool disponibles, conexión cerrada y sin BD/HTTP/Host/RNG. Captura original600 activation-preflight-served-actual.png. La preparación no ejecuta preview, apply, configuración, generación de claves/cursor, cambio de ENV o reinicio; APP permanece OFF. Entradas reales de la operación se preparan localmente y esperan su cotejo independiente antes de la preview RO.
