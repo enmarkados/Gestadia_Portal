@@ -1,0 +1,52 @@
+{
+  "observed_at": "2026-10-13",
+  "operator": "equipo de operaciones Portal",
+  "backup_stack": 150,
+  "restore_stack": 151,
+  "backup_sql_bytes": 303886,
+  "backup_sql_sha256": "c1f677576e214a02bd24c7b6ab50ea60fbec42998af60de6b346fda6e902ac62",
+  "count_order": [
+    "User",
+    "Expediente",
+    "Documento",
+    "finished_prisma_migrations",
+    "AppGuestInstallation",
+    "AppGuestConversation",
+    "AppGuestOperation",
+    "AppGuestBinding"
+  ],
+  "counts": [
+    45,
+    94,
+    14,
+    15,
+    0,
+    0,
+    0,
+    0
+  ],
+  "checked_tables": 24,
+  "isolated_restore_sql": "PASS",
+  "isolated_restore_files": "PASS",
+  "original_receipts": [
+    {
+      "file": "backup-sql-original.private.log",
+      "bytes": 254,
+      "sha256": "8e8880a32f5b537bb65b34e4fa54d0c743df99415031679f0783cf5fa1426dcb"
+    },
+    {
+      "file": "restore-sql-original.private.log",
+      "bytes": 1387,
+      "sha256": "7c921fe35b22241f62af623933a2e89e1e4c1bfff2a45a750f0cb7690cc2c1e1"
+    },
+    {
+      "file": "restore-files-original.private.log",
+      "bytes": 78,
+      "sha256": "1268cf6e828487bff354d37262534a6d8cace7f8a8fe51764f6ccbb4b05f9d2f"
+    }
+  ],
+  "limits": [
+    "QA has read and hashed the original logs; container exit reported by the operations team",
+    "No production restore, guest activation or native conversation is accredited by this receipt"
+  ]
+}

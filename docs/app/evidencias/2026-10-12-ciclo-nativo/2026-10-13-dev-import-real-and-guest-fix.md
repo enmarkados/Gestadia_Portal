@@ -36,6 +36,12 @@ La corrección mantiene el formatter de problemas existente en el router guest, 
 
 No se da por resuelto el acceso anónimo real: faltan despliegue/configuración revisados, conexión al agente y ciclo de visitante completo. Tampoco se acredita conversación de gestor, Android conectado o instalación física nueva.
 
+El parche se publica como c6530f6a20a134feb96de7bb15b9f89ee4af6975. QA coteja los dos contextos Docker preparados por Ops: todos los archivos del contexto original son idénticos; sólo se añade el Dockerfile raíz con ese VCS_REF. El producto coincide con la integración58cf037, y frente al backend0af593f sólo cambia el parche guest. Las imágenes y su Nginx-t todavía no están observados.
+
+La [copia y restauración Portal para guest](portal-guest-restore-20261013.json) queda revisada en sus logs originales: SQL303886 B, ocho recuentos iguales, 24 tablas correctas y configuración/claves/documentos recuperados byte a byte en aislamiento. Ops informa exit0 en stack151. No se restaura producción ni se activa el canal por esta comprobación.
+
+Android conserva el AVD propio y sus datos. Con adb sin dispositivos conectados, se ajusta su RAM persistente de2G a4096MB y se conserva la preimagen privada; mantiene cuatro núcleos. No se arranca todavía el ciclo Android. Las21 comprobaciones de los guards privados de identidad/CRM pasan; no son llamadas externas ni permisos activos.
+
 ## Coordinación Main separada
 
 QA revisa el lector administrativo Main (26 hashes/76 assertions), helper de asociación R3 (29 hashes/76 pruebas) y generador de ventana (8 hashes/32 pruebas) en copias privadas. Conformes preparación/preflight/lecturas previstas; no grants, correlación o llamada por estos checks. Main mantiene sus propios IDs y no se incorpora al fixture nativo User64.
