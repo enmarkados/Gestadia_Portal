@@ -1702,3 +1702,10 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** número de filas de la tabla fuente AppConversations observado dentro del snapshot consistente del respaldo R6. No representa cuentas, permisos o estado de conversaciones.
 - **Alcance:** equipo LidIA, helper Dev25BackupSnapshot R6/fill-restore-pins y revisión de evidencia Portal.
 - **Notas:** sustituye el contador del helper R5 referido a una tabla inexistente; no se presupone cero ni se atribuye una observación a counts de pruebas sintéticas.
+
+## ProZohoQaOwnCaseCreate
+
+- **Tipo:** helper privado de prueba CRM.
+- **Definición:** prepara la creación de un Contact y un Deal exclusivos de QA, con identidad, propietario y relación comprobados mediante recibos propios. Conserva el resultado de cada operación y detiene el recorrido si el resultado es incierto.
+- **Alcance:** equipo LidIA, .local/dev25-own-crm-case-helper; revisión Portal en docs/app/evidencias/2026-10-12-ciclo-nativo.
+- **Notas:** la preparación y las pruebas offline no acreditan registros creados. No reutiliza el caso Main ni crea usuarios, amplía OAuth, marca pagos o repite automáticamente un POST.

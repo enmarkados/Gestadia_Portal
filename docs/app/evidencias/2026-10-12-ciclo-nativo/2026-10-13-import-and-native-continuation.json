@@ -1,0 +1,56 @@
+{
+  "checked_at": "2026-10-13T04:33:44Z",
+  "status": "restored_import_inconclusive_native_input_blocked",
+  "restoration": {
+    "verified": true,
+    "original_log_bytes": 361,
+    "original_log_sha256": "5c6c6ed500652f2346f9c13353430aad15fce345f108372cc54b4a1f639e1183"
+  },
+  "import_r5": {
+    "apply_attempts_reported_by_ops": 1,
+    "failure_phase": "revalidate_before_commit",
+    "exception_type_reported_by_ops": "System.InvalidOperationException",
+    "database_result_confirmed": false,
+    "readback_attempt_reported_by_ops": "failed_readback_only",
+    "fs_metadata_original_bytes": 709,
+    "fs_metadata_original_sha256": "117ae995150b45040ac6cefb5d7ab52111fd3513a83a70701670bd52fb0b21fa",
+    "started_marker_sha256": "b56d9c9025c09b9d48f66a2ddc0197ee9189a33627e1642abf24369ae177c4ef",
+    "ready_absent_in_fs_report": true,
+    "commit_ok_and_unknown_not_yet_observed": true,
+    "jsonnode_parent_error_reproduced_by_source": true,
+    "runner_reuse_observed_by_qa": true,
+    "historical_database_outcome_not_inferred_from_reproduction": true,
+    "reconciliation_proposal_reviewed_by_qa": true,
+    "reconciliation_proposal_sha256": "9ee9fbd469699e19a71eb825f103ae735508270f94bc8387d9c82247cd0cd235",
+    "reconciliation_execution_pending": true,
+    "replay_performed": false,
+    "activation_performed": false
+  },
+  "own_crm_helper": {
+    "name": "ProZohoQaOwnCaseCreate",
+    "helper_sha256": "b570dbf1b79d7e14093fa11bc89125e2fa229b1fada6afca953f3d8b5244440f",
+    "independent_manifest_checks": 41,
+    "independent_offline_assertions_passed": 192,
+    "offline_log_bytes": 51,
+    "offline_log_sha256": "68c67ead6df8fc5213ead2a60bdfbc7feab7bc447aed0121e4339451c3ca3a2c",
+    "stage_and_preflight_only_conformed": true,
+    "actual_stage_receipt_pending": true,
+    "create_executed": false,
+    "readback_layout_contract_pending": true,
+    "own_routing_and_current_receipts_pending": true
+  },
+  "local": {
+    "api_3005_health_observed": true,
+    "external_integrations_disabled": true,
+    "mac_locked_reported_by_native_control": true,
+    "human_unlock_request_already_pending": true,
+    "native_input_ack_not_counted_as_ui_change": true,
+    "security_or_input_reset_performed": false
+  },
+  "acceptance": {
+    "ios_connected_cycle_complete": false,
+    "android_connected_cycle_complete": false,
+    "manager_connected_cycle_complete": false,
+    "new_physical_iphone_install": false
+  }
+}
