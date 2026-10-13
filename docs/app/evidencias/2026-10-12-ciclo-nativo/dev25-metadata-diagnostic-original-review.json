@@ -1,0 +1,22 @@
+{
+  "reviewedAt": "2026-10-13T00:04:44.015582+00:00",
+  "originalBytes": 11588,
+  "originalSha256": "e470360ecadb94d9fa75afd34b4157620393715fcfa33cc0c4f447f8c562aa6d",
+  "status": "actual_metadata_guard_wrong_table_name_reviewed",
+  "actualPhase": "TableMetadata",
+  "actualGuard": "MappingTableMissing",
+  "baseTablesObserved": 198,
+  "allInnoDb": true,
+  "readOnlyRepeatableReadVerified": true,
+  "actualAppTable": "AppConversations",
+  "incorrectHelperExpectedTable": "AppConversationMappings",
+  "nativeModelEvidence": "AppConversationModel.ToTable(AppConversations), FK and unique ChatSessionId; migration AddAppConversations creates AppConversations, no AppConversationMappings.",
+  "efHistoryReachedByDiagnostic": false,
+  "cleanupRollbackAndDisposePassed": true,
+  "exactHistoricalOriginalFailureNotAutomaticallyProven": true,
+  "nextStep": "Separate R6 backup proposal corrects guard/count/restore-consumers with native model and actual inventory. Preserve R5/diagnostic attempts; no DDL or replay.",
+  "backupVerified": false,
+  "agentImported": false,
+  "appActivated": false,
+  "nativeCyclePassed": false
+}

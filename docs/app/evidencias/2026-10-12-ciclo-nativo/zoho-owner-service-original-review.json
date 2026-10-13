@@ -1,0 +1,22 @@
+{
+  "reviewedAt": "2026-10-13T00:04:44.015582+00:00",
+  "originalBytes": 8119,
+  "originalSha256": "1bb963fdd50b0fe12a4f23cc93fcd8d2072d569d097199ceedd100404a072c18",
+  "status": "readonly_owner_service_original_reviewed",
+  "currentUserActiveConfirmed": true,
+  "currentUserId": "588164000000351001",
+  "currentUserName": "Sistemas -  Zoho",
+  "defaultOwnerInferred": false,
+  "ownerSelected": false,
+  "configuredOrganizationId": null,
+  "organizationApiVerified": false,
+  "serviceUsedOptions": 44,
+  "associatedObservedLayoutOptions": 0,
+  "canjeCandidateOptions": 2,
+  "serviceSelected": false,
+  "globalOptionsInvalidInferred": false,
+  "nextStep": "One distinct readonly GET of exact observed layout, only Servicio and its picklist metadata. Explicit own QA owner/routing proposal required before customer record creation.",
+  "customerRecordsCreated": false,
+  "grantsCreated": false,
+  "nativeCyclePassed": false
+}

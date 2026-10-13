@@ -299,3 +299,10 @@ QA contrasta fuentes/ownership/recibos/baseline,24tests y41checks de paquete; [r
 ### Preparación CRM siguiente: Owner y Servicio, dos lecturas
 
 QA revisa el paquete independiente de CurrentUser y picklist Servicio del layout observado:54assertions/38checks propios de manifiesto/transporte, sin selección automática, clientes, CRUD o renovación. [Conformidad](zoho-owner-service-package-review.json). Se contrasta el endpoint/layout_associations/actual_value con la documentación oficial Zoho. Stage/preflight sinBD y una lectura posterior sólo si el token actual supera5min; no se presume la vigencia anterior. El Owner real podrá mapearse explícitamente al operador LidIA distinto bajo assignmentRef/ruta manager, preservando el nombre real devuelto por assignedManager. No hay todavía caso/grant real o ciclo del gestor.
+
+
+### 13/10 — diagnóstico real y comprobación CRM adicional
+
+[Diagnóstico metadata preparado](dev25-metadata-diagnostic-package-review.json) con29tests/38checks: Source/Ops ejecutan una lectura. El [original11588B](dev25-metadata-diagnostic-original-review.json) acredita198InnoDB, snapshotRO/RR y cleanup correctos; falla el guard que exige AppConversationMappings. El modelo EF y la migración definen AppConversations, presente en el inventario real. Se prepara R6 para corregir el nombre/recuento y sus consumidores de restore; no falta DDL ni se crea una tabla. El diagnóstico no llegó a EFhistory ni acredita una exportación; R5 y su marcador se conservan.
+
+El [original Owner/Servicio8119B](zoho-owner-service-original-review.json) observa CurrentUser SistemasZoho activo/confirmado y44opcionesused; no acredita asociaciones al layout ni elige un Owner/Servicio. [LayoutR2](zoho-service-layout-r2-package-review.json),56tests/38checks, prepara un GET distinto del layout observado con proyección exclusiva del campoServicio y duplicados cerrados. Sinclientes/CRUD/scopes/refresh. Ambos originales privados se cotejan y guardan600 fuera deGit. El Mac sigue bloqueado en el recheck; no hay ciclos nativos o instalación nueva.

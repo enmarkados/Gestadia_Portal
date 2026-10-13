@@ -1686,3 +1686,11 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** observa el usuario actual de la conexión ZohoProduction y las opciones reales de Servicio asociadas al layout acreditado, sin decidir un propietario o servicio ni crear registros.
 - **Alcance:** equipo LidIA, .local/pro-zoho-qa-owner-service-read; revisión Portal en docs/app/evidencias/2026-10-12-ciclo-nativo.
 - **Notas:** separado del lector previo; OrganizationId configurado no acredita una lectura de organización, y los IDs CRM no identifican al operador de LidIA.
+
+
+## AppConversations (tabla fuente de LidIA)
+
+- **Tipo:** tabla EF de integración.
+- **Definición:** almacena las conversaciones APP de LidIA y su asociación a ChatSessionId dentro de la integración y el sujeto propios.
+- **Alcance:** Gestadia_LidIA, Data/AppConversationModel.cs, Models/AppConversations/AppConversationEntities.cs y migración20261005204814; referencia Portal en la evidencia nativa.
+- **Notas:** distinta de los modelos Prisma del consumidor Portal. El literal AppConversationMappings exigido por el helper de respaldo R5 era incorrecto; se preserva su evidencia y se prepara una revisión del helper, sin DDL nuevo.
