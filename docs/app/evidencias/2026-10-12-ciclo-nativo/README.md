@@ -345,3 +345,10 @@ El importe obligatorio local tiene fuente real: getServicio(canje-carnet) devuel
 ### Restore R6 bloqueado antes de deploy por sesión administrativa
 
 [Estado comunicado porOps](dev25-restore-r6-session-blocker.json): Portainercaducó antes de crear el destino de restore. Backup/originales/YAMLpinnedb99 permanecen válidos; no repetir exportación ni fabricar recibo. Ops conserva único control de su consola y ya pidió al humano recuperar sesión. Al volver se despliega el mismo YAML en instancia aislada y se verifica resultado real antes de importar/activarDEV. Macbloqueado/baseQAindisponible mantienen pendientes los ciclos nativos y la instalación.
+
+
+### 13/10 — Mac recuperado, restore real y base local reanudada
+
+El humano confirma desbloqueo/sesiónPortainer y continuar. [Verificación nueva](2026-10-13-recovery-and-restore.json): originalrestore361B/SHA5c6c6ed5… con198counts/EF260/files/completePASS; nueva instancia144/exited0 atribuida aOps. QA ejecuta verifierOriginals sinprepare y acepta adapterimportee4bd543… para3filas inactivas bajo gatesactuales; Country sigue esperando recibos.
+
+Docker Desktop estabaEngineStopping yRestartdeshabilitado; cierreGUI normal no termina. CLIoficialforceStop/start recupera29.6.1, sinreset/prune/volumen borrado. Contenedor/volumenown conservados; puerto automático59094 reemplaza60670 sólo enDATABASE_URLprivada, bytesprevios600preservados. Basegestadia_app_local119 yUser64verified/active/zohoContactNULL/cases0/Authactive0 revalidados; backupd11f intacto y contiene identidad propia. API3005health200 conexternals/S2S/guestoff. iOS2AC propioarrancado con344/build11 yHome real; iPhone17ajeno sigueBooted. Conversaciones reales y nueva instalación física aún pendientes de entregaDEV y sus controles propios.
