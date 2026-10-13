@@ -1694,3 +1694,11 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** almacena las conversaciones APP de LidIA y su asociación a ChatSessionId dentro de la integración y el sujeto propios.
 - **Alcance:** Gestadia_LidIA, Data/AppConversationModel.cs, Models/AppConversations/AppConversationEntities.cs y migración20261005204814; referencia Portal en la evidencia nativa.
 - **Notas:** distinta de los modelos Prisma del consumidor Portal. El literal AppConversationMappings exigido por el helper de respaldo R5 era incorrecto; se preserva su evidencia y se prepara una revisión del helper, sin DDL nuevo.
+
+
+## app_conversations_rows
+
+- **Tipo:** propiedad JSON propuesta de evidencia privada de respaldo.
+- **Definición:** número de filas de la tabla fuente AppConversations observado dentro del snapshot consistente del respaldo R6. No representa cuentas, permisos o estado de conversaciones.
+- **Alcance:** equipo LidIA, helper Dev25BackupSnapshot R6/fill-restore-pins y revisión de evidencia Portal.
+- **Notas:** sustituye el contador del helper R5 referido a una tabla inexistente; no se presupone cero ni se atribuye una observación a counts de pruebas sintéticas.
