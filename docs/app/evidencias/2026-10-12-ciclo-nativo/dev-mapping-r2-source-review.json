@@ -1,0 +1,47 @@
+{
+  "source_manifest_sha256": "ec15c4dd43c2a5145ef7ce60a3c8a25a28acbdb4be813e10d9eda3f47b34a7e1",
+  "verified_files": 46,
+  "four_queries_byteexact": true,
+  "four_policy_files_namespace_only": true,
+  "source_unchanged": true,
+  "connected_read": false,
+  "independent_tests": [
+    {
+      "name": "preserved94",
+      "exit": 1,
+      "tail": [
+        "PASS duplicate department closes instead of hiding extra rows",
+        "PASS future lockout not a durable authorization snapshot",
+        "OFFLINE_RESULT passes=92 failures=2"
+      ],
+      "log_sha256": "bfc260fd30d70596feee3c23097407f0263b7ee09220097624fb8f163d76d1e6"
+    },
+    {
+      "name": "lifecycle30",
+      "exit": 0,
+      "tail": [
+        "PASS same resource identity cannot reset returned flags",
+        "PASS Store two acquired readers release native command identities without DB",
+        "LIFECYCLE_RESULT passes=30 failures=0"
+      ],
+      "log_sha256": "14f2683c6f3ac5ada10749e360115b1517cb7927bb63aa8d4dcd737a82f1d67b"
+    }
+  ],
+  "fixture_repair": {
+    "name": "preserved94-fixed-fixture",
+    "exit": 0,
+    "tail": [
+      "PASS duplicate department closes instead of hiding extra rows",
+      "PASS future lockout not a durable authorization snapshot",
+      "OFFLINE_RESULT passes=94 failures=0"
+    ],
+    "log_sha256": "df112cf19c8a86c5129a90aad0d1a3d93b26539878425f237bf8132f035951d8",
+    "product_source_edits": false,
+    "fixture_paths_changed": 2,
+    "published_payload_sha256": "99a3a342667c6941c620e3691c8d1dcd3b7bec9082864ceb2c7d0b330048a182"
+  },
+  "status": "mapping_r2_sources_reviewed_not_package_or_runtime",
+  "lifecycle_independent_pass": 30,
+  "preserved_independent_pass_after_fixture_paths": 94,
+  "operator_mapping_observed": false
+}
