@@ -6,7 +6,7 @@
 
 ## Cómo empezar
 
-Estado de la continuación del13/10: [importación DEV real, login iOS y corrección guest preparada](evidencias/2026-10-12-ciclo-nativo/2026-10-13-dev-import-real-and-guest-fix.md). Los recibos de importación no acreditan activación; el error guest tiene corrección de transporte/HTTP/aviso, pero su ciclo anónimo real y ambos ciclos nativos siguen pendientes.
+Estado de la continuación del13/10: [importación DEV real, parche guest servido y paquetes nativos actuales](evidencias/2026-10-12-ciclo-nativo/2026-10-13-dev-import-real-and-guest-fix.md). Main completa una llamada real y el cierre de su ventana, por separado de la cuenta QA nativa. Los recibos de importación no acreditan activación; guest sigue apagado y ambos ciclos nativos conectados siguen pendientes.
 
 1. Lee [NAVEGACION.md](NAVEGACION.md): rutas implementadas, orígenes, Atrás, menú inferior, permisos, hojas y retornos externos. Distingue el recorrido implementado del alcance futuro de contacto cualificado.
 2. Abre el [mapa vigente con capturas](2026-10-11-recorridos-gestores.md) y, para antecedentes de diseño, los [mapas de propuesta](2026-10-10-mapas-pantallas-app-anonima.md) y su tablero con los comandos de abajo. Compara lo que ve el usuario con el flujo, no sólo el nombre de una ruta.

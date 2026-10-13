@@ -6,7 +6,8 @@ Petición humana: comprobar LidIA y el gestor `integraciones@vozenter.com` en iO
 
 ## Fuente y entorno
 
-- Fuente vigente para ambos paquetes (iOS0.1.0/build11; Android0.1.0/versionCode4): `344b0335ffb1e4a48677983fcba60b58e0b0c216`, Gestadia 0.1.0 (11), con el editor de nombre aceptado. La APP web servida `5febdf2` y el backend `0af593f` son referencias distintas.
+- Fuente de los paquetes y pruebas del12/10 (iOS0.1.0/build11; Android0.1.0/versionCode4): `344b0335ffb1e4a48677983fcba60b58e0b0c216`, con el editor de nombre aceptado. Las referencias web/backend5febdf2/0af593f corresponden a esa preparación, no al despliegue posteriorc653.
+- Preparación nueva del13/10: fuente27c8b4a/productoc653, ambos paquetes compilados y iOS arrancado; conserva build11/versionCode4. [Manifiestos actuales](native-source27-builds.json) y [observación y límites](2026-10-13-dev-import-real-and-guest-fix.md#paquetes-nativos-actuales-preparados). Los ciclos conectados siguen pendientes.
 - Rama propia de QA: `codex/app-prueba-real-ios-android-20261012`, worktree `app-motion-280`. Reutiliza la fuente del build 11 y conserva los documentos posteriores de app/main. Esta preparación local no publica ni activa canales.
 - Backend Portal real en loopback3005 y MySQL durable exclusivo de QA. Copia previa y configuración privada bajo `~/.codex/private/gestadia-app/qa-native-20261012/`; no contiene un proveedor conversacional simulado.
 - La autoridad antigua de sondeo/history caducó el12/10 a00:06UTC. V1/v2 se mantienen apagados hasta recibir configuración y autoridad verificables para nuestra prueba.

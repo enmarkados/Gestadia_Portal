@@ -1,0 +1,24 @@
+{
+  "ios": {
+    "bundle": "com.gestadia.app",
+    "version": "0.1.0",
+    "build": "11",
+    "source": {
+      "sourceRevision": "27c8b4ae34b97cfdf67aa5ea0e290f07a944cbdf",
+      "productRevision": "c6530f6a20a134feb96de7bb15b9f89ee4af6975",
+      "purpose": "native-local-qa",
+      "publicRelease": false
+    },
+    "webBundleSha256": "3b52799cfe229fd1b4136c3fb537b12d0a3a2aa7b215bd704b3e08cbfb4ce93d",
+    "api": "http://127.0.0.1:3005",
+    "remoteCyclePassed": false
+  },
+  "android": {
+    "sourceRevision": "27c8b4ae34b97cfdf67aa5ea0e290f07a944cbdf",
+    "build": "assembleDebug",
+    "status": "PASS",
+    "sha256": "5c2b98506adc2b55143e6e063062d453020e8c886fd9a8f49b8717a80a0ef857",
+    "bytes": 9239364,
+    "remoteCyclePassed": false
+  }
+}

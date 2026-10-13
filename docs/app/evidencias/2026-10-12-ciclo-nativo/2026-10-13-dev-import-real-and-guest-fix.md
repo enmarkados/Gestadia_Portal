@@ -75,3 +75,27 @@ ProGuestLiteralClone R2 queda congelado y revisado: manifest594550aceb903588c9e2
 QA revisa el lector administrativo Main (26 hashes/76 assertions), helper de asociación R3 (29 hashes/76 pruebas) y generador de ventana (8 hashes/32 pruebas) en copias privadas. Conformes preparación/preflight/lecturas previstas; no grants, correlación o llamada por estos checks. Main mantiene sus propios IDs y no se incorpora al fixture nativo User64.
 
 Portal prepare-activation vigente SHA65db149f0c1c7582a81af98c4f88ae19c1a1b7b21f0ad7e30c179cf99e37f985 comprueba el binding exacto antes del servicio. Revoke-and-sync SHA62210484f974ee1b65006d1e3799332f507e8f0ca196c52495056a520f6e9d9e exige la referencia humana actual, CAS y ACK de retirada de permisos. La confirmación humana de una nueva ventana está pendiente en la tarea de operaciones. No se activa desde esta revisión.
+
+### Llamada Main ejecutada y cierre comprobado
+
+La confirmación humana posterior autoriza una ventana del13/10 de15:29 a16:29UTC para Main. Ops ejecuta una única asociación temporal; la APP web envía un turno real y recibe confirmación de llamada para el14/10 a08:30Europe/Madrid, equivalente a06:30UTC. Source contrasta el original nativo privado de17755B/SHA27bdd316d5785da414485d7b70be67930620a832ef857e8422fa29298b882904: ledger confirmado, un intento y lectura Zoho verificada; abre desde Sesiones el mismo historial y su confirmación. Se atribuyen esa lectura y la observación de Sesiones al equipo fuente, sin convertirlas en pruebas de esta cuenta nativa.
+
+QA lee personalmente el ACK original de352B/600/SHA2b4bf17696a2b757c7d1046caf543bb2e55c0178ec8226c5decfd4e3ee4ffa34. Coinciden cuenta, conversación, sesión remota e integración Main: admitted, revision7=syncedRevision7 y permisos exactamente history/sondeo. Es el export original del visor Portainer en formato clave=valor, no un JSON HTTP reconstruido.
+
+Los siete originales de cierre nuevos, conservados600, confirman configuración ABD restaurada; cuatro herramientas inactivas y sin asignaciones; agente122 con cero funciones asignadas; rollback CRM verified_rolled_back observado a16:10:50UTC y autorización administrativa revocada. La lectura final nueva de3702B/SHA7ceaa coincide byte a byte con la preimagen; no se reutiliza el archivo antiguo como prueba. [Resultado saneado y hashes](main-closure-20261013-review.json). La llamada y el historial se conservan. La ventana está cerrada antes de su caducidad.
+
+Main pertenece a otra cuenta y conversación. Este resultado no acredita la consulta DEV de User64, el chat bidireccional con Integraciones, iOS, Android ni una instalación física nueva. El equipo de operación retoma Country DEV tras este cierre; preview original, aplicación inactiva, activación propia, autoridad y relación CRM aún son necesarios.
+
+### Paquetes nativos actuales preparados
+
+Se compila la fuente27c8b4ae34b97cfdf67aa5ea0e290f07a944cbdf, cuyo producto incluye el parchec653. Vite APP, sync Capacitor, Build & Run iOS y assembleDebug Android pasan. Se verifica el manifiesto empaquetado y se conserva una copia privada de ambos binarios. iOS sigue0.1.0/build11; Android0.1.0/versionCode4. Estos números no cambian por la compilación local y no identifican una nueva publicación.
+
+iOS arranca en el simulador propio745 con API loopback3005 y la cuenta QA conservada. La [captura nueva de Home](ios-20261013-fuente27-home.jpg) muestra el error recuperable de historial mientras S2S está apagado. [Manifiestos de compilación](native-source27-builds.json). Android está compilado, aún sin un nuevo arranque observado. El paquete físico anterior no se instala ni se usa como prueba de esta fuente.
+
+Al seleccionar Device Hub después de compilar, Cua informa que el Mac está bloqueado y no puede desbloquearlo automáticamente. Se pide al humano desbloquearlo; no se elude la protección. La revisión por archivos continúa, pero la interacción nativa queda pendiente.
+
+### Transporte privado CMS R2
+
+QA revisa decrypt R2 completo, sus nueve archivos y hashes, y reproduce el fixture de74B/SHA611df5cf bajo PYTHONOPTIMIZE=1. Guardas explícitas, salida600 exclusiva y rechazos por overwrite, hash raw/cipher/cert alterados o metadata duplicada pasan. La clave privada permanece sólo en Source. Manifiesto3e5b69f29b0a0611d36993384e7fbba357bb937cfb309c6e230f285c7f519a84; decrypt36d0eb5d8e0383865b7b130c9fbe84cc7d6d60ea0c8752ffeaf9faef277601aa. Esta reproducción local no acredita interoperabilidad del servidor, preview remoto, copia guest o activación.
+
+La revisión posterior del overlay guest reproduce52 pruebas sin fallos, coteja30 originales del manifest74d313, dieciséis miembros600 y transporte/shell exactos. Se leen los siete archivos de código, recibos, fases y adenda. Conforme stage/preflight y preview RO; sin los seis recibos reales revisados no se procede a prepare/install, y una activación pública exige su revisión y autorización concretas. No ejecuta llamadas ni sustituye la preparación DEV.
