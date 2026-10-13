@@ -1,0 +1,25 @@
+{
+  "status": "private_bootstrap_r3_prepared_not_running",
+  "r2_sha256": "4fafae2736685b9caa8a119b2288f7d2471772d04d3521951712ab5389c31c81",
+  "r3_sha256": "2d0e83b254f448b185ce0493c29b74a55316a18ba650ab2d6eac8f1d5d80dad3",
+  "guard_8e96_unchanged": true,
+  "running_process_unchanged": true,
+  "ready_runtime_proof_present": false,
+  "external_access_all_off": true,
+  "red_pass": 4,
+  "red_fail": 2,
+  "green_pass": 6,
+  "green_fail": 0,
+  "tests": [
+    {
+      "name": "red-original",
+      "exit": 1,
+      "log_sha256": "b342f34df94f6140e018cb8f28884aae5913011e2cc4701158d237c0c2b721b2"
+    },
+    {
+      "name": "green-candidate",
+      "exit": 0,
+      "log_sha256": "394625f871994a2640aee506dc5bb3130882d4aca5e3727f212f4b13ba6cc0ba"
+    }
+  ]
+}

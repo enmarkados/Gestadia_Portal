@@ -1835,3 +1835,24 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** conserva las consultas y el alcance del lector de operador, pero retiene cada tarea y recurso hasta concluir su cierre. Impide iniciar un cierre incompatible mientras la operación anterior siga pendiente.
 - **Alcance:** equipo LidIA, .local/dev25-app-operator-mapping-read-r2; revisión Portal en la evidencia nativa del12/10.
 - **Notas:** el candidato inicial64bf se conserva sin operar. La reproducción de su fallo es local y no acredita un fallo servido ni nuevas relaciones, rutas o permisos.
+
+## `QA bootstrap R3`
+
+- **Tipo:** concepto runtime de QA privada.
+- **Definición:** arranque de la API QA que exige una prueba del receptor efectivo antes de permitir cualquier perfil S2S activo, incluido el perfil nativo de sondeo por separado.
+- **Alcance:** instancia local de aceptación iOS/Android; candidato privado `backend-dev-s2s-scope-r3-pending.mjs` y evidencia de la ejecución del12/10. No cambia la API de producto.
+- **Notas:** conserva el arranque R2 como evidencia; exigir la prueba sólo con el interruptor global no cubría un perfil nativo activo por separado. La prueba del receptor sigue pendiente y el proceso actual permanece OFF.
+
+## `ReaderAcquisitionGeneration`
+
+- **Tipo:** concepto runtime del lector QA LidIA.
+- **Definición:** generación lógica de cada adquisición de un lector, independiente de la identidad física de su objeto. Permite distinguir una instancia que MySqlConnector reutiliza tras haberla cerrado.
+- **Alcance:** propuesta de corrección del lifecycle del lector de asignaciones en Gestadia_LidIA; evidencia de integración de Gestadia Portal APP.
+- **Notas:** la identidad física por sí sola se descarta para representar una vida nueva, porque la reproducción real devuelve la misma instancia para dos lecturas sucesivas. R2 se conserva sin repetir y la generación aún no está implementada en servidor.
+
+## `Dev25AppOperatorMappingReadR3`
+
+- **Tipo:** utilidad runtime de QA propuesta en LidIA.
+- **Definición:** revisión del lector de asignaciones que distingue generaciones de adquisición de lectores, incluido el reciclaje físico del proveedor MySQL. Conserva el alcance de observación de R2.
+- **Alcance:** propuesta de Gestadia_LidIA en `.local/dev25-app-operator-mapping-read-r3`; evidencia de aceptación nativa de Gestadia Portal APP.
+- **Notas:** R2 y su intento fallido se preservan. R3 requiere revisión de propuesta, reproducción real corregida y una nueva lectura DEV antes de acreditar asignación o continuar instalación.

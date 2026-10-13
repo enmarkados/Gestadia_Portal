@@ -1,0 +1,63 @@
+{
+  "status": "mapping_r2_real_failure_preserved_and_provider_reproduced",
+  "served_failure_sha256": "9f9f14266f93a695df390a06a7478ccd99ab774baa630460c43bc2da8eb8f554",
+  "served_failure_bytes": 734,
+  "served_no_replay": true,
+  "served_phase": "snapshot",
+  "actual_mapping_observed": false,
+  "candidate_install_stopped": true,
+  "local_reproduction": {
+    "status": "own_isolated_native_helper_provider_reproduction",
+    "helper_sha256": "99a3a342667c6941c620e3691c8d1dcd3b7bec9082864ceb2c7d0b330048a182",
+    "provider_sha256": "84d297e722db70c78db88ed5f8b273686cb06851ad4e1c14cc7465c4bc482302",
+    "native_local_sha256": "b143d236dabaaa35fdc15dec6715c59a1f5f0a17d7176d8ecaa1585c821be570",
+    "queries": 2,
+    "logical_error_code": "Cleanup",
+    "same_reader_instance": true,
+    "second_reader_open_before_cleanup": true,
+    "current_transaction_present_before_cleanup": true,
+    "lifecycle": {
+      "complete": false,
+      "rollback_returned": false,
+      "pending_operation_kind": null,
+      "resources": {
+        "pending_operation": {
+          "state": "absent",
+          "exception_type": null
+        },
+        "reader_dispose": {
+          "state": "already_returned",
+          "exception_type": null
+        },
+        "command_dispose": {
+          "state": "returned",
+          "exception_type": null
+        },
+        "rollback": {
+          "state": "failed_terminal",
+          "exception_type": "InvalidOperationException"
+        },
+        "transaction_dispose": {
+          "state": "returned",
+          "exception_type": null
+        },
+        "connection_close": {
+          "state": "returned",
+          "exception_type": null
+        },
+        "context_dispose": {
+          "state": "returned",
+          "exception_type": null
+        }
+      }
+    },
+    "database_write": false,
+    "DEV_read": false
+  },
+  "local_exit": 0,
+  "local_log_sha256": "6441a52083477528d6d9a43f8bec124d9fc948af7b95c8ad4cac8b0e17c9953e",
+  "lifecycle_exactly_matches_served_failure": true,
+  "local_native_is_b143_not_served094": true,
+  "diagnostic_DEV_replay": false,
+  "new_R3_proposal_pending": true
+}

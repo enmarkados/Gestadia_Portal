@@ -1,0 +1,16 @@
+{
+  "status": "mapping_r2_package_independently_reviewed",
+  "manifest_sha256": "883605f0869389e9701367c4676a0013a9d53987441b33009982f6d83c112485",
+  "files_verified": 62,
+  "source_ec15_unchanged": true,
+  "payload_members": 5,
+  "uid_gid": 1654,
+  "mode": "0600",
+  "shell_syntax_pass": 5,
+  "carrier_stage_byteexact": true,
+  "stage_payload_byteexact": true,
+  "helper_99a_unchanged": true,
+  "stage_performed": false,
+  "mapping_observed": false,
+  "grants_issued": false
+}

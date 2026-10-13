@@ -1,0 +1,15 @@
+{
+  "status": "real_sondeo5_candidate_qa_conform_not_installed",
+  "candidate_raw_sha256": "7fa7ce7e23492adb46d72d62085e740cd3420c09ef5920da1167026914ff4986",
+  "manifest_raw_sha256": "2fac41fe57fdea061dd13622d5c11e393d4abd9cc35862711dc2944ae9916064",
+  "preparation_review_raw_sha256": "954435987f611cb019c03102d7c00b808b8dda0b787fbf654d022042a4ba69a5",
+  "five_original_key_pairs_byteexact": true,
+  "cursor_original_hash_exact_not_copied_to_portal": true,
+  "six_secrets_distinct_32_bytes": true,
+  "only_project104_agent124_dev": true,
+  "history_sondeo_only": true,
+  "crm_null_routes_empty_guest_platform_off": true,
+  "portal_installed": false,
+  "public_receiver_verified": false,
+  "grants_issued": false
+}
