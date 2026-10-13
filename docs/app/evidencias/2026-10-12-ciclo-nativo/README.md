@@ -335,3 +335,8 @@ El importe obligatorio local tiene fuente real: getServicio(canje-carnet) devuel
 ### Caso QA R3: separar acceso y sondeo de la atención
 
 [Conformidad documental R3](zoho-own-case-r3-proposal-review.json),10hashes comprobados, cuerpos/nonceR1 preservados. Login propio requiere base disponible/copia previa/revalidación de cuenta; el sondeo básico añade entregaDEV real/firma/guard, sin depender del CRM o gestor. POSTCRM y atención añaden recibos Contact–Deal propios, guard limitado y mapping operativo real. Se corrige el acoplamiento añadido enR2 sin ampliar permisos ni ejecutar acciones. Conforme preparación del helper concreto después de revisiónOps; ningún POST/grant/login nuevo por esta revisión. El Mac/base local continúan bloqueando la fase nativa, mientras copia/restauraciónDEV avanzan por separado en Portainer.
+
+
+### R6 real: originales del respaldo verificados
+
+[Originales R6](dev25-backup-r6-original-review.json) recibidos600 y cotejados por QA: manifest12archivos, report1096B/SHA068fe0b2…, counts198tablas/345146filas, EF260 y AppConversations0 observado. SnapshotRR/RO/misma conexión/rechecks acreditados; SQL239573640B/SHA088bb0b9… permanece en servidor y no se lee/copia por QA. Filler independiente sobre originales crea YAMLpinned SHA b99dbccb… idéntico al deOps. Respaldo completo acreditado, restauración real todavía pendiente. No importación/activación, ciclo nativo ni instalación nueva acreditados.

@@ -1,0 +1,41 @@
+{
+  "status": "actual_backup_originals_verified_restore_pending",
+  "original_reports": [
+    {
+      "file": "SHA256SUMS",
+      "bytes": 1005,
+      "sha256": "cb7a2c45d2a6df0b77db0e19dcdc00f6f9d1151f75f362c143e9bf30e6af31c0"
+    },
+    {
+      "file": "sql-backup-report.json",
+      "bytes": 1096,
+      "sha256": "068fe0b21b5854c2d1218c1f5928d5085a84c15f66017fe6de34e94aae3ec3d7"
+    },
+    {
+      "file": "table-row-counts.tsv",
+      "bytes": 4855,
+      "sha256": "31537c701ea76c7ddc35e1e217221620c5f65f21f4b6da79ee4967fc3e20881a"
+    },
+    {
+      "file": "ef-history.tsv",
+      "bytes": 12825,
+      "sha256": "56a4bdbe087a731a2d088a934acdb079599f7ae4d50c13bf2ed4a1777a076e7f"
+    }
+  ],
+  "observed_utc": "2026-10-13T00:20:22.2975525+00:00",
+  "tables": 198,
+  "rows": 345146,
+  "ef_history_rows": 260,
+  "app_conversations_rows_observed": 0,
+  "sql_bytes": 239573640,
+  "sql_sha256": "088bb0b9a96a1ea52ff7a851ad7cd791a40a1d89856ebea287f19eecca124e94",
+  "snapshot_readonly_rr_same_connection_rechecked": true,
+  "app_off": true,
+  "pinned_restore_yaml_sha256": "b99dbccbe12e8ebeb5873b0b1a4bc030cfc3f730853d60cfc38296c7faf15a12",
+  "own_fill_from_originals_succeeded": true,
+  "sql_not_read_or_copied_by_qa": true,
+  "restore_verified": false,
+  "import_or_activation_performed": false,
+  "native_cycles_passed": false,
+  "iphone_installed_this_run": false
+}
