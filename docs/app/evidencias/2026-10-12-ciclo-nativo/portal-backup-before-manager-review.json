@@ -1,0 +1,19 @@
+{
+  "status": "fresh_own_local_backup_and_isolated_restore_verified",
+  "observed_utc": "2026-10-13T23:44:34.996626+00:00",
+  "backup_sha256": "54e915243110996a41cbaf197c10fc4857dfdd52abcd861f296228d447f02212",
+  "tables_checked": 24,
+  "row_counts_equal": true,
+  "own_account_active_no_crm": true,
+  "isolated_database_created": true,
+  "isolated_database_restored": true,
+  "isolated_database_dropped": true,
+  "source_database_modified": false,
+  "grants_changed": false,
+  "existing_client_used": true,
+  "metadata_reader": "standard mysql CLI using existing config directly",
+  "prior_metadata_driver_failure_preserved": true,
+  "backup_bytes": 69918,
+  "prior_driver_error_code": 1045,
+  "source_database": "own local QA only"
+}
