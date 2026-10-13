@@ -57,6 +57,8 @@ flowchart TD
 
 LidIA distingue Nueva/Continuar e historial. Mensajes ya no ofrece ni lista IA. Dentro de un chat LidIA no se inicia otro: Atrás lleva a su origen. `nueva=UUID` conserva el intento; con cuenta se confirma Iniciar y como visitante la elección Continuar sin registro inicia el mismo intento. Una creación incierta conserva key y operación. La conversación guest se identifica también con `invitado=1`, mantiene id y actor histórico; cuenta comprobada y control de instalación son necesarios para vincular.
 
+Si el servicio sin registro está indisponible, la elección permanece en la misma pantalla y conserva `nueva`, origen y retorno de acceso. Muestra un aviso de disponibilidad, sin atribuirlo a la conexión ni obligar al registro. La [corrección del13/10](evidencias/2026-10-12-ciclo-nativo/2026-10-13-dev-import-real-and-guest-fix.md) está preparada; no acredita activación guest en producción.
+
 El chat conectado se identifica por `conversacion` y, cuando procede, `caso`. Esos parámetros forman parte del retorno; no se sustituye el chat seleccionado por uno nuevo. La validación real admite carga de documentos con FormData y sólo confirma el resultado devuelto por la API. Un error de carga permanece en la misma pantalla y conserva Atrás.
 
 ### Asociación backend preparada el 11/10/2026

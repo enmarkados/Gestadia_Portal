@@ -363,3 +363,7 @@ QA revisa `ProZohoQaOwnCaseCreate` en copia privada: 41 hashes y 192 assertions 
 La API local sigue accesible. El simulador muestra Home, pero el ACK del intento de pulsación no acredita navegación. El control nativo vuelve a informar Mac bloqueado y se mantiene una única solicitud humana de desbloqueo. No se altera la seguridad ni se reinicia la entrada para eludirlo. Los ciclos conectados iOS/Android/gestor y la instalación física continúan pendientes.
 
 QA acepta la propuesta correctiva R6 original de 1759 B, SHA b49649c9…: preparación offline de DeepClone, regresión de la secuencia completa y diagnósticos cerrados en revisión separada. R5 permanece intacta. El nuevo preview/apply todavía espera conciliación real y revisión del paquete; no se atribuye una ejecución remota a esta conformidad.
+
+### 13/10 — importación real, acceso iOS y corrección guest preparada
+
+[Nueva evidencia y límites](2026-10-13-dev-import-real-and-guest-fix.md): conciliación R5 real, importación R6 con IDs104/124/10117 inactivos y recibos originales verificados; CountryR3 preparada y revisada. API local recuperada, login iOS desde UI y Capture Keyboard comprobados en nuevo simulador. Corrección guest de proxy/HTTP/aviso preparada y probada, sin habilitar flags. Los ciclos conectados y la instalación física siguen pendientes.

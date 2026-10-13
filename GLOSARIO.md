@@ -1709,3 +1709,45 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** prepara la creación de un Contact y un Deal exclusivos de QA, con identidad, propietario y relación comprobados mediante recibos propios. Conserva el resultado de cada operación y detiene el recorrido si el resultado es incierto.
 - **Alcance:** equipo LidIA, .local/dev25-own-crm-case-helper; revisión Portal en docs/app/evidencias/2026-10-12-ciclo-nativo.
 - **Notas:** la preparación y las pruebas offline no acreditan registros creados. No reutiliza el caso Main ni crea usuarios, amplía OAuth, marca pagos o repite automáticamente un POST.
+
+## ProAppSessionAuthorityRead
+
+- **Tipo:** helper privado de diagnóstico.
+- **Definición:** observa los metadatos de identidad y protocolo de una conversación administrativa fijada, sin conceder autoridad ni leer su contenido.
+- **Alcance:** equipo LidIA, .local/pro-app-session-authority-read; revisión Portal en la evidencia nativa del 12/10.
+- **Notas:** pertenece al caso Main de la tarea de operaciones; no se reutiliza como identidad o permiso de la cuenta nativa propia.
+
+## ProAppContactAssociation
+
+- **Tipo:** helper privado de preparación CRM.
+- **Definición:** establece y retira condicionalmente un único campo de correlación de un contacto QA seleccionado, dentro de una ventana revisada.
+- **Alcance:** equipo LidIA, .local/pro-app-contact-association-r3; revisión Portal en la evidencia nativa del 12/10.
+- **Notas:** conserva el estado previo y detiene resultados inciertos. No agenda llamadas ni reemplaza los permisos efectivos del runtime.
+
+## ImportReceiptDocuments
+
+- **Tipo:** concepto runtime de helper privado.
+- **Definición:** construye los documentos de preview, intento de commit y readback de la importación DEV conservando independientes los nodos compartidos.
+- **Alcance:** equipo LidIA, .local/dev25-literal-import-r6/ImportReceiptDocuments.cs.
+- **Notas:** corrige la reutilización de JsonNode con padre; no cambia el contrato funcional del agente.
+
+## ImportDiagnosticCheckpoint
+
+- **Tipo:** enum privado de diagnóstico.
+- **Definición:** identifica una etapa conocida de la utilidad de importación sin publicar contenidos o errores externos.
+- **Alcance:** equipo LidIA, .local/dev25-literal-import-r6/ImportDiagnostics.cs.
+- **Notas:** no es un estado de conversación ni una prueba de commit.
+
+## ImportDiagnosticErrorCode
+
+- **Tipo:** enum privado de diagnóstico.
+- **Definición:** clasifica los fallos de la utilidad de importación en un conjunto cerrado de categorías.
+- **Alcance:** equipo LidIA, .local/dev25-literal-import-r6/ImportDiagnostics.cs.
+- **Notas:** sustituye la exposición de mensajes de excepción; la clasificación no determina por sí sola el resultado de la transacción.
+
+## CountryReceiptDocuments
+
+- **Tipo:** concepto runtime de helper privado.
+- **Definición:** construye los recibos de preparación de la función de país y su relación al agente propio, manteniendo independientes sus documentos JSON.
+- **Alcance:** equipo LidIA, .local/dev25-country-tool-r3/CountryReceiptDocuments.cs.
+- **Notas:** los datos sintéticos de regresión no sustituyen los recibos reales de importación o de ejecución.
