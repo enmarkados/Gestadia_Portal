@@ -1,0 +1,35 @@
+{
+  "status": "preparation_conforming_execution_pending",
+  "source_proposal_sha256": "bbbc438f06e663ba1d7aca32d6585242eecddf1897f3d8f4b039c56884e3eab4",
+  "drafts": [
+    {
+      "file": "contact.body.pending.json",
+      "sha256": "d7c3a86b1bf6ce269bb2b968cd8a3821099916ba07eb84114077380098d0a03e"
+    },
+    {
+      "file": "deal.body.pending.json",
+      "sha256": "e3aa118b2c91c0ba8c5eca2a3185e92561992340304ce97232d4d380336a238d"
+    }
+  ],
+  "post_maximum": 2,
+  "readback_gets_normal": 2,
+  "existing_production_credentials_only": true,
+  "no_new_oauth_scopes": true,
+  "no_replay_after_unknown_outcome": true,
+  "no_email_phone_or_payment_data": true,
+  "portal_case": {
+    "catalog_file": "shared/servicios.js",
+    "catalog_sha256": "e6eac107847764d94389692a3be0312157fce230756622386b7e9d3538772705",
+    "servicioSlug": "canje-carnet",
+    "importe_catalogo": 210,
+    "moneda": "EUR",
+    "estado": "pago_pendiente",
+    "payment_refs_dates_null": true,
+    "basis": "checkout creates importe=servicio.precio and pago_pendiente before payment; never invoke checkout/Stripe/notify for QA fixture"
+  },
+  "observation": "SQL backup PRO does not restore Zoho. Source accepted removing this added gate; revised proposal pending. DEV baseline backup/restore still required for DEV mutations.",
+  "crm_created": false,
+  "portal_case_inserted": false,
+  "native_cycles_passed": false,
+  "physical_install_performed": false
+}

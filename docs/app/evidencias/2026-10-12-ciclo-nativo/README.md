@@ -316,3 +316,12 @@ QA lee y acepta la [propuesta concreta R6](dev25-backup-r6-proposal-review.json)
 ### Servicio del layout real acreditado
 
 QA contrasta [original5582B/SHA5b69e913…](zoho-service-layout-original-review.json): layoutStandardactivo/visible, campoServicio obligatorio y APIcreate permitido, una ocurrencia default_create, Canjeused/ID588164000009534017. El lector no elige ni crea. Se acepta preparar una propuesta mínima de contacto/tratoQA y lectura posterior propia con OwnerSistemasZoho explícito, pipelineCanje-GTD/StageactualEn proceso, sin pago/ganado/phoneinventado ni automatismos de comunicación. El operadorLidIAIntegraciones se mapeará por referencia propia y la diferencia de identidades se conserva; no se sustituye assignedManager real. Payload/guardas/revisión concreta todavía preceden a cualquier creación. Macbloqueado, base local no disponible y ciclos/instalación pendientes.
+
+
+### Caso CRM propio: cuerpos revisados y precio local resuelto
+
+[Revisión concreta](zoho-own-case-proposal-review.json): un contacto y un trato nuevos claramente QA, máximo2POST y2GET propios, sin correo/teléfono/pago, sin repetición tras resultado desconocido y sin cambios OAuth. Se comprueban cuerpos, marcador, tamaños, Owner/layout/servicio/pipeline/etapa. Source prepara revisión separada eliminando el gate añadido de backupSQLPRO: éste no restaura Zoho y el caso no muta SQL/runtimePRO. El backup/restauraciónDEV sí precede a la importaciónDEV.
+
+El importe obligatorio local tiene fuente real: getServicio(canje-carnet) devuelve210EUR; checkout crea ese importe con pago_pendiente antes del pago. El puenteQA usará catálogo/hash comprobados y referencias/fechas de pagoNULL, sin invocar checkout/Stripe/notify ni enviar Amount a Zoho. No necesita importe0, migración ni una decisión humana adicional. No hay contacto/trato/expediente creado todavía.
+
+[Estado local comprobado](local-native-blocker-review.json): Mac bloqueado, API3005 accesible, MySQL60670 rechaza conexión y Docker agota4/6s; quedan aproximadamente3.9GiB. Siete eventos de falta de espacio constan en el log Docker de21:18Z, sin atribuirles la causa actual. No se reinicia Docker global ni se borran volúmenes. Ops prepara restore remoto aislado; ciclos nativos e instalación siguen pendientes del desbloqueo y la recuperación local.
