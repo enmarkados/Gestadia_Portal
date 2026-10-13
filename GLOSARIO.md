@@ -1646,3 +1646,115 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** Exige un AccessScope válido para conservar capacidades CRM en la integración de prueba. Impide tratar una configuración ausente o malformada como una integración general sin límite temporal.
 - **Alcance:** plataforma LidIA, configuración privada `/app/App_Data/app-conversations.json`; adenda `docs/integraciones/2026-10-12-lidia-scope-temporal.md`.
 - **Notas:** En preparación; no es un permiso ni amplía autoridad. Las fechas se validan en la política desde texto ISO con zona para retirar únicamente CRM cuando sean inválidas, conservando sondeo e historial.
+
+## `gestadia-app-qa-native-20261012-sondeo` / `gestadia-app-qa-native-20261012-atencion`
+
+- **Tipo:** decisión de naming de integraciones S2S de QA.
+- **Definición:** identificadores propios que separan el sondeo y la atención de la prueba nativa del12/10/2026. Cada integración tiene audiencia y claves por operación independientes; su configuración pendiente no acredita activación.
+- **Alcance:** APP/API Portal, registro en `backend/src/config.js`, configuración privada de DEV25 y `docs/app/evidencias/2026-10-12-ciclo-nativo/PLAN-ACEPTACION.md`.
+- **Notas:** se descartan identidades, credenciales y namespaces de la reserva humana PRO; el registro rechaza reutilizar KeyId entre ambos perfiles. La revocación utiliza su clave dedicada y no concede ese permiso a TURN.
+
+## `crm-read-scope`
+
+- **Tipo:** concepto de QA y decisión de naming de configuración privada.
+- **Definición:** autoridad temporal de lectura para el contacto y trato CRM propios y comprobados de la prueba nativa. Su estado pendiente no concede acceso; excluye operaciones de escritura de negocio y datos de otras fichas.
+- **Alcance:** wrapper privado de la instancia PortalQA3005, `~/.codex/private/gestadia-app/qa-native-20261012/`, y `docs/app/evidencias/2026-10-12-ciclo-nativo/PLAN-ACEPTACION.md`. No es un endpoint ni permiso nuevo del producto.
+- **Notas:** se descarta simular assignedManager con datos administrativos cacheados y trasladar OAuth amplio sin límites. Se conserva el adapter real del producto y se exige organización/dominio, identidad, IDs verificados y caducidad antes de activarlo.
+
+
+## Helpers administrativos de la aceptación DEV del12/10
+
+- **Término:** ProZohoQaViability. **Tipo:** helper privado de diagnóstico. **Definición:** lectura mínima de organización, gestor y metadata CRM de la conexión Production existente, sin fichas de clientes ni renovación OAuth. **Alcance:** equipo LidIA, .local/pro-zoho-qa-viability-r2; evidencia Portal docs/app/evidencias/2026-10-12-ciclo-nativo. **Notas:** R2 corrige cancelación del cuerpo; su prueba offline no acredita ejecución real.
+- **Término:** Dev25LiteralImport. **Tipo:** helper privado de preparación. **Definición:** importa la configuración literal119PRO como tres entidades propias inicialmente inactivas en DEV25. **Alcance:** equipo LidIA, .local/dev25-literal-import-r4; revisión Portal en el mismo directorio de evidencia. **Notas:** IDs generados en BD; preview y respaldo restaurado preceden al apply, que no activa APP.
+- **Término:** Dev25BackupSnapshot. **Tipo:** helper privado de respaldo. **Definición:** conserva una instantánea coherente de la BD y archivos actuales de DEV25 para comprobar su restauración aislada. **Alcance:** equipo LidIA, .local/dev25-backup-pre-import-r5; revisión Portal en el mismo directorio de evidencia. **Notas:** respaldo198/260 diferente del anterior188/257; no carga credenciales ni ejecuta APP al restaurar.
+
+- **Revisión de Dev25LiteralImport:** R5/Dev25LiteralImportR5 conserva el concepto y el alcance anteriores con consulta mínima explícita del historial; R4 queda preservada y retirada para preview. La revisión vigente vive en .local/dev25-literal-import-r5 del equipo LidIA y en dev25-import-r5-package-review.json de Portal.
+
+
+## qa-subject-guard
+
+- **Tipo:** guard privado de la aceptación nativa.
+- **Definición:** impide que la instancia PortalQA envíe solicitudes S2S a LidIA para un sujeto diferente de la cuenta propia de prueba. Verifica además destino DEV, claves propias y vigencia antes de la red.
+- **Alcance:** wrapper privado qa-native-20261012 fuera deGit; referencia en docs/app/evidencias/2026-10-12-ciclo-nativo.
+- **Notas:** integrationId/grant no son allowlists de sujetos; el cliente y el adapter reales se conservan. No añade un permiso de producto ni simula respuestas de LidIA.
+
+
+## Dev25CountryTool
+
+- **Tipo:** helper privado de preparación DEV.
+- **Definición:** crea una única definición local de comprobar_pais_carne, inicialmente inactiva, y su relación al agente propio acreditado por el recibo de importación. Conserva las reglas literales del handler existente.
+- **Alcance:** equipo LidIA, .local/dev25-country-tool; revisión Portal en docs/app/evidencias/2026-10-12-ciclo-nativo.
+- **Notas:** GetCurrentTime permanece compilada sin fila; no activa agentes, herramientas o S2S. El respaldo previo del conjunto se distingue de los recibos posteriores, sin atribuirles una copia que no los contiene.
+
+
+## ProZohoQaOwnerServiceRead
+
+- **Tipo:** helper privado de diagnóstico CRM.
+- **Definición:** observa el usuario actual de la conexión ZohoProduction y las opciones reales de Servicio asociadas al layout acreditado, sin decidir un propietario o servicio ni crear registros.
+- **Alcance:** equipo LidIA, .local/pro-zoho-qa-owner-service-read; revisión Portal en docs/app/evidencias/2026-10-12-ciclo-nativo.
+- **Notas:** separado del lector previo; OrganizationId configurado no acredita una lectura de organización, y los IDs CRM no identifican al operador de LidIA.
+
+
+## AppConversations (tabla fuente de LidIA)
+
+- **Tipo:** tabla EF de integración.
+- **Definición:** almacena las conversaciones APP de LidIA y su asociación a ChatSessionId dentro de la integración y el sujeto propios.
+- **Alcance:** Gestadia_LidIA, Data/AppConversationModel.cs, Models/AppConversations/AppConversationEntities.cs y migración20261005204814; referencia Portal en la evidencia nativa.
+- **Notas:** distinta de los modelos Prisma del consumidor Portal. El literal AppConversationMappings exigido por el helper de respaldo R5 era incorrecto; se preserva su evidencia y se prepara una revisión del helper, sin DDL nuevo.
+
+
+## app_conversations_rows
+
+- **Tipo:** propiedad JSON propuesta de evidencia privada de respaldo.
+- **Definición:** número de filas de la tabla fuente AppConversations observado dentro del snapshot consistente del respaldo R6. No representa cuentas, permisos o estado de conversaciones.
+- **Alcance:** equipo LidIA, helper Dev25BackupSnapshot R6/fill-restore-pins y revisión de evidencia Portal.
+- **Notas:** sustituye el contador del helper R5 referido a una tabla inexistente; no se presupone cero ni se atribuye una observación a counts de pruebas sintéticas.
+
+## ProZohoQaOwnCaseCreate
+
+- **Tipo:** helper privado de prueba CRM.
+- **Definición:** prepara la creación de un Contact y un Deal exclusivos de QA, con identidad, propietario y relación comprobados mediante recibos propios. Conserva el resultado de cada operación y detiene el recorrido si el resultado es incierto.
+- **Alcance:** equipo LidIA, .local/dev25-own-crm-case-helper; revisión Portal en docs/app/evidencias/2026-10-12-ciclo-nativo.
+- **Notas:** la preparación y las pruebas offline no acreditan registros creados. No reutiliza el caso Main ni crea usuarios, amplía OAuth, marca pagos o repite automáticamente un POST.
+
+## ProAppSessionAuthorityRead
+
+- **Tipo:** helper privado de diagnóstico.
+- **Definición:** observa los metadatos de identidad y protocolo de una conversación administrativa fijada, sin conceder autoridad ni leer su contenido.
+- **Alcance:** equipo LidIA, .local/pro-app-session-authority-read; revisión Portal en la evidencia nativa del 12/10.
+- **Notas:** pertenece al caso Main de la tarea de operaciones; no se reutiliza como identidad o permiso de la cuenta nativa propia.
+
+## ProAppContactAssociation
+
+- **Tipo:** helper privado de preparación CRM.
+- **Definición:** establece y retira condicionalmente un único campo de correlación de un contacto QA seleccionado, dentro de una ventana revisada.
+- **Alcance:** equipo LidIA, .local/pro-app-contact-association-r3; revisión Portal en la evidencia nativa del 12/10.
+- **Notas:** conserva el estado previo y detiene resultados inciertos. No agenda llamadas ni reemplaza los permisos efectivos del runtime.
+
+## ImportReceiptDocuments
+
+- **Tipo:** concepto runtime de helper privado.
+- **Definición:** construye los documentos de preview, intento de commit y readback de la importación DEV conservando independientes los nodos compartidos.
+- **Alcance:** equipo LidIA, .local/dev25-literal-import-r6/ImportReceiptDocuments.cs.
+- **Notas:** corrige la reutilización de JsonNode con padre; no cambia el contrato funcional del agente.
+
+## ImportDiagnosticCheckpoint
+
+- **Tipo:** enum privado de diagnóstico.
+- **Definición:** identifica una etapa conocida de la utilidad de importación sin publicar contenidos o errores externos.
+- **Alcance:** equipo LidIA, .local/dev25-literal-import-r6/ImportDiagnostics.cs.
+- **Notas:** no es un estado de conversación ni una prueba de commit.
+
+## ImportDiagnosticErrorCode
+
+- **Tipo:** enum privado de diagnóstico.
+- **Definición:** clasifica los fallos de la utilidad de importación en un conjunto cerrado de categorías.
+- **Alcance:** equipo LidIA, .local/dev25-literal-import-r6/ImportDiagnostics.cs.
+- **Notas:** sustituye la exposición de mensajes de excepción; la clasificación no determina por sí sola el resultado de la transacción.
+
+## CountryReceiptDocuments
+
+- **Tipo:** concepto runtime de helper privado.
+- **Definición:** construye los recibos de preparación de la función de país y su relación al agente propio, manteniendo independientes sus documentos JSON.
+- **Alcance:** equipo LidIA, .local/dev25-country-tool-r3/CountryReceiptDocuments.cs.
+- **Notas:** los datos sintéticos de regresión no sustituyen los recibos reales de importación o de ejecución.

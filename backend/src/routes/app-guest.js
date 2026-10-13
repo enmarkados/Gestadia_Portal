@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
 import { AppGuestService } from '../app/v2/guest.js';
+import { randomUUID } from 'node:crypto';
+import { problem } from '../app/problem.js';
 export function createAppGuestRouter({db,config,service=new AppGuestService(db,config)}) {
  const router=Router();router.use((req,res,next)=>{res.set('Cache-Control','no-store');next();});
  router.use(rateLimit({windowMs:60000,limit:90,standardHeaders:true,legacyHeaders:false}));
@@ -17,5 +19,6 @@ export function createAppGuestRouter({db,config,service=new AppGuestService(db,c
  router.post('/conversations/:id/bind',handle(req=>service.bind(req.guestActor,req.params.id)));
  router.get('/operations/:id',handle(req=>service.operation(req.guestActor,req.params.id)));
  router.post('/operations/:id/retry',handle(req=>service.operation(req.guestActor,req.params.id,true)));
+ router.use((error,req,res,next)=>problem(res,error,randomUUID()));
  return router;
 }

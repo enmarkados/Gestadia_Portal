@@ -20,6 +20,7 @@ import ChatLoading from "./ChatLoading.jsx";
 import { useComposerAutoScroll } from "./useComposerAutoScroll.js";
 const pendingStatuses = new Set(["prepared", "outcome_unknown"]);
 const messages = {
+  runtime_unavailable: "El servicio no está disponible ahora. Puedes volver a intentarlo más tarde.",
   guest_session_expired: "La sesión sin registro ha caducado. Puedes empezar una nueva consulta desde LidIA.",
   binding_in_progress: "Estamos vinculando tu conversación. Espera a que termine el envío y vuelve a cargarla.",
   routing_unavailable:
@@ -521,7 +522,9 @@ function ConversationBody({ purpose, guest }) {
             const next = new URLSearchParams(search); next.set("invitado", "1");
             if (!next.get("conversacion") && !next.get("nueva")) next.set("nueva", crypto.randomUUID());
             setSearch(next, { state: location.state, replace: true });
-          } catch { setError("No se pudo abrir la conversación sin registro. Inténtalo de nuevo con conexión."); }
+          } catch (error) { setError(error.code === "runtime_unavailable"
+            ? "La conversación con LidIA sin registro no está disponible ahora. Puedes volver a intentarlo más tarde."
+            : messages[error.code] || "No se pudo abrir la conversación sin registro. Puedes volver a intentarlo."); }
           finally { setBusy(false); }
         }}>{busy ? "Abriendo…" : "Continuar sin registro"}</button>
         {error && <p className="error" role="alert">{error}</p>}

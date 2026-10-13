@@ -121,6 +121,19 @@ function mount(entry = "/") {
     </MemoryRouter>,
   );
 }
+it("el servicio sin registro no disponible explica el estado y conserva la elección y el intento", async () => {
+  setToken(null);
+  vi.stubGlobal("fetch", vi.fn(async () => ({
+    ok: false, status: 503, json: async () => ({ code: "runtime_unavailable", detail: "No se pudo completar la operación." }),
+  })));
+  const entry = `/lidia/conversacion?nueva=${id}`;
+  mount(entry);
+  fireEvent.click(await screen.findByRole("button", { name: "Continuar sin registro" }));
+  expect(await screen.findByRole("alert")).toHaveTextContent("La conversación con LidIA sin registro no está disponible ahora. Puedes volver a intentarlo más tarde.");
+  expect(screen.getByTestId("route")).toHaveTextContent(entry);
+  expect(screen.getByRole("button", { name: "Continuar sin registro" })).not.toBeDisabled();
+  expect(screen.getByRole("link", { name: "Iniciar sesión" })).toBeInTheDocument();
+});
 it("un chat antiguo con sólo historial conserva mensajes y desactiva acciones y compositor", async () => {
   const original = fetch;
   vi.stubGlobal("fetch", vi.fn(async (url, opts = {}) => {
