@@ -340,3 +340,8 @@ El importe obligatorio local tiene fuente real: getServicio(canje-carnet) devuel
 ### R6 real: originales del respaldo verificados
 
 [Originales R6](dev25-backup-r6-original-review.json) recibidos600 y cotejados por QA: manifest12archivos, report1096B/SHA068fe0b2…, counts198tablas/345146filas, EF260 y AppConversations0 observado. SnapshotRR/RO/misma conexión/rechecks acreditados; SQL239573640B/SHA088bb0b9… permanece en servidor y no se lee/copia por QA. Filler independiente sobre originales crea YAMLpinned SHA b99dbccb… idéntico al deOps. Respaldo completo acreditado, restauración real todavía pendiente. No importación/activación, ciclo nativo ni instalación nueva acreditados.
+
+
+### Restore R6 bloqueado antes de deploy por sesión administrativa
+
+[Estado comunicado porOps](dev25-restore-r6-session-blocker.json): Portainercaducó antes de crear el destino de restore. Backup/originales/YAMLpinnedb99 permanecen válidos; no repetir exportación ni fabricar recibo. Ops conserva único control de su consola y ya pidió al humano recuperar sesión. Al volver se despliega el mismo YAML en instancia aislada y se verifica resultado real antes de importar/activarDEV. Macbloqueado/baseQAindisponible mantienen pendientes los ciclos nativos y la instalación.

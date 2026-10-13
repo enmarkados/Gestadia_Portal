@@ -1,0 +1,17 @@
+{
+  "status": "restore_blocked_before_deploy",
+  "reported_by": "Operaciones Portal",
+  "portainer_session": "expired",
+  "isolated_restore_destination_created": false,
+  "backup_originals_verified": true,
+  "pinned_yaml_sha256": "b99dbccbe12e8ebeb5873b0b1a4bc030cfc3f730853d60cfc38296c7faf15a12",
+  "new_backup_required": false,
+  "restore_verified": false,
+  "dev_import_or_activation_performed": false,
+  "operator_requested_session_recovery_from_human": true,
+  "qa_did_not_operate_portainer_console": true,
+  "resume_action": "recover operator session; deploy same pinned restore in new isolated destination; verify actual result before DEV import or activation",
+  "native_blocker": "Mac locked and own local DB unavailable; manual unlock pending",
+  "native_cycles_completed": false,
+  "iphone_installed_this_run": false
+}
