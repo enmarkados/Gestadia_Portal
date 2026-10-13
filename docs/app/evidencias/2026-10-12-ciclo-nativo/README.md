@@ -4,10 +4,12 @@ Petición humana: comprobar LidIA y el gestor `integraciones@vozenter.com` en iO
 
 [Plan de aceptación y reparto para preparar DEV](PLAN-ACEPTACION.md), confirmado como objetivo humano al retomar el12/10. Mantener separado el avance documental de los resultados realmente ejecutados.
 
+**Actualización14/10:** [ejecución y capturas reales](2026-10-14-lidia-real-ios-android.md). LidIA conectada y continuidad comprobadas; gestor y dispositivo físico pendientes. Los apartados anteriores conservan sus fechas y límites históricos.
+
 ## Fuente y entorno
 
 - Fuente de los paquetes y pruebas del12/10 (iOS0.1.0/build11; Android0.1.0/versionCode4): `344b0335ffb1e4a48677983fcba60b58e0b0c216`, con el editor de nombre aceptado. Las referencias web/backend5febdf2/0af593f corresponden a esa preparación, no al despliegue posteriorc653.
-- Preparación nueva del13/10: fuente27c8b4a/productoc653, ambos paquetes compilados y iOS arrancado; conserva build11/versionCode4. [Manifiestos actuales](native-source27-builds.json) y [observación y límites](2026-10-13-dev-import-real-and-guest-fix.md#paquetes-nativos-actuales-preparados). Los ciclos conectados siguen pendientes.
+- Preparación nueva del13/10: fuente27c8b4a/productoc653, ambos paquetes compilados y iOS arrancado; conserva build11/versionCode4. [Manifiestos actuales](native-source27-builds.json) y [observación y límites](2026-10-13-dev-import-real-and-guest-fix.md#paquetes-nativos-actuales-preparados). El ciclo LidIA se comprueba el14/10; el de gestor continúa pendiente.
 - Rama propia de QA: `codex/app-prueba-real-ios-android-20261012`, worktree `app-motion-280`. Reutiliza la fuente del build 11 y conserva los documentos posteriores de app/main. Esta preparación local no publica ni activa canales.
 - Backend Portal real en loopback3005 y MySQL durable exclusivo de QA. Copia previa y configuración privada bajo `~/.codex/private/gestadia-app/qa-native-20261012/`; no contiene un proveedor conversacional simulado.
 - La autoridad antigua de sondeo/history caducó el12/10 a00:06UTC. V1/v2 se mantienen apagados hasta recibir configuración y autoridad verificables para nuestra prueba.
@@ -22,11 +24,11 @@ Petición humana: comprobar LidIA y el gestor `integraciones@vozenter.com` en iO
 | Arranque y pantalla | APP y entrada Login/Continuar sin registro observadas | APP y acceso observados en primer arranque |
 | Login desde controles nativos | PASS: teclado de Device Hub, retorno a nueva consulta y sesión `ios` en BD | PASS: email y contraseña en controles, retorno solicitado |
 | Conservar sesión al reiniciar y revocar al cerrar | PASS: terminate/relaunch conserva cuenta; logout pasa de1 a0 sesiones activas | PASS: force-stop/reinicio conserva cuenta; logout pasa de1 a0 sesiones activas |
-| Nueva sesión real119 + respuesta del modelo | Pendiente de autoridad/namespace propios | Pendiente de autoridad/namespace propios |
-| Recuperación, respuesta legible, historial y permisos | Pendiente | Pendiente |
+| Nueva sesión real en clon DEV124 + respuesta del modelo | PASS: consulta independiente, un turno | PASS: siete turnos y conclusión por texto |
+| Recuperación, respuesta legible e historial | PASS: historial Android y propio tras relanzar | PASS: historial iOS tras reiniciar AVD |
 | Chat con gestor Integraciones, envío en ambos sentidos | Pendiente de Contact–Deal–Owner QA verificables | Pendiente de Contact–Deal–Owner QA verificables |
 | Recibos enviado/recibido/leído, cierre y reapertura permitida | Pendiente | Pendiente |
-| Búsqueda, renombrado, fechas y navegación/Atrás | Pendiente de sesión conectada | Pendiente de sesión conectada |
+| Búsqueda, renombrado, fechas y navegación/Atrás | PASS: dos títulos, cancelar/guardar, búsqueda y reapertura | PASS: títulos/fechas y Continuar al mismo historial; búsqueda/edición no repetidas |
 | Login Apple/Google y push | No acreditados por build ni perfil | No acreditados por build |
 
 El backend local sí pasó login nativo por API, perfil, expedientes, notificaciones y revocación de la sesión de preflight. Eso no acredita login mediante el teclado del emulador.

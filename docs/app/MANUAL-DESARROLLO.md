@@ -1,10 +1,12 @@
 # Manual de desarrollo: flujos y pantallas de Gestadia APP
 
 
-**Prueba nativa del12/10 en curso:** [matriz, fuente build11, firma física y dependencias](evidencias/2026-10-12-ciclo-nativo/README.md). Acceso, recuperación de sesión y revocación comprobados desde iOS y Android. Ciclos conectados de LidIA/gestor y posterior instalación física aún pendientes de autoridad DEV y relación CRM propias. Las autoridades y capturas del11/10 no acreditan esta ejecución. DEV25 sirve V1.728 con APP apagada. La importación propia104/124/10117 y Country10366 ya están comprobados y sus cuatro flags IsActive se han activado con commit/readback/cierre positivos. SONDEO5 ya está instalado con huella7fa7; su ENV y Portal continúan apagados, pendientes de reinicio y prueba efectiva del receptor. La configuración efectiva y los ciclos reales siguen pendientes. Zoho Production está autorizado para QA propia. [Decisión y plan](evidencias/2026-10-12-ciclo-nativo/PLAN-ACEPTACION.md#decisión-vigente-sobre-zoho).
+**Estado vigente · 14/10/2026:** [LidIA real en iOS y Android](evidencias/2026-10-12-ciclo-nativo/2026-10-14-lidia-real-ios-android.md). Dos conversaciones propias DEV104/124, ocho turnos nativos, respuesta real del agente, recuperación entre dispositivos y después de reiniciar, búsqueda/renombrado/fechas comprobados. Android recorre los requisitos hasta pedir nombre; iOS abre una consulta independiente. El ciclo del gestor y la instalación en iGonchu siguen pendientes. Se retiran los permisos temporales sin borrar historiales; la restauración del receptor se documenta por separado. [Matriz de aceptación](evidencias/2026-10-12-ciclo-nativo/README.md).
 **Referencia viva del proyecto · 11/10/2026.** Petición del usuario: conservar lo trabajado en el proyecto y usarlo para guiar el desarrollo. [README del repositorio](../../README.md) · [README APP](../../README-APP.md) · [Glosario](../../GLOSARIO.md).
 
 ## Cómo empezar
+
+Las continuaciones fechadas que siguen conservan su estado histórico; para reanudar usa el estado vigente del14/10 y su matriz.
 
 Continuación del13/10: R2 pasa146 pruebas, carga/preflight y provisión reales. Su preview queda no elegible por cierre inconcluso; los tres originales se conservan y R3 está en preparación. Portal restaura24 tablas propias en aislamiento y pasa355 pruebas backend en una base desechable, después retirada. Estas pruebas no acreditan todavía receptor conectado, ciclo de gestor ni instalación física. [Evidencia y límites actuales](evidencias/2026-10-12-ciclo-nativo/2026-10-13-dev-import-real-and-guest-fix.md#r2-servido-carga-provisión-y-fallo-de-cierre).
 

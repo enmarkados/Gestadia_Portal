@@ -2,6 +2,8 @@
 
 Petición humana del 12/10/2026: preparar DEV con el equipo LidIA, terminar los ciclos reales de LidIA y del gestor `integraciones@vozenter.com` en iOS/Android y después instalar la versión validada en iGonchu. [Estado y evidencia](README.md) · [Manual](../../MANUAL-DESARROLLO.md) · [Navegación](../../NAVEGACION.md) · [Glosario](../../../../GLOSARIO.md).
 
+**Avance real14/10:** [LidIA en ambos emuladores](2026-10-14-lidia-real-ios-android.md): dos sesiones DEV104/124 y ocho turnos, continuidad/recuperación comprobadas. Ciclo del gestor, recibos humanos y posterior instalación física pendientes. Se conserva el orden de aceptación y la autorización Zoho Production.
+
 ## Reparto y entrega DEV
 
 LidIA prepara y acredita su runtime DEV, copia/aislamiento de BD, conexiones externas y jobs, integración APP y selección efectiva del agente, credenciales S2S propias, operador y ruta. Portal prepara la instancia APP/API de prueba, identidad local, correspondencia de expediente/asignación comprobada, paquetes nativos y evidencia de interfaz. El equipo que mantiene la sesión administrativa de Portainer ejecuta el inventario/actualización requerido por LidIA; esta tarea no opera su consola en paralelo.
