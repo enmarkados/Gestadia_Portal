@@ -42,6 +42,16 @@ La [copia y restauración Portal para guest](portal-guest-restore-20261013.json)
 
 Android conserva el AVD propio y sus datos. Con adb sin dispositivos conectados, se ajusta su RAM persistente de2G a4096MB y se conserva la preimagen privada; mantiene cuatro núcleos. No se arranca todavía el ciclo Android. Las21 comprobaciones de los guards privados de identidad/CRM pasan; no son llamadas externas ni permisos activos.
 
+### Despliegue posterior observado
+
+Ops construye ambas imágenesc653 y valida Nginx con el entrypoint y la configuración pública reales, en un contenedor sin red. QA lee el log original con syntaxOK/testsuccessful y coteja la preimagen del stack: sólo cambian las dos imágenes APP/API, conservando Portal, ENV y mounts. Ops comunica tres contenedores sanos tras el corte; QA confirma directamente build-info200 con revisiónc653 completa, healthz200 y guest503 con formato problem/code runtime_unavailable. Este estado sustituye el despliegue pendiente descrito arriba; guest sigue apagado.
+
+La lectura original de LidIA de3702B/SHA7ceaa079ff3725466d1569bccddff89c53939d7b1079843b73ef082db7dbfd05 confirma122/103 activos y cero funciones asignadas. Country10364 sólo pertenece al119/102. Una función ausente no se acredita con el saludo o con las pruebas del protocolo. Tras detectar además conflicto con los guards reservados a Main, Source/Ops/QA eligen preparar proyecto/agente guest propios; no se ejecuta la alternativa de reutilizar Country deMain. El overlay y las copias siguen pendientes de revisión y recibos reales.
+
+AppConfigurationMetadataRead tiene revisión independiente:21 hashes originales,15 pruebas en copia privada, tres scripts y15 archivos de payload cotejados. La variante de transporte de Ops cambia sólo el salto de línea de base64 y conserva el payload. Conforme stage/preflight; aún sin observación efectiva del DTO del servidor. No consulta BD, HTTP o Host ni publica secretos.
+
+La API local3005 ya arranca con el guard fuerte R2 antes de construir los clientes, usando una copia idéntica del scope pendiente/OFF. Sigue sin claves o autoridad DEV activas. Health200 y el rechazo guest503 están observados; no se sustituye la prueba del agente por ese rechazo correcto.
+
 ## Coordinación Main separada
 
 QA revisa el lector administrativo Main (26 hashes/76 assertions), helper de asociación R3 (29 hashes/76 pruebas) y generador de ventana (8 hashes/32 pruebas) en copias privadas. Conformes preparación/preflight/lecturas previstas; no grants, correlación o llamada por estos checks. Main mantiene sus propios IDs y no se incorpora al fixture nativo User64.

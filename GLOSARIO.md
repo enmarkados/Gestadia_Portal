@@ -1751,3 +1751,10 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** construye los recibos de preparación de la función de país y su relación al agente propio, manteniendo independientes sus documentos JSON.
 - **Alcance:** equipo LidIA, .local/dev25-country-tool-r3/CountryReceiptDocuments.cs.
 - **Notas:** los datos sintéticos de regresión no sustituyen los recibos reales de importación o de ejecución.
+
+## AppConfigurationMetadataRead
+
+- **Tipo:** helper privado de diagnóstico.
+- **Definición:** lee la configuración APP efectiva mediante sus tipos nativos y publica únicamente metadatos permitidos. Conserva los valores sensibles dentro del proceso.
+- **Alcance:** equipo LidIA, .local/pro-app-configuration-metadata-read; revisión Portal en la evidencia nativa del 12/10.
+- **Notas:** no consulta la base de datos ni modifica configuración o permisos. Sus pruebas locales no acreditan configuración efectiva o aislamiento del servidor.
