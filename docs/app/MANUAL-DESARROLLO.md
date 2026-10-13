@@ -6,6 +6,8 @@
 
 ## Cómo empezar
 
+Continuación del13/10: el paquete Dev25AppActivationR2 final pasa146 pruebas independientes y su transporte queda revisado para carga/preflight en DEV. La copia propia Portal se restaura en una base local aislada con24 tablas y recuentos iguales. Estas pruebas no acreditan todavía receptor conectado, ciclo de gestor ni instalación física. [Evidencia y límites actuales](evidencias/2026-10-12-ciclo-nativo/2026-10-13-dev-import-real-and-guest-fix.md#revisión-independiente-del-paquete-r2-final).
+
 Estado de la continuación del13/10: [importación DEV real, parche guest servido y paquetes nativos actuales](evidencias/2026-10-12-ciclo-nativo/2026-10-13-dev-import-real-and-guest-fix.md). Main completa una llamada real y el cierre de su ventana, por separado de la cuenta QA nativa. Los recibos de importación no acreditan activación; guest sigue apagado y ambos ciclos nativos conectados siguen pendientes.
 
 1. Lee [NAVEGACION.md](NAVEGACION.md): rutas implementadas, orígenes, Atrás, menú inferior, permisos, hojas y retornos externos. Distingue el recorrido implementado del alcance futuro de contacto cualificado.

@@ -1,0 +1,15 @@
+{
+  "status": "own_local_isolated_restore_verified",
+  "backup_sha256": "bc0ca390580dc1adb99ac24cc961f03c8dc2ee176baded716d3e7d21082fa91f",
+  "tables_checked": 24,
+  "row_counts_equal": true,
+  "own_account_active_no_crm": true,
+  "target_database": "gestadia_qa_restore_20261013_1916",
+  "source_database_modified": false,
+  "grants_changed": false,
+  "credentials_from_owned_local_fixture": true,
+  "restore_verified": true,
+  "backup_bytes": 48625,
+  "prior_create_error_code": 1044,
+  "native_cycles_complete": false
+}
