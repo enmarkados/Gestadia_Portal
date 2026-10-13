@@ -330,3 +330,8 @@ El importe obligatorio local tiene fuente real: getServicio(canje-carnet) devuel
 ### R6 congelada: revisión independiente completa
 
 [Paquete R6](dev25-backup-r6-package-review.json) cotejado por QA: 49tests locales reproducidos en copia privada independiente (33guard/cleanup,10restore,6transport) y99checks de integridad; nueveinputs revisados idénticos al freeze. El test NativeEF adicional queda atribuido aSource. Paquete22477b98…/142994B, helper7215c2ea…; APP apagada y sin cambios de producto/esquema. QA comunica conformidad para preflight y un respaldo nuevoR6 tras cierreSource/pins realesOps. Restore exige original real/YAMLpinned e instancia remota aislada; no se repitenR5/diagnóstico. Esta revisión no acredita exportación, restauración, activación ni conversaciones.
+
+
+### Caso QA R3: separar acceso y sondeo de la atención
+
+[Conformidad documental R3](zoho-own-case-r3-proposal-review.json),10hashes comprobados, cuerpos/nonceR1 preservados. Login propio requiere base disponible/copia previa/revalidación de cuenta; el sondeo básico añade entregaDEV real/firma/guard, sin depender del CRM o gestor. POSTCRM y atención añaden recibos Contact–Deal propios, guard limitado y mapping operativo real. Se corrige el acoplamiento añadido enR2 sin ampliar permisos ni ejecutar acciones. Conforme preparación del helper concreto después de revisiónOps; ningún POST/grant/login nuevo por esta revisión. El Mac/base local continúan bloqueando la fase nativa, mientras copia/restauraciónDEV avanzan por separado en Portainer.

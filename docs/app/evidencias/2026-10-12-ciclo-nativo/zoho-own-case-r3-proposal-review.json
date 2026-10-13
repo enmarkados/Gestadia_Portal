@@ -1,0 +1,19 @@
+{
+  "status": "proposal_conforming_for_preparation_execution_pending",
+  "plan_sha256": "f8d3d6b4b43f8b447d8ad07ed915cf5db3423833983fa06882be835d05bf5180",
+  "adenda_sha256": "da48df047442777304a8f12f58cc3f499f1b32fd466515bb6f0fa4841f574ec3",
+  "manifest_entries_verified": 10,
+  "original_bodies_nonce_preserved": true,
+  "phases": {
+    "local_login": "own DB available, prior backup and own user revalidated; independent of CRM and operator mapping",
+    "basic_sondeo": "same local conditions plus real DEV delivery/S2S/private subject guard; independent of CRM",
+    "crm_and_attention": "own durable case receipts, limited read guard and eligible operator/project/department/route in addition to local conditions"
+  },
+  "production_zoho_authorization_unchanged": true,
+  "existing_credentials_only": true,
+  "crud_previously_accredited": false,
+  "actual_crm_records_created": false,
+  "grants_issued_this_review": false,
+  "native_cycles_completed": false,
+  "new_physical_install": false
+}
