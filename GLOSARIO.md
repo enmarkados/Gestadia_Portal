@@ -1758,3 +1758,24 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** lee la configuración APP efectiva mediante sus tipos nativos y publica únicamente metadatos permitidos. Conserva los valores sensibles dentro del proceso.
 - **Alcance:** equipo LidIA, .local/pro-app-configuration-metadata-read; revisión Portal en la evidencia nativa del 12/10.
 - **Notas:** no consulta la base de datos ni modifica configuración o permisos. Sus pruebas locales no acreditan configuración efectiva o aislamiento del servidor.
+
+## gestadia-app-pro-guest
+
+- **Tipo:** decisión de nomenclatura de integración APP.
+- **Definición:** identificador y audiencia propios del perfil de invitado en producción. Resuelve sus recursos conversacionales en el servidor y permite únicamente sondeo e historial en la fase inicial.
+- **Alcance:** equipo LidIA, .local/pro-guest-overlay-review; configuración Portal APP_V2_LIDIA_INTEGRATION_ID/AUDIENCE preparada.
+- **Notas:** se conserva separado de Main, validación119 y DEV. Su preparación no acredita activación o continuidad después de iniciar sesión.
+
+## gestadia-pro-guest-{session,read,turn}-v1
+
+- **Tipo:** decisión de nomenclatura de claves S2S.
+- **Definición:** tres identificadores independientes para crear sesión, leer historial y enviar turnos del perfil de invitado. Cada clave tiene material privado propio.
+- **Alcance:** equipo LidIA, ProGuestConfigurationOverlay; consumidor Portal APP_V2_LIDIA_{SESSION,READ,TURN}_KEY_ID.
+- **Notas:** v1 designa la primera generación de la clave; el protocolo y la firma usados son v2. No se reutilizan claves Main, validación119 o DEV.
+
+## ProGuestConfigurationOverlay
+
+- **Tipo:** helper privado de preparación de configuración.
+- **Definición:** prepara el añadido condicionado de un perfil guest propio sobre la configuración APP existente y su fragmento privado para Portal. Preserva los perfiles ajenos y mantiene las claves nuevas apagadas durante la preparación.
+- **Alcance:** equipo LidIA, diseño .local/pro-guest-overlay-review/DISEÑO.md; revisión Portal en la evidencia nativa del 12/10.
+- **Notas:** editor filesystem sin DB/Host; los IDs de recursos y sus estados proceden de recibos reales. La activación pública se revisa por separado.
