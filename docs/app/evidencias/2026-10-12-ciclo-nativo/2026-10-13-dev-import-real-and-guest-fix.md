@@ -239,3 +239,15 @@ Carga/preflight del lector pasan realmente con salida0; el original363B/d018 con
 Portal reproduce primero el reciclaje físico del MySqlConnector84d: dos SELECT1 en TXRO/RR, lector cerrado tras la primera disposición y misma instancia reabierta en la segunda adquisición. Después combina DLL99a exacto, Native/Pomelo/EF reales y ese proveedor en la BD propia restaurada24: Store.AcquireReader lanza Guard/Cleanup al crear la segunda adquisición; el lector sigue abierto y la transacción existe. La firma de lifecycle resultante coincide íntegramente con el failure servido: readeralreadyreturned, commandreturned, rollbackfailed, disposicionesTX/conexión/contexto retornadas. [Evidencia y límites](dev-mapping-r2-provider-failure-review.json).
 
 Es una reproducción local con Nativeb143 declarado, no una nueva lectura DEV ni una simulación de mapping. Cero writes y cero datos personales/SQL de negocio. Source prepara una nueva propuesta de cierre mediante generaciones por adquisición; se mantienen freeze8836 y todos sus originales. Los ciclos nativos y la instalación física continúan pendientes.
+
+### Mapping R3: reproducción real corregida, todavía local
+
+Source entrega DLL74dca7c8/84480B con generaciones de adquisición; no cambia consultas, scope ni permisos. Portal revisa Lifecycle/Store y repite la reproducción real en una carpeta nueva conservando el RED. En Native/Pomelo/EF localb143 y MySqlConnector84d, TXRO/RR y dosSELECT1 sobre la BD propia restaurada24, el nuevo helper pasa con exit0. La misma instancia física se adquiere otra vez; invocar el delegado viejo arroja Guard antes de disponerla, preserva ActiveReader y mantiene abierto el lector nuevo. Su lectura/disposición normal cierra ambas adquisiciones y el rollback único retorna, con cierre completo y ninguna tarea pendiente. [GREEN real y hashes](dev-mapping-r3-native-green-review.json).
+
+La prueba no lee DEV, no escribe BD ni crea permisos. El hash del DLL se verifica también al terminar. Faltan revisión final de fuentes/guía/paquete, carga/preflight y nueva lectura DEV antes de una revisión nueva de instalación. El review histórico1d7 y el fallo R2 permanecen sin editar ni repetir.
+
+### Cotejo independiente de las fuentes R3 y sus tres suites
+
+QA lee Lifecycle/Store completos y las guías OPERACION/REUSO; verifica seis fuentes iguales salvo namespace, Ops sólo namespace/opsdir y las cuatro consultas byteexactas. Una copia propia referencia directamente el DLL publicado74d y pasa94+30+16 sin fallos. También ejecuta cada DLL de pruebas directamente, con el mismo resultado, para evitar ambigüedad por el obj compartido de dotnet run. [Resultados y hashes](dev-mapping-r3-source-review.json).
+
+El GREEN del proveedor1aa7 es evidencia separada. Esta revisión permite preparar el paquete; no acredita lectura DEV, mapping, instalación ni permisos. No se reejecutan las mismas suites por falta de una prueba de servidor.
