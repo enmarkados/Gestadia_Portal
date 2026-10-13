@@ -1863,3 +1863,10 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** revisión del lector que entrega su nodo de esquema JSON con propiedad independiente al construir el informe, conservando el cierre por generaciones de R3.
 - **Alcance:** corrección mínima propuesta del informe de asignación DEV en Gestadia_LidIA; evidencia de aceptación APP de Gestadia Portal.
 - **Notas:** R3 cierra bien la transacción pero falla al adjuntar un JsonNode ya parentado. Se conserva ese intento; R4 requiere prueba específica de construcción/serialización y entrega nueva, sin repetir R3 ni ampliar el alcance de lectura.
+
+## Prueba firmada de receptor APP
+
+- **Tipo:** concepto de verificación runtime de QA.
+- **Definición:** petición S2S propia que comprueba que el receptor admite el perfil revisado después del reinicio. Su resultado complementa la atribución de contenedor, configuración y base de datos; no acredita por sí solo un turno conversacional.
+- **Alcance:** aceptación nativa SONDEO5; cliente real `backend/src/app/s2s.js`, guard privado de cuenta QA y evidencia en `docs/app/evidencias/2026-10-12-ciclo-nativo/`.
+- **Notas:** un GET timeline firmado sobre UUID propio inexistente debe alcanzar `404 conversation_not_found`, tras autenticación y verificación runtime. Consume un nonce antireplay; no crea conversación, turno, LLM ni CRM. Un bind local del fichero no sustituye esta prueba.
