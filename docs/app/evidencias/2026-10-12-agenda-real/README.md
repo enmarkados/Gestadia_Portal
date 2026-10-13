@@ -441,3 +441,14 @@ Originales recuperados mediante lector149/CIDc6f43a…/salida0, tres binds de ar
 Paquete54dd…/b7fc… revisado Source/QA/Ops: 76 pruebas, 29 hashes, 17 guardas de fuente y tres payloads exactos. Stage/preflight real PRO confirma cuatro Save bloqueadas y hash de owner v1/v2 igual al nativo, sin BD/HTTP. `token-status-preparation` real devuelve token válido sin refresh, datos de Contact, token en stdout, HTTP o escrituras DB. Diagnóstico FS real comprueba runtime3ba, configuraciónABD, ConfigEditor728133725… y snapshotd2a3 con tamaños/modos correctos. La hora administrativa nueva no está habilitada.
 
 Se preparan localmente la nueva ventana Main y los scripts Portal: fichero ENV nuevo por caducidad y CreateNew600, grant sólo Main; retirada condicionada a referencia humana vigente y ACK con UID/integración/SID/operación. No se reutiliza el source_ref antiguo ni se activa por una aprobación pendiente. La pregunta final de la nueva hora seguirá el requisito de confirmación del control del navegador, independiente del horario flexible de llamada ya autorizado.
+
+
+## 13/10 — acceso anónimo: pruebas y copia restaurada antes del despliegue
+
+El reporte de «Continuar sin registro» sigue abierto en producción. Lectura real de `information_schema` en backend `a9a9…` confirma las cuatro tablas guest existentes; `APP_V2_ENABLED` y `APP_V2_GUEST_ENABLED` siguen false. No se requiere crear esas tablas por ausencia. La primera consulta de diagnóstico falló con P2010 al intentar establecer READ ONLY dentro de una transacción Prisma ya iniciada; la consulta corregida ejecutó sólo SELECT y obtuvo el esquema. No se atribuye ese fallo de diagnóstico al producto.
+
+Ops ha revisado el parche del equipo Portal y reproducido cuatro comprobaciones API/proxy (503/401, rutas consumidas y UUID estricto) y 39 pruebas de AppConversation. En el entorno de pruebas se desactivó experimental WebStorage de Node: el primer intento no llegó a recoger tests por `localStorage.getItem`; con `NODE_OPTIONS=--no-experimental-webstorage`, las 39 pasan. Esto acredita código local, no funcionamiento guest en producción.
+
+Copia nueva y restauración real: stack150 `gestadia-guest-backup-20261013-132645`; SQL303886bytes SHA256 `c1f677576e214a02bd24c7b6ab50ea60fbec42998af60de6b346fda6e902ac62`; recuentos User/Expediente/Documento/migraciones45/94/14/15 y cuatro tablas guest0/0/0/0. Runtime4249bytes SHA348029ec… y uploads214bytes SHA7d612eb8…; archivos600. Stack151 de restauración temporal sin red, puertos ni aplicación: SQL comprobado, 24 tablas OK y mismos ocho recuentos, exit0; configuración/claves/documentos recuperados y comparados byte a byte, exit0. Originales y capturas privados en `artifacts/guest-access-20261013/`, sin publicar secretos.
+
+Pendiente: entrega e integración del parche, configuración privada del receptor/Portal, despliegue y conversación anónima real con respuesta de LidIA. No se activan permisos CRM de la conversación Main por estas comprobaciones.
