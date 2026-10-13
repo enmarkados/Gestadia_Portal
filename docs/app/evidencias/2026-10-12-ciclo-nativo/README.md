@@ -325,3 +325,8 @@ QA contrasta [original5582B/SHA5b69e913…](zoho-service-layout-original-review.
 El importe obligatorio local tiene fuente real: getServicio(canje-carnet) devuelve210EUR; checkout crea ese importe con pago_pendiente antes del pago. El puenteQA usará catálogo/hash comprobados y referencias/fechas de pagoNULL, sin invocar checkout/Stripe/notify ni enviar Amount a Zoho. No necesita importe0, migración ni una decisión humana adicional. No hay contacto/trato/expediente creado todavía.
 
 [Estado local comprobado](local-native-blocker-review.json): Mac bloqueado, API3005 accesible, MySQL60670 rechaza conexión y Docker agota4/6s; quedan aproximadamente3.9GiB. Siete eventos de falta de espacio constan en el log Docker de21:18Z, sin atribuirles la causa actual. No se reinicia Docker global ni se borran volúmenes. Ops prepara restore remoto aislado; ciclos nativos e instalación siguen pendientes del desbloqueo y la recuperación local.
+
+
+### R6 congelada: revisión independiente completa
+
+[Paquete R6](dev25-backup-r6-package-review.json) cotejado por QA: 49tests locales reproducidos en copia privada independiente (33guard/cleanup,10restore,6transport) y99checks de integridad; nueveinputs revisados idénticos al freeze. El test NativeEF adicional queda atribuido aSource. Paquete22477b98…/142994B, helper7215c2ea…; APP apagada y sin cambios de producto/esquema. QA comunica conformidad para preflight y un respaldo nuevoR6 tras cierreSource/pins realesOps. Restore exige original real/YAMLpinned e instancia remota aislada; no se repitenR5/diagnóstico. Esta revisión no acredita exportación, restauración, activación ni conversaciones.
