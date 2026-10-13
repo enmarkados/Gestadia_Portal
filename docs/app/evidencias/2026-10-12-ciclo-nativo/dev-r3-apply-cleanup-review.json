@@ -1,0 +1,47 @@
+{
+  "status": "r3_apply_commit_and_positive_cleanup_independently_conform",
+  "review_raw_sha256": "be6c0236ddfbc8bd53c8e1abf39c5af0d8bebd2234e7a32787b7e652dde6dd28",
+  "before_baseline_result_exact_preview": true,
+  "preview_raw_sha256": "5f87c91ca21c1d17b331c1aeaaea4af6b05d3c4eb0ff6c1b6013444a6bf093f9",
+  "apply_ready_raw_sha256": "abfa625c84cd4ecc60dc7fcfae66021a01e20cf407c91f798b88dd9ffe3ec305",
+  "apply_ok_raw_sha256": "75306b1d6d1bcaf19e49d3e5990dab1ee721e55882dee5408bbeacd4c78d75b2",
+  "apply_cleanup_ok_raw_sha256": "6cc1eaceeb656fdeb4e35ca088e36ab7521d282e07c0ac3bb30ca74157f30263",
+  "intent_links_preview": true,
+  "positive_cleanup_artifact_is_ready": true,
+  "lifecycle": {
+    "commit_returned": true,
+    "complete": true,
+    "pending_operation_kind": null,
+    "resources": {
+      "command_dispose": {
+        "exception_type": null,
+        "state": "absent"
+      },
+      "connection_close": {
+        "exception_type": null,
+        "state": "returned"
+      },
+      "context_dispose": {
+        "exception_type": null,
+        "state": "returned"
+      },
+      "pending_operation": {
+        "exception_type": null,
+        "state": "absent"
+      },
+      "rollback": {
+        "exception_type": null,
+        "state": "not_required_commit_returned"
+      },
+      "transaction_dispose": {
+        "exception_type": null,
+        "state": "returned"
+      }
+    },
+    "rollback_returned": false
+  },
+  "four_own_activation_flags_committed": true,
+  "app_activation_performed": false,
+  "readback_observed": false,
+  "native_cycles_complete": false
+}
