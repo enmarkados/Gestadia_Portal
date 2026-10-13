@@ -119,3 +119,17 @@ Paquete real1254B/600/SHA3df5af259184b9ee884c5eb6a18236e0ed62cf7ba673f7f46975a01
 ### Dominio DEV correlacionado
 
 Se obtiene HTTPS200/Healthy del dominio dev-lidia con una petición identificada,16:54:02UTC, y los logs filtrados del contenedor muestran exactamente el mismo Host/query/identificador y resultado200. QA lee los originales privados y observa la captura Portainer del contenedor lidia-app-gestadia-dev; CID462d/stack25 se atribuyen a la observación de Ops. [Revisión saneada](dev-domain-probe-review.json). La metadata anterior conserva su pending=true y sus bytes; no se transforma en prueba posterior. Esta vía evita esperar al login caducado de Plesk, pero aún se combina con pins/ENV/ausenciaAPP actuales antes de activar.
+
+### Utilidad DEV revisada y preflight servido
+
+Source entrega el freeze final de Dev25AppActivation: manifiesto633d5e97, guía bab24bfc y DLL215edd07. Portal lee la secuencia completa y reproduce116 pruebas sin fallos en una copia privada; los trece archivos C# comprobados coinciden con el freeze final. Coteja52 hashes/permisos600, cuatro miembros de payload600/UID1654, transporte gzip exacto y sintaxis de los dos scripts. Las correcciones admiten el subset original JSON entrecomillado, separan las revisiones de preparación/instalación y ligan la retirada al archivo y al intento durable propios, incluida una instalación parcial.
+
+Ops carga el paquete una vez en DEV y ejecuta sólo su preflight. Portal observa la captura original: contenedor DEV, UID1654, hash nativo09417948, payload y cuatro archivos correctos, cuatro Save bloqueados, cinco propiedades booleanas comprobadas y conexión cerrada. [Revisión saneada](dev-activation-freeze-review.json). No abre BD, HTTP o Host, ni genera claves, activa estados, configura APP o reinicia el stack. La siguiente fase requiere los originales y revisión reales antes de una preview de sólo lectura.
+
+Portal vuelve a comprobar13 pruebas del guard de identidad R2. La API y su guard siguen apagados para S2S; el candidato privado DEV conserva la BD durable y sus credenciales. La captura de teclado está desactivada y el simulador iOS propio apagado mientras se prueba Android. Ninguno de estos resultados acredita aún un turno remoto o el ciclo de gestor.
+
+### Diagnóstico separado de la copia guest PRO
+
+ProGuestSourceReferenceRead supera40 pruebas independientes y el cotejo de sus cuarenta hashes, transporte y scripts. Ops ejecuta una sola lectura después del preflight servido; Portal conserva los dos originales600 y coteja el resultado1703B/SHA99641deea83a1f794e40876d1a0c9b7b66bec55f8906196968c50867ed2d4689. Cero rutas, source_read=true, cinco pins y fingerprint sin deriva; diez de once referencias nulas, ocho flagsfalse y ExternalUrl nula. La única referencia no nula observada es Project.PersonalityId.
+
+La lectura acredita la causa concreta de ForeignReference en ese momento, sin revelar el valor o el alcance de PersonalityId. No se repite la copia ni se modifica o activa PRO. La alternativa debe preservar el origen y revisarse por separado; este diagnóstico no bloquea la prueba DEV.

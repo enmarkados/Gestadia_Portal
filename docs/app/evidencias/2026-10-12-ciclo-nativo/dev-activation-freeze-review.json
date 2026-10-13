@@ -1,0 +1,22 @@
+{
+  "status": "qa_final_freeze_reviewed_for_stage_preflight_only",
+  "manifest_sha256": "633d5e97a3b0f4053fb21d1d8fa5802572021a9219bcf4674c3dff3b65b23651",
+  "verified_hashes_and_modes": 52,
+  "tested_csharp_files_exact": 13,
+  "independent_tests_passed": 116,
+  "independent_tests_failed": 0,
+  "payload_files_600_uid1654": 4,
+  "carrier_roundtrip": true,
+  "carrier_bytes": 73477,
+  "reviewed_at_utc": "2026-10-13T17:58:23Z",
+  "native_runtime_sha256": "094179482515164d3fa94f6877ed3b7db51b7920722ebe1e501d80c27d04fb6e",
+  "served_stage_preflight_observed": true,
+  "served_preflight_only": true,
+  "database_opened": false,
+  "receiver_APP_active": false,
+  "native_connected_cycle": false,
+  "physical_installation": false,
+  "source_review": "Source final freeze and independent reviewer",
+  "ops_review": "Ops actual DEV container preflight",
+  "qa_review": "Portal independent tests, bytes and original UI screenshot"
+}

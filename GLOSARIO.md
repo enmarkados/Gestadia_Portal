@@ -1786,3 +1786,17 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** crea copias propias de proyecto, agente, instrucción literal y función de país, con una asignación propia. Separa la creación inactiva de la activación de sus cuatro estados.
 - **Alcance:** equipo LidIA, .local/pro-guest-literal-clone; revisión Portal en la evidencia nativa del 12/10.
 - **Notas:** mantiene los recursos originales y Main; no configura el canal, concede permisos o ejecuta conversaciones. Cada operación exige sus originales, preimágenes y readback reales.
+
+## Dev25AppActivation
+
+- **Tipo:** utilidad operativa privada de LidIA.
+- **Definición:** prepara, aplica y comprueba el cambio limitado de los estados de cuatro recursos DEV propios. Separa esos estados de la instalación de configuración APP y de su activación efectiva.
+- **Alcance:** equipo LidIA, .local/dev25-app-activation; revisión Portal en docs/app/evidencias/2026-10-12-ciclo-nativo.
+- **Notas:** exige los originales de importación, copia/restauración, preimágenes y revisiones; mantiene fuera de Git las claves y la instrucción. Su preflight no acredita conversación nativa.
+
+## ProGuestSourceReferenceRead
+
+- **Tipo:** utilidad operativa privada de diagnóstico.
+- **Definición:** observa referencias y estados limitados del origen PRO de una copia guest detenida. Identifica campos que incumplen el aislamiento sin devolver sus valores privados.
+- **Alcance:** equipo LidIA, .local/pro-guest-source-reference-read; revisión Portal en docs/app/evidencias/2026-10-12-ciclo-nativo.
+- **Notas:** lectura única sin cambios de BD o configuración. El diagnóstico no autoriza relajar guards, repetir la copia ni activar guest.
