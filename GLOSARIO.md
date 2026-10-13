@@ -1814,3 +1814,17 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** distingue las entradas de interpolación de Compose de las variables exportadas al servicio APP. Conserva las fases y el alcance de la activación mínima DEV.
 - **Alcance:** equipo LidIA, .local/dev25-app-activation-r2; propuesta47ff y concreción1811, revisión Portal en la evidencia nativa del12/10.
 - **Notas:** los originales y el primer intento se preservan. La proyección calculada es derivada; exige cotejo contra el proceso real antes de cambiar estados.
+
+## Dev25AppActivationR3
+
+- **Tipo:** utilidad operativa privada propuesta.
+- **Definición:** distingue una transacción pendiente de otra cuyo rollback o commit ya ha terminado, y registra el cierre por recurso. Conserva la activación limitada a los recursos propios de DEV.
+- **Alcance:** equipo LidIA, .local/dev25-app-activation-r3; revisión Portal en docs/app/evidencias/2026-10-12-ciclo-nativo.
+- **Notas:** concilia la preimagen y el fallo de cierre de R2 antes de generar una preview propia; no reutiliza ni vuelve elegible el intento R2. La reproducción local del proveedor no identifica por sí sola la causa servida.
+
+## Dev25AppOperatorMappingRead
+
+- **Tipo:** utilidad operativa privada de lectura propuesta.
+- **Definición:** observa el operador Integraciones y sus relaciones con el proyecto propio de QA, así como las rutas de atención de su integración. Devuelve hechos de elegibilidad y ausencia sin conceder permisos.
+- **Alcance:** equipo LidIA, .local/dev25-app-operator-mapping-read; coordinación Portal de la aceptación nativa del12/10.
+- **Notas:** el rol administrativo no sustituye la pertenencia requerida por APP. Distingue el fichero de configuración observado del estado efectivo del runtime; no crea departamentos, asignaciones o fichas CRM.
