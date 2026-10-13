@@ -1779,3 +1779,10 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** prepara el añadido condicionado de un perfil guest propio sobre la configuración APP existente y su fragmento privado para Portal. Preserva los perfiles ajenos y mantiene las claves nuevas apagadas durante la preparación.
 - **Alcance:** equipo LidIA, diseño .local/pro-guest-overlay-review/DISEÑO.md; revisión Portal en la evidencia nativa del 12/10.
 - **Notas:** editor filesystem sin DB/Host; los IDs de recursos y sus estados proceden de recibos reales. La activación pública se revisa por separado.
+
+## ProGuestLiteralClone
+
+- **Tipo:** helper privado de preparación de recursos conversacionales.
+- **Definición:** crea copias propias de proyecto, agente, instrucción literal y función de país, con una asignación propia. Separa la creación inactiva de la activación de sus cuatro estados.
+- **Alcance:** equipo LidIA, .local/pro-guest-literal-clone; revisión Portal en la evidencia nativa del 12/10.
+- **Notas:** mantiene los recursos originales y Main; no configura el canal, concede permisos o ejecuta conversaciones. Cada operación exige sus originales, preimágenes y readback reales.

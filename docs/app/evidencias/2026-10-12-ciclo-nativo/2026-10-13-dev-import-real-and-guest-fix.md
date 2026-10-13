@@ -64,6 +64,12 @@ Source/Ops/QA aceptan preparar cuatro copias guest PRO inactivas y un join propi
 
 El ensayo nuevo156 añade únicamente la consulta y comprobación de260 filas en __EFMigrationsHistory dentro de la base restaurada aislada. QA revisa el delta y el original748B/SHA2f9a348cd2a5cbd2ff401a2a34ac46603f186a0c302d2eb785588e9103c6957d: EF_HISTORY_RESTORE_COUNT_PASS260,198 tablas, historial y archivos correctos. Este original acredita el conteo EF restaurado;155 y el conteo live de un preview no lo sustituyen. Source aún corrige el cierre de comandos del ejecutor antes de congelar el paquete; no se ejecuta una copia guest o una activación por estos resultados.
 
+### Country DEV y paquete guest congelado
+
+CountryR3 tiene preflight nativo real en DEV: la captura original muestra DLL/payload/helper/definición correctos y las cuatro sobrecargas de Save bloqueadas, sin DB/HTTP. Ops confirma transporte CreateNew600 de los tres originales ready4ed2/readback56c2/adapter2cbf. Conforme preview RO siguiente; aún sin resultado original revisado, función/join aplicados, flags activos o S2S listo para la APP.
+
+ProGuestLiteralClone R2 queda congelado y revisado: manifest594550aceb903588c9e2c2d65193577ba8a34219c3327795963bea7e74454770, guía84b2aad470c19f0d94ab08ce62223f3ab582258064c77e416a98528620502c66, helper7fcc70cee5059ce036ce5c4d6b16ea34ed6af75fb5af2d00097c969df2998085. QA lee los seis archivos de código, tests y contrato; verifica44 originales, diez scripts, cuatro archivos de payload600 y transporte exacto. En copia privada se reproducen56PASS/FAILURES0; warnings conocidos de referencias EF8/10, sin errores. Adapter real1172B/a15fe862d34078d44d47f2d9883e967990f6374927096983e2f490a516eec8cf ligado a backup/restore/EF reales. Conforme sólo stage/preflight; preview privada y revisión posterior siguen exigidas antes de escribir las cuatro copias. La prueba local no acredita servidoPRO ni ciclo nativo.
+
 ## Coordinación Main separada
 
 QA revisa el lector administrativo Main (26 hashes/76 assertions), helper de asociación R3 (29 hashes/76 pruebas) y generador de ventana (8 hashes/32 pruebas) en copias privadas. Conformes preparación/preflight/lecturas previstas; no grants, correlación o llamada por estos checks. Main mantiene sus propios IDs y no se incorpora al fixture nativo User64.
