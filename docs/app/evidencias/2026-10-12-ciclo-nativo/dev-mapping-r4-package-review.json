@@ -1,0 +1,26 @@
+{
+  "status": "r4_package_and_ops_wrappers_reviewed_before_stage",
+  "manifest_sha256": "12565ca8d8913901fd965d27499e7d212119369da50f1d3030bb956dc7968d89",
+  "files_verified": 59,
+  "mode": "0600",
+  "helper_sha256": "4d35f9ec00565efd14e156916b939433d4cf33c878d4aee194ba919695583cae",
+  "validator_pass": 290,
+  "validator_fail": 0,
+  "validator_log_sha256": "710d5ea5c30591f5850aa0d5bd965d5348d20aec44e4cf94ba2463dd936c8787",
+  "tar5_exact": true,
+  "nested_carrier_stage_payload_exact": true,
+  "ops_wrappers": {
+    "stage": {
+      "bytes": 56225,
+      "sha256": "1c209f252602d7d3f55952ee933e1d43080d7425ba20c9ff9d0593de77e15bb9"
+    },
+    "read": {
+      "bytes": 1047,
+      "sha256": "4ad5ca3f208a5b4a6a59332087d1b8490b58f415946d59ecea3581a89c188012"
+    },
+    "source_embedded_exact": true,
+    "real_exit_preserved": true
+  },
+  "actual_mapping_observed": false,
+  "configuration_installed": false
+}
