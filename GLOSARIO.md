@@ -1828,3 +1828,10 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** observa el operador Integraciones y sus relaciones con el proyecto propio de QA, así como las rutas de atención de su integración. Devuelve hechos de elegibilidad y ausencia sin conceder permisos.
 - **Alcance:** equipo LidIA, .local/dev25-app-operator-mapping-read; coordinación Portal de la aceptación nativa del12/10.
 - **Notas:** el rol administrativo no sustituye la pertenencia requerida por APP. Distingue el fichero de configuración observado del estado efectivo del runtime; no crea departamentos, asignaciones o fichas CRM.
+
+## Dev25AppOperatorMappingReadR2
+
+- **Tipo:** utilidad operativa privada de lectura propuesta.
+- **Definición:** conserva las consultas y el alcance del lector de operador, pero retiene cada tarea y recurso hasta concluir su cierre. Impide iniciar un cierre incompatible mientras la operación anterior siga pendiente.
+- **Alcance:** equipo LidIA, .local/dev25-app-operator-mapping-read-r2; revisión Portal en la evidencia nativa del12/10.
+- **Notas:** el candidato inicial64bf se conserva sin operar. La reproducción de su fallo es local y no acredita un fallo servido ni nuevas relaciones, rutas o permisos.

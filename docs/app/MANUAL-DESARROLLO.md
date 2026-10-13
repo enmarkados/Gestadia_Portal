@@ -8,6 +8,8 @@
 
 Continuación del13/10: R2 pasa146 pruebas, carga/preflight y provisión reales. Su preview queda no elegible por cierre inconcluso; los tres originales se conservan y R3 está en preparación. Portal restaura24 tablas propias en aislamiento y pasa355 pruebas backend en una base desechable, después retirada. Estas pruebas no acreditan todavía receptor conectado, ciclo de gestor ni instalación física. [Evidencia y límites actuales](evidencias/2026-10-12-ciclo-nativo/2026-10-13-dev-import-real-and-guest-fix.md#r2-servido-carga-provisión-y-fallo-de-cierre).
 
+Actualización posterior: R3 final supera195 pruebas y el cotejo de su entrega. Su carga aún no empieza porque caduca Portainer; las28 entradas y sus comandos están preparados y revisados. El lector del gestor requiere corregir también su cierre antes de una lectura real. [Estado exacto para reanudar](evidencias/2026-10-12-ciclo-nativo/2026-10-13-dev-import-real-and-guest-fix.md#r3-final-revisado-carga-pendiente-de-acceso).
+
 Estado de la continuación del13/10: [importación DEV real, parche guest servido y paquetes nativos actuales](evidencias/2026-10-12-ciclo-nativo/2026-10-13-dev-import-real-and-guest-fix.md). Main completa una llamada real y el cierre de su ventana, por separado de la cuenta QA nativa. Los recibos de importación no acreditan activación; guest sigue apagado y ambos ciclos nativos conectados siguen pendientes.
 
 1. Lee [NAVEGACION.md](NAVEGACION.md): rutas implementadas, orígenes, Atrás, menú inferior, permisos, hojas y retornos externos. Distingue el recorrido implementado del alcance futuro de contacto cualificado.

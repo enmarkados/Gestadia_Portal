@@ -175,3 +175,19 @@ La propuesta R3 queda revisada para preparación: cierre explícito por recurso,
 ### Backend completo en aislamiento local
 
 Con las credenciales administrativas del contenedor propio ya comprobadas, Portal crea una base desechable gestadia_app_test antes ausente, sin relajar el guard de las pruebas. Las migraciones terminan exit0 y el backend completo pasa355 pruebas, cero fallos/canceladas/omitidas. La retirada exclusiva de esa base termina exit0. No se cambia la cuenta nativa, su base, API3005 o S2S; no se usa un proveedor real como sustituto de estas pruebas. [Resultado saneado](backend-isolated-355-review.json). Este resultado resuelve el bloqueo local previo de la suite, pero no acredita aceptación funcional en iOS/Android.
+
+### R3 final revisado; carga pendiente de acceso
+
+Source congela R3 con manifiesto43ef17c7,65 archivos600, helperad3489e2, guíae63bb38f y metadata17ee1e7f. Portal reproduce195 pruebas sin fallos en una copia privada; una primera ejecución194/1 omitía el fixture de proyecciónfc y se conserva. Las16 fuentes C# y el ejecutable publicado coinciden byte a byte con el paquete final. Se verifican cuatro miembros600/UID-GID1654 en payload16e05246, los dos scripts y el carrierfa49 que reproduce stage8e3c7e2a. Source/QA/Ops cierran la revisión para una carga/preflight única. [Resultado saneado](dev-activation-r3-review.json).
+
+Se corrigen durante la revisión dos casos adicionales: el registro de cierre no admite rollback ausente contradictorio con su fase, y el estado de disposición pertenece al comando actual, sin heredarse del anterior. El cierre tardío mantiene su tarea original y rechaza reemplazos pendientes. Los consumidores de configuración requieren los registros positivos de apply y readback; la falta de un archivo de fallo no acredita éxito.
+
+Ops prepara28 entradas600:23 copias R2 intactas, cuatro originales históricos y una revisión R3 nueva be6c0236. Portal coteja los hashes, tar150ad4bf de28 archivos600/dos directorios700/UID-GID1654 y script88aedbdb. La envoltura3d9d4d9f contiene ese script exacto; carrier7fa61e34 de125773B conserva sus bytes y el código de salida. El wrapper55b899c7 de preview se limita a una lectura R3 con los hashes propios. Provisión y preview requieren antes sus resultados servidos, por separado.
+
+La sesión administrativa de Portainer caduca **antes** de cargar R3. Stage, provisión y preview R3 no se han ejecutado. Se solicita recuperar la misma pestaña del operador de despliegue, sin compartir contraseña. Portal y su guard continúan apagados para S2S. No hay nuevos permisos, turno conectado, ciclo de gestor o instalación física acreditados por el paquete preparado.
+
+### Lector del gestor: revisión local del cierre
+
+El candidato Dev25AppOperatorMappingRead64bf se conserva sin operar. Source y Portal detectan que su cierre puede continuar con comando, rollback, transacción y contexto mientras el lector siga pendiente. Portal reproduce el algoritmo exacto en un canario local sin BD: resultado no elegible, pero disposición del comando concurrente y cinco acciones posteriores. No es un fallo servido.
+
+La propuesta Dev25AppOperatorMappingReadR2 queda conforme para preparar únicamente el cierre secuencial: mismas cuatro consultas, IDs, correo exacto, roles, modelo, configuración inicial ausente y límites de observación. Debe retener todas las tareas y lectores/comandos por identidad antes de cerrar recursos incompatibles. Revisión final del candidato y lectura real siguen pendientes. No se inventan departamentos, pertenencias, rutas, assignmentRef o fichas CRM. R3 y los ciclos nativos conservan prioridad.

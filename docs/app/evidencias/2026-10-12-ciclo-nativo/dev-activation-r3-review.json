@@ -1,0 +1,26 @@
+{
+  "scope": "final package reviewed for one stage/preflight after Ops conformance",
+  "manifest_sha256": "43ef17c7188c2d3c47388404dd3d12be2a606e1e0f00e00a067c8acf2fb12f52",
+  "helper_sha256": "ad3489e2bee85516d024dac07526968289463a08dc8358b69232fe4ce234a0d9",
+  "guide_sha256": "e63bb38f144474cfd00ec4bb8a30767cce219afb0b0cf089006739ff58eebb13",
+  "metadata_sha256": "17ee1e7fbf93600fa3dbe8b3e1bcacfbde45f6d37763e4dd6dc07a120a924052",
+  "original_hashes_verified": 65,
+  "summary": [
+    "OFFLINE_RESULT passes=195 failures=0"
+  ],
+  "prior_copy_result": "194/1 projection fixture not copied",
+  "payload_members": 4,
+  "payload_mode": "0600",
+  "payload_uid_gid": 1654,
+  "carrier_roundtrip": true,
+  "shell_checks": [
+    0,
+    0
+  ],
+  "tested_publish_equals_final": true,
+  "source_freeze_confirmed": true,
+  "server_executed": false,
+  "app_enabled": false,
+  "native_cycles_complete": false,
+  "metadata_clarification": "58 preserved Compose inputs, 66 emitted service variables compared; capture reuse label inherited"
+}
