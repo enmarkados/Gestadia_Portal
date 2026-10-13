@@ -1,0 +1,25 @@
+{
+  "reviewedAt": "2026-10-13T00:07:20.658815+00:00",
+  "status": "exact_layout_service_original_reviewed",
+  "originalBytes": 5582,
+  "originalSha256": "5b69e913c5c3ca34f79bf59835ea2ba6671a76ca4555fd3fb4afaf92c61be4c8",
+  "observedUtc": "2026-10-13T00:05:14.7639530+00:00",
+  "layoutId": "588164000000032043",
+  "layoutActiveVisible": true,
+  "serviceOccurrences": 1,
+  "serviceApiCreateAllowed": true,
+  "serviceRequired": true,
+  "serviceMode": "default_create",
+  "canjeOption": {
+    "id": "588164000009534017",
+    "actual_value": "Canje",
+    "display_value": "Canje",
+    "type": "used",
+    "id_present": true
+  },
+  "selectedByReader": false,
+  "ownerOrCustomerRecordCreated": false,
+  "nextStep": "Prepare explicit minimal own QA Contact/Deal payload and routing proposal, preserve real CRM owner name and separate LidIA operator identity; no general paid/won helpers.",
+  "nativeCyclePassed": false,
+  "physicalInstallPerformed": false
+}

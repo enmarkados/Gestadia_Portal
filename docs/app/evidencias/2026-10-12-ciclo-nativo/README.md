@@ -311,3 +311,8 @@ El [original Owner/Servicio8119B](zoho-owner-service-original-review.json) obser
 ### Propuesta R6 conforme antes de implementación
 
 QA lee y acepta la [propuesta concreta R6](dev25-backup-r6-proposal-review.json): nombre/recuento AppConversations desde modelo/inventario reales, nuevo campo app_conversations_rows observado, regresión con inventario original y counts sintéticos declarados. Mantiene exporter/defaults/RR/pins/scope y requiere directorios nuevos, fases seguras y freeze/pruebas antes de una exportación nueva. R5 y diagnóstico se conservan; no hay DDL o cambio de producto/canal. Los adapters se construirán desde backup/restore originales reales, no desde la propuesta. Preparación autorizada dentro del objetivo DEV ya pedido; ejecución/restauración/importación/nativa/instalación todavía pendientes.
+
+
+### Servicio del layout real acreditado
+
+QA contrasta [original5582B/SHA5b69e913…](zoho-service-layout-original-review.json): layoutStandardactivo/visible, campoServicio obligatorio y APIcreate permitido, una ocurrencia default_create, Canjeused/ID588164000009534017. El lector no elige ni crea. Se acepta preparar una propuesta mínima de contacto/tratoQA y lectura posterior propia con OwnerSistemasZoho explícito, pipelineCanje-GTD/StageactualEn proceso, sin pago/ganado/phoneinventado ni automatismos de comunicación. El operadorLidIAIntegraciones se mapeará por referencia propia y la diferencia de identidades se conserva; no se sustituye assignedManager real. Payload/guardas/revisión concreta todavía preceden a cualquier creación. Macbloqueado, base local no disponible y ciclos/instalación pendientes.
