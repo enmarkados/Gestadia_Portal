@@ -1758,3 +1758,11 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** construye los recibos de preparación de la función de país y su relación al agente propio, manteniendo independientes sus documentos JSON.
 - **Alcance:** equipo LidIA, .local/dev25-country-tool-r3/CountryReceiptDocuments.cs.
 - **Notas:** los datos sintéticos de regresión no sustituyen los recibos reales de importación o de ejecución.
+
+
+### gestadia-app-pro-guest / gestadia-pro-guest-*-v1
+
+- **Tipo:** decisión de naming de integración y claves S2S privadas.
+- **Definición:** `gestadia-app-pro-guest` identifica la integración y audiencia propias del sondeo sin registro en producción. `gestadia-pro-guest-session-v1`, `gestadia-pro-guest-read-v1` y `gestadia-pro-guest-turn-v1` identifican sus tres claves independientes para crear sesiones, leer su historial y enviar turnos.
+- **Alcance:** APP/API Portal, `backend/src/config.js` (APP_V2_LIDIA_*), configuración privada de LidIA y despliegue Docker; recursos propios resueltos por el servidor. Los nombres están acordados para preparación y todavía no activados.
+- **Notas:** Se descarta reutilizar identidad, secretos o audiencia de los perfiles Main, agente119 o DEV. Los IDs se contrastaron con el DTO efectivo PRO del13/10; no incluyen permisos de CRM, llamadas, vínculo o atención.

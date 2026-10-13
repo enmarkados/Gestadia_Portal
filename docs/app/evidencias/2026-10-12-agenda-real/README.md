@@ -470,3 +470,8 @@ Copia nueva de LidIAPRO creada desde UI: manual_20261013_134759.sql; bundle700/6
 ### Resultado de la restauración PRO nueva
 
 Stack155/cf5168…exit0: hashes previos PASS;198tablas verificadas, mappingMain1 y21mensajes externos restaurados(15assistant/6user), ChatLogs externos0 observados. Manifiesto runtime comprobado y CFG/ENV/comando recuperados byte a byte. Resultado final LIDIARESTOREPASS sin red, puertos, aplicación ni credenciales runtime de producción inyectadas. Original privado `artifacts/guest-access-20261013/lidia-restore-original.private.log`600. Esto completa copia/restauración previa para el GuestPRO; no ejecuta su copia o activación ni valida conversaciones.
+
+
+### Conteo EF observado en restauración separada
+
+Nuevo ensayo156/769b0133…exit0 añade sólo SELECTCOUNT del historialEF en la base temporal: EF_HISTORY_RESTORE_COUNT_PASS260,198tablas y mismos mapping/historial/runtime/CFG. Original748bytes/600 SHA256 `2f9a348cd2a5cbd2ff401a2a34ac46603f186a0c302d2eb785588e9103c6957d`; el ensayo155/713bytes permanece intacto y no se le atribuye este conteo. El adaptador de copia debe enlazar el nuevo original; preview live será otra lectura.
