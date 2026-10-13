@@ -581,3 +581,40 @@ La suite completa R3 pasa195/0 en la copia independiente de Ops, con HintPaths y
 Freeze43ef17c7/65archivos600, helperad3489e2, metadata17ee1e7f y guíae63bb38f cotejados por Source/QA/Ops. Payload16e05246 contiene cuatro archivos regulares6001654 exactos, carrierfa49a0e5 reproduce stage8e3c7e2a, ambos scripts válidos. Sin P1/P2 nuevos; fuentes coinciden con195/0 de la copia independiente.
 
 Antes de iniciar stage, la lectura AX de la consola DEV redirige a auth, con username/password vacíos. No se cargó ni ejecutó el comando R3. Se solicitó recuperar únicamente la sesión Portainer de este chat, sin enviar contraseña. Mientras tanto se prepararon28 entradas600:23 R2 byteidénticas, cuatro originales históricos R2 y nueva revisiónbe6c0236. Tar90285bytes/150ad4bf y script133093bytes/88aedbdb pendientes de cotejo independiente y de fase servida. Verificador C#offline pasa receipts/boundary/backup/YAML/ENV/proyección y conciliación de los originales históricos; no acredita conciliación runtime ni elegibilidad. APP sigue OFF; R2/Main intactos.
+
+
+### Acceso recuperado y stage R3 real
+
+La nueva credencial proporcionada directamente por el humano en Portal QA se verificó en ese mensaje y se introdujo sólo en la misma pestaña Portainer de Ops. La credencial guardada falló una vez; la explícita recuperó Home/gonzalo/local y consola DEV462d. Transferencia efímera entre runtimes por socket UNIX privado de un uso; ningún secreto escrito a archivos, docs, comandos de shell o ENV. Variables retiradas y socket temporal eliminado. Portal QA confirmó que no había rellenado ni pulsado Login, preservando operador único.
+
+Una sola stage/preflight R3 exacta43ef/FA49/8E3 enDEV462d1654 termina STAGE_EXIT=0, cuatro Save bloqueados/cinco bools/conexión cerrada/sin BD/HTTP/Host/RNG y shims correctos. Captura600 r3-stage-preflight-served-actual.png, SHA0b05526444d113857d911bfa2ed199bafe9a93bb5760aeac3059baa0890379da, cotejada por Source y QA. No acredita flags o receptor APP.
+
+La provisión28 exacta88ae/BE6C/tar150ad/envoltura3d9d/carrier7fa tiene cotejo Source/QA/Ops cerrado. Se inicia una sola operación posterior a ese stage; su resultado servido queda pendiente de captura, sin preview/flags/config/ENV/reinicio por esta provisión.
+
+
+Provisión R3 real completada PROVISION_EXIT=0, captura r3-provision-served-actual.png SHA d5dda27a722b8e7ae54cbc491c4c490995fb0ece33a54d3326a030ef1caacd8e, cotejada Source/QA. Una única preview nueva55b899/BE6C termina DEV25_PREVIEW_PRIVATE_INACTIVE_NO_ACTIVATION/PREVIEW_EXIT=0; captura r3-preview-served-actual.png SHA45cc059b386a1621c1396d45b50cf989e28374465c55cd1eb087b716d34f4d03. La inspección sólo FS muestra cuatro originales6001654:started148, reconciliation668, preview165388 y cleanup.ok739; failure/cleanup.failure/cleanup.observation ausentes. Se recuperan por lector161 sin red/bindRO para cotejo íntegro antes de apply. No se infiere elegibilidad sólo de stdout ni se activa APP.
+
+
+Cuatro originales R3 recuperados íntegros mediante reader161/6b3ed, exit0/sin red/bindRO: tar46741bytes/060c4e8173eeefcd33fb11e45e4eb253c8d38400e78bf9de241152575df1d945. Todos regulares6001654 con rutas cerradas y tamaños de la observación FS. Started148/749c127ab0cab3ed23b063c951a9901b60d9bf717c138e7d1aabf7000ea7a974; reconciliation668/9bde45de4da03b07194a7c9c3c0e244478093f7b34068234777110c287c2b5b6; preview165388/5f87c91ca21c1d17b331c1aeaaea4af6b05d3c4eb0ff6c1b6013444a6bf093f9; cleanup739/f6b9a080f2ff229d6481470bb9b26a9934e2323fca0e497b7232993f1bcb795f. Copias600 en r3-preview-originals/.
+
+El verificador C# independiente pasa preimagen íntegra, delta esperado, result SHA, baseline histórico, conciliación R2 completa y recibo positivo ligado a fase/revisión/artefacto. Lifecycle complete=true, rollback ya devuelto una vez, transacción/conexión/contexto cerrados, ninguna tarea pendiente o excepción; db_writefalse/APPfalse y R2eligiblefalse. No recertifica el intento R2. Se prepara script de applybc3e6484 para cotejo Source/QA, limitado a cuatro IsActive propios y con backup e37e/reviewBE6C/preview5f87 fijados; todavía no se ejecuta.
+
+
+Tras cotejos íntegros Source/QA/Ops de los cuatro originales y scriptbc3e, una única apply selectiva termina DEV25_APPLY_FLAGS_COMMIT_RETURNED_APP_PENDING_READBACK/APPLY_EXIT=0. Captura600 r3-apply-served-actual.png. La inspección únicamente FS observa started148, ready146982, commit.ok220 y cleanup.ok749, todos6001654; unknown/failure/cleanup.failure/cleanup.observation ausentes. Se recuperan los cuatro originales por lector161RO/sin red antes de cotejar la cadena y ejecutar una lectura posterior separada. APP permanece OFF, no hay claves/configuración/ENV/reinicio nuevos, Main y R2 intactos.
+
+
+Originales apply recuperados por reader161/7bfd sin red/bindRO, tar46114/c206091946d202c6aad4203a1d018cf8779c913c10f6d79748c22c02988c293e. Ready tiene164982bytes; la transcripción146982 anterior fue incorrecta y el validador detuvo esa lectura local antes de extraerlo. Se corrigió sólo el tamaño esperado, preservando started ya exacto, sin reexportar ni repetir apply. Cuatro regulares6001654 y hashes exactos de la captura: started30e4953c, readyabfa625c, ok75306b1d, cleanup6cc1eace.
+
+El verificador C# propio pasa cadena ready→commit.ok→cleanup positivo, revisiónBE6C y preview5f87, todas las filas before/result y baseline iguales a preview. CommitReturned=true, rollbackfalse/not_required_commit_returned, recursos transacción/conexión/contexto cerrados y ninguna tarea pendiente. Readback RO preparado en script7646f7e6/999bytes con hashes readyabfa/ok7530 fijados; espera cotejo Source/QA antes de ejecutar. Esto aún no acredita el receptor APP o una prueba móvil.
+
+
+Tras cotejos Source/QA/Ops de apply y wrapper7646, una única readback RO termina DEV25_READBACK_FLAGS_ONLY_VERIFIED_APP_PENDING/READBACK_EXIT=0. Captura r3-readback-served-actual.png SHA c3bbdd3af1494aa36dba48746a0bdebdbe6cc861893e9d49c03fa9301c9f94fc. Inspección sólo FS: started148, readback1827 y cleanup.ok740, todos6001654; failure/cleanup.failure/observation ausentes. Se recuperan los tres originales antes de revisar configuración. APP y Portal guard permanecen OFF; la verificación de flags no es una prueba del receptor o una conversación móvil.
+
+
+Tres originales readback recuperados6001654 por reader161/ec220 sin red/bindRO: tar1501/c33633d46c1c71b8d0a769e02d736d845f24b02d769da5a95f70e7bb25f0a5cd. Started148/a16035c0, readback1827/38b81763 y cleanup740/8fc79e8b. Source/QA/Ops cotejaron baseline íntegro y links readyABFA/ok7530/result5e4e; cierre RO completo, rollback una vez, ningún pending o excepción. Verificador C# Ops pasa. Eligible para preparar configuración, app_served_verified=false; no acceso S2S ni conversación móvil acreditados.
+
+ACK específico de orígenes para revisión privada config95443598/1133B600: diez campos exactos, UID64, guardverifiedtrue, subsetad93, cursor680b independiente32B y diferente a cinco S2Skeys, readyABFA/readback38b8 y tres referencias actuales. Account37dc activa/verificada/noCRM, guard0cfe liga guard8e96 y scopebc51; Ops leyó código y reproduce13/0. No manifest futuro ni claim de receptor. Se prepara transporte privado de tres inputs; no install/ENV/PortalON.
+
+Ops señaló que el arranque privado R2 sólo exigía readyRuntimeProof bajo perfil global enabled. QA preparó wrapper privado R3/2d0e83b2 que exige prueba si cualquier perfil está activo; Source y Ops leen delta y reproducen6/0 sin red. Los casos de proof sintético caracterizan el arranque, nunca prueban receptor. La primera invocación Ops sin QA_BOOTSTRAP_TEST_FILE falló antes de casos y se corrigió únicamente el comando. Proceso QA permanece OFF.
+
+MappingReadR2 fuenteec15/helper99a: Ops leyó Lifecycle/Runner/Store/guía, verificó46hashes600, cuatro queries byteidénticas y cuatro archivos de política sólo namespace, y reproduce94/0+30/0 en copia privada con paths adaptados. Conforme fuente/guía para preparar paquete; sin stage/read/mapping efectivo/roles/rutas/grants. Su lectura RO debe ocurrir antes de instalar config porque el contrato exige ausencia inicial del fichero APP.
