@@ -1,0 +1,24 @@
+{
+  "status": "actual_prechecks_environment_scope_conflict",
+  "metadata_original_sha256": "eded31eb11c8e5ac5d0075c583b33500cecfcfbb9f0b7bf9cbe9dae72f931949",
+  "metadata_original_bytes": 556,
+  "passed": [
+    "receipts",
+    "review"
+  ],
+  "failed_phase": "pins",
+  "code": "declared_environment_changed",
+  "changed_names_count": 14,
+  "compose_input_count": 58,
+  "emitted_app_environment_count": 66,
+  "changed_names_emitted": 0,
+  "app_env_file_present": false,
+  "independent_projection_tool": "Docker Compose 5.3.0",
+  "projection_is_derived": true,
+  "diagnostic_database_opened": false,
+  "prior_preview_database_opened": "not_determined",
+  "environment_changed": false,
+  "APP_activated": false,
+  "native_connected_cycles": false,
+  "R2_status": "preparation_reviewed_not_executed"
+}

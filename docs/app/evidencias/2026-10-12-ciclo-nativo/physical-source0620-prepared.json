@@ -1,0 +1,20 @@
+{
+  "version": "0.1.0",
+  "build": "11",
+  "sourceRevision": "0620b9030cdbdb5f92fd25f193ff1fe97acfda72",
+  "productRevision": "c6530f6a20a134feb96de7bb15b9f89ee4af6975",
+  "apiBaseUrl": "https://app.gestadia.com",
+  "team": "X27NG7M487",
+  "profileName": "iOS Team Ad Hoc Provisioning Profile: com.gestadia.app",
+  "devicesCount": 1,
+  "includesIphone": true,
+  "getTaskAllow": false,
+  "apsEnvironment": "production",
+  "appleSignIn": true,
+  "signatureVerified": true,
+  "arch": "arm64",
+  "ipaSha256": "7efd537377bb4c05bdebd25b5c8f503c03e17d7b7df2e390106971b91d9b1403",
+  "ipaBytes": 2562448,
+  "installation": false,
+  "nativeConnectedCyclesPassed": false
+}

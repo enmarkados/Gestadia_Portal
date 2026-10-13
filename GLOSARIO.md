@@ -1800,3 +1800,17 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** observa referencias y estados limitados del origen PRO de una copia guest detenida. Identifica campos que incumplen el aislamiento sin devolver sus valores privados.
 - **Alcance:** equipo LidIA, .local/pro-guest-source-reference-read; revisión Portal en docs/app/evidencias/2026-10-12-ciclo-nativo.
 - **Notas:** lectura única sin cambios de BD o configuración. El diagnóstico no autoriza relajar guards, repetir la copia ni activar guest.
+
+## Dev25ActivationPrecheckRead
+
+- **Tipo:** utilidad operativa privada de diagnóstico.
+- **Definición:** comprueba por separado las tres lecturas previas de la utilidad DEV congelada. Devuelve únicamente fase, código cerrado y, ante un conflicto de ENV acreditado, nombres de variables.
+- **Alcance:** equipo LidIA, .local/dev25-activation-precheck-read; revisión Portal en docs/app/evidencias/2026-10-12-ciclo-nativo.
+- **Notas:** no abre BD ni ejecuta la preview; su proceso utiliza dependencias fijadas propias y no acredita retrospectivamente el proceso anterior.
+
+## Dev25AppActivationR2
+
+- **Tipo:** utilidad operativa privada propuesta.
+- **Definición:** distingue las entradas de interpolación de Compose de las variables exportadas al servicio APP. Conserva las fases y el alcance de la activación mínima DEV.
+- **Alcance:** equipo LidIA, .local/dev25-app-activation-r2; propuesta47ff y concreción1811, revisión Portal en la evidencia nativa del12/10.
+- **Notas:** los originales y el primer intento se preservan. La proyección calculada es derivada; exige cotejo contra el proceso real antes de cambiar estados.
