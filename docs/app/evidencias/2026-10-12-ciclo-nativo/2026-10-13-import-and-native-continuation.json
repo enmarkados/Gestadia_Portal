@@ -23,6 +23,9 @@
     "reconciliation_proposal_reviewed_by_qa": true,
     "reconciliation_proposal_sha256": "9ee9fbd469699e19a71eb825f103ae735508270f94bc8387d9c82247cd0cd235",
     "reconciliation_execution_pending": true,
+    "r6_corrective_proposal_sha256": "b49649c96fc7f6c82d3c97dd9c7164c89a0d756ff35fa201ca9a30ebe81ccf8d",
+    "r6_offline_preparation_conformed_by_qa": true,
+    "r6_remote_execution_pending_reconciliation_and_package_review": true,
     "replay_performed": false,
     "activation_performed": false
   },

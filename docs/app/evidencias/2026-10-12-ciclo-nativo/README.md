@@ -361,3 +361,5 @@ Docker Desktop estabaEngineStopping yRestartdeshabilitado; cierreGUI normal no t
 QA revisa `ProZohoQaOwnCaseCreate` en copia privada: 41 hashes y 192 assertions offline correctos. La conformidad cubre stage/preflight; crear el caso aún requiere los recibos actuales, la ruta propia y resolver el contrato Layout del readback. No se han creado Contact/Deal ni se hereda el caso Main.
 
 La API local sigue accesible. El simulador muestra Home, pero el ACK del intento de pulsación no acredita navegación. El control nativo vuelve a informar Mac bloqueado y se mantiene una única solicitud humana de desbloqueo. No se altera la seguridad ni se reinicia la entrada para eludirlo. Los ciclos conectados iOS/Android/gestor y la instalación física continúan pendientes.
+
+QA acepta la propuesta correctiva R6 original de 1759 B, SHA b49649c9…: preparación offline de DeepClone, regresión de la secuencia completa y diagnósticos cerrados en revisión separada. R5 permanece intacta. El nuevo preview/apply todavía espera conciliación real y revisión del paquete; no se atribuye una ejecución remota a esta conformidad.
