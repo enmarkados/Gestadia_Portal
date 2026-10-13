@@ -62,6 +62,8 @@ La copia PRO nueva contiene SQL1307110118B/SHA6350a044171c727494932a6489f1cd84e1
 
 Source/Ops/QA aceptan preparar cuatro copias guest PRO inactivas y un join propios, mediante la propuestaR2 cc947433162e73dcec4804030f7899616b03a73b4e3de93a88551d85d4253886. Su paquete, preview, apply, cuatro flags y overlay aún están pendientes. La revisión Main b15d5ffeddd34481c8faaf8c33a2662a75a0b16cf7d198e8262a066b170fd257 limita la adaptación posterior a una baselineCFG real nueva, conservando guards y restauración condicional con guest; no genera hora, aprobación o grant. Ninguno de estos resultados PRO sustituye CountryR3/flags/dominio/autoridad propios de DEV124, ni el ciclo real de gestor en ambos emuladores.
 
+El ensayo nuevo156 añade únicamente la consulta y comprobación de260 filas en __EFMigrationsHistory dentro de la base restaurada aislada. QA revisa el delta y el original748B/SHA2f9a348cd2a5cbd2ff401a2a34ac46603f186a0c302d2eb785588e9103c6957d: EF_HISTORY_RESTORE_COUNT_PASS260,198 tablas, historial y archivos correctos. Este original acredita el conteo EF restaurado;155 y el conteo live de un preview no lo sustituyen. Source aún corrige el cierre de comandos del ejecutor antes de congelar el paquete; no se ejecuta una copia guest o una activación por estos resultados.
+
 ## Coordinación Main separada
 
 QA revisa el lector administrativo Main (26 hashes/76 assertions), helper de asociación R3 (29 hashes/76 pruebas) y generador de ventana (8 hashes/32 pruebas) en copias privadas. Conformes preparación/preflight/lecturas previstas; no grants, correlación o llamada por estos checks. Main mantiene sus propios IDs y no se incorpora al fixture nativo User64.
