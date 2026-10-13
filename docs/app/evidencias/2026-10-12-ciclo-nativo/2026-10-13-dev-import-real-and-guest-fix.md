@@ -251,3 +251,15 @@ La prueba no lee DEV, no escribe BD ni crea permisos. El hash del DLL se verific
 QA lee Lifecycle/Store completos y las guías OPERACION/REUSO; verifica seis fuentes iguales salvo namespace, Ops sólo namespace/opsdir y las cuatro consultas byteexactas. Una copia propia referencia directamente el DLL publicado74d y pasa94+30+16 sin fallos. También ejecuta cada DLL de pruebas directamente, con el mismo resultado, para evitar ambigüedad por el obj compartido de dotnet run. [Resultados y hashes](dev-mapping-r3-source-review.json).
 
 El GREEN del proveedor1aa7 es evidencia separada. Esta revisión permite preparar el paquete; no acredita lectura DEV, mapping, instalación ni permisos. No se reejecutan las mismas suites por falta de una prueba de servidor.
+
+### Paquete Mapping R3 fijado y preflight servido
+
+Los tres equipos cotejan y fijan el manifest6c9fbcf6 de74 archivos600. QA verifica todos sus hashes, snapshot de fuentes, payload de cinco regulares600/1654, binding14 explícito, cinco sintaxis y dos descompresiones exactas. Carrier81afb/stagecf5fa y read-wrapperc5014 conservan scope y gates. Las envolturas Ops58189c9d/56237B y7e01f8a3/1047B contienen los originales byteexactos y preservan la salida real. [Cotejo de paquete](dev-mapping-r3-package-review.json).
+
+Ops ejecuta una sola carga/preflight Mapping R3 en DEV; captura `mapping-r3-stage-served-actual.png` con `MAPPING_R3_STAGE_EXIT=0`. QA observa también la metadata FS: únicamente preflight363B/600/1654 y hashd018, sin marcadores de lectura. El raw original se está recuperando para su cotejo antes de la consulta RO nueva. No se reintenta R2, no se instala el candidato ni se emiten permisos por pasar preflight.
+
+### Mapping R3: cierre físico correcto y fallo de salida JSON
+
+La lectura única real termina con salida3 en revalidate: External/InvalidOperationException. QA coteja los originales started51B/2735 y failure732B/c609. El fallo mantiene phase_successfalse aunque acredita cierre completo, rollback retornado, ninguna operación pendiente y recursos sin excepción. No se obtiene mapping válido y no se repite R3. [Cotejo del fallo real](dev-mapping-r3-output-failure-review.json).
+
+La reproducción aislada con System.Text.Json378 identifica que schema conserva su Parent JsonArray y no admite adjuntarse directamente a output. Source prepara R4 con una única copia profunda en esa asignación. QA coteja las fuentes y ejecuta directamente el test específico contra el DLL publicado4d35: RED original con salida1, GREEN4/0, informe serializado2723B/13campos, nodo original preservado y elegibilidad rechazada si hay error lógico o cierre incompleto. Consultas, lifecycle, bindings y scope se conservan. [Revisión R4](dev-mapping-r4-source-review.json). Los140 casos y NativeGREEN históricos no se repiten ni se presentan como pruebas R4. Paquete, nueva lectura DEV y configuración instalada siguen pendientes.

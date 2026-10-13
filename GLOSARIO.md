@@ -1856,3 +1856,10 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** revisión del lector de asignaciones que distingue generaciones de adquisición de lectores, incluido el reciclaje físico del proveedor MySQL. Conserva el alcance de observación de R2.
 - **Alcance:** propuesta de Gestadia_LidIA en `.local/dev25-app-operator-mapping-read-r3`; evidencia de aceptación nativa de Gestadia Portal APP.
 - **Notas:** R2 y su intento fallido se preservan. R3 requiere revisión de propuesta, reproducción real corregida y una nueva lectura DEV antes de acreditar asignación o continuar instalación.
+
+## `Dev25AppOperatorMappingReadR4`
+
+- **Tipo:** utilidad runtime de QA propuesta en LidIA.
+- **Definición:** revisión del lector que entrega su nodo de esquema JSON con propiedad independiente al construir el informe, conservando el cierre por generaciones de R3.
+- **Alcance:** corrección mínima propuesta del informe de asignación DEV en Gestadia_LidIA; evidencia de aceptación APP de Gestadia Portal.
+- **Notas:** R3 cierra bien la transacción pero falla al adjuntar un JsonNode ya parentado. Se conserva ese intento; R4 requiere prueba específica de construcción/serialización y entrega nueva, sin repetir R3 ni ampliar el alcance de lectura.
