@@ -52,6 +52,16 @@ AppConfigurationMetadataRead tiene revisión independiente:21 hashes originales,
 
 La API local3005 ya arranca con el guard fuerte R2 antes de construir los clientes, usando una copia idéntica del scope pendiente/OFF. Sigue sin claves o autoridad DEV activas. Health200 y el rechazo guest503 están observados; no se sustituye la prueba del agente por ese rechazo correcto.
 
+### Configuración PRO efectiva y restauración nueva
+
+El transporte definitivo del lector usa una imagen con el script Source exacto, propietario1654 y CMD vacío; el stage153 termina exit0. QA conserva el log original1424B/SHA2bea101eaba5292a1a64b31f061214ab2a576507411a3b9acd3641506bf9aecf:14 pins nativos, payload y15 archivos correctos, preflight nativo PASS. La imagen anterior con COPY sin propietario no se ejecutó. La lectura posterior se hace dentro del contenedor PRO con su ENV real.
+
+El DTO original3150B/SHA4ba1ecf781cc27331468625f18a49ba3dd57688cd0342779a44a2e20678883db, observado a14:18:26Z, confirma DLL3ba/configABD estables y APP efectiva/file/ENV activas. Hay dos perfiles v1: Main103/122 con sondeo/history/support_handoff, una ruta support, PlatformRuntimefalse; y agent119-validation102/119 con sondeo/history, cero rutas y PlatformRuntimetrue. Ambos tienen GuestV2false/Crmnull; suman11 claves PRO existentes. No son las11 claves DEV pendientes y se deben preservar los dos perfiles al añadir guest. Sólo existe overrideENV deEnabled. La lectura no consulta DB/HTTP ni escribe configuración; RuntimeIsolationVerified leído no constituye prueba de aislamiento.
+
+La copia PRO nueva contiene SQL1307110118B/SHA6350a044171c727494932a6489f1cd84e173db25d225b14423973aaa924f1aca y runtime42788484B/SHA074d7f6f986bd388137fa42489d5dbcd0f8bae91585617dbdf5bebd94bd94c83. QA coteja manifest original575B/SHA1332782179464e67c440c431e2889ca79e6847971abfcf79f097b75d0fbfc318 y restore original713B/SHAb1450806a92ab0aa777e903dc5bf26421fc1259ce5e99406e60e99f9163965a9. Restore155 exit0:198 tablas, mappingMain1, timeline21(15assistant/6user), ChatLogs0 observados y archivos/config/ENV/comando iguales. Es restauración aislada de esa copia, no comparación del historial live ni activación DEV.
+
+Source/Ops/QA aceptan preparar cuatro copias guest PRO inactivas y un join propios, mediante la propuestaR2 cc947433162e73dcec4804030f7899616b03a73b4e3de93a88551d85d4253886. Su paquete, preview, apply, cuatro flags y overlay aún están pendientes. La revisión Main b15d5ffeddd34481c8faaf8c33a2662a75a0b16cf7d198e8262a066b170fd257 limita la adaptación posterior a una baselineCFG real nueva, conservando guards y restauración condicional con guest; no genera hora, aprobación o grant. Ninguno de estos resultados PRO sustituye CountryR3/flags/dominio/autoridad propios de DEV124, ni el ciclo real de gestor en ambos emuladores.
+
 ## Coordinación Main separada
 
 QA revisa el lector administrativo Main (26 hashes/76 assertions), helper de asociación R3 (29 hashes/76 pruebas) y generador de ventana (8 hashes/32 pruebas) en copias privadas. Conformes preparación/preflight/lecturas previstas; no grants, correlación o llamada por estos checks. Main mantiene sus propios IDs y no se incorpora al fixture nativo User64.
