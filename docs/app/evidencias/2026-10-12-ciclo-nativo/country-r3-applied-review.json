@@ -1,0 +1,27 @@
+{
+  "status": "originals_and_semantics_reviewed",
+  "functionId": 10366,
+  "agentId": 124,
+  "projectId": 104,
+  "instructionId": 10117,
+  "inactive": true,
+  "oneOwnedRelation": true,
+  "coreAndProtectedGlobalsConfigurationUnchanged": true,
+  "independentCanonicalChecks": 8,
+  "originals": {
+    "commit.ready.private.json": {
+      "bytes": 3016,
+      "sha256": "ce9b10e8de3e6a57dbd5f0953f03866c7defd0df028914e3b58850f5d7c0a851"
+    },
+    "commit.ok.json": {
+      "bytes": 138,
+      "sha256": "df8c387d551ed4eeb423dc6bc992d00b123f6012825724639cec21a50346df4f"
+    },
+    "readback.json": {
+      "bytes": 385,
+      "sha256": "f7d05e8996bd88d06043aee3c79f5fa1e37ac2b0f4ef0977f5561c14fedb7797"
+    }
+  },
+  "appActivated": false,
+  "nativeRemoteCyclePassed": false
+}

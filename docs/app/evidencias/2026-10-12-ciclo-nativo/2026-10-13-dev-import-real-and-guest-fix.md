@@ -99,3 +99,23 @@ Al seleccionar Device Hub después de compilar, Cua informa que el Mac está blo
 QA revisa decrypt R2 completo, sus nueve archivos y hashes, y reproduce el fixture de74B/SHA611df5cf bajo PYTHONOPTIMIZE=1. Guardas explícitas, salida600 exclusiva y rechazos por overwrite, hash raw/cipher/cert alterados o metadata duplicada pasan. La clave privada permanece sólo en Source. Manifiesto3e5b69f29b0a0611d36993384e7fbba357bb937cfb309c6e230f285c7f519a84; decrypt36d0eb5d8e0383865b7b130c9fbe84cc7d6d60ea0c8752ffeaf9faef277601aa. Esta reproducción local no acredita interoperabilidad del servidor, preview remoto, copia guest o activación.
 
 La revisión posterior del overlay guest reproduce52 pruebas sin fallos, coteja30 originales del manifest74d313, dieciséis miembros600 y transporte/shell exactos. Se leen los siete archivos de código, recibos, fases y adenda. Conforme stage/preflight y preview RO; sin los seis recibos reales revisados no se procede a prepare/install, y una activación pública exige su revisión y autorización concretas. No ejecuta llamadas ni sustituye la preparación DEV.
+
+### Country DEV aplicado y lectura posterior
+
+Ops aplica una única función y relación propias; QA recupera los tres originales600 y reproduce ocho cotejos canónicos independientes con .NET. Función10366 inactiva y relación con124; sólo se añaden Id/CreatedAt al candidato, literales y endpoint exactos, coreR6/protegidos/globals/configuración iguales a la preimagen, resultado23cc común en ready/ok/readback. [Revisión y hashes](country-r3-applied-review.json). Este resultado sustituye el apply pendiente anterior; no activa las cuatro filas ni APP/S2S. El paquete de activación mínima y la comprobación del receptor DEV siguen en preparación.
+
+### Android actual: acceso y recuperación observados
+
+Se detiene únicamente el simulador iOS propio para probar Android por separado. AVD Gestadia_Native_QA_20261012 con4GB/cuatro núcleos, instalación fuente27/versionCode4 correcta y arranque real. La primera lectura UI devuelve rootnull; tras enfocar el WebView y repetir se obtiene el árbol completo. Los taps posteriores usan sus bounds, sin inferir éxito desde el comando.
+
+Nueva consulta como visitante ofrece Login/Continuar sin registro. Continuar recibe la indisponibilidad esperada con guestOFF, mantiene opciones y permite ir al acceso conservando el origen. Correo coincide con el fixture y contraseña queda enmascarada32 caracteres; al enviar se vuelve a la entrada de la misma consulta. AuthSession propia android creada16:47:38UTC. Force-stop/reinicio conserva cuenta y el menú muestra Cliente Prueba119. [Resultado saneado](android-source27-preflight.json) y [captura nueva de cuenta recuperada](android-20261013-cuenta-recuperada.png). Sin turno remoto, chat de gestor o instalación física nueva.
+
+La captura de teclado de Device Hub queda nuevamente comprobada en iOS fuente27: activada en ventana propia, texto visible en el campo y desactivada al terminar. Los taps del espejo y el estilo simulator del helper devolvían éxito sin navegar; el estilo physical del helper oficial sí abre Nueva y retorna con Atrás, verificado por capturas. No se modifica autenticación ni protección del Mac. El usuario confirma el desbloqueo posterior.
+
+### Fixture CMS del servidor comprobado
+
+Paquete real1254B/600/SHA3df5af259184b9ee884c5eb6a18236e0ed62cf7ba673f7f46975a01760840f75, producido por OpenSSL3.0.20 del receptor y recuperado por Ops. Source y QA descifran con la revisión R2 optimizada, a archivos nuevos600:74 bytes y hash611df5cf exactos al fixture revisado. Clave privada permanece en Source; no se imprime contenido o ciphertext. Esto acredita interoperabilidad del fixture, no la recuperación de una preview real ni activación guest. La preview posterior PRO se detiene con ForeignReference; se atribuye a Ops/Source, sin filas o flags nuevos, y requiere su conciliación separada. No bloquea el sondeo DEV.
+
+### Dominio DEV correlacionado
+
+Se obtiene HTTPS200/Healthy del dominio dev-lidia con una petición identificada,16:54:02UTC, y los logs filtrados del contenedor muestran exactamente el mismo Host/query/identificador y resultado200. QA lee los originales privados y observa la captura Portainer del contenedor lidia-app-gestadia-dev; CID462d/stack25 se atribuyen a la observación de Ops. [Revisión saneada](dev-domain-probe-review.json). La metadata anterior conserva su pending=true y sus bytes; no se transforma en prueba posterior. Esta vía evita esperar al login caducado de Plesk, pero aún se combina con pins/ENV/ausenciaAPP actuales antes de activar.
