@@ -29,7 +29,7 @@ Integración preparada en [PR17, borrador hacia app/main](https://github.com/enm
 | Nueva sesión real en clon DEV124 + respuesta del modelo | PASS: consulta independiente, un turno | PASS: siete turnos y conclusión por texto |
 | Recuperación, respuesta legible e historial | PASS: historial Android y propio tras relanzar | PASS: historial iOS tras reiniciar AVD |
 | Chat con gestor Integraciones, envío en ambos sentidos | Pendiente de ciclo nativo | Intercambio real observado; Contact–Deal–Owner propios verificados |
-| Recibos enviado/recibido/leído, cierre y reapertura permitida | Pendiente | Parcial: lectura por APP real; lectura por operador falla, cierre pendiente |
+| Recibos enviado/recibido/leído, cierre y reapertura permitida | Pendiente | Parcial: lectura por APP y cierre real; lectura por operador falla |
 | Búsqueda, renombrado, fechas y navegación/Atrás | PASS: dos títulos, cancelar/guardar, búsqueda y reapertura | PASS: títulos/fechas y Continuar al mismo historial; búsqueda/edición no repetidas |
 | Login Apple/Google y push | No acreditados por build ni perfil | No acreditados por build |
 
