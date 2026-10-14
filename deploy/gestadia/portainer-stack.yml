@@ -56,7 +56,7 @@ services:
       - "host.docker.internal:host-gateway"
     volumes:
       - type: bind
-        source: ${GESTADIA_CONFIG_DIR:?Directorio privado requerido}/backend.env
+        source: ${GESTADIA_BACKEND_ENV_FILE:?Archivo privado vigente requerido}
         target: /workspace/backend/.env
         read_only: true
         bind:

@@ -1913,3 +1913,10 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** comprueba que el consumidor tiene preparadas las dos capacidades de binding revisadas para proyectar can_bind y rechazar un intento no disponible antes de crear una operación local. La autoridad y el resultado de cada fase siguen perteneciendo a LidIA.
 - **Alcance:** `backend/src/app/v2/guest.js`; pruebas reales sobre MySQL aislado en `backend/src/app/v2/guest.test.js` y plan del14/10.
 - **Notas:** no rellena claves vacías ni habilita capacidades. Se descarta devolver200 a una vinculación que no ocurrió o crear AppGuestBinding antes de detectar que faltan las capacidades.
+
+### GESTADIA_BACKEND_ENV_FILE
+
+- **Tipo:** parámetro de despliegue Docker Compose.
+- **Definición:** ruta absoluta al archivo privado vigente que carga la configuración del backend. Se configura fuera de Git y evita suponer un nombre o sustituir la configuración existente al pasar el stack a repositorio.
+- **Alcance:** `deploy/gestadia/portainer-stack.yml`, bind de sólo lectura a `/workspace/backend/.env`; plan Docker guest del14/10.
+- **Notas:** sustituye la ruta deducida `GESTADIA_CONFIG_DIR/backend.env`. Se conserva `create_host_path:false`; no renombra ni crea archivos privados. La variable debe señalar el archivo actual cotejado por Ops, no un candidato móvil recortado.
