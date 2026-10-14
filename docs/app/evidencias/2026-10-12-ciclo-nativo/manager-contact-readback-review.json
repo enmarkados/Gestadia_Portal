@@ -1,0 +1,28 @@
+{
+  "observed_at": "2026-10-14T02:15:07.836Z",
+  "status": "verified_contact_readback",
+  "transport": "real product zohoFetch; EU OAuth; one GET of the same confirmed own Contact without fields filter",
+  "business_requests_this_phase": 1,
+  "oauth_refresh_requests_this_phase": 1,
+  "total_business_requests": 3,
+  "total_business_writes": 1,
+  "checks": {
+    "http_200": true,
+    "single_record": true,
+    "id_matches_original_creation_receipt": true,
+    "qa_marker_matches": true,
+    "owner_matches": true,
+    "layout_matches": true,
+    "created_time_matches_original_creation": true
+  },
+  "layout_source": "$layout_id.id in the actual response",
+  "response_sha256": "f230bb47831826e43c94f55562e61b8e5dea94960be5d2339cb0f01d9ca85ac6",
+  "review_sha256": "8faec52c778b6b191300a186bf5d4a953f6eea00822381089ba6d87d6c8150cc",
+  "previous_mismatch_preserved": true,
+  "contact_creation_replayed": false,
+  "automatic_retry": false,
+  "deal_created": false,
+  "portal_link_written": false,
+  "conversation_grants_enabled": false,
+  "raw_response_location": "private evidence only"
+}
