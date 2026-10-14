@@ -6,6 +6,8 @@ Petición humana: comprobar LidIA y el gestor `integraciones@vozenter.com` en iO
 
 **Actualización14/10:** [LidIA conectada y continuidad](2026-10-14-lidia-real-ios-android.md) y [gestor real V1.731 con capturas](2026-10-14-gestor-real-731.md). Intercambio, recepción/lectura bidireccionales y cierre comprobados en ambos sistemas. iOS recupera el historial cerrado tras relanzar; Android conserva la lista tras reiniciar y recupera su historial completo desde iOS. Retirada efectiva del receptor e instalación física se documentan por separado. [Resultado y límites](manager-native-window3-review.json). Los apartados anteriores conservan sus fechas y límites históricos.
 
+**Instalación física14/10:** [iGonchu actualizado y abierto](iphone-installed-20261014-review.json), Gestadia0.1.0(11), producto c653 y API pública. Lectura posterior de versión, proceso activo y Home visible en Device Hub normal. Captura nativa privada conservada; no se repite el ciclo conversacional en el teléfono. El receptor de producción también sirve731 y Source confirma su interfaz/historial por separado. [Cierre completo y límites](2026-10-14-gestor-real-731.md).
+
 Integración fusionada en [PR17 hacia app/main](https://github.com/enmarkados/Gestadia_Portal/pull/17), merge395deaa8 del14/10 a04:52:49UTC; checkout principal limpio y sincronizado0/0. La interfaz actual pasa [49 archivos / 208 pruebas](frontend-current-208-review.json), sin cambios de producto posteriores. DEV vuelve a APPfalse/perfil ausente tras retirar los tres contextos y conservar sus mensajes. La comprobación de sólo lectura del servicio sin registro, local y público, devuelve `503 runtime_unavailable` el14/10 a01:05UTC; no crea instalaciones ni chats y no acredita aceptación guest.
 
 ## Fuente y entorno
@@ -31,6 +33,7 @@ Integración fusionada en [PR17 hacia app/main](https://github.com/enmarkados/Ge
 | Chat con gestor Integraciones, envío en ambos sentidos | PASS: dos mensajes reales | PASS: tres mensajes reales; Contact–Deal–Owner propios verificados |
 | Recibos enviado/recibido/leído y cierre | PASS: ambos sentidos; cerrado sin compositor | PASS: ambos sentidos y fuera/dentro del área visible; cerrado sin compositor |
 | Historial de gestor recuperado | PASS: Android completo y propio tras relanzar | PASS antes de reiniciar; después lista/título/fechas/estado/preview; apertura completa posterior no terminada |
+| Instalación física solicitada | PASS: iGonchu0.1.0(11), lectura de versión/proceso y Home visible; sin E2E conversacional físico | No solicitada en dispositivo físico |
 | Búsqueda, renombrado, fechas y navegación/Atrás | PASS: dos títulos, cancelar/guardar, búsqueda y reapertura | PASS: títulos/fechas y Continuar al mismo historial; búsqueda/edición no repetidas |
 | Login Apple/Google y push | No acreditados por build ni perfil | No acreditados por build |
 
@@ -57,7 +60,7 @@ El primer intento de login falló al reiniciar el wrapper local sin cargar DATAB
 5. Verificar navegación, teclado, permisos y estados de error. La cita CRM real, OAuth y APNs se registran como pruebas diferentes.
 6. Sólo tras superar ambos ciclos, instalar y abrir el paquete Release firmado en el iPhone, comprobar versión y endpointHTTPS. Confirmación de instalación y lanzamiento no sustituye los ciclos anteriores.
 
-## Paquete físico preparado, todavía no instalado
+## Preparación física del12/10, conservada como antecedente
 
 Reexportación del archivo build11 como `release-testing`, TeamX27NG7M487: **EXPORT SUCCEEDED**. Perfil `iOS Team Ad Hoc Provisioning Profile: com.gestadia.app`, un dispositivo, incluye iGonchu; `get-task-allow=false`, APNsproduction. `codesign --verify --deep --strict` PASS. Configuración ReleaseHTTPS se conserva; no hereda loopback.
 

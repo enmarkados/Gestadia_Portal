@@ -1,0 +1,47 @@
+{
+  "observedUtc": "2026-10-14T05:16:09.590991+00:00",
+  "status": "installed_readback_launched_alive_and_home_visually_verified",
+  "target": "iGonchu",
+  "model": "iPhone 13 Pro Max",
+  "osVersion": "27.0.1",
+  "bundleId": "com.gestadia.app",
+  "version": "0.1.0",
+  "build": "11",
+  "sourceRevision": "0620b9030cdbdb5f92fd25f193ff1fe97acfda72",
+  "productRevision": "c6530f6a20a134feb96de7bb15b9f89ee4af6975",
+  "apiBaseUrl": "https://app.gestadia.com",
+  "team": "X27NG7M487",
+  "installed": true,
+  "launchSucceeded": true,
+  "processAliveReadback": true,
+  "nativeHomeVisuallyVerified": true,
+  "keyboardCaptureEnabled": false,
+  "newPhysicalConversation": false,
+  "fullPhysicalConversationalE2e": false,
+  "reinstalledAfterReceiptFailure": false,
+  "installerReportFileSaveFailed": true,
+  "installationReconciledByIndependentReadback": true,
+  "uninstall": false,
+  "nativeQaBeforeInstallation": "iOS simulator and Android emulator own DEV case",
+  "privateOriginalReviewSha256": "912c3fbc504cc445fd5a7fd323ac363807b36c785b3b0287d56b41b5c684544e",
+  "privateEvidenceDigests": {
+    "apps-readback.original.private.json": {
+      "bytes": 1515,
+      "sha256": "e3dc720030c41aa1e8436ad94ac332a730cb4f24986493d643d5bb69e22dd893"
+    },
+    "launch.original.private.json": {
+      "bytes": 1452,
+      "sha256": "494310375c8f3b3332826bd8d806ca4930dcb6fbd8f1a14b3255ca68746049b9"
+    },
+    "process-readback.original.private.json": {
+      "bytes": 1059,
+      "sha256": "b51004d1485363a1cabd5032c02dfb63cc743a3e09a942226dfa256d89cb88cd"
+    },
+    "iphone-gestadia-opened.native.original.private.png": {
+      "bytes": 297231,
+      "sha256": "5d247bf0a50ba110e2c4d6beec5065f3c7173ea4148d1eeaf742fc65761a70fe"
+    }
+  },
+  "physicalScreenshotPublished": false,
+  "reason": "native screenshot contains existing personal conversation previews; preserved privately"
+}
