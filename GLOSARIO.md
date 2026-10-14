@@ -1927,3 +1927,10 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** Operaciones propias cuyo envío está preparado o tiene resultado incierto, para que la APP conserve su identidad y permita recuperación. Es un array, también cuando no hay pendientes.
 - **Alcance:** backend/src/app/conversations.js, backend/src/app/v2/guest.js y frontend/app/src/AppConversation.jsx.
 - **Notas:** se proyecta desde el ledger de la conversación autorizada; no es un campo añadido al contrato cerrado S2S de LidIA ni una lista vacía fija que oculte operaciones reales.
+
+### correlation_id en turnos invitados
+
+- **Tipo:** propiedad del contrato de turno y decisión de normalización.
+- **Definición:** identificador de correlación del envío. Si la APP omite el campo, el Portal utiliza el mismo `turn_id` para conservar la correlación al reintentar.
+- **Alcance:** `backend/src/app/v2/guest.js`, contrato JSON v2 y `guest-turn-input.test.js`.
+- **Notas:** se preserva cualquier valor explícito válido; null, vacío o longitud excesiva siguen rechazados. Se descarta generar un identificador aleatorio en cada intento porque alteraría el digest de idempotencia.
