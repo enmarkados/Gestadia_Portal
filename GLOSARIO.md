@@ -1920,3 +1920,10 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** ruta absoluta al archivo privado vigente que carga la configuración del backend. Se configura fuera de Git y evita suponer un nombre o sustituir la configuración existente al pasar el stack a repositorio.
 - **Alcance:** `deploy/gestadia/portainer-stack.yml`, bind de sólo lectura a `/workspace/backend/.env`; plan Docker guest del14/10.
 - **Notas:** sustituye la ruta deducida `GESTADIA_CONFIG_DIR/backend.env`. Se conserva `create_host_path:false`; no renombra ni crea archivos privados. La variable debe señalar el archivo actual cotejado por Ops, no un candidato móvil recortado.
+
+
+### pending_operations
+- **Tipo:** propiedad de la API local del Portal.
+- **Definición:** Operaciones propias cuyo envío está preparado o tiene resultado incierto, para que la APP conserve su identidad y permita recuperación. Es un array, también cuando no hay pendientes.
+- **Alcance:** backend/src/app/conversations.js, backend/src/app/v2/guest.js y frontend/app/src/AppConversation.jsx.
+- **Notas:** se proyecta desde el ledger de la conversación autorizada; no es un campo añadido al contrato cerrado S2S de LidIA ni una lista vacía fija que oculte operaciones reales.

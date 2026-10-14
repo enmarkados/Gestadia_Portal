@@ -39,6 +39,22 @@ async function fixture(t){
  return {svc,config,remote,installation,actor,setClock:v=>clock=new Date(v)};
 }
 const bindingKeys=()=>Object.fromEntries(['app.bindings.write','app.bindings.read'].map(cap=>[cap,{keyId:'fixture-binding',secretBase64:Buffer.alloc(32,7).toString('base64')}]));
+test('historial invitado entrega pendientes propios para la pantalla APP',async t=>{
+ const f=await fixture(t),start=await f.svc.start(f.actor,{purpose:'sondeo'},randomUUID());
+ assert.deepEqual((await f.svc.timeline(f.actor,start.conversation.id,{})).pending_operations,[]);
+ const other=await fixture(t),otherStart=await other.svc.start(other.actor,{purpose:'sondeo'},randomUUID());
+ const rows=[];
+ for(const [index,status] of ['prepared','outcome_unknown','admitted','failed'].entries()){
+  rows.push(await db.appGuestOperation.create({data:{conversationId:start.conversation.id,kind:'turn',key:randomUUID(),hash:'fixture',status,errorCode:status==='outcome_unknown'?'outcome_unknown':null,request:{turn_id:randomUUID()},createdAt:new Date(`2026-10-11T10:00:0${index}.000Z`)}}));
+ }
+ await db.appGuestOperation.create({data:{conversationId:otherStart.conversation.id,kind:'turn',key:randomUUID(),hash:'fixture',status:'prepared',request:{turn_id:randomUUID()}}});
+ const timeline=await f.svc.timeline(f.actor,start.conversation.id,{});
+ assert.deepEqual(timeline.pending_operations,[
+  {id:rows[0].id,operation:'turn',status:'prepared',error_code:null,turn_id:rows[0].request.turn_id},
+  {id:rows[1].id,operation:'turn',status:'outcome_unknown',error_code:'outcome_unknown',turn_id:rows[1].request.turn_id},
+ ]);
+ assert.equal(timeline.conversation_id,start.conversation.id);
+});
 async function accountActor(t,f,guestToken=f.installation.token){
  const user=await db.user.create({data:{email:`guest-bind-${randomUUID()}@example.test`,nombre:'Fixture',apellidos:'Local',passwordHash:'not-used-by-this-test',emailVerified:true,accountVerifiedAt:new Date('2026-10-10T10:00:00Z'),accountVerificationMethod:'email'}});
  t.after(async()=>{await db.appDeviceSession.deleteMany({where:{userId:user.id}});await db.user.delete({where:{id:user.id}});});
