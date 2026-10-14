@@ -1,0 +1,19 @@
+{
+  "evidenceKind": "Ops readback of visible Portainer terminal, screenshot preserved",
+  "observedAt": "2026-10-14T04:54:57Z",
+  "containerId": "74722a88fe9b2ce6b53bd0aedd592f4e7018dab0f2b533c5ac9b49914d4e5579",
+  "servedReference": "6106a8a1e5a14acbb7bf056a0461e543d5b734bd",
+  "uid": 1654,
+  "appEnabled": false,
+  "profileAbsent": true,
+  "nativeSha256": "9e90e4c191a76d470cd4bdf3bd4b5e226dd739caf9f0aff015eba8eda1186418",
+  "jsSha256": "4874cadf8fb84bb4608fe6239b3fe00c40e6515d7adfb31c08d7ff5bade29cdb",
+  "httpsHealth": 200,
+  "envCount": 58,
+  "envDifferencesFromOriginal": [],
+  "profileBackupPreservedSha256": "1c7c4bbeafc46f7910b4bb0b1dc43f04e777749b9182c684760b081c0be37244",
+  "closingGateSourceSha256": "f300a25b235c5825b36929ba849597f2f420e5f6eb713cb9d9d0605fef7ca370",
+  "screenshotSha256": "dd9605e6b24a9b1f9c4f2e2534342621fdf8d0cf4f0eaa4d82a8abe4c95dc8a8",
+  "historyDeleted": false,
+  "productionUpdated": false
+}

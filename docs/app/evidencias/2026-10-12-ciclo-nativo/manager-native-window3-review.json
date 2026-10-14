@@ -43,7 +43,7 @@
     "turnOperationsUnchanged": 5,
     "maxEnforcementDeadline": "2026-10-14T04:46:00.301Z",
     "sourceEffectiveReadbackPending": false,
-    "receiverProfileRemovalPending": true,
+    "receiverProfileRemovalPending": false,
     "localS2sScopeEnabled": false,
     "localCrmScopeEnabled": false,
     "localProvidersEnabled": false,
@@ -56,7 +56,14 @@
       2
     ],
     "localOffVerifiedUtc": "2026-10-14T04:49:30.572Z",
-    "localOffOriginalSha256": "ccd919b1c7dd887d78af7e66c7806336f28e94e87116e55cc1f9ad369867d7b0"
+    "localOffOriginalSha256": "ccd919b1c7dd887d78af7e66c7806336f28e94e87116e55cc1f9ad369867d7b0",
+    "receiverOffObservedUtc": "2026-10-14T04:54:57Z",
+    "receiverOffEvidenceKind": "Ops readback of visible Portainer terminal, screenshot preserved",
+    "receiverOffReviewSha256": "549182c75eb285b0db92d27bea598c4f6aab4af89860b15d17827c93ba8f63ad",
+    "receiverContainerId": "74722a88fe9b2ce6b53bd0aedd592f4e7018dab0f2b533c5ac9b49914d4e5579",
+    "receiverEnabled": false,
+    "profileAbsent": true,
+    "originalEnvironmentVariablesEqual": true
   },
   "physicalInstallation": false,
   "guestActivated": false,
@@ -84,5 +91,12 @@
       "bytes": 300464,
       "unchangedCopy": true
     }
-  ]
+  ],
+  "integration": {
+    "pullRequest": 17,
+    "mergeRevision": "395deaa8e01cfb3a63e36f80d84055f395159b82",
+    "mergedUtc": "2026-10-14T04:52:49Z",
+    "primaryAndRemoteSynced": true,
+    "productUnchanged": true
+  }
 }
