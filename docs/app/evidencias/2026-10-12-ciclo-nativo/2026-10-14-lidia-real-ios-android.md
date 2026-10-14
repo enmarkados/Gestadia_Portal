@@ -1,6 +1,6 @@
 # LidIA real en iOS y Android · 14/10/2026
 
-La consulta conectada y su recuperación están comprobadas en ambos emuladores. **El ciclo del gestor y la instalación física siguen pendientes.** [Matriz viva](README.md) · [Revisión saneada](native-lidia-actual-20261014-review.json).
+La consulta conectada y su recuperación están comprobadas en ambos emuladores. La continuación [gestor real V1.731](2026-10-14-gestor-real-731.md) acredita intercambio, recibos y cierre en ambos sistemas; la instalación física sigue pendiente. Los apartados de este registro conservan su fecha y límites de cada ronda. [Matriz viva](README.md) · [Revisión saneada](native-lidia-actual-20261014-review.json).
 
 ## Versión y receptor observados
 

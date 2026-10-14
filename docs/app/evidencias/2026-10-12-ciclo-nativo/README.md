@@ -4,14 +4,14 @@ Petición humana: comprobar LidIA y el gestor `integraciones@vozenter.com` en iO
 
 [Plan de aceptación y reparto para preparar DEV](PLAN-ACEPTACION.md), confirmado como objetivo humano al retomar el12/10. Mantener separado el avance documental de los resultados realmente ejecutados.
 
-**Actualización14/10:** [ejecución y capturas reales](2026-10-14-lidia-real-ios-android.md). LidIA conectada y continuidad comprobadas. Android intercambia mensajes con Integraciones, pero la lectura por el operador falla; ciclo de gestor completo y dispositivo físico siguen pendientes. [Avance y límites](manager-native-progress-20261014-review.json). Los apartados anteriores conservan sus fechas y límites históricos.
+**Actualización14/10:** [LidIA conectada y continuidad](2026-10-14-lidia-real-ios-android.md) y [gestor real V1.731 con capturas](2026-10-14-gestor-real-731.md). Intercambio, recepción/lectura bidireccionales y cierre comprobados en ambos sistemas. iOS recupera el historial cerrado tras relanzar; Android conserva la lista tras reiniciar y recupera su historial completo desde iOS. Retirada efectiva del receptor e instalación física se documentan por separado. [Resultado y límites](manager-native-window3-review.json). Los apartados anteriores conservan sus fechas y límites históricos.
 
 Integración preparada en [PR17, borrador hacia app/main](https://github.com/enmarkados/Gestadia_Portal/pull/17), todavía sin fusionar. La interfaz actual pasa [49 archivos / 208 pruebas](frontend-current-208-review.json). La comprobación de sólo lectura del servicio sin registro, local y público, devuelve `503 runtime_unavailable` el14/10 a01:05UTC; no crea instalaciones ni chats y no acredita aceptación guest.
 
 ## Fuente y entorno
 
 - Fuente de los paquetes y pruebas del12/10 (iOS0.1.0/build11; Android0.1.0/versionCode4): `344b0335ffb1e4a48677983fcba60b58e0b0c216`, con el editor de nombre aceptado. Las referencias web/backend5febdf2/0af593f corresponden a esa preparación, no al despliegue posteriorc653.
-- Preparación nueva del13/10: fuente27c8b4a/productoc653, ambos paquetes compilados y iOS arrancado; conserva build11/versionCode4. [Manifiestos actuales](native-source27-builds.json) y [observación y límites](2026-10-13-dev-import-real-and-guest-fix.md#paquetes-nativos-actuales-preparados). El ciclo LidIA se comprueba el14/10; el de gestor continúa pendiente.
+- Preparación nueva del13/10: fuente27c8b4a/productoc653, ambos paquetes compilados; conserva build11/versionCode4. [Manifiestos actuales](native-source27-builds.json) y [observación y límites](2026-10-13-dev-import-real-and-guest-fix.md#paquetes-nativos-actuales-preparados). Los ciclos LidIA y gestor se comprueban el14/10 con los límites de recuperación indicados.
 - Rama propia de QA: `codex/app-prueba-real-ios-android-20261012`, worktree `app-motion-280`. Reutiliza la fuente del build 11 y conserva los documentos posteriores de app/main. Esta preparación local no publica ni activa canales.
 - Backend Portal real en loopback3005 y MySQL durable exclusivo de QA. Copia previa y configuración privada bajo `~/.codex/private/gestadia-app/qa-native-20261012/`; no contiene un proveedor conversacional simulado.
 - La autoridad antigua de sondeo/history caducó el12/10 a00:06UTC. V1/v2 se mantienen apagados hasta recibir configuración y autoridad verificables para nuestra prueba.
@@ -28,8 +28,9 @@ Integración preparada en [PR17, borrador hacia app/main](https://github.com/enm
 | Conservar sesión al reiniciar y revocar al cerrar | PASS: terminate/relaunch conserva cuenta; logout pasa de1 a0 sesiones activas | PASS: force-stop/reinicio conserva cuenta; logout pasa de1 a0 sesiones activas |
 | Nueva sesión real en clon DEV124 + respuesta del modelo | PASS: consulta independiente, un turno | PASS: siete turnos y conclusión por texto |
 | Recuperación, respuesta legible e historial | PASS: historial Android y propio tras relanzar | PASS: historial iOS tras reiniciar AVD |
-| Chat con gestor Integraciones, envío en ambos sentidos | Pendiente de ciclo nativo | Intercambio real observado; Contact–Deal–Owner propios verificados |
-| Recibos enviado/recibido/leído, cierre y reapertura permitida | Pendiente | Parcial: lectura por APP y cierre real; lectura por operador falla |
+| Chat con gestor Integraciones, envío en ambos sentidos | PASS: dos mensajes reales | PASS: tres mensajes reales; Contact–Deal–Owner propios verificados |
+| Recibos enviado/recibido/leído y cierre | PASS: ambos sentidos; cerrado sin compositor | PASS: ambos sentidos y fuera/dentro del área visible; cerrado sin compositor |
+| Historial de gestor recuperado | PASS: Android completo y propio tras relanzar | PASS antes de reiniciar; después lista/título/fechas/estado/preview; apertura completa posterior no terminada |
 | Búsqueda, renombrado, fechas y navegación/Atrás | PASS: dos títulos, cancelar/guardar, búsqueda y reapertura | PASS: títulos/fechas y Continuar al mismo historial; búsqueda/edición no repetidas |
 | Login Apple/Google y push | No acreditados por build ni perfil | No acreditados por build |
 
