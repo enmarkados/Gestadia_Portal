@@ -1,0 +1,46 @@
+{
+  "evidenceKind": "Ops readback of visible Portal runtime terminal and code comparison",
+  "observedAt": "2026-10-14T04:57:52Z",
+  "backendContainerId": "d7034ef6f7c60d2ddd7abc7afdd5744be67ee67e1ae53c074a66fe59e1b1c082",
+  "frontendPublicRevision": "c6530f6a20a134feb96de7bb15b9f89ee4af6975",
+  "appMainMerge": "395deaa8e01cfb3a63e36f80d84055f395159b82",
+  "productDiffToMerge": [],
+  "expectedMigrations": [
+    "20260709111301_init",
+    "20260714120000_canje_pais_direccion",
+    "20260715090000_user_stripe_customer",
+    "20260728120000_lidia_checkout_intent",
+    "20261005190000_app_identity",
+    "20261005200000_app_conversations",
+    "20261007180000_app_conversation_metadata",
+    "20261008120000_mobile_identity_push",
+    "20261008130000_apple_revocation",
+    "20261010102000_account_deletion_execution",
+    "20261011100000_notification_conversations",
+    "20261011103000_app_callbacks",
+    "20261011113000_app_guest_continuity",
+    "20261011192000_app_callback_scope",
+    "20261011210000_app_profile_context"
+  ],
+  "observedMigrationCount": 15,
+  "allFinished": true,
+  "anyRollback": false,
+  "observedProfileCallbackColumns": [
+    "callbackGrant",
+    "profileBaseline",
+    "profilePatch",
+    "profileRevision"
+  ],
+  "backendFilesMatched": {
+    "backend/src/app/contact.js": "19e0ab5e2a82339fd6aee7b3cd772228a30bb561d91a0e0bf1782bcf80dd0325",
+    "backend/src/config.js": "9c577ea85285f72ade421cb461f8c6db29156ec18e610fa9b130da0b119d1ad8",
+    "backend/prisma/schema.prisma": "2a52d7c112d943ea9e7bc52ad93ac72a67b3df2869e92c6eacf39b7ee91270a1",
+    "backend/src/routes/app-contact.js": "68205b6f8ed1a47a6fdf348499fb9aa09bbbd2f1ca1607d91836e07f2cfda19a"
+  },
+  "queryKind": "two SELECTs only; Prisma client without starting host",
+  "databaseWrites": false,
+  "migrationsAppliedByThisCheck": false,
+  "screenshotSha256": "c62dfbdcead37fbb9acf46f3b7bcc114734a8f6008594f9bc9da425eb01f33a8",
+  "portalRedeploymentNeeded": false,
+  "portalRedeployed": false
+}
