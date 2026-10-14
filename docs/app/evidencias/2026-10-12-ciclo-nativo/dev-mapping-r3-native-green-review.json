@@ -1,0 +1,59 @@
+{
+  "status": "mapping_r3_real_provider_green_local_not_DEV",
+  "result": {
+    "status": "own_isolated_native_helper_provider_GREEN",
+    "helper_sha256": "74dca7c8aee453f4731848c2fe66aa19b88f2188a0f9ce3ee103e263e200d0fe",
+    "provider_sha256": "84d297e722db70c78db88ed5f8b273686cb06851ad4e1c14cc7465c4bc482302",
+    "native_local_sha256": "b143d236dabaaa35fdc15dec6715c59a1f5f0a17d7176d8ecaa1585c821be570",
+    "queries": 2,
+    "same_reader_instance": true,
+    "old_dispose_rejected_before_physical": true,
+    "second_reader_open_after_rejected_old_dispose": true,
+    "active_reader_preserved": true,
+    "current_transaction_present": true,
+    "both_readers_closed": true,
+    "lifecycle": {
+      "complete": true,
+      "rollback_returned": true,
+      "pending_operation_kind": null,
+      "resources": {
+        "pending_operation": {
+          "state": "absent",
+          "exception_type": null
+        },
+        "reader_dispose": {
+          "state": "already_returned",
+          "exception_type": null
+        },
+        "command_dispose": {
+          "state": "already_returned",
+          "exception_type": null
+        },
+        "rollback": {
+          "state": "returned",
+          "exception_type": null
+        },
+        "transaction_dispose": {
+          "state": "returned",
+          "exception_type": null
+        },
+        "connection_close": {
+          "state": "returned",
+          "exception_type": null
+        },
+        "context_dispose": {
+          "state": "returned",
+          "exception_type": null
+        }
+      }
+    },
+    "database_write": false,
+    "DEV_read": false
+  },
+  "exit": 0,
+  "log_sha256": "1aa7d1a15556f1704c9c70104162c38952d100660199ef927b710b925e790479",
+  "helper_pin_after_test_exact": true,
+  "no_server_operation": true,
+  "mapping_observed": false,
+  "config_install_authorized_by_this_test": false
+}

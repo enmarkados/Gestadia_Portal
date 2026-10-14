@@ -1,0 +1,11 @@
+{
+  "buildInfo": {
+    "app": "Gestadia",
+    "version": "0.1.0",
+    "revision": "599c6e9"
+  },
+  "cssUrl": "/assets/index-DXqKJBLA.css",
+  "cssSha256": "2acdcea08664a998cb56db91e19cae9925c5fe16a5be7d6d7c5ae78e5d7e3024",
+  "nativeCssMatches": true,
+  "conversationRouteStatus": 200
+}

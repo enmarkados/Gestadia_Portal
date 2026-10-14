@@ -1,0 +1,146 @@
+{
+  "styles": {
+    "dots": [
+      {
+        "animation": "lidia-typing-dot",
+        "delay": "0s",
+        "duration": "1.4s",
+        "transform": "matrix(1, 0, 0, 1, 0, 0)"
+      },
+      {
+        "animation": "lidia-typing-dot",
+        "delay": "0.2s",
+        "duration": "1.4s",
+        "transform": "matrix(1, 0, 0, 1, 0, 0)"
+      },
+      {
+        "animation": "lidia-typing-dot",
+        "delay": "0.4s",
+        "duration": "1.4s",
+        "transform": "matrix(1, 0, 0, 1, 0, -0.000346769)"
+      }
+    ],
+    "entry": {
+      "duration": "0.28s",
+      "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+      "name": "message-enter"
+    },
+    "fontStyle": "normal",
+    "fontWeight": "700"
+  },
+  "samples": [
+    [
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, -0.0420575)",
+      "matrix(1, 0, 0, 1, 0, -4.50352)"
+    ],
+    [
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, -1.18419)"
+    ],
+    [
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, 0)"
+    ],
+    [
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, 0)"
+    ],
+    [
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, 0)"
+    ],
+    [
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, 0)"
+    ],
+    [
+      "matrix(1, 0, 0, 1, 0, -0.138423)",
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, 0)"
+    ],
+    [
+      "matrix(1, 0, 0, 1, 0, -2.79126)",
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, 0)"
+    ],
+    [
+      "matrix(1, 0, 0, 1, 0, -4.97719)",
+      "matrix(1, 0, 0, 1, 0, -0.579324)",
+      "matrix(1, 0, 0, 1, 0, 0)"
+    ],
+    [
+      "matrix(1, 0, 0, 1, 0, -2.89224)",
+      "matrix(1, 0, 0, 1, 0, -4.3)",
+      "matrix(1, 0, 0, 1, 0, -0.00630569)"
+    ],
+    [
+      "matrix(1, 0, 0, 1, 0, -0.250005)",
+      "matrix(1, 0, 0, 1, 0, -4.83624)",
+      "matrix(1, 0, 0, 1, 0, -1.77144)"
+    ],
+    [
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, -2.12353)",
+      "matrix(1, 0, 0, 1, 0, -4.70627)"
+    ],
+    [
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, -0.0145038)",
+      "matrix(1, 0, 0, 1, 0, -4.37065)"
+    ],
+    [
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, -1.17331)"
+    ],
+    [
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, 0)"
+    ],
+    [
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, 0)"
+    ],
+    [
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, 0)"
+    ],
+    [
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, 0)"
+    ]
+  ],
+  "exit": {
+    "animation": "lidia-typing-exit",
+    "duration": "0.28s",
+    "ariaHidden": true,
+    "removed": true
+  },
+  "reduced": {
+    "dots": [
+      {
+        "animation": "none",
+        "transform": "none"
+      },
+      {
+        "animation": "none",
+        "transform": "none"
+      },
+      {
+        "animation": "none",
+        "transform": "none"
+      }
+    ],
+    "root": "none"
+  }
+}

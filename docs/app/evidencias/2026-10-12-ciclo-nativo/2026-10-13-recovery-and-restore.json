@@ -1,0 +1,43 @@
+{
+  "status": "local_runtime_recovered_remote_restore_verified",
+  "restoration": {
+    "original_log_sha256": "5c6c6ed500652f2346f9c13353430aad15fce345f108372cc54b4a1f639e1183",
+    "bytes": 361,
+    "tables_checked": 198,
+    "ef_history_checked": 260,
+    "files_checked": true,
+    "isolated_new_container": "96513936be93db13278afcb3f0e96883d926cb89e9cb1f11e88385ba6bbd19da",
+    "stack": 144,
+    "exit_zero_reported_by_ops": true
+  },
+  "local": {
+    "docker_engine_version": "29.6.1",
+    "engine_stopping_seen_in_ui": true,
+    "normal_quit_did_not_finish": true,
+    "official_cli_force_stop_and_start_succeeded": true,
+    "no_reset_or_prune": true,
+    "container_and_data_volume_preserved": true,
+    "old_auto_port": 60670,
+    "current_auto_port": 59094,
+    "database": "gestadia_app_local119",
+    "api_port": 3005,
+    "health_ok": true,
+    "externals_and_s2s_disabled": true,
+    "original_backup_hash_verified": true,
+    "own_user_id": "64a53aba-39a3-4559-93a1-cfb86ed0e09e",
+    "verified_active": true,
+    "zohoContactId": null,
+    "cases": 0,
+    "activeAuthSessions_observed": 0
+  },
+  "ios": {
+    "simulator_id": "2AC06980-1E46-47E7-8E8C-A387E044690A",
+    "source": "344b0335ffb1e4a48677983fcba60b58e0b0c216",
+    "build": 11,
+    "installed_prebuilt_qa": true,
+    "home_visually_confirmed": true,
+    "other_iphone17_preserved_booted": true
+  },
+  "real_conversations_completed": false,
+  "iphone_installed_this_run": false
+}

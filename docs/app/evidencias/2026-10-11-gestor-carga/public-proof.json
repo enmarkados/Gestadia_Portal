@@ -1,0 +1,24 @@
+{
+  "buildInfo": {
+    "app": "Gestadia",
+    "version": "0.1.0",
+    "revision": "eaaf71f"
+  },
+  "checks": [
+    {
+      "path": "assets/index-C4kgnZgx.js",
+      "http": 200,
+      "sha256": "43b9c0237a66eaf56376591e1f82ac46fa170f00895610aa886e5fe7ce9247e9"
+    },
+    {
+      "path": "loading/gestadia-loading.gif",
+      "http": 200,
+      "sha256": "f9065b858dc403b092a1125f763709250c75cf3575260d2e9e85ee720350549b"
+    },
+    {
+      "path": "loading/gestadia-loading-still.png",
+      "http": 200,
+      "sha256": "945cd8232edaa86bccc2e25e8a21da8048866edf4d65ecf29ca1895bdb0f3ba0"
+    }
+  ]
+}

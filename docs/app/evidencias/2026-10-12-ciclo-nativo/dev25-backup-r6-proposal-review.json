@@ -1,0 +1,18 @@
+{
+  "reviewedAt": "2026-10-13T00:06:04.507050+00:00",
+  "status": "r6_proposal_conforming_preparation_allowed",
+  "proposalSha256": "dcc44625906462b9dd430d62b387ff4accb4e74b06173971a56356823659d189",
+  "actualNativeTable": "AppConversations",
+  "newObservedCountProperty": "app_conversations_rows",
+  "schemaOrProductChanges": false,
+  "originalR5AndDiagnosticPreserved": true,
+  "nativeExporterAndSnapshotDefaultsUnchanged": true,
+  "newOperationDirectoryRequired": true,
+  "conformance": "Prepare separate private R6 with source/model/inventory regression and bounded error phases. Frozen package/tests review precedes one new export by Ops; restore verification precedes import or activation.",
+  "actualR6BackupExecuted": false,
+  "restoreVerified": false,
+  "agentImported": false,
+  "appActivated": false,
+  "nativeCyclePassed": false,
+  "physicalInstallPerformed": false
+}

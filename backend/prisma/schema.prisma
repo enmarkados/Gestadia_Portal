@@ -299,6 +299,10 @@ model AppConversation {
   syncedRevision String @default("0") @db.VarChar(20)
   contextHash String? @db.VarChar(64)
   context Json?
+  profileBaseline Json?
+  profilePatch Json?
+  profileRevision String @default("0") @db.VarChar(20)
+  callbackGrant Json?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   operations AppOperation[]

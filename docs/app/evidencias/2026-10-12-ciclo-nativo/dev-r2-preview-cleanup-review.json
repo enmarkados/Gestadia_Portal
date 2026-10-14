@@ -1,0 +1,68 @@
+{
+  "status": "preview_written_cleanup_inconclusive_not_eligible",
+  "originals": [
+    {
+      "name": "preview.cleanup.failure.json",
+      "bytes": 97,
+      "sha256": "2ddf60733919249baa858b91b1246eab2c00cf077305a121b2a73f181ff1bc38"
+    },
+    {
+      "name": "preview.private.json",
+      "bytes": 165293,
+      "sha256": "8fc2b3c46aa60fe64211436a425223a8e47b77ee6a7c203dc935b1697935257c"
+    },
+    {
+      "name": "preview.started.json",
+      "bytes": 148,
+      "sha256": "04d313d08e09e4ea17d300c95f608e531a7d462b7e6a56301c1f2ae1b03a81ba"
+    }
+  ],
+  "core_sha256": "a714293a19d36451c1777cea8614d899a1c11d56edfa7bc19c0ab97b2c264776",
+  "result_sha256": "5e4e635746a010e663b419436b3b75777daecf7d9e09130342d1bccf4c457cdc",
+  "preview_review_sha256": "4d645c6cf1afed32750c3d5ba112e0bac5d212fde3c428cb613e71bcc1715d00",
+  "observed_utc": "2026-10-13T19:41:37.5030252+00:00",
+  "rows": {
+    "project": {
+      "id": 104,
+      "active_before": false,
+      "active_proposed": true,
+      "changed_fields": [
+        "IsActive"
+      ]
+    },
+    "agent": {
+      "id": 124,
+      "active_before": false,
+      "active_proposed": true,
+      "changed_fields": [
+        "IsActive"
+      ]
+    },
+    "instruction": {
+      "id": 10117,
+      "active_before": false,
+      "active_proposed": true,
+      "changed_fields": [
+        "IsActive"
+      ]
+    },
+    "country": {
+      "id": 10366,
+      "active_before": false,
+      "active_proposed": true,
+      "changed_fields": [
+        "IsActive"
+      ]
+    }
+  },
+  "project_ai_enabled_before": true,
+  "db_write": false,
+  "app_activation_performed": false,
+  "cleanup": {
+    "commit_returned": false,
+    "no_replay": true,
+    "status": "cleanup_inconclusive_no_replay_not_eligible"
+  },
+  "source_cause_verified": false,
+  "native_cycles_complete": false
+}

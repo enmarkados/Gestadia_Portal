@@ -1,0 +1,17 @@
+{
+  "sourceRevision": "27c8b4ae34b97cfdf67aa5ea0e290f07a944cbdf",
+  "ownAvd": "Gestadia_Native_QA_20261012",
+  "serial": "emulator-5570",
+  "ramMb": 4096,
+  "cores": 4,
+  "apkInstalled": true,
+  "homeObserved": true,
+  "guestUnavailableChoiceRetained": true,
+  "nativeLoginPassed": true,
+  "loginReturn": "same new LidIA conversation entry",
+  "activeAndroidSessionCreatedUtc": "2026-10-13T16:47:38.516Z",
+  "accountRecoveredAfterForceStop": true,
+  "remoteSondeoPassed": false,
+  "managerCyclePassed": false,
+  "physicalInstalled": false
+}

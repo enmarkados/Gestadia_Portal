@@ -1,0 +1,80 @@
+{
+  "observed_date": "2026-10-14",
+  "status": "native_lidia_confirmed_manager_pending",
+  "product_source": "c6530f6a20a134feb96de7bb15b9f89ee4af6975",
+  "ios_version": "0.1.0 (11)",
+  "android_version": "0.1.0 (4)",
+  "backend": "private loopback3005 / durable own QA DB",
+  "remote_environment": "DEV25",
+  "effective_project": 104,
+  "effective_agent": 124,
+  "instruction": "1.8-mario-adaptado",
+  "native_sessions": 2,
+  "native_turns": 8,
+  "android": {
+    "turns": 7,
+    "portal_conversation_id": "ffe97936-c183-44dd-858d-bf89011065cf",
+    "remote_conversation_id": "85f76609-6f13-4f2d-99be-712c93870d22",
+    "title": "Canje Colombia Android",
+    "result": "agent text says simulated profile meets requirements; stopped at name request",
+    "cold_reboot_same_ios_history": true
+  },
+  "ios": {
+    "turns": 1,
+    "portal_conversation_id": "043190f4-3bf4-4f1f-8fd3-8e72d9256d70",
+    "remote_conversation_id": "ff36b69d-128b-4e9e-9a35-b4e566ad2fd3",
+    "title": "Consulta Colombia iOS",
+    "result": "Colombia response and question about current licence",
+    "restart_same_history": true,
+    "search_exact_chats": true,
+    "rename_cancel_and_save": true
+  },
+  "initial_context_ack_revision": "1",
+  "receipt_observed": "received_by_lidia",
+  "read_receipt_claimed": false,
+  "structured_qualification_claimed": false,
+  "crm_writes": 0,
+  "appointments": 0,
+  "manager_cycle": "pending own CRM relation, staff role/department/routing and assignment",
+  "physical_install": "pending manager cycles and connected target",
+  "raw_projections": [
+    {
+      "private_file": "android-session-context-before-first-turn.private.json",
+      "kind": "durable DB projection, not original HTTP",
+      "sha256": "cbe53610650e0d09f10ac37b6156956b06fdf260cbfa7b197d3fbeaaf3fdde13"
+    },
+    {
+      "private_file": "android-seven-turns-operation-projection.private.json",
+      "kind": "durable DB projection, not original HTTP",
+      "sha256": "7e95ba2bd739bbe10cdfa91cbec09d54c7ac208c75f33b2aee81ef1b1f704755"
+    },
+    {
+      "private_file": "ios-second-session-context-before-turn.private.json",
+      "kind": "durable DB projection, not original HTTP",
+      "sha256": "68833d40812c602336b1f84b858118e61d1613167c2e42c1afdaf88750a909f4"
+    },
+    {
+      "private_file": "ios-one-turn-operation-projection.private.json",
+      "kind": "durable DB projection, not original HTTP",
+      "sha256": "81e7094c255017f71aafa429b7aa75b17c77191fc9a0bed89534577cfa0b95eb"
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "android-sondeo-real-20261014.png",
+      "sha256": "a7e89bb3209a81c1cd4049fe51094c5e7a5280932aaec0c48afccf6b2bac6eda"
+    },
+    {
+      "file": "ios-historial-real-reiniciado-20261014.jpg",
+      "sha256": "536a2b71924c5fad7c56f5d7987bc2aaac794ea7784a7c2aa41b895306ab0899"
+    },
+    {
+      "file": "ios-busqueda-android-20261014.jpg",
+      "sha256": "b7e40114a54e692d166a068eb61a15a06fcdbc24370f266f83e40f26aefb4bfc"
+    },
+    {
+      "file": "android-historial-reiniciado-20261014.png",
+      "sha256": "200d2ccb0763685dbb923a3747ba4fd578c8a5070f9031094e861787dae7eb9e"
+    }
+  ]
+}

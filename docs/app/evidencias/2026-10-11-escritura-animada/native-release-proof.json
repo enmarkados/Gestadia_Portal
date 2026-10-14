@@ -1,0 +1,24 @@
+{
+  "build": "3",
+  "bundle": "com.gestadia.app",
+  "nonExemptEncryption": false,
+  "iosTypingLabelBundled": true,
+  "androidTypingLabelBundled": true,
+  "sha256": {
+    ".superpowers/releases/android-typing-build3/Gestadia-0.1.0-3.aab": "89d90c246004fd691e86aa8d9f2a3ac4dbbbf02f90baef46e8a7cbc4113e30e5",
+    ".superpowers/releases/ios-typing-build3/export/App.ipa": "fa0f5fa9a50f2669b124fdfdd0525673a8c758cf1541d1db12554e183181954c",
+    ".superpowers/releases/android-typing-build3/Gestadia-0.1.0-3.apk": "62c30ad3587812782aac8d0d3aee98f75a8a849f75f69db437ef3eff65592b71"
+  },
+  "publicConfigIdentical": true,
+  "publicConfig": "window.GESTADIA_APP_CONFIG = {\"appId\":\"com.gestadia.app\",\"apiBaseUrl\":\"https://app.gestadia.com\",\"checkoutBaseUrl\":\"https://gestadia.com\",\"push\":{\"enabled\":true},\"social\":{\"google\":{\"webClientId\":\"25349048999-kbnmabllathll194qlp2098c8gl0v9u2.apps.googleusercontent.com\",\"iosClientId\":\"25349048999-j9enu8v0nm4767m46tcv5vrvcatrbnk0.apps.googleusercontent.com\"},\"apple\":{\"clientId\":\"com.gestadia.app\",\"androidServiceId\":\"com.gestadia.app.login\",\"redirectUrl\":\"https://app.gestadia.com/api/auth/social/apple/callback\"}},\"pluginWeb\":{\"baseUrl\":\"/lidia\",\"key\":\"\"},\"conversationsEnabled\":true};\n",
+  "signing": {
+    "iosCodesignDeepStrict": true,
+    "iosApns": "production",
+    "iosAppleSignIn": [
+      "Default"
+    ],
+    "iosGetTaskAllow": false,
+    "androidApkSignatureV2": true,
+    "androidUploadCertificateSha256": "10b1e61fc2c711a3527cb5db75ddb6e9249d8107a26536cacc8d8bc40c09aa6b"
+  }
+}

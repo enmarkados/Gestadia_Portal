@@ -1,0 +1,15 @@
+{
+  "backup": "composer-scroll-build8-20261011",
+  "sqlBytes": 269743,
+  "sqlSha256": "b1fb6924b35a19c17ece158638bc68c3e5bf86c24eecf303cd8c8b23d66ce40a",
+  "counts": {
+    "users": 45,
+    "expedientes": 94,
+    "documentos": 14,
+    "migrations": 13
+  },
+  "databaseRestore": "PASS isolated no network",
+  "filesRestore": "PASS byte-for-byte",
+  "jobsExit": 0,
+  "productionDeletions": false
+}

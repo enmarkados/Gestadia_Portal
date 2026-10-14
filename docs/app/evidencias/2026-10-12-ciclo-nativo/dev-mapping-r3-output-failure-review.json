@@ -1,0 +1,23 @@
+{
+  "status": "r3_actual_logical_failure_with_complete_physical_cleanup",
+  "started": {
+    "bytes": 51,
+    "sha256": "27354467ef9cd882593b74fb9efedaa60aad04241f0dd90654c6a69d091084f1"
+  },
+  "failure": {
+    "bytes": 732,
+    "sha256": "c609dc877fde722dc303ec846ab2fc73de02c89780674951617d6a9fb93fd3b9"
+  },
+  "phase": "revalidate",
+  "code": "External",
+  "exception_type": "InvalidOperationException",
+  "phase_success": false,
+  "cleanup_complete": true,
+  "rollback_returned": true,
+  "pending_operation_kind": null,
+  "all_resource_exception_types_null": true,
+  "actual_mapping_observed": false,
+  "replayed": false,
+  "app_config_installed": false,
+  "native_cycles_passed": false
+}

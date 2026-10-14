@@ -1,0 +1,54 @@
+{
+  "observedUntil": "2026-10-14T03:34:00Z",
+  "productCommit": "c6530f6",
+  "lidiaServedVersion": "V1.730-auditoria-sesiones-app",
+  "lidiaRef": "1aaf2cdbe390cc12bdc24930e6c11acf1eae7dd6",
+  "profileSha256": "124cbb4707e05d47ec2462595fafdd4a20924d76cf436ecc45e6507c70998ea7",
+  "windowUntil": "2026-10-14T03:46:00Z",
+  "crm": {
+    "confirmedCreatedRecords": 2,
+    "recordRequests": 7,
+    "recordPostAttempts": 4,
+    "recordGetRequests": 3,
+    "definitiveRejectedDealPosts": 2,
+    "paymentOrClosedWon": false,
+    "pipeline": "CV con Pago",
+    "stage": "En Negociación",
+    "pipelineAndStageIdsFromMetadataOnly": true
+  },
+  "localCase": {
+    "id": "ad8d5b53-6654-481f-9147-f3f4d447be54",
+    "paymentState": "pago_pendiente",
+    "grant": [
+      "history",
+      "manager_handoff",
+      "case_context"
+    ]
+  },
+  "android": {
+    "conversationId": "ee652921-7997-4007-80d1-ec205d311b99",
+    "remoteSessionId": "cb0fc8d5-2e3b-49f4-b174-7651b4e54cf1",
+    "contextRevision": "1",
+    "syncedRevision": "1",
+    "sessionHttp": 201,
+    "contextHttp": 200,
+    "handoffHttp": 202,
+    "clientTurnHttp": 202,
+    "bidirectionalUiObserved": true,
+    "operatorShown": "Integraciones",
+    "crmOwnerShown": "Sistemas - Zoho",
+    "accountReadOfOperatorReply": "Source corroborated UI and primary read-only timestamps",
+    "operatorReadOfClientMessages": "not confirmed; first received, second sent at this observation",
+    "backToLidiaAndMessagesObserved": true,
+    "closed": false
+  },
+  "iosManagerCycle": "pending",
+  "physicalInstall": "pending",
+  "sourceEvidenceHashes": {
+    "corrected-deal-stage-actual-20261014/review.private.json": "2885e67b8bd7ad647a955c9a6bc8e2ef9b281fe35ea55653fe3b000867a4f92e",
+    "own-crm-case-link-20261014/review.private.json": "4b1c086621e10c046ac0e95562b56167f3efd4421aa6f5465f3aedb23b14aa0e",
+    "own-manager-grant-review.private.json": "93884b41b13d8027b915c14db15afe60a979edb27698572ecab3cab17745632b",
+    "android-manager-created-review.private.json": "540bccc0b1ccc4cd72e4cdd2b9fe8483d27c24a4d03cc07df524a24e848c4d12",
+    "r5-atencion-only-startup-review.private.json": "f1b47c48a144f6588aa8a838d5b99763a53ba15ff771a87eaa76f1e37e1f3766"
+  }
+}

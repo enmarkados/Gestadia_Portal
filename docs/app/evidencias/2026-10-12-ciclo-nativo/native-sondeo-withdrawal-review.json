@@ -1,0 +1,50 @@
+{
+  "status": "own_native_sondeo_access_withdrawn_receiver_off_configuration_removed",
+  "portal_all_off": true,
+  "own_contexts": [
+    {
+      "sid": "85f76609-6f13-4f2d-99be-712c93870d22",
+      "revision": "2",
+      "persisted": true,
+      "enforcement_deadline": "2026-10-13T23:34:01.404Z",
+      "ack_sha256": "b337f6db3211e6143e47a858e1ab064e6569298546abfe1dcc844cafba5bde13",
+      "effective_sha256": "861b2150148d8819dc5b8488c51b3c2927ce0607172bab6360fedd1bb2a6ae94",
+      "effective_permissions": [],
+      "active_operations": 0,
+      "processing_workers": 0,
+      "turns_preserved": 7,
+      "messages_preserved": 26
+    },
+    {
+      "sid": "ff36b69d-128b-4e9e-9a35-b4e566ad2fd3",
+      "revision": "2",
+      "persisted": true,
+      "enforcement_deadline": "2026-10-13T23:34:01.267Z",
+      "ack_sha256": "62727f85e27995c6bcc0970464263d56deeb554bf771aaeff6bbd3148f3a9644",
+      "effective_sha256": "53b93472648846c4e4285c1173a5d8d99d670860f83bb1af4492ee8a0e492856",
+      "effective_permissions": [],
+      "active_operations": 0,
+      "processing_workers": 0,
+      "turns_preserved": 1,
+      "messages_preserved": 5
+    }
+  ],
+  "source_effective_kind": "primary_database_readonly_with_explicit_empty_permissions_derivation",
+  "source_effective_observed_at": "2026-10-13T23:38:36.448460+00:00",
+  "source_closure_complete": true,
+  "portal_api_running_with_s2s_disabled": true,
+  "portal_block_sha256": "89044137820fc9215760963a2463a4f0ff9e2d72222a4f6d40853cb40a7a1251",
+  "operations_drained_sha256": "96e8e127b9c1d436860e316e31d6953d7a8c7e4007645020467aa2be96902ff4",
+  "receiver_off_observed_at": "2026-10-13T23:42:37Z",
+  "receiver_cid": "d0ee884330f4a6fe8d070c8cf40a7a1111d143fd2d88e87ad6dde347815108bf",
+  "receiver_env_original_58_values_restored": true,
+  "config_removal": "actual selective removal and absence observed; original config7fa7 retained privately",
+  "own_import_flags_restored": false,
+  "own_import_flags_reason": "kept active to continue manager phase; not a full DEV restoration",
+  "history_deleted": false,
+  "global_revocation": false,
+  "crm_writes": 0,
+  "config_removal_receipt_sha256": "7ff408941e4548ca8ab687f93b35d8e1f045ec42b6e258ae1c536de729abe8f9",
+  "off_restart_observed_at": "2026-10-14T00:11:37Z",
+  "receiver_config_absent_after_restart": true
+}

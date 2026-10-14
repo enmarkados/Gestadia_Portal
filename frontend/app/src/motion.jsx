@@ -85,11 +85,14 @@ export function useMessageMotion(items, ready = true) {
   const [animated, setAnimated] = useState(new Set());
   const reduced = useReducedMotion();
   useLayoutEffect(() => {
-    if (!ready) {
+    if (!ready && items.length === 0) {
       baseline.current = { initialized: false, seen: new Set(), order: -1n };
       if (animated.size) setAnimated(new Set());
       return;
     }
+    // Only the first recovery waits for its final page. Pagination after that
+    // must not turn fresh replies into a new, unanimated historical baseline.
+    if (!ready && !baseline.current.initialized) return;
     const current = baseline.current, added = [];
     let highest = current.order;
     items.forEach((item, index) => {

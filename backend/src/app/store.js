@@ -1,8 +1,11 @@
 import { randomUUID } from "node:crypto";
+import { profileContext, sameProfilePatch } from "./profile.js";
+import { callbackScopeAllows } from './callback-access.js';
 import { accountProof } from "./identity.js";
 import { sha256, canonicalJson, semanticHash } from "./s2s.js";
 import { AppProblem } from "./problem.js";
 import { validateContract } from "./contracts.js";
+import { validAppointmentReceipts } from './appointment-receipts.js';
 export const scopeKey = (purpose, caseId) =>
   sha256(`${purpose}\0${caseId || ""}`);
 export async function accountTransaction(db, userId, fn) {
@@ -80,6 +83,21 @@ export async function currentAccess(tx, c, user, config) {
         ];
     date = user.accountVerifiedAt;
   }
+  // CRM authority is additional and belongs to this row, never the account's
+  // shared sondeo grant. Removing/expiring the pilot preserves basic access.
+  permissions = permissions.filter(p => !["crm_prepare", "callback_schedule"].includes(p));
+  const callback = c.callbackGrant;
+  const callbackValidated = new Date(callback?.validated_at), callbackUntil = new Date(callback?.valid_until), now = new Date();
+  if (callbackScopeAllows(config, c, user.id, now) &&
+      permissions.includes('history') && permissions.includes('sondeo') &&
+      Array.isArray(callback?.permissions) && callback.permissions.length === 2 &&
+      callback.permissions.includes('crm_prepare') && callback.permissions.includes('callback_schedule') &&
+      typeof callback.source_ref === 'string' && callback.source_ref.length > 0 && callback.source_ref.length <= 128 &&
+      Number.isFinite(+callbackValidated) && callbackValidated <= now && callbackUntil > now &&
+      callbackUntil <= new Date(config.callbackAccess.scope.expires_at)) {
+    permissions.push('crm_prepare', 'callback_schedule');
+    date = new Date(Math.max(+date, +callbackValidated));
+  }
   if (config.allowedPermissions) permissions = permissions.filter(p => config.allowedPermissions.includes(p));
   if (!permissions.includes("commercial_handoff")) commercial = null;
   if (!permissions.includes("manager_handoff")) manager = null;
@@ -147,9 +165,20 @@ export async function claim(
   return { operation, created: true };
 }
 export async function queueContext(tx, c, user, config) {
-  const access = await currentAccess(tx, c, user, config),
-    hash = sha256(canonicalJson(access));
+  const access = await currentAccess(tx, c, user, config);
   if (!c.remoteId) return { conversation: c, access };
+  const lastProfile = c.profileRevision && c.profileRevision !== "0" ? {
+    profile_revision: c.profileRevision, profile: c.profilePatch,
+  } : null;
+  const admitted = lastProfile ? await tx.appOperation.findMany({
+    where: { userId: user.id, integrationId: c.integrationId, conversationId: c.id, kind: "context", status: "admitted", request: { path: "$.profile_revision", equals: c.profileRevision } },
+  }) : [];
+  const awaitingProfile = !!lastProfile && !admitted.some(op => sameProfilePatch(op.request, lastProfile));
+  const profile = profileContext(c, user, config.profileContext === true && !awaitingProfile);
+  // Do not advance the baseline while the last patch is uncertain. Authority
+  // changes can carry that exact patch and be delivered with priority.
+  if (awaitingProfile) profile.wire = lastProfile;
+  const hash = sha256(canonicalJson({ ...access, ...profile.wire }));
   if (c.contextHash !== hash) {
     const revision = String(BigInt(c.contextRevision) + 1n);
     if (revision.length > 20) throw new AppProblem(409, "context_conflict");
@@ -158,12 +187,13 @@ export async function queueContext(tx, c, user, config) {
       portal_user_id: user.id,
       context_revision: revision,
       ...access,
+      ...profile.wire,
       correlation_id: randomUUID(),
     };
     validateContract("ConversationContextRequest", dto);
     c = await tx.appConversation.update({
       where: { id: c.id },
-      data: { contextRevision: revision, contextHash: hash, context: dto },
+      data: { contextRevision: revision, contextHash: hash, context: dto, ...profile.data },
     });
     await claim(tx, {
       userId: user.id,
@@ -192,10 +222,15 @@ export function conversationView(c, metadataReady = false) {
     metadata_ready: metadataReady,
   };
 }
-export function receiptView(receipt, id) {
+export function receiptView(receipt, id, permissions = []) {
   if (!receipt) return null;
+  const result = receipt.result && { ...receipt.result };
+  if (result && (!Array.isArray(permissions) ||
+    !['history', 'crm_prepare', 'callback_schedule'].every(p => permissions.includes(p)) ||
+    !validAppointmentReceipts(receipt))) delete result.appointment_receipt;
   return {
     ...receipt,
+    result,
     conversation_id: id,
     error: receipt.error
       ? {
@@ -210,14 +245,14 @@ export function receiptView(receipt, id) {
       : null,
   };
 }
-export function operationView(op) {
+export function operationView(op, permissions = []) {
   return {
     id: op.id,
     operation: op.kind,
     status: op.status,
     error_code: op.errorCode,
     receipt: ["turn", "handoff"].includes(op.kind)
-      ? receiptView(op.response, op.conversationId)
+      ? receiptView(op.response, op.conversationId, permissions)
       : null,
   };
 }

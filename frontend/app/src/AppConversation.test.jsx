@@ -10,7 +10,7 @@ import {
 } from "@testing-library/react";
 import { MemoryRouter, useLocation } from "react-router-dom";
 import { AppProvider } from "./AppContext.jsx";
-import AppConversation from "./AppConversation.jsx";
+import AppConversation, { assistantMessageParts } from "./AppConversation.jsx";
 import { setToken } from "./api.js";
 import serviceSamples from "../../../docs/integraciones/fixtures/app-v1-service-samples.json";
 import finalServiceSamples from "../../../docs/integraciones/fixtures/app-v1-service-samples-v2.json";
@@ -121,6 +121,86 @@ function mount(entry = "/") {
     </MemoryRouter>,
   );
 }
+it("el servicio sin registro no disponible explica el estado y conserva la elección y el intento", async () => {
+  setToken(null);
+  vi.stubGlobal("fetch", vi.fn(async () => ({
+    ok: false, status: 503, json: async () => ({ code: "runtime_unavailable", detail: "No se pudo completar la operación." }),
+  })));
+  const entry = `/lidia/conversacion?nueva=${id}`;
+  mount(entry);
+  fireEvent.click(await screen.findByRole("button", { name: "Continuar sin registro" }));
+  expect(await screen.findByRole("alert")).toHaveTextContent("La conversación con LidIA sin registro no está disponible ahora. Puedes volver a intentarlo más tarde.");
+  expect(screen.getByTestId("route")).toHaveTextContent(entry);
+  expect(screen.getByRole("button", { name: "Continuar sin registro" })).not.toBeDisabled();
+  expect(screen.getByRole("link", { name: "Iniciar sesión" })).toBeInTheDocument();
+});
+it("un chat antiguo con sólo historial conserva mensajes y desactiva acciones y compositor", async () => {
+  const original = fetch;
+  vi.stubGlobal("fetch", vi.fn(async (url, opts = {}) => {
+    if (url === "/api/app/v1/conversations") return { ok: true, status: 200, json: async () => ({ conversations: [{ id: "local-1", purpose: "atencion", case_ref: null, ready: true, status: "active" }] }) };
+    if (!url.includes("/timeline")) return original(url, opts);
+    const body = timeline();
+    body.permissions = ["history"];
+    return { ok: true, status: 200, json: async () => body };
+  }));
+  render(<><div id="manager-composer"/><MemoryRouter><AppProvider><AppConversation purpose="atencion"/></AppProvider></MemoryRouter></>);
+  await screen.findByText("Selecciona una opción");
+  expect(screen.getByRole("button", { name: "Sí", exact: true })).toBeDisabled();
+  expect(screen.queryByRole("textbox", { name: "Tu consulta" })).toBeNull();
+  expect(screen.getByText("Puedes consultar el historial. El envío de mensajes no está habilitado en esta conversación.")).toBeInTheDocument();
+  expect(screen.getByText("Usa «Solicitar llamada» para contactar con Gestadia.")).toBeInTheDocument();
+  expect(calls.filter(c => c.url.endsWith("/turns"))).toHaveLength(0);
+});
+it("el compositor real, también en el pie externo, lleva al último mensaje al enfocarlo o tocarlo de nuevo", async () => {
+  vi.stubGlobal("matchMedia", () => ({ matches: false, addEventListener() {}, removeEventListener() {} }));
+  const { container } = render(<><div id="lidia-composer"/><main className="app-main"><MemoryRouter><AppProvider><AppConversation/></AppProvider></MemoryRouter></main></>);
+  const input = await screen.findByRole("textbox", { name: "Tu consulta" });
+  const main = container.querySelector(".app-main");
+  expect(main.contains(input)).toBe(false);
+  expect(container.querySelector("#lidia-composer").contains(input)).toBe(true);
+  Object.defineProperties(main, { scrollHeight: { value: 1200 }, clientHeight: { value: 400 } });
+  main.scrollTop = 100;
+  act(() => input.focus());
+  await waitFor(() => expect(main.scrollTop).toBe(800));
+  main.scrollTop = 200;
+  fireEvent.click(input);
+  await waitFor(() => expect(main.scrollTop).toBe(800));
+});
+it("el separador de presentación no transforma texto de cliente u operador ni inventa mensajes vacíos", () => {
+  expect(assistantMessageParts({ role: "user", text: "Literal [SPLIT] del cliente" })).toEqual(["Literal [SPLIT] del cliente"]);
+  expect(assistantMessageParts({ role: "operator", text: "Literal [SPLIT] del gestor" })).toEqual(["Literal [SPLIT] del gestor"]);
+  expect(assistantMessageParts({ role: "assistant", text: " [SPLIT] Uno [SPLIT] [SPLIT] Dos " })).toEqual(["Uno", "Dos"]);
+});
+it("sitúa la hora al final de cada burbuja, después de las acciones y antes de los ticks propios", async () => {
+  const original = fetch;
+  vi.stubGlobal("fetch", vi.fn(async (url, opts = {}) => {
+    if (url.includes("/message-receipts")) return { ok: true, status: 200, json: async () => ({ conversation_id: "local-1", items: [{ message_id: "mine-footer", sequence: "2", role: "user", delivery_status: "read", receipt_revision: "1" }] }) };
+    if (!url.includes("/timeline")) return original(url, opts);
+    const body = timeline();
+    body.items[0].text = "Primera parte [SPLIT] Segunda parte";
+    body.items.push({ message_id: "mine-footer", sequence: "2", role: "user", occurred_at: "2026-10-11T10:16:00Z", text: "Mi mensaje" });
+    return { ok: true, status: 200, json: async () => body };
+  }));
+  const { container } = mount();
+  await screen.findByText("Mi mensaje");
+  const bubbles = container.querySelectorAll(".bubble");
+  expect(bubbles).toHaveLength(3);
+  for (const bubble of bubbles) {
+    const footer = bubble.lastElementChild;
+    expect(footer).toHaveClass("bubble-delivery");
+    const time = footer.querySelector("time");
+    expect(time).not.toBeNull();
+    expect(time.textContent).toBe(new Date(time.dateTime).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" }));
+    expect(bubble.querySelectorAll("time")).toHaveLength(1);
+    expect(bubble.querySelector(".bubble-meta .bubble-time")).toBeNull();
+    expect(footer.firstElementChild).toBe(time);
+  }
+  expect(bubbles[1].querySelector(".stack").nextElementSibling).toBe(bubbles[1].lastElementChild);
+  expect(bubbles[2].querySelector("time")).toHaveAttribute("datetime", "2026-10-11T10:16:00Z");
+  expect(bubbles[0].querySelector(".delivery-ticks")).toBeNull();
+  await screen.findByRole("img", { name: "Leído por Gestadia" });
+  expect(bubbles[2].querySelector("time").nextElementSibling).toHaveClass("delivery-ticks", "read");
+});
 it("muestra mensajes/presentaciones del timeline y envía la revisión exacta de la acción", async () => {
   mount();
   await screen.findByText("Selecciona una opción");
@@ -135,6 +215,35 @@ it("muestra mensajes/presentaciones del timeline y envía la revisión exacta de
   );
   expect(actionBody).not.toHaveProperty("targetUserId");
   expect(screen.queryByText("Juan Carlos Acero")).toBeNull();
+});
+it("separa SPLIT sólo en mensajes de LidIA y conserva identidad y entrada secuencial de sus burbujas nuevas", async () => {
+  vi.stubGlobal("matchMedia", () => ({ matches: false, addEventListener() {}, removeEventListener() {} }));
+  const original = fetch;
+  let sent = false;
+  vi.stubGlobal("fetch", vi.fn(async (url, opts = {}) => {
+    if (url.endsWith("/turns")) sent = true;
+    if (!url.includes("/timeline")) return original(url, opts);
+    const body = timeline();
+    body.items[0].text = "Histórico uno [SPLIT] Histórico dos";
+    if (sent) body.items.push(
+      { message_id: "mine", sequence: "2", role: "user", occurred_at: "2026-10-11T10:00:00Z", text: "Mi consulta" },
+      { message_id: "parts", sequence: "3", role: "assistant", occurred_at: "2026-10-11T10:00:00Z", text: "Respuesta uno [SPLIT] Respuesta dos [SPLIT] " },
+    );
+    return { ok: true, status: 200, json: async () => body };
+  }));
+  mount();
+  const history = (await screen.findByText("Histórico uno")).closest(".bubble");
+  expect(screen.getByText("Histórico dos").closest(".bubble")).not.toBe(history);
+  expect(history).not.toHaveAttribute("data-motion-new");
+  fireEvent.click(screen.getByRole("button", { name: "Sí", exact: true }));
+  const first = (await screen.findByText("Respuesta uno")).closest(".bubble");
+  const second = screen.getByText("Respuesta dos").closest(".bubble");
+  expect(first).toHaveAttribute("data-message-id", "parts");
+  expect(second).toHaveAttribute("data-message-id", "parts");
+  expect(first).toHaveAttribute("data-motion-new", "true");
+  expect(screen.getByText("Mi consulta").closest(".bubble")).toHaveAttribute("data-motion-new", "true");
+  expect(second.style.getPropertyValue("--message-enter-delay")).toBe("80ms");
+  expect(screen.queryByText(/\[SPLIT\]/)).toBeNull();
 });
 it("timeout deja recuperar el mismo turno sin reenviar al recargar ni al hacer polling", async () => {
   failSend = true;
@@ -821,10 +930,41 @@ it("muestra escritura durante el envío y la retira al recibir la respuesta del 
   mount();
   fireEvent.click(await screen.findByRole("button", { name: "Sí" }));
   expect(await screen.findByRole("status", { name: "LidIA está escribiendo" })).toBeInTheDocument();
+  expect(screen.getByRole("status", { name: "LidIA está escribiendo" }).querySelector("strong")).not.toBeNull();
   expect(screen.queryByText(/Envío sin confirmación/)).not.toBeInTheDocument();
   await act(async () => release());
   expect(await screen.findByText("Respuesta recibida")).toBeInTheDocument();
   expect(screen.queryByRole("status", { name: "LidIA está escribiendo" })).not.toBeInTheDocument();
+});
+
+it("conserva el indicador durante la salida suave y lo retira sin anunciar escritura tras responder", async () => {
+  vi.stubGlobal("matchMedia", () => ({ matches: false, addEventListener() {}, removeEventListener() {} }));
+  const original = fetch;
+  let release, turnId, replied = false;
+  vi.stubGlobal("fetch", vi.fn(async (url, opts = {}) => {
+    if (url.endsWith("/turns")) {
+      turnId = JSON.parse(opts.body).turn_id;
+      await new Promise(resolve => { release = resolve; });
+      replied = true;
+      return { ok: true, status: 200, json: async () => ({ status: "admitted" }) };
+    }
+    if (url.includes("/timeline") && replied) {
+      const data = timeline();
+      data.items.push({ message_id: "smooth-reply", sequence: "2", occurred_at: "2026-10-11T10:00:00Z", role: "assistant", text: "Respuesta con salida suave" });
+      data.turn_statuses = [{ turn_id: turnId, status: "completed" }];
+      return { ok: true, status: 200, json: async () => data };
+    }
+    return original(url, opts);
+  }));
+  mount();
+  fireEvent.click(await screen.findByRole("button", { name: "Sí" }));
+  const indicator = await screen.findByRole("status", { name: "LidIA está escribiendo" });
+  await act(async () => release());
+  await screen.findByText("Respuesta con salida suave");
+  expect(indicator.isConnected).toBe(true);
+  expect(indicator).toHaveAttribute("aria-hidden", "true");
+  expect(screen.queryByRole("status", { name: "LidIA está escribiendo" })).not.toBeInTheDocument();
+  await waitFor(() => expect(indicator.isConnected).toBe(false));
 });
 
 it("mantiene escritura con un turno confirmado en procesamiento y la retira al fallar", async () => {

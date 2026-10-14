@@ -12,6 +12,9 @@ export default function ChatComposer({
   recording = false,
   status,
   onStatusChange,
+  onFocus,
+  onClick,
+  onBlur,
 }) {
   useEffect(() => {
     if (!status) return;
@@ -33,6 +36,9 @@ export default function ChatComposer({
           maxLength={4000}
           placeholder="¿Qué necesitas?"
           value={value}
+          onFocus={onFocus}
+          onClick={onClick}
+          onBlur={onBlur}
           onChange={(event) => onChange(event.target.value)}
           onKeyDown={(event) => {
             if (

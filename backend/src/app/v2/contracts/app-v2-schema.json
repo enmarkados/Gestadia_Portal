@@ -287,7 +287,7 @@
         },
         "permissions": {
           "type": "array",
-          "maxItems": 6,
+          "maxItems": 8,
           "uniqueItems": true,
           "items": {
             "type": "string",
@@ -297,7 +297,9 @@
               "case_context",
               "commercial_handoff",
               "manager_handoff",
-              "support_handoff"
+              "support_handoff",
+              "crm_prepare",
+              "callback_schedule"
             ]
           }
         },
@@ -340,6 +342,94 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 128
+        },
+        "profile": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "display_name": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "email": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 254,
+                  "format": "email"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "callback_phone": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[+][1-9][0-9]{6,14}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "time_zone": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "description": "UTC or a real IANA time-zone ID; runtime validates the installed TZ database."
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "time_zone_confirmed": {
+              "type": "boolean"
+            },
+            "callback_consent": {
+              "type": "boolean"
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "required": [
+                  "time_zone_confirmed"
+                ],
+                "properties": {
+                  "time_zone_confirmed": {
+                    "const": true
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "time_zone"
+                ],
+                "properties": {
+                  "time_zone": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "profile_revision": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]{0,19}$"
         }
       },
       "required": [
@@ -352,7 +442,15 @@
         "commercial_assignment_ref",
         "manager_assignment_ref",
         "correlation_id"
-      ]
+      ],
+      "dependentRequired": {
+        "profile": [
+          "profile_revision"
+        ],
+        "profile_revision": [
+          "profile"
+        ]
+      }
     },
     "messageReceiptAck": {
       "type": "object",

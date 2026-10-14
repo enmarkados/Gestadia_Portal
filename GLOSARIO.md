@@ -666,7 +666,7 @@ La revisión documental 1.1 mantiene rutas `/app/v1` y DTO `schema_version=1.0`.
 - **Tipo**: decisión naming de despliegue / concepto runtime.
 - **Definición**: `APP_PROXY_TEMPLATE` elige la plantilla Nginx al construir la imagen; `gestadia_client_chain` conserva la cadena de IP que proporciona Plesk para la API móvil interna.
 - **Alcance**: `deploy/app/Dockerfile`, `deploy/app/mobile.conf.template`, stack móvil.
-- **Notas**: La plantilla demo permanece como predeterminada. La entrada del stack solo admite el proxy local de Plesk; no se agrega otro salto al proxy de confianza de Express.
+- **Notas**: Desde el 11/10/2026, `common.conf.template` es la predeterminada e incluye las rutas exactas de contacto; la plantilla antigua queda disponible mediante selección explícita. La entrada del stack solo admite el proxy local de Plesk; no se agrega otro salto al proxy de confianza de Express.
 
 ### Backend común Gestadia
 - **Tipo:** concepto runtime / decisión de despliegue propuesta.
@@ -1459,6 +1459,18 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 
 **Actualización de Gestadia APP Android Play (11/10/2026):** cliente creado con la huella Play confirmada; el ID público se registra en MARKETPLACES-CONFIGURACION.md. El consentimiento visible usa Gestadia; el slug técnico del proyecto permanece gestadia-vozia. Creación no acredita login real.
 
+## lidia-typing-label
+
+- **Tipo:** concepto de presentación CSS.
+- **Definición:** texto en cursiva del indicador de espera de LidIA, con pulso suave de opacidad mientras la respuesta está pendiente.
+- **Alcance:** Gestadia APP; AppConversation.jsx y app.css.
+- **Notas:** completa la secuencia de tres puntos; movimiento reducido mantiene texto y puntos estáticos y legibles. No expresa envío confirmado ni sustituye un recibo remoto.
+
+### LidiaTypingIndicator
+- **Tipo:** componente de presentación APP.
+- **Definición:** indicador de espera de LidIA en negrita, con entrada y salida suaves y tres puntos que suben de forma secuencial en una ola.
+- **Alcance:** frontend/app/src/LidiaTypingIndicator.jsx, AppConversation.jsx y app.css.
+- **Notas:** revisión solicitada el 11/10/2026, sustituye la cursiva del indicador anterior. Conserva el elemento durante la salida de 280 ms; sin movimiento reducido no se elimina de golpe. No cambia recibos, permisos ni atención humana.
 ## ConversationList / PushSettings promptOnly / notificationDestination
 
 - **Tipo:** componentes y función de presentación APP.
@@ -1499,3 +1511,391 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** Comprueba pertenencia, cobertura exacta de mensajes, roles y revisiones de recibos después de validar su esquema de transporte. Conserva el actor histórico guest o account.
 - **Alcance:** backend/src/app/messageReceipts.js y backend/src/app/v2/guest.js.
 - **Notas:** Compartida entre v1 y v2; cada protocolo conserva su propio esquema, sin convertir recibos guest en account.
+### `assistantMessageParts`
+
+- **Tipo:** función de presentación.
+- **Definición:** segmentos visibles de un mensaje de LidIA cuyo texto histórico contiene el separador `[SPLIT]`. Conservan la identidad del mensaje original.
+- **Alcance:** `frontend/app/src/AppConversation.jsx` y sus pruebas; burbujas de conversaciones APP.
+- **Notas:** no modifica el histórico ni interpreta acciones o reservas. Los mensajes de cliente y operador conservan su texto literal.
+
+### `useComposerAutoScroll`
+
+- **Tipo:** hook de presentación.
+- **Definición:** desplazamiento al último mensaje al enfocar o tocar el campo de conversación, manteniendo el final visible durante los cambios de altura del teclado.
+- **Alcance:** `frontend/app/src/useComposerAutoScroll.js`, `AppConversation.jsx` y eventos de textarea en `ChatComposer.jsx`; chats LidIA y gestor, cuenta o visitante habilitado.
+- **Notas:** usa el contenedor real aunque el compositor esté en un portal; respeta movimiento reducido y cancela al desenfocar/salir. Se descarta un retraso fijo tras abrir el teclado para evitar saltos tardíos. No envía mensajes ni modifica permisos.
+
+### `--app-visible-height`, `--app-keyboard-duration`, `--app-keyboard-easing`
+- **Tipo:** propiedades CSS de runtime.
+- **Definición:** espacio visible y tiempo de adaptación que iOS comunica antes de animar el teclado. Pantalla y diálogos comparten estos valores para mantener visibles los formularios.
+- **Alcance:** `frontend/app/src/native.js`, `Sheet.jsx`, `app.css`.
+- **Notas:** se descarta un segundo ajuste al finalizar la apertura, que provocaba saltos; Android mantiene su redimensionado nativo.
+
+### `ChatLoading`
+- **Tipo:** componente de presentación.
+- **Definición:** estado de espera centrado con animación GIF propia y texto contextual para historial y conversación. Mantiene el historial visible al actualizar y usa imagen fija con movimiento reducido.
+- **Alcance:** `frontend/app/src/ChatLoading.jsx`, `ConnectedMessages.jsx`, `AppConversation.jsx`, `Contact.jsx`, `frontend/app/public/loading/`.
+- **Notas:** no representa escritura de LidIA ni oculta errores o concede permisos. Diseño aprobado por el usuario el 11/10/2026.
+
+### `permissions`: historial sin envío
+
+- **Tipo:** concepto runtime existente.
+- **Definición:** Un timeline que sólo concede `history` permite consultar la conversación; no acredita envío, gestor asignado ni transferencia.
+- **Alcance:** `frontend/app/src/AppConversation.jsx`; compositor y acciones desactivados si no hay capacidad de sondeo o handoff.
+- **Notas:** No ampliar grants para resolver una denegación de una conversación antigua; conservar historial y contacto por llamada.
+
+## Perfil y agenda APP — extensión en revisión (11/10/2026)
+
+### profile / display_name / callback_phone
+- **Tipo:** concepto de contrato firmado propuesto y propiedades.
+- **Definición:** Perfil opcional procedente de una cuenta Portal comprobada; aporta nombre de presentación y teléfono de devolución de llamada declarado. No acredita identidad civil, control del teléfono ni propiedad CRM.
+- **Alcance:** `docs/integraciones/2026-10-11-contraste-portal-perfil-agenda.md` y adenda recibida; futura extensión de context v1/v2. Todavía no hay propiedades de estos nombres en el DTO ejecutable Portal.
+- **Notas:** No aceptar perfil operativo de guest ni reconstruirlo desde campos libres del móvil.
+
+### time_zone / time_zone_confirmed / callback_consent
+- **Tipo:** propiedades de contrato propuestas.
+- **Definición:** Zona cliente IANA y confirmaciones específicas de zona y propósito de llamada para los datos operativos vigentes. La zona del dispositivo y la aceptación de privacidad no equivalen a estas confirmaciones.
+- **Alcance:** contraste Portal y adenda de perfil/agenda del 11/10; sin persistencia en User ni transmisión Portal actuales.
+- **Notas:** Datos ausentes se recogen en el agente; precedencia, retirada y JSON null pendientes de precisión compartida.
+
+### crm_prepare / callback_schedule
+- **Tipo:** permisos de contrato propuestos.
+- **Definición:** Capacidades optativas para preparar vínculo CRM y solicitar una llamada bajo identidad, propiedad y configuración de integración acreditadas. No se conceden por propósito de conversación o perfil declarado.
+- **Alcance:** contraste Portal y adenda recibida; futuros enums v1/v2 y configuración servidor de ambas partes.
+- **Notas:** No integrados ni activados en Portal. El match actual por teléfono de findOrCreateLead no satisface la propiedad exigida por esta extensión.
+
+### profile_revision
+- **Tipo:** propiedad de contrato acordada documentalmente, pendiente de esquema ejecutable.
+- **Definición:** Revisión decimal monotónica del perfil de una cuenta dentro del contexto de una conversación, independiente de context_revision. Permite actualizar permisos sin volver a imponer un perfil ya aplicado sobre datos confirmados por el agente.
+- **Alcance:** `docs/integraciones/2026-10-11-contraste-portal-perfil-agenda.md`; futura persistencia/builder y contratos v1/v2 Portal y LidIA.
+- **Notas:** Requerida cuando se incluye profile; misma revisión exige mismo perfil canónico y no reaplica. La revisión se conserva en servidor y no procede del móvil; todavía no está implementada en Portal.
+
+- **profile_revision — precisión de parche:** cada revisión nueva transporta sólo cambios acreditados, no un snapshot completo; igualdad se compara con el parche canónico persistido, no con el perfil acumulado. Alcance: contraste perfil/agenda, futura persistencia Portal/LidIA. Permite conservar cambios obtenidos por el agente al actualizar otro campo.
+- **stale_profile / profile_conflict** — códigos de contrato propuestos. Rechazos HTTP409 para revisión de perfil inferior y revisión igual con parche distinto, respectivamente. Alcance: adenda perfil/agenda v1/v2, pendiente de esquema ejecutable Portal; no se usan aún en runtime Portal.
+- **current_profile_revision** — propiedad de ACK propuesta. Revisión vigente del perfil al responder o recuperar una operación, independiente de la revisión original de esa petición. Alcance: futura extensión de ACK v1/v2; se omite si no hay perfil, sin reponer datos históricos en replay.
+
+### profileBaseline / profilePatch / profileRevision
+- **Tipo:** propiedades Prisma propuestas para AppConversation.
+- **Definición:** Base del perfil atestado por Portal y último parche/revisión durables de esa conversación. La base permite emitir sólo cambios del perfil Portal sin reimponer datos obtenidos por el agente; no almacena el estado efectivo del agente.
+- **Alcance:** backend/prisma/schema.prisma, futura migración aditiva y backend/src/app/profile.js/store.js.
+- **Notas:** Propiedades privadas de servidor, no campos elegidos por el móvil; preservan operaciones previas en AppOperation.
+
+### APP_LIDIA_PROFILE_CONTEXT_ENABLED
+- **Tipo:** configuración privada propuesta.
+- **Definición:** Habilitación explícita de la proyección del perfil de cuenta en contexto firmado. Apagada por defecto, no concede capacidades CRM/agenda.
+- **Alcance:** backend/src/config.js y builder de contexto v1 Portal.
+- **Notas:** No se activa en producción con esta implementación. El protocolo v2 se contrasta en esquema; su consumidor de contexto account requiere trabajo separado.
+
+- **APP_LIDIA_SONDEO_PROFILE_CONTEXT_ENABLED** — configuración privada. Habilitación optativa del perfil para la integración de sondeo, independiente del flag de la integración general. Alcance: backend/src/config.js; apagada por defecto y sin nuevos permisos.
+- **profileContext** — función de backend. Calcula un parche acreditado de perfil Portal frente a la base durable de una conversación y conserva la revisión/último parche para cambios sólo de permisos. Alcance: backend/src/app/profile.js y store.js; no infiere país ni confirma teléfono, zona o consentimiento.
+
+- **sameProfilePatch** — función de backend. Comprueba igualdad de revisión y parche canónico para acreditar entrega sin reimponer campos del perfil. Alcance: backend/src/app/profile.js, store.js y lifecycle.js. Un ACK admitido o una retirada que transporta exactamente ese parche conserva su efecto sin perder la prioridad de autoridad.
+- **Precisión de implementación de perfil:** profileBaseline/profilePatch/profileRevision y los dos flags privados están implementados en esta rama; profile_revision/stale_profile/profile_conflict/current_profile_revision constan en esquemas v1/v2 recibidos. Contexto v1 Portal preparado y apagado; consumidor account v2 y agenda operativa siguen pendientes.
+
+- **Precisión de alcance de createZohoCallbackAdapter / AppCallbackRequest:** por instrucción del usuario, las operaciones CRM/agenda conversacionales APP corresponden a la plataforma LidIA y su agente. El adaptador directo existente en Portal no es el reparto objetivo y queda pendiente de delegación S2S idempotente; AppCallbackRequest puede conservar recepción/recibo sin ejecutar un CRM paralelo. Alcance: backend/src/app/contact.js, services/zoho-callbacks.js y contrato de integración.
+
+### callbackAccess / callbackConversationId
+- **Tipo:** concepto de autorización runtime y propiedad Prisma propuesta.
+- **Definición:** Opt-in privado que limita los permisos CRM/agenda de una cuenta a una conversación v1, integración y caducidad exactas; el grant conserva también el ID de conversación autorizado. Configurar el opt-in no concede por sí mismo los permisos.
+- **Alcance:** backend/src/app/callback-access.js, config.js, store.js, lifecycle.js y prisma/schema.prisma.
+- **Notas:** Se descarta un grant exclusivo por userId/scopeKey porque afectaría a todos los sondeos de la cuenta. El binding persistido evita que cambiar la configuración transfiera un grant a otro chat. Guest y contexto account v2 quedan fuera.
+
+### APP_LIDIA_CALLBACK_ENABLED / APP_LIDIA_CALLBACK_SCOPE_JSON
+- **Tipo:** configuración privada propuesta.
+- **Definición:** Interruptor apagado por defecto y objeto cerrado con portal_user_id, conversation_id local Portal, integration_id y expires_at UTC. Seleccionan un único ámbito elegible para recibir un grant explícito, sin incluir referencias Zoho o datos de contacto.
+- **Alcance:** backend/src/config.js, backend/.env.example y documentación de agenda real.
+- **Notas:** Cuenta/chat pertenecen al servidor. No son parámetros del móvil ni permisos generales; la caducidad permite retirar autoridad sin borrar registros.
+
+### callbackScopeAllows
+- **Tipo:** función de backend propuesta.
+- **Definición:** Comprueba que la cuenta y la conversación activa coinciden con el opt-in de la integración vigente y que aún no ha caducado. No resuelve CRM ni acredita consentimiento de llamada.
+- **Alcance:** backend/src/app/callback-access.js, store.js y lifecycle.js.
+- **Notas:** Zoho, propiedad y agenda se comprueban en LidIA; Portal valida exclusivamente su ámbito de autoridad.
+
+- **callbackAccessConfig** — función de backend. Valida el objeto cerrado de configuración de agenda y conserva el interruptor explícito; una configuración incompleta activa no es elegible. Alcance: backend/src/app/callback-access.js y config.js. No crea grants ni efectos CRM.
+
+### callbackGrant
+- **Tipo:** propiedad Prisma propuesta de AppConversation.
+- **Definición:** Autorización privada de permisos CRM/agenda conservada en el chat concreto con fuente, validación y caducidad. Complementa los permisos básicos vigentes y no modifica el grant compartido de sondeo de la cuenta.
+- **Alcance:** backend/prisma/schema.prisma, store.js y lifecycle.js.
+- **Notas:** Sustituye la propuesta callbackConversationId en AppConversationAccess: aquella impediría transferir un grant pero su caducidad afectaría también a las demás conversaciones del mismo scope. La fila del chat conserva por sí misma el binding y permite retirarlo sin alterar autoridad ajena.
+
+- **Precisión de preparación de agenda:** callbackAccess/callbackAccessConfig/callbackScopeAllows, ambos flags y AppConversation.callbackGrant implementados y comprobados en fixture aislada; callbackConversationId descartado antes de despliegue. Sin activación ni reserva productiva. Alcance: evidencia 2026-10-11-agenda-opt-in; consumidor v1 únicamente.
+
+### useFocusedFormScroll
+- **Tipo:** hook de interfaz.
+- **Definición:** Mantiene el formulario del campo enfocado dentro del área visible de su contenedor cuando el teclado modifica su altura. Deja de seguirlo al perder foco o cerrar la edición.
+- **Alcance:** frontend/app/src/useFocusedFormScroll.js y ConnectedMessages.jsx; editor del nombre de conversaciones.
+- **Notas:** Desplaza sólo lo necesario para ver campo y acciones, con movimiento reducido inmediato. Se descarta activar el desplazamiento nativo global porque alteraría la sincronización del teclado en los chats; tampoco fuerza el final de la lista, que puede pertenecer a otro chat.
+
+### gestadia_qa_network_security
+- **Tipo:** configuración Android Debug.
+- **Definición:** Permite acceder al backend de prueba por HTTP exclusivamente en loopback, manteniendo HTTPS obligatorio para los demás destinos.
+- **Alcance:** frontend/android/app/src/debug/AndroidManifest.xml y res/xml/gestadia_qa_network_security.xml.
+- **Notas:** Se usa con adb reverse y API privada local; no se incluye en Release ni habilita tráfico HTTP general, certificados no confiables o exposición del backend a la red.
+
+### validAppointmentReceipts
+- **Tipo:** concepto runtime / función de validación.
+- **Definición:** Comprobación semántica del recibo histórico de reserva emitido por LidIA; requiere un turno completado sin error, hora UTC verificada coincidente y zona IANA válida. No acredita disponibilidad ni estado actual de una cita.
+- **Alcance:** backend/src/app/appointment-receipts.js; validadores de respuestas v1/v2.
+- **Notas:** No deducir una llamada del texto del modelo ni del estado completed sin el recibo cerrado. Los IDs CRM permanecen en LidIA.
+
+## `gestadia-app-qa-native-20261012-sondeo` / `gestadia-app-qa-native-20261012-atencion`
+
+- **Tipo:** decisión de naming de integraciones S2S de QA.
+- **Definición:** identificadores propios que separan el sondeo y la atención de la prueba nativa del12/10/2026. Cada integración tiene audiencia y claves por operación independientes; su configuración pendiente no acredita activación.
+- **Alcance:** APP/API Portal, registro en `backend/src/config.js`, configuración privada de DEV25 y `docs/app/evidencias/2026-10-12-ciclo-nativo/PLAN-ACEPTACION.md`.
+- **Notas:** se descartan identidades, credenciales y namespaces de la reserva humana PRO; el registro rechaza reutilizar KeyId entre ambos perfiles. La revocación utiliza su clave dedicada y no concede ese permiso a TURN.
+
+## `crm-read-scope`
+
+- **Tipo:** concepto de QA y decisión de naming de configuración privada.
+- **Definición:** autoridad temporal de lectura para el contacto y trato CRM propios y comprobados de la prueba nativa. Su estado pendiente no concede acceso; excluye operaciones de escritura de negocio y datos de otras fichas.
+- **Alcance:** wrapper privado de la instancia PortalQA3005, `~/.codex/private/gestadia-app/qa-native-20261012/`, y `docs/app/evidencias/2026-10-12-ciclo-nativo/PLAN-ACEPTACION.md`. No es un endpoint ni permiso nuevo del producto.
+- **Notas:** se descarta simular assignedManager con datos administrativos cacheados y trasladar OAuth amplio sin límites. Se conserva el adapter real del producto y se exige organización/dominio, identidad, IDs verificados y caducidad antes de activarlo.
+
+
+## Helpers administrativos de la aceptación DEV del12/10
+
+- **Término:** ProZohoQaViability. **Tipo:** helper privado de diagnóstico. **Definición:** lectura mínima de organización, gestor y metadata CRM de la conexión Production existente, sin fichas de clientes ni renovación OAuth. **Alcance:** equipo LidIA, .local/pro-zoho-qa-viability-r2; evidencia Portal docs/app/evidencias/2026-10-12-ciclo-nativo. **Notas:** R2 corrige cancelación del cuerpo; su prueba offline no acredita ejecución real.
+- **Término:** Dev25LiteralImport. **Tipo:** helper privado de preparación. **Definición:** importa la configuración literal119PRO como tres entidades propias inicialmente inactivas en DEV25. **Alcance:** equipo LidIA, .local/dev25-literal-import-r4; revisión Portal en el mismo directorio de evidencia. **Notas:** IDs generados en BD; preview y respaldo restaurado preceden al apply, que no activa APP.
+- **Término:** Dev25BackupSnapshot. **Tipo:** helper privado de respaldo. **Definición:** conserva una instantánea coherente de la BD y archivos actuales de DEV25 para comprobar su restauración aislada. **Alcance:** equipo LidIA, .local/dev25-backup-pre-import-r5; revisión Portal en el mismo directorio de evidencia. **Notas:** respaldo198/260 diferente del anterior188/257; no carga credenciales ni ejecuta APP al restaurar.
+
+- **Revisión de Dev25LiteralImport:** R5/Dev25LiteralImportR5 conserva el concepto y el alcance anteriores con consulta mínima explícita del historial; R4 queda preservada y retirada para preview. La revisión vigente vive en .local/dev25-literal-import-r5 del equipo LidIA y en dev25-import-r5-package-review.json de Portal.
+
+
+## qa-subject-guard
+
+- **Tipo:** guard privado de la aceptación nativa.
+- **Definición:** impide que la instancia PortalQA envíe solicitudes S2S a LidIA para un sujeto diferente de la cuenta propia de prueba. Verifica además destino DEV, claves propias y vigencia antes de la red.
+- **Alcance:** wrapper privado qa-native-20261012 fuera deGit; referencia en docs/app/evidencias/2026-10-12-ciclo-nativo.
+- **Notas:** integrationId/grant no son allowlists de sujetos; el cliente y el adapter reales se conservan. No añade un permiso de producto ni simula respuestas de LidIA.
+
+
+## Dev25CountryTool
+
+- **Tipo:** helper privado de preparación DEV.
+- **Definición:** crea una única definición local de comprobar_pais_carne, inicialmente inactiva, y su relación al agente propio acreditado por el recibo de importación. Conserva las reglas literales del handler existente.
+- **Alcance:** equipo LidIA, .local/dev25-country-tool; revisión Portal en docs/app/evidencias/2026-10-12-ciclo-nativo.
+- **Notas:** GetCurrentTime permanece compilada sin fila; no activa agentes, herramientas o S2S. El respaldo previo del conjunto se distingue de los recibos posteriores, sin atribuirles una copia que no los contiene.
+
+
+## ProZohoQaOwnerServiceRead
+
+- **Tipo:** helper privado de diagnóstico CRM.
+- **Definición:** observa el usuario actual de la conexión ZohoProduction y las opciones reales de Servicio asociadas al layout acreditado, sin decidir un propietario o servicio ni crear registros.
+- **Alcance:** equipo LidIA, .local/pro-zoho-qa-owner-service-read; revisión Portal en docs/app/evidencias/2026-10-12-ciclo-nativo.
+- **Notas:** separado del lector previo; OrganizationId configurado no acredita una lectura de organización, y los IDs CRM no identifican al operador de LidIA.
+
+
+## AppConversations (tabla fuente de LidIA)
+
+- **Tipo:** tabla EF de integración.
+- **Definición:** almacena las conversaciones APP de LidIA y su asociación a ChatSessionId dentro de la integración y el sujeto propios.
+- **Alcance:** Gestadia_LidIA, Data/AppConversationModel.cs, Models/AppConversations/AppConversationEntities.cs y migración20261005204814; referencia Portal en la evidencia nativa.
+- **Notas:** distinta de los modelos Prisma del consumidor Portal. El literal AppConversationMappings exigido por el helper de respaldo R5 era incorrecto; se preserva su evidencia y se prepara una revisión del helper, sin DDL nuevo.
+
+
+## app_conversations_rows
+
+- **Tipo:** propiedad JSON propuesta de evidencia privada de respaldo.
+- **Definición:** número de filas de la tabla fuente AppConversations observado dentro del snapshot consistente del respaldo R6. No representa cuentas, permisos o estado de conversaciones.
+- **Alcance:** equipo LidIA, helper Dev25BackupSnapshot R6/fill-restore-pins y revisión de evidencia Portal.
+- **Notas:** sustituye el contador del helper R5 referido a una tabla inexistente; no se presupone cero ni se atribuye una observación a counts de pruebas sintéticas.
+
+## ProZohoQaOwnCaseCreate
+
+- **Tipo:** helper privado de prueba CRM.
+- **Definición:** prepara la creación de un Contact y un Deal exclusivos de QA, con identidad, propietario y relación comprobados mediante recibos propios. Conserva el resultado de cada operación y detiene el recorrido si el resultado es incierto.
+- **Alcance:** equipo LidIA, .local/dev25-own-crm-case-helper; revisión Portal en docs/app/evidencias/2026-10-12-ciclo-nativo.
+- **Notas:** la preparación y las pruebas offline no acreditan registros creados. No reutiliza el caso Main ni crea usuarios, amplía OAuth, marca pagos o repite automáticamente un POST.
+
+## ProAppSessionAuthorityRead
+
+- **Tipo:** helper privado de diagnóstico.
+- **Definición:** observa los metadatos de identidad y protocolo de una conversación administrativa fijada, sin conceder autoridad ni leer su contenido.
+- **Alcance:** equipo LidIA, .local/pro-app-session-authority-read; revisión Portal en la evidencia nativa del 12/10.
+- **Notas:** pertenece al caso Main de la tarea de operaciones; no se reutiliza como identidad o permiso de la cuenta nativa propia.
+
+## ProAppContactAssociation
+
+- **Tipo:** helper privado de preparación CRM.
+- **Definición:** establece y retira condicionalmente un único campo de correlación de un contacto QA seleccionado, dentro de una ventana revisada.
+- **Alcance:** equipo LidIA, .local/pro-app-contact-association-r3; revisión Portal en la evidencia nativa del 12/10.
+- **Notas:** conserva el estado previo y detiene resultados inciertos. No agenda llamadas ni reemplaza los permisos efectivos del runtime.
+
+## ImportReceiptDocuments
+
+- **Tipo:** concepto runtime de helper privado.
+- **Definición:** construye los documentos de preview, intento de commit y readback de la importación DEV conservando independientes los nodos compartidos.
+- **Alcance:** equipo LidIA, .local/dev25-literal-import-r6/ImportReceiptDocuments.cs.
+- **Notas:** corrige la reutilización de JsonNode con padre; no cambia el contrato funcional del agente.
+
+## ImportDiagnosticCheckpoint
+
+- **Tipo:** enum privado de diagnóstico.
+- **Definición:** identifica una etapa conocida de la utilidad de importación sin publicar contenidos o errores externos.
+- **Alcance:** equipo LidIA, .local/dev25-literal-import-r6/ImportDiagnostics.cs.
+- **Notas:** no es un estado de conversación ni una prueba de commit.
+
+## ImportDiagnosticErrorCode
+
+- **Tipo:** enum privado de diagnóstico.
+- **Definición:** clasifica los fallos de la utilidad de importación en un conjunto cerrado de categorías.
+- **Alcance:** equipo LidIA, .local/dev25-literal-import-r6/ImportDiagnostics.cs.
+- **Notas:** sustituye la exposición de mensajes de excepción; la clasificación no determina por sí sola el resultado de la transacción.
+
+## CountryReceiptDocuments
+
+- **Tipo:** concepto runtime de helper privado.
+- **Definición:** construye los recibos de preparación de la función de país y su relación al agente propio, manteniendo independientes sus documentos JSON.
+- **Alcance:** equipo LidIA, .local/dev25-country-tool-r3/CountryReceiptDocuments.cs.
+- **Notas:** los datos sintéticos de regresión no sustituyen los recibos reales de importación o de ejecución.
+
+## AppConfigurationMetadataRead
+
+- **Tipo:** helper privado de diagnóstico.
+- **Definición:** lee la configuración APP efectiva mediante sus tipos nativos y publica únicamente metadatos permitidos. Conserva los valores sensibles dentro del proceso.
+- **Alcance:** equipo LidIA, .local/pro-app-configuration-metadata-read; revisión Portal en la evidencia nativa del 12/10.
+- **Notas:** no consulta la base de datos ni modifica configuración o permisos. Sus pruebas locales no acreditan configuración efectiva o aislamiento del servidor.
+
+## gestadia-app-pro-guest
+
+- **Tipo:** decisión de nomenclatura de integración APP.
+- **Definición:** identificador y audiencia propios del perfil de invitado en producción. Resuelve sus recursos conversacionales en el servidor y permite únicamente sondeo e historial en la fase inicial.
+- **Alcance:** equipo LidIA, .local/pro-guest-overlay-review; configuración Portal APP_V2_LIDIA_INTEGRATION_ID/AUDIENCE preparada.
+- **Notas:** se conserva separado de Main, validación119 y DEV. Su preparación no acredita activación o continuidad después de iniciar sesión.
+
+## gestadia-pro-guest-{session,read,turn}-v1
+
+- **Tipo:** decisión de nomenclatura de claves S2S.
+- **Definición:** tres identificadores independientes para crear sesión, leer historial y enviar turnos del perfil de invitado. Cada clave tiene material privado propio.
+- **Alcance:** equipo LidIA, ProGuestConfigurationOverlay; consumidor Portal APP_V2_LIDIA_{SESSION,READ,TURN}_KEY_ID.
+- **Notas:** v1 designa la primera generación de la clave; el protocolo y la firma usados son v2. No se reutilizan claves Main, validación119 o DEV.
+
+## ProGuestConfigurationOverlay
+
+- **Tipo:** helper privado de preparación de configuración.
+- **Definición:** prepara el añadido condicionado de un perfil guest propio sobre la configuración APP existente y su fragmento privado para Portal. Preserva los perfiles ajenos y mantiene las claves nuevas apagadas durante la preparación.
+- **Alcance:** equipo LidIA, diseño .local/pro-guest-overlay-review/DISEÑO.md; revisión Portal en la evidencia nativa del 12/10.
+- **Notas:** editor filesystem sin DB/Host; los IDs de recursos y sus estados proceden de recibos reales. La activación pública se revisa por separado.
+
+## ProGuestLiteralClone
+
+- **Tipo:** helper privado de preparación de recursos conversacionales.
+- **Definición:** crea copias propias de proyecto, agente, instrucción literal y función de país, con una asignación propia. Separa la creación inactiva de la activación de sus cuatro estados.
+- **Alcance:** equipo LidIA, .local/pro-guest-literal-clone; revisión Portal en la evidencia nativa del 12/10.
+- **Notas:** mantiene los recursos originales y Main; no configura el canal, concede permisos o ejecuta conversaciones. Cada operación exige sus originales, preimágenes y readback reales.
+
+## Dev25AppActivation
+
+- **Tipo:** utilidad operativa privada de LidIA.
+- **Definición:** prepara, aplica y comprueba el cambio limitado de los estados de cuatro recursos DEV propios. Separa esos estados de la instalación de configuración APP y de su activación efectiva.
+- **Alcance:** equipo LidIA, .local/dev25-app-activation; revisión Portal en docs/app/evidencias/2026-10-12-ciclo-nativo.
+- **Notas:** exige los originales de importación, copia/restauración, preimágenes y revisiones; mantiene fuera de Git las claves y la instrucción. Su preflight no acredita conversación nativa.
+
+## ProGuestSourceReferenceRead
+
+- **Tipo:** utilidad operativa privada de diagnóstico.
+- **Definición:** observa referencias y estados limitados del origen PRO de una copia guest detenida. Identifica campos que incumplen el aislamiento sin devolver sus valores privados.
+- **Alcance:** equipo LidIA, .local/pro-guest-source-reference-read; revisión Portal en docs/app/evidencias/2026-10-12-ciclo-nativo.
+- **Notas:** lectura única sin cambios de BD o configuración. El diagnóstico no autoriza relajar guards, repetir la copia ni activar guest.
+
+## Dev25ActivationPrecheckRead
+
+- **Tipo:** utilidad operativa privada de diagnóstico.
+- **Definición:** comprueba por separado las tres lecturas previas de la utilidad DEV congelada. Devuelve únicamente fase, código cerrado y, ante un conflicto de ENV acreditado, nombres de variables.
+- **Alcance:** equipo LidIA, .local/dev25-activation-precheck-read; revisión Portal en docs/app/evidencias/2026-10-12-ciclo-nativo.
+- **Notas:** no abre BD ni ejecuta la preview; su proceso utiliza dependencias fijadas propias y no acredita retrospectivamente el proceso anterior.
+
+## Dev25AppActivationR2
+
+- **Tipo:** utilidad operativa privada propuesta.
+- **Definición:** distingue las entradas de interpolación de Compose de las variables exportadas al servicio APP. Conserva las fases y el alcance de la activación mínima DEV.
+- **Alcance:** equipo LidIA, .local/dev25-app-activation-r2; propuesta47ff y concreción1811, revisión Portal en la evidencia nativa del12/10.
+- **Notas:** los originales y el primer intento se preservan. La proyección calculada es derivada; exige cotejo contra el proceso real antes de cambiar estados.
+
+## Dev25AppActivationR3
+
+- **Tipo:** utilidad operativa privada propuesta.
+- **Definición:** distingue una transacción pendiente de otra cuyo rollback o commit ya ha terminado, y registra el cierre por recurso. Conserva la activación limitada a los recursos propios de DEV.
+- **Alcance:** equipo LidIA, .local/dev25-app-activation-r3; revisión Portal en docs/app/evidencias/2026-10-12-ciclo-nativo.
+- **Notas:** concilia la preimagen y el fallo de cierre de R2 antes de generar una preview propia; no reutiliza ni vuelve elegible el intento R2. La reproducción local del proveedor no identifica por sí sola la causa servida.
+
+## Dev25AppOperatorMappingRead
+
+- **Tipo:** utilidad operativa privada de lectura propuesta.
+- **Definición:** observa el operador Integraciones y sus relaciones con el proyecto propio de QA, así como las rutas de atención de su integración. Devuelve hechos de elegibilidad y ausencia sin conceder permisos.
+- **Alcance:** equipo LidIA, .local/dev25-app-operator-mapping-read; coordinación Portal de la aceptación nativa del12/10.
+- **Notas:** el rol administrativo no sustituye la pertenencia requerida por APP. Distingue el fichero de configuración observado del estado efectivo del runtime; no crea departamentos, asignaciones o fichas CRM.
+
+## Dev25AppOperatorMappingReadR2
+
+- **Tipo:** utilidad operativa privada de lectura propuesta.
+- **Definición:** conserva las consultas y el alcance del lector de operador, pero retiene cada tarea y recurso hasta concluir su cierre. Impide iniciar un cierre incompatible mientras la operación anterior siga pendiente.
+- **Alcance:** equipo LidIA, .local/dev25-app-operator-mapping-read-r2; revisión Portal en la evidencia nativa del12/10.
+- **Notas:** el candidato inicial64bf se conserva sin operar. La reproducción de su fallo es local y no acredita un fallo servido ni nuevas relaciones, rutas o permisos.
+
+## `QA bootstrap R3`
+
+- **Tipo:** concepto runtime de QA privada.
+- **Definición:** arranque de la API QA que exige una prueba del receptor efectivo antes de permitir cualquier perfil S2S activo, incluido el perfil nativo de sondeo por separado.
+- **Alcance:** instancia local de aceptación iOS/Android; candidato privado `backend-dev-s2s-scope-r3-pending.mjs` y evidencia de la ejecución del12/10. No cambia la API de producto.
+- **Notas:** conserva el arranque R2 como evidencia; exigir la prueba sólo con el interruptor global no cubría un perfil nativo activo por separado. La prueba del receptor sigue pendiente y el proceso actual permanece OFF.
+
+## `ReaderAcquisitionGeneration`
+
+- **Tipo:** concepto runtime del lector QA LidIA.
+- **Definición:** generación lógica de cada adquisición de un lector, independiente de la identidad física de su objeto. Permite distinguir una instancia que MySqlConnector reutiliza tras haberla cerrado.
+- **Alcance:** propuesta de corrección del lifecycle del lector de asignaciones en Gestadia_LidIA; evidencia de integración de Gestadia Portal APP.
+- **Notas:** la identidad física por sí sola se descarta para representar una vida nueva, porque la reproducción real devuelve la misma instancia para dos lecturas sucesivas. R2 se conserva sin repetir y la generación aún no está implementada en servidor.
+
+## `Dev25AppOperatorMappingReadR3`
+
+- **Tipo:** utilidad runtime de QA propuesta en LidIA.
+- **Definición:** revisión del lector de asignaciones que distingue generaciones de adquisición de lectores, incluido el reciclaje físico del proveedor MySQL. Conserva el alcance de observación de R2.
+- **Alcance:** propuesta de Gestadia_LidIA en `.local/dev25-app-operator-mapping-read-r3`; evidencia de aceptación nativa de Gestadia Portal APP.
+- **Notas:** R2 y su intento fallido se preservan. R3 requiere revisión de propuesta, reproducción real corregida y una nueva lectura DEV antes de acreditar asignación o continuar instalación.
+
+## `Dev25AppOperatorMappingReadR4`
+
+- **Tipo:** utilidad runtime de QA propuesta en LidIA.
+- **Definición:** revisión del lector que entrega su nodo de esquema JSON con propiedad independiente al construir el informe, conservando el cierre por generaciones de R3.
+- **Alcance:** corrección mínima propuesta del informe de asignación DEV en Gestadia_LidIA; evidencia de aceptación APP de Gestadia Portal.
+- **Notas:** R3 cierra bien la transacción pero falla al adjuntar un JsonNode ya parentado. Se conserva ese intento; R4 requiere prueba específica de construcción/serialización y entrega nueva, sin repetir R3 ni ampliar el alcance de lectura.
+
+## Prueba firmada de receptor APP
+
+- **Tipo:** concepto de verificación runtime de QA.
+- **Definición:** petición S2S propia que comprueba que el receptor admite el perfil revisado después del reinicio. Su resultado complementa la atribución de contenedor, configuración y base de datos; no acredita por sí solo un turno conversacional.
+- **Alcance:** aceptación nativa SONDEO5; cliente real `backend/src/app/s2s.js`, guard privado de cuenta QA y evidencia en `docs/app/evidencias/2026-10-12-ciclo-nativo/`.
+- **Notas:** un GET timeline firmado sobre UUID propio inexistente debe alcanzar `404 conversation_not_found`, tras autenticación y verificación runtime. Consume un nonce antireplay; no crea conversación, turno, LLM ni CRM. Un bind local del fichero no sustituye esta prueba.
+
+
+### Normalización OAuth de QA
+
+- **Tipo:** concepto runtime de la prueba local.
+- **Definición:** adapta los cuatro parámetros de renovación OAuth que emite el cliente real del Portal a un cuerpo de formulario en el mismo endpoint europeo, antes de aplicar su guard de lectura. No concede autorización nueva ni fabrica respuestas.
+- **Alcance:** QA nativa de Gestadia Portal; registro en `docs/app/evidencias/2026-10-12-ciclo-nativo/2026-10-14-lidia-real-ios-android.md`. Implementación privada `crm-product-read-guard-r2.mjs`, usada por el bootstrap privado R4; sin cambios en el producto o los paquetes móviles.
+- **Notas:** se conserva el guard original y su control de sujeto, IDs, vigencia y dominios. Se descarta ampliar la autorización de consultas con parámetros en la URL.
+
+### Pipeline de Zoho
+
+- **Tipo:** propiedad de API externa y decisión de validación de QA.
+- **Definición:** embudo de un trato dentro de su plantilla de Deals. Los metadatos distinguen su ID, `display_value` y `actual_value`; esos valores se conservan por separado al comprobar una petición.
+- **Alcance:** recuperación del caso propio de la prueba nativa; evidencia en `docs/app/evidencias/2026-10-12-ciclo-nativo/2026-10-14-lidia-real-ios-android.md`. No cambia el contrato de conversaciones de la APP.
+- **Notas:** el proveedor rechazó el alta que enviaba `Canje - GTD`; la revisión propuesta usa el nombre visible `CV con Pago` del mismo ID, sin cambiar la plantilla o etapa. Su aceptación sólo se acreditará con una respuesta real y su lectura posterior; no se sustituye el nombre por un ID sin contrato.
+
+### Peticiones CRM de QA
+
+- **Tipo:** concepto de verificación.
+- **Definición:** contabilidad que distingue las peticiones enviadas, los intentos POST y las altas confirmadas. Un rechazo HTTP400 consume una petición y un intento, pero no acredita un registro creado.
+- **Alcance:** recibos privados de la recuperación CRM y sus proyecciones públicas en `docs/app/evidencias/2026-10-12-ciclo-nativo/`.
+- **Notas:** OAuth y consultas de configuración se cuentan aparte de las peticiones a fichas. Se conserva cada intento y se exige una revisión explícita antes de corregir un rechazo definitivo; un resultado incierto no se repite.
+
+### Stage de Zoho
+
+- **Tipo:** propiedad de API externa y decisión de validación de QA.
+- **Definición:** etapa de un trato dentro de su pipeline. Su ID y categoría permiten distinguir una etapa abierta de una ganada, aunque el nombre visible difiera del valor interno.
+- **Alcance:** recuperación del caso propio; recibos y manual de evidencia nativa en `docs/app/evidencias/2026-10-12-ciclo-nativo/`.
+- **Notas:** el mismo ID tiene `display_value=En Negociación`, `actual_value=En proceso` y categoría Open. Tras un rechazo definitivo del valor interno, se propone enviar el visible y comprobar la lectura real; ese nombre no acredita pago ni trato ganado.

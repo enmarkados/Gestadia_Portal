@@ -1,0 +1,46 @@
+{
+  "status": "r3_actual_readback_and_positive_cleanup_independently_conform",
+  "apply_ready_raw_sha256": "abfa625c84cd4ecc60dc7fcfae66021a01e20cf407c91f798b88dd9ffe3ec305",
+  "apply_ok_raw_sha256": "75306b1d6d1bcaf19e49d3e5990dab1ee721e55882dee5408bbeacd4c78d75b2",
+  "readback_raw_sha256": "38b8176399f05c0d04da25eb27e161404fa2e3266182a5f6dfe955ecd83201d9",
+  "readback_cleanup_ok_raw_sha256": "8fc79e8bc38cfc13d7564cd75d4f56cd00adc7c5ee493c1e282f399f67f506cd",
+  "full_baseline_exact_ready": true,
+  "full_result_digest_exact_ready": true,
+  "eligible_for_config": true,
+  "app_served_verified": false,
+  "lifecycle": {
+    "commit_returned": false,
+    "complete": true,
+    "pending_operation_kind": null,
+    "resources": {
+      "command_dispose": {
+        "exception_type": null,
+        "state": "absent"
+      },
+      "connection_close": {
+        "exception_type": null,
+        "state": "returned"
+      },
+      "context_dispose": {
+        "exception_type": null,
+        "state": "returned"
+      },
+      "pending_operation": {
+        "exception_type": null,
+        "state": "absent"
+      },
+      "rollback": {
+        "exception_type": null,
+        "state": "already_returned"
+      },
+      "transaction_dispose": {
+        "exception_type": null,
+        "state": "returned"
+      }
+    },
+    "rollback_returned": true
+  },
+  "configuration_installed": false,
+  "portal_enabled": false,
+  "native_cycles_complete": false
+}

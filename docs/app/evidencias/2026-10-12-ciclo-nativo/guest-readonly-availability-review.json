@@ -1,0 +1,18 @@
+{
+  "status": "guest_runtime_unavailable_observed_readonly",
+  "observed_utc": "2026-10-14T01:05:02Z",
+  "method": "GET",
+  "path": "/api/app/guest/conversations",
+  "authorization_header_sent": false,
+  "observations": [
+    { "environment": "local loopback3005", "http_status": 503, "code": "runtime_unavailable" },
+    { "environment": "https://app.gestadia.com", "http_status": 503, "code": "runtime_unavailable" }
+  ],
+  "evidence_type": "status and code projection, not saved raw HTTP response bytes",
+  "installation_creation_requested": false,
+  "conversation_creation_requested": false,
+  "configuration_changed": false,
+  "crm_called": false,
+  "guest_native_acceptance": false,
+  "next_step": "prepare effective DEV v2 guest configuration and its own native validation separately"
+}

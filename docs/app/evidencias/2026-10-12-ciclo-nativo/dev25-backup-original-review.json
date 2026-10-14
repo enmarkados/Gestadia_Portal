@@ -1,0 +1,23 @@
+{
+  "reviewedAt": "2026-10-12T19:26:37.956202+00:00",
+  "sourceDirectory": "/Users/gonchumon/.codex/worktrees/gestadia-app-conversacional/Gestadia_LidIA/.local/dev25-backup-snapshot-r2/evidence",
+  "originalFileHashes": {
+    "SHA256SUMS": "3a5d9fb3d49f9d25e83a386562c74bf15653b7fa72e655af1f26c0ab5d82b527",
+    "sql-backup-report.json": "de8b374637689ca6516df0db559bcf00bb742f8a6c4374b53e07fa808adfe42b",
+    "table-row-counts.tsv": "a98909dcf3e47f3c969583ef800f2c848476c4f24e0d84dfa6db5e5e1c14f7f7"
+  },
+  "originalReportsCopiedWithoutChanges": true,
+  "rowCountManifestTables": 188,
+  "rowCountManifestRows": 345140,
+  "allRowCountsRecomputed": true,
+  "pinnedRestoreSha256": "739e00d928ea11c813d340b6d488466435f111bd625f84ae795a84b18a9b6047",
+  "fourPinsFromOriginalManifestOnly": true,
+  "yamlAndShellPassed": true,
+  "sqlBytes": 239559868,
+  "sqlBackupReportedByOps": true,
+  "remoteSqlHashNotRecomputedByPortalQa": true,
+  "restoreExecutionReviewed": true,
+  "restoreExecutionPassed": false,
+  "deploymentPassed": false,
+  "nativeRemoteCyclePassed": false
+}

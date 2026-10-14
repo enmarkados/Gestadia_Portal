@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-12T21:54:21.440010+00:00",
+  "status": "served_utf8_bom_confirmed",
+  "sourceLocalAndServedHashEqual": true,
+  "fileName": "appsettings.json",
+  "bytes": 4563,
+  "sha256": "8b090f7dc91022419a4301a190de857c96a4a9d1e889f10c33e4a7d02d8ae11a",
+  "bom": "EF BB BF",
+  "proof": {
+    "path": "pro119-config-format-actual.png",
+    "sha256": "41c1c23c9998b3f82a125100ae895e0b58795ecb60504955926f570480620e6c",
+    "originalBytesPreserved": true
+  },
+  "redReproductionBySource": "Lector nativo acepta BOM; parser de bytes R2 falla con JsonReaderException en línea0/byte0.",
+  "correctionPending": "Nueva revisión del lector de exportación con StreamReader y carpeta/marcador separados, hashes de bytes originales conservados.",
+  "productConfigurationChanged": false,
+  "agentChanged": false,
+  "r2AutomaticallyRetried": false,
+  "snapshotAvailable": false
+}

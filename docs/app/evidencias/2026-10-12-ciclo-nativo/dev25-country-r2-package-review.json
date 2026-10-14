@@ -1,0 +1,17 @@
+{
+  "reviewedAt": "2026-10-12T23:38:52.185368+00:00",
+  "status": "country_stage_preflight_conforming",
+  "offlineTestsPassed": 24,
+  "packageChecks": 41,
+  "helperSha256": "03f2377e296a8ae0a54e266e66b305ecda953c5c29d8aff9411597d31211138c",
+  "transportSha256": "f57ca56f1473a88e098fa52f632a1eb4662994f8ace9e3d04d3ed2be05ff419f",
+  "sourceDefinitionSha256": "eff0220c5269fd9b070b02e3594474de9679e9e152762da85b6ebc7d23b1da40",
+  "newInactiveFunction": 1,
+  "ownRelation": 1,
+  "timeDatabaseRows": 0,
+  "conformance": "Stage/preflight without DB. Preview requires real import/readback originals. Apply requires reviewed preview and current preimport baseline198/260 actually restored; baseline does not contain new rows and is not automatic/selective rollback.",
+  "productChanged": false,
+  "serverExecutedByReview": false,
+  "appActivated": false,
+  "nativeCyclePassed": false
+}

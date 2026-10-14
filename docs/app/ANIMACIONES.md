@@ -59,3 +59,20 @@ El indicador aparece bajo los mensajes durante el envío o un recibo remoto acce
 La investigación del teclado iOS identifica en Keyboard 8.0.6 un resize native diferido por la duración del teclado + 0,2 s. GestadiaViewController comunica geometría y duración desde keyboardWillChangeFrame; resize none evita el segundo ajuste. El contenedor común mueve campo y menú en una única transición de altura. Se traducen las curvas UIKit estándar; para curvas especiales se usa ease-in-out. No se afirma igualdad de curvas spring ni aceptación física antes de la prueba del iPhone. Android conserva el ajuste del sistema.
 
 Verificación local: seis regresiones nuevas de escritura/teclado, primero RED y después GREEN; suite frontend 178/178 en 43 archivos. La suite también imprime tres avisos históricos de JSDOM sobre navegación externa en CheckoutForm; no son pruebas fallidas. Se preparará build iOS 0.1.0 (2) para actualizar TestFlight. La recepción APNs y fluidez física continúan pendientes; el emulador LIA ajeno se conserva y no se arranca otro.
+
+### Escritura de LidIA animada · 11/10/2026
+
+El usuario usa build (2) y solicita animar también el texto. El indicador conserva cursiva, ubicación, permisos y retirada al responder/fallar; texto con pulso suave 1600 ms y puntos secuenciales 1200 ms (0/160/320 ms, 3 px). No cambia origen, navegación, Atrás ni acción final. Movimiento reducido mantiene los cuatro elementos estáticos y legibles. [Verificación del indicador y límites de build (3)](evidencias/2026-10-11-escritura-animada/README.md).
+
+### Escritura en negrita y puntos en ola · revisión del 11/10/2026
+
+La petición humana sustituye la cursiva por negrita y añade entrada/salida suaves 280 ms, pulso de texto 1800 ms y ola visible de tres puntos 1400 ms con desfases0/200/400ms y subida 5 px. LidiaTypingIndicator conserva el DOM durante la salida y retira el anuncio accesible al responder; movimiento reducido permanece estático con retirada inmediata. Pantalla, origen, permisos, destino de Atrás y acción final se conservan. [Evidencia local y estado de distribución build (5)](evidencias/2026-10-11-escritura-ola/README.md).
+
+### Burbujas nuevas de LidIA · revisión del 11/10/2026
+
+Corrección solicitada para `/lidia/conversacion`: entrada suave 280 ms/8 px desde el primer fotograma, conservación de la referencia del historial al recibir páginas nuevas y desplazamiento suave al llegar respuestas. Los segmentos históricos `[SPLIT]` de LidIA se presentan como burbujas separadas; los segmentos nuevos de un mismo mensaje entran con desfases de 80 ms (máximo320ms). Identidad, recibos y acciones se conservan; la presentación interactiva aparece una sola vez, en el último segmento. No cambia origen, permisos, destino de Atrás ni acción final; no confirma ni crea reservas. Carga inicial/páginas antiguas y movimiento reducido permanecen directos. [Evidencia de esta revisión y estado build (6)](evidencias/2026-10-11-burbujas-suaves/README.md).
+
+
+### Desplazamiento al tocar el compositor — 11/10/2026
+
+Tocar o enfocar el campo de las conversaciones lleva suavemente al último mensaje en 280 ms; otro toque también funciona si el campo ya está enfocado. Mientras tiene foco, adapta el destino al cambio de altura del teclado. Al salir del campo se puede leer el historial libremente. Reducir movimiento lleva directamente al fondo. Pantalla, origen, permisos, destino de Atrás y envío se conservan; no envía mensajes ni ejecuta reservas. [Evidencia y distribución de esta revisión](evidencias/2026-10-11-scroll-compositor/README.md).

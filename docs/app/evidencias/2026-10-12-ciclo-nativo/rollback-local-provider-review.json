@@ -1,0 +1,14 @@
+{
+  "exit": 0,
+  "summary": [
+    "FIRST_ROLLBACK_PASS",
+    "SECOND_ROLLBACK_EXCEPTION=InvalidOperationException",
+    "READ_ONLY_LOCAL_PROVIDER_REPRO_NOT_DEV_CAUSE_PROOF"
+  ],
+  "provider_sha256": "84d297e722db70c78db88ed5f8b273686cb06851ad4e1c14cc7465c4bc482302",
+  "scope": "own isolated local DB READ ONLY",
+  "writes": false,
+  "dev_executed": false,
+  "log_sha256": "e9bfd6feabff9ae84df4e8430f80ab3913430585610d000d4db39741cc7e5841",
+  "served_failure_cause_verified": false
+}

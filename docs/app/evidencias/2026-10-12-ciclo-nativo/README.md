@@ -1,0 +1,375 @@
+# Ciclo nativo conectado del 12/10/2026
+
+Petición humana: comprobar LidIA y el gestor `integraciones@vozenter.com` en iOS y Android; **después** instalar la última versión en iGonchu. No se acredita un ciclo conectado con fixtures ni con la prueba de otra cuenta.
+
+[Plan de aceptación y reparto para preparar DEV](PLAN-ACEPTACION.md), confirmado como objetivo humano al retomar el12/10. Mantener separado el avance documental de los resultados realmente ejecutados.
+
+**Actualización14/10:** [LidIA conectada y continuidad](2026-10-14-lidia-real-ios-android.md) y [gestor real V1.731 con capturas](2026-10-14-gestor-real-731.md). Intercambio, recepción/lectura bidireccionales y cierre comprobados en ambos sistemas. iOS recupera el historial cerrado tras relanzar; Android conserva la lista tras reiniciar y recupera su historial completo desde iOS. Retirada efectiva del receptor e instalación física se documentan por separado. [Resultado y límites](manager-native-window3-review.json). Los apartados anteriores conservan sus fechas y límites históricos.
+
+Integración preparada en [PR17, borrador hacia app/main](https://github.com/enmarkados/Gestadia_Portal/pull/17), todavía sin fusionar. La interfaz actual pasa [49 archivos / 208 pruebas](frontend-current-208-review.json). La comprobación de sólo lectura del servicio sin registro, local y público, devuelve `503 runtime_unavailable` el14/10 a01:05UTC; no crea instalaciones ni chats y no acredita aceptación guest.
+
+## Fuente y entorno
+
+- Fuente de los paquetes y pruebas del12/10 (iOS0.1.0/build11; Android0.1.0/versionCode4): `344b0335ffb1e4a48677983fcba60b58e0b0c216`, con el editor de nombre aceptado. Las referencias web/backend5febdf2/0af593f corresponden a esa preparación, no al despliegue posteriorc653.
+- Preparación nueva del13/10: fuente27c8b4a/productoc653, ambos paquetes compilados; conserva build11/versionCode4. [Manifiestos actuales](native-source27-builds.json) y [observación y límites](2026-10-13-dev-import-real-and-guest-fix.md#paquetes-nativos-actuales-preparados). Los ciclos LidIA y gestor se comprueban el14/10 con los límites de recuperación indicados.
+- Rama propia de QA: `codex/app-prueba-real-ios-android-20261012`, worktree `app-motion-280`. Reutiliza la fuente del build 11 y conserva los documentos posteriores de app/main. Esta preparación local no publica ni activa canales.
+- Backend Portal real en loopback3005 y MySQL durable exclusivo de QA. Copia previa y configuración privada bajo `~/.codex/private/gestadia-app/qa-native-20261012/`; no contiene un proveedor conversacional simulado.
+- La autoridad antigua de sondeo/history caducó el12/10 a00:06UTC. V1/v2 se mantienen apagados hasta recibir configuración y autoridad verificables para nuestra prueba.
+- La auditoría de los stacks24/25 confirma V1.705 en ambos y selecciona25 (`lidia-gestadia-dev`) por la presencia efectiva de119/proyecto102;24 corresponde aVozenter. El equipo fuente prepara sobre30be1692e el nuevo proyecto/clon APP y sus namespaces. No reutilizar la ventana de agenda PRO de otro chat. [Auditoría saneada](dev-audit-review.json).
+- El usuario autoriza Zoho Production para esta QA propia mediante «Contra produccion»; se sustituye el requisito previo de Sandbox. El ámbito APP permanece DEV y el vínculo CRM todavía debe verificarse. [Decisión y secuencia](PLAN-ACEPTACION.md#decisión-vigente-sobre-zoho).
+
+## Matriz de ejecución
+
+| Comprobación | iOS | Android |
+|---|---|---|
+| Compilación de fuente build11 | PASS, Debug Simulator | PASS, assembleDebug |
+| Arranque y pantalla | APP y entrada Login/Continuar sin registro observadas | APP y acceso observados en primer arranque |
+| Login desde controles nativos | PASS: teclado de Device Hub, retorno a nueva consulta y sesión `ios` en BD | PASS: email y contraseña en controles, retorno solicitado |
+| Conservar sesión al reiniciar y revocar al cerrar | PASS: terminate/relaunch conserva cuenta; logout pasa de1 a0 sesiones activas | PASS: force-stop/reinicio conserva cuenta; logout pasa de1 a0 sesiones activas |
+| Nueva sesión real en clon DEV124 + respuesta del modelo | PASS: consulta independiente, un turno | PASS: siete turnos y conclusión por texto |
+| Recuperación, respuesta legible e historial | PASS: historial Android y propio tras relanzar | PASS: historial iOS tras reiniciar AVD |
+| Chat con gestor Integraciones, envío en ambos sentidos | PASS: dos mensajes reales | PASS: tres mensajes reales; Contact–Deal–Owner propios verificados |
+| Recibos enviado/recibido/leído y cierre | PASS: ambos sentidos; cerrado sin compositor | PASS: ambos sentidos y fuera/dentro del área visible; cerrado sin compositor |
+| Historial de gestor recuperado | PASS: Android completo y propio tras relanzar | PASS antes de reiniciar; después lista/título/fechas/estado/preview; apertura completa posterior no terminada |
+| Búsqueda, renombrado, fechas y navegación/Atrás | PASS: dos títulos, cancelar/guardar, búsqueda y reapertura | PASS: títulos/fechas y Continuar al mismo historial; búsqueda/edición no repetidas |
+| Login Apple/Google y push | No acreditados por build ni perfil | No acreditados por build |
+
+El backend local sí pasó login nativo por API, perfil, expedientes, notificaciones y revocación de la sesión de preflight. Eso no acredita login mediante el teclado del emulador.
+
+## Comprobación Android observada
+
+El APK Android es0.1.0/versionCode4 compilado desde la fuente344b033 del build iOS11; ambos números de distribución son independientes. Los nombres de captura `android-build11-*` identifican esa fuente iOS, no un versionCodeAndroid11.
+
+Con4096MB/cuatro núcleos, GPUhost y sin ventana, el AVD arrancó en21,5s. El diálogo de informes del fallo anterior impedía boot: `-crash-report-mode never -no-metrics` evita enviar informes a Google y desbloquea el arranque. Captura y diagnóstico locales permanecen disponibles.
+
+Email QA comprobado contra el fixture y contraseña enmascarada de32caracteres; acceso por controles, retorno a nueva consulta y persistencia tras `am force-stop`/reinicio. El menú muestra la cuenta recuperada. Logout devuelve a visitante y revoca la única sesión Android en BD:1→0. [Resultado](android-sesion.json), [sesión recuperada](android-build11-sesion-recuperada.png).
+
+La consulta nueva muestra un error recuperable porque el backend no tiene autoridad remota vigente: [captura](android-build11-consulta-pendiente.png). La [hoja del gestor](android-build11-gestor-llamada.png) pide nombre/teléfono para llamada, como corresponde a esta cuenta sin Contact–Deal–Owner; no se ha enviado solicitud ni inventado asignación. Mensajes mantiene su texto de gestores y muestra que el historial remoto no está disponible.
+
+El primer intento de login falló al reiniciar el wrapper local sin cargar DATABASE_URL. Se corrigió el comando privado de arranque (`node --env-file=…`), sin modificar autenticación del producto ni permisos.
+
+## Secuencia que debe ejecutarse
+
+1. Acreditar DEV, claves S2S, namespace APP, principal QA, vigencias y operador Integraciones. Guardar referencias de sesión/operación propias, nunca claves.
+2. Ejecutar iOS y Android por separado; AVD propio con4096MB/cuatro núcleos. No modificar AVDs de LIA. Sólo apagar temporalmente un simulador ajeno con autorización humana específica y restaurarlo al terminar.
+3. LidIA: acceso → nueva consulta → mensaje/elección de botón con texto visible → respuesta del119 → abandonar/recuperar mismo chat → renombrar/buscar → permisos/cierre según contrato.
+4. Gestor: relación QA Contact–Deal–Owner confirmada por servidor → abrir chat nombrado → entrada del operador Integraciones → mensajes en ambos sentidos → recibido/leído verificados en los dos extremos → historial tras cierre.
+5. Verificar navegación, teclado, permisos y estados de error. La cita CRM real, OAuth y APNs se registran como pruebas diferentes.
+6. Sólo tras superar ambos ciclos, instalar y abrir el paquete Release firmado en el iPhone, comprobar versión y endpointHTTPS. Confirmación de instalación y lanzamiento no sustituye los ciclos anteriores.
+
+## Paquete físico preparado, todavía no instalado
+
+Reexportación del archivo build11 como `release-testing`, TeamX27NG7M487: **EXPORT SUCCEEDED**. Perfil `iOS Team Ad Hoc Provisioning Profile: com.gestadia.app`, un dispositivo, incluye iGonchu; `get-task-allow=false`, APNsproduction. `codesign --verify --deep --strict` PASS. Configuración ReleaseHTTPS se conserva; no hereda loopback.
+
+IPA SHA256: `7cab357b01d6e882d4ac30c8de76bc563bc5e134854387683870e51db2d3205f`.
+
+La autorización humana de firma/registro/instalación ya existe; el pendiente es técnico y el orden solicitado, no otra aprobación de firma.
+
+## Hallazgos de herramientas
+
+- Xcode27/iOS26.5: el espejo serve-sim confirma taps en su log, pero la pantalla no cambia. XcodeBuildMCP2.7 reconoce Gestadia y su scroll; los botones WebView no aparecen como targets. No considerar un ACK de herramienta como pulsación recibida por la APP.
+- Android API36/Playstore: primer arranque mostró bloqueo del sistema; SwiftShader informó QEMU2CPU0 sin respuesta. Se reintenta con renderizadorauto y recursos acordados, iOSQA apagado. No atribuir todavía el bloqueo a la APP.
+- Android Debug permite HTTP sólo a127.0.0.1 mediante `gestadia_qa_network_security`; Release no incluye esa excepción. Reestablecer `adb reverse tcp:3005 tcp:3005` al reiniciar el AVD.
+
+## Evidencia y recuperación
+
+Los registros completos, manifiesto, binarios, perfil y credenciales quedan privados. Versionar sólo capturas y resultados saneados. Al retomar: comprobar procesos/puertos, manifiesto, vigencias, rama y fuente efectiva; no reconstruir permisos desde PIDs o claves antiguas. Revocar únicamente las sesiones/autoridades creadas por esta prueba y detener sólo sus helpers/dispositivos.
+
+## Verificación de código del snapshot
+
+`node scripts/test-app-conversations.mjs`: **313backend /207frontend /build APP PASS**, base efímera aislada. Repetición de frontend con la opción ya documentada `NODE_OPTIONS=--no-experimental-webstorage`:49archivos/207pruebas PASS. El primer npm test bajo Node25 falló por su global localStorage sin API de getItem/setItem; la comparación mínima con Node24 y el registro original del editor identifican la incompatibilidad del entorno. No se modifica el producto para ocultarla. [Resultado saneado](tests.json).
+
+El segundo boot iOS se quedó en Waiting on System App y no permitió recuperar la interacción; se apagó sólo el simulador propio y se retiró su espejo. El simulador ajeno se conserva. La inspección WebKit experimental sólo se habilitó en la copia privada del simulador, nunca en el IPA físico.
+
+## Preflight físico por cable
+
+`devicectl device info apps --bundle-id com.gestadia.app`, con destino exclusivo a iGonchu, confirma **Gestadia0.1.0/bundleVersion11 ya instalada**. No se reinstaló ni lanzó la APP en esta prueba; la reexportación Ad Hoc preparada permanece sin instalar. La versión instalada no acredita el ciclo conectado ni el origen exacto del paquete. [Resultado saneado](iphone-version.json).
+
+## Reanudación tras el cierre de la ventana PRO ajena
+
+Se incorpora a la rama QA el backend `0af593f` ya entregado por el otro equipo, mediante `b2250c3`; igualdad exacta de `backend/` comprobada contra fuente. `frontend/app/` conserva igualdad con344b033 y los binarios móviles no cambian. Los conflictos documentales conservan las entradas anteriores y las fuentes recibidas.
+
+Verificación nueva del conjunto: **351backend /207frontend /build APP PASS**, harness aislado. [Resultado](tests-backend0af.json). Se reinicia sólo el backend privado3005 con la configuración existente, S2S desactivado; sin migración nueva, despliegue o grants.
+
+LidIA confirma que su ventana PRO quedó cerrada/restaurada, sin Call acreditada. Esto permite retomar la auditoría DEV, pero no entrega aún recursos nativos: stack24 continúaV1.705/30a5365. Se solicitan namespace/autoridad propios y Contact–Deal–Owner/routing de Integraciones verificables. El operador, la matriz de conexiones y el aislamiento deben acreditarse; no se construye un caso CRM ficticio para saltar el guard.
+
+La ejecución iOS espera también resolver la convivencia con el simulador iPhone17 de la tarea LIA: se solicita permiso al usuario para cerrarlo temporalmente, conservando su dispositivo y datos. No se toca mientras la respuesta esté pendiente.
+
+## Revisión posterior: acceso nativo iOS y restauración del simulador ajeno
+
+El usuario autorizó expresamente cerrar temporalmente el simulador iPhone17 de la otra tarea. Se apagó sin borrar datos; el simulador propio completó el arranque en16s. Sólo el dispositivo propio estuvo activo durante esta prueba.
+
+El teclado del helper serve-sim no introducía caracteres aunque devolvía éxito. Su diagnóstico identificó dos ventanas con el mismo nombre y la caída al modo HID anterior. En cambio, al enfocar Device Hub y capturar su teclado, la escritura sí llegó al campo: correo QA verificado y contraseña enmascarada. No se cambió la autenticación, no se reparó SpringBoard ni se modificó la configuración del teclado del usuario. XcodeBuildMCP sigue sin exponer botones del WebView; los ACK de esa herramienta no son la evidencia de acceso.
+
+El acceso con la cuenta propia crea exactamente una sesión de plataforma `ios` en la BD local, vuelve a la nueva consulta solicitada y conserva la identidad tras `simctl terminate`/`launch`. El menú muestra la misma cuenta recuperada. Cerrar sesión devuelve a visitante y revoca esa sesión:0→1→0. [Resultado saneado](ios-sesion.json), [acceso](ios-build11-sesion-iniciada.png), [cuenta recuperada](ios-build11-sesion-recuperada.png) y [salida](ios-build11-sesion-cerrada.png).
+
+El intento de iniciar la consulta muestra el [error recuperable](ios-build11-consulta-pendiente.png) esperado sin autoridad S2S vigente. La [hoja de llamada al gestor](ios-build11-gestor-llamada.png) pide nombre/teléfono a la cuenta sin expediente; no se envió el formulario ni se creó una relación CRM. Ninguna de estas capturas acredita un turno real del119, un chat de Integraciones o recibos leído/recibido.
+
+Al terminar, se cerró el espejo y se apagó sólo el simulador propio. El iPhone17 original volvió a `Booted`, con boot terminado y datos conservados; no se lanzó ni modificó su app de LIA. Android QA permanece apagado. El iPhone físico sigue pendiente del orden humano: terminar los ciclos conectados y después instalar el Release preparado.
+
+## Bloqueo confirmado por el equipo LidIA tras la prueba nativa
+
+El equipo fuente confirma: DEV stack24 sirve todavíaV1.705; falta copiar/auditar BD, conexiones y operador, y desplegar el canal APP actual. No existe todavía namespace QA/S2S autorizado en el receptor ni vínculo Contacto–Trato–Owner acreditado. El login, el teléfono y el correo no sirven para deducir ese vínculo.
+
+El equipo prepara su corrección728 de consentimiento/diagnóstico y después la copia/aislamiento DEV con entrega de metadatos y rutas privadas. El adapter CRM APP admite actualmente Production: si DEV sólo dispone de Sandbox, debe ajustarse y verificarse ese transporte antes de las pruebas CRM. La etiqueta DEV no demuestra aislamiento. Su ventana PRO permanece cerrada; nuestra configuración S2S sigue desactivada y la instalación física espera los dos ciclos reales.
+
+Se repite la consulta física por cable al cerrar esta revisión: iGonchu conserva Gestadia0.1.0(11). [Nueva comprobación](iphone-version-recheck.json). No se instala ni abre la APP física durante este intento.
+
+## Avance comunicado por LidIA: candidato V1.728
+
+El equipo LidIA comunica que su paquete V1.728 superó199 pruebas y compiló con SDK8 en Debug/Release; integración PRO `8bab`. También comunica una restauración aislada del backup fresco:198 tablas, mapping1, timeline19, ChatLogs0 y salida0. Estos resultados pertenecen a su ejecución, no a la prueba nativa de este directorio.
+
+Portal principal inició una única solicitud de redeploy del stack26 y está reconciliando el resultado. A la recepción de este mensaje todavía no estaban certificados el runtime728 ni una llamada real. Los permisos CRM continúan cerrados.
+
+DEV24 sigue V1.705; namespace, aislamiento y relación CRM aún no están acreditados. Se conserva S2S QA desactivado y no se reutiliza la cuenta ni la conversación PRO. Este avance no modifica la matriz de aceptación ni habilita la instalación física pendiente de los dos ciclos conectados.
+
+## Actualización de coordinación: elección DEV25 y Zoho Production
+
+Los informes originales24/25 han sido recuperados y verificados por SHA.25 contiene119, proyecto102 y conexión4 Production;24 corresponde aVozenter y no contiene119. Ningún informe acredita activación APP ni ruta del operador. Se conserva el proyecto102 original con sus otros canales y se prepara un proyecto APP nuevo, una copia funcional de119 con id libre y namespaces/credenciales propios. La fuente propuesta es30be1692e; la referencia anterior de25 esdesarrollo/gestadia64ced36a y requiere backup/rollback antes de actualizar.
+
+El usuario respondió «Contra produccion» al requisito de Sandbox. Esta decisión se ha transmitido y confirmado por ambos equipos; no implica reusar la identidad/conversación de la otra prueba humana. Portal no dispone aún de la entrega S2S nueva ni de Contact–Deal–Owner/mapping propios. El ciclo conectado permanece pendiente y los simuladores propios siguen detenidos mientras se prepara el receptor.
+
+LidIA verifica en AppProtocol.Route que message-receipts GET exige app.timeline.read y POST/ack exige app.turns.write. Las claves por operación de sondeo cubren sessions.write/timeline.read/turns.write/context.attest y subjects.revoke, cada una con su capability mínima; los cinco KeyId de sondeo son distintos entre sí y de atención, como exige el registro Portal. Los permisos son history+sondeo, sin handoff/agenda. La retirada usa la clave REVOCATION separada. Este contraste de fuente prepara la prueba; todavía no acredita ningún tick nativo real.
+
+### Entrega privada y conformidad técnica del paquete propuesto
+
+Las dos configuraciones pending recibidas se han contrastado por SHA, modo privado y correspondencia de sus once secretos/KeyId/capability entre receptor y Portal. El registro real de0af593f valida ambos perfiles en memoria; la instancia no se ha modificado. Se preparó una configuración privada local con S2S y guest apagados, sinURL ni IDs/ruta inventados. [Revisión saneada](s2s-pending-review.json).
+
+Se revisó y comunicó conformidad con el [plan recibido de LidIA](../../../integraciones/2026-10-12-dev25-qa-nativa-preparacion-lidia-recibida.md): backup/restauración aislada de25; EFhistory y migraciones oficiales; nueva referenciaQA y rollback; actualización con APP apagada; comparación funcional119DEV/real; nuevo proyecto/clon y sólo después habilitar sondeo con recursos verificados. Esta conformidad y las claves pendientes no acreditan despliegue ni conversación.
+
+Los archivos de código anterior y aprobado se contrastaron por tamaño/SHA; el aprobado incluye las tres migraciones APP citadas. No se han restaurado ni aplicado al runtime. [Contraste de archivos](dev25-source-review.json).
+
+### Revisión de copia y restauración R2
+
+Se devolvieron dos observaciones sobre R1 antes de ejecutarlo: sintaxis YAML y consistencia/recuentos de la exportación. R1 se conserva y no se ejecutó. R2 mantiene una transacción READ ONLY/REPEATABLE READ en la misma conexión/comando, comprueba las variables e identidad de conexión antes y después, exige InnoDB y revalida los recuentos de todas las tablas. La restauración compara esos recuentos y los manifiestos de archivos.
+
+Los hashes de fuente/script/transporte/plantilla se han comprobado directamente; shell, parser YAML y shell extraído deCompose pasaron. La plantilla mantiene cuatro hashes pendientes y falla antes de importar hasta completarlos con la copia real. Se comunicó conformidad para ejecutar la copia limitada a25; todavía no acredita exportación, restauración ni actualización. [Revisión saneada](dev25-backup-r2-review.json).
+
+### Exportación DEV25: archivos originales contrastados
+
+La exportación reporta188tablas,345.140filas y239.559.868bytes SQL, con snapshot/recuentos comprobados. PortalQA ha contrastado porhash los bytes originales del informe, manifiesto y TSV, y ha recomputado188nombres únicos/suma345.140. Se conserva el [informe original](dev25-backup-original-report.json) y el [manifiesto original](dev25-backup-original-SHA256SUMS.txt) sin modificar; el SQL y entorno permanecen privados en servidor.
+
+El archivo pinned para restauración cambia exactamente cuatro hashes de la plantilla, todos desde el manifiesto original. ParserYAML/shell y límites de aislamiento pasaron; se comunicó conformidad de ejecución. No se ha observado todavía la restauración ni la actualización. [Procedencia, límites y revisión](dev25-backup-original-review.json).
+
+### Restauración real comprobada
+
+Ops ejecutó una vez el fixturepinned en el stack temporal123, sin repetir la copia. PortalQA leyó el AX original y vio la [captura](dev25-restore-r2-pass.png): recuentos188tablas PASS, SQL119/proyecto102 PASS, runtime/persistencia/entorno/comando PASS y RESTORECOMPLETE sin red/eventos/aplicación. Ops inspeccionó el contenedor detenido con salida0; esa salida se atribuye a su inspección. El historialEF restaurado termina en20261001214018_AddWhatsAppTemplatePrice.
+
+El diff64ced36a→30be1692e contiene exactamente las tres migracionesAPP citadas y el ModelSnapshot. Se comunicó conformidad para preparar la actualización de25 con APP apagada y rollback preservado. No se ha acreditado aún la actualización, el clon funcional119 ni S2S; la matriz nativa permanece pendiente. [Procedencia y límites](dev25-restore-r2-review.json).
+
+### Migraciones y runtime DEV25 observados
+
+Ops ejecutó las tres migraciones oficiales y un único Pull. PortalQA ha visto y conservado los bytes originales de las capturas: [aplicación EF](dev25-ef-apply-actual.png) y [comprobación posterior](dev25-post-runtime-actual.png). El resultado visible confirma198tablas/historial260 y V1.728-app-diagnostico, con configuración APP ausente y entorno false. El 504 del Pull se reconcilió con el nuevo contenedor saludable; no se repitió el despliegue. SHA30be y CID462d se atribuyen al reporte de Ops.
+
+El inspector119 está congelado, revisado por LidIA y pendiente de lectura real; el proxy, clon funcional, autoridad S2S y caso CRM propios siguen pendientes. Los JSON originales de ejecución aún no se han recibido: la captura no se transcribe como un original. [Revisión y límites](dev25-migration-runtime-review.json). Esto no modifica los pendientes de aceptación nativa ni autoriza usar la identidad PRO ajena.
+
+### Acceso real del operador DEV
+
+Login ordinario de Integraciones comprobado desde la UI en`https://dev-lidia.gestadia.com/admin/chats`: el menú confirma su usuario/correo y la pantalla muestra V1.728 y BD DEV. [Captura sin filas de chats ajenos](dev-integraciones-acceso.png) y [resultado](dev-integraciones-acceso.json). La ruta genérica`/admin` daba404 y el navegador la bloqueaba; la ruta oficial funciona sin cambiar seguridad, IP o host. La sesión queda preparada para el chat propio; no se abrieron conversaciones ajenas ni se modificaron permisos. Acceso al panel no acredita routing, chat, ticks ni correlación del proxy al contenedor25.
+
+### Originales de ejecución recibidos y diferencia real del119
+
+Se han recuperado los cinco informes originales de ejecución, sin transcribir capturas ni cambiar bytes: [migración](dev25-migration-original.json), [preview](dev25-preview-original.json), [postEF](dev25-postef-original.json), [postruntime](dev25-postruntime-original.json) e [inspección119](dev25-agent119-original.json). Los hashes de migración/runtime/agente comunicados por Ops coinciden con el cálculo independiente; el informe runtime vincula el mismo hash de migración.
+
+La inspección real encuentra119DEV «GestadIA v2 - Agente por defecto», instrucción10111/version1.0/hash91b461…, distinta del119PRO Canje v4/v1.8/hashec616… informado por LidIA. No se ejecuta la copia literal desde ese agente antiguo. Se prepara un snapshot privado de configuración funcionalPRO para importar en un proyecto/agente DEV nuevos; no se trasladan chats/contactos/secretos ni se alteran119/122 originales. Defaults, herramientas y conexiones requieren revisión explícita antes de activar el namespace. [Decisión, procedencia y límites](dev25-agent119-review.json). La comparación PRO se atribuye al equipo fuente y no reemplaza una nueva captura/lectura actual.
+
+### Segunda preparación de entrada iOS
+
+Se reabre sólo el simulador propio y se vuelve a comprobar la escritura nativa: `Device → Keyboard → Keyboard Capture` muestra el indicador Capturing Keyboard; correo visible y contraseña enmascarada llegan a los campos. No se envía el formulario mientras S2S siga apagado. Los clicks del espejo web no cambiaban la APP; el tap del helper oficial, dirigido al UUID propio y verificado por captura, sí abre Nueva/Acceso. Se libera la captura del teclado al terminar.
+
+El simulador propio y su espejo quedan detenidos mientras se prepara la configuración del agente. El iPhone17 original vuelve aBooted, con bootstatus terminado y datos conservados. No hay otra sesión conectada ni chat real acreditados por esta preparación.
+
+### Exportación119PRO R2 preparada y revisada
+
+LidIA congela un exportador de lectura con modelos nativos y cuatro SaveChanges bloqueadas, queries de tablas permitidas y transacción READ ONLY/RR. QA contrasta script/transporte/payload exacto de tres archivos, hashes, shell y los logs51offline/preflight sin DB/HTTP; se comunica conformidad para una ejecución de lectura por Ops en el CID PRO ya acreditado/UID1654. Pins de DLL/versión/BD/instrucción y configuración APP inicial/final; fingerprint observado se declara nuevo, sin un pin previo inventado.
+
+[Revisión y hashes](pro119-export-r2-review.json). No se ha recibido todavía el snapshot real ni se ha importado/activado un agente DEV. El contenido privado se trasladará con su hash fuera deGit; conexiones/credenciales, contactos y chats no forman parte de ese contenido. Parámetros configurados no acreditan caches/modelo/proveedor ni un turno nativo.
+
+### Exportación119PRO R2 real: resultado inconcluso
+
+Ops ejecuta R2 una vez en PRO/UID1654. PortalQA ve y conserva la [captura original](pro119-export-actual.png): `System.Text.Json.JsonReaderException`, sin escrituras y sin contenido del snapshot impreso. [Resultado y límites](pro119-export-r2-inconclusive.json). No se repite el paquete ni se borra su marcador; esta salida no permite importar ni acreditar paridad.
+
+Se solicita diagnóstico de fase/codificación/BOM/posición limitado a los archivos permitidos, sin valores de configuración. Comentarios y trailing commas ya estaban contemplados en R2; un BOM sigue siendo una hipótesis hasta la comprobación real. S2S QA e import DEV continúan pendientes.
+
+### Causa de lectura confirmada: marca UTF8
+
+La [comprobación RO servida](pro119-config-format-actual.png) confirma el mismo archivo/hash/tamaño que el candidato local: appsettings.json4563bytes/SHA8b090f… y BOM EFBBBF. LidIA reproduce RED: el proveedor nativo admite esa marca; JsonDocument sobre bytes de R2 falla en línea0/byte0. [Procedencia](pro119-config-format-review.json).
+
+Se prepara una nueva revisión del lector con StreamReader, hashes sobre bytes originales y carpeta/marcador distintos. No se cambia el archivo válido de producción ni el agente. R2 y su resultado inconcluso se conservan; la lectura nueva todavía necesita revisión y ejecución.
+
+### R3 corregida, congelada y revisada
+
+QA contrasta el cambio del lector, sus fases sanitizadas, 74checks/preflight y el transporte exacto/payload de tres archivos; todos los archivos R2 registrados siguen idénticos. Se comunica conformidad para una nueva lectura R3 con carpeta/marcador distintos, pins de bytes originales y configuración leída antes de abrir la BD. [Hashes y límites](pro119-export-r3-review.json). No se ha recibido aún el archivo real ni hay importación/activación DEV o conversación nativa acreditada.
+
+### R3 real: formato resuelto, referencia de instrucción distinta
+
+Ops ejecuta R3 una vez. La [captura original](pro119-export-r3-actual.png) acredita que se alcanza verify_prompt_pin y se detiene con pro119_prompt_pin_mismatch; no hay escrituras ni contenido impreso. [Resultado](pro119-export-r3-stopped.json). No se importa ni se toma esta lectura por un snapshot completo.
+
+Se solicita una observación mínima actual de119PRO (identidad/proyecto/instrucción/version/hash/modelo seguro/destino) sin contenido. La referencia ec616/v1.8 deberá contrastarse con el estado real antes de preparar otro pin; no se relaja automáticamente ni se usa122 como equivalente. R2/R3 y sus marcadores permanecen conservados. Los ciclos nativos y la instalación física siguen pendientes.
+
+### Referencia de versión: inspección mínima preparada
+
+El código Playground añade una «v» al valor almacenado al renderizarlo. La parada R3 no acredita por sí sola un cambio de contenido. Se prepara y revisa un inspector de tres SQL exactas para119/122 y sus referencias, con versión cruda/hash/longitud y sin contenido. QA contrasta31checks/preflight, transporte y tres archivos exactos; conformidad limitada a una lectura mínima. [Revisión](pro119-current-inspector-review.json). El informe real todavía no se ha recibido; no se normaliza ni modifica el pin ni se atribuye igualdad funcional119/122.
+
+### Referencia actual confirmada por bytes originales
+
+El [informe original](pro119-current-inspector-original.json) recuperado por Ops coincide con SHA3135a1be… recalculado por QA.119esLidIA Canje v4/102/instrucción10115; valor DB1.8-mario-adaptado,65532caracteres yhashec616c2687189eaded1a77d904d2c720aa12c8ab9f629850f74bc4202bcd0286, igual al pin de contenido anterior. La parada R3 correspondía a la «v» de presentación incluida erróneamente en el pin de versión; no acredita cambio del contenido real.
+
+Dos transcripciones intermedias de hashes en mensajes eran incorrectas y quedan sustituidas por los bytes originales, sin alterar evidencia histórica. El fingerprint PRO c92ed76… ya está observado y puede fijarse en la nueva preparación.119/122coinciden en hash/version/longitud de sus distintas instrucciones; no se acredita equivalencia funcional completa. [Contraste y límites](pro119-current-inspector-result.json). Aún falta obtener el snapshot funcional, importarlo inactivo en DEV y entregar recursos S2S/CRM propios para los ciclos nativos.
+
+### R4 revisada y lectura real comunicada como completa
+
+QA contrasta el diff mínimo, rawversion exacta, pin de fingerprint antes de SELECT, referencia del informe original,78checks/preflight y transporte/payload de tres archivos. [Revisión](pro119-export-r4-review.json). Ops comunica una ejecución R4 completa en22:32:43UTC, snapshot103806bytes, sin escrituras/HTTP/Host/filas nuevas/import. Los originales y hashes están aún en recuperación: la comunicación no se trata como entrega de bytes ni permite importar. Se conservan R2/R3/inspector; no se repite la exportación.
+
+### Informe R4 original recibido
+
+El [informe R4 original](pro119-export-r4-original-report.json) de2600bytes coincide con SHA3344fca2… recalculado por QA. Acredita ejecución de lectura completa, fingerprint/pins y prompt exactos,8tools asignadas/0candidatos globales, sin escrituras/HTTP/Host/import. Espera snapshot103806bytes/SHA b5ea5b60…; todavía no se ha recibido ese contenido. Flags/modelo configurados no acreditan cache/proveedor real ni una conversación.
+
+### Snapshot funcional real recibido y contrastado
+
+Se recibe el contenido original privado103806bytes/SHA b5ea5b60…; QA recalcula el hash y conserva copia600 fuera deGit. [Revisión saneada](pro119-r4-snapshot-review.json). Se observa modelo configuradoclaude-haiku-4-5,8tools asignadas/0globales, flowsnull y personalidad desactivada. Timeout/automatización del agentePRO requieren aislamiento explícito en la copia; no se heredan en QA.
+
+Se coordina preparación de importación inactiva con IDs nuevos y mapping de instrucciones/tools/flags. El snapshot no acredita caché/proveedor ni respuesta real; aún no hay importación ni S2SQA activa, casoCRM propio o ciclo nativo. Las claves y contenido de instrucciones no se versionan.
+
+### Propuesta de importación inactiva revisada
+
+QA lee la propuesta original14333bytes/SHA20dd4174… y acepta preparar la utilidad/preview/readback de tres entidades nuevas inactivas, prompt/apertura fieles, modeloHaiku/19overrides, paridad de defaults y resets operativos. [Conformidad y observaciones](dev25-import-r4-plan-review.json). El paquete y preview concreto se revisarán antes de escribir.
+
+Se solicita incluir las lecturas mínimas DEV de paridad en el mismo preview y preparar en paralelo la revisión country builtin existente. Country/time será una restricciónQA explícita, no equivalencia funcional completa. No hay import, activación, casoCRM ni aceptación nativa acreditados por esta propuesta. El objetivo humano de gestor/iOS/Android/instalación permanece pendiente.
+
+### Pin del binario DEV servido y preparación CRM independiente
+
+Ops entrega [informe DEV original](dev25-served-runtime-sha-original.json),273bytes/SHAa230a3ba… cotejado por QA. La DLL real delCID462d/UID1654 tiene SHA09417948… y61000704bytes; este pin evita confundirla con el binarioPRO3ba. Se prepara backup/restauración actualizado198tablas/260migraciones, preservando el backup188 anterior como evidencia previa, no como rollback del estado actual.
+
+Para el gestor, se comparte la referencia directa de los dos mensajes humanos de este turno (ciclo nativo con Integraciones y «Contra produccion»). Se prepara sólo metadata/org/Owner/layout de Zoho en lectura; el límite de una hora es una propuesta técnica, no una cita humana. No se crean registros ni se concede/transfiere OAuth con esta petición; cualquier acceso sensible nuevo se concretará antes de decidirlo. El casoCRM y los dos ciclos nativos aún están pendientes.
+
+
+### 13/10/2026 — paquetes DEV y lectura CRM revisados
+
+Se revisan fuentes, manifiestos, transporte y pruebas de [importación inactiva R4](dev25-import-r4-package-review.json), [backup actual R5](dev25-backup-r5-package-review.json) y [metadata Zoho R2](zoho-metadata-r2-review.json). Importación:36checks/41de paquete, preview RO único y tres entidades propias inactivas; apply espera preview original y backup198/260 restaurado. Backup:22guards/8tests, admite sólo Enabled=false observado y preserva versiones anteriores. Zoho:63assertions, cancelación efectiva5min/20s también en cuerpo/BD, sin refresh/scopes ni fichas de clientes. La revisión descubrió y corrigió antes de ejecutar dos defectos: timeout del cuerpo HTTP y guard del flag APP apagado.
+
+Ops recibe conformidad para los preparativos/lecturas concretos. No se ha recibido todavía su resultado real; no hay importación/activación, relación CRM propia, ciclo conversacional nativo o nueva instalación física acreditados. Los helpers privados conservan originales y hashes fuera deGit.
+
+
+### Revisión independiente adicional: preview R4 detenido
+
+Source identifica que GetAppliedMigrationsAsync genera una comprobación INFORMATION_SCHEMA/punto y coma que rechaza el guard estricto del helper. Retira la ejecución de preview R4 antes de ejecutarlo y prepara R5 con una proyección mínima directa del historial, sin ampliar permisos o modificar producto/esquema. [Observación y alcance](dev25-import-r4-hold-review.json). La conformidad inicial de R4 queda sustituida para preview por esta parada; se conservan sus bytes y revisión. BackupR5 y ZohoR2 continúan conformes.
+
+
+### Preview R5 corregido y revisado
+
+QA comprueba la proyección SQL real y el interceptor,39tests y43checks de paquete/transporte. La consulta directa del historial resuelve el defecto conservando el guard estricto. [Conformidad R5](dev25-import-r5-package-review.json), sujeta al preflight final Source y a la ejecución única RO por Ops. No hay todavía resultado remoto de preview, apply, activación ni conversación nativa acreditados.
+
+
+### Guard de sujeto PortalQA preparado
+
+El namespace y los grants de una cuenta no restringen por sí solos qué sujetos puede atestar el poseedor de la clave. Se prepara un wrapper privado que controla todos los envíos S2S antes de la red: sujeto64a propio, destinoDEV exacto, claves11 propias, principal del DTO si aparece, vigencia y rutas v1. El cliente real firma normalmente; no se reemplaza el motor, el adapter ni su respuesta. Once pruebas offline incluyen AppS2SClient real, cero envíos denegados y preservación de bytes. [Hashes y límites](qa-subject-guard-preparation.json).
+
+Scope pendiente apagado, sin fechas/proof; bootstrap privado preparado sin aplicarlo al proceso3005. La vigencia máxima de cuatro horas es un límite técnico propuesto, no una cita de autorización humana. Guestv2 continúa apagado en esta fase. La solicitud humana del gestor conserva su fase CRM/ruta propia; soporte técnico sería evidencia parcial y no se añadirá un arnés o pantalla para sustituir ese recorrido.
+
+
+### Guard de sujeto R2: revisión cruzada corregida
+
+Source detectó que un objeto Request con headers firmados dentro de input podía saltarse la detección de init.headers. También se fijó el UID64a en el propio helper para evitar deriva del principal en el archivo privado. Ambos casos tuvieron RED observable y están corregidos en una revisión separada:13tests PASS, envíos denegados0, cliente real conservado. [Proof R2](qa-subject-guard-r2-preparation.json). R1 queda idéntica por hashes y retirada antes de aplicar. Bootstrap R2 y scope siguen pendientes/apagados; no hay ejecución externa o aceptación nativa acreditadas por estas pruebas.
+
+
+### Zoho R2 real: resultado original recibido
+
+Ops recupera el informe privado17862bytes/SHA226dfb7b… cotejado por QA y conservado600 fuera deGit. SieteGET: sólo organización responde401OAUTH_SCOPE_MISMATCH; Users/Fields/Layouts/Pipeline responden200. La página completa de21usuarios no contiene integraciones@vozenter.com, por lo que no se acredita ese Owner CRM. Contact requiere Last_Name; Deal requiere Deal_Name/Servicio/Pipeline/Stage. Se observa Gestor_encargado, sin asumir su uso o contenido; el adapter actualPortal consulta Owner. [Revisión saneada](zoho-viability-r2-original-review.json).
+
+Se coordina alternativa mínima para el casoQA/ruta explícita hacia el operador Integraciones de LidIA, con propiedadCRM real y diferencia de identidades declarada. No se crean usuarios/licencias/scopes, casos, vínculos o grants por esta lectura. El acceso del operadorDEV sigue autenticado en su bandeja oficial, sin abrir otros chats; eso tampoco acredita handoff. SondeoDEV puede continuar por separado.
+
+
+### Continuación bloqueada en la interfaz nativa del Mac
+
+Cua informa Mac bloqueado y pide desbloqueo manual; se solicita al humano, sin intentar eludirlo. La API3005 sigue devolviendo health, pero la lectura de la cuenta local no alcanza MySQL60670 y el ping del daemonDocker agota5s. No se acredita todavía causa o pérdida de datos; no se reinicia Docker global ni se borra el volumen. La inspección de sólo lectura del contenedor propio queda pendiente de respuesta.
+
+Se coordina seguir revisiones remotas DEV por separado. QA acepta que el backup actual198/260 previo a import sea baseline de reversión del conjunto de cambios propios, junto recibos/readback posteriores; no hace falta un fullbackup por cada fila ni se afirma que incluya las nuevas filas. El paquete country necesita reflejar esa precisión y su revisión concreta antes de apply. Sin desbloqueo y base local disponible no se reinician los ciclos nativos ni se instala el iPhone.
+
+
+### Preview R5 observado; backup todavía inconcluso
+
+Ops ejecuta una vez ambos paquetes en DEV/UID1654. QA ve las capturas originales: [preview](dev25-import-r5-preview-actual.png) con hashes/preflight correctos y activation_parity_ready=true, sin escritura; [backup](dev25-backup-r5-actual.png) con preflight correcto pero salida inconclusa sin fase. [Estado y límites](dev25-preview-and-backup-actual.json). Espera original de preview antes de revisar el apply. El respaldo no se repite ni restaura; Source prepara conciliación mínima de archivos/diagnóstico seguro antes de otra acción. No hay importación, activación, ciclo nativo ni instalación nueva acreditados. El bloqueo manual del Mac no impidió a Ops operar PortainerIAB.
+
+
+### Preview original R5 recibido y conforme
+
+Se recibe5937bytes/SHA8d9988e40ffd7affdc726382feebcbc9d219bf8fc58abca5ef43e95681c77a7d. QA verifica raw=canónico y todos los gates de configuración/modelo/null/persona/Serialize/TodayOnly/aux, sin credenciales ni caches/wire/TTS acreditados. [Revisión](dev25-import-r5-preview-original-review.json). El valor58d… de la transcripción anterior era incorrecto y queda sustituido por el original; no se altera la evidencia anterior. Conforme importación de tres entidades inactivas sólo cuando backup/restauración actual pasen y se revaliden los mismos pins/defaults. No hay todavía apply, activación, conversación nativa o instalación nueva.
+
+
+### Country R2 revisada y conforme para preflight
+
+QA contrasta fuentes/ownership/recibos/baseline,24tests y41checks de paquete; [revisión](dev25-country-r2-package-review.json). Sólo stage/preflight sin BD; preview espera import/readback reales. Una fila country inactiva y un join propios, sin editar core, reglas ni handlers; hora sin fila. El apply requiere baseline actual restaurado y recibos posteriores revisados. Se revisa además la conciliación FS limitada de13nombres del respaldo, sin leer contenido/SQL/export/restore/replay. No hay escritura, activación, ciclo nativo o instalación nueva acreditados por estas conformidades.
+
+
+### Preparación CRM siguiente: Owner y Servicio, dos lecturas
+
+QA revisa el paquete independiente de CurrentUser y picklist Servicio del layout observado:54assertions/38checks propios de manifiesto/transporte, sin selección automática, clientes, CRUD o renovación. [Conformidad](zoho-owner-service-package-review.json). Se contrasta el endpoint/layout_associations/actual_value con la documentación oficial Zoho. Stage/preflight sinBD y una lectura posterior sólo si el token actual supera5min; no se presume la vigencia anterior. El Owner real podrá mapearse explícitamente al operador LidIA distinto bajo assignmentRef/ruta manager, preservando el nombre real devuelto por assignedManager. No hay todavía caso/grant real o ciclo del gestor.
+
+
+### 13/10 — diagnóstico real y comprobación CRM adicional
+
+[Diagnóstico metadata preparado](dev25-metadata-diagnostic-package-review.json) con29tests/38checks: Source/Ops ejecutan una lectura. El [original11588B](dev25-metadata-diagnostic-original-review.json) acredita198InnoDB, snapshotRO/RR y cleanup correctos; falla el guard que exige AppConversationMappings. El modelo EF y la migración definen AppConversations, presente en el inventario real. Se prepara R6 para corregir el nombre/recuento y sus consumidores de restore; no falta DDL ni se crea una tabla. El diagnóstico no llegó a EFhistory ni acredita una exportación; R5 y su marcador se conservan.
+
+El [original Owner/Servicio8119B](zoho-owner-service-original-review.json) observa CurrentUser SistemasZoho activo/confirmado y44opcionesused; no acredita asociaciones al layout ni elige un Owner/Servicio. [LayoutR2](zoho-service-layout-r2-package-review.json),56tests/38checks, prepara un GET distinto del layout observado con proyección exclusiva del campoServicio y duplicados cerrados. Sinclientes/CRUD/scopes/refresh. Ambos originales privados se cotejan y guardan600 fuera deGit. El Mac sigue bloqueado en el recheck; no hay ciclos nativos o instalación nueva.
+
+
+### Propuesta R6 conforme antes de implementación
+
+QA lee y acepta la [propuesta concreta R6](dev25-backup-r6-proposal-review.json): nombre/recuento AppConversations desde modelo/inventario reales, nuevo campo app_conversations_rows observado, regresión con inventario original y counts sintéticos declarados. Mantiene exporter/defaults/RR/pins/scope y requiere directorios nuevos, fases seguras y freeze/pruebas antes de una exportación nueva. R5 y diagnóstico se conservan; no hay DDL o cambio de producto/canal. Los adapters se construirán desde backup/restore originales reales, no desde la propuesta. Preparación autorizada dentro del objetivo DEV ya pedido; ejecución/restauración/importación/nativa/instalación todavía pendientes.
+
+
+### Servicio del layout real acreditado
+
+QA contrasta [original5582B/SHA5b69e913…](zoho-service-layout-original-review.json): layoutStandardactivo/visible, campoServicio obligatorio y APIcreate permitido, una ocurrencia default_create, Canjeused/ID588164000009534017. El lector no elige ni crea. Se acepta preparar una propuesta mínima de contacto/tratoQA y lectura posterior propia con OwnerSistemasZoho explícito, pipelineCanje-GTD/StageactualEn proceso, sin pago/ganado/phoneinventado ni automatismos de comunicación. El operadorLidIAIntegraciones se mapeará por referencia propia y la diferencia de identidades se conserva; no se sustituye assignedManager real. Payload/guardas/revisión concreta todavía preceden a cualquier creación. Macbloqueado, base local no disponible y ciclos/instalación pendientes.
+
+
+### Caso CRM propio: cuerpos revisados y precio local resuelto
+
+[Revisión concreta](zoho-own-case-proposal-review.json): un contacto y un trato nuevos claramente QA, máximo2POST y2GET propios, sin correo/teléfono/pago, sin repetición tras resultado desconocido y sin cambios OAuth. Se comprueban cuerpos, marcador, tamaños, Owner/layout/servicio/pipeline/etapa. Source prepara revisión separada eliminando el gate añadido de backupSQLPRO: éste no restaura Zoho y el caso no muta SQL/runtimePRO. El backup/restauraciónDEV sí precede a la importaciónDEV.
+
+El importe obligatorio local tiene fuente real: getServicio(canje-carnet) devuelve210EUR; checkout crea ese importe con pago_pendiente antes del pago. El puenteQA usará catálogo/hash comprobados y referencias/fechas de pagoNULL, sin invocar checkout/Stripe/notify ni enviar Amount a Zoho. No necesita importe0, migración ni una decisión humana adicional. No hay contacto/trato/expediente creado todavía.
+
+[Estado local comprobado](local-native-blocker-review.json): Mac bloqueado, API3005 accesible, MySQL60670 rechaza conexión y Docker agota4/6s; quedan aproximadamente3.9GiB. Siete eventos de falta de espacio constan en el log Docker de21:18Z, sin atribuirles la causa actual. No se reinicia Docker global ni se borran volúmenes. Ops prepara restore remoto aislado; ciclos nativos e instalación siguen pendientes del desbloqueo y la recuperación local.
+
+
+### R6 congelada: revisión independiente completa
+
+[Paquete R6](dev25-backup-r6-package-review.json) cotejado por QA: 49tests locales reproducidos en copia privada independiente (33guard/cleanup,10restore,6transport) y99checks de integridad; nueveinputs revisados idénticos al freeze. El test NativeEF adicional queda atribuido aSource. Paquete22477b98…/142994B, helper7215c2ea…; APP apagada y sin cambios de producto/esquema. QA comunica conformidad para preflight y un respaldo nuevoR6 tras cierreSource/pins realesOps. Restore exige original real/YAMLpinned e instancia remota aislada; no se repitenR5/diagnóstico. Esta revisión no acredita exportación, restauración, activación ni conversaciones.
+
+
+### Caso QA R3: separar acceso y sondeo de la atención
+
+[Conformidad documental R3](zoho-own-case-r3-proposal-review.json),10hashes comprobados, cuerpos/nonceR1 preservados. Login propio requiere base disponible/copia previa/revalidación de cuenta; el sondeo básico añade entregaDEV real/firma/guard, sin depender del CRM o gestor. POSTCRM y atención añaden recibos Contact–Deal propios, guard limitado y mapping operativo real. Se corrige el acoplamiento añadido enR2 sin ampliar permisos ni ejecutar acciones. Conforme preparación del helper concreto después de revisiónOps; ningún POST/grant/login nuevo por esta revisión. El Mac/base local continúan bloqueando la fase nativa, mientras copia/restauraciónDEV avanzan por separado en Portainer.
+
+
+### R6 real: originales del respaldo verificados
+
+[Originales R6](dev25-backup-r6-original-review.json) recibidos600 y cotejados por QA: manifest12archivos, report1096B/SHA068fe0b2…, counts198tablas/345146filas, EF260 y AppConversations0 observado. SnapshotRR/RO/misma conexión/rechecks acreditados; SQL239573640B/SHA088bb0b9… permanece en servidor y no se lee/copia por QA. Filler independiente sobre originales crea YAMLpinned SHA b99dbccb… idéntico al deOps. Respaldo completo acreditado, restauración real todavía pendiente. No importación/activación, ciclo nativo ni instalación nueva acreditados.
+
+
+### Restore R6 bloqueado antes de deploy por sesión administrativa
+
+[Estado comunicado porOps](dev25-restore-r6-session-blocker.json): Portainercaducó antes de crear el destino de restore. Backup/originales/YAMLpinnedb99 permanecen válidos; no repetir exportación ni fabricar recibo. Ops conserva único control de su consola y ya pidió al humano recuperar sesión. Al volver se despliega el mismo YAML en instancia aislada y se verifica resultado real antes de importar/activarDEV. Macbloqueado/baseQAindisponible mantienen pendientes los ciclos nativos y la instalación.
+
+
+### 13/10 — Mac recuperado, restore real y base local reanudada
+
+El humano confirma desbloqueo/sesiónPortainer y continuar. [Verificación nueva](2026-10-13-recovery-and-restore.json): originalrestore361B/SHA5c6c6ed5… con198counts/EF260/files/completePASS; nueva instancia144/exited0 atribuida aOps. QA ejecuta verifierOriginals sinprepare y acepta adapterimportee4bd543… para3filas inactivas bajo gatesactuales; Country sigue esperando recibos.
+
+Docker Desktop estabaEngineStopping yRestartdeshabilitado; cierreGUI normal no termina. CLIoficialforceStop/start recupera29.6.1, sinreset/prune/volumen borrado. Contenedor/volumenown conservados; puerto automático59094 reemplaza60670 sólo enDATABASE_URLprivada, bytesprevios600preservados. Basegestadia_app_local119 yUser64verified/active/zohoContactNULL/cases0/Authactive0 revalidados; backupd11f intacto y contiene identidad propia. API3005health200 conexternals/S2S/guestoff. iOS2AC propioarrancado con344/build11 yHome real; iPhone17ajeno sigueBooted. Conversaciones reales y nueva instalación física aún pendientes de entregaDEV y sus controles propios.
+
+
+### 13/10 — importación inconclusa y control nativo bloqueado de nuevo
+
+[Estado de continuación](2026-10-13-import-and-native-continuation.json). Ops comunica un único apply R5 fallido en `revalidate_before_commit` y un readback fallido. Source reproduce la reutilización de un JsonNode con padre; QA observa esa reutilización en Runner. Esto concuerda con la fase, pero no prueba el resultado histórico de la transacción. La metadata FS conserva el marcador original y observa ready ausente; `commit.result.private.json` no es un recibo del protocolo y su ausencia no demuestra nada sobre `commit.ok.json` o `commit.unknown.json`. Se acepta preparar una conciliación RO acotada a nombres, preimagen y configuración exactos. Sin replay, borrado de marcadores, rollback global ni activación.
+
+QA revisa `ProZohoQaOwnCaseCreate` en copia privada: 41 hashes y 192 assertions offline correctos. La conformidad cubre stage/preflight; crear el caso aún requiere los recibos actuales, la ruta propia y resolver el contrato Layout del readback. No se han creado Contact/Deal ni se hereda el caso Main.
+
+La API local sigue accesible. El simulador muestra Home, pero el ACK del intento de pulsación no acredita navegación. El control nativo vuelve a informar Mac bloqueado y se mantiene una única solicitud humana de desbloqueo. No se altera la seguridad ni se reinicia la entrada para eludirlo. Los ciclos conectados iOS/Android/gestor y la instalación física continúan pendientes.
+
+QA acepta la propuesta correctiva R6 original de 1759 B, SHA b49649c9…: preparación offline de DeepClone, regresión de la secuencia completa y diagnósticos cerrados en revisión separada. R5 permanece intacta. El nuevo preview/apply todavía espera conciliación real y revisión del paquete; no se atribuye una ejecución remota a esta conformidad.
+
+### 13/10 — importación real, acceso iOS y corrección guest preparada
+
+[Nueva evidencia y límites](2026-10-13-dev-import-real-and-guest-fix.md): conciliación R5 real, importación R6 con IDs104/124/10117 inactivos y recibos originales verificados; CountryR3 preparada y revisada. API local recuperada, login iOS desde UI y Capture Keyboard comprobados en nuevo simulador. Corrección guest de proxy/HTTP/aviso preparada y probada, sin habilitar flags. Los ciclos conectados y la instalación física siguen pendientes.

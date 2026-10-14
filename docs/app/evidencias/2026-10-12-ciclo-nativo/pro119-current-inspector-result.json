@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-12T22:23:39.728441+00:00",
+  "status": "current_metadata_original_verified",
+  "originalReport": "pro119-current-inspector-original.json",
+  "originalSha256": "3135a1be571bb7c5e431f18f55d2a308312420665ffc2d96d1a5c69a5e9a81a7",
+  "agentId": 119,
+  "projectId": 102,
+  "instructionId": 10115,
+  "rawVersion": "1.8-mario-adaptado",
+  "contentLength": 65532,
+  "contentSha256": "ec616c2687189eaded1a77d904d2c720aa12c8ab9f629850f74bc4202bcd0286",
+  "previousContentHashStillMatches": true,
+  "previousVersionPinIncludedUiPrefix": true,
+  "actualContentChangeAccredited": false,
+  "fingerprintObserved": "c92ed76f7d65cff21bbf2f81c846aeb1909b2ec80f3383d21f3ed37ac17b60cb",
+  "fullEquivalence119122Accredited": false,
+  "functionalSnapshotAvailable": false,
+  "next": "Preparar nueva exportación con versión raw exacta y fingerprint observado; conservar intentos anteriores, revisar diff/paquete antes de ejecutar.",
+  "messageTranscriptionsSupersededByOriginalBytes": true,
+  "nativeCyclePassed": false
+}

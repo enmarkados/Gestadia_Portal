@@ -1,0 +1,87 @@
+{
+  "observedAt": "2026-10-14T03:42:55.027Z",
+  "closed": {
+    "nativeAndroidUi": true,
+    "status": "closed",
+    "stateRevisionBeforeWithdrawal": "7",
+    "messageCount": 3,
+    "composerAbsent": true,
+    "newConversationNotPressed": true,
+    "renameCancelledTitleUnchanged": true
+  },
+  "readFailure": {
+    "source": "Source real browser console and read-only primary",
+    "error": "TypeError: Illegal invocation",
+    "at": "app-message-receipts.js:12:61",
+    "cause": "getComputedStyle invoked with environment object receiver instead of Window",
+    "sourceConsoleSha256": "2d394d4f0e237a1cdc945c5269565d48db8a8f6b6fc4c52e29d3acef7cdac50c",
+    "fixedAndRetested": false
+  },
+  "withdrawal": {
+    "sameOperationRecovered": true,
+    "firstAttemptStoppedBeforeHttp": true,
+    "privateGuardCorrection": "standard withdrawal clears case_ref and assignment refs",
+    "ack": {
+      "conversation_id": "cb0fc8d5-2e3b-49f4-b174-7651b4e54cf1",
+      "operation_id": "ec975d94-7c13-45c9-9674-9dadb3e503ea",
+      "context_revision": "2",
+      "current_context_revision": "2",
+      "state_revision": "8",
+      "replayed": false,
+      "effective_permissions": [],
+      "applied_at": "2026-10-14T03:42:04.718Z",
+      "enforcement_deadline": "2026-10-14T03:43:04.718Z",
+      "correlation_id": "67cb4f66-932f-496f-a5e2-5e61bc368720",
+      "schema_version": "1.0",
+      "persisted": true,
+      "enforcement_status": "propagating"
+    },
+    "ownPendingOperations": 0,
+    "configuration": {
+      "s2s": false,
+      "crm": false,
+      "stripe": false,
+      "smtp": false,
+      "lidia": false
+    },
+    "scopes": {
+      "s2s": false,
+      "crm": false
+    },
+    "historyDeleted": false,
+    "globalRevocation": false,
+    "sourceEffectiveAfterDeadline": {
+      "observedAt": "2026-10-14T03:44:03.339Z",
+      "readonly": true,
+      "contextRevision": "2",
+      "stateRevision": "8",
+      "permissions": [],
+      "closed": true,
+      "messages": 3,
+      "activeOperations": 0,
+      "rollbackAndCloseReturned": true,
+      "tlsNegotiated": true,
+      "certificateIdentityVerified": false,
+      "sourceOriginalSha256": "5fc5f0c2dde5d00a984dff489cb33e62ee568e4e956398c363fda9ee36625b02"
+    },
+    "receiverOffAndProfileRemoval": {
+      "reportedBy": "Ops actual container console",
+      "observedAt": "2026-10-14T03:48:29Z",
+      "containerId": "250c2cd3a6f765362fcaeb2b3ec280099e8d749c6e86be31acb539613e715f1b",
+      "enabled": false,
+      "profileAbsent": true,
+      "profileBackupPreserved": true,
+      "environment58OriginalExact": true,
+      "httpsHealthStatus": 200,
+      "historyDeleted": false
+    }
+  },
+  "iosManagerCycle": "pending",
+  "physicalInstall": "pending",
+  "evidenceHashes": {
+    "context-ack.original.private.json": "12d6052495291d1d2b008e6345a8acb61f9902b425049cdce2c058fd93b51ed1",
+    "transport.original.private.json": "fdd8a7a4e2f353b7dc23639f671bbc2381dfa98404aea7f1dd17656aef5a9a74",
+    "review.private.json": "ddcb1624df383cb0295f142311154ffeaa0794eb37a30915753efc943b2b9531",
+    "portal-off-drained.private.json": "301295877eaafcbbef0c9b86d76a5d177506e0d4088969fc13202f98ffba9bb4"
+  }
+}

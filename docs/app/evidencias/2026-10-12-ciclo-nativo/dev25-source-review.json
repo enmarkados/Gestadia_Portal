@@ -1,0 +1,25 @@
+{
+  "reviewedAt": "2026-10-12T19:01:17.360113+00:00",
+  "runtimeBackup": false,
+  "runtimeDeployed": false,
+  "archives": [
+    {
+      "commit": "64ced36a9a7d98edf1936cb27814d6d822814279",
+      "sha256": "80f55327dbaad0fdf3cf86264dbd4c34393f4d08c9373de0039aa5443b351240",
+      "bytes": 185606205,
+      "hashVerified": true,
+      "appMigrationsPresent": false
+    },
+    {
+      "commit": "30be1692e5ba2c7bbb41a9603fcd07adab55bbe0",
+      "sha256": "7e46e2303bc201c9d766059955e2e38a6d164923b8995c564e84a49fcd9aa59c",
+      "bytes": 186840932,
+      "hashVerified": true,
+      "appMigrationsPresent": [
+        "20261005204814_AddAppConversations",
+        "20261008123405_AddAppMessageReceipts",
+        "20261011021704_AddAppGuestContinuity"
+      ]
+    }
+  ]
+}

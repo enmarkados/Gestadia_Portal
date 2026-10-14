@@ -1,0 +1,17 @@
+{
+  "status": "mapping_r3_final_transport_qa_conform",
+  "manifest_sha256": "6c9fbcf637ba7516150b758efa822e93d23ed848f6617c68b970774d9b9d593a",
+  "files_verified": 74,
+  "source_snapshot_pins_verified": true,
+  "payload_regular_members": 5,
+  "uid_gid": 1654,
+  "mode": "0600",
+  "shell_syntax_pass": 5,
+  "carrier_stage_exact": true,
+  "payload_embedded_exact": true,
+  "binding14_explicit_pins": true,
+  "helper_sha256": "74dca7c8aee453f4731848c2fe66aa19b88f2188a0f9ce3ee103e263e200d0fe",
+  "stage_performed": false,
+  "mapping_observed": false,
+  "grants_issued": false
+}

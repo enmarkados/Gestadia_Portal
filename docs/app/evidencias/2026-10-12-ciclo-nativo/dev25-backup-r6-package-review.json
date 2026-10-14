@@ -1,0 +1,26 @@
+{
+  "frozen_package_sha256": "22477b984229dcff71cc375d85863b4ca614ebc05f8305480c0427d6d2b321ff",
+  "metadata_sha256": "35aa088962cc87561843fcb6a3bcec54fb9b9e1813303f623d60f9266678d209",
+  "helper_sha256": "7215c2ead1ad7d2e85d835da0579dcfe04783d0009e74871079fadb127c340b4",
+  "static_integrity_checks": 99,
+  "review_inputs_unchanged": true,
+  "remote_execution": false,
+  "status": "package_review_conforming_execution_pending",
+  "own_offline_tests": {
+    "guards_cleanup": 33,
+    "restore_pins": 10,
+    "transport": 6,
+    "failures": 0
+  },
+  "source_native_ef_test_attributed_not_reexecuted_by_qa": 1,
+  "export_script_sha256": "244f41151eab99c9c38fbe57927fb241cf64f639e1e4d96673a2a146708cea2d",
+  "stage_script_sha256": "43674e1f66182e4653d3b3fafccf3415334b2e00c61fc214ca0c5de171de666c",
+  "restore_template_sha256": "42682a49197bc2315b5629bc0f42cae153e622b5e61e90d4da8fee7546b8dcbb",
+  "preflight_and_single_backup_conformity": "after Source final review and Ops actual runtime/UID/CID/APPoff pins",
+  "restore": "only from actual new backup original and a new isolated container; pending",
+  "backup_completed": false,
+  "restore_completed": false,
+  "app_activated": false,
+  "native_conversations_completed": false,
+  "iphone_installed_this_run": false
+}

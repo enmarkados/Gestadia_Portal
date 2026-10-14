@@ -1,0 +1,88 @@
+{
+  "observedUtc": "2026-10-14T04:45:23.814340+00:00",
+  "status": "native_manager_exchange_receipts_closed_and_ios_recovery_observed",
+  "productRevision": "c6530f6a20a134feb96de7bb15b9f89ee4af6975",
+  "receiverRevision": "6106a8a1e5a14acbb7bf056a0461e543d5b734bd",
+  "receiverMarker": "V1.731-recibos-app-window",
+  "android": {
+    "version": "0.1.0",
+    "versionCode": 4,
+    "nativeMessages": 3,
+    "bidirectional": true,
+    "receivedAndReadBothDirections": true,
+    "offscreenThenVisibleRead": true,
+    "hiddenDocumentTested": false,
+    "closedHistoryBeforeRestart": true,
+    "relaunchListTitleDatesClosedPreview": true,
+    "fullHistoryAfterRestartObserved": false,
+    "fullHistoryRecoveredOnIos": true,
+    "renameSearchBackObserved": true,
+    "sourceReadOnlyOriginalSha256": "dd2b6861ea9467b45a4bdb677fca7ccd07ce018ad76d35e162acb332b6e94e87"
+  },
+  "ios": {
+    "version": "0.1.0",
+    "build": 11,
+    "nativeMessages": 2,
+    "bidirectional": true,
+    "receivedAndReadBothDirections": true,
+    "backFromTramites": true,
+    "closedHistoryAfterRelaunch": true,
+    "noComposerAfterClosure": true,
+    "sourceReadOnlyOriginalSha256": "a787283c5ea8703022bb08232d210fa496763174df1be707d430eabd18b2c1da"
+  },
+  "retirement": {
+    "threeContextAcknowledgments200": true,
+    "allPermissionsEmpty": true,
+    "allClosed": true,
+    "revisions": [
+      4,
+      2,
+      2
+    ],
+    "pendingOperations": 0,
+    "turnOperationsUnchanged": 5,
+    "maxEnforcementDeadline": "2026-10-14T04:46:00.301Z",
+    "sourceEffectiveReadbackPending": false,
+    "receiverProfileRemovalPending": true,
+    "localS2sScopeEnabled": false,
+    "localCrmScopeEnabled": false,
+    "localProvidersEnabled": false,
+    "simulatorsRunning": false,
+    "sourceEffectiveObservedUtc": "2026-10-14T04:47:02.335875+00:00",
+    "sourceEffectiveOriginalSha256": "f300a25b235c5825b36929ba849597f2f420e5f6eb713cb9d9d0605fef7ca370",
+    "sourceMessageCounts": [
+      3,
+      3,
+      2
+    ],
+    "localOffVerifiedUtc": "2026-10-14T04:49:30.572Z",
+    "localOffOriginalSha256": "ccd919b1c7dd887d78af7e66c7806336f28e94e87116e55cc1f9ad369867d7b0"
+  },
+  "physicalInstallation": false,
+  "guestActivated": false,
+  "paymentsOrClosedWon": false,
+  "newCrmWritesThisWindow": false,
+  "captures": [
+    {
+      "sourceName": "window3-android-closed-read-screen.png",
+      "file": "android-gestor-leido-cerrado-731-20261014.png",
+      "sha256": "e133a75654067a108741227cdc07a3e2d4ecf8f9ac8ce7f4572ac10085ae184b",
+      "bytes": 139682,
+      "unchangedCopy": true
+    },
+    {
+      "sourceName": "window3-ios-relaunch-closed-history.png",
+      "file": "ios-gestor-historial-reiniciado-731-20261014.png",
+      "sha256": "6b2905b052d6cc1126c7d9db3a0c8503517221254797b394e9016aa8081ced89",
+      "bytes": 176655,
+      "unchangedCopy": true
+    },
+    {
+      "sourceName": "window3-ios-relaunch-messages.png",
+      "file": "ios-mensajes-reiniciado-731-20261014.png",
+      "sha256": "ec5b02440889fba8854d536e1c3b3a79e706b6995f9aeb436df182ab44a4b4da",
+      "bytes": 300464,
+      "unchangedCopy": true
+    }
+  ]
+}

@@ -97,6 +97,7 @@ class Remote {
             operation_id: crypto.randomUUID(),
             context_revision: dto.context_revision,
             current_context_revision: dto.context_revision,
+            ...(dto.profile_revision ? {profile_revision:dto.profile_revision,current_profile_revision:dto.profile_revision} : {}),
             state_revision: "2",
             persisted: true,
             replayed: false,
@@ -1482,4 +1483,280 @@ test("registro: grant entre barrido y entrega respeta el límite119 al preparar 
   const oldContext = (await db.appConversation.findUnique({ where: { id: old.conversation.id } })).context;
   assert.deepEqual(oldContext.permissions, ["commercial_handoff", "history", "sondeo"]);
   assert.equal(oldContext.commercial_assignment_ref, "commercial-valid");
+});
+
+// Perfil firmado: estos casos fallan si no hay diff durable o se pierde un parche.
+test("perfil opt-in conserva parches por conversación y no repone teléfono al cambiar email", async t => {
+ const f=await fixture(t), cfg={...config,profileContext:true};
+ await db.user.update({where:{id:f.u.id},data:{telefono:"+34600111222"}});
+ const service=new AppConversationService(db,f.remote,cfg);
+ const started=await service.start(f.a,{purpose:"sondeo"},crypto.randomUUID());
+ await service.timeline(f.a,started.conversation.id);
+ let c=await db.appConversation.findUnique({where:{id:started.conversation.id}});
+ assert.equal(c.context.profile_revision,"1");
+ assert.deepEqual(c.context.profile,{display_name:"Local Test",email:f.u.email,callback_phone:"+34600111222"});
+ assert.equal(c.context.profile.callback_consent,undefined);
+ assert.equal(c.context.profile.time_zone,undefined);
+ await db.user.update({where:{id:f.u.id},data:{email:`${crypto.randomUUID()}@example.test`}});
+ await service.timeline(f.a,c.id);
+ c=await db.appConversation.findUnique({where:{id:c.id}});
+ assert.equal(c.context.profile_revision,"2");
+ assert.deepEqual(Object.keys(c.context.profile),["email"]);
+ const before=JSON.stringify(c.context.profile);
+ await setConversationAccess(db,f.u.id,"sondeo",null,{permissions:["history"],source_ref:"test-authority",validated_at:now(),valid_until:new Date(Date.now()+3600000).toISOString()},cfg);
+ c=await db.appConversation.findUnique({where:{id:c.id}});
+ assert.equal(c.context.profile_revision,"2");assert.equal(JSON.stringify(c.context.profile),before);
+ assert.deepEqual(c.context.permissions,["history"]);
+});
+test("retirada explícita del teléfono produce null sin inventar consentimiento", async t => {
+ const f=await fixture(t), cfg={...config,profileContext:true};
+ await db.user.update({where:{id:f.u.id},data:{telefono:"+34600111222"}});
+ const service=new AppConversationService(db,f.remote,cfg);
+ const {conversation:c}=await service.start(f.a,{purpose:"sondeo"},crypto.randomUUID());
+ await service.timeline(f.a,c.id);
+ await db.user.update({where:{id:f.u.id},data:{telefono:null}});
+ await service.timeline(f.a,c.id);
+ const updated=await db.appConversation.findUnique({where:{id:c.id}});
+ assert.deepEqual(updated.context.profile,{callback_phone:null});
+ assert.equal(updated.context.profile_revision,"2");
+});
+test("flag apagada conserva contexto legacy sin perfil ni revisión",async t=>{
+ const f=await fixture(t);
+ const {conversation:c}=await f.service().start(f.a,{purpose:"sondeo"},crypto.randomUUID());
+ await f.service().timeline(f.a,c.id);
+ const row=await db.appConversation.findUnique({where:{id:c.id}});
+ assert.equal(row.context.profile,undefined); assert.equal(row.context.profile_revision,undefined);
+});
+test("permisos CRM del nuevo schema no habilitan grants Portal",async t=>{
+ const f=await fixture(t);
+ await assert.rejects(setConversationAccess(db,f.u.id,"sondeo",null,{permissions:["history","crm_prepare","callback_schedule"],source_ref:"no-mapping",validated_at:now(),valid_until:new Date(Date.now()+3600000).toISOString()}),{code:"invalid_context"});
+});
+
+// Estos casos detectan grants que se extienden a otro chat/cuenta o sobreviven al opt-in.
+test('grant de agenda sólo alcanza conversación activa autorizada y persiste su binding',async t=>{
+ const f=await fixture(t), other=await fixture(t);
+ const {conversation:c}=await f.service().start(f.a,{purpose:'sondeo'},crypto.randomUUID());
+ const {conversation:d}=await f.service().start(f.a,{purpose:'sondeo',create_new:true},crypto.randomUUID());
+ const {conversation:e}=await other.service().start(other.a,{purpose:'sondeo'},crypto.randomUUID());
+ await f.service().timeline(f.a,c.id); await f.service().timeline(f.a,d.id); await other.service().timeline(other.a,e.id);
+ const expiry=new Date(Date.now()+3600000).toISOString();
+ const cfg={...config,callbackAccess:{enabled:true,scope:{portal_user_id:f.u.id,conversation_id:c.id,integration_id:config.integrationId,expires_at:expiry}}};
+ await setConversationAccess(db,f.u.id,'sondeo',null,{conversation_id:c.id,permissions:['history','sondeo','crm_prepare','callback_schedule'],source_ref:'explicit-test-approval',validated_at:now(),valid_until:expiry},cfg);
+ assert.equal(await db.appConversationAccess.count({where:{userId:f.u.id}}),0);
+ const row=await db.appConversation.findUnique({where:{id:c.id}});
+ assert.equal(row.callbackGrant?.source_ref,'explicit-test-approval');
+ assert.deepEqual(row.context.permissions,['callback_schedule','crm_prepare','history','sondeo','support_handoff']);
+ assert.deepEqual((await db.appConversation.findUnique({where:{id:d.id}})).context.permissions,['history','sondeo','support_handoff']);
+ assert.ok(!(await db.appConversation.findUnique({where:{id:e.id}})).context.permissions.includes('crm_prepare'));
+ await new AppConversationService(db,f.remote,cfg).timeline(f.a,c.id);
+ assert.deepEqual(f.remote.contexts.at(-1).permissions,['callback_schedule','crm_prepare','history','sondeo','support_handoff']);
+});
+test('retargetear opt-in no transfiere a otro chat el grant ya persistido',async t=>{
+ const f=await fixture(t);
+ const {conversation:c}=await f.service().start(f.a,{purpose:'sondeo'},crypto.randomUUID());
+ const {conversation:d}=await f.service().start(f.a,{purpose:'sondeo',create_new:true},crypto.randomUUID());
+ await f.service().timeline(f.a,c.id);await f.service().timeline(f.a,d.id);
+ const expiry=new Date(Date.now()+3600000).toISOString();
+ const scope={portal_user_id:f.u.id,conversation_id:c.id,integration_id:config.integrationId,expires_at:expiry};
+ const cfg={...config,callbackAccess:{enabled:true,scope}};
+ await setConversationAccess(db,f.u.id,'sondeo',null,{conversation_id:c.id,permissions:['history','sondeo','crm_prepare','callback_schedule'],source_ref:'explicit-test-approval',validated_at:now(),valid_until:expiry},cfg);
+ const retarget={...cfg,callbackAccess:{enabled:true,scope:{...scope,conversation_id:d.id}}};
+ await new AppConversationService(db,f.remote,retarget).timeline(f.a,d.id);
+ await new AppConversationService(db,f.remote,retarget).timeline(f.a,c.id);
+ for(const id of [c.id,d.id])assert.deepEqual((await db.appConversation.findUnique({where:{id}})).context.permissions,['history','sondeo','support_handoff']);
+});
+test('agenda rechaza grant ajeno sin binding exacto o fuera de caducidad antes de escribir',async t=>{
+ const f=await fixture(t), other=await fixture(t);
+ const {conversation:c}=await f.service().start(f.a,{purpose:'sondeo'},crypto.randomUUID());await f.service().timeline(f.a,c.id);
+ const expiry=new Date(Date.now()+3600000).toISOString();
+ const cfg={...config,callbackAccess:{enabled:true,scope:{portal_user_id:f.u.id,conversation_id:c.id,integration_id:config.integrationId,expires_at:expiry}}};
+ const grant={conversation_id:c.id,permissions:['history','sondeo','crm_prepare','callback_schedule'],source_ref:'explicit-test-approval',validated_at:now(),valid_until:expiry};
+ for(const [uid,g,cf] of [[f.u.id,{...grant,conversation_id:crypto.randomUUID()},cfg],[other.u.id,grant,cfg],[f.u.id,{...grant,valid_until:new Date(Date.now()+7200000).toISOString()},cfg],[f.u.id,grant,{...cfg,callbackAccess:{...cfg.callbackAccess,enabled:false}}],[f.u.id,grant,{...cfg,callbackAccess:{enabled:true,scope:{...cfg.callbackAccess.scope,integration_id:'different'}}}]]) {
+  await assert.rejects(setConversationAccess(db,uid,'sondeo',null,g,cf),e=>e.code==='invalid_context');
+ }
+ assert.equal(await db.appConversationAccess.count({where:{userId:{in:[f.u.id,other.u.id]}}}),0);
+});
+for (const withdrawal of ['apagar','caducar']) test(`${withdrawal} agenda retira permisos al recuperar contexto sin petición del dispositivo`,async t=>{
+ const f=await fixture(t);
+ const {conversation:c}=await f.service().start(f.a,{purpose:'sondeo'},crypto.randomUUID());await f.service().timeline(f.a,c.id);
+ const expiry=new Date(Date.now()+3600000).toISOString();
+ const scope={portal_user_id:f.u.id,conversation_id:c.id,integration_id:config.integrationId,expires_at:expiry};
+ const cfg={...config,callbackAccess:{enabled:true,scope}};
+ await setConversationAccess(db,f.u.id,'sondeo',null,{conversation_id:c.id,permissions:['history','sondeo','crm_prepare','callback_schedule'],source_ref:'explicit-test-approval',validated_at:now(),valid_until:expiry},cfg);
+ const before=await db.appConversation.findUnique({where:{id:c.id}});
+ const pending=await db.appOperation.findFirst({where:{conversationId:c.id,kind:'context',logicalId:before.contextRevision}});
+ const withdrawn={...cfg,callbackAccess:withdrawal==='apagar'?{enabled:false,scope}:{enabled:true,scope:{...scope,expires_at:new Date(Date.now()-1000).toISOString()}}};
+ await deliverLifecycle(db,f.remote,withdrawn,pending);
+ assert.ok(f.remote.contexts.every(x=>!x.permissions.includes('callback_schedule')));
+ await drainLifecycle(db,f.remote,withdrawn);
+ const after=await db.appConversation.findUnique({where:{id:c.id}});
+ assert.deepEqual(after.context.permissions,['history','sondeo','support_handoff']);
+ assert.equal(after.contextRevision,after.syncedRevision);
+ assert.deepEqual(f.remote.contexts.at(-1).permissions,['history','sondeo','support_handoff']);
+});
+test('configurar ámbito de agenda sin grant explícito no añade permisos',async t=>{
+ const f=await fixture(t);
+ const {conversation:c}=await f.service().start(f.a,{purpose:'sondeo'},crypto.randomUUID());await f.service().timeline(f.a,c.id);
+ const cfg={...config,callbackAccess:{enabled:true,scope:{portal_user_id:f.u.id,conversation_id:c.id,integration_id:config.integrationId,expires_at:new Date(Date.now()+3600000).toISOString()}}};
+ await new AppConversationService(db,f.remote,cfg).timeline(f.a,c.id);
+ assert.deepEqual((await db.appConversation.findUnique({where:{id:c.id}})).context.permissions,['history','sondeo','support_handoff']);
+ assert.equal(await db.appConversationAccess.count({where:{userId:f.u.id}}),0);
+});
+test('retirar grant de agenda concreto conserva permisos básicos y otros chats',async t=>{
+ const f=await fixture(t);
+ const {conversation:c}=await f.service().start(f.a,{purpose:'sondeo'},crypto.randomUUID());
+ const {conversation:d}=await f.service().start(f.a,{purpose:'sondeo',create_new:true},crypto.randomUUID());
+ await f.service().timeline(f.a,c.id); await f.service().timeline(f.a,d.id);
+ const expiry=new Date(Date.now()+3600000).toISOString();
+ const cfg={...config,callbackAccess:{enabled:true,scope:{portal_user_id:f.u.id,conversation_id:c.id,integration_id:config.integrationId,expires_at:expiry}}};
+ const grant={conversation_id:c.id,permissions:['history','sondeo','crm_prepare','callback_schedule'],source_ref:'explicit-test-approval',validated_at:now(),valid_until:expiry};
+ await setConversationAccess(db,f.u.id,'sondeo',null,grant,cfg);
+ await setConversationAccess(db,f.u.id,'sondeo',null,{...grant,permissions:['history','sondeo'],source_ref:'withdraw-test'},cfg);
+ const row=await db.appConversation.findUnique({where:{id:c.id}});
+ assert.equal(row.callbackGrant,null);
+ assert.deepEqual(row.context.permissions,['history','sondeo','support_handoff']);
+ assert.deepEqual((await db.appConversation.findUnique({where:{id:d.id}})).context.permissions,['history','sondeo','support_handoff']);
+ assert.equal(await db.appConversationAccess.count({where:{userId:f.u.id}}),0);
+});
+test('grant de agenda no restaura sondeo retirado y su caducidad no retira permisos básicos',async t=>{
+ const f=await fixture(t);
+ const {conversation:c}=await f.service().start(f.a,{purpose:'sondeo'},crypto.randomUUID());await f.service().timeline(f.a,c.id);
+ const expiry=new Date(Date.now()+3600000).toISOString();
+ const cfg={...config,callbackAccess:{enabled:true,scope:{portal_user_id:f.u.id,conversation_id:c.id,integration_id:config.integrationId,expires_at:expiry}}};
+ const grant={conversation_id:c.id,permissions:['history','sondeo','crm_prepare','callback_schedule'],source_ref:'explicit-test-approval',validated_at:now(),valid_until:expiry};
+ await setConversationAccess(db,f.u.id,'sondeo',null,grant,cfg);
+ const row=await db.appConversation.findUnique({where:{id:c.id}});
+ await db.appConversation.update({where:{id:c.id},data:{callbackGrant:{...row.callbackGrant,valid_until:new Date(Date.now()-1000).toISOString()}}});
+ await drainLifecycle(db,f.remote,cfg);
+ assert.deepEqual((await db.appConversation.findUnique({where:{id:c.id}})).context.permissions,['history','sondeo','support_handoff']);
+ await setConversationAccess(db,f.u.id,'sondeo',null,{permissions:['history'],source_ref:'basic-readonly',validated_at:now(),valid_until:expiry},cfg);
+ await assert.rejects(setConversationAccess(db,f.u.id,'sondeo',null,grant,cfg),e=>e.code==='invalid_context');
+ assert.deepEqual((await db.appConversation.findUnique({where:{id:c.id}})).context.permissions,['history']);
+});
+test('revocación confirmada antes del lock impide emitir un grant de agenda ya preparado',async t=>{
+ const f=await fixture(t);
+ const {conversation:c}=await f.service().start(f.a,{purpose:'sondeo'},crypto.randomUUID());await f.service().timeline(f.a,c.id);
+ const expiry=new Date(Date.now()+3600000).toISOString();
+ const cfg={...config,callbackAccess:{enabled:true,scope:{portal_user_id:f.u.id,conversation_id:c.id,integration_id:config.integrationId,expires_at:expiry}}};
+ await setConversationAccess(db,f.u.id,'sondeo',null,{conversation_id:c.id,permissions:['history','sondeo','crm_prepare','callback_schedule'],source_ref:'explicit-test-approval',validated_at:now(),valid_until:expiry},cfg);
+ const row=await db.appConversation.findUnique({where:{id:c.id}});
+ const pending=await db.appOperation.findFirst({where:{conversationId:c.id,kind:'context',logicalId:row.contextRevision}});
+ let revoked=false;
+ const racingDb=new Proxy(db,{get(target,key){
+   if(key==='$transaction')return async(fn,options)=>{
+     if(!revoked){revoked=true;await db.user.update({where:{id:f.u.id},data:{accountStatus:'disabled'}});}
+     return target.$transaction(fn,options);
+   };
+   const value=Reflect.get(target,key);return typeof value==='function'?value.bind(target):value;
+ }});
+ const deliveries=f.remote.contexts.length;
+ await deliverLifecycle(racingDb,f.remote,cfg,pending);
+ assert.ok(revoked);
+ assert.equal(f.remote.contexts.length,deliveries);
+ assert.equal((await db.appOperation.findUnique({where:{id:pending.id}})).status,'prepared');
+});
+test("dos parches pendientes se entregan por orden y una respuesta perdida bloquea el posterior",async t=>{
+ const f=await fixture(t), {conversation:cv}=await f.service().start(f.a,{purpose:"sondeo"},crypto.randomUUID());
+ const c=await db.appConversation.findUnique({where:{id:cv.id}});
+ const base={schema_version:'1.0',portal_user_id:f.u.id,validated_at:now(),permissions:['history','sondeo'],case_ref:null,commercial_assignment_ref:null,manager_assignment_ref:null,correlation_id:crypto.randomUUID()};
+ const ops=[];
+ for(const [rev,patch] of [['1',{display_name:'Nombre'}],['2',{email:'nuevo@example.test'}]])ops.push(await db.appOperation.create({data:{userId:f.u.id,integrationId:config.integrationId,conversationId:c.id,scopeId:c.id,kind:'context',idempotencyKey:`profile:${c.id}:${rev}`,logicalId:rev,semanticHash:'test',retainedUntil:new Date(Date.now()+3600000),request:{...base,context_revision:rev,profile_revision:rev,profile:patch}}}));
+ await db.appConversation.update({where:{id:c.id},data:{contextRevision:'2',profileRevision:'2',context:ops[1].request}});
+ const stable=JSON.stringify(ops[0].request), calls=[];
+ const remote={call:async (...args)=>{calls.push(args[4]);throw new Error('lost response')}};
+ await deliverLifecycle(db,remote,config,ops[1]);assert.equal(calls.length,0);
+ await deliverLifecycle(db,remote,config,ops[0]);assert.equal(calls.length,1);assert.equal(JSON.stringify(calls[0]),stable);
+ await deliverLifecycle(db,remote,config,ops[1]);assert.equal(calls.length,1);
+ const before=await db.appOperation.findUnique({where:{id:ops[0].id}});assert.equal(before.status,'outcome_unknown');assert.equal(JSON.stringify(before.request),stable);
+ await deliverLifecycle(db,f.remote,config,before);
+ await deliverLifecycle(db,f.remote,config,ops[1]);
+ assert.deepEqual(f.remote.contexts.slice(-2).map(d=>d.profile_revision),['1','2']);
+ assert.deepEqual(f.remote.contexts.at(-1).profile,{email:'nuevo@example.test'});
+});
+test("dos dispositivos no duplican una revisión de perfil y rollback no persiste el parche",async t=>{
+ const f=await fixture(t),cfg={...config,profileContext:true};
+ const service=new AppConversationService(db,f.remote,cfg);
+ const {conversation:c}=await service.start(f.a,{purpose:'sondeo'},crypto.randomUUID());
+ await service.timeline(f.a,c.id);
+ await db.user.update({where:{id:f.u.id},data:{email:`${crypto.randomUUID()}@example.test`}});
+ await Promise.all([service.timeline(f.a,c.id),service.timeline(f.b,c.id)]);
+ const row=await db.appConversation.findUnique({where:{id:c.id}});
+ assert.equal(row.profileRevision,'2');
+ const contexts=await db.appOperation.findMany({where:{conversationId:c.id,kind:'context'}});
+ assert.equal(contexts.length,2);
+ const {queueContext,accountTransaction}=await import('./store.js');
+ await assert.rejects(accountTransaction(db,f.u.id,async tx=>{
+  const user=await tx.user.update({where:{id:f.u.id},data:{telefono:'+34600111222'}});
+  await queueContext(tx,await tx.appConversation.findUnique({where:{id:c.id}}),user,cfg);
+  throw new Error('rollback fixture');
+ }),/rollback fixture/);
+ const after=await db.appConversation.findUnique({where:{id:c.id}});
+ assert.equal(after.profileRevision,'2'); assert.deepEqual(after.context,row.context);
+ assert.equal(await db.appOperation.count({where:{conversationId:c.id,kind:'context'}}),2);
+});
+test("perfil inicial no presupone +34 ni zona para teléfono nacional",async t=>{
+ const f=await fixture(t),cfg={...config,profileContext:true};
+ await db.user.update({where:{id:f.u.id},data:{telefono:'600 111 222'}});
+ const service=new AppConversationService(db,f.remote,cfg);
+ const {conversation:c}=await service.start(f.a,{purpose:'sondeo'},crypto.randomUUID());
+ await service.timeline(f.a,c.id);
+ const row=await db.appConversation.findUnique({where:{id:c.id}});
+ assert.deepEqual(Object.keys(row.context.profile).sort(),['display_name','email']);
+});
+test("retirada urgente conserva el mismo parche y no espera al ACK perdido",async t=>{
+ const f=await fixture(t),cfg={...config,profileContext:true};
+ const {conversation:cv}=await f.service().start(f.a,{purpose:'sondeo'},crypto.randomUUID());
+ const {queueContext,accountTransaction}=await import('./store.js');
+ const queue=()=>accountTransaction(db,f.u.id,async tx=>queueContext(tx,await tx.appConversation.findUnique({where:{id:cv.id}}),await tx.user.findUnique({where:{id:f.u.id}}),cfg));
+ let {conversation:c}=await queue();
+ let old=await db.appOperation.findFirst({where:{conversationId:c.id,kind:'context',logicalId:'1'}});
+ await deliverLifecycle(db,{call:async()=>{throw new Error('lost')}},cfg,old);
+ await db.user.update({where:{id:f.u.id},data:{email:`${crypto.randomUUID()}@example.test`}});
+ await queue();
+ c=await db.appConversation.findUnique({where:{id:c.id}});
+ assert.equal(c.profileRevision,'1','no admite segundo parche hasta confirmar el primero');
+ await setConversationAccess(db,f.u.id,'sondeo',null,{permissions:[],source_ref:'withdrawal',validated_at:now(),valid_until:new Date(Date.now()+3600000).toISOString()},cfg);
+ const withdrawn=await db.appConversation.findUnique({where:{id:c.id}});
+ assert.deepEqual(withdrawn.context.permissions,[]);
+ assert.deepEqual(withdrawn.context.profile,old.request.profile);
+ const withdrawal=await db.appOperation.findFirst({where:{conversationId:c.id,kind:'context',logicalId:withdrawn.contextRevision}});
+ await deliverLifecycle(db,f.remote,cfg,withdrawal);
+ assert.deepEqual(f.remote.contexts.at(-1)?.permissions,[],'retirada llega sin esperar operación incierta');
+ assert.equal((await db.appOperation.findUnique({where:{id:withdrawal.id}})).status,'admitted');
+ await queue();
+ const latest=await db.appConversation.findUnique({where:{id:c.id}});
+ assert.equal(latest.profileRevision,'2');assert.deepEqual(Object.keys(latest.context.profile),['email']);
+});
+
+test('recibo de reserva conserva proyección autorizada y la retira al apagar el grant',async t=>{
+ const f=await fixture(t),started=await f.service().start(f.a,{purpose:'sondeo'},crypto.randomUUID()),id=started.conversation.id;
+ await f.service().timeline(f.a,id);
+ const expiry=new Date(Date.now()+3600000).toISOString(),cfg={...config,callbackAccess:{enabled:true,scope:{portal_user_id:f.u.id,conversation_id:id,integration_id:config.integrationId,expires_at:expiry}}};
+ await setConversationAccess(db,f.u.id,'sondeo',null,{conversation_id:id,permissions:['history','sondeo','crm_prepare','callback_schedule'],source_ref:'explicit-test-approval',validated_at:now(),valid_until:expiry},cfg);
+ const sample=JSON.parse(readFileSync(new URL('../../../docs/integraciones/fixtures/app-appointment-receipts-723/v1-receipt-lookup.json',import.meta.url))).receipt;
+ let completed;
+ const call=f.remote.call.bind(f.remote);
+ f.remote.call=async(...args)=>{
+  const r=await call(...args),path=args[2],opts=args[5]||{};
+  if(path.endsWith('/turns')){
+   completed={...sample,conversation_id:r.data.conversation_id,turn_id:r.data.turn_id,operation_id:r.data.operation_id,retained_until:r.data.retained_until};
+   r.data=structuredClone(completed);
+  }else if(path.endsWith('/timeline')&&completed){
+   if(opts.query?.turn_id)r.data.receipt=structuredClone(completed);
+   else r.data.turn_statuses=[structuredClone(completed)];
+   r.data.state_revision=completed.state_revision;
+  }
+  return r;
+ };
+ const service=new AppConversationService(db,f.remote,cfg),op=await service.turn(f.a,id,{turn_id:crypto.randomUUID(),kind:'text',text:'Fixture local de recibo, sin CRM real'});
+ assert.deepEqual(op.receipt.result.appointment_receipt,sample.result.appointment_receipt);
+ assert.deepEqual((await service.timeline(f.a,id)).turn_statuses[0].result.appointment_receipt,sample.result.appointment_receipt);
+ assert.deepEqual((await service.timeline(f.a,id,{turn_id:completed.turn_id})).receipt.result.appointment_receipt,sample.result.appointment_receipt);
+ f.remote.beforeReturn=async()=>setConversationAccess(db,f.u.id,'sondeo',null,{conversation_id:id,permissions:['history','sondeo'],source_ref:'withdraw-test-approval',validated_at:now(),valid_until:expiry},cfg);
+ await assert.rejects(service.timeline(f.a,id),{code:'context_unavailable'},'la retirada durante la lectura no deja salir una respuesta con autoridad antigua');
+ const off=new AppConversationService(db,f.remote,{...cfg,callbackAccess:{...cfg.callbackAccess,enabled:false}});
+ assert.equal((await off.operation(f.a,op.id)).receipt.result.appointment_receipt,undefined);
+ assert.equal((await off.timeline(f.a,id)).turn_statuses[0].result.appointment_receipt,undefined);
+ assert.equal((await off.timeline(f.a,id,{turn_id:completed.turn_id})).receipt.result.appointment_receipt,undefined);
+ assert.deepEqual((await db.appOperation.findUnique({where:{id:op.id}})).response.result.appointment_receipt,sample.result.appointment_receipt,'el snapshot persistido no se borra');
 });

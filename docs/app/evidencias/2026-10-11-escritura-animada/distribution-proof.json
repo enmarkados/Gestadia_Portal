@@ -1,0 +1,31 @@
+{
+  "sourceCommit": "dcbc47c",
+  "ios": {
+    "appId": "6821484915",
+    "buildId": "d2b612b1-e461-4ca4-95b9-f2984591101a",
+    "version": "0.1.0",
+    "build": 3,
+    "group": "Gestadia QA",
+    "status": "En pruebas",
+    "notesSaved": true,
+    "screenshot": "testflight-3-en-pruebas.png"
+  },
+  "android": {
+    "appId": "4974812323816991329",
+    "track": "4699474819749065461",
+    "versionName": "0.1.0 (3)",
+    "versionCode": 3,
+    "status": "Activo / Disponible para testers internos",
+    "notesSaved": true,
+    "screenshot": "play-3-activa.png",
+    "nonBlockingWarnings": [
+      "deobfuscation file absent",
+      "native debug symbols absent"
+    ]
+  },
+  "installed": {
+    "iosBuild2": "User statement and TestFlight tester row",
+    "iosBuild3": "Pending"
+  },
+  "publicPublication": false
+}

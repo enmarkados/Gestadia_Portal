@@ -1,5 +1,7 @@
 # Navegación de Gestadia APP
 
+
+**Estado vigente · 14/10/2026:** [LidIA real en iOS y Android](evidencias/2026-10-12-ciclo-nativo/2026-10-14-lidia-real-ios-android.md) y [gestor Integraciones con V1.731](evidencias/2026-10-12-ciclo-nativo/2026-10-14-gestor-real-731.md). Intercambio, recepción/lectura bidireccionales y cierre comprobados en ambos sistemas. Atrás conserva LidIA/Mensajes en Android y Trámites/Mensajes en iOS. iOS recupera el historial cerrado después de relanzar; Android conserva lista/título/fechas/estado/preview tras reiniciar, con su historial completo recuperado desde iOS. Retirada efectiva de permisos, receptor e instalación física se registran por separado. [Matriz de aceptación](evidencias/2026-10-12-ciclo-nativo/README.md).
 [Manual de desarrollo: cómo consultar y mantener este mapa](MANUAL-DESARROLLO.md).
 
 **Mapa vigente · revisión del 11/10/2026:** [plan y pantallas capturadas](2026-10-11-recorridos-gestores.md). Implementación autorizada por respuesta humana: LidIA recoge IA y su historial; Mensajes recoge gestores/atención/postventa. Guest v2 por instalación está integrado y apagado por defecto. El resultado cualificado/contacto automático y el alta opcional conservan sus dependencias pendientes. Los mapas de propuesta del 10/10 se mantienen como antecedentes.
@@ -54,6 +56,8 @@ flowchart TD
 ```
 
 LidIA distingue Nueva/Continuar e historial. Mensajes ya no ofrece ni lista IA. Dentro de un chat LidIA no se inicia otro: Atrás lleva a su origen. `nueva=UUID` conserva el intento; con cuenta se confirma Iniciar y como visitante la elección Continuar sin registro inicia el mismo intento. Una creación incierta conserva key y operación. La conversación guest se identifica también con `invitado=1`, mantiene id y actor histórico; cuenta comprobada y control de instalación son necesarios para vincular.
+
+Si el servicio sin registro está indisponible, la elección permanece en la misma pantalla y conserva `nueva`, origen y retorno de acceso. Muestra un aviso de disponibilidad, sin atribuirlo a la conexión ni obligar al registro. La [corrección del13/10](evidencias/2026-10-12-ciclo-nativo/2026-10-13-dev-import-real-and-guest-fix.md) está preparada; no acredita activación guest en producción.
 
 El chat conectado se identifica por `conversacion` y, cuando procede, `caso`. Esos parámetros forman parte del retorno; no se sustituye el chat seleccionado por uno nuevo. La validación real admite carga de documentos con FormData y sólo confirma el resultado devuelto por la API. Un error de carga permanece en la misma pantalla y conserva Atrás.
 
@@ -326,3 +330,55 @@ Cuenta se abre junto al control de cabecera; las otras hojas siguen en la parte 
 ### Actualización nativa solicitada · 11/10/2026
 
 Integración de movimiento d3ca03c en la rama marketplace conservando el flujo real sin demos. El usuario aprueba escritura LidIA y pide sincronizar compositor/menú con el teclado iOS. No cambia pantalla, origen, permisos, destino de Atrás ni acción final. [Detalle de implementación y límites](ANIMACIONES.md#candidato-nativo-con-escritura-y-teclado--11102026). Nueva build TestFlight (2) en preparación; no atribuir estas mejoras a la build instalada (1).
+
+### Escritura de LidIA animada · 11/10/2026
+
+El usuario usa build (2) y solicita animar también el texto. El indicador conserva cursiva, ubicación, permisos y retirada al responder/fallar; texto con pulso suave 1600 ms y puntos secuenciales 1200 ms (0/160/320 ms, 3 px). No cambia origen, navegación, Atrás ni acción final. Movimiento reducido mantiene los cuatro elementos estáticos y legibles. [Verificación del indicador y límites de build (3)](evidencias/2026-10-11-escritura-animada/README.md).
+
+### Escritura en negrita y puntos en ola · revisión del 11/10/2026
+
+La petición humana sustituye la cursiva por negrita y añade entrada/salida suaves 280 ms, pulso de texto 1800 ms y ola visible de tres puntos 1400 ms con desfases0/200/400ms y subida 5 px. LidiaTypingIndicator conserva el DOM durante la salida y retira el anuncio accesible al responder; movimiento reducido permanece estático con retirada inmediata. Pantalla, origen, permisos, destino de Atrás y acción final se conservan. [Evidencia local y estado de distribución build (5)](evidencias/2026-10-11-escritura-ola/README.md).
+
+### Burbujas nuevas de LidIA · revisión del 11/10/2026
+
+Corrección solicitada para `/lidia/conversacion`: entrada suave 280 ms/8 px desde el primer fotograma, conservación de la referencia del historial al recibir páginas nuevas y desplazamiento suave al llegar respuestas. Los segmentos históricos `[SPLIT]` de LidIA se presentan como burbujas separadas; los segmentos nuevos de un mismo mensaje entran con desfases de 80 ms (máximo320ms). Identidad, recibos y acciones se conservan; la presentación interactiva aparece una sola vez, en el último segmento. No cambia origen, permisos, destino de Atrás ni acción final; no confirma ni crea reservas. Carga inicial/páginas antiguas y movimiento reducido permanecen directos. [Evidencia de esta revisión y estado build (6)](evidencias/2026-10-11-burbujas-suaves/README.md).
+
+La recarga directa de `/lidia/conversacion` y `/lidia/conversacion/` se sirve también mediante el índice APP de Docker; el bloqueo del proxy antiguo bajo `/lidia/` se mantiene para sus endpoints. No se cambia la navegación ni la autorización de la pantalla. [Regresión HTTP y evidencia](evidencias/2026-10-11-burbujas-suaves/README.md).
+
+
+### Hora al pie de las burbujas · 11/10/2026
+
+Corrección solicitada para `/lidia/conversacion` (cuenta o visitante habilitado) y las conversaciones de gestor: la hora procedente de `occurred_at` se muestra al final, alineada a la derecha. En mensajes propios queda inmediatamente a la izquierda de los ticks de entrega confirmados por el servidor; en LidIA y gestor se muestra sin ticks. Si existe una presentación con botones, el pie queda después de ella. Conserva origen, Atrás, permisos, envío y entrada animada; no modifica mensajes persistidos. [Evidencia de esta revisión](evidencias/2026-10-11-hora-pie/README.md).
+
+
+### Desplazamiento al tocar el compositor — 11/10/2026
+
+Tocar o enfocar el campo de las conversaciones lleva suavemente al último mensaje en 280 ms; otro toque también funciona si el campo ya está enfocado. Mientras tiene foco, adapta el destino al cambio de altura del teclado. Al salir del campo se puede leer el historial libremente. Reducir movimiento lleva directamente al fondo. Pantalla, origen, permisos, destino de Atrás y envío se conservan; no envía mensajes ni ejecuta reservas. [Evidencia y distribución de esta revisión](evidencias/2026-10-11-scroll-compositor/README.md).
+
+
+### Contacto visible y carga de chats — 11/10/2026
+
+La hoja «Hablar con un gestor» acompaña el teclado y permite desplazar su formulario para mantener visible el teléfono. La carga de conversaciones/mensajes y comprobación del gestor incorpora GIF propio centrado y texto contextual; movimiento reducido usa imagen fija. Actualizar conserva el historial y los errores retiran el indicador. No cambia origen, Atrás, permisos, asignación ni envío. El proxy Docker común admite las tres rutas exactas de contacto que faltaban en la plantilla seleccionada. [Verificación y límites](evidencias/2026-10-11-gestor-carga/README.md).
+
+### Conversación antigua de atención — revisión 11/10/2026
+
+La cuenta de prueba conserva un chat de atención sin gestor ni caso, con permiso exclusivo `history`. El servicio rechaza un turno técnico con `capability_denied`. La pantalla mantiene el historial, desactiva acciones y compositor, explica la restricción y remite a «Solicitar llamada». Origen Mensajes; Atrás devuelve a Mensajes. No se crea una conversación alternativa ni se modifica la asignación. [Evidencia y límites](evidencias/2026-10-11-gestor-carga/README.md).
+
+### Aceptación web LidIA V1.722 — 11/10/2026
+
+Inicio → Nueva conversación → Iniciar → dos turnos informativos seriados → recargar mantiene historial. Origen/Atrás LidIA, permisos history/sondeo, ninguna acción de llamada/alta. Detalle común administrativo APP abierto con Contacto pendiente. [Capturas, IDs y límites](evidencias/2026-10-11-lidia-v1722/README.md). Sin cambio visual o nativo; gestor, CRM y agenda conservan aceptación separada.
+
+### Agenda v1: preparación sin cambio visual
+
+El backend prepara un grant CRM/agenda exclusivo de un chat existente, apagado por defecto; no modifica origen, Atrás, pantallas o autoridad básica de otros chats. [Estado y verificación](evidencias/2026-10-11-agenda-opt-in/README.md). Activación y reserva real pendientes; no atribuir disponibilidad, completed de turno o pruebas offline a una llamada creada.
+
+
+### Renombrar conversación con teclado — 11/10/2026
+
+LidIA → Historial (o Mensajes) → Editar nombre: foco desplaza el formulario dentro del espacio visible y acompaña el teclado. Guardar mantiene la API y permisos existentes; Cancelar conserva título y devuelve foco al disparador. Atrás/origen no cambian. [Captura local, pruebas y aceptación pendiente](evidencias/2026-10-11-editor-nombre/README.md).
+Entrega del editor: Gestadia 0.1.0 (11) procesada por Apple y «En pruebas» en Gestadia QA. Firma y configuración verificadas; teclado físico pendiente de aceptación. [Registro](evidencias/2026-10-11-editor-nombre/README.md).
+
+
+### Recibo opcional de agenda preparado — 11/10/2026
+
+Consumidor de respuesta v1/v2 valida el recibo histórico de reserva de LidIA y limita su proyección a permisos CRM vigentes. Pantallas, origen, Atrás, envío y confirmación por el mensaje del agente se conservan; no añade tarjeta de estado vivo. Consumer v2 limitado no obtiene autoridad CRM. [Pruebas, procedencia y límites](evidencias/2026-10-11-recibo-agenda/README.md). Sin deploy, grants ni llamada real.

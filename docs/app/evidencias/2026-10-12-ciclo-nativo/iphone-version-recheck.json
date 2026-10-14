@@ -1,0 +1,11 @@
+{
+  "checkedAt": "2026-10-12T15:27:50.542919+00:00",
+  "observedVia": "devicectl, bundle-id exacto",
+  "deviceName": "iGonchu",
+  "bundleIdentifier": "com.gestadia.app",
+  "version": "0.1.0",
+  "bundleVersion": "11",
+  "installedInThisAttempt": false,
+  "launchedInThisAttempt": false,
+  "realConversationCycleVerified": false
+}

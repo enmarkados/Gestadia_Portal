@@ -1,0 +1,41 @@
+{
+  "status": "r4_actual_read_positive_metadata_and_physical_cleanup",
+  "started": {
+    "bytes": 51,
+    "sha256": "27354467ef9cd882593b74fb9efedaa60aad04241f0dd90654c6a69d091084f1"
+  },
+  "metadata": {
+    "bytes": 2861,
+    "sha256": "e24b98dd4f48fb1c84cdf062be22cc8b3df933e65ac35a54f56efd3bc51a2914"
+  },
+  "schema": {
+    "tables": 198,
+    "migrations": 260,
+    "distinct_migrations": 260
+  },
+  "target_project": 104,
+  "target_agent": 124,
+  "target_flags_active": true,
+  "operator_exists_email_exact": true,
+  "operator_admin": true,
+  "operator_support": false,
+  "operator_lockout_future": false,
+  "department_count": 0,
+  "app_configuration_file_present": false,
+  "app_environment_enabled": false,
+  "route_count": 0,
+  "phase_success": true,
+  "cleanup_complete": true,
+  "rollback_returned": true,
+  "pending_operation_kind": null,
+  "all_resource_exception_types_null": true,
+  "mapping_freshness_is_authorization": false,
+  "actual_manager_assignment_observed": false,
+  "handoff_authority_verified": false,
+  "runtime_cache_observed": false,
+  "effective_dto_observed": false,
+  "database_write": false,
+  "replayed": false,
+  "configuration_installed": false,
+  "native_cycles_passed": false
+}

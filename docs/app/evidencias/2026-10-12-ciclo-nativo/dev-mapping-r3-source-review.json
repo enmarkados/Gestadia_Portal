@@ -1,0 +1,35 @@
+{
+  "status": "mapping_r3_sources_independently_reviewed_local",
+  "helper_sha256": "74dca7c8aee453f4731848c2fe66aa19b88f2188a0f9ce3ee103e263e200d0fe",
+  "scope_tests_pass": 94,
+  "lifecycle_tests_pass": 30,
+  "generation_tests_pass": 16,
+  "failures": 0,
+  "direct_dll_readback": [
+    {
+      "dll": "OfflineTests.dll",
+      "exit": 0,
+      "result": "OFFLINE_RESULT passes=94 failures=0",
+      "log_sha256": "8f99376334b3ccfb157049f7cbf99b9185a54ae8d801b386b8dbca5505c8778a"
+    },
+    {
+      "dll": "LifecycleTests.dll",
+      "exit": 0,
+      "result": "LIFECYCLE_RESULT passes=30 failures=0",
+      "log_sha256": "e9d91d070fc9b993846b2483aa7e80769aa89700100399328635184da62a28ea"
+    },
+    {
+      "dll": "GenerationTests.dll",
+      "exit": 0,
+      "result": "GENERATION_RESULT passes=16 failures=0",
+      "log_sha256": "4f9fe55fd7f8b98a58b862f8f86e5c8eaefadc373c072483cdbafa79e30f16e5"
+    }
+  ],
+  "source_scope_six_files_namespace_only": true,
+  "ops_namespace_opsdir_only": true,
+  "four_queries_byteexact": true,
+  "native_provider_green_separate": true,
+  "DEV_read_performed": false,
+  "mapping_observed": false,
+  "configuration_installed": false
+}

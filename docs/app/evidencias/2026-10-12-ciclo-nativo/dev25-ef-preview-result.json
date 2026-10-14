@@ -1,0 +1,1 @@
+{"status":"dev25_migration_preview_ready","pending":["20261005204814_AddAppConversations","20261008123405_AddAppMessageReceipts","20261011021704_AddAppGuestContinuity"],"database":"lidia_gestadia_dev_db","app_enabled":false,"bundle_sha256":"65530bb1a160967141d468ae653d49216f51565f41ee5b3d723227de5caf1b6d"}

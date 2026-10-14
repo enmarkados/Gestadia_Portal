@@ -1,0 +1,27 @@
+{
+  "status": "r4_minimal_source_and_metadata_regression_reviewed",
+  "functional_delta": "Runner schema.DeepClone in complete metadata output only",
+  "namespace_and_opsdir_updated": true,
+  "queries_lifecycle_scope_and_bindings_unchanged": true,
+  "helper": {
+    "bytes": 84480,
+    "sha256": "4d35f9ec00565efd14e156916b939433d4cf33c878d4aee194ba919695583cae"
+  },
+  "specific_regression": {
+    "passes": 4,
+    "failures": 0,
+    "original_red_exit": 1,
+    "green_exit": 0,
+    "original_red_log_sha256": "753c5aa0b0740a3d82f9240827ff060e5361cfc2f7ee23930c4b5b3dca2eae1b",
+    "green_log_sha256": "8d5739059cfa41005640c0913265bc14e9094103639940bc732d5e316e19e479",
+    "metadata_bytes": 2723,
+    "metadata_fields": 13,
+    "schema_original_parent_preserved": true,
+    "logical_error_and_incomplete_cleanup_rejected": true
+  },
+  "historical_140_and_native_green_not_rerun": true,
+  "database_open": false,
+  "connected_read": false,
+  "actual_mapping_observed": false,
+  "configuration_installed": false
+}

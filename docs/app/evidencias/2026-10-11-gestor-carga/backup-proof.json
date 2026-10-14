@@ -1,0 +1,16 @@
+{
+  "backup": "manager-proxy-20261011",
+  "sqlBytes": 271105,
+  "sqlSha256": "54be58275ef78d94f51a38455a8127937e7c11094a3e0156d84e286a50ca60b3",
+  "counts": {
+    "users": 45,
+    "cases": 94,
+    "documents": 14,
+    "migrations": 13
+  },
+  "restoreSql": "PASS sin red; 24 tablas OK; exit0",
+  "restoreFiles": "PASS byte a byte; exit0",
+  "runtimeSha256": "348029ec6790f5f86d9ed04634a6e297e6ba7dbc35e91012248aaf317ac4e3fe",
+  "uploadsSha256": "7d612eb838808d8ddbff599062faeeb5de0c331a6311a9e61fe545a57d8d5d53",
+  "productionDeletion": false
+}

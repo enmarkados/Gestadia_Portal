@@ -1,0 +1,23 @@
+{
+  "reviewedAt": "2026-10-12T19:12:29.342368+00:00",
+  "revision": "r2",
+  "sourceSha256": "da1ed8e94327db7825fac0138d5ddedac6f9959f1dc5c9b167bec80acc2eedb4",
+  "scriptSha256": "f3136c1ba543405ff2b8a1526b473dcf2a5cc6e01137f33632c4c0eda8ca89c6",
+  "transportSha256": "e10b378c87daf882f228cd2e429093bcf4230769942407ea3a22e3d3696d449b",
+  "fixtureSha256": "c2c3b94bc584e0b9529737a2cd5afedd5449eb6003cb77bf2070dd96fd836550",
+  "sourceAndTransportHashesChecked": true,
+  "shellSyntaxPassed": true,
+  "yamlParsed": true,
+  "fixtureShellSyntaxPassed": true,
+  "networkNone": true,
+  "portsAbsent": true,
+  "backupReadOnlyBind": true,
+  "snapshotConnectionAndCommandGuards": true,
+  "allTableRowCountRestoreChecks": true,
+  "unresolvedPins": 4,
+  "backupExecutionReviewed": true,
+  "backupExecuted": false,
+  "restoreExecuted": false,
+  "deploymentExecuted": false,
+  "r1NotExecuted": true
+}

@@ -1,0 +1,20 @@
+{
+  "reviewedAt": "2026-10-12T23:16:15.061405+00:00",
+  "status": "preview_r5_package_conforming",
+  "sourceSnapshotSha256": "b5ea5b60cf925844210a77409b6ecd811faa8f39f195579683554954c8893d34",
+  "targetRuntimeSha256": "094179482515164d3fa94f6877ed3b7db51b7920722ebe1e501d80c27d04fb6e",
+  "transportSha256": "7ab330d1e1172452c03af658ba93fba6aca3d4576697a33fd4ff64f535ceefe3",
+  "helperSha256": "1085db55e25ae746c21b985c2260c733f6b72a3ba95993116787aea05357c1d5",
+  "packageChecks": 43,
+  "offlineChecksPassed": 39,
+  "nativeMigrationQuery": "Direct minimal MigrationId from __EFMigrationsHistory; 260 unique values, no implicit provider existence query.",
+  "queryGateRelaxed": false,
+  "newRecords": 3,
+  "initiallyInactive": true,
+  "toolsImported": 0,
+  "appOffRequiresExactFalseOnly": true,
+  "conformance": "One previewRO after Source final preflight/freeze. Apply waits for original preview and current backup/isolated restore reviewed.",
+  "serverExecutedByReview": false,
+  "appActivated": false,
+  "nativeCyclePassed": false
+}

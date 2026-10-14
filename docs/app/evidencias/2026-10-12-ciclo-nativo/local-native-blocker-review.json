@@ -1,0 +1,19 @@
+{
+  "status": "local_native_blocked",
+  "checks": {
+    "mac": "locked_requires_manual_unlock",
+    "api_tcp_3005": "reachable",
+    "mysql_tcp_60670": "connection_refused",
+    "docker_unix_ping": "timeout_4s",
+    "docker_desktop_status": "timeout_6s"
+  },
+  "available_disk_gib_approx": 3.9,
+  "historical_docker_log": {
+    "last_updated_utc": "2026-10-12T21:18:38.312999Z",
+    "no_space_events": 7,
+    "not_current_root_cause_accredited": true
+  },
+  "global_docker_restart": false,
+  "volumes_deleted": false,
+  "remote_dev_preparation_can_continue": true
+}

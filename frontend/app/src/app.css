@@ -566,9 +566,11 @@ svg {
 }
 .bubble-time {
   font-size: 11px;
-  color: #d1d5db;
+  color: #657080;
+  line-height: 17px;
   white-space: nowrap;
 }
+.bubble.manager .bubble-time { color: #d1d5db; }
 .bubble.user .bubble-time {
   color: #ffffffd9;
 }
@@ -1511,9 +1513,10 @@ input[readonly] {
 }
 .sheet {
   position: fixed;
-  inset: auto 0 0;
+  inset: auto 0 max(0px, calc(100dvh - var(--app-visible-height, var(--sheet-viewport-bottom, 100dvh))));
   width: min(100%, 600px);
-  max-height: 85dvh;
+  max-height: min(85dvh, calc(var(--app-visible-height, var(--sheet-viewport-height, 100dvh)) - 16px));
+  transition: bottom var(--app-keyboard-duration, 0ms) var(--app-keyboard-easing, ease-in-out), max-height var(--app-keyboard-duration, 0ms) var(--app-keyboard-easing, ease-in-out);
   max-width: 600px;
   border: 0;
   border-radius: 24px 24px 0 0;
@@ -2644,7 +2647,7 @@ select:focus {
 
 .delivery-ticks { display:inline-flex; flex:0 0 auto; align-items:center; color:#657080; vertical-align:middle; }
 .delivery-ticks.read { color:#087ab5; }
-.bubble-delivery { display:flex; justify-content:flex-end; min-height:17px; margin-top:4px; }
+.bubble-delivery { display:flex; align-items:center; justify-content:flex-end; gap:5px; min-height:17px; margin-top:6px; }
 .bubble.user .delivery-ticks { color:#e3e3e3; }
 .bubble.user .delivery-ticks.read { color:#80ddff; }
 .conversation-preview { display:flex; gap:5px; align-items:center; min-width:0; margin:4px 0; font-size:13px; line-height:1.4; color:var(--muted); }
@@ -2682,7 +2685,8 @@ select:focus {
   animation: surface-fade-out var(--motion-duration) var(--motion-ease) forwards;
 }
 .bubble[data-motion-new] {
-  animation: message-enter var(--motion-duration) var(--motion-ease);
+  animation: message-enter var(--motion-duration) var(--motion-ease) both;
+  animation-delay: var(--message-enter-delay, 0ms);
 }
 @keyframes sheet-slide-out {
   from { transform: translateY(0); opacity: 1; }
@@ -2703,12 +2707,20 @@ select:focus {
 @keyframes surface-fade-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes surface-fade-out { from { opacity: 1; } to { opacity: 0; } }
 
-.lidia-typing { margin: 10px 0 4px; color: var(--muted); font-size: 13px; }
-.lidia-typing-dots > span { display: inline-block; animation: lidia-typing-dot 1200ms ease-in-out infinite; }
-.lidia-typing-dots > span:nth-child(2) { animation-delay: 160ms; }
-.lidia-typing-dots > span:nth-child(3) { animation-delay: 320ms; }
-@keyframes lidia-typing-dot { 0%, 70%, 100% { opacity: .45; transform: translateY(0); } 35% { opacity: 1; transform: translateY(-2px); } }
-@media (prefers-reduced-motion: reduce) { .lidia-typing-dots > span { animation: none; } }
+.lidia-typing { margin: 10px 0 4px; color: var(--muted); font-size: 14px; line-height: 24px; animation: message-enter var(--motion-duration) var(--motion-ease) both; }
+.lidia-typing[data-motion-closing] { animation: lidia-typing-exit var(--motion-duration) var(--motion-ease) both; }
+.lidia-typing strong { display: inline-flex; align-items: baseline; font-weight: 700; }
+.lidia-typing-label { display: inline-block; animation: lidia-typing-label 1800ms ease-in-out infinite; }
+.lidia-typing-dots { display: inline-flex; margin-left: 4px; gap: 1px; }
+.lidia-typing-dots > span { display: inline-block; width: 6px; font-size: 20px; line-height: 1; animation: lidia-typing-dot 1400ms ease-in-out infinite; }
+.lidia-typing-dots > span:nth-child(2) { animation-delay: 200ms; }
+.lidia-typing-dots > span:nth-child(3) { animation-delay: 400ms; }
+@keyframes lidia-typing-label { 0%, 100% { opacity: .78; } 50% { opacity: 1; } }
+@keyframes lidia-typing-dot { 0%, 40%, 100% { opacity: .45; transform: translateY(0); } 20% { opacity: 1; transform: translateY(-5px); } }
+@keyframes lidia-typing-exit { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(4px); } }
+@media (prefers-reduced-motion: reduce) {
+  .lidia-typing, .lidia-typing[data-motion-closing], .lidia-typing-label, .lidia-typing-dots > span { animation: none; opacity: 1; transform: none; }
+}
 
 /* Recorridos LidIA, gestores y avisos: misma escala compacta y movimiento280ms. */
 .is-hidden { display: none; }
@@ -2761,3 +2773,22 @@ select:focus {
 .contact-form .helper { font-weight: 400; font-size: 12px; }
 .contact-confirmation { display: grid; gap: 14px; justify-items: center; text-align: center; padding: 12px 0; }
 .contact-confirmation h3, .contact-confirmation p { margin: 0; }
+
+.chat-loading {
+  min-height: 216px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 28px 20px;
+  text-align: center;
+  color: var(--muted);
+  animation: chat-loading-enter 240ms ease-out 120ms both;
+}
+.chat-loading picture, .chat-loading img { display: block; width: 48px; height: 48px; }
+.chat-loading p { margin: 0; max-width: 32ch; font-size: 14px; line-height: 1.5; }
+.chat-loading.is-compact { min-height: 100px; padding: 16px; gap: 8px; }
+.chat-loading.is-compact picture, .chat-loading.is-compact img { width: 32px; height: 32px; }
+@keyframes chat-loading-enter { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .chat-loading { animation: none; } }

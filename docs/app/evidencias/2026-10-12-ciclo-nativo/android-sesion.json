@@ -1,0 +1,16 @@
+{
+  "platform": "android",
+  "build": 4,
+  "source": "344b033",
+  "nativeUiLogin": true,
+  "typedEmailMatchesFixture": true,
+  "passwordMaskedLength": 32,
+  "sessionRestoredAfterForceStop": true,
+  "activeSessionsBeforeLogout": 1,
+  "activeSessionsAfterLogout": 0,
+  "realLidiaCycle": false,
+  "realManagerCycle": false,
+  "version": "0.1.0",
+  "iosReferenceBuild": 11,
+  "apkSha256": "c656437a9b81aed3c82cd0988709a8aea166a99cdcfde5e7b4e607f987bd287c"
+}

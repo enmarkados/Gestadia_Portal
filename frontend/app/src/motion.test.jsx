@@ -112,6 +112,16 @@ it("una recuperación paginada no anima la segunda página inicial", () => {
   rerender({ items: [{ message_id: "one", sequence: "1" }, { message_id: "two", sequence: "2" }], ready: true });
   expect(result.current.size).toBe(0);
 });
+it("las páginas nuevas de una conversación abierta conservan las entradas y no reinician el historial", () => {
+  const message = (id, sequence) => ({ message_id: id, sequence: String(sequence) });
+  const { result, rerender } = renderHook(({ items, ready }) => useMessageMotion(items, ready), {
+    initialProps: { items: [message("history", 10)], ready: true },
+  });
+  rerender({ items: [message("history", 10), message("reply1", 11)], ready: false });
+  expect([...result.current]).toEqual(["reply1"]);
+  rerender({ items: [message("older", 1), message("history", 10), message("reply1", 11), message("reply2", 12)], ready: true });
+  expect([...result.current]).toEqual(["reply1", "reply2"]);
+});
 it("activar y desactivar movimiento reducido no vuelve a animar mensajes vistos o recibidos sin movimiento", () => {
   const message = id => ({ message_id: id, sequence: String(id) });
   const { result, rerender } = renderHook(({ items }) => useMessageMotion(items), { initialProps: { items: [message(1)] } });

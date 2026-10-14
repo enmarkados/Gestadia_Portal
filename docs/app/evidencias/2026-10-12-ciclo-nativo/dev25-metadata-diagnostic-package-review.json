@@ -1,0 +1,15 @@
+{
+  "reviewedAt": "2026-10-13T00:04:44.015582+00:00",
+  "status": "frozen_metadata_only_diagnostic_conforming",
+  "offlineTestsPassed": 29,
+  "packageChecks": 38,
+  "helperSha256": "6b7b03876593a27b8c7fb39899403c42250935bcfdacc42a2b336ac20b1fa04e",
+  "transportSha256": "bcc862cc057dd8e39c6d274f5b76c0f2148cfd4d1aae52a12d27ee417d220bc7",
+  "mainDeadlineSeconds": 60,
+  "cleanupOrder": "reader2s-command1s-rollback3s-if-released-connection4s",
+  "exactMetadataStatements": 8,
+  "customerContentAndBusinessTableCounts": false,
+  "nativeExporterInvoked": false,
+  "applicationAssemblyExecuted": false,
+  "conformance": "Stage/preflight and one readonly metadata run, no original R5 replay. Success only covers observed guards, not backup or historical cause."
+}

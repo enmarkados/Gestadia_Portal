@@ -1,0 +1,11 @@
+{
+  "build": {
+    "app": "Gestadia",
+    "version": "0.1.0",
+    "revision": "6bd220c"
+  },
+  "route": "/lidia/conversacion/",
+  "css": "/assets/index-BKrVfkeU.css",
+  "sha256": "0d5cd39a375a72297ac6c905bef5ad717ea77cb5a1348912ebc33c8eca8aa7b1",
+  "nativeHashMatch": true
+}

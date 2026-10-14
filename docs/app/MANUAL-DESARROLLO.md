@@ -1,8 +1,18 @@
 # Manual de desarrollo: flujos y pantallas de Gestadia APP
 
+
+**Estado vigente · 14/10/2026:** [LidIA real en iOS y Android](evidencias/2026-10-12-ciclo-nativo/2026-10-14-lidia-real-ios-android.md): dos conversaciones propias DEV104/124, ocho turnos nativos y continuidad comprobada. [Gestor Integraciones con V1.731](evidencias/2026-10-12-ciclo-nativo/2026-10-14-gestor-real-731.md): intercambio, recepción/lectura en ambos sentidos y cierre en iOS y Android; iOS recupera el historial cerrado tras relanzar. Android conserva lista/título/fechas/estado/preview tras reiniciar; la apertura completa posterior no se terminó y no se acredita. Sus tres mensajes sí se recuperan desde iOS. Tres retiradas de permisos tienen ACK; la comprobación efectiva y retirada del receptor se registran aparte. Instalación en iGonchu pendiente de conexión física. [Matriz de aceptación](evidencias/2026-10-12-ciclo-nativo/README.md).
 **Referencia viva del proyecto · 11/10/2026.** Petición del usuario: conservar lo trabajado en el proyecto y usarlo para guiar el desarrollo. [README del repositorio](../../README.md) · [README APP](../../README-APP.md) · [Glosario](../../GLOSARIO.md).
 
 ## Cómo empezar
+
+Las continuaciones fechadas que siguen conservan su estado histórico; para reanudar usa el estado vigente del14/10 y su matriz.
+
+Continuación del13/10: R2 pasa146 pruebas, carga/preflight y provisión reales. Su preview queda no elegible por cierre inconcluso; los tres originales se conservan y R3 está en preparación. Portal restaura24 tablas propias en aislamiento y pasa355 pruebas backend en una base desechable, después retirada. Estas pruebas no acreditan todavía receptor conectado, ciclo de gestor ni instalación física. [Evidencia y límites actuales](evidencias/2026-10-12-ciclo-nativo/2026-10-13-dev-import-real-and-guest-fix.md#r2-servido-carga-provisión-y-fallo-de-cierre).
+
+Actualización posterior14/10: la utilidad de activación R3 completa195 pruebas y la secuencia real carga/provisión/preview/apply/readback, con cierre positivo y cambio exclusivo de cuatro flags propias. Candidato SONDEO5 generado en DEV y cotejado; aún no instalado. Mapping R2 falla por reciclaje físico del lector; R3 corrige ese cierre y supera140 pruebas y una reproducción real aislada. Su única lectura DEV cierra correctamente pero falla al adjuntar un nodo JSON al informe. R4 conserva consultas/lifecycle/bindings y añade sólo schema.DeepClone; la regresión específica pasa4/0 con RED histórico conservado. R4 ya completa carga/preflight y una lectura real positiva con informe y cierre completos: operador existente, sin departamento del proyecto104 y sin rutas. SONDEO5 ya está instalado con recibos íntegros y ENVfalse; reinicio/receptor efectivo siguen pendientes. Atención requiere departamento/membership y relación CRM propios. No hay permisos nuevos, ciclos conectados o instalación física. [Estado exacto para reanudar](evidencias/2026-10-12-ciclo-nativo/2026-10-13-dev-import-real-and-guest-fix.md#mapping-r3-cierre-físico-correcto-y-fallo-de-salida-json).
+
+Estado de la continuación del13/10: [importación DEV real, parche guest servido y paquetes nativos actuales](evidencias/2026-10-12-ciclo-nativo/2026-10-13-dev-import-real-and-guest-fix.md). Main completa una llamada real y el cierre de su ventana, por separado de la cuenta QA nativa. Los recibos de importación no acreditan activación; guest sigue apagado y ambos ciclos nativos conectados siguen pendientes.
 
 1. Lee [NAVEGACION.md](NAVEGACION.md): rutas implementadas, orígenes, Atrás, menú inferior, permisos, hojas y retornos externos. Distingue el recorrido implementado del alcance futuro de contacto cualificado.
 2. Abre el [mapa vigente con capturas](2026-10-11-recorridos-gestores.md) y, para antecedentes de diseño, los [mapas de propuesta](2026-10-10-mapas-pantallas-app-anonima.md) y su tablero con los comandos de abajo. Compara lo que ve el usuario con el flujo, no sólo el nombre de una ruta.
@@ -24,6 +34,12 @@
 ### Usar esta referencia al empezar una tarea
 
 Antes de editar una pantalla, anota su ruta o ID de maqueta, estado, origen, destino de Atrás, permisos y acción final. Busca ese recorrido en NAVEGACION y compara sus capturas. Si la decisión sólo aparece en una propuesta, conserva esa distinción en la tarea. Al terminar, actualiza los archivos afectados de la tabla de mantenimiento y registra versión, entorno y resultado de las comprobaciones. [AGENTS.md](../../AGENTS.md) exige este procedimiento a quienes trabajan en el repositorio.
+
+## Escribir en Device Hub durante QA nativa
+
+En la ventana del dispositivo que se está probando, enfoca primero el campo de la APP y activa `Device → Keyboard → Keyboard Capture`. Debe aparecer **Capturing Keyboard** y el texto debe verse en el campo; un mensaje de éxito de la herramienta no demuestra que se haya escrito. Tab cambia de campo y Return envía el formulario cuando procede. Al terminar, desactiva la captura desde el mismo menú para devolver el teclado al Mac.
+
+Si hay dos ventanas con el mismo nombre, selecciona expresamente la del dispositivo propio; no repares SpringBoard ni cierres otras pruebas para ocultar un fallo. Un tap por el helper oficial debe dirigirse al UUID propio, usar una captura reciente y comprobar el cambio visible. La prueba del12/10 confirmó escritura mediante Device Hub; el click del espejo web y su ACK no cambiaban la APP. [Procedencia y límites](evidencias/2026-10-12-ciclo-nativo/README.md#segunda-preparación-de-entrada-ios).
 
 ## Qué está implementado y qué está en revisión
 
@@ -201,3 +217,69 @@ Gestadia 82d011a distribuida: TestFlight 0.1.0 (1) «En pruebas», un tester inv
 ### Actualización nativa solicitada · 11/10/2026
 
 Integración de movimiento d3ca03c en la rama marketplace conservando el flujo real sin demos. El usuario aprueba escritura LidIA y pide sincronizar compositor/menú con el teclado iOS. No cambia pantalla, origen, permisos, destino de Atrás ni acción final. [Detalle de implementación y límites](ANIMACIONES.md#candidato-nativo-con-escritura-y-teclado--11102026). Nueva build TestFlight (2) en preparación; no atribuir estas mejoras a la build instalada (1).
+
+### Escritura de LidIA animada · 11/10/2026
+
+El usuario usa build (2) y solicita animar también el texto. El indicador conserva cursiva, ubicación, permisos y retirada al responder/fallar; texto con pulso suave 1600 ms y puntos secuenciales 1200 ms (0/160/320 ms, 3 px). No cambia origen, navegación, Atrás ni acción final. Movimiento reducido mantiene los cuatro elementos estáticos y legibles. [Verificación del indicador y límites de build (3)](evidencias/2026-10-11-escritura-animada/README.md).
+
+- [Integración app/main y entrega TestFlight (4)](2026-10-11-testflight-appmain-build4.md): revisión, comprobaciones y límites de activación.
+
+### Escritura en negrita y puntos en ola · revisión del 11/10/2026
+
+La petición humana sustituye la cursiva por negrita y añade entrada/salida suaves 280 ms, pulso de texto 1800 ms y ola visible de tres puntos 1400 ms con desfases0/200/400ms y subida 5 px. LidiaTypingIndicator conserva el DOM durante la salida y retira el anuncio accesible al responder; movimiento reducido permanece estático con retirada inmediata. Pantalla, origen, permisos, destino de Atrás y acción final se conservan. [Evidencia local y estado de distribución build (5)](evidencias/2026-10-11-escritura-ola/README.md).
+
+### Burbujas nuevas de LidIA · revisión del 11/10/2026
+
+Corrección solicitada para `/lidia/conversacion`: entrada suave 280 ms/8 px desde el primer fotograma, conservación de la referencia del historial al recibir páginas nuevas y desplazamiento suave al llegar respuestas. Los segmentos históricos `[SPLIT]` de LidIA se presentan como burbujas separadas; los segmentos nuevos de un mismo mensaje entran con desfases de 80 ms (máximo320ms). Identidad, recibos y acciones se conservan; la presentación interactiva aparece una sola vez, en el último segmento. No cambia origen, permisos, destino de Atrás ni acción final; no confirma ni crea reservas. Carga inicial/páginas antiguas y movimiento reducido permanecen directos. [Evidencia de esta revisión y estado build (6)](evidencias/2026-10-11-burbujas-suaves/README.md).
+
+La recarga directa de `/lidia/conversacion` y `/lidia/conversacion/` se sirve también mediante el índice APP de Docker; el bloqueo del proxy antiguo bajo `/lidia/` se mantiene para sus endpoints. No se cambia la navegación ni la autorización de la pantalla. [Regresión HTTP y evidencia](evidencias/2026-10-11-burbujas-suaves/README.md).
+
+
+### Hora al pie de las burbujas · 11/10/2026
+
+Corrección solicitada para `/lidia/conversacion` (cuenta o visitante habilitado) y las conversaciones de gestor: la hora procedente de `occurred_at` se muestra al final, alineada a la derecha. En mensajes propios queda inmediatamente a la izquierda de los ticks de entrega confirmados por el servidor; en LidIA y gestor se muestra sin ticks. Si existe una presentación con botones, el pie queda después de ella. Conserva origen, Atrás, permisos, envío y entrada animada; no modifica mensajes persistidos. [Evidencia de esta revisión](evidencias/2026-10-11-hora-pie/README.md).
+
+
+### Desplazamiento al tocar el compositor — 11/10/2026
+
+Tocar o enfocar el campo de las conversaciones lleva suavemente al último mensaje en 280 ms; otro toque también funciona si el campo ya está enfocado. Mientras tiene foco, adapta el destino al cambio de altura del teclado. Al salir del campo se puede leer el historial libremente. Reducir movimiento lleva directamente al fondo. Pantalla, origen, permisos, destino de Atrás y envío se conservan; no envía mensajes ni ejecuta reservas. [Evidencia y distribución de esta revisión](evidencias/2026-10-11-scroll-compositor/README.md).
+
+
+### Contacto visible y carga de chats — 11/10/2026
+
+La hoja «Hablar con un gestor» acompaña el teclado y permite desplazar su formulario para mantener visible el teléfono. La carga de conversaciones/mensajes y comprobación del gestor incorpora GIF propio centrado y texto contextual; movimiento reducido usa imagen fija. Actualizar conserva el historial y los errores retiran el indicador. No cambia origen, Atrás, permisos, asignación ni envío. El proxy Docker común admite las tres rutas exactas de contacto que faltaban en la plantilla seleccionada. [Verificación y límites](evidencias/2026-10-11-gestor-carga/README.md).
+
+### Conversación antigua de atención — revisión 11/10/2026
+
+La cuenta de prueba conserva un chat de atención sin gestor ni caso, con permiso exclusivo `history`. El servicio rechaza un turno técnico con `capability_denied`. La pantalla mantiene el historial, desactiva acciones y compositor, explica la restricción y remite a «Solicitar llamada». Origen Mensajes; Atrás devuelve a Mensajes. No se crea una conversación alternativa ni se modifica la asignación. [Evidencia y límites](evidencias/2026-10-11-gestor-carga/README.md).
+
+### Contraste de perfil y agenda APP — 11/10/2026
+
+[Revisión Portal de la adenda LidIA](../integraciones/2026-10-11-contraste-portal-perfil-agenda.md): conformidad de arquitectura y reparto, wire y mapping CRM pendientes. Perfil opcional autenticado sin zona/consentimiento inventados; el agente conserva preguntas y confirma datos operativos. Ningún cambio de pantallas, permisos, asignación, despliegue o build móvil por esta revisión documental.
+
+### Backend de perfil opcional preparado — 11/10/2026
+
+[Preparación y pruebas](evidencias/2026-10-11-perfil-contexto/README.md): contexto v1 opcional desde cuenta comprobada, parches/revisión durables y retirada prioritaria con el mismo parche. Esquemas v1/v2 contrastados; consumidor account v2 pendiente. Flags privados apagados, sin nuevos grants CRM, migración productiva ni build/distribución adicional. Pantalla, origen, permisos, Atrás y acción final de la APP no cambian.
+
+### Responsabilidad CRM precisada por el usuario
+
+La plataforma LidIA con su agente gestiona Zoho y las operaciones de agenda de las conversaciones APP. Portal autentica y aporta perfil/contexto, transmite la intención y muestra resultados. La llamada directa del adaptador Portal actual queda pendiente de delegación al receptor LidIA acordado, sin cuestionario o agenda paralelos. [Reparto y desvío identificado](../integraciones/2026-10-11-contraste-portal-perfil-agenda.md).
+
+### Aceptación web LidIA V1.722 — 11/10/2026
+
+Inicio → Nueva conversación → Iniciar → dos turnos informativos seriados → recargar conserva historial/IDs. Permisos history/sondeo; Atrás a LidIA, sin acción de llamada. Detalle administrativo común APP con Contacto pendiente accesible. Marca V1.722/PRO observada; contraste modelo/CRM pedido a LidIA. [Evidencia y límites](evidencias/2026-10-11-lidia-v1722/README.md). No cambia código visual, build nativa ni activa perfil/CRM/account v2.
+
+### Agenda: permiso por chat preparado — 11/10/2026
+
+[Opt-in v1 y pruebas](evidencias/2026-10-11-agenda-opt-in/README.md): configuración privada apagada y grant adicional por chat, sin cambiar la autorización compartida de la cuenta. Sin pantallas/navegación nuevas, despliegue o activación; guest/account v2 fuera de alcance. El usuario exige reserva real y readback para cerrar agenda; los turnos informativos son aceptación parcial.
+
+
+### Editor de nombre y teclado — 11/10/2026
+
+El editor común de nombres mantiene campo y acciones dentro del área desplazable al enfocar y durante el cambio de altura del teclado. Conserva autorización, renombrado, navegación y foco al cancelar. Diez pruebas del componente, 207 frontend y build APP PASS; revisión independiente sin P1/P2. [Evidencia local y límites de distribución](evidencias/2026-10-11-editor-nombre/README.md). iPhone/TestFlight11 pendientes de verificación.
+Entrega del editor: Gestadia 0.1.0 (11) procesada por Apple y «En pruebas» en Gestadia QA. Firma y configuración verificadas; teclado físico pendiente de aceptación. [Registro](evidencias/2026-10-11-editor-nombre/README.md).
+
+
+### Recibo opcional de agenda preparado — 11/10/2026
+
+Consumidor de respuesta v1/v2 valida el recibo histórico de reserva de LidIA y limita su proyección a permisos CRM vigentes. Pantallas, origen, Atrás, envío y confirmación por el mensaje del agente se conservan; no añade tarjeta de estado vivo. Consumer v2 limitado no obtiene autoridad CRM. [Pruebas, procedencia y límites](evidencias/2026-10-11-recibo-agenda/README.md). Sin deploy, grants ni llamada real.

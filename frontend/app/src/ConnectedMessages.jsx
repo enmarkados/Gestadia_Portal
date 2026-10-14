@@ -1,5 +1,7 @@
 import { guestConversationApi } from "./guestConversations.js";
 import DeliveryTicks from "./DeliveryTicks.jsx";
+import ChatLoading from "./ChatLoading.jsx";
+import { useFocusedFormScroll } from "./useFocusedFormScroll.js";
 import { useReceiptSummaries } from "./useMessageReceipts.js";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -55,6 +57,7 @@ export function ConversationList({ kind, onContact }) {
     [title, setTitle] = useState(""),
     [saving, setSaving] = useState(false),
     [saveError, setSaveError] = useState("");
+  const renameFocus = useFocusedFormScroll(editing);
   async function loadRows() {
     const registered = signedIn ? (await conversationApi.list()).conversations : [];
     const guestRows = isLidia ? (await guestConversationApi.list().catch(() => ({ conversations: [] }))).conversations.filter(c => c.protocol === "v2") : [];
@@ -185,9 +188,7 @@ export function ConversationList({ kind, onContact }) {
         </p>
       )}
       {loading && (
-        <p role="status" className="muted messages-feedback">
-          Actualizando conversaciones…
-        </p>
+        <ChatLoading label={rows.length ? "Actualizando conversaciones…" : "Cargando conversaciones…"} compact={rows.length > 0} />
       )}
       {!loading && !error && !matches.length && (
         <p role="status" className="messages-empty">
@@ -301,6 +302,7 @@ export function ConversationList({ kind, onContact }) {
                   <label>
                     <span>Nombre de la conversación</span>
                     <input
+                      {...renameFocus}
                       autoFocus
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}

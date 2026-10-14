@@ -223,3 +223,8 @@ La aplicación que se publica se llama **Gestadia APP**. LidIA es el servicio de
 El usuario confirma transferencia de configuración/claves al servidor, acceso del backend y corte Plesk después de verificar copias, y exige backup antes de cualquier cambio o borrado. El bind actual de documentos es almacenamiento permanente del host: recrear/actualizar contenedores no debe eliminarlo. Nunca sustituirlo por una carpeta creada vacía ni seleccionar eliminación de volúmenes/datos al actualizar el stack. Portainer confirma el patrón de binds del servidor en LidIA Gestadia (/var/lib/lidia-stacks/gestadia-pro/App_Data y Logs) y volumen nombrado de audios en LIA. Las 14 referencias antiguas se conservan, aunque el usuario cree que eran pruebas.
 
 Actualización frontend del 10/10 a las 11:03 UTC: APP y web/Portal be6806d publicados sin demostración, backend b42ce6a conservado. El stack gestadia-common y los dos proxies existentes siguen operativos; verificaciones públicas y navegador acreditadas en ESTADO-APP-PORTAL-DOCKER.md.
+
+
+### Regresión del proxy de contacto — 11/10/2026
+
+El Dockerfile APP usa ahora `common.conf.template` por defecto, acorde con el backend común. La plantilla antigua no incluía `/api/app/contact/(context|chat|callback)` y devolvía404. Verificar cada imagen con `GESTADIA_MANAGER_TEST_IMAGE=gestadia-app:<revision> node --test deploy/app/manager-proxy.test.mjs`: prueba HTTP local y bloqueos, sin acceso a producción. [Evidencia](evidencias/2026-10-11-gestor-carga/README.md).

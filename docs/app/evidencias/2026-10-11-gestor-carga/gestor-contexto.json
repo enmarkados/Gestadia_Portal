@@ -1,0 +1,7 @@
+{
+  "http": 200,
+  "body": {
+    "base64Encoded": false,
+    "body": "{\"kind\":\"call\"}"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "source_repository": "Gestadia_LidIA",
+  "source_path": "docs/integraciones/fixtures/app-appointment-receipts-723",
+  "delivery_date": "2026-10-11",
+  "source_commit": "pending final delivery commit",
+  "files": {
+    "v2-operation-receipt.json": "fbd0c102f6b2dcc59b8533678c47fd950ec679bc41ad6ba81672c3a8771ece65",
+    "app-v1-dtos.schema.json": "4151ef56af4c24033792d0cb7327bd5e092260a5d933d500014f82bd6536897f",
+    "app-v2-responses.schema.json": "c7150b2406586704e3af1d37c5b00146449e3f4247fb4ad896e78a76a86c532b",
+    "v2-receipt-lookup.json": "cc3fb640da58e58de5e34e0e9cb02f47265bd45667be81b33b2ed75fc2804582",
+    "v1-receipt-lookup.json": "2a89d21f788440df0497450058a514abc5c6068fd374a37e10671168666facb9"
+  },
+  "scope": "Immutable received fixtures; not real appointment evidence"
+}

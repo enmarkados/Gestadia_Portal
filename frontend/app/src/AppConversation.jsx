@@ -1,5 +1,6 @@
 import { guestConversationApi,guestInstallation } from "./guestConversations.js";
 import DeliveryTicks from "./DeliveryTicks.jsx";
+import LidiaTypingIndicator from "./LidiaTypingIndicator.jsx";
 import { useMessageMotion } from "./motion.jsx";
 import { useMessageReceipts } from "./useMessageReceipts.js";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
@@ -15,8 +16,11 @@ import {
   conversationsEnabled,
 } from "./conversationApi.js";
 import ChatComposer from "./ChatComposer.jsx";
+import ChatLoading from "./ChatLoading.jsx";
+import { useComposerAutoScroll } from "./useComposerAutoScroll.js";
 const pendingStatuses = new Set(["prepared", "outcome_unknown"]);
 const messages = {
+  runtime_unavailable: "El servicio no está disponible ahora. Puedes volver a intentarlo más tarde.",
   guest_session_expired: "La sesión sin registro ha caducado. Puedes empezar una nueva consulta desde LidIA.",
   binding_in_progress: "Estamos vinculando tu conversación. Espera a que termine el envío y vuelve a cargarla.",
   routing_unavailable:
@@ -33,6 +37,11 @@ const messages = {
   operation_retired: "El detalle de esta operación ya no está disponible.",
   conversation_closed: "Esta conversación está cerrada.",
 };
+export function assistantMessageParts(message) {
+  if (message.role !== "assistant" || !/\[SPLIT\]/i.test(message.text)) return [message.text];
+  const parts = message.text.split(/\[SPLIT\]/i).map(part => part.trim()).filter(Boolean);
+  return parts.length ? parts : [message.text];
+}
 export default function AppConversation({ purpose = "sondeo" }) {
   const { mode, data } = useApp();
   const [search] = useSearchParams();
@@ -81,6 +90,7 @@ function ConversationBody({ purpose, guest }) {
     stateRevision = useRef("0"),
     terminalReceipts = useRef(new Set()),
     end = useRef(null);
+  const composerScroll = useComposerAutoScroll(end, conversation?.id);
   const showError = (e) => {
     setAwaitingTurn(null);
     setError(
@@ -267,9 +277,20 @@ function ConversationBody({ purpose, guest }) {
       clearTimeout(timer);
     };
   }, [conversation?.id, conversation?.ready, userId, mode]);
+  const animatedMessages = useMessageMotion(items, !!timeline && !timeline.has_more);
+  const scrolledMessages = useRef(new Set());
   useEffect(() => {
-    end.current?.scrollIntoView?.({ block: "end" });
-  }, [items.length]);
+    // Wait for the layout effect to mark new arrivals before choosing how to
+    // reveal them. History is positioned directly; live replies move smoothly.
+    const frame = requestAnimationFrame(() => {
+      const fresh = [...animatedMessages].some(id => !scrolledMessages.current.has(id));
+      animatedMessages.forEach(id => scrolledMessages.current.add(id));
+      end.current?.scrollIntoView?.({
+        block: "end", behavior: fresh ? "smooth" : "auto",
+      });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [items.length, animatedMessages]);
   async function begin() {
     if (busyRef.current) return;
     const version = generation.current;
@@ -303,6 +324,7 @@ function ConversationBody({ purpose, guest }) {
       busyRef.current ||
       pending ||
       !conversation?.ready ||
+      !canSend ||
       timeline?.conversation_status === "closed"
     )
       return;
@@ -484,8 +506,7 @@ function ConversationBody({ purpose, guest }) {
     api,
     enabled: allowed && conversation?.ready && timeline?.permissions?.includes("history"),
   });
-  const animatedMessages = useMessageMotion(items, !!timeline && !timeline.has_more);
-  if (allowed && !userId) return <p role="status">Cargando tu cuenta…</p>;
+  if (allowed && !userId) return <ChatLoading label="Cargando tu cuenta…" />;
   if (!allowed)
     return (
       <section className="empty">
@@ -501,7 +522,9 @@ function ConversationBody({ purpose, guest }) {
             const next = new URLSearchParams(search); next.set("invitado", "1");
             if (!next.get("conversacion") && !next.get("nueva")) next.set("nueva", crypto.randomUUID());
             setSearch(next, { state: location.state, replace: true });
-          } catch { setError("No se pudo abrir la conversación sin registro. Inténtalo de nuevo con conexión."); }
+          } catch (error) { setError(error.code === "runtime_unavailable"
+            ? "La conversación con LidIA sin registro no está disponible ahora. Puedes volver a intentarlo más tarde."
+            : messages[error.code] || "No se pudo abrir la conversación sin registro. Puedes volver a intentarlo."); }
           finally { setBusy(false); }
         }}>{busy ? "Abriendo…" : "Continuar sin registro"}</button>
         {error && <p className="error" role="alert">{error}</p>}
@@ -509,6 +532,7 @@ function ConversationBody({ purpose, guest }) {
     );
   const closed = timeline?.conversation_status === "closed",
     permissions = timeline?.permissions || [];
+  const canSend = permissions.some(p => ["sondeo", "manager_handoff", "commercial_handoff", "support_handoff"].includes(p));
   const human =
     purpose === "atencion" ||
     ["assigned", "in_support"].includes(timeline?.support?.status);
@@ -536,7 +560,7 @@ function ConversationBody({ purpose, guest }) {
           </button>
         </div>
       )}
-      {bootstrapping && !error && <p role="status">Cargando conversación…</p>}
+      {(bootstrapping || (!conversation && busy)) && !error && <ChatLoading label="Cargando conversación…" />}
       {!conversation && !error && !bootstrapping && (
         <div className="card empty">
           <h2>
@@ -555,11 +579,12 @@ function ConversationBody({ purpose, guest }) {
         </div>
       )}
       <div className="conversation" aria-live="polite">
-        {items.map((m) => (
+        {items.flatMap((m) => assistantMessageParts(m).map((text, part) => (
           <div
             data-motion-new={animatedMessages.has(m.message_id) || undefined}
+            style={animatedMessages.has(m.message_id) ? { "--message-enter-delay": `${Math.min(part, 4) * 80}ms` } : undefined}
             className={`bubble ${m.role === "user" ? "user" : m.role === "operator" ? "manager" : "assistant"}`}
-            key={m.message_id}
+            key={`${m.message_id}:${part}`}
             data-message-id={m.message_id}
           >
             {m.role === "assistant" ? (
@@ -578,17 +603,10 @@ function ConversationBody({ purpose, guest }) {
                       ? "Tu gestor"
                       : "Gestadia"}
                 </strong>
-                <span className="bubble-time">
-                  {new Date(m.occurred_at).toLocaleTimeString("es-ES", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </span>
               </div>
             )}
-            <p>{m.text}</p>
-            {m.role === "user" && <div className="bubble-delivery"><DeliveryTicks receipt={messageReceipts[m.message_id]} /></div>}
-            {m.presentation && (
+            <p>{text}</p>
+            {m.presentation && part === assistantMessageParts(m).length - 1 && (
               <div className="stack">
                 <strong>{m.presentation.title}</strong>
                 {m.presentation.description && (
@@ -602,6 +620,7 @@ function ConversationBody({ purpose, guest }) {
                         busy ||
                         !!pending ||
                         closed ||
+                        !canSend ||
                         !a.enabled ||
                         Date.parse(a.expires_at) <= Date.now() ||
                         Date.parse(m.presentation.expires_at) <= Date.now()
@@ -623,13 +642,18 @@ function ConversationBody({ purpose, guest }) {
                 </div>
               </div>
             )}
+            <div className="bubble-delivery">
+              <time className="bubble-time" dateTime={m.occurred_at}>
+                {new Date(m.occurred_at).toLocaleTimeString("es-ES", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </time>
+              {m.role === "user" && <DeliveryTicks receipt={messageReceipts[m.message_id]} />}
+            </div>
           </div>
-        ))}
-        {writing && (
-          <p className="lidia-typing" role="status" aria-label="LidIA está escribiendo">
-            <em>LidIA está escribiendo<span className="lidia-typing-dots" aria-hidden="true"><span>.</span><span>.</span><span>.</span></span></em>
-          </p>
-        )}
+        )))}
+        <LidiaTypingIndicator active={!!writing} />
       </div>
       {["assigned", "in_support"].includes(timeline?.support?.status) &&
         timeline.support.operator_display_name && (
@@ -652,6 +676,12 @@ function ConversationBody({ purpose, guest }) {
           }}>Nueva conversación</button>}
         </div>
       )}
+      {!closed && conversation?.ready && timeline && !canSend && (
+        <div className="card" role="status">
+          <p>Puedes consultar el historial. El envío de mensajes no está habilitado en esta conversación.</p>
+          {purpose === "atencion" && <p>Usa «Solicitar llamada» para contactar con Gestadia.</p>}
+        </div>
+      )}
       {pending && !(busy && pending.turn_id) && (
         <div className="card" role="status">
           <p>
@@ -665,7 +695,7 @@ function ConversationBody({ purpose, guest }) {
           </button>
         </div>
       )}
-      {!closed && conversation?.ready && !pending && (
+      {!closed && conversation?.ready && canSend && !pending && (
         <>
           <div className="chips">
             {["manager", "commercial", "support"]
@@ -690,6 +720,7 @@ function ConversationBody({ purpose, guest }) {
           {composerHost ? (
             createPortal(
               <ChatComposer
+                {...composerScroll}
                 value={input}
                 onChange={setInput}
                 onSend={() => {
@@ -709,6 +740,7 @@ function ConversationBody({ purpose, guest }) {
             )
           ) : (
             <ChatComposer
+              {...composerScroll}
               value={input}
               onChange={setInput}
               onSend={() => {

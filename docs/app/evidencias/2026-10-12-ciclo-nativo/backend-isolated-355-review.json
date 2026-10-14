@@ -1,0 +1,25 @@
+{
+  "source_database_modified": false,
+  "isolated_database": "gestadia_app_test",
+  "fresh_database": true,
+  "api_s2s_runtime_changed": false,
+  "migrations_exit": 0,
+  "migrations_summary": [],
+  "backend_exit": 0,
+  "backend_summary": [
+    "ℹ tests 355",
+    "ℹ suites 0",
+    "ℹ pass 355",
+    "ℹ fail 0",
+    "ℹ cancelled 0",
+    "ℹ skipped 0",
+    "ℹ duration_ms 30552.15625"
+  ],
+  "disposable_cleanup_exit": 0,
+  "backend_passed": 355,
+  "backend_failed": 0,
+  "backend_log_sha256": "d71b0ebeb0dd8682408d4e4c06d1c73c479c381fee3e8a7e1fbac73e70fb3ba5",
+  "source_revision": "aa14ab5",
+  "product_revision": "c6530f6a20a134feb96de7bb15b9f89ee4af6975",
+  "native_cycles_complete": false
+}

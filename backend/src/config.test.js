@@ -39,3 +39,35 @@ test('STRIPE_MODE selecciona las claves dev o pro', async () => {
   const def = (await import('./config.js?t=' + Date.now() + 'c')).config;
   assert.equal(def.stripe.mode, 'pro');
 });
+
+test('perfil firmado exige opt-in independiente de cada integración',async()=>{
+ const {appConversationConfig}=await import('./config.js');
+ const off=appConversationConfig({APP_CONVERSATIONS_ENABLED:'true'});
+ assert.equal(off.profileContext,false);assert.equal(off.nativeSondeo.profileContext,false);
+ const general=appConversationConfig({APP_LIDIA_PROFILE_CONTEXT_ENABLED:'true'});
+ assert.equal(general.profileContext,true);assert.equal(general.nativeSondeo.profileContext,false);
+ const sondeo=appConversationConfig({APP_LIDIA_SONDEO_PROFILE_CONTEXT_ENABLED:'true'});
+ assert.equal(sondeo.profileContext,false);assert.equal(sondeo.nativeSondeo.profileContext,true);
+});
+
+test('agenda acotada queda apagada por defecto y no amplía sondeo', async () => {
+ const {appConversationConfig}=await import('./config.js');
+ const cfg=appConversationConfig({});
+ assert.equal(cfg.callbackAccess?.enabled,false);
+ assert.equal(cfg.callbackAccess?.scope,null);
+ assert.deepEqual(cfg.nativeSondeo.allowedPermissions,['sondeo','history']);
+});
+test('agenda exige ámbito cerrado con cuenta conversación integración y caducidad', async () => {
+ const {appConversationConfig}=await import('./config.js');
+ const scope={portal_user_id:'11111111-1111-4111-8111-111111111111',conversation_id:'22222222-2222-4222-8222-222222222222',integration_id:'native',expires_at:'2026-10-12T00:00:00.000Z'};
+ for(const value of [undefined,'{}','null','[]','invalid',JSON.stringify({...scope,conversation_id:'*'}),JSON.stringify({...scope,integration_id:123}),JSON.stringify({...scope,expires_at:'not-a-date'}),JSON.stringify({...scope,zohoContactId:'123'})]) {
+  assert.throws(()=>appConversationConfig({APP_LIDIA_CALLBACK_ENABLED:'true',APP_LIDIA_CALLBACK_SCOPE_JSON:value}),e=>e.code==='runtime_unavailable');
+ }
+ const cfg=appConversationConfig({APP_LIDIA_CALLBACK_ENABLED:'true',APP_LIDIA_CALLBACK_SCOPE_JSON:JSON.stringify(scope),APP_LIDIA_INTEGRATION_ID:'old',APP_LIDIA_SONDEO_INTEGRATION_ID:'native'});
+ assert.equal(cfg.callbackAccess.enabled,true);
+ assert.deepEqual(cfg.callbackAccess.scope,scope);
+ assert.deepEqual(cfg.nativeSondeo.allowedPermissions,['sondeo','history','crm_prepare','callback_schedule']);
+ const off=appConversationConfig({APP_LIDIA_CALLBACK_SCOPE_JSON:JSON.stringify(scope)});
+ assert.equal(off.callbackAccess.enabled,false);
+ assert.deepEqual(off.nativeSondeo.allowedPermissions,['sondeo','history']);
+});

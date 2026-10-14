@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-12T21:28:48.767679+00:00",
+  "status": "prepared_read_only_export_reviewed_not_executed",
+  "sourceThread": "01a1071b-1f23-7101-afd4-13935b20bd04",
+  "files": [
+    {
+      "path": "Program.cs",
+      "sha256": "c1ba9bdb82eff3c27a273b33a1eb10bf725c1d80358e1c7d50bd969004f91f0a"
+    },
+    {
+      "path": "Exporter.cs",
+      "sha256": "b4e7eaa15ca1ccd13b14142b11dca2290d326598d627e3ede7e943cbbcd84d32"
+    },
+    {
+      "path": "Shape.cs",
+      "sha256": "2649ae59ae3addbe665006e6556989563af79d7c55a843d248019fe3164747d5"
+    },
+    {
+      "path": "QueryGate.cs",
+      "sha256": "91364503e8985a68996b87614e2461d31927c9e1aaa087153724f0b188fef7d4"
+    },
+    {
+      "path": "ReadOnlyFactory.cs",
+      "sha256": "072da55533eba1e9f22e23e78ee1743cc47d7bc6ab76aad9cfde07706ccff1be"
+    },
+    {
+      "path": "ConfigurationCapture.cs",
+      "sha256": "8ec2c96cb314691f16589d9b3518df18752f9989a92fb2488fb7d50dbb2d66fb"
+    },
+    {
+      "path": "SafeFailure.cs",
+      "sha256": "02e0ecf896391a9c579ea976febb229a326552b8d25eda2452dcac6d5a06e708"
+    },
+    {
+      "path": "package/stage-and-export.sh",
+      "sha256": "0590471af8f1a1ed64e7acfabb3b5432edbe8757346853f401c163a56ac26c07"
+    },
+    {
+      "path": "package/stage-and-export.sh.gz.b64",
+      "sha256": "b9b282d389cd767df2278c0485b4f00695e34c88da60e864d49976b37787d260"
+    },
+    {
+      "path": "package/payload.tgz",
+      "sha256": "096a132ee7b446f93d2eef5a644823a71bdecf25c64dd8ca7230a27b1a89d652"
+    },
+    {
+      "path": "tests/offline.log",
+      "sha256": "9ff51aa4cf994dae56bd833d1aeb811db0fb7c6c326652cdd99fd66257a7c9d4"
+    },
+    {
+      "path": "tests/preflight.log",
+      "sha256": "ccd4ed9b971edc534ad7b9a44cde222e024fedd336772e0f173d74ca96144005"
+    }
+  ],
+  "offlinePassCount": 51,
+  "nativePreflightReported": "PRO119_NATIVE_PREFLIGHT_PASS_4_SAVES_BLOCKED_NO_DB_NO_HTTP",
+  "decodeAndPayloadIndependentlyVerified": true,
+  "shellSyntaxPassed": true,
+  "reviewDecision": "Conforme para una lectura del119PRO en el CID acreditado/UID1654, con pins y datos mínimos; no importación ni activación.",
+  "initialFingerprintPinVerified": false,
+  "fingerprintToBeObservedAsProvenance": true,
+  "appConfigInitialAndFinalPin": "abd00800b8bc6bdbed8371f2dbcb3b8610ef9b658847465451c4d6fb26588d2c",
+  "snapshotReceived": false,
+  "runtimeCachesProviderAndGenerationStillPending": true,
+  "crmAndAppS2sQaActive": false,
+  "nativeCyclePassed": false
+}

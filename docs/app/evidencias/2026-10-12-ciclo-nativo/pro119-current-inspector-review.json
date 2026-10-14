@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-12T22:20:43.151949+00:00",
+  "status": "minimal_current_metadata_reviewed_not_executed",
+  "codeScope": "Tres SQL constantes, IDs119/122 y refs de instrucción/proyecto; no Content entregado, sólo CHAR_LENGTH y SHA2 UTF8.",
+  "rawVersionWithoutUiPrefix": true,
+  "offlineChecks": 31,
+  "nativePreflightReported": "3metadataqueries/4Saveguards/noDB/noHTTP",
+  "transportAndPayloadIndependentlyMatched": true,
+  "transportSha256": "066c7aa9476496c441963dc84ce59f6cecace37ea529240fa7c2a9c34881da61",
+  "scriptSha256": "fa4006dfab93a28b187ed1a8156d6412cfcb83692b1ed92d0afb2859f65bcd01",
+  "payloadSha256": "e20f769ee21c85b74632e24a64c53a58ac2702edf4d1bd67f8511efc9a28b1fd",
+  "files": {
+    "Pro119CurrentInspector.dll": "04066363025d06cb4d58ebf6b093b3c58be2f679f4de73f992ad27cc7b70a870",
+    "Pro119CurrentInspector.deps.json": "115612c3a7065d47dbc3697a57f4b4ea6fde323ab3a4fa7cc806d0c54fe61a32",
+    "Pro119CurrentInspector.runtimeconfig.json": "3f8ba25fbf7f815e8d280c0d7bd319d8a6153665989cec0cf5a057c37ed3458d"
+  },
+  "decision": "Conforme para una lectura mínima por Ops; no snapshot funcional, importación ni activación.",
+  "actualMetadataReceived": false,
+  "equivalence119122Accredited": false,
+  "nativeCyclePassed": false
+}

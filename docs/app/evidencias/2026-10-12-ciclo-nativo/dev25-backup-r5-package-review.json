@@ -1,0 +1,18 @@
+{
+  "reviewedAt": "2026-10-12T23:11:45.370324+00:00",
+  "serverExecutedByReview": false,
+  "nativeCyclePassed": false,
+  "physicalInstallPerformed": false,
+  "status": "current_backup_package_conforming",
+  "targetTables": 198,
+  "targetEfHistory": 260,
+  "mappingRows": "Observe and compare; no zero assumption",
+  "targetRuntimeSha256": "094179482515164d3fa94f6877ed3b7db51b7920722ebe1e501d80c27d04fb6e",
+  "transportSha256": "f1096cade8db6272b1162be976ed1ffc00dac96d50f39a35b08b055d53f41217",
+  "helperSha256": "c11c9c611a9b1dd8f280a2ba44c34ba31f180e31efbf2072f91f252513c126ff",
+  "offlineGuards": 22,
+  "restorePinTests": 8,
+  "appEnvironment": "Exact AppConversations__Enabled=false; other overrides rejected",
+  "previous188BackupPreserved": true,
+  "conformance": "New backup directory and isolated restore; no runtime/env changes. R4 rejected before execution for incorrectly requiring every APP override absent."
+}

@@ -1,0 +1,32 @@
+{
+  "manifest_sha256": "3d04ae5e57fa7e167ff5187a22950293a72a899e23cb3e98352ecf2b31addab3",
+  "helper_sha256": "a1e51321374a7c829953dff49add22280413191a84323ecf80c7cad24c04b268",
+  "guide_sha256": "5d0f149752f538cd6757aff8f6eb0a9bb8571a656c212445724f2104cbe129f3",
+  "metadata_sha256": "0649b991ead42f17e0b5b9d97768b10f1b2602055eda410ea04d48fe12bdb8ee",
+  "original_hashes_verified": 55,
+  "summary": [
+    "OFFLINE_RESULT passes=146 failures=0"
+  ],
+  "prior_copy_result": "144/2 Country fixture relative path only",
+  "adaptation": "copy only native HintPath, native test path and Country fixture path; product C# bytes exact",
+  "payload_sha256": "252bede94e1d9e11f5bfd1f04180c158a640d85009857cdd2e1040af7cf11288",
+  "payload_members": 4,
+  "payload_uid_gid": 1654,
+  "payload_mode": "0600",
+  "shell_checks": [
+    0,
+    0
+  ],
+  "carrier_roundtrip": true,
+  "scope": "stage/preflight only",
+  "server_executed": false,
+  "app_enabled": false,
+  "native_cycles_complete": false,
+  "status": "reviewed_candidate_stage_preflight_only",
+  "producer_checks": {
+    "passed": 28,
+    "failed": 0
+  },
+  "service_environment_projection_raw_sha256": "fc02fec79ad7aaf0eb7f2bc14a50faa365f9d8de190afdfef32a937d76a67b4f",
+  "effective_runtime_projection_verified": false
+}

@@ -1,0 +1,14 @@
+{
+  "status": "domain_probe_and_container_logs_correlated",
+  "domain": "https://dev-lidia.gestadia.com",
+  "observedUtc": "2026-10-13T16:54:02Z",
+  "httpStatus": 200,
+  "responseSha256": "ab73b6ee0b2a5f2af32743e0301da796ded16535edade97f4ac590097662a71d",
+  "filteredLogsSha256": "62106b1ce4988264d37c23f6158f468d615ee45056533b8a9f6c50955d0f57c4",
+  "sameHostAndProbeInLogs": true,
+  "portainerContainerNameObserved": "lidia-app-gestadia-dev",
+  "cidAndStackAttribution": "Ops observed CID462d/stack25; combined runtime pins still required",
+  "priorMetadataPreserved": true,
+  "appEnabled": false,
+  "activationPerformed": false
+}

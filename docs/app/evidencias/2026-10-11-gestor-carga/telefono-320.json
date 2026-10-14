@@ -1,0 +1,13 @@
+{
+  "dialog": {
+    "bottom": 200,
+    "height": 184,
+    "top": 16
+  },
+  "phone": {
+    "bottom": 131.09375,
+    "top": 85.09375
+  },
+  "scroll": 234.5,
+  "visible": true
+}

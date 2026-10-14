@@ -1,0 +1,188 @@
+- navigation "Main":
+  - link "Logo":
+    - /url: "#!/home"
+    - img "Logo"
+  - button "Toggle Sidebar":
+  - list:
+    - listitem "Home":
+      - link:
+        - /url: "#!/home"
+    - listitem "local":
+      - generic "local":
+    - navigation "local":
+      - list:
+        - listitem "Dashboard":
+          - link:
+            - /url: "#!/3/docker/dashboard"
+        - button:
+          - link:
+            - /url: "#!/3/docker/templates"
+        - listitem "Stacks":
+          - link:
+            - /url: "#!/3/docker/stacks"
+        - listitem "Containers":
+          - link:
+            - /url: "#!/3/docker/containers"
+        - listitem "Images":
+          - link:
+            - /url: "#!/3/docker/images"
+        - listitem "Networks":
+          - link:
+            - /url: "#!/3/docker/networks"
+        - listitem "Volumes":
+          - link:
+            - /url: "#!/3/docker/volumes"
+        - listitem "Events":
+          - link:
+            - /url: "#!/3/docker/events"
+        - button:
+          - link:
+            - /url: "#!/3/docker/host"
+    - navigation "Additional Functionality":
+      - list:
+        - listitem "Alerting":
+          - link:
+            - /url: "#!/alerting"
+    - navigation "Administration":
+      - list:
+        - button:
+          - link:
+            - /url: "#!/users"
+        - button:
+          - link:
+            - /url: "#!/endpoints"
+        - listitem "Registries":
+          - link:
+            - /url: "#!/registries"
+        - listitem "Licenses":
+          - link:
+            - /url: "#!/licenses"
+        - button:
+          - link:
+            - /url: "#!/auth-logs"
+        - listitem "Notifications":
+          - link:
+            - /url: "#!/notifications"
+        - button:
+          - link:
+            - /url: "#!/settings"
+- link "Containers":
+  - /url: "#!/3/docker/containers"
+- text: ">"
+- link "gestadia-restore-manager-readonly-20261011-database-1":
+  - /url: "#!/3/docker/containers/830cefe248f25a634d777d8be087deb32470f6909d4e98f1ca08e5cb52e1f604"
+- text: ">Logs"
+- heading "Container logs" [level=1]
+- button "Refresh page":
+- link "Ask AI":
+  - /url: https://www.portainer.io/ask-the-ai
+- button "Notifications menu toggle":
+- link "Documentation":
+  - /url: https://docs.portainer.io/lts/user/docker/containers
+- button "User menu toggle":
+  - generic: gonzalo
+- region "Logs":
+  - heading "Logs" [level=2]
+  - textbox "Search input":
+    - /placeholder: Search...
+  - button [disabled]:
+  - checkbox
+  - generic: Filter search results
+  - button "Copy":
+    - generic: Copy
+  - button "Download logs":
+    - generic: Download logs
+  - spinbutton: "2026"
+  - generic: /
+  - spinbutton: "10"
+  - generic: /
+  - spinbutton: "11"
+  - generic: "0"
+  - spinbutton: "5"
+  - generic: ":"
+  - spinbutton: "20"
+  - generic: ":"
+  - spinbutton: "23"
+  - combobox:
+    - option "AM" [disabled]
+    - option "PM" [selected]
+  - generic: –
+  - spinbutton
+  - generic: /
+  - spinbutton
+  - generic: /
+  - spinbutton
+  - spinbutton
+  - generic: ":"
+  - spinbutton
+  - generic: ":"
+  - spinbutton
+  - combobox:
+    - option "--" [selected]
+    - option "AM"
+    - option "PM"
+  - button:
+  - button:
+  - generic: Lines
+  - spinbutton: "1000"
+  - button "Line numbers":
+    - text: Line numbers
+  - button "Timestamp":
+    - text: Timestamp
+  - button "Wrap lines":
+    - text: Wrap lines
+  - button "Auto refresh"
+  - button "Refresh" [disabled]:
+  - button "Full screen" [disabled]:
+  - generic: "1"
+  - generic: 45 94 14 13
+  - generic: "2"
+  - generic: gestadia_portal_db.AccountDeletionRequest OK
+  - generic: "3"
+  - generic: gestadia_portal_db.AccountDeletionReview OK
+  - generic: "4"
+  - generic: gestadia_portal_db.AppCallbackRequest OK
+  - generic: "5"
+  - generic: gestadia_portal_db.AppConversation OK
+  - generic: "6"
+  - generic: gestadia_portal_db.AppConversationAccess OK
+  - generic: "7"
+  - generic: gestadia_portal_db.AppDeviceSession OK
+  - generic: "8"
+  - generic: gestadia_portal_db.AppGuestBinding OK
+  - generic: "9"
+  - generic: gestadia_portal_db.AppGuestConversation OK
+  - generic: "10"
+  - generic: gestadia_portal_db.AppGuestInstallation OK
+  - generic: "11"
+  - generic: gestadia_portal_db.AppGuestOperation OK
+  - generic: "12"
+  - generic: gestadia_portal_db.AppOperation OK
+  - generic: "13"
+  - generic: gestadia_portal_db.AuthSession OK
+  - generic: "14"
+  - generic: gestadia_portal_db.CheckoutIntent OK
+  - generic: "15"
+  - generic: gestadia_portal_db.Documento OK
+  - generic: "16"
+  - generic: gestadia_portal_db.EventoExpediente OK
+  - generic: "17"
+  - generic: gestadia_portal_db.Expediente OK
+  - generic: "18"
+  - generic: gestadia_portal_db.LidiaEvento OK
+  - generic: "19"
+  - generic: gestadia_portal_db.Notificacion OK
+  - generic: "20"
+  - generic: gestadia_portal_db.PushDelivery OK
+  - generic: "21"
+  - generic: gestadia_portal_db.PushDevice OK
+  - generic: "22"
+  - generic: gestadia_portal_db.SocialAuthAttempt OK
+  - generic: "23"
+  - generic: gestadia_portal_db.SocialIdentity OK
+  - generic: "24"
+  - generic: gestadia_portal_db.User OK
+  - generic: "25"
+  - generic: gestadia_portal_db._prisma_migrations OK
+  - generic: "26"
+  - generic: "RESTORE PASS: copia SQL restaurada sin red y sin modificar producción"

@@ -1,0 +1,13 @@
+{
+  "reviewedAt": "2026-10-13T00:04:44.015582+00:00",
+  "status": "one_layout_readonly_package_conforming",
+  "offlineTestsPassed": 56,
+  "packageChecks": 38,
+  "helperSha256": "0c593f91dc9d68df45ce1c648b58c29044a4a418c8528a8d2116213dfe9e5334",
+  "transportSha256": "4bfe83aa2f50b5b1182a18750bf898e48dbe1a3b777c0656f3578a074720ac52",
+  "url": "https://www.zohoapis.eu/crm/v8/settings/layouts/588164000000032043?module=Deals",
+  "projection": "Only exact Servicio field and options/section provenance; equal duplicate definitions or ambiguous-closed; selectednull.",
+  "conformance": "Stage/preflight and one readonly GET with actual token lifetime greater than5min, same runtime/context pins. No old inspect replay, users/customers/CRUD/refresh or new scopes.",
+  "remoteExecutedByReview": false,
+  "nativeCyclePassed": false
+}

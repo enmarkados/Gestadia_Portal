@@ -1,0 +1,68 @@
+{
+  "reviewedAt": "2026-10-12T23:28:05.982981+00:00",
+  "status": "original_metadata_reviewed_partial",
+  "originalBytes": 17862,
+  "originalSha256": "226dfb7bc631f4a882c15708dd858977c66208d89920cdf729e3cd53bd463aef",
+  "observedUtc": "2026-10-12T23:21:10.9770550+00:00",
+  "requestCount": 7,
+  "endpointReceipts": [
+    {
+      "endpoint_key": "org",
+      "http_status": 401,
+      "status": "api_denied_or_error",
+      "safe_code": "OAUTH_SCOPE_MISMATCH"
+    },
+    {
+      "endpoint_key": "users",
+      "http_status": 200,
+      "status": "metadata_observed"
+    },
+    {
+      "endpoint_key": "fields-contacts",
+      "http_status": 200,
+      "status": "metadata_observed"
+    },
+    {
+      "endpoint_key": "fields-deals",
+      "http_status": 200,
+      "status": "metadata_observed"
+    },
+    {
+      "endpoint_key": "layouts-contacts",
+      "http_status": 200,
+      "status": "metadata_observed"
+    },
+    {
+      "endpoint_key": "layouts-deals",
+      "http_status": 200,
+      "status": "metadata_observed"
+    },
+    {
+      "endpoint_key": "pipeline-0",
+      "http_status": 200,
+      "status": "metadata_observed"
+    }
+  ],
+  "integracionesCrmUser": {
+    "exactEmailFound": false,
+    "pageComplete": true,
+    "pageSize": 21,
+    "selectedUserId": null
+  },
+  "contactsRequiredFields": [
+    "Last_Name"
+  ],
+  "dealsRequiredFields": [
+    "Deal_Name",
+    "Servicio",
+    "Pipeline",
+    "Stage"
+  ],
+  "managerCandidateFieldObserved": "Gestor_encargado userlookup; semantics/value not yet accredited",
+  "portalAdapterCurrentField": "Owner.id/name after Contact_Name relation check",
+  "conformance": "No automatic OAuth expansion, Zoho user creation or identity inference. Prepare explicit own QA Contact/Deal and reviewed routing alternative with real CRM ownership.",
+  "crmRecordsCreated": false,
+  "grantsCreated": false,
+  "nativeManagerCyclePassed": false,
+  "privateOriginalSavedOutsideGit": true
+}

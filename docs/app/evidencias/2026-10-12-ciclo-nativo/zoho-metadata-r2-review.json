@@ -1,0 +1,20 @@
+{
+  "reviewedAt": "2026-10-12T23:11:45.370324+00:00",
+  "serverExecutedByReview": false,
+  "nativeCyclePassed": false,
+  "physicalInstallPerformed": false,
+  "status": "readonly_metadata_package_conforming",
+  "revision": "R2",
+  "humanZohoEnvironment": "Production",
+  "metadataSha256": "b9679dce29386f34199bd2c7c4a80057dca86fc72db893fbcc0f8d765f7e8ae2",
+  "transportSha256": "03a387b9d4b9a98e47ef8abab3ede4cbe162660bb7fb92a3fbe5e1d7ac4cf966",
+  "helperSha256": "0516a9987317e8fac6fb3621880190b7a93a9820e670edbc0a9dcfea3cc7306a",
+  "offlineAssertions": 63,
+  "globalDeadlineMinutes": 5,
+  "requestDeadlineSeconds": 20,
+  "bodyAndDatabaseCancellation": true,
+  "endpoints": "Organisation, exact Integraciones user, Contacts/Deals fields/layouts and nonterminal pipeline metadata",
+  "oauthRefresh": false,
+  "customerRecordWrites": false,
+  "conformance": "One readonly execution by Ops; no replay or new scope."
+}

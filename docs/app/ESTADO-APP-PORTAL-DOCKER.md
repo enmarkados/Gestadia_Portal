@@ -266,3 +266,33 @@ El usuario confirma que LIA_Pixel_9_API_36_CLEAN pertenece a otro chat: conserva
 Play interno Activo, lista Gestadia QA exclusiva; cliente OAuth Play creado y marca visible Google corregida a Gestadia. El usuario declara instalación/login iPhone de build1, todavía sin registro APNs en la última lectura. OAuth, APNs y publicación pública pendientes.
 
 Animaciones del otro chat integradas en 0344ea3, escritura y teclado en ee64f8d. Suite frontend 178/178; IPA 0.1.0 (2) exportado, firma estricta y assets/config conversacional verificados. Apple confirma subida y procesamiento de (2); declaración de cifrado guardada tras confirmación humana y grupo Gestadia QA asignado. Build (2) «En pruebas», disponible para actualizar. Apple aún muestra (1) instalada en el iPhone; movimiento y teclado físicos pendientes de aceptar. Play 0.1.0 (2) Activo y disponible para testers internos, sin instalación acreditada. No se atribuye movimiento a (1). Producción Docker continúa en las versiones anteriores; esta actualización nativa no implica redesplegar el backend. [Evidencia nueva y límites](evidencias/2026-10-11-actualizacion-movimiento/README.md).
+
+### Referencia recibida para el siguiente paquete
+
+Verificado en Git el merge app/main 9c2e62c (PR16, implementación 0096bff), descendiente de f7cf8ac. Leídos recorridos/configuración de esa revisión: acceso social existente por email verificado, sin alta OAuth, preferencias y revocación push pendiente, separación IA/gestores y guest deshabilitado por defecto. La entrega documenta 285 backend/191 frontend y arranque iOS Debug; no se repiten ni se atribuyen a un release firmado aquí. Aceptación DEV conectada, interacción nativa, proveedores reales y siguiente distribución pendientes. Build (2) conserva únicamente sus cambios previos. [Handoff con revisión posterior](HANDOFF-RECORRIDOS-MARKETPLACES-20261011.md).
+
+
+### Escritura animada y distribución (3) — 11/10/2026
+
+Usuario y TestFlight confirman (2) instalada. Fuente `dcbc47c` añade pulso del texto en cursiva y tres puntos secuenciales, respetando movimiento reducido; conserva la base funcional, animaciones y ajuste del teclado de (2). Suite frontend 178/178 y estilos efectivos verificados. IPA y AAB/APK build 3 firmados, hashes y configuración idéntica acreditados. Apple (3) procesada y «En pruebas» en Gestadia QA; Play (3) «Activo» y disponible para testers internos. Notas guardadas en ambos. [Evidencia y límites](evidencias/2026-10-11-escritura-animada/README.md). Instalación y aceptación de (3) en iPhone pendientes; OAuth/APNs y recorridos PR16 mantienen sus aceptaciones independientes. Sin cambios de servidor, documentos o base de datos ni nuevos emuladores.
+
+
+### Hora al pie y TestFlight (7) · 11/10/2026
+
+Fuente 599c6e9, 196 frontend correctos. Hora abajo derecha en LidIA y al lado izquierdo de ticks propios; pie posterior a presentaciones. Usuario confirma fluidez física de ambos tipos de mensajes en (6), instalada según Apple. APP Docker 599c6e9 saludable tras backup/restauración aislada message-footer-build7-20261011; backend cf68661 y Portal be6806d conservados. CSS nativo/web idéntico y 36 burbujas reales con hora al pie. Gestadia (7) procesada y «En pruebas» en Gestadia QA, notas guardadas; colocación física pendiente. Play interno conserva (3). [Evidencia y límites](evidencias/2026-10-11-hora-pie/README.md).
+
+## Revisión 11/10/2026 — carga, teléfono y chat antiguo
+
+APP `5febdf2` está desplegada en el stack 73, con backend `cf68661` y web/Portal `be6806d`; los tres servicios saludables. La configuración y los binds se conservan. El cambio anterior `eaaf71f` corrigió el proxy de contacto que devolvía 404, añadió carga GIF centrada con textos accesibles y adaptó la hoja al espacio del teclado.
+
+La cuenta de prueba conserva una conversación antigua de atención sin caso ni gestor asignado. El historial responde 200 y sólo concede `history`; un turno técnico es rechazado con `capability_denied`. La APP explica el estado, conserva historial, retira el compositor y desactiva acciones. La asignación del servicio se revisa en LidIA; no se amplían permisos ni se crea un destino ficticio.
+
+Nueva copia `manager-readonly-20261011`: SQL 271854 bytes, restauración sin red con 24 tablas correctas, 45 usuarios, 94 expedientes, 14 documentos y 13 migraciones. Configuración, claves y documentos idénticos. Sin migración ni borrado en esta revisión.
+
+204 pruebas frontend correctas, suite conversacional final 38/38, build APP y archivo/exportación iOS correctos; firma estricta válida. Gestadia **0.1.0 (10)** está **En pruebas** en Gestadia QA y las notas están guardadas. JS/GIF/PNG públicos y archivo iOS coinciden por SHA256. La (9) también fue procesada y activada. El iPhone todavía acredita instalada la (6): carga y teclado físicos pendientes de aceptación. Play conserva la (3). OAuth, APNs, agenda/CRM y publicación pública mantienen sus comprobaciones independientes. [Evidencia y capturas](evidencias/2026-10-11-gestor-carga/README.md).
+
+### Preparación adicional de backend — perfil firmado
+
+Contexto v1 de cuenta opcional preparado con flags apagados por integración, baseline/parche/revisión durables y retirada de permisos que conserva el mismo parche. Esquemas v1/v2/ACK iguales a artefactos LidIA; cinco vectores nuevos de firma exacta. Migración aditiva preparada y probada sólo en MySQL tmpfs local. **302 pruebas backend, 204 frontend y build APP correctos**; revisión independiente P1 corregido, sin nuevos hallazgos. [Evidencia](evidencias/2026-10-11-perfil-contexto/README.md).
+
+No desplegado: backend productivo cf68661, APP Docker5febdf2 y TestFlight(10) conservan su estado previo. No grants CRM/agenda, conexiones o nuevas solicitudes reales. Consumidor account de contexto v2 pendiente; runtime LidIA compatible y mapping Zoho deberán acreditarse antes de habilitar operaciones, con copia/restauración nuevas antes del despliegue.

@@ -6,6 +6,7 @@ import { AppS2SClientV2 } from './s2s.js';
 import { validateContractV2 } from './contracts.js';
 import { canonicalJson } from '../s2s.js';
 import { responseV2 } from './responses.js';
+import { validAppointmentReceipts } from '../appointment-receipts.js';
 import { receiptQuery, validateMessageSnapshotSemantics } from '../messageReceipts.js';
 const hash=value=>createHash('sha256').update(value).digest('hex');
 const bad=()=>{throw new AppProblem(400,'invalid_payload');};
@@ -73,7 +74,7 @@ export class AppGuestService {
   try {
    // Exact DTO/key are durable. Retrying never changes attestation, text, or action.
    const authority=isSession?{...this.authority(c),access_revision:'0'}:this.authority(c);
-   const r=await this.client.call(isSession?'app.sessions.write':'app.turns.write','POST',path,authority,o.request,{idempotencyKey:o.key,validateResponse:responseV2(isSession?'SessionAck':'Receipt',data=>isSession?data.conversation_subject_id===c.id&&data.actor===authority.actor&&data.access_revision==='1'&&permission(data):data.conversation_id===c.remoteId&&data.turn_id===o.request.turn_id&&data.operation==='turn')});
+   const r=await this.client.call(isSession?'app.sessions.write':'app.turns.write','POST',path,authority,o.request,{idempotencyKey:o.key,validateResponse:responseV2(isSession?'SessionAck':'Receipt',data=>isSession?data.conversation_subject_id===c.id&&data.actor===authority.actor&&data.access_revision==='1'&&permission(data):data.conversation_id===c.remoteId&&data.turn_id===o.request.turn_id&&data.operation==='turn'&&validAppointmentReceipts(data,{allow:false}))});
    // A revoked/expired credential or changed owner cannot apply a late response.
    await this.owned(actor,c.id);
    const updated=await this.db.$transaction(async tx=>{
@@ -108,7 +109,7 @@ export class AppGuestService {
  async timeline(actor,id,query){
   const c=await this.owned(actor,id);if(!c.remoteId)throw new AppProblem(409,'binding_in_progress');
   const kind=query.turn_id?'ReceiptLookup':'Timeline';
-  const r=await this.client.call('app.timeline.read','GET',`/sessions/${c.remoteId}/timeline`,this.authority(c),undefined,{query,validateResponse:responseV2(kind,d=>d.conversation_id===c.remoteId)});
+  const r=await this.client.call('app.timeline.read','GET',`/sessions/${c.remoteId}/timeline`,this.authority(c),undefined,{query,validateResponse:responseV2(kind,d=>d.conversation_id===c.remoteId&&validAppointmentReceipts(d,{allow:false}))});
   await this.owned(actor,id);
   if(kind==='Timeline')await this.db.appGuestConversation.update({where:{id},data:{status:r.data.conversation_status,lastMessageAt:r.data.last_message_at?new Date(r.data.last_message_at):null}});
   return {...r.data,conversation_id:id,permissions:c.permissions || [],metadata_ready:true};

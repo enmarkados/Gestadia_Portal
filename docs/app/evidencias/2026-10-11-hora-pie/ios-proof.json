@@ -1,0 +1,11 @@
+{
+  "source": "599c6e9",
+  "version": "0.1.0",
+  "build": "7",
+  "bundle": "com.gestadia.app",
+  "nonExemptEncryption": false,
+  "cssSha256": "2acdcea08664a998cb56db91e19cae9925c5fe16a5be7d6d7c5ae78e5d7e3024",
+  "footerCss": true,
+  "fixturesPresent": false,
+  "dockerConfigSha256": "97db47e54981198743ce1016af8938a0894134e0bac0e70be94ea1e031924acb"
+}

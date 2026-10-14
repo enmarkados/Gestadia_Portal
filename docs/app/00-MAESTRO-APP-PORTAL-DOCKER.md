@@ -216,3 +216,18 @@ El usuario confirma que LIA_Pixel_9_API_36_CLEAN pertenece a otro chat: conserva
 Play interno Activo, lista Gestadia QA exclusiva; cliente OAuth Play creado y marca visible Google corregida a Gestadia. El usuario declara instalación/login iPhone de build1, todavía sin registro APNs en la última lectura. OAuth, APNs y publicación pública pendientes.
 
 Animaciones del otro chat integradas en 0344ea3, escritura y teclado en ee64f8d. Suite frontend 178/178; IPA 0.1.0 (2) exportado, firma estricta y assets/config conversacional verificados. Apple confirma subida y procesamiento de (2); declaración de cifrado guardada tras confirmación humana y grupo Gestadia QA asignado. Build (2) «En pruebas», disponible para actualizar. Apple aún muestra (1) instalada en el iPhone; movimiento y teclado físicos pendientes de aceptar. Play 0.1.0 (2) Activo y disponible para testers internos, sin instalación acreditada. No se atribuye movimiento a (1). Producción Docker continúa en las versiones anteriores; esta actualización nativa no implica redesplegar el backend. [Evidencia nueva y límites](evidencias/2026-10-11-actualizacion-movimiento/README.md).
+
+### Referencia recibida para el siguiente paquete
+
+Verificado en Git el merge app/main 9c2e62c (PR16, implementación 0096bff), descendiente de f7cf8ac. Leídos recorridos/configuración de esa revisión: acceso social existente por email verificado, sin alta OAuth, preferencias y revocación push pendiente, separación IA/gestores y guest deshabilitado por defecto. La entrega documenta 285 backend/191 frontend y arranque iOS Debug; no se repiten ni se atribuyen a un release firmado aquí. Aceptación DEV conectada, interacción nativa, proveedores reales y siguiente distribución pendientes. Build (2) conserva únicamente sus cambios previos. [Handoff con revisión posterior](HANDOFF-RECORRIDOS-MARKETPLACES-20261011.md).
+
+
+### Acción prioritaria: nombre de chat visible — 11/10/2026
+
+Corrección solicitada por fotografía del iPhone. Implementación, dos regresiones RED/GREEN, 207 pruebas frontend, build y revisión independiente completas. Siguientes pasos: archivar/firmar11, subir a Apple, comprobar procesamiento y activar Gestadia QA; después aceptación del teclado físico por el usuario. No requiere cambio de BD/backend ni cierra la reserva real pendiente. [Registro](evidencias/2026-10-11-editor-nombre/README.md).
+Entrega del editor: Gestadia 0.1.0 (11) procesada por Apple y «En pruebas» en Gestadia QA. Firma y configuración verificadas; teclado físico pendiente de aceptación. [Registro](evidencias/2026-10-11-editor-nombre/README.md).
+
+
+### Consumidor de recibo preparado — 11/10/2026
+
+Schemas exactos de LidIA723 y tres fixtures preservados; validación v1/v2 y proyección del snapshot histórico con permisos vigentes implementadas. 351backend/207frontend/buildPASS y revisión independiente sin P1/P2. Sin despliegue/CRM/reserva real ni cambios en TestFlight11. [Paquete](evidencias/2026-10-11-recibo-agenda/README.md). Siguiente: cerrar marca/commit723 con LidIA, copiar/restaurar antes de desplegar Portal y pedir confirmación concreta del permiso cuando se vaya a activar; sólo después probar UI→Zoho/readback.

@@ -1,0 +1,10 @@
+{
+  "observedAt": "2026-10-12T23:15:27.312280+00:00",
+  "status": "preview_r4_held_before_execution",
+  "observation": "Source independent review: native GetAppliedMigrationsAsync uses Pomelo ExistsSql with INFORMATION_SCHEMA.TABLES and semicolon; strict QueryGate rejects it.",
+  "sourceCoordination": "R5 separate revision with direct minimal __EFMigrationsHistory projection; no relaxed allowlist or migrations.",
+  "previousPackageConformance": "Superseded for preview until R5 review; R4 original preserved.",
+  "remotePreviewObservedByPortal": false,
+  "serverWritePerformed": false,
+  "backupR5AndZohoR2Affected": false
+}

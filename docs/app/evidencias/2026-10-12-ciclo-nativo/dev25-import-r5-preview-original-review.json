@@ -1,0 +1,52 @@
+{
+  "reviewedAt": "2026-10-12T23:38:19.671371+00:00",
+  "status": "actual_preview_conforming_for_inactive_import_after_backup",
+  "originalBytes": 5937,
+  "rawAndCanonicalSha256": "8d9988e40ffd7affdc726382feebcbc9d219bf8fc58abca5ef43e95681c77a7d",
+  "incorrectEarlierConsoleTranscription": "58d9988e40ffd7affdc726382feecbcb9d219bf8fc58abca5ef43e95681c77a7d",
+  "rawCanonicalEqualityVerified": true,
+  "model": "claude-haiku-4-5",
+  "temperatureOmitted": true,
+  "personalityDisabled": true,
+  "serializeSessionTurns": true,
+  "contextWindow": "TodayOnly",
+  "auxiliaryModelParity": true,
+  "modelCatalogEnabled": true,
+  "sourcePromptSha256": "ec616c2687189eaded1a77d904d2c720aa12c8ab9f629850f74bc4202bcd0286",
+  "sourceSnapshotSha256": "b5ea5b60cf925844210a77409b6ecd811faa8f39f195579683554954c8893d34",
+  "protectedOriginals": {
+    "agents": [
+      {
+        "id": 119,
+        "scalar_sha256": "4f03fab421f986be5fdc3cc3860938bd569210d6038fd9575d832cb8bf355a34"
+      },
+      {
+        "id": 122,
+        "scalar_sha256": "b4bae7d2f2189737d878f43360d23af43aa3a6d460f41723c88cac83a06f010c"
+      }
+    ],
+    "instructions": [
+      {
+        "id": 10111,
+        "scalar_sha256": "d7dd8683bf3647a873d8d143f9c42913b2ea60d27b74efb5db29ef6fa79af681"
+      },
+      {
+        "id": 10115,
+        "scalar_sha256": "e1d58d3d9ecd01dc35fcde86f5759e0a01b204866c2431daa6395d441e9460b3"
+      }
+    ],
+    "projects": [
+      {
+        "id": 102,
+        "scalar_sha256": "81f72f3a9add6daa0a4f24666437d57a7390c319542179fd0a40f95ba62811d8"
+      }
+    ]
+  },
+  "servedCacheWireCredentialsAndTtsNotAccredited": true,
+  "conformance": "Inactive three-row import only after current backup and isolated restore are actually verified, exact preview hash and same pins/defaults revalidated.",
+  "backupCurrentRestoreVerified": false,
+  "agentImported": false,
+  "appActivated": false,
+  "nativeCyclePassed": false,
+  "physicalInstallPerformed": false
+}

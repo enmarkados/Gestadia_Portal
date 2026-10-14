@@ -1,0 +1,41 @@
+
+> test
+> vitest run
+
+
+ RUN  v4.1.11 /Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend
+
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:31:5)
+    at LocationImpl._locationObjectSetterNavigate (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:25:17)
+    at LocationImpl.set href [as href] (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:47:10)
+    at Location.set href [as href] (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at handleSubmit (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/src/pages/servicios/CheckoutForm.jsx:82:23)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5) undefined
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:31:5)
+    at LocationImpl._locationObjectSetterNavigate (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:25:17)
+    at LocationImpl.set href [as href] (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:47:10)
+    at Location.set href [as href] (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at handleSubmit (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/src/pages/servicios/CheckoutForm.jsx:82:23) undefined
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:31:5)
+    at LocationImpl._locationObjectSetterNavigate (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:25:17)
+    at LocationImpl.set href [as href] (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:47:10)
+    at Location.set href [as href] (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at handleSubmit (/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/frontend/src/pages/servicios/CheckoutForm.jsx:82:23) undefined
+
+ Test Files  43 passed (43)
+      Tests  178 passed (178)
+   Start at  08:48:49
+   Duration  11.15s (transform 2.25s, setup 2.02s, import 6.54s, tests 19.03s, environment 14.38s)
+

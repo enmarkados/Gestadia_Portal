@@ -1,0 +1,64 @@
+{
+  "status": "r3_real_preview_and_positive_cleanup_independently_conform",
+  "source_manifest_sha256": "43ef17c7188c2d3c47388404dd3d12be2a606e1e0f00e00a067c8acf2fb12f52",
+  "review_raw_sha256": "be6c0236ddfbc8bd53c8e1abf39c5af0d8bebd2234e7a32787b7e652dde6dd28",
+  "originals": {
+    "preview.started.json": {
+      "bytes": 148,
+      "sha256": "749c127ab0cab3ed23b063c951a9901b60d9bf717c138e7d1aabf7000ea7a974"
+    },
+    "reconciliation.private.json": {
+      "bytes": 668,
+      "sha256": "9bde45de4da03b07194a7c9c3c0e244478093f7b34068234777110c287c2b5b6"
+    },
+    "preview.private.json": {
+      "bytes": 165388,
+      "sha256": "5f87c91ca21c1d17b331c1aeaaea4af6b05d3c4eb0ff6c1b6013444a6bf093f9"
+    },
+    "preview.cleanup.ok.json": {
+      "bytes": 739,
+      "sha256": "f6b9a080f2ff229d6481470bb9b26a9934e2323fca0e497b7232993f1bcb795f"
+    }
+  },
+  "r2_before_exact": true,
+  "r2_baseline_exact": true,
+  "r2_result_exact": true,
+  "r2_eligible": false,
+  "four_is_active_false_to_true_only": true,
+  "positive_cleanup": {
+    "commit_returned": false,
+    "complete": true,
+    "pending_operation_kind": null,
+    "resources": {
+      "command_dispose": {
+        "exception_type": null,
+        "state": "absent"
+      },
+      "connection_close": {
+        "exception_type": null,
+        "state": "returned"
+      },
+      "context_dispose": {
+        "exception_type": null,
+        "state": "returned"
+      },
+      "pending_operation": {
+        "exception_type": null,
+        "state": "absent"
+      },
+      "rollback": {
+        "exception_type": null,
+        "state": "already_returned"
+      },
+      "transaction_dispose": {
+        "exception_type": null,
+        "state": "returned"
+      }
+    },
+    "rollback_returned": true
+  },
+  "db_write": false,
+  "app_activation": false,
+  "apply_performed": false,
+  "native_cycles_complete": false
+}

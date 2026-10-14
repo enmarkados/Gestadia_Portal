@@ -1,0 +1,14 @@
+{
+  "source": "authenticated web APP, no message submitted",
+  "before": {
+    "height": 643,
+    "max": 5268,
+    "top": 0
+  },
+  "after": {
+    "height": 643,
+    "max": 5268,
+    "top": 5267.5
+  },
+  "bottomReached": true
+}

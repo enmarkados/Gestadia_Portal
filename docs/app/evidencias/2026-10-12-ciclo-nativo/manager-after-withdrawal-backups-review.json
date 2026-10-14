@@ -1,0 +1,33 @@
+{
+  "dev": {
+    "status": "dev25_after_withdrawal_dump_completed",
+    "at": "2026-10-14T03:50:13.676043+00:00",
+    "tables": 198,
+    "migrations": 260,
+    "distinctMigrations": 260,
+    "nonTransactional": 0,
+    "tlsNegotiated": true,
+    "certificateIdentityVerified": false,
+    "singleTransaction": true,
+    "initReadOnly": true,
+    "sourceWrites": false,
+    "canonicalRestoreVerified": false,
+    "bytes": 239863210,
+    "sha256": "d52ff3bc707722e7390a41445dbece3771b99eaef3630b256d91d392a365291d",
+    "exit": 0
+  },
+  "portal": {
+    "status": "own_portal_after_withdrawal_backup_restore_verified",
+    "at": "2026-10-14T03:50:42.292331+00:00",
+    "tables": 24,
+    "countsEqual": true,
+    "ownLinkedUserAndCaseAndClosedConversationVerified": true,
+    "sourceCountsUnchanged": true,
+    "temporaryDatabaseDropped": true,
+    "sourceWrites": false,
+    "externalRequests": 0,
+    "bytes": 79727,
+    "sha256": "5fa4deba7bb823c6c7a37e43a46aed1517fec8788a98fac4f0dd45db648c43ec",
+    "exit": 0
+  }
+}

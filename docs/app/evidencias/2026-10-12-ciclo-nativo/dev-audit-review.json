@@ -1,0 +1,53 @@
+{
+  "reviewedAt": "2026-10-12T18:38:07.244293+00:00",
+  "review": "Original bytes independently hash-checked by Portal QA",
+  "reports": [
+    {
+      "stack": 24,
+      "sourceFile": "/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/artifacts/dev-audit-20261012/dev24-runtime-audit.json",
+      "sourceSha256": "a31047bc5d958757d0574c2a831eeff9b9d6f79506a237b79d52ff380dac3b6e",
+      "version": "V1.705-usuarios-departamentos-ui",
+      "databaseEndpointFingerprint": "4e38f2a9053dfbb74309f117d6fceb9671a07f61517ed17dce5d5da8015419f0",
+      "databaseNameHeuristicOnly": false,
+      "dbWrite": false,
+      "externalHttp": false,
+      "contactQueries": false,
+      "appConfigPresent": false,
+      "appOverrideCount": 0,
+      "isolatedGestadiaCrmVerified": false,
+      "operatorRouteVerified": false,
+      "sourceAgent119Present": false
+    },
+    {
+      "stack": 25,
+      "sourceFile": "/Users/gonchumon/.codex/worktrees/gestadia-marketplaces/Gestadia_Portal/artifacts/dev-audit-20261012/dev25-runtime-audit.json",
+      "sourceSha256": "8005593eedb108a48268c86f99264ade68507073770baf807375a04067a8858c",
+      "version": "V1.705-usuarios-departamentos-ui",
+      "databaseEndpointFingerprint": "84f0a6c8ce23ea738cc82ca52320edec713568f03d5af000cd200431779a38b6",
+      "databaseNameHeuristicOnly": false,
+      "dbWrite": false,
+      "externalHttp": false,
+      "contactQueries": false,
+      "appConfigPresent": false,
+      "appOverrideCount": 0,
+      "isolatedGestadiaCrmVerified": false,
+      "operatorRouteVerified": false,
+      "sourceAgent119Present": true
+    }
+  ],
+  "selectedCandidate": 25,
+  "reason": "Source evaluation: Gestadia candidate contains119/project102;24 is Vozenter",
+  "candidateIsActivated": false,
+  "crmReady": false,
+  "namespaceReady": false,
+  "s2sReady": false,
+  "nativeConversationCyclePassed": false,
+  "crmDecision": {
+    "environment": "Production",
+    "source": "Human reply Contra produccion to question call_7d5d9790d39742e8be6a25a6631fc1bb",
+    "recordedAt": "2026-10-12T18:48:53.788832+00:00",
+    "sandboxRequired": false,
+    "ownedQaRelationshipVerified": false,
+    "productionAppChannelActivated": false
+  }
+}

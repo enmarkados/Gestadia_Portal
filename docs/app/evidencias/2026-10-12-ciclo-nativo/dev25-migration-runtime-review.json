@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-12T20:55:31.304070+00:00",
+  "status": "remote_migration_and_runtime_observed",
+  "evidence": [
+    {
+      "path": "dev25-ef-apply-actual.png",
+      "sha256": "c30c2be6d0b2f4b7173e54b3d883737cc8d3e6b53d8b40f3a7149ceece37ce60",
+      "bytes": 75299,
+      "originalBytesPreserved": true
+    },
+    {
+      "path": "dev25-post-runtime-actual.png",
+      "sha256": "bc3bf7f5db0cafcf478acae1440a8834e99a2b77a5440e696842381ecd3f9a7d",
+      "bytes": 101020,
+      "originalBytesPreserved": true
+    },
+    {
+      "path": "dev25-ef-preview-result.json",
+      "sha256": "18b1a9fa6357ded580120812d4cd6f11281cdccc981cffce7d78e7d0727e334d",
+      "bytes": 308,
+      "originalBytesPreserved": true
+    }
+  ],
+  "directlyViewedScreenshots": true,
+  "sourceThread": "01a11b48-bcb4-7611-a73d-2583fc47ddfe",
+  "remoteExecutionBy": "Operaciones, consola Portainer autenticada",
+  "stackId": 25,
+  "runtimeVersionObserved": "V1.728-app-diagnostico",
+  "databaseFingerprintObserved": "84f0a6c8ce23ea738cc82ca52320edec713568f03d5af000cd200431779a38b6",
+  "tableCountObserved": 198,
+  "migrationHistoryCountObserved": 260,
+  "appliedMigrationsObserved": [
+    "20261005204814_AddAppConversations",
+    "20261008123405_AddAppMessageReceipts",
+    "20261011021704_AddAppGuestContinuity"
+  ],
+  "appConfigPresentObserved": false,
+  "appEnabledEnvObserved": "false",
+  "sourceCommitReportedByOps": "30be1692e5ba2c7bbb41a9603fcd07adab55bbe0",
+  "containerIdReportedByOps": "462d0014305650331705c5352eb7ee177377fa9190dace6630ba536d71971b69",
+  "limitations": [
+    "Source SHA y CID atribuidos al reporte de Ops; la captura runtime verifica el marcador, no el commit de forma independiente.",
+    "Proxy DEV y agente/clon aún pendientes; ninguna conversación nativa conectada acreditada."
+  ],
+  "notPerformed": [
+    "APP activation",
+    "CRM writes",
+    "native conversational E2E",
+    "physical iPhone installation"
+  ],
+  "originalReportsReceivedAt": "2026-10-12T21:10:09.873617+00:00",
+  "originalReports": [
+    {
+      "path": "dev25-migration-original.json",
+      "sha256": "e39c2f2325177d779bc14d5c9e5fd6de3b197cc5ab6f0791b2593be9b791eb3c",
+      "bytes": 246,
+      "originalBytesPreserved": true,
+      "communicatedHashIndependentlyMatched": true
+    },
+    {
+      "path": "dev25-preview-original.json",
+      "sha256": "18b1a9fa6357ded580120812d4cd6f11281cdccc981cffce7d78e7d0727e334d",
+      "bytes": 308,
+      "originalBytesPreserved": true,
+      "communicatedHashIndependentlyMatched": false
+    },
+    {
+      "path": "dev25-postef-original.json",
+      "sha256": "a372f27465eec2f44a476177d78863d1abfb1a4e16fb3893df294bae5d24b367",
+      "bytes": 480,
+      "originalBytesPreserved": true,
+      "communicatedHashIndependentlyMatched": false
+    },
+    {
+      "path": "dev25-postruntime-original.json",
+      "sha256": "d8fda54af93a775e03e4df99a093583560a7751871057162165baf11009328e4",
+      "bytes": 478,
+      "originalBytesPreserved": true,
+      "communicatedHashIndependentlyMatched": true
+    },
+    {
+      "path": "dev25-agent119-original.json",
+      "sha256": "bc0dfd475916b2cbc8581d9e5a6a44dfccc6c75e75982997905374f38cf0a6c9",
+      "bytes": 8924,
+      "originalBytesPreserved": true,
+      "communicatedHashIndependentlyMatched": true
+    }
+  ],
+  "agent119DevEqualsProduction": false,
+  "original119DevPreserved": true
+}

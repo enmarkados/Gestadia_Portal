@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "status": "r3_stage_preflight_observed_conform",
+  "container": "lidia-app-gestadia-dev",
+  "uid_gid": "1654:1654",
+  "source_manifest_sha256": "43ef17c7188c2d3c47388404dd3d12be2a606e1e0f00e00a067c8acf2fb12f52",
+  "capture_sha256": "0b05526444d113857d911bfa2ed199bafe9a93bb5760aeac3059baa0890379da",
+  "native_preflight_four_saves_blocked_five_booleans_connection_closed": true,
+  "stage_exit": 0,
+  "db_open": false,
+  "app_activation": false,
+  "provision_observed": true,
+  "native_cycles_completed": false,
+  "provision_exit": 0,
+  "provision_inputs_count": 28,
+  "provision_capture_sha256": "d5dda27a722b8e7ae54cbc491c4c490995fb0ece33a54d3326a030ef1caacd8e",
+  "provision_review_sha256": "be6c0236ddfbc8bd53c8e1abf39c5af0d8bebd2234e7a32787b7e652dde6dd28",
+  "preview_observed": false,
+  "flags_changed": false,
+  "configuration_installed": false
+}

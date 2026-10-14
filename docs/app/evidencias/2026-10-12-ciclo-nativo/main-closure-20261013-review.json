@@ -1,0 +1,52 @@
+{
+  "observedDate": "2026-10-13",
+  "context": "Main production call, separate from native User64 DEV QA",
+  "status": "originals_reviewed",
+  "closure": {
+    "withdrawalAck": "admitted",
+    "revision": 7,
+    "syncedRevision": 7,
+    "permissions": [
+      "history",
+      "sondeo"
+    ],
+    "configurationRestored": true,
+    "toolsInactive": 4,
+    "agentAssignedFunctions": 0,
+    "contactRollback": "verified_rolled_back",
+    "rollbackObservedUtc": "2026-10-13T16:10:50.263198Z",
+    "administrativeApprovalRevoked": true,
+    "callPreserved": true
+  },
+  "originals": {
+    "withdrawal": {
+      "bytes": 352,
+      "sha256": "2b4bf17696a2b757c7d1046caf543bb2e55c0178ec8226c5decfd4e3ee4ffa34"
+    },
+    "config_restore": {
+      "bytes": 367,
+      "sha256": "65652b7a51f7544809f664b5866d85a88dd8de3d40fee00d5269ea5fc69e0e39"
+    },
+    "tools_restore": {
+      "bytes": 147,
+      "sha256": "83f900abee32f36d3358fe688ee2423d14c84e0e66b8da1a1c3ce7366d72fcf5"
+    },
+    "runtime_readback": {
+      "bytes": 3702,
+      "sha256": "7ceaa079ff3725466d1569bccddff89c53939d7b1079843b73ef082db7dbfd05"
+    },
+    "tools_readback": {
+      "bytes": 786,
+      "sha256": "c8fae7bad79d8e58a176157fe71cd6a6ff2fe6ab13b9c37cac6f81afaadfb9a1"
+    },
+    "contact_rollback": {
+      "bytes": 136,
+      "sha256": "b02534de5ee27b76868bdf7019cc89a82ec5171400072267284f724e6ed159e3"
+    },
+    "administrative_revoke": {
+      "bytes": 67,
+      "sha256": "51ab52c551f4984b81e6399cc23cedf8b6b0383a5e8e831dde37209cb683746d"
+    }
+  },
+  "iosAndroidCyclePassed": false
+}

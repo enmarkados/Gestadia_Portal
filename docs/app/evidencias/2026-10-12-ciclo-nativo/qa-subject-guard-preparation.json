@@ -1,0 +1,30 @@
+{
+  "preparedAt": "2026-10-12T23:19:41.860697+00:00",
+  "status": "subject_network_boundary_prepared_not_applied",
+  "portalUserId": "64a53aba-39a3-4559-93a1-cfb86ed0e09e",
+  "origin": "https://dev-lidia.gestadia.com",
+  "maximumTechnicalLifetimeHours": 4,
+  "offlineTestsPassed": 11,
+  "realProductClientIncludedInOfflineTest": true,
+  "offlineResponseIsSyntheticAndNotConversationalEvidence": true,
+  "deniedRequestsProduceZeroOutgoingCalls": true,
+  "scopeEnabled": false,
+  "checks": [
+    "own signed Subject and body principal",
+    "exact DEV HTTPS origin",
+    "eleven own key IDs",
+    "v1 allowed paths/methods",
+    "own revocation path",
+    "expiry and manual redirects"
+  ],
+  "privateFileSha256": {
+    "qa-subject-guard.mjs": "b873401c5c08e714dcc1c016008a270a482f2272864b54a605e899cc7870ec2e",
+    "qa-subject-guard.test.mjs": "7f5354489d8cba398c668d6782500dbe69278b413577ab77d97dcb14a86e739b",
+    "qa-subject-scope.pending.json": "bc51f21db3a8c7ea1f6f26eaa767b635d0e7ff3a1731a5c8ae86e646bb4b024d",
+    "backend-dev-s2s-scope-pending.mjs": "a52c549bbff7d387512409574b30d827efda3e30bc6dc24f9c025869d730c283"
+  },
+  "productFilesModified": false,
+  "activeBackendModified": false,
+  "remoteExecutionPerformed": false,
+  "nativeConversationPassed": false
+}

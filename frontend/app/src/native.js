@@ -27,6 +27,10 @@ export async function setupNativeKeyboard() {
     const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
     const duration = Number.isFinite(detail.duration) ? Math.max(0, detail.duration) * 1000 : 0;
     const easing = ["ease-in-out", "ease-in", "ease-out", "linear"][detail.curve] || "ease-in-out";
+    const root = document.documentElement.style;
+    root.setProperty("--app-visible-height", height);
+    root.setProperty("--app-keyboard-duration", `${reduced ? 0 : duration}ms`);
+    root.setProperty("--app-keyboard-easing", easing);
     shell.style.transition = reduced || !duration ? "none" : `height ${duration}ms ${easing}`;
     shell.style.height = height;
   };
@@ -36,6 +40,8 @@ export async function setupNativeKeyboard() {
     const shell = document.querySelector(".app-shell");
     shell?.style.removeProperty("height");
     shell?.style.removeProperty("transition");
+    for (const property of ["--app-visible-height", "--app-keyboard-duration", "--app-keyboard-easing"])
+      document.documentElement.style.removeProperty(property);
   };
 }
 
