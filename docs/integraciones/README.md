@@ -2,6 +2,10 @@
 
 Índice de la documentación de integraciones con sistemas externos.
 
+## Acceso sin registro APP — contraste del14/10/2026
+
+[Acta Source recibida íntegra](2026-10-14-acceso-invitado-app-receptor-v2-recibida.md), SHAcd621fd8, y [diagnóstico/plan Portal](../superpowers/plans/2026-10-14-app-guest-consumidor-limitado.md). Conservan consumidor público OFF y distinguen piloto QA, continuidad a cuenta, compatibilidad de build11 y retirada individual con REVOCATION. Las tres claves de conversación no equivalen a binding o revocación. La decisión de personalidad y el lector Source actualizado siguen pendientes; esta documentación no implementa ni activa el perfil.
+
 ## Revisión APP del 11/10/2026
 
 [Plan, implementación, mapas y evidencia](../app/2026-10-11-recorridos-gestores.md). Consumidor guest v2 y copia exacta [wire r4 LidIA](2026-10-11-app-v2-wire-lidia-r4.md), con muestras/schema, autoridad por chat, recuperación y vínculo. Contacto automático cualificado permanece reservado; callback explícito APP se gestiona por Portal/Zoho. La configuración efectiva y pruebas conectadas, nativas y de tiendas se acreditan por separado.

@@ -1899,3 +1899,17 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** etapa de un trato dentro de su pipeline. Su ID y categoría permiten distinguir una etapa abierta de una ganada, aunque el nombre visible difiera del valor interno.
 - **Alcance:** recuperación del caso propio; recibos y manual de evidencia nativa en `docs/app/evidencias/2026-10-12-ciclo-nativo/`.
 - **Notas:** el mismo ID tiene `display_value=En Negociación`, `actual_value=En proceso` y categoría Open. Tras un rechazo definitivo del valor interno, se propone enviar el visible y comprobar la lectura real; ese nombre no acredita pago ni trato ganado.
+
+### can_bind — propuesta del14/10/2026
+
+- **Tipo:** propiedad propuesta de la API local Portal, sin cambio del wire LidIA v2.
+- **Definición:** indica si el consumidor puede ofrecer la vinculación de ese chat invitado según las capacidades de binding preparadas en el servidor. No afirma que una asociación se haya completado ni sustituye la autorización del receptor.
+- **Alcance:** propuesta en `docs/superpowers/plans/2026-10-14-app-guest-consumidor-limitado.md`; futura proyección de `backend/src/app/v2/guest.js` y condición de `frontend/app/src/AppConversation.jsx`.
+- **Notas:** ausencia equivale a false. Se descarta inferir la capacidad por haber iniciado sesión, por el email o por disponer de claves de conversación. La build11 anterior ignora este campo: no permite habilitar públicamente el perfil limitado sin resolver también la compatibilidad y continuidad.
+
+### guestBindingEnabled(config) — propuesta del14/10/2026
+
+- **Tipo:** helper de configuración propuesto, todavía sin implementar.
+- **Definición:** comprueba que el consumidor tiene preparadas las dos capacidades de binding revisadas para proyectar can_bind y rechazar un intento no disponible antes de crear una operación local. La autoridad y el resultado de cada fase siguen perteneciendo a LidIA.
+- **Alcance:** propuesta para `backend/src/app/v2/guest.js`; pruebas de binding y plan del14/10.
+- **Notas:** no rellena claves vacías ni habilita capacidades. Se descarta devolver200 a una vinculación que no ocurrió o crear AppGuestBinding antes de detectar que faltan las capacidades.
