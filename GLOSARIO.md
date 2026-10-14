@@ -1878,3 +1878,24 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** adapta los cuatro parámetros de renovación OAuth que emite el cliente real del Portal a un cuerpo de formulario en el mismo endpoint europeo, antes de aplicar su guard de lectura. No concede autorización nueva ni fabrica respuestas.
 - **Alcance:** QA nativa de Gestadia Portal; registro en `docs/app/evidencias/2026-10-12-ciclo-nativo/2026-10-14-lidia-real-ios-android.md`. Implementación privada `crm-product-read-guard-r2.mjs`, usada por el bootstrap privado R4; sin cambios en el producto o los paquetes móviles.
 - **Notas:** se conserva el guard original y su control de sujeto, IDs, vigencia y dominios. Se descarta ampliar la autorización de consultas con parámetros en la URL.
+
+### Pipeline de Zoho
+
+- **Tipo:** propiedad de API externa y decisión de validación de QA.
+- **Definición:** embudo de un trato dentro de su plantilla de Deals. Los metadatos distinguen su ID, `display_value` y `actual_value`; esos valores se conservan por separado al comprobar una petición.
+- **Alcance:** recuperación del caso propio de la prueba nativa; evidencia en `docs/app/evidencias/2026-10-12-ciclo-nativo/2026-10-14-lidia-real-ios-android.md`. No cambia el contrato de conversaciones de la APP.
+- **Notas:** el proveedor rechazó el alta que enviaba `Canje - GTD`; la revisión propuesta usa el nombre visible `CV con Pago` del mismo ID, sin cambiar la plantilla o etapa. Su aceptación sólo se acreditará con una respuesta real y su lectura posterior; no se sustituye el nombre por un ID sin contrato.
+
+### Peticiones CRM de QA
+
+- **Tipo:** concepto de verificación.
+- **Definición:** contabilidad que distingue las peticiones enviadas, los intentos POST y las altas confirmadas. Un rechazo HTTP400 consume una petición y un intento, pero no acredita un registro creado.
+- **Alcance:** recibos privados de la recuperación CRM y sus proyecciones públicas en `docs/app/evidencias/2026-10-12-ciclo-nativo/`.
+- **Notas:** OAuth y consultas de configuración se cuentan aparte de las peticiones a fichas. Se conserva cada intento y se exige una revisión explícita antes de corregir un rechazo definitivo; un resultado incierto no se repite.
+
+### Stage de Zoho
+
+- **Tipo:** propiedad de API externa y decisión de validación de QA.
+- **Definición:** etapa de un trato dentro de su pipeline. Su ID y categoría permiten distinguir una etapa abierta de una ganada, aunque el nombre visible difiera del valor interno.
+- **Alcance:** recuperación del caso propio; recibos y manual de evidencia nativa en `docs/app/evidencias/2026-10-12-ciclo-nativo/`.
+- **Notas:** el mismo ID tiene `display_value=En Negociación`, `actual_value=En proceso` y categoría Open. Tras un rechazo definitivo del valor interno, se propone enviar el visible y comprobar la lectura real; ese nombre no acredita pago ni trato ganado.

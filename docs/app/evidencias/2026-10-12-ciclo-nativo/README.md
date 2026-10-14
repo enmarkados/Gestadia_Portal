@@ -4,7 +4,7 @@ Petición humana: comprobar LidIA y el gestor `integraciones@vozenter.com` en iO
 
 [Plan de aceptación y reparto para preparar DEV](PLAN-ACEPTACION.md), confirmado como objetivo humano al retomar el12/10. Mantener separado el avance documental de los resultados realmente ejecutados.
 
-**Actualización14/10:** [ejecución y capturas reales](2026-10-14-lidia-real-ios-android.md). LidIA conectada y continuidad comprobadas; gestor y dispositivo físico pendientes. Los apartados anteriores conservan sus fechas y límites históricos.
+**Actualización14/10:** [ejecución y capturas reales](2026-10-14-lidia-real-ios-android.md). LidIA conectada y continuidad comprobadas. Android intercambia mensajes con Integraciones, pero la lectura por el operador falla; ciclo de gestor completo y dispositivo físico siguen pendientes. [Avance y límites](manager-native-progress-20261014-review.json). Los apartados anteriores conservan sus fechas y límites históricos.
 
 Integración preparada en [PR17, borrador hacia app/main](https://github.com/enmarkados/Gestadia_Portal/pull/17), todavía sin fusionar. La interfaz actual pasa [49 archivos / 208 pruebas](frontend-current-208-review.json). La comprobación de sólo lectura del servicio sin registro, local y público, devuelve `503 runtime_unavailable` el14/10 a01:05UTC; no crea instalaciones ni chats y no acredita aceptación guest.
 
@@ -28,8 +28,8 @@ Integración preparada en [PR17, borrador hacia app/main](https://github.com/enm
 | Conservar sesión al reiniciar y revocar al cerrar | PASS: terminate/relaunch conserva cuenta; logout pasa de1 a0 sesiones activas | PASS: force-stop/reinicio conserva cuenta; logout pasa de1 a0 sesiones activas |
 | Nueva sesión real en clon DEV124 + respuesta del modelo | PASS: consulta independiente, un turno | PASS: siete turnos y conclusión por texto |
 | Recuperación, respuesta legible e historial | PASS: historial Android y propio tras relanzar | PASS: historial iOS tras reiniciar AVD |
-| Chat con gestor Integraciones, envío en ambos sentidos | Pendiente de Contact–Deal–Owner QA verificables | Pendiente de Contact–Deal–Owner QA verificables |
-| Recibos enviado/recibido/leído, cierre y reapertura permitida | Pendiente | Pendiente |
+| Chat con gestor Integraciones, envío en ambos sentidos | Pendiente de ciclo nativo | Intercambio real observado; Contact–Deal–Owner propios verificados |
+| Recibos enviado/recibido/leído, cierre y reapertura permitida | Pendiente | Parcial: lectura por APP real; lectura por operador falla, cierre pendiente |
 | Búsqueda, renombrado, fechas y navegación/Atrás | PASS: dos títulos, cancelar/guardar, búsqueda y reapertura | PASS: títulos/fechas y Continuar al mismo historial; búsqueda/edición no repetidas |
 | Login Apple/Google y push | No acreditados por build ni perfil | No acreditados por build |
 
