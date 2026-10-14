@@ -1,0 +1,49 @@
+{
+  "status": "dev25_readonly_consistent_dump_completed",
+  "observed_utc": "2026-10-14T00:08:48.886760+00:00",
+  "exit": 0,
+  "schema_tables": 198,
+  "migrations": 260,
+  "distinct_migrations": 260,
+  "non_transactional_tables": 0,
+  "estimated_data_and_indexes_bytes": 355614720,
+  "database": "lidia_gestadia_dev_db",
+  "connection_sha256": "d03c44a1f9c31bed2a33d4f4e2b46188719ab098a89dd9db468a8843be0e1ae4",
+  "fingerprint": "84f0a6c8ce23ea738cc82ca52320edec713568f03d5af000cd200431779a38b6",
+  "backup_bytes": 239808404,
+  "backup_sha256": "03a380c5ad983a14096f2e1d795cab19e4c2b767fa07f4a7eba4016ec41f247b",
+  "tls_negotiated_metadata": true,
+  "init_read_only": true,
+  "single_transaction": true,
+  "dump_process_exited": true,
+  "metadata_rollback_returned": true,
+  "source_database_writes": false,
+  "restore_verified": false,
+  "scope": "DEV25 only; separate from local24table backup",
+  "compatibility_restore": {
+    "target_engine": "MySQL8.4.9",
+    "source_engine": "MariaDB11.4.12",
+    "success": false,
+    "error_code": 1101,
+    "sql_state": "42000",
+    "dump_line": 3531,
+    "reason": "MySQL rejects a BLOB/TEXT/JSON default definition",
+    "original_dump_modified": false,
+    "temporary_schema_removed": true,
+    "canonical_mariadb_restore": false
+  },
+  "own_counts_after_backup": {
+    "sessions": 2,
+    "turns": 8,
+    "messages": [
+      26,
+      5
+    ],
+    "context_revision": 2,
+    "permissions": [],
+    "active_operations": 0,
+    "processing_workers": 0,
+    "source_sql_sha256": "d1d976469f9a3f78410773e49090e024fcd2609577584eda0b065c55c77dde1b"
+  },
+  "deployment_policy": "reader-only fix without migration; Source accepts intact current dump and code/image/AppData backup; canonical restore remains unaccredited"
+}

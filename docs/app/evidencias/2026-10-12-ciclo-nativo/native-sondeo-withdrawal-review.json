@@ -1,5 +1,5 @@
 {
-  "status": "own_native_sondeo_access_withdrawn_receiver_disabled_config_removal_pending",
+  "status": "own_native_sondeo_access_withdrawn_receiver_off_configuration_removed",
   "portal_all_off": true,
   "own_contexts": [
     {
@@ -38,10 +38,13 @@
   "receiver_off_observed_at": "2026-10-13T23:42:37Z",
   "receiver_cid": "d0ee884330f4a6fe8d070c8cf40a7a1111d143fd2d88e87ad6dde347815108bf",
   "receiver_env_original_58_values_restored": true,
-  "config_removal": "pending exact7fa7 CAS",
+  "config_removal": "actual selective removal and absence observed; original config7fa7 retained privately",
   "own_import_flags_restored": false,
   "own_import_flags_reason": "kept active to continue manager phase; not a full DEV restoration",
   "history_deleted": false,
   "global_revocation": false,
-  "crm_writes": 0
+  "crm_writes": 0,
+  "config_removal_receipt_sha256": "7ff408941e4548ca8ab687f93b35d8e1f045ec42b6e258ae1c536de729abe8f9",
+  "off_restart_observed_at": "2026-10-14T00:11:37Z",
+  "receiver_config_absent_after_restart": true
 }

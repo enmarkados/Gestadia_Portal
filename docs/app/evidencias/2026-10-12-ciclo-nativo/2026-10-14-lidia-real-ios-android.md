@@ -54,3 +54,13 @@ Antes de configurar el caso del gestor se crea una copia nueva de Portal local:6
 ### Fallo administrativo detectado después de apagar S2S
 
 LidIA comunica que, al recargar el detalle de la sesión Android con el receptor apagado, el administrador ve «Esta conversación no existe o no puedes verla». La lectura primaria anterior acredita que los mensajes siguen conservados. El equipo fuente prepara una corrección de AppSessionDetail para que la auditoría interna autorizada no dependa de la conexión S2S, conservando los controles de los operadores de soporte y las acciones de conversación. El fallo y su futura corrección se verifican por separado; no se reactiva APP para sortearlo ni se atribuye todavía su reparación. La provisión estándar de Soporte/departamento y el ciclo del gestor esperan esa corrección.
+
+### Retirada cerrada y corrección integrada, pendiente de servir
+
+Ops completa la retirada selectiva con el helper existente: configuración ausente y copia privada con el hash original7fa7. El resultado7ff40894 conserva noReplay y history_deleted=false. Tras reiniciar a00:11:37UTC, el receptor continúa apagado, con Native094, configuración ausente y health200. Portal ha visto la captura de consola que confirma ausencia y resultado; los recibos completos y su copia se conservan en la coordinación Ops. Las cuatro flags propias permanecen activas para continuar la fase del gestor.
+
+LidIA publica la corrección de lectura administrativa en [PR1711](https://github.com/enmarkados/Gestadia_LidIA/pull/1711). Portal revisa los tres lectores sin hallazgo bloqueante. Source informa961pruebas correctas, incluidas25regresiones; Portal no las presenta como una suite propia ejecutada. git ls-remote comprueba que dev/IA/main y codex/app-dev25-qa-20261012 apuntan a130cd186dbeb1fd89d680b40828575246092cc5d. Integración Git y despliegue efectivo siguen siendo evidencias separadas.
+
+Antes del despliegue se obtiene una copia nueva de DEV por TLS y transacción consistente de sólo lectura:239808404bytes, hash03a380c5,198tablas y260migraciones; no hay tablas no transaccionales. Los conteos propios posteriores conservan dos sesiones, ocho turnos,26+5mensajes y contextos2 con permisos vacíos, sin operaciones activas.
+
+La importación de compatibilidad en un esquema local MySQL8.4.9 falla con1101/42000 al rechazar un valor por defecto de BLOB/TEXT/JSON de MariaDB. El dump binario permanece intacto y el esquema temporal se retira tras preservar el error. **No hay restauración canónica MariaDB acreditada.** Source acepta continuar el cambio de lectores, sin migración, con el dump actual y el respaldo de código/imagen/archivos persistentes; la limitación se mantiene explícita. [Revisión de copia y límites](dev25-pre-audit-backup-review.json).
