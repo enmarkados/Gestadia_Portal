@@ -108,3 +108,9 @@ Diagnóstico estático mediante grafo refrescado y lecturas de los archivos cita
 ## Pendientes que impiden activar
 
 Resultado real y decisión de personalidad/lifecycle Source; delta exacto y revisado del consumidor; capacidades/retirada con recibos; candidato compatible y decisión de continuidad pública. La conformidad técnica Source al can_bind local y cuarta REVOCATION no satisface esos puntos por sí sola. Este plan queda para revisión conjunta; no es un GO.
+
+## Conformidad técnica y observación posterior Source
+
+Source comunica lectura completa y conformidad técnica a compatibilidad, retirada y límites de este plan, manteniendo piloto separado y Portal público OFF. No autoriza implementación ni activación guest. Ops también confirma el alcance de preparación.
+
+En la UI normal de PRO731, Source observa en el proyecto103 «Personalidad por Defecto: LidIA Gestadia», con value6 en el selector, sin cambiar ni guardar nada. Se conserva como observación de interfaz: no acredita hashes de fila, snapshot SQL, efectos de caché, autorización para compartir esa referencia ni aislamiento del clon futuro. El lector731 privado y sus regresiones de lifecycle siguen pendientes; no se ejecuta el paquete antiguo ni se levanta su guard por este dato.
