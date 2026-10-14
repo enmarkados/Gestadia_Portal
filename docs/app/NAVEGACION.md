@@ -384,3 +384,8 @@ Entrega del editor: Gestadia 0.1.0 (11) procesada por Apple y «En pruebas» en 
 ### Recibo opcional de agenda preparado — 11/10/2026
 
 Consumidor de respuesta v1/v2 valida el recibo histórico de reserva de LidIA y limita su proyección a permisos CRM vigentes. Pantallas, origen, Atrás, envío y confirmación por el mensaje del agente se conservan; no añade tarjeta de estado vivo. Consumer v2 limitado no obtiene autoridad CRM. [Pruebas, procedencia y límites](evidencias/2026-10-11-recibo-agenda/README.md). Sin deploy, grants ni llamada real.
+
+
+### Historial invitado: recuperación de operaciones · 14/10/2026
+
+El piloto de Continuar sin registro recibe HTTP200 de historial, pero la pantalla exige el array local `pending_operations`. El adaptador guest lo proyecta desde su ledger autorizado; vacío sólo si no hay pendientes. Conserva instalación, conversación, identidad de operación, permisos y destino de Atrás. No cambia pantallas ni schema S2S de LidIA. [Regresión, plan y límites de entrega](evidencias/2026-10-14-guest-timeline/README.md). La corrección local no acredita por sí sola despliegue ni respuesta real del agente.

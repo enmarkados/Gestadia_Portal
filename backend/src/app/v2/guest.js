@@ -115,8 +115,12 @@ export class AppGuestService {
   const kind=query.turn_id?'ReceiptLookup':'Timeline';
   const r=await this.client.call('app.timeline.read','GET',`/sessions/${c.remoteId}/timeline`,this.authority(c),undefined,{query,validateResponse:responseV2(kind,d=>d.conversation_id===c.remoteId&&validAppointmentReceipts(d,{allow:false}))});
   await this.owned(actor,id);
-  if(kind==='Timeline')await this.db.appGuestConversation.update({where:{id},data:{status:r.data.conversation_status,lastMessageAt:r.data.last_message_at?new Date(r.data.last_message_at):null}});
-  return {...r.data,conversation_id:id,permissions:c.permissions || [],metadata_ready:true};
+  let pending;
+  if(kind==='Timeline'){
+   await this.db.appGuestConversation.update({where:{id},data:{status:r.data.conversation_status,lastMessageAt:r.data.last_message_at?new Date(r.data.last_message_at):null}});
+   pending=await this.db.appGuestOperation.findMany({where:{conversationId:id,kind:{in:['session','turn']},status:{in:['prepared','outcome_unknown']}},orderBy:{createdAt:'asc'}});
+  }
+  return {...r.data,conversation_id:id,permissions:c.permissions || [],metadata_ready:true,...(kind==='Timeline'?{pending_operations:pending.map(opView)}:{})};
  }
  async receipts(actor,id,query,dto,key){
   const c=await this.owned(actor,id);if(!c.remoteId)throw new AppProblem(409,'binding_in_progress');

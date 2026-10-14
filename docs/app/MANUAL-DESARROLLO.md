@@ -289,3 +289,8 @@ Consumidor de respuesta v1/v2 valida el recibo histórico de reserva de LidIA y 
 ### Candidatos de publicación1.0 — 14/10/2026
 
 [iOS12/Android5 firmados](evidencias/2026-10-14-publicacion-1.0/README.md), fuente965a12d desdeapp/mainbb84c46; no subidos/instalados. Se reutiliza QA autenticada previa. El recorrido guest real, vínculo durable y retirada individual conservan aceptación propia antes de publicar; el binario físico sigue0.1.0(11). No confundir compilación, integración Git, runtime y disponibilidad en tiendas.
+
+
+### Historial invitado: recuperación de operaciones · 14/10/2026
+
+El piloto de Continuar sin registro recibe HTTP200 de historial, pero la pantalla exige el array local `pending_operations`. El adaptador guest lo proyecta desde su ledger autorizado; vacío sólo si no hay pendientes. Conserva instalación, conversación, identidad de operación, permisos y destino de Atrás. No cambia pantallas ni schema S2S de LidIA. [Regresión, plan y límites de entrega](evidencias/2026-10-14-guest-timeline/README.md). La corrección local no acredita por sí sola despliegue ni respuesta real del agente.
