@@ -1,0 +1,35 @@
+{
+  "observed_at": "2026-10-14T02:06:54.408Z",
+  "product_revision": "c6530f6a20a134feb96de7bb15b9f89ee4af6975",
+  "creation": {
+    "contact_http_status": 201,
+    "contact_confirmed": true,
+    "deal_created": false,
+    "business_requests": 1,
+    "result_sha256": "154c82cee7b9032b25393b252a168c694445631cfde0b055605f1a08c9df0cd2",
+    "receipt_sha256": "eca92cc3c6f8e0b481c2219ba868dc64bc83145338b62e1a130c5f6b9ae62017",
+    "original_directory_unchanged": true
+  },
+  "readback": {
+    "http_status": 200,
+    "single_record": true,
+    "id_matches_creation_receipt": true,
+    "qa_marker_matches": true,
+    "owner_matches": true,
+    "created_time_matches_original_creation": true,
+    "layout_present": false,
+    "status": "contact_readback_mismatch",
+    "response_sha256": "9e3ef7784574bb360ec002ba956e1d0d437b89618d867224440da8f9a175174a",
+    "review_sha256": "f08c455109c8b9281b5120c4ade929ca4eac5a7cb1cbd5d0236f9c379c8c570d",
+    "business_requests": 1,
+    "oauth_refresh_requests": 1
+  },
+  "total_business_requests": 2,
+  "total_business_writes": 1,
+  "automatic_retry": false,
+  "portal_link_written": false,
+  "portal_case_created": false,
+  "conversation_grants_enabled": false,
+  "native_manager_cycle_complete": false,
+  "iphone_installed": false
+}

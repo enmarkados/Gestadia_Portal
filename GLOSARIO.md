@@ -1870,3 +1870,11 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** petición S2S propia que comprueba que el receptor admite el perfil revisado después del reinicio. Su resultado complementa la atribución de contenedor, configuración y base de datos; no acredita por sí solo un turno conversacional.
 - **Alcance:** aceptación nativa SONDEO5; cliente real `backend/src/app/s2s.js`, guard privado de cuenta QA y evidencia en `docs/app/evidencias/2026-10-12-ciclo-nativo/`.
 - **Notas:** un GET timeline firmado sobre UUID propio inexistente debe alcanzar `404 conversation_not_found`, tras autenticación y verificación runtime. Consume un nonce antireplay; no crea conversación, turno, LLM ni CRM. Un bind local del fichero no sustituye esta prueba.
+
+
+### Normalización OAuth de QA
+
+- **Tipo:** concepto runtime de la prueba local.
+- **Definición:** adapta los cuatro parámetros de renovación OAuth que emite el cliente real del Portal a un cuerpo de formulario en el mismo endpoint europeo, antes de aplicar su guard de lectura. No concede autorización nueva ni fabrica respuestas.
+- **Alcance:** QA nativa de Gestadia Portal; registro en `docs/app/evidencias/2026-10-12-ciclo-nativo/2026-10-14-lidia-real-ios-android.md`. Implementación privada `crm-product-read-guard-r2.mjs`, usada por el bootstrap privado R4; sin cambios en el producto o los paquetes móviles.
+- **Notas:** se conserva el guard original y su control de sujeto, IDs, vigencia y dominios. Se descarta ampliar la autorización de consultas con parámetros en la URL.
