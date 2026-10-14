@@ -1,0 +1,37 @@
+{
+  "at": "2026-10-14T08:24:45.946911+00:00",
+  "sourceRevision": "965a12d9d65f78f614d4f1754d58e6c69e31585d",
+  "productBase": "bb84c46ae1df4c231bc280087ca57711ef9add58",
+  "branch": "codex/app-release-1.0-candidate-20261014",
+  "version": "1.0",
+  "ios": {
+    "build": 12,
+    "sha256": "345af3a99933302cc7592ec5326703c50daaf76ac3ac4d792d0e0718a96b4515",
+    "signatureValid": true,
+    "distribution": "app-store",
+    "apns": "production"
+  },
+  "android": {
+    "versionCode": 5,
+    "sha256": "38d7027b923e43d11067772e680c3353e308f3eba6ddfa78acf763bd64ca698d",
+    "signatureValid": true,
+    "uploadCertificateMatchesExpected": true,
+    "manifestDecoded": true
+  },
+  "apiBaseUrl": "https://app.gestadia.com",
+  "nativeBuilds": {
+    "android": 1,
+    "iosArchives": 1,
+    "iosExports": 1
+  },
+  "newSuites": 0,
+  "uploaded": false,
+  "installed": false,
+  "guestRuntimeAccepted": false,
+  "notes": [
+    "SDK runner corrected before native compilation",
+    "Capacitor dependency order changes captured and original tracked files restored; no Android recompile",
+    "Bundletool metadata check initially hit cached legacy Guava; corrected verifier classpath only",
+    "Gradle deprecation diagnostics retained in private logs"
+  ]
+}

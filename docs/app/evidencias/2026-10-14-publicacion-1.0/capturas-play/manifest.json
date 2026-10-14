@@ -1,0 +1,59 @@
+{
+  "at": "2026-10-14T09:38:13.837372+00:00",
+  "sourceRevision": "965a12d9d65f78f614d4f1754d58e6c69e31585d",
+  "version": "1.0",
+  "versionCode": 5,
+  "apkSha256": "c7a3f457e46502653c980a7b1326318545db3cac684fd1aacab679e5e7d537c3",
+  "avd": "Gestadia_Native_QA_20261012",
+  "memoryMb": 4096,
+  "cores": 4,
+  "captures": [
+    {
+      "file": "01-lidia-inicio.png",
+      "screen": "LidIA: inicio sin cuenta",
+      "width": 1080,
+      "height": 1920,
+      "pngColourType": 6,
+      "sha256": "45ff37f5855e512b08aaf045fa612c3607d38d139c304237b8e133570e8114af",
+      "nativeOriginalUnedited": true,
+      "playUploadFile": "01-lidia-inicio.jpg",
+      "playUploadSha256": "76bbb1021fb68ecd6f5ba1ed9dba15ae6399c9d0917997dfda8c21da86ad32e5",
+      "formatConversionOnly": "native PNG retained; RGB JPEG encoding, no resize, crop or invented content"
+    },
+    {
+      "file": "02-lidia-acceso.png",
+      "screen": "LidIA: login o continuar sin registro, antes de crear sesión",
+      "width": 1080,
+      "height": 1920,
+      "pngColourType": 6,
+      "sha256": "894a64e7215f3a1e910e18fd45c4325a493c5a1eef5e4c637dc284c3810ed91e",
+      "nativeOriginalUnedited": true,
+      "playUploadFile": "02-lidia-acceso.jpg",
+      "playUploadSha256": "3c1c50032669dd29640beafc97ae5663712b68320005a0125dfa03343a3bc20e",
+      "formatConversionOnly": "native PNG retained; RGB JPEG encoding, no resize, crop or invented content"
+    },
+    {
+      "file": "03-servicios.png",
+      "screen": "Servicios públicos, sin datos cumplimentados",
+      "width": 1080,
+      "height": 1920,
+      "pngColourType": 6,
+      "sha256": "5c910bca4cbc60f5cbbe3947185471a1b314fc192de1945ae63ed52c20644fb8",
+      "nativeOriginalUnedited": true,
+      "playUploadFile": "03-servicios.jpg",
+      "playUploadSha256": "11ffac1316b929135844f953933e88ef3d17eb5d6da067c999ffe4cf69704d84",
+      "formatConversionOnly": "native PNG retained; RGB JPEG encoding, no resize, crop or invented content"
+    }
+  ],
+  "personalDataVisible": false,
+  "guestCreated": false,
+  "turnsSent": false,
+  "storeUploaded": false,
+  "ownedEmulatorShutdownRequested": true,
+  "foreignDevicesChanged": false,
+  "notes": [
+    "initial accessibility snapshot had not settled; only visually verified final captures published",
+    "keyboard navigation opened public Trámites/login without submitting; interim captures kept private"
+  ],
+  "ownedEmulatorShutdownConfirmed": true
+}
