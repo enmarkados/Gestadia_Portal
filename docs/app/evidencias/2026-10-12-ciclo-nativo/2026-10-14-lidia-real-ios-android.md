@@ -64,3 +64,11 @@ LidIA publica la corrección de lectura administrativa en [PR1711](https://githu
 Antes del despliegue se obtiene una copia nueva de DEV por TLS y transacción consistente de sólo lectura:239808404bytes, hash03a380c5,198tablas y260migraciones; no hay tablas no transaccionales. Los conteos propios posteriores conservan dos sesiones, ocho turnos,26+5mensajes y contextos2 con permisos vacíos, sin operaciones activas.
 
 La importación de compatibilidad en un esquema local MySQL8.4.9 falla con1101/42000 al rechazar un valor por defecto de BLOB/TEXT/JSON de MariaDB. El dump binario permanece intacto y el esquema temporal se retira tras preservar el error. **No hay restauración canónica MariaDB acreditada.** Source acepta continuar el cambio de lectores, sin migración, con el dump actual y el respaldo de código/imagen/archivos persistentes; la limitación se mantiene explícita. [Revisión de copia y límites](dev25-pre-audit-backup-review.json).
+
+### Corrección comprobada en el panel real
+
+La única actualización DEV termina detrás de un 504 del proxy, sin repetirla. Ops observa el contenedor nuevo 032d6cea, imagen 787863eb y Native b5579ee9 de 61.137.408 bytes, S2S apagado, perfil ausente y health 200 a las 00:32:52 UTC. El panel muestra V1.729-sesiones-app-historicas.
+
+Source abre las dos sesiones desde Sesiones, alterna y vuelve a recargar la primera: 26 mensajes en Android y 5 en iOS, sin cruzar sus textos. Portal revisa visualmente ambas capturas, con ids, insignia APP, proyecto propio, menús y formato correctos. No se repiten los ocho turnos. [Revisión servida](lidia-admin-audit-served-review.json) · [Historial Android en administración](lidia-admin-historial-android-s2s-off-20261014.png) · [Historial iOS en administración](lidia-admin-historial-ios-s2s-off-20261014.png). Son vistas administrativas de LidIA, no nuevas pantallas de la APP.
+
+El fallo de lectura queda comprobado como resuelto. Soporte/departamento, relación propia CRM, ciclo de gestor y posterior instalación física siguen pendientes; no se confunden con esta corrección.

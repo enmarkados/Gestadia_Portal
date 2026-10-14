@@ -1,0 +1,52 @@
+{
+  "status": "reader_fix_served_and_own_transcripts_observed",
+  "source_commit": "130cd186dbeb1fd89d680b40828575246092cc5d",
+  "source_pr": "https://github.com/enmarkados/Gestadia_LidIA/pull/1711",
+  "version_observed": "V1.729-sesiones-app-historicas",
+  "container": "032d6cea17e90f36a76c321af147bb5c3ce1f9fa03b1b17b89ed59e3bc79bc5d",
+  "image": "787863eb782d05f7dfa15b00ed9b65c5402683424fb59c8ac34139232d0b5619",
+  "native_sha256": "b5579ee9447d0c3c871432fa688b8932d07161415c091049ce0a7ae972a8b187",
+  "native_bytes": 61137408,
+  "runtime_observed_utc": "2026-10-14T00:32:52Z",
+  "s2s_enabled": false,
+  "configuration_file_present": false,
+  "health_http_status": 200,
+  "deployment_requests": 1,
+  "proxy_504_did_not_prove_build_failure": true,
+  "source_tests": {
+    "passed": 961,
+    "new_regressions": 25,
+    "failed": 0,
+    "skipped": 0,
+    "executed_by": "LidIA team; Portal read code and received results, did not rerun suite"
+  },
+  "ui": {
+    "observed_by": "LidIA team; Portal independently reviewed two saved screenshots",
+    "remote_sessions": [
+      "85f76609-6f13-4f2d-99be-712c93870d22",
+      "ff36b69d-128b-4e9e-9a35-b4e566ad2fd3"
+    ],
+    "message_counts": [
+      26,
+      5
+    ],
+    "alternation_and_first_reload": "Source observed PASS",
+    "normal_menu_and_styles": true,
+    "private_inspector_off_claim": true,
+    "new_native_turns": 0
+  },
+  "screenshots": [
+    {
+      "file": "lidia-admin-historial-android-s2s-off-20261014.png",
+      "source": "LidIA own-session UI capture, reviewed visually by Portal",
+      "sha256": "bd4c3dd001678d2846184c2c986589dce1b89d387014d7956f7b5175704f5b53"
+    },
+    {
+      "file": "lidia-admin-historial-ios-s2s-off-20261014.png",
+      "source": "LidIA own-session UI capture, reviewed visually by Portal",
+      "sha256": "29b3f82079f0e457f134e597b566fcbc11155b045b4a8bb92701390ed80cf3fd"
+    }
+  ],
+  "manager_cycle": "still pending staff configuration, own CRM relation and routing",
+  "physical_install": "not done"
+}
