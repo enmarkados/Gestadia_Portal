@@ -1,0 +1,27 @@
+{
+  "recordedAt": "2026-10-14T16:12:33.100655+00:00",
+  "reportedByThread": "01a11b48-bcb4-7611-a73d-2583fc47ddfe",
+  "directlyObservedByRoot": false,
+  "reviewCredentialSavedReported": {
+    "apple": true,
+    "googlePlay": true,
+    "googlePlayVisibleConfirmation": "Cambio guardado"
+  },
+  "formerGuestAfterLogoutReported": {
+    "ownConversationListCount": 0,
+    "conversation085Available": false,
+    "historyDeleted": false
+  },
+  "retirementMeaning": "ownership_changed_by_binding_not_independent_hard_revocation",
+  "iosReported": {
+    "version": "1.0",
+    "build": 12,
+    "uploadedOnce": true,
+    "processingConfirmed": true,
+    "visibleStatus": "Lista para enviar",
+    "qaAssignment": "authentication_required"
+  },
+  "documentsWithOwnedCase": "not_tested",
+  "nativeGuestAcceptance": "not_accredited",
+  "publication": "not_accredited"
+}

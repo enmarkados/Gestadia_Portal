@@ -1,0 +1,16 @@
+{
+  "recordedAt": "2026-10-14T14:22:25.321060+00:00",
+  "reportedByThread": "01a11b48-bcb4-7611-a73d-2583fc47ddfe",
+  "directlyObservedByRoot": false,
+  "platform": "iOS",
+  "version": "1.0",
+  "build": 12,
+  "archiveReused": true,
+  "uploadExecutionsReported": 1,
+  "xcodebuildExitReported": 0,
+  "uploadResultReported": "UploadSucceeded",
+  "appStoreConnectProcessing": "pending_confirmation",
+  "published": false,
+  "newBuildCreated": false,
+  "newSigningCredentialsCreated": false
+}

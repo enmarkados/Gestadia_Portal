@@ -1,0 +1,24 @@
+{
+  "recordedAt": "2026-10-14T16:19:57.879290+00:00",
+  "reportedByThread": "01a11b48-bcb4-7611-a73d-2583fc47ddfe",
+  "directlyObservedByRoot": false,
+  "platform": "Android",
+  "version": "1.0",
+  "versionCode": 5,
+  "existingAabReused": true,
+  "uploadExecutionsReported": 1,
+  "track": "internal",
+  "visibleStatusReported": "Activo",
+  "visibleAvailabilityReported": "Disponible para testers internos",
+  "visibleDateTimeReported": "14 octubre 18:10",
+  "releaseLabelReported": "4",
+  "nonBlockingWarningsReported": [
+    "mapping",
+    "símbolos"
+  ],
+  "screenshotOriginalReported": "artifacts/pro-audit-20261014/play-1.0-5-internal-available-actual.png",
+  "newBuildsExecutedByRoot": false,
+  "emulatorsStartedByRoot": false,
+  "publicProductionAvailability": "not_accredited",
+  "nativeGuestJourney": "not_accredited_by_this_receipt"
+}

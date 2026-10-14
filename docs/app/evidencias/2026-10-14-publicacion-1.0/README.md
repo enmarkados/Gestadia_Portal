@@ -18,3 +18,12 @@ La comprobación previa corrigió una ruta de SDK asumida antes de compilar. Los
 Copia previa al apply inactivo del receptor: completada14/10 a08:23:53UTC, exit0,198tablas InnoDB y260migraciones distintas; TLS/transacciónRO/singleTransaction confirmados. SQL privado1311621533bytes/SHA76d5bae7c02be1dc4c8882ec7df63052f2486c1d6fd74151851937ce123e2516; review literal15 SHAd7a074667edf9e7ab9a323a6c73be2dc7839fb6e10000035d3344b756d65fd33. Certificado por identidad y restauración canónica no acreditados. No se restauró ni se ejecutaron escrituras. Originales y credenciales fuera de Git; Source/Ops recibieron sólo el recibo saneado.
 
 Preparación de [subida pendiente](SUBIDA-PENDIENTE.md) y [capturas reales Android](capturas-play/manifest.json): tres pantallas públicas de1.0(5),1080x1920, sin datos de cliente ni crear sesión/turnos. PNG original conservado y JPEG RGB para Play, sin recorte/resize/contenido generado. APK compañero derivado del mismo AAB, sin recompilar; Android propio apagado confirmado. Navegación provisional abrió Trámites/login sin enviar credenciales; sólo las tres capturas finales revisadas visualmente se publican. No acredita flujo invitado ni pista Play.
+
+
+Actualización14/10: Operaciones comunica una única subida de iOS1.0(12) desde el archivo existente, xcodebuild0/UploadSucceeded. [Recibo con procedencia y límites](ios-upload-12-ops-reported.json). Procesado en App Store Connect y publicación todavía pendientes; no se repite la subida ni se genera otro paquete. La evidencia original del candidato conserva su estado previo a esta subida.
+
+
+Actualización posterior14/10: Operaciones confirma iOS1.0(12) procesado «Lista para enviar», con asignación QA pendiente de autenticación. Cuenta review guardada en Apple/Play. [Recibo y límites](../2026-10-14-store-review/store-access-and-former-guest-ops-reported.json). No acredita publicación, prueba guest nativa ni subida Android5.
+
+
+Android1.0(5): Operaciones comunica subida única del AAB existente y distribución interna completada; Play muestra «Activo / Disponible para testers internos»,14oct18:10. [Recibo con procedencia](android-internal-5-ops-reported.json). Dos avisos no bloqueantes de mapping/símbolos. Esto acredita disponibilidad interna comunicada, sin inferir publicación pública o ciclo guest nativo. No hubo nueva compilación ni emulador en este cierre.
