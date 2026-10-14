@@ -4,6 +4,8 @@
 
 ## Cómo empezar
 
+Estado vigente del14/10: [reserva real, aceptación nativa de sondeo y lectura histórica](evidencias/2026-10-12-agenda-real/README.md). La reserva real quedó creada y sus permisos temporales retirados. El sondeo autenticado y la recuperación del historial se comprobaron en Android e iOS, con emuladores por separado; no acredita un resultado estructurado de cualificación. DEV V1.729 permite la lectura administrativa de ambos historiales con S2S apagado. El preflight CRM de preparación pasó sin BD/HTTP/Zoho. Siguen pendientes el ciclo completo con gestor, el recorrido guest y las comprobaciones independientes de acceso social, push y publicación pública de la versión vigente. Las entradas fechadas siguientes conservan su alcance histórico.
+
 Estado de la continuación del13/10: [importación DEV real, login iOS y corrección guest preparada](evidencias/2026-10-12-ciclo-nativo/2026-10-13-dev-import-real-and-guest-fix.md). Los recibos de importación no acreditan activación; el error guest tiene corrección de transporte/HTTP/aviso, pero su ciclo anónimo real y ambos ciclos nativos siguen pendientes.
 
 1. Lee [NAVEGACION.md](NAVEGACION.md): rutas implementadas, orígenes, Atrás, menú inferior, permisos, hojas y retornos externos. Distingue el recorrido implementado del alcance futuro de contacto cualificado.
