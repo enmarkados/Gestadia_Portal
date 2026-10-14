@@ -102,7 +102,7 @@ export class AppGuestService {
  async turn(actor,id,dto){
   const c=await this.owned(actor,id);if(!c.remoteId)throw new AppProblem(409,'binding_in_progress');
   if(!dto||!UUID.test(dto.turn_id||'')||Object.keys(dto).some(k=>!['schema_version','turn_id','kind','text','presentation_id','presentation_revision','action_id','correlation_id'].includes(k)))bad();
-  const request={...dto,schema_version:'2.0'};validateContractV2(dto.kind==='text'?'textTurn':'actionTurn',request);const digest=hash(canonicalJson(request));let o;
+  const request={...dto,schema_version:'2.0',correlation_id:Object.hasOwn(dto,'correlation_id')?dto.correlation_id:dto.turn_id};validateContractV2(dto.kind==='text'?'textTurn':'actionTurn',request);const digest=hash(canonicalJson(request));let o;
   try{o=await this.db.appGuestOperation.create({data:{conversationId:id,kind:'turn',key:dto.turn_id,hash:digest,request}});}catch(e){if(e.code!=='P2002')throw e;o=await this.db.appGuestOperation.findUnique({where:{conversationId_kind_key:{conversationId:id,kind:'turn',key:dto.turn_id}}});}
   if(o.hash!==digest)throw new AppProblem(409,'idempotency_conflict');return this.dispatch(actor,c,o);
  }
