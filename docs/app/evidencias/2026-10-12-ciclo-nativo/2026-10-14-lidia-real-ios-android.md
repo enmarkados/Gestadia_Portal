@@ -72,3 +72,11 @@ La única actualización DEV termina detrás de un 504 del proxy, sin repetirla.
 Source abre las dos sesiones desde Sesiones, alterna y vuelve a recargar la primera: 26 mensajes en Android y 5 en iOS, sin cruzar sus textos. Portal revisa visualmente ambas capturas, con ids, insignia APP, proyecto propio, menús y formato correctos. No se repiten los ocho turnos. [Revisión servida](lidia-admin-audit-served-review.json) · [Historial Android en administración](lidia-admin-historial-android-s2s-off-20261014.png) · [Historial iOS en administración](lidia-admin-historial-ios-s2s-off-20261014.png). Son vistas administrativas de LidIA, no nuevas pantallas de la APP.
 
 El fallo de lectura queda comprobado como resuelto. Soporte/departamento, relación propia CRM, ciclo de gestor y posterior instalación física siguen pendientes; no se confunden con esta corrección.
+
+### Preparación del caso propio para la prueba del gestor
+
+Ops termina una única instalación del paquete revisado y su comprobación previa en el contenedor PRO indicado por el contrato. El proceso devuelve `eight_guards`, `no_DB_no_HTTP_no_apply` y salida 0. Portal revisa visualmente el resultado y los tres archivos del paquete con sus seis enlaces a dependencias nativas. Esta fase prepara la herramienta; **no abre la base de datos, no llama a Zoho y no crea contactos, tratos ni permisos**. No se repite la instalación.
+
+La cuenta Portal se vuelve a consultar a las 00:53:33 UTC: activa y verificada, dos sesiones nativas vigentes, sin vínculo CRM, expedientes ni operaciones pendientes. La copia propia conserva SHA `54e91524`. Android arranca conservando su instalación 0.1.0/versionCode 4 y se restablece únicamente su conexión local al puerto 3005. El rol y departamento del gestor, la configuración efectiva y los registros CRM reales continúan pendientes. [Revisión de la preparación](manager-case-stage-review.json).
+
+La suite de interfaz de la revisión de producto `c6530f6` pasa de nuevo: **49 archivos / 208 pruebas**, salida 0. Los cambios posteriores en esta rama son documentación; no se reconstruyen ni sustituyen los paquetes nativos por esta comprobación. [Resultado actual](frontend-current-208-review.json). La aceptación del gestor sigue pendiente y no se deduce de estas pruebas.

@@ -1,0 +1,32 @@
+{
+  "status": "stage_and_offline_preflight_observed",
+  "observed_utc": "2026-10-14T00:59:56Z",
+  "actor": "Ops, sole Portainer actor; Portal reviewed saved screenshots",
+  "preflight_checks": 8,
+  "preflight_exit": 0,
+  "database_opened": false,
+  "http_requests": 0,
+  "crm_records_created": false,
+  "preview_or_create_executed": false,
+  "payload_files": 3,
+  "native_dependency_symlinks": 6,
+  "payload_directory_mode": "700",
+  "payload_files_mode": "600",
+  "runtime_user": "1654:1654",
+  "helper_sha256": "b570dbf1b79d7e14093fa11bc89125e2fa229b1fada6afca953f3d8b5244440f",
+  "console_log": {
+    "bytes": 81,
+    "sha256": "08977c0cf3caa5fe474a8ee5fc5195ed63d02de28d91f05346f29f8d3bb03a5",
+    "retained_privately_by": "Ops on the reviewed server"
+  },
+  "actual_case_creation": "pending staff, effective mapping and fresh reviewed receipts",
+  "portal_account_read_utc": "2026-10-14T00:53:33.598Z",
+  "portal_account_active_verified": true,
+  "current_native_sessions": 2,
+  "portal_own_cases": 0,
+  "portal_crm_link_present": false,
+  "portal_pending_operations": 0,
+  "portal_external_integrations_enabled": false,
+  "native_manager_cycles_complete": false,
+  "physical_install_done": false
+}

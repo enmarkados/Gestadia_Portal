@@ -1,0 +1,13 @@
+{
+  "status": "current_frontend_suite_passed",
+  "observed_utc": "2026-10-14T01:02:06.392352+00:00",
+  "product_revision": "c6530f6a20a134feb96de7bb15b9f89ee4af6975",
+  "command": "NODE_OPTIONS=--no-experimental-webstorage npm test --prefix frontend",
+  "test_files_passed": 49,
+  "tests_passed": 208,
+  "tests_failed": 0,
+  "exit_code": 0,
+  "log_sha256": "7d9dac91355d1cc0df24ffc4bd6d37522a9f9e4e3e9d4a68cfafc94d115afbf5",
+  "native_manager_cycle_complete": false,
+  "physical_install_done": false
+}
