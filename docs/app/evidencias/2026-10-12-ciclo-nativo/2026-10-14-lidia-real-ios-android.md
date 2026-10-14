@@ -80,3 +80,11 @@ Ops termina una única instalación del paquete revisado y su comprobación prev
 La cuenta Portal se vuelve a consultar a las 00:53:33 UTC: activa y verificada, dos sesiones nativas vigentes, sin vínculo CRM, expedientes ni operaciones pendientes. La copia propia conserva SHA `54e91524`. Android arranca conservando su instalación 0.1.0/versionCode 4 y se restablece únicamente su conexión local al puerto 3005. El rol y departamento del gestor, la configuración efectiva y los registros CRM reales continúan pendientes. [Revisión de la preparación](manager-case-stage-review.json).
 
 La suite de interfaz de la revisión de producto `c6530f6` pasa de nuevo: **49 archivos / 208 pruebas**, salida 0. Los cambios posteriores en esta rama son documentación; no se reconstruyen ni sustituyen los paquetes nativos por esta comprobación. [Resultado actual](frontend-current-208-review.json). La aceptación del gestor sigue pendiente y no se deduce de estas pruebas.
+
+Se prepara [PR17](https://github.com/enmarkados/Gestadia_Portal/pull/17) como **borrador hacia app/main**, sin fusión. La creación usa la cuenta `enmarkados` ya guardada y sólo en el proceso correspondiente; no cambia la cuenta global de GitHub CLI.
+
+### Consulta de disponibilidad de «Continuar sin registro»
+
+A las 01:05:02 UTC se consulta mediante GET, sin autenticación, `/api/app/guest/conversations` en el backend local y en `https://app.gestadia.com`. Ambos devuelven `503` con `runtime_unavailable`. No se solicita crear una instalación ni una conversación, y no se cambia configuración o autoridad.
+
+El código comprueba disponibilidad antes de acceder a datos guest. El botón de la APP conserva el intento y el origen y muestra el aviso de indisponibilidad; no fuerza una cuenta como requisito del diseño. La causa observada corresponde al servicio aún indisponible, no a una conversación guest conectada validada. La siguiente fase guest requiere configuración efectiva v2 y prueba propia; permanece separada del ciclo de cuenta/gestor actual. [Estados observados](guest-readonly-availability-review.json).

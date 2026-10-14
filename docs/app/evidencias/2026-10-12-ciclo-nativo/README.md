@@ -6,6 +6,8 @@ Petición humana: comprobar LidIA y el gestor `integraciones@vozenter.com` en iO
 
 **Actualización14/10:** [ejecución y capturas reales](2026-10-14-lidia-real-ios-android.md). LidIA conectada y continuidad comprobadas; gestor y dispositivo físico pendientes. Los apartados anteriores conservan sus fechas y límites históricos.
 
+Integración preparada en [PR17, borrador hacia app/main](https://github.com/enmarkados/Gestadia_Portal/pull/17), todavía sin fusionar. La interfaz actual pasa [49 archivos / 208 pruebas](frontend-current-208-review.json). La comprobación de sólo lectura del servicio sin registro, local y público, devuelve `503 runtime_unavailable` el14/10 a01:05UTC; no crea instalaciones ni chats y no acredita aceptación guest.
+
 ## Fuente y entorno
 
 - Fuente de los paquetes y pruebas del12/10 (iOS0.1.0/build11; Android0.1.0/versionCode4): `344b0335ffb1e4a48677983fcba60b58e0b0c216`, con el editor de nombre aceptado. Las referencias web/backend5febdf2/0af593f corresponden a esa preparación, no al despliegue posteriorc653.
