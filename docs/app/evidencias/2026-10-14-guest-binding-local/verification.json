@@ -1,0 +1,99 @@
+{
+  "at": "2026-10-14T06:01:10.269755+00:00",
+  "branch": "codex/app-guest-binding-guard-20261014",
+  "base": "8725fc08298979553d6a9f61c73deb45df712c22",
+  "scope": "local consumer correction; remote transport simulated",
+  "files": {
+    "backend/src/app/v2/guest.js": "aae1f00e67a1c67aad066c4a5d5ce2b0a8ff795bd145af4e4d1246517133bfe0",
+    "backend/src/app/v2/guest.test.js": "f10c557a02777db906faef7cf381d9d6e5d86273db3c6efbf68500240eacf04c",
+    "frontend/app/src/AppConversation.jsx": "b81a17309dd4357d0c18cded87dd9429a24c645f198bcff00b65f1f63e9b9352",
+    "frontend/app/src/GuestConversation.test.jsx": "bcfdba7e526acc2324d376bdd6c73bcf106298aba8e84d3313050d3a97882bf9"
+  },
+  "checks": {
+    "schema-baseline": {
+      "sha256": "e1b75e247e7c4817d72c93102e6e7dfaedf23f2e362fb22e22bc1c22c5677af6",
+      "exit": 1,
+      "reason": "P3005: own marker table made schema nonempty"
+    },
+    "schema-empty": {
+      "sha256": "caff31fbd78d80640d583ea6428cca287572091b2a0b23adc8b8613de88aabd4",
+      "summary": [
+        "All migrations have been successfully applied."
+      ],
+      "exit": 0
+    },
+    "guest-baseline": {
+      "sha256": "e9fbac93c09e2a2db236ead0675eda96f27270c4a2cc90f5fb8d056bfe3efedb",
+      "exit": 0
+    },
+    "guest-red": {
+      "sha256": "e42dfc4338421e6c217154a161f3a970211c52f1a7c5467fb1aa267f3369eddb",
+      "exit": 1,
+      "passed": 11,
+      "failed": 9
+    },
+    "guest-green": {
+      "sha256": "a36d2ecf12c8841690ae863203e88b9403b8d2f6c154b3124d957524bfe760da",
+      "summary": [
+        "ℹ tests 20",
+        "ℹ pass 20",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0"
+      ],
+      "exit": 0
+    },
+    "backend-full": {
+      "sha256": "d728375a741eade9dabb29803d1ee240ce16dca5f620cbdc03308b438f70be38",
+      "summary": [
+        "ℹ tests 365",
+        "ℹ pass 365",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0"
+      ],
+      "exit": 0
+    },
+    "frontend-full": {
+      "sha256": "1c967a52c9a980678f607e60fc49b3ed617a5d81d8a800c5c248e3e474a61237",
+      "summary": [
+        "Test Files  49 passed (49)",
+        "Tests  213 passed (213)"
+      ],
+      "exit": 0
+    },
+    "frontend-final": {
+      "sha256": "55f94cad97f82a038a3085eb695181fdb17aae9f43939247d2bf655ee752a216",
+      "summary": [
+        "Test Files  49 passed (49)",
+        "Tests  214 passed (214)"
+      ],
+      "exit": 0
+    },
+    "web-build": {
+      "sha256": "10d9908afa7d0b3fdf8f594d2af0af620d8da5537fa328f249ad6471f01308c8",
+      "summary": [
+        "✓ built in 3.72s"
+      ],
+      "exit": 0
+    }
+  },
+  "cleanup": {
+    "ownFixtureDropped": true,
+    "at": "2026-10-14T06:01:09.810185+00:00",
+    "productionWrites": false
+  },
+  "notPerformed": [
+    "functional push or merge",
+    "runtime configuration",
+    "deployment",
+    "real guest turn",
+    "native build or install",
+    "store upload"
+  ],
+  "limitations": [
+    "first unrestricted frontend run: 211/212, PluginWebContext timeout; separate PluginWeb 5/5 and final full suite pass",
+    "three JSDOM navigation diagnostics from unchanged CheckoutForm",
+    "Docker info timed out; owned disposable schema on existing local MySQL instead"
+  ]
+}

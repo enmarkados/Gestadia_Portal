@@ -1,14 +1,15 @@
 import React from 'react';
 import { afterEach,beforeEach,it,expect,vi } from 'vitest';
-import { render,cleanup,screen,fireEvent,waitFor } from '@testing-library/react';
+import { act,render,cleanup,screen,fireEvent,waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import AppConversation from './AppConversation.jsx';
-const f=vi.hoisted(()=>({installation:vi.fn(),start:vi.fn(),timeline:vi.fn(),list:vi.fn(),mode:'visitor',profile:null}));
-vi.mock('./guestConversations.js',()=>({guestInstallation:f.installation,guestConversationApi:{start:f.start,timeline:f.timeline,list:f.list,messageReceipts:vi.fn(),ackMessages:vi.fn(),bind:vi.fn(async()=>{})}}));
+const f=vi.hoisted(()=>({installation:vi.fn(),start:vi.fn(),timeline:vi.fn(),list:vi.fn(),bind:vi.fn(),mode:'visitor',profile:null}));
+vi.mock('./guestConversations.js',()=>({guestInstallation:f.installation,guestConversationApi:{start:f.start,timeline:f.timeline,list:f.list,messageReceipts:vi.fn(),ackMessages:vi.fn(),bind:f.bind}}));
 vi.mock('./AppContext.jsx',()=>({useApp:()=>({mode:f.mode,data:{profile:f.profile}})}));
 beforeEach(()=>{
  window.GESTADIA_APP_CONFIG={conversationsEnabled:true};f.mode='visitor';f.profile=null;
  f.installation.mockReset().mockResolvedValue({installation_id:'installation-1'});
+ f.bind.mockReset().mockResolvedValue({id:'chat-guest'});
  f.start.mockReset().mockResolvedValue({conversation:{id:'chat-guest',purpose:'sondeo',ready:true},operation:{status:'admitted'}});
  f.list.mockReset().mockResolvedValue({conversations:[{id:'chat-guest',purpose:'sondeo',case_ref:null,ready:true,protocol:'v2'}]});
  f.timeline.mockReset().mockResolvedValue({conversation_id:'chat-guest',items:[{message_id:'hello',sequence:'1',role:'assistant',text:'Pregunta literal del agente',occurred_at:'2026-10-11T10:00:00Z',presentation:null}],pending_operations:[],turn_statuses:[],permissions:['sondeo','history'],state_revision:'1',has_more:false});
@@ -27,4 +28,41 @@ it('continuar sin registro inicia el motor y conserva su texto, sin pedir datos 
 it('deeplink anónimo conserva origen y reanuda el id recibido sin crear otra sesión',async()=>{
  render(<MemoryRouter initialEntries={['/lidia/conversacion?conversacion=chat-guest&invitado=1']}><AppConversation/></MemoryRouter>);
  await screen.findByText('Pregunta literal del agente');expect(f.timeline).toHaveBeenCalledWith('chat-guest',{limit:'50'});expect(f.start).not.toHaveBeenCalled();
+});
+it.each([false,undefined,'true'])('login conserva el historial invitado sin intentar vincular con can_bind=%j',async canBind=>{
+ f.list.mockResolvedValue({conversations:[{id:'chat-guest',purpose:'sondeo',case_ref:null,ready:true,protocol:'v2',can_bind:canBind}]});
+ f.bind.mockRejectedValue({code:'runtime_unavailable'});
+ const view=()=> <MemoryRouter initialEntries={['/lidia/conversacion?conversacion=chat-guest&invitado=1']}><AppConversation/></MemoryRouter>;
+ const {rerender}=render(view());await screen.findByText('Pregunta literal del agente');
+ f.mode='real';f.profile={id:'account-1'};rerender(view());
+ await waitFor(()=>expect(f.timeline).toHaveBeenCalledTimes(2));
+ expect(screen.getByText('Pregunta literal del agente')).toBeInTheDocument();
+ expect(f.timeline).toHaveBeenLastCalledWith('chat-guest',{limit:'50'});
+ expect(f.bind).not.toHaveBeenCalled();expect(f.start).not.toHaveBeenCalled();
+});
+it('cuenta con chat ya vinculado recupera historial sin instalación invitada en este dispositivo',async()=>{
+ f.mode='real';f.profile={id:'account-1'};f.installation.mockResolvedValue(null);
+ render(<MemoryRouter initialEntries={['/lidia/conversacion?conversacion=chat-guest&invitado=1']}><AppConversation/></MemoryRouter>);
+ await screen.findByText('Pregunta literal del agente');
+ expect(f.timeline).toHaveBeenCalledWith('chat-guest',{limit:'50'});expect(f.bind).not.toHaveBeenCalled();expect(f.start).not.toHaveBeenCalled();
+ expect(f.installation).not.toHaveBeenCalledWith(true);
+});
+it('login espera a resolver la instalación original antes de decidir vincular y cargar',async()=>{
+ f.mode='real';f.profile={id:'account-1'};let complete;
+ f.installation.mockReturnValue(new Promise(resolve=>{complete=resolve;}));
+ f.list.mockResolvedValue({conversations:[{id:'chat-guest',purpose:'sondeo',case_ref:null,ready:true,protocol:'v2',can_bind:true}]});
+ render(<MemoryRouter initialEntries={['/lidia/conversacion?conversacion=chat-guest&invitado=1']}><AppConversation/></MemoryRouter>);
+ expect(f.list).not.toHaveBeenCalled();expect(f.timeline).not.toHaveBeenCalled();expect(f.bind).not.toHaveBeenCalled();
+ await act(async()=>complete({installation_id:'installation-1'}));
+ await screen.findByText('Pregunta literal del agente');expect(f.bind).toHaveBeenCalledExactlyOnceWith('chat-guest');
+ expect(f.list).toHaveBeenCalledTimes(1);expect(f.start).not.toHaveBeenCalled();expect(f.installation).not.toHaveBeenCalledWith(true);
+});
+it('login con capacidad explícita vincula el mismo chat antes de recuperar su historial',async()=>{
+ f.list.mockResolvedValue({conversations:[{id:'chat-guest',purpose:'sondeo',case_ref:null,ready:true,protocol:'v2',can_bind:true}]});
+ const view=()=> <MemoryRouter initialEntries={['/lidia/conversacion?conversacion=chat-guest&invitado=1']}><AppConversation/></MemoryRouter>;
+ const {rerender}=render(view());await screen.findByText('Pregunta literal del agente');
+ f.mode='real';f.profile={id:'account-1'};rerender(view());
+ await waitFor(()=>expect(f.timeline).toHaveBeenCalledTimes(2));
+ expect(f.bind).toHaveBeenCalledExactlyOnceWith('chat-guest');
+ expect(screen.getByText('Pregunta literal del agente')).toBeInTheDocument();expect(f.start).not.toHaveBeenCalled();
 });

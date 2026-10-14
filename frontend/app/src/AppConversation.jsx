@@ -55,7 +55,7 @@ export default function AppConversation({ purpose = "sondeo" }) {
 }
 function ConversationBody({ purpose, guest }) {
   const api = guest ? guestConversationApi : conversationApi;
-  const [guestId, setGuestId] = useState(null);
+  const [guestId, setGuestId] = useState(undefined);
   useEffect(() => { if (guest) guestInstallation().then(i => setGuestId(i?.installation_id || null)); }, [guest]);
   const [composerHost, setComposerHost] = useState(null);
   useLayoutEffect(() => {
@@ -209,7 +209,7 @@ function ConversationBody({ purpose, guest }) {
     terminalReceipts.current.clear();
     cursor.current = null;
     startKey.current = newIntent || crypto.randomUUID();
-    if (!allowed || !userId || !conversationsEnabled()) return;
+    if (!allowed || !userId || (guest && guestId === undefined) || !conversationsEnabled()) return;
     if (newIntent) return () => { generation.current++; };
     let timer,
       stopped = false;
@@ -227,7 +227,7 @@ function ConversationBody({ purpose, guest }) {
           if (chosen) showError({ code: "conversation_not_found" });
           return;
         }
-        if (guest && guestId && mode === "real" && c.ready) await api.bind(c.id);
+        if (guest && guestId && mode === "real" && c.ready && c.can_bind === true) await api.bind(c.id);
         setConversation(c);
         if (!c.ready) {
           const started = await api.start(
@@ -255,7 +255,7 @@ function ConversationBody({ purpose, guest }) {
       clearTimeout(timer);
       generation.current++;
     };
-  }, [mode, userId, purpose, caseRef, search.get("conversacion"), newIntent]);
+  }, [mode, userId, guestId, purpose, caseRef, search.get("conversacion"), newIntent]);
   useEffect(() => {
     if (!conversation?.ready || !userId || !allowed) return;
     const version = generation.current;

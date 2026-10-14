@@ -1,6 +1,6 @@
 # APP sin registro: plan de contraste y consumidor limitado
 
-> Para ejecución futura: usar superpowers:executing-plans, tarea por tarea. Este documento y la conformidad técnica no autorizan código, recursos, claves, despliegue o activación nuevos. Revisión conjunta Portal/Source/Ops antes de cada paso material.
+> Revisión14/10: la corrección local de la tarea2 queda dentro del encargo humano vigente de arreglar «Continuar sin registro», aclarado con Ops. Se prepara código y pruebas en rama aislada. No autoriza merge/push funcional, recursos, claves, despliegue, build nativa o activación. El resto del plan conserva revisión conjunta antes de cada paso material.
 
 **Goal:** preparar una consulta invitada real y aislada sin que el login provoque un binding no disponible, conservando la continuidad a cuenta aprobada para la salida pública.
 
@@ -77,12 +77,12 @@ La fase limitada no sustituye silenciosamente el diseño aprobado de cuenta opci
 
 ## Tarea2: comportamiento de binding del consumidor
 
-**Modificar después de revisión:** backend/src/app/v2/guest.js, frontend/app/src/AppConversation.jsx. **Pruebas:** backend/src/app/guest-proxy.test.js y frontend/app/src/GuestConversation.test.jsx. **Interfaces:** guestBindingEnabled(config):boolean y view(c,config) proyectan can_bind; bind(actor,id) conserva su firma y el DTO wire existente.
+**Modificar en revisión local:** backend/src/app/v2/guest.js, frontend/app/src/AppConversation.jsx. **Pruebas:** backend/src/app/v2/guest.test.js y frontend/app/src/GuestConversation.test.jsx. **Interfaces:** guestBindingEnabled(config):boolean y view(c,config) proyectan can_bind; bind(actor,id) conserva su firma y el DTO wire existente.
 
-- [ ] Añadir regresiones: con sólo tres/cuatro roles can_bind=false; login no llama api.bind, conserva conversationId/invitado/origen y puede cargar timeline. Faltan BindingWrite o BindingRead: no AppGuestBinding.create ni client.call. Con ambas capacidades revisadas, conservar prepare/commit y autoridad actuales. Ejecutarlas primero y comprobar el fallo real.
-- [ ] Implementar guestBindingEnabled sin crear/habilitar claves; false por defecto o configuración incompleta. Proyectarlo en las respuestas locales del chat. Rechazo backend tras ownership y antes de escribir Binding; fuente de autoridad final sigue siendo LidIA, no la bandera de UI.
-- [ ] Condicionar el autobind a can_bind===true. Sin capacidad, mantener el chat invitado de esa instalación; sin mensaje de vinculación lograda ni continuidad entre cuentas/dispositivos. No devolver200 a un bind que no ocurrió.
-- [ ] Ejecutar las regresiones, suite frontend y harness conversacional aislado; revisar ausencia de cambios v1/CRM/proxy. Registrar source/resultado y hacer commit. No activar producción a partir de pruebas simuladas.
+- [x] Añadir regresiones: con sólo tres/cuatro roles can_bind=false; login no llama api.bind, conserva conversationId/invitado/origen y puede cargar timeline. Faltan BindingWrite o BindingRead: no AppGuestBinding.create ni client.call. Con ambas capacidades revisadas, conservar prepare/commit y autoridad actuales. Ejecutarlas primero y comprobar el fallo real.
+- [x] Implementar guestBindingEnabled sin crear/habilitar claves; false por defecto o configuración incompleta. Proyectarlo en las respuestas locales del chat. Rechazo backend tras ownership y antes de escribir Binding; fuente de autoridad final sigue siendo LidIA, no la bandera de UI.
+- [x] Condicionar el autobind a can_bind===true. Sin capacidad, mantener el chat invitado de esa instalación; sin mensaje de vinculación lograda ni continuidad entre cuentas/dispositivos. No devolver200 a un bind que no ocurrió.
+- [x] Ejecutar regresiones, suite frontend y comandos conversacionales con MySQL aislado (adaptación documentada tras timeout Docker); revisar ausencia de cambios v1/CRM/proxy. Registrar source/resultado y conservar en commit local para revisión. No activar producción a partir de pruebas simuladas.
 
 ## Tarea3: piloto conectado privado y cierre por subject
 
@@ -117,3 +117,7 @@ Source comunica lectura completa y conformidad técnica a compatibilidad, retira
 En la UI normal de PRO731, Source observa en el proyecto103 «Personalidad por Defecto: LidIA Gestadia», con value6 en el selector, sin cambiar ni guardar nada. Se conserva como observación de interfaz: no acredita hashes de fila, snapshot SQL, efectos de caché, autorización para compartir esa referencia ni aislamiento del clon futuro. El lector731 privado y sus regresiones de lifecycle siguen pendientes; no se ejecuta el paquete antiguo ni se levanta su guard por este dato.
 
 Source amplía después su observación de UI: proyecto103 con FK6 directa; el agente Canje APP selecciona proyecto103/instrucción10116 y personalidad heredada, sin override. El ID122 del agente procede de metadata anterior, no de esa interfaz. El catálogo muestra activa y0agentes/2proyectos; su carácter custom/noSystem se infiere de ausencia de badge y del renderer, sin presentarlo como lectura primaria. Source propone conservar FK6 como catálogo de sólo lectura, sin crear personalidad ni copiar prompt. Sigue siendo propuesta condicionada a lector/preview revisados y revisión material; no autoriza apply ni cambios de guard a partir de estos datos de UI.
+
+## Ejecución local de la tarea2
+
+La rama `codex/app-guest-binding-guard-20261014` parte de8725fc0. Se observó RED antes del guard y GREEN dirigido; se añadió además la espera a la lectura de instalación al remontar tras login, diferenciando pendiente de instalación ausente para no bloquear una cuenta con chat ya vinculado. [Diff, comprobaciones y límites](../../app/evidencias/2026-10-14-guest-binding-local/README.md). No cambia el contrato S2S, rutas, pantallas, permisos remotos ni flags servidos; las tareas1/3/4 siguen pendientes. La declaración anterior de «no código funcional» describe la preparación previa, no esta revisión local.
