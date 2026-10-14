@@ -1,0 +1,11 @@
+{
+  "observedUtc": "2026-10-14T05:09:23.473994+00:00",
+  "url": "https://lidia.gestadia.com/js/app-message-receipts.js",
+  "finalUrl": "https://lidia.gestadia.com/js/app-message-receipts.js",
+  "httpStatus": 200,
+  "contentType": "text/javascript",
+  "bytes": 4618,
+  "sha256": "4874cadf8fb84bb4608fe6239b3fe00c40e6515d7adfb31c08d7ff5bade29cdb",
+  "readOnly": true,
+  "newConversationOrCrm": false
+}
