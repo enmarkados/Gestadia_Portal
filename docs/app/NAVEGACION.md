@@ -1,6 +1,9 @@
 # Navegación de Gestadia APP
 
 
+**Actualización posterior14/10 · cuenta de revisión y continuidad web:** [recibos, captura de Sesiones y límites](evidencias/2026-10-14-store-review/README.md). Guest→respuesta real→login→binding committed2→misma conversación/historial en otra sesión de cuenta comprobados por Operaciones. Antiguo invitado sin acceso despuéslogout; esto no equivale a hard revocation administrativa. Cuenta guardadaApple/Play e iOS12procesado; aceptación guest nativa/documentos/publicación no acreditados. No cambia rutas, Atrás ni permisos; los estados de preparación anteriores se conservan como antecedentes.
+
+
 **Estado vigente · 14/10/2026:** [LidIA real en iOS y Android](evidencias/2026-10-12-ciclo-nativo/2026-10-14-lidia-real-ios-android.md) y [gestor Integraciones con V1.731](evidencias/2026-10-12-ciclo-nativo/2026-10-14-gestor-real-731.md). Intercambio, recepción/lectura bidireccionales y cierre comprobados en ambos sistemas. Atrás conserva LidIA/Mensajes en Android y Trámites/Mensajes en iOS. iOS recupera el historial cerrado después de relanzar; Android conserva lista/título/fechas/estado/preview tras reiniciar, con su historial completo recuperado desde iOS. Permisos retirados y receptor DEV apagado con mensajes conservados; PR17 fusionada y app/main sincronizada. [Instalación física y Home comprobados en iGonchu](evidencias/2026-10-12-ciclo-nativo/iphone-installed-20261014-review.json),0.1.0(11), sin ampliar el E2E conversacional al teléfono. [Matriz de aceptación](evidencias/2026-10-12-ciclo-nativo/README.md).
 [Manual de desarrollo: cómo consultar y mantener este mapa](MANUAL-DESARROLLO.md).
 

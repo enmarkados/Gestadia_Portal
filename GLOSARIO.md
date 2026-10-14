@@ -1934,3 +1934,11 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** identificador de correlación del envío. Si la APP omite el campo, el Portal utiliza el mismo `turn_id` para conservar la correlación al reintentar.
 - **Alcance:** `backend/src/app/v2/guest.js`, contrato JSON v2 y `guest-turn-input.test.js`.
 - **Notas:** se preserva cualquier valor explícito válido; null, vacío o longitud excesiva siguen rechazados. Se descarta generar un identificador aleatorio en cada intento porque alteraría el digest de idempotencia.
+
+
+### Cuenta de revisión de tiendas
+
+- **Tipo:** concepto operativo y decisión de identificación.
+- **Definición:** cuenta administrada estable de Gestadia para comprobar la APP durante las revisiones de Apple y Google Play; representa una identidad propia de revisión, sin simular una contratación.
+- **Alcance:** User existente e invitación en backend/src/app/identity.js; documentación en docs/app/MARKETPLACES.md y docs/app/evidencias/2026-10-14-store-review/README.md.
+- **Notas:** misma cuenta en ambas tiendas; credenciales fuera de Git. Se descarta el fixture de24h porque no sirve como acceso estable de revisión. No añade un rol, mailbox, pago, expediente ni permiso CRM.

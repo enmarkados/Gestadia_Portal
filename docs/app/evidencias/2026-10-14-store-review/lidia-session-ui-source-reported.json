@@ -1,0 +1,19 @@
+{
+  "recordedAt": "2026-10-14T14:54:56.832309+00:00",
+  "uiObservedByThread": "01a1071b-1f23-7101-afd4-13935b20bd04",
+  "screenshotInspectedByRoot": true,
+  "sessionRouteObservedBySource": "/admin/chats/cc495e35-f6b5-46d1-abd6-35fe58b8f99e",
+  "channelVisible": "APP",
+  "agentLabelVisible": "LidIA Canje APP Invitado",
+  "aiStateVisible": "Activada",
+  "environmentVisible": "PRO",
+  "versionMarkerVisible": "V1.731-recibos-app-window",
+  "listedMessageCountReported": 7,
+  "contactFieldsVisible": "Pendiente",
+  "numericProjectAgentIdsObserved": false,
+  "internalChatSessionDatabaseIdObserved": false,
+  "providerModelObserved": false,
+  "screenshotSha256": "54df2fd861cbc388b6ffd86305992ef9c09d1225c382b023c4d2ecb8cd7d37c2",
+  "newTurnOrQueryExecuted": false,
+  "concreteContentObservation": "La bienvenida visible enlaza una política de privacidad de defensalegalconsumidores.com; se remite a Source para resolver la marca correcta de Gestadia."
+}

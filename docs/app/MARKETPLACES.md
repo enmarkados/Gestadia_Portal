@@ -154,3 +154,8 @@ La publicación exige además borrado de cuenta, privacidad y declaraciones de d
 ## Estado de esta entrega
 
 Completado: auditoría documental/código, propuesta técnica, inventario de dependencias y glosario. Pendiente: revisión de diseño, plan, código, migraciones, cuentas, firma real, distribución y pruebas nativas. No se ha modificado el comportamiento de la demo, instalado plugins, generado claves, desplegado ni publicado nada.
+
+
+## Cuenta estable de revisión · 14/10/2026
+
+[Alta administrativa y login reales, con pendientes separados](evidencias/2026-10-14-store-review/README.md). Apple y Google Play usarán la misma cuenta administrada; credenciales exclusivamente privadas. El alta/login no acreditan continuidad guest ni entrega en consolas o publicación.

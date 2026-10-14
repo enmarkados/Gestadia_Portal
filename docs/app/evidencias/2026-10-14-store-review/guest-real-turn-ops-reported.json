@@ -1,0 +1,27 @@
+{
+  "recordedAt": "2026-10-14T14:34:58.666315+00:00",
+  "reportedByThread": "01a11b48-bcb4-7611-a73d-2583fc47ddfe",
+  "directlyObservedByRoot": false,
+  "deploymentReported": {
+    "source": "Git",
+    "branch": "app/main",
+    "commit": "7e3a9b4d6075fdf141a6cdea61da4b6e49ee7488",
+    "backendImage": "gestadia-backend:3b95062",
+    "stack": 162,
+    "health": "healthy"
+  },
+  "guestConversationId": "085abe94-ddbf-4121-b9c7-4ac6277bd72f",
+  "remoteConversationId": "cc495e35-f6b5-46d1-abd6-35fe58b8f99e",
+  "priorRejectedTurnId": "1c54ed3f-408d-4f80-961e-ebcbbb333d5a",
+  "newTurnId": "5e73e6b3-d73c-4460-ab4f-e70745853477",
+  "httpStatusReported": 200,
+  "realResponseVisibleReported": true,
+  "sameGuestInstallationReported": true,
+  "crmMutationReported": false,
+  "bookingMutationReported": false,
+  "reviewerLoginInGuestInstallationReported": "executed",
+  "bindingCommitted": "pending_confirmation",
+  "sameTimelineAfterLogin": "pending_confirmation",
+  "effectiveAgentProviderAttribution": "pending_source_evidence",
+  "nativeE2E": "not_accredited_by_this_receipt"
+}
