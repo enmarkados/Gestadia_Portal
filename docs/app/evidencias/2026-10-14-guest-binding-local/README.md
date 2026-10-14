@@ -56,3 +56,7 @@ El runner privado elimina variables de integraciones/CRM del proceso hijo, apaga
 ## Límites de entrega
 
 Sin push/merge funcional, recursos/claves nuevos, migración nueva, cambios de flags, despliegue, turnos reales, CRM o builds nativas. El Portal público y la app0.1.0(11) instalada no incluyen este delta. El perfil guest público permanece en el estado OFF de la última comprobación Ops; no se vuelve a activarlo por estas pruebas. Siguen pendientes receptor/candidato revisados, capacidades y revocación reales, piloto nativo conectado y compatibilidad/continuidad para la salida pública según el plan.
+
+## Entrega para revisión
+
+Después de la verificación local registrada en `verification.json`, se conserva el commit funcional752420dd565a4a89b5350cdf05c573ee671e42ef y se sube únicamente la rama revisada en la [PR18 borrador contra app/main](https://github.com/enmarkados/Gestadia_Portal/pull/18). Source y Ops revisaron estáticamente el delta, incluido el estado undefined/null, sin P1/P2 pendientes; sus revisiones no se presentan como ejecuciones independientes de las suites. El recibo anterior conserva su momento previo al push; esta sección actualiza la entrega. No hay merge, despliegue, activación guest o binario nuevo.
