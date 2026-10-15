@@ -1,0 +1,25 @@
+- link "Ir al contenido":
+  - /url: "#main"
+- banner:
+  - link "Volver a LidIA":
+    - /url: /
+  - heading "Habla con LidIA" [level=1]
+  - button "Solicitar llamada":
+- main:
+  - alert:
+    - paragraph: No se pudo completar la solicitud. Puedes volver a cargar la conversación.
+    - button "Volver a cargar"
+- contentinfo:
+  - navigation "Navegación principal":
+    - link "LidIA":
+      - /url: /
+      - generic: LidIA
+    - link "Trámites":
+      - /url: /tramites
+      - generic: Trámites
+    - link "Mensajes":
+      - /url: /mensajes
+      - generic: Mensajes
+    - link "Servicios":
+      - /url: /servicios
+      - generic: Servicios

@@ -1,6 +1,6 @@
 # CRM y llamada sin registro — corrección del 15/10
 
-Estado: publicación y prueba autorizadas; código fusionado, LidIA PRO sirve V1.732-app-guest-crm y la imagen Portal está construida. Corte Portal y activación CRM pendientes del acceso a Plesk. [Estado operativo y preimágenes](PUBLICACION-Y-PRUEBA-REAL.md). Caso Fernando Cortes identificado en PRO. La precisión humana vigente confirma Lead con procedencia App y llamada en ese Lead asignada al agente vinculado, conservando los criterios existentes. [Diagnóstico real y comprobaciones](DIAGNOSTICO-Y-DECISION.md). No hay alta/llamada real de esta revisión.
+Estado: ambos backends publicados y saludables; CRM invitado activo. Prueba real ha creado automáticamente Lead App/Canje y Call con Juan Carlos Acero bajo V1.733; recuperación y ausencia de duplicados comprobadas. [Estado operativo y preimágenes](PUBLICACION-Y-PRUEBA-REAL.md). Caso Fernando Cortes identificado en PRO. La precisión humana vigente confirma Lead con procedencia App y llamada en ese Lead asignada al agente vinculado, conservando los criterios existentes. [Diagnóstico real y comprobaciones](DIAGNOSTICO-Y-DECISION.md). Primera prueba: Lead588164000147948490 y Call588164000147862440, creados por el sondeo invitado real con555555555. Prueba definitiva bajo733: Lead588164000147861411 y Call588164000147838446, con asignación automática Juan/Canje.
 
 ## Causa confirmada en código
 
@@ -19,12 +19,24 @@ Estado: publicación y prueba autorizadas; código fusionado, LidIA PRO sirve V1
 - Frontend: 214/214, 49 archivos; build APP correcto. Aviso habitual de navegación jsdom durante checkout.
 - Suite completa backend: runner intentado, bloqueado antes de crear la base efímera porque el socket Docker no responde. No se reutiliza una base existente.
 
-## Pendiente antes de afirmar corrección servida
+## Publicación y prueba real
 
-Configurar y revisar en el perfil guest su mapping/owner único, conexión y herramientas de CRM/agenda asignadas; completar el corte Portal y activar sólo los opt-ins propios con la autorización explícita ya recibida. Portal debe admitir los permisos nuevos antes de activar Source. Mantener los flags apagados por defecto. Si la conversación ya existía con permisos sondeo/history, requiere reconciliación de su admisión antes de ampliar autoridad: al reanudar o enviar, Portal repite sólo la admisión original con su DTO/key/atestación y aplica el ACK actual mediante CAS de owner/revisión. No inventa permisos ni crea otro chat o atestación para ocultarlo. Debe acreditarse APP → captura → Lead leído → consentimiento/franja → Call leída con relación/hora/responsable exactos → recuperación sin duplicado. No atribuir las pruebas con HTTP simulado a un registro real en Zoho.
+Portal PR24 fusionado en app/main; LidIA PR1722/1723 y ajuste Juan/Canje PR1724/1725 fusionados en sus ramas respectivas. No hubo redeploy manual DEV. Portal stack162 sirve backend4ff4c69 healthy; APP965a12d y webbe6806d conservados. Source stack26 acredita Gitf72987e y V1.733-app-guest-canje servido, healthy.
 
-### Cierre local y prueba real pendiente
+LidIA:585/585 APP/marcador/OwnerLead y2/2 adicionales de cambio de Servicio después del binding; revisión independiente sin hallazgos importantes pendientes. La configuración publicada fija Owner Juan Carlos Acero588164000000756001 y Servicio Canje, conservando criterios de sondeo y herramientas originales.
 
-LidIA:582/582 del canal APP/marcador/OwnerLead; Portal:46/46 dirigidas,214/214 frontend y build APP correcto. Revisión de código independiente completada. Se acredita procedencia App, mismo Lead, responsable real heredado del Lead (mapping opcional contrastado), reglas de interés existentes, recuperación sin duplicados y publicación sin confirmación falsa. Son pruebas locales con HTTP simulado.
+El flujo real creó Lead588164000147948490 y Call588164000147862440,16/10/2026 10:30 Europe/Madrid. Se crearon antes de la precisión humana; después se corrigieron únicamente Owner y Servicio de estos registros de prueba mediante PUT acotado. No se confunde esta reparación con un alta automática nueva bajo733.
 
-El usuario exige teléfono555555555 y creación real de Call para validar. Esa prueba aún no se ha realizado. Portainer y Zoho están accesibles; Plesk mantiene un error de acceso y se ha dejado su formulario al usuario; no se crea el caso manualmente. El cierre sigue exigiendo recorrido guest servido y lectura de Lead/Call/Owner, con sus IDs y prueba de recuperación. Sin esa evidencia no se declara validado en producción.
+Recuperación desde historial observada. La verificación expresa del mismo horario actualizó LastVerifiedAtUtc a14:58:26UTC, mantuvo AttemptCount1 y la misma Call. Zoho devolvió exactamente una llamada relacionada. Ver PUBLICACION-Y-PRUEBA-REAL.md para secuencia y recibos.
+
+### Prueba definitiva con el perfil Juan/Canje
+
+Una nueva conversación sin registro bajo733 creó automáticamente Lead588164000147861411 y Call588164000147838446, con teléfono555555555 (+34), fuenteApp, ServicioCanje y OwnerJuanCarlosAcero588164000000756001 en ambos. Hora16/10/2026 11:00 Europe/Madrid. Lectura independiente API y UI confirmada; una sola Call relacionada y AttemptCount1. No hubo creación manual ni PUT correctivo en estos dos registros. [Recibo público](resultado-definitivo.public.json) y [secuencia completa](PUBLICACION-Y-PRUEBA-REAL.md#prueba-definitiva-creación-automática-con-juancanje).
+
+Para aislar el teléfono de prueba se retiró sólo Mobile del primer Lead ficticio con preimagen privada. El rechazo previo por coincidencia telefónica y el retardo del índice se conservan como evidencia de la protección; no se autoenlazaron invitados distintos.
+
+## Límites observados
+
+La prueba real usa el recorrido web invitado servido; no acredita ejecución nativa iPhone. La suite global de LidIA no se declara verde; la evidencia corresponde a los conjuntos dirigidos.
+
+En sesiones largas se observó429 al agotar500 solicitudes/900s por polling, y el reintento sin conversación cargada puede abrir un chat vacío. Se respeta Retry-After; la recuperación normal desde historial sí funciona. Una consulta genérica de confirmación puede mostrar texto de verificación pendiente si el agente no ejecuta una lectura fresca; pedir verificación expresa de la misma cita produjo confirmación con readback duradero. Estos hallazgos se conservan como límites, sin afirmar corregida la interfaz.

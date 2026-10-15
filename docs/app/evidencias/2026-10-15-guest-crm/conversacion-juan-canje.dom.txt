@@ -1,0 +1,146 @@
+- link "Ir al contenido":
+  - /url: "#main"
+- banner:
+  - link "Volver a LidIA":
+    - /url: /
+  - heading "Habla con LidIA" [level=1]
+  - button "Solicitar llamada":
+- main:
+  - generic: L.
+  - strong: LidIA · Asistente IA Gestadia
+  - paragraph: "¡Hola! Soy LidIA, asistente virtual de Gestadia. Hemos recibido una solicitud de información sobre el canje de carné de conducir. Para ayudarte, voy a hacerte unas preguntas rápidas y comprobar si cumples los requisitos. Puedes consultar nuestra política de privacidad aquí: defensalegalconsumidores.com/privacy-policy ¿Empezamos?"
+  - time: 17:01
+  - strong: Tú
+  - paragraph: Sí, quiero comprobar el canje de mi permiso de Colombia. El permiso está vigente hasta 2030 y lo obtuve en 2015. Resido legalmente en España desde 2022 y mi autorización de residencia está vigente hasta 2029.
+  - time: 17:02
+  - img "Recibido por LidIA":
+  - generic: L.
+  - strong: LidIA · Asistente IA Gestadia
+  - paragraph: ¡Excelente! Colombia tiene convenio con España, así que el canje es totalmente posible. 🇨🇴
+  - time: 17:02
+  - generic: L.
+  - strong: LidIA · Asistente IA Gestadia
+  - paragraph: "Perfecto, veo que tienes:"
+  - time: 17:02
+  - generic: L.
+  - strong: LidIA · Asistente IA Gestadia
+  - paragraph: ✅ **Carné de conducir de Colombia** vigente hasta 2030 ✅ **Residencia legal en España** vigente hasta 2029 (desde 2022) ✅ **Carné obtenido en 2015** (antes de tu residencia)
+  - time: 17:02
+  - generic: L.
+  - strong: LidIA · Asistente IA Gestadia
+  - paragraph: "Todo encaja. Solo necesito confirmar un detalle más:"
+  - time: 17:02
+  - generic: L.
+  - strong: LidIA · Asistente IA Gestadia
+  - paragraph: "**¿Tu carné está vigente a fecha de hoy?** (Veo que dice hasta 2030, pero confirmo que no lo has renovado ni tiene ningún otro cambio)"
+  - time: 17:02
+  - strong: Tú
+  - paragraph: Sí, está vigente hoy hasta 2030, no lo he renovado ni tiene cambios.
+  - time: 17:02
+  - img "Recibido por LidIA":
+  - generic: L.
+  - strong: LidIA · Asistente IA Gestadia
+  - paragraph: ¡Genial! ✅ Ya tengo todo lo que necesitaba.
+  - time: 17:02
+  - generic: L.
+  - strong: LidIA · Asistente IA Gestadia
+  - paragraph: "Antes de seguir, te resumo lo que hemos comprobado:"
+  - time: 17:02
+  - generic: L.
+  - strong: LidIA · Asistente IA Gestadia
+  - paragraph: 🔹 Carné de conducir de **Colombia**
+  - time: 17:02
+  - generic: L.
+  - strong: LidIA · Asistente IA Gestadia
+  - paragraph: 🔹 Carné vigente a fecha de hoy (hasta 2030)
+  - time: 17:02
+  - generic: L.
+  - strong: LidIA · Asistente IA Gestadia
+  - paragraph: 🔹 Residencia legal en España vigente (hasta 2029) 🔹 Carné obtenido en 2015 (antes de tu residencia en España) Con todo esto, **cumples los requisitos para realizar el canje de tu carné** 🚗 ¿Los datos son correctos?
+  - time: 17:02
+  - strong: Tú
+  - paragraph: Sí, todos los datos son correctos y quiero seguir con el canje.
+  - time: 17:02
+  - img "Recibido por LidIA":
+  - generic: L.
+  - strong: LidIA · Asistente IA Gestadia
+  - paragraph: ¡Perfecto! ✅ Con los datos que me has confirmado, podemos continuar con tu canje.
+  - time: 17:03
+  - generic: L.
+  - strong: LidIA · Asistente IA Gestadia
+  - paragraph: "El servicio tiene un precio de **210 €**, todo incluido: tasas, IVA, gestión y la autorización para conducir mientras llega tu carné definitivo. Sin sorpresas. 🙌"
+  - time: 17:03
+  - generic: L.
+  - strong: LidIA · Asistente IA Gestadia
+  - paragraph: "El siguiente paso es una llamada con uno de nuestros agentes: resuelve tus dudas, confirma contigo los detalles y te ayuda a formalizar el servicio. 📞"
+  - time: 17:03
+  - generic: L.
+  - strong: LidIA · Asistente IA Gestadia
+  - paragraph: ¿Qué día y hora te viene bien que te llamemos? 🙌
+  - time: 17:03
+  - strong: Tú
+  - paragraph: Mañana viernes 16 de octubre de 2026 a las 11:00, hora de Madrid, zona Europe/Madrid.
+  - time: 17:03
+  - img "Recibido por LidIA":
+  - generic: L.
+  - strong: LidIA · Asistente IA Gestadia
+  - paragraph: "Perfecto, viernes 16 de octubre a las 11:00 en tu zona. Antes de confirmar todo, necesito algunos datos para completar tu expediente:"
+  - time: 17:03
+  - generic: L.
+  - strong: LidIA · Asistente IA Gestadia
+  - paragraph: 1. **¿Cuál es tu nombre completo?** 2. **¿Cuál es tu número de teléfono con prefijo internacional?** (p. ej. +34 6XX XXX XXX) 3. **¿Cuál es tu zona horaria actual?** (para asegurar que la llamada sea a la hora correcta en tu ubicación) 4. **¿Nos autorizas a llamarte para tratar el canje?**
+  - time: 17:03
+  - strong: Tú
+  - paragraph: "Mi nombre completo es Prueba Canje Juan App. Mi teléfono es 555555555, de España, con prefijo +34: +34555555555. Mi zona horaria actual es Europe/Madrid. Sí, autorizo que me llaméis para tratar el canje mañana 16 de octubre de 2026 a las 11:00 de Madrid."
+  - time: 17:04
+  - img "Recibido por LidIA":
+  - generic: L.
+  - strong: LidIA · Asistente IA Gestadia
+  - paragraph: Ahora mismo no puedo confirmar que el caso haya quedado registrado. No quiero darte una confirmación sin verificarla; un agente deberá revisarlo.
+  - time: 17:04
+  - strong: Tú
+  - paragraph: Confirmo mi nombre Prueba Canje Juan App y mi teléfono +34555555555, con prefijo de España +34. Mi zona es Europe/Madrid. Quiero que registres mi solicitud de canje y programes la llamada para el 16 de octubre de 2026 a las 11:00 de Madrid; autorizo la llamada.
+  - time: 17:06
+  - img "Recibido por LidIA":
+  - generic: L.
+  - strong: LidIA · Asistente IA Gestadia
+  - paragraph: Ahora mismo no puedo confirmar que el registro o la llamada hayan quedado completados. Necesito verificarlo antes de confirmártelo.
+  - time: 17:06
+  - strong: Tú
+  - paragraph: "Por favor, comprueba de nuevo y registra la solicitud con los datos confirmados: Prueba Canje Juan App, +34555555555, Europe/Madrid, llamada el 16 de octubre de 2026 a las 11:00 de Madrid. Mantengo mi autorización para que me llaméis por el canje."
+  - time: 17:08
+  - img "Recibido por LidIA":
+  - generic: L.
+  - strong: LidIA · Asistente IA Gestadia
+  - paragraph: Ahora mismo no puedo confirmar que el registro o la llamada hayan quedado completados. Necesito verificarlo antes de confirmártelo.
+  - time: 17:08
+  - strong: Tú
+  - paragraph: Reintenta ahora la comprobación y la llamada del 16 de octubre a las 11:00 de Madrid con los mismos datos confirmados.
+  - time: 17:10
+  - img "Recibido por LidIA":
+  - generic: L.
+  - strong: LidIA · Asistente IA Gestadia
+  - paragraph: ¡Perfecto! ✅ Uno de nuestros agentes te llamará el **viernes 16 de octubre de 2026 a las 11:00** (zona Europe/Madrid).
+  - time: 17:10
+  - generic: L.
+  - strong: LidIA · Asistente IA Gestadia
+  - paragraph: Si necesitas cambiar la hora, escríbenos por aquí. 🙌
+  - time: 17:10
+- contentinfo:
+  - textbox "Tu consulta":
+    - /placeholder: ¿Qué necesitas?
+  - button "Dictar consulta":
+  - button "Enviar consulta":
+  - navigation "Navegación principal":
+    - link "LidIA":
+      - /url: /
+      - generic: LidIA
+    - link "Trámites":
+      - /url: /tramites
+      - generic: Trámites
+    - link "Mensajes":
+      - /url: /mensajes
+      - generic: Mensajes
+    - link "Servicios":
+      - /url: /servicios
+      - generic: Servicios
