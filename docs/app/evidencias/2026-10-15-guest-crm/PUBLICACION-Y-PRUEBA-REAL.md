@@ -14,7 +14,7 @@ La única resolución del cherry-pick fue GLOSARIO: conserva los bytes de PRO y 
 
 1. Integrar exclusivamente estas entregas por sus PR y comprobar checks. No redeploy manual DEV; no usar docker/main.
 2. LidIA PRO stack26: app/main, compose/path y configuración privada/volumen conservados. En Portainer se ha leído607cf368 y servicio healthy; GitOps updates está activo. Guardar/cambiar una referencia no se contará como despliegue: exigir V1.732-app-guest-crm servido.
-3. Portal: backend del stack común73 desde app/main, únicamente imagen/código backend de esta corrección. Conservar APP, Portal web, puertos, redes, montajes, credenciales y rutas. No publicar binarios móviles.
+3. Portal: backend del stack vigente gestadia-common-git162 desde app/main, únicamente imagen/código backend de esta corrección. Conservar APP, Portal web, puertos, redes, montajes, credenciales y rutas. No publicar binarios móviles.
 4. Configurar la integración invitada con su conexión y herramientas CRM/agenda verificadas y los opt-ins GuestCrmEnabled / APP_V2_GUEST_CRM_ENABLED. No copiar identidad WhatsApp ni usar IDs del móvil/modelo. Revalidar conexión Production/EU y campo owner único vigente antes de activar.
 5. Leer configuración guardada y estado servido antes del test. No repetir creación ante incertidumbre ni activar otra integración.
 
@@ -25,3 +25,7 @@ Nueva conversación guest mediante la APP o su mismo recorrido web servido, con 
 Leer desde Zoho los IDs de Lead y Call, procedencia, relación al Lead, franja y Owner de ambos. La Call hereda el responsable real del Lead acreditado en servidor; un AssignedOwnerId fijo, si existe, debe coincidir. Reabrir/recuperar el turno y comprobar que no hay una segunda Call. La confirmación textual, HTTP202 o las pruebas simuladas no cierran esta aceptación.
 
 Zoho pide MFA en la pestaña abierta del acceso guardado. No se han leído ni copiado credenciales. Portainer es accesible con la sesión guardada. La prueba real permanece pendiente hasta publicación/configuración y ejecución del recorrido; no se hace un alta manual para suplirlo.
+
+## Preimagen actual corroborada después de la preparación
+
+Lectura Portainer15/10: stack73 gestadia-common no contiene servicios. El stack vigente es162 gestadia-common-git, repo Gestadia_Portal, compose deploy/gestadia/portainer-stack.yml, Git7e3a9b4/PR22, GitOps apagado. Sus tres contenedores están healthy: APP965a12d, backend3b95062 y Portal web be6806d. El backend3b95062 tiene el mismo código funcional base que d5fcd36; PR23 es documentación. El corte y rollback deben actuar sobre162, conservando APP/Portal web. No recrear73 ni usarlo como destino del arreglo.
