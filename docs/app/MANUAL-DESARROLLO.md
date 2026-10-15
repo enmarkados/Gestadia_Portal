@@ -1,5 +1,7 @@
 # Manual de desarrollo: flujos y pantallas de Gestadia APP
 
+**Actualización15/10 · CRM invitado publicado:** ambos backends activos; nueva conversación web sin registro creó Lead con fuente App y Servicio Canje y Call del mismo Lead, ambos asignados automáticamente a Juan Carlos Acero. [Prueba definitiva, recibos y límites](evidencias/2026-10-15-guest-crm/README.md). No acredita ejecución nativa iPhone. Los estados OFF anteriores conservan su alcance histórico.
+
 
 **Actualización posterior14/10 · cuenta de revisión y continuidad web:** [recibos, captura de Sesiones y límites](evidencias/2026-10-14-store-review/README.md). Guest→respuesta real→login→binding committed2→misma conversación/historial en otra sesión de cuenta comprobados por Operaciones. Antiguo invitado sin acceso despuéslogout; esto no equivale a hard revocation administrativa. Cuenta guardadaApple/Play e iOS12procesado; aceptación guest nativa/documentos/publicación no acreditados. No cambia rutas, Atrás ni permisos; los estados de preparación anteriores se conservan como antecedentes.
 
@@ -302,6 +304,6 @@ El piloto de Continuar sin registro recibe HTTP200 de historial, pero la pantall
 
 La APP conserva su DTO actual. Portal completa `correlation_id` ausente con `turn_id`, valida valores explícitos y conserva idempotencia. Sin rutas, pantalla, permisos ni navegación nuevos. [Regresión y entrega](evidencias/2026-10-14-guest-timeline/README.md). Respuesta real y vinculación continúan pendientes.
 
-### CRM y agenda desde invitado — corrección local del 15/10/2026
+### CRM y agenda desde invitado — publicación del 15/10/2026
 
-El reporte de nombre/teléfono sin Lead/llamada se explica por el perfil guest limitado y los guards de cuenta en ambos repositorios. Se prepara un opt-in de servidor, sin cambios de pantalla/rutas/Atrás: [causa, diseño, pruebas y dependencias](evidencias/2026-10-15-guest-crm/README.md). Mantiene captura acreditada, consentimiento, propiedad, ledger y readback; no supone activación ni llamada real. Las actas anteriores conservan su alcance limitado.
+El reporte de nombre/teléfono sin Lead/llamada se explica por el perfil guest limitado y los guards de cuenta en ambos repositorios. Los dos backends están publicados, el opt-in propio está activo y el recorrido web sin registro creó Lead fuente App y Call relacionada. Source V1.733 incorpora Servicio Canje y responsable Juan Carlos Acero. [Causa, diseño, publicación, pruebas y límites](evidencias/2026-10-15-guest-crm/README.md). Se conservan pantallas, rutas, Atrás, consentimiento, propiedad, ledger y readback. La recuperación desde historial y la verificación expresa de la misma Call se observaron sin duplicarla. Esto no acredita ejecución nativa iPhone. Las actas anteriores conservan su alcance histórico; el bloqueo429 por polling y el reintento que puede abrir chat vacío siguen documentados.

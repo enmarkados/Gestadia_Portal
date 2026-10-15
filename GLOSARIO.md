@@ -1956,3 +1956,10 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** recupera permisos guest efectivos mediante replay de la admisión original, sin convertir el opt-in en un grant local.
 - **Alcance:** backend/src/app/v2/guest.js, al reanudar/enviar; conserva sujeto, DTO, key y vencimiento y comprueba propietario/revisión antes del CAS.
 - **Notas:** se descarta crear otra sesión para obtener CRM.
+
+### Operación de activación CRM invitado
+
+- **Tipo:** concepto operativo runtime.
+- **Definición:** cambio acotado de configuración y catálogo del invitado APP que habilita el circuito existente de Lead y llamada con las garantías de identidad y evidencia verificadas.
+- **Alcance:** LidIA PRO, integración gestadia-app-pro-guest, Project104/Agent123; preparación auditable en docs/app/evidencias/2026-10-15-guest-crm/ops/.
+- **Notas:** Portal debe admitir primero los permisos nuevos. Las definiciones originales de119 se conservan; las copias inactivas de103 no se reactivan. No se considera una validación conversacional ni una llamada creada.
