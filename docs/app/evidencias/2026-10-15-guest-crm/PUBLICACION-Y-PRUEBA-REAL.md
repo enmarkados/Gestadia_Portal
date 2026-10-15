@@ -1,6 +1,6 @@
 # Publicación y prueba real de la corrección guest
 
-Paquete concreto preparado localmente el15/10/2026. Sin push, merge, redeploy ni activación todavía. La creación real de Lead y Call de prueba con teléfono555555555 ha sido solicitada expresamente por el usuario; no se ha realizado.
+Estado vivo del15/10/2026: correcciones fusionadas y LidIA PRO sirve V1.732-app-guest-crm. La imagen nueva de Portal está construida; su corte y la activación guest CRM siguen pendientes del acceso a Plesk. La creación real de Lead y Call con teléfono555555555 está autorizada y todavía no se ha realizado.
 
 | Entrega | Commit local / destino | Comprobación |
 | --- | --- | --- |
@@ -24,8 +24,29 @@ Nueva conversación guest mediante la APP o su mismo recorrido web servido, con 
 
 Leer desde Zoho los IDs de Lead y Call, procedencia, relación al Lead, franja y Owner de ambos. La Call hereda el responsable real del Lead acreditado en servidor; un AssignedOwnerId fijo, si existe, debe coincidir. Reabrir/recuperar el turno y comprobar que no hay una segunda Call. La confirmación textual, HTTP202 o las pruebas simuladas no cierran esta aceptación.
 
-Zoho pide MFA en la pestaña abierta del acceso guardado. No se han leído ni copiado credenciales. Portainer es accesible con la sesión guardada. La prueba real permanece pendiente hasta publicación/configuración y ejecución del recorrido; no se hace un alta manual para suplirlo.
+Zoho web ya está autenticado; la solicitud MFA inicial quedó resuelta. Portainer es accesible con la sesión guardada. Plesk mantiene el formulario de acceso con error de credenciales; se ha mostrado al usuario para que complete ese acceso. La prueba real permanece pendiente del corte/configuración de Portal y la activación Source; no se hace un alta manual para suplir el recorrido.
 
 ## Preimagen actual corroborada después de la preparación
 
 Lectura Portainer15/10: stack73 gestadia-common no contiene servicios. El stack vigente es162 gestadia-common-git, repo Gestadia_Portal, compose deploy/gestadia/portainer-stack.yml, Git7e3a9b4/PR22, GitOps apagado. Sus tres contenedores están healthy: APP965a12d, backend3b95062 y Portal web be6806d. El backend3b95062 tiene el mismo código funcional base que d5fcd36; PR23 es documentación. El corte y rollback deben actuar sobre162, conservando APP/Portal web. No recrear73 ni usarlo como destino del arreglo.
+
+## Ejecución autorizada el 15/10/2026
+
+El usuario ha autorizado expresamente «Publicar y probar ahora». No queda pendiente esa autorización.
+
+- Portal PR24 fusionado en app/main: df030ac0615246b214a90bee34cd0f1d90db4402.
+- LidIA PR1722 fusionado en dev/IA/main: 527d015b20f4e6f6a0a5c0e1a95e45fbf4009a1b; sin redeploy manual DEV.
+- LidIA PRO PR1723 fusionado en app/main: 92aa4b8b0284e236bab91a542ceb4689f99efb28.
+- Stack26 actualizado desde Git. Portainer devolvió inicialmente504; el readback posterior acredita92aa4b8, contenedor dda62a6325b17a6c0259ebcb987d4789f4346e53224b1a0f8cad426407c19e84 healthy y marcador V1.732-app-guest-crm servido por admin. No se repitió el redeploy.
+- Imagen Portal construida en el servidor: gestadia-backend:4ff4c69, ID fae8463dcfc5, revisión4ff4c69b5a2462603f26cc5a6e4ffaa1aee94e57. Contexto propio696320bytes, SHA2564aa4c1df1480f43b02dea25958e045b26963fb440b73c589d76f27e9d1c586c6. Aún no sustituye el backend servido del stack162.
+- Backup manual LidIA PRO creado antes de cambiar el perfil: manual_20261015_124500.sql, mostrado1.23GB y mensaje de creación correcta.
+- Zoho web ya autenticado. Plesk ha rechazado el acceso guardado; el usuario está completando el acceso en Chrome para copia/configuración de Portal.
+- Configuración Source guest aún sin modificar: integración/audience gestadia-app-pro-guest, Project104/Agent123, environment pro, GuestV2Enabled=true, Crm=null y permisos sondeo/history. Conexión4 de Zoho activa con Environment=Production. La copia de configuración y las comprobaciones de campo owner/catálogo precederán a cualquier activación.
+
+Siguen pendientes el corte del backend Portal, configuración efectiva de ambos extremos y la conversación real con555555555. No se ha creado ni acreditado el Lead o la Call de prueba.
+
+Inspección operativa adicional: el agente119 tiene herramientas activas10357 agendar_cita,10359 comprobar_horario y10360 convertir_lead_zoho (endpoint internal:zoho:crear_lead_canje), todas Project102. Invitado123 sólo tiene10372 comprobar_pais_carne. Las copias antiguas del Project103 asociadas a conexión4 están inactivas y no se reactivan. Para preservar aislamiento de proyecto, se preparan copias exactas de las tres definiciones originales en104; no se trasladan las originales ni se cambian sus criterios. Readback de Zoho vía conexión4: Leads y Contacts HTTP200, LidIA_App_Owner_Key text, unique casesensitive=0. Esto verifica el requisito de campo único; todavía no acredita un Lead/Call de prueba.
+
+Preparación operativa revisada en ops/GuestCrmActivate.cs: no transferida ni aplicada. Dependencia de corte fijada: Portal actualizado y opt-in comprobado antes de activar Source, para evitar que el Portal antiguo rechace los permisos guest nuevos. El acceso Plesk está abierto y elevado al primer plano de Chrome para que el usuario lo complete. Source sigue con su configuración guest anterior; no se ha reiniciado para activar CRM.
+
+Al retomar tras «ya abri crm zoho y login en chrome», se corroboró Zoho autenticado y Plesk aún en login_up.php. Un envío del formulario Plesk preparado volvió a mostrar Incorrect username or password. No se insistió ni se probaron otras credenciales; se dejó la pestaña elevada y se explicó que ese acceso es distinto de Zoho. La preparación permanece pendiente de corte sin activar Source antes de Portal.

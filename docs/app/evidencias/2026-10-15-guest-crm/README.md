@@ -1,6 +1,6 @@
-# CRM y llamada sin registro — corrección local del 15/10
+# CRM y llamada sin registro — corrección del 15/10
 
-Estado: candidato local en revisión, sin publicar ni activar. Caso Fernando Cortes identificado en PRO. La precisión humana vigente confirma Lead con procedencia App y llamada en ese Lead asignada al agente vinculado, conservando los criterios existentes. [Diagnóstico real y comprobaciones](DIAGNOSTICO-Y-DECISION.md). No hay alta/llamada real de esta revisión.
+Estado: publicación y prueba autorizadas; código fusionado, LidIA PRO sirve V1.732-app-guest-crm y la imagen Portal está construida. Corte Portal y activación CRM pendientes del acceso a Plesk. [Estado operativo y preimágenes](PUBLICACION-Y-PRUEBA-REAL.md). Caso Fernando Cortes identificado en PRO. La precisión humana vigente confirma Lead con procedencia App y llamada en ese Lead asignada al agente vinculado, conservando los criterios existentes. [Diagnóstico real y comprobaciones](DIAGNOSTICO-Y-DECISION.md). No hay alta/llamada real de esta revisión.
 
 ## Causa confirmada en código
 
@@ -21,10 +21,10 @@ Estado: candidato local en revisión, sin publicar ni activar. Caso Fernando Cor
 
 ## Pendiente antes de afirmar corrección servida
 
-Configurar y revisar en el perfil guest su mapping/owner único, conexión y herramientas de CRM/agenda asignadas; desplegar ambos cambios y activar sólo los opt-ins propios mediante autorización explícita. Mantener los flags apagados por defecto. Si la conversación ya existía con permisos sondeo/history, requiere reconciliación de su admisión antes de ampliar autoridad: al reanudar o enviar, Portal repite sólo la admisión original con su DTO/key/atestación y aplica el ACK actual mediante CAS de owner/revisión. No inventa permisos ni crea otro chat o atestación para ocultarlo. Debe acreditarse APP → captura → Lead leído → consentimiento/franja → Call leída con relación/hora/responsable exactos → recuperación sin duplicado. No atribuir las pruebas con HTTP simulado a un registro real en Zoho.
+Configurar y revisar en el perfil guest su mapping/owner único, conexión y herramientas de CRM/agenda asignadas; completar el corte Portal y activar sólo los opt-ins propios con la autorización explícita ya recibida. Portal debe admitir los permisos nuevos antes de activar Source. Mantener los flags apagados por defecto. Si la conversación ya existía con permisos sondeo/history, requiere reconciliación de su admisión antes de ampliar autoridad: al reanudar o enviar, Portal repite sólo la admisión original con su DTO/key/atestación y aplica el ACK actual mediante CAS de owner/revisión. No inventa permisos ni crea otro chat o atestación para ocultarlo. Debe acreditarse APP → captura → Lead leído → consentimiento/franja → Call leída con relación/hora/responsable exactos → recuperación sin duplicado. No atribuir las pruebas con HTTP simulado a un registro real en Zoho.
 
 ### Cierre local y prueba real pendiente
 
 LidIA:582/582 del canal APP/marcador/OwnerLead; Portal:46/46 dirigidas,214/214 frontend y build APP correcto. Revisión de código independiente completada. Se acredita procedencia App, mismo Lead, responsable real heredado del Lead (mapping opcional contrastado), reglas de interés existentes, recuperación sin duplicados y publicación sin confirmación falsa. Son pruebas locales con HTTP simulado.
 
-El usuario exige teléfono555555555 y creación real de Call para validar. Esa prueba aún no se ha realizado. Portainer está accesible y Zoho requiere completar MFA; no se crea el caso manualmente. El cierre sigue exigiendo recorrido guest servido y lectura de Lead/Call/Owner, con sus IDs y prueba de recuperación. Sin esa evidencia no se declara validado en producción.
+El usuario exige teléfono555555555 y creación real de Call para validar. Esa prueba aún no se ha realizado. Portainer y Zoho están accesibles; Plesk mantiene un error de acceso y se ha dejado su formulario al usuario; no se crea el caso manualmente. El cierre sigue exigiendo recorrido guest servido y lectura de Lead/Call/Owner, con sus IDs y prueba de recuperación. Sin esa evidencia no se declara validado en producción.
