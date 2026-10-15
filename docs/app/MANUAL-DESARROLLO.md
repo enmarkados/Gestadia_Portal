@@ -301,3 +301,7 @@ El piloto de Continuar sin registro recibe HTTP200 de historial, pero la pantall
 ### Envío invitado: correlación · 14/10/2026
 
 La APP conserva su DTO actual. Portal completa `correlation_id` ausente con `turn_id`, valida valores explícitos y conserva idempotencia. Sin rutas, pantalla, permisos ni navegación nuevos. [Regresión y entrega](evidencias/2026-10-14-guest-timeline/README.md). Respuesta real y vinculación continúan pendientes.
+
+### CRM y agenda desde invitado — corrección local del 15/10/2026
+
+El reporte de nombre/teléfono sin Lead/llamada se explica por el perfil guest limitado y los guards de cuenta en ambos repositorios. Se prepara un opt-in de servidor, sin cambios de pantalla/rutas/Atrás: [causa, diseño, pruebas y dependencias](evidencias/2026-10-15-guest-crm/README.md). Mantiene captura acreditada, consentimiento, propiedad, ledger y readback; no supone activación ni llamada real. Las actas anteriores conservan su alcance limitado.

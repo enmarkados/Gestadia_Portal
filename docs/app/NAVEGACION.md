@@ -392,3 +392,7 @@ Consumidor de respuesta v1/v2 valida el recibo histórico de reserva de LidIA y 
 ### Historial invitado: recuperación de operaciones · 14/10/2026
 
 El piloto de Continuar sin registro recibe HTTP200 de historial, pero la pantalla exige el array local `pending_operations`. El adaptador guest lo proyecta desde su ledger autorizado; vacío sólo si no hay pendientes. Conserva instalación, conversación, identidad de operación, permisos y destino de Atrás. No cambia pantallas ni schema S2S de LidIA. [Regresión, plan y límites de entrega](evidencias/2026-10-14-guest-timeline/README.md). La corrección local no acredita por sí sola despliegue ni respuesta real del agente.
+
+### CRM y llamada del visitante — corrección local del 15/10/2026
+
+`/lidia/conversacion`, desde Inicio/Mensajes, conserva origen, Atrás y acciones del agente. Se prepara autorización CRM/agenda explícita en servidor y consumo de su recibo verificado; nombre/teléfono no bastan para confirmar una cita. Sin diseño visual nuevo, despliegue ni activación: [evidencia y pendientes](evidencias/2026-10-15-guest-crm/README.md).
