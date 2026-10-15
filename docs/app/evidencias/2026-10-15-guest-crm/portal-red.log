@@ -1,0 +1,98 @@
+✔ schemas runtime son copias exactas de la entrega 723, sin sustituir los históricos (6.455417ms)
+✔ v1 lookup: admite el vector cerrado y conserva legacy sin reserva (112.832958ms)
+✔ v1 lookup: rechaza hora distinta (1.393292ms)
+✔ v1 lookup: rechaza fecha inexistente (0.516542ms)
+✔ v1 lookup: rechaza zona inexistente (0.412791ms)
+✔ v1 lookup: rechaza verificación anterior (0.166291ms)
+✔ v1 lookup: rechaza estado pendiente (0.131625ms)
+✔ v1 lookup: rechaza operación distinta (0.109125ms)
+✔ v1 lookup: rechaza error junto a éxito (0.175666ms)
+✔ v1 lookup: rechaza id CRM libre (0.465459ms)
+✔ v1 lookup: rechaza subversión equivocada (0.136875ms)
+✔ v1 lookup: rechaza UTC sin milisegundos (0.14475ms)
+✔ v2 lookup: admite el vector cerrado y conserva legacy sin reserva (8.188958ms)
+✔ v2 lookup: rechaza hora distinta (0.163625ms)
+✔ v2 lookup: rechaza fecha inexistente (0.504ms)
+✔ v2 lookup: rechaza zona inexistente (0.793208ms)
+✔ v2 lookup: rechaza verificación anterior (0.332ms)
+✔ v2 lookup: rechaza estado pendiente (0.445334ms)
+✔ v2 lookup: rechaza operación distinta (0.32825ms)
+✔ v2 lookup: rechaza error junto a éxito (0.140417ms)
+✔ v2 lookup: rechaza id CRM libre (0.266ms)
+✔ v2 lookup: rechaza subversión equivocada (0.381917ms)
+✔ v2 lookup: rechaza UTC sin milisegundos (0.205792ms)
+✔ v2 receipt: admite el vector cerrado y conserva legacy sin reserva (4.199959ms)
+✔ v2 receipt: rechaza hora distinta (0.178875ms)
+✔ v2 receipt: rechaza fecha inexistente (0.084334ms)
+✔ v2 receipt: rechaza zona inexistente (0.266041ms)
+✔ v2 receipt: rechaza verificación anterior (0.121584ms)
+✔ v2 receipt: rechaza estado pendiente (0.117417ms)
+✔ v2 receipt: rechaza operación distinta (0.268333ms)
+✔ v2 receipt: rechaza error junto a éxito (0.122375ms)
+✔ v2 receipt: rechaza id CRM libre (0.23175ms)
+✔ v2 receipt: rechaza subversión equivocada (0.069625ms)
+✔ v2 receipt: rechaza UTC sin milisegundos (0.076833ms)
+✔ proyección retira el recibo adicional sin los dos permisos y conserva bytes persistidos (0.393916ms)
+✔ consumidor v2 limitado no acepta recibo CRM owner=null (0.615792ms)
+✔ consumidor v2 limitado no acepta recibo CRM owner=verified-account (0.153667ms)
+✖ guest CRM configurado admite recibo verificado sin registro y conserva referencia local (0.375792ms)
+✖ retirada CRM durante lectura no publica recibo ni permisos antiguos (0.199625ms)
+✔ el opt-in guest no habilita recibos de cuenta ni suple permisos del receptor (1.017542ms)
+✖ CRM guest requiere opt-in exacto y permanece apagado por defecto (2.758834ms)
+ℹ tests 41
+ℹ suites 0
+ℹ pass 38
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1036.924792
+
+✖ failing tests:
+
+test at backend/src/app/appointment-receipts.test.js:64:1
+✖ guest CRM configurado admite recibo verificado sin registro y conserva referencia local (0.375792ms)
+  Error: invalid_upstream_response
+      at Object.validateResponse (file:///Users/gonchumon/code/enmarkados/Gestadia_Portal/backend/src/app/v2/responses.js:10:166)
+      at Object.call (file:///Users/gonchumon/code/enmarkados/Gestadia_Portal/backend/src/app/appointment-receipts.test.js:66:68)
+      at AppGuestService.timeline (file:///Users/gonchumon/code/enmarkados/Gestadia_Portal/backend/src/app/v2/guest.js:116:29)
+      at async TestContext.<anonymous> (file:///Users/gonchumon/code/enmarkados/Gestadia_Portal/backend/src/app/appointment-receipts.test.js:68:15)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    status: 502,
+    code: 'invalid_upstream_response'
+  }
+
+test at backend/src/app/appointment-receipts.test.js:72:1
+✖ retirada CRM durante lectura no publica recibo ni permisos antiguos (0.199625ms)
+  Error: invalid_upstream_response
+      at Object.validateResponse (file:///Users/gonchumon/code/enmarkados/Gestadia_Portal/backend/src/app/v2/responses.js:10:166)
+      at Object.call (file:///Users/gonchumon/code/enmarkados/Gestadia_Portal/backend/src/app/appointment-receipts.test.js:75:68)
+      at AppGuestService.timeline (file:///Users/gonchumon/code/enmarkados/Gestadia_Portal/backend/src/app/v2/guest.js:116:29)
+      at async TestContext.<anonymous> (file:///Users/gonchumon/code/enmarkados/Gestadia_Portal/backend/src/app/appointment-receipts.test.js:77:15)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    status: 502,
+    code: 'invalid_upstream_response'
+  }
+
+test at backend/src/app/v2/guest-crm-config.test.js:4:1
+✖ CRM guest requiere opt-in exacto y permanece apagado por defecto (2.758834ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - true
+  
+      at TestContext.<anonymous> (file:///Users/gonchumon/code/enmarkados/Gestadia_Portal/backend/src/app/v2/guest-crm-config.test.js:5:9)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.start (node:internal/test_runner/test:1015:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

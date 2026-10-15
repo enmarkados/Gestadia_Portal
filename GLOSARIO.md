@@ -1942,3 +1942,17 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** cuenta administrada estable de Gestadia para comprobar la APP durante las revisiones de Apple y Google Play; representa una identidad propia de revisión, sin simular una contratación.
 - **Alcance:** User existente e invitación en backend/src/app/identity.js; documentación en docs/app/MARKETPLACES.md y docs/app/evidencias/2026-10-14-store-review/README.md.
 - **Notas:** misma cuenta en ambas tiendas; credenciales fuera de Git. Se descarta el fixture de24h porque no sirve como acceso estable de revisión. No añade un rol, mailbox, pago, expediente ni permiso CRM.
+
+## APP_V2_GUEST_CRM_ENABLED — 15/10/2026
+
+- **Tipo:** configuración privada / decisión runtime.
+- **Definición:** opt-in del consumidor Portal para aceptar permisos y recibos CRM de una conversación cuyo propietario sigue siendo invitado. No concede autoridad al receptor ni convierte al visitante en una cuenta.
+- **Alcance:** backend/src/config.js y backend/src/app/v2/guest.js; plan docs/superpowers/plans/2026-10-15-guest-crm-callback.md.
+- **Notas:** false por defecto. Se descarta activar CRM por detectar nombre/teléfono en frontend o reutilizar el grant de cuenta v1; el receptor debe autorizar y verificar cada efecto.
+
+## AppGuestService.refreshGuestPermissions — 15/10/2026
+
+- **Tipo:** concepto runtime / reconciliación de autoridad.
+- **Definición:** recupera permisos guest efectivos mediante replay de la admisión original, sin convertir el opt-in en un grant local.
+- **Alcance:** backend/src/app/v2/guest.js, al reanudar/enviar; conserva sujeto, DTO, key y vencimiento y comprueba propietario/revisión antes del CAS.
+- **Notas:** se descarta crear otra sesión para obtener CRM.

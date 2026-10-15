@@ -6,11 +6,14 @@ import { AppS2SClientV2 } from './s2s.js';
 import { validateContractV2 } from './contracts.js';
 import { canonicalJson } from '../s2s.js';
 import { responseV2 } from './responses.js';
+import { receiptView } from '../store.js';
 import { validAppointmentReceipts } from '../appointment-receipts.js';
 import { receiptQuery, validateMessageSnapshotSemantics } from '../messageReceipts.js';
 const hash=value=>createHash('sha256').update(value).digest('hex');
 const bad=()=>{throw new AppProblem(400,'invalid_payload');};
-const permission=data=>data.effective_permissions?.every(p=>['sondeo','history'].includes(p));
+const permission=(data,allowCrm=false)=>data.effective_permissions?.every(p=>['sondeo','history',...(allowCrm?['crm_prepare','callback_schedule']:[])].includes(p));
+const guestPermissions=(c,config)=>(c.permissions||[]).filter(p=>['sondeo','history'].includes(p)||!c.ownerUserId&&config.guestCrmEnabled===true&&['crm_prepare','callback_schedule'].includes(p));
+const canReadAppointment=(c,config)=>['history','crm_prepare','callback_schedule'].every(p=>guestPermissions(c,config).includes(p));
 const guestBindingEnabled=config=>config?.enabled===true&&config.guestEnabled===true&&['app.bindings.write','app.bindings.read'].every(cap=>{
  const key=config.keys?.[cap];
  return typeof key?.keyId==='string'&&/^[A-Za-z0-9_-]{1,64}$/.test(key.keyId)&&typeof key.secretBase64==='string'&&/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(key.secretBase64)&&Buffer.from(key.secretBase64,'base64').length>=32;
@@ -53,7 +56,7 @@ export class AppGuestService {
  }
  async start(actor,input,key){
   if(!input||Object.keys(input).some(k=>!['purpose','case_ref','create_new','conversation_id'].includes(k))||input.purpose!=='sondeo'||input.case_ref!=null||!IDEM.test(key||'')||(input.create_new!=null&&typeof input.create_new!=='boolean')||(input.conversation_id!=null&&!UUID.test(input.conversation_id))||(input.create_new&&input.conversation_id))bad();
-  if(input.conversation_id){const c=await this.owned(actor,input.conversation_id);if(c.remoteId)return {conversation:view(c,this.config)};const operation=await this.db.appGuestOperation.findFirst({where:{conversationId:c.id,kind:'session'}});return this.dispatch(actor,c,operation);}
+  if(input.conversation_id){let c=await this.owned(actor,input.conversation_id);if(c.remoteId){c=await this.refreshGuestPermissions(actor,c);return {conversation:view(c,this.config)};}const operation=await this.db.appGuestOperation.findFirst({where:{conversationId:c.id,kind:'session'}});return this.dispatch(actor,c,operation);}
   if(!actor.installation)throw new AppProblem(401,'guest_session_expired');
   // The installation lock makes a repeated start key select its original subject.
   const pair=await this.db.$transaction(async tx=>{
@@ -68,9 +71,24 @@ export class AppGuestService {
   if(pair.o.hash!==hash(canonicalJson(input)))throw new AppProblem(409,'idempotency_conflict');
   return this.dispatch(actor,pair.c,pair.o);
  }
+ async refreshGuestPermissions(actor,c){
+  if(c.ownerUserId||this.config.guestCrmEnabled!==true||canReadAppointment(c,this.config))return c;
+  const original=await this.db.appGuestOperation.findFirst({where:{conversationId:c.id,kind:'session',status:'admitted'}});
+  if(!original)throw new AppProblem(503,'runtime_unavailable');
+  // Replay only the original admission: no new subject, attestation, key, or expiry.
+  const authority={...this.authority(c),access_revision:'0'};
+  const r=await this.client.call('app.sessions.write','POST','/sessions',authority,original.request,{idempotencyKey:original.key,validateResponse:responseV2('SessionAck',d=>d.conversation_subject_id===c.id&&d.conversation_id===c.remoteId&&d.actor===authority.actor&&d.access_revision===c.accessRevision&&permission(d,true))});
+  const fresh=await this.owned(actor,c.id);
+  if(fresh.ownerUserId!==c.ownerUserId||fresh.accessRevision!==c.accessRevision)throw new AppProblem(409,'stale_access');
+  if(this.config.guestCrmEnabled!==true)return fresh;
+  const updated=await this.db.appGuestConversation.updateMany({where:{id:c.id,ownerUserId:null,accessRevision:c.accessRevision,remoteId:c.remoteId},data:{permissions:r.data.effective_permissions}});
+  if(!updated.count)throw new AppProblem(409,'stale_access');
+  return this.owned(actor,c.id);
+ }
  async dispatch(actor,c,o){
   c=await this.owned(actor,c.id);
   if(o.status==='admitted'||o.status==='failed')return o.kind==='session'?{conversation:view(c,this.config),operation:opView(o)}:opView(o);
+  if(o.kind==='turn')c=await this.refreshGuestPermissions(actor,c);
   const claimId=randomUUID();
   const lock=await this.db.appGuestOperation.updateMany({where:{id:o.id,OR:[{status:{in:['prepared','outcome_unknown']}},{status:'dispatching',leaseUntil:{lte:this.clock()}}]},data:{status:'dispatching',claimId,leaseUntil:new Date(this.clock().getTime()+60000)}});
   if(!lock.count)return o.kind==='session'?{conversation:view(c,this.config),operation:opView({...o,status:'outcome_unknown'})}:opView({...o,status:'outcome_unknown'});
@@ -78,7 +96,7 @@ export class AppGuestService {
   try {
    // Exact DTO/key are durable. Retrying never changes attestation, text, or action.
    const authority=isSession?{...this.authority(c),access_revision:'0'}:this.authority(c);
-   const r=await this.client.call(isSession?'app.sessions.write':'app.turns.write','POST',path,authority,o.request,{idempotencyKey:o.key,validateResponse:responseV2(isSession?'SessionAck':'Receipt',data=>isSession?data.conversation_subject_id===c.id&&data.actor===authority.actor&&data.access_revision==='1'&&permission(data):data.conversation_id===c.remoteId&&data.turn_id===o.request.turn_id&&data.operation==='turn'&&validAppointmentReceipts(data,{allow:false}))});
+   const r=await this.client.call(isSession?'app.sessions.write':'app.turns.write','POST',path,authority,o.request,{idempotencyKey:o.key,validateResponse:responseV2(isSession?'SessionAck':'Receipt',data=>isSession?data.conversation_subject_id===c.id&&data.actor===authority.actor&&data.access_revision==='1'&&permission(data,!c.ownerUserId&&this.config.guestCrmEnabled===true):data.conversation_id===c.remoteId&&data.turn_id===o.request.turn_id&&data.operation==='turn'&&validAppointmentReceipts(data,{allow:canReadAppointment(c,this.config)}))});
    // A revoked/expired credential or changed owner cannot apply a late response.
    await this.owned(actor,c.id);
    const updated=await this.db.$transaction(async tx=>{
@@ -113,14 +131,18 @@ export class AppGuestService {
  async timeline(actor,id,query){
   const c=await this.owned(actor,id);if(!c.remoteId)throw new AppProblem(409,'binding_in_progress');
   const kind=query.turn_id?'ReceiptLookup':'Timeline';
-  const r=await this.client.call('app.timeline.read','GET',`/sessions/${c.remoteId}/timeline`,this.authority(c),undefined,{query,validateResponse:responseV2(kind,d=>d.conversation_id===c.remoteId&&validAppointmentReceipts(d,{allow:false}))});
-  await this.owned(actor,id);
+  const r=await this.client.call('app.timeline.read','GET',`/sessions/${c.remoteId}/timeline`,this.authority(c),undefined,{query,validateResponse:responseV2(kind,d=>d.conversation_id===c.remoteId&&validAppointmentReceipts(d,{allow:canReadAppointment(c,this.config)}))});
+  const fresh=await this.owned(actor,id);
+  if(fresh.accessRevision!==c.accessRevision||fresh.ownerUserId!==c.ownerUserId)throw new AppProblem(409,'stale_access');
+  const permissions=guestPermissions(fresh,this.config);
+  const project=receipt=>receipt.result?.appointment_receipt?receiptView(receipt,c.remoteId,permissions):receipt;
+  const data={...r.data,...(r.data.receipt?{receipt:project(r.data.receipt)}:{}),...(r.data.turn_statuses?{turn_statuses:r.data.turn_statuses.map(project)}:{})};
   let pending;
   if(kind==='Timeline'){
    await this.db.appGuestConversation.update({where:{id},data:{status:r.data.conversation_status,lastMessageAt:r.data.last_message_at?new Date(r.data.last_message_at):null}});
    pending=await this.db.appGuestOperation.findMany({where:{conversationId:id,kind:{in:['session','turn']},status:{in:['prepared','outcome_unknown']}},orderBy:{createdAt:'asc'}});
   }
-  return {...r.data,conversation_id:id,permissions:c.permissions || [],metadata_ready:true,...(kind==='Timeline'?{pending_operations:pending.map(opView)}:{})};
+  return {...data,conversation_id:id,permissions,metadata_ready:true,...(kind==='Timeline'?{pending_operations:pending.map(opView)}:{})};
  }
  async receipts(actor,id,query,dto,key){
   const c=await this.owned(actor,id);if(!c.remoteId)throw new AppProblem(409,'binding_in_progress');
@@ -151,7 +173,7 @@ export class AppGuestService {
   const preparing=binding.status==='preparing';
   const request={...binding.request,phase:preparing?'prepare':'commit'};
   const authority={subject:id,actor:preparing?`guest:${c.installationId}`:`account:${actor.user.id}`,access_revision:binding.request.expected_access_revision};
-  const r=await this.client.call('app.bindings.write','POST',`/sessions/${c.remoteId}/bindings`,authority,request,{idempotencyKey:`${binding.id}:${request.phase}`,validateResponse:responseV2('BindingAck',d=>d.binding_id===binding.id&&d.conversation_id===c.remoteId&&permission(d)&&BigInt(d.access_revision)===BigInt(binding.request.expected_access_revision)+(d.status==='committed'?1n:0n))});
+  const r=await this.client.call('app.bindings.write','POST',`/sessions/${c.remoteId}/bindings`,authority,request,{idempotencyKey:`${binding.id}:${request.phase}`,validateResponse:responseV2('BindingAck',d=>d.binding_id===binding.id&&d.conversation_id===c.remoteId&&permission(d,preparing&&d.status==='prepared'&&this.config.guestCrmEnabled===true)&&BigInt(d.access_revision)===BigInt(binding.request.expected_access_revision)+(d.status==='committed'?1n:0n))});
   await this.owned(actor,id,{binding:true});
   binding=await this.db.$transaction(async tx=>{
    await tx.$queryRaw`SELECT id FROM User WHERE id=${actor.user.id} FOR UPDATE`;

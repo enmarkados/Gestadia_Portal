@@ -59,3 +59,31 @@ for(const ownerUserId of [null,'verified-account'])test(`consumidor v2 limitado 
  const svc=new AppGuestService({}, {},{client});svc.owned=async()=>c;
  await assert.rejects(svc.timeline({},c.id,{turn_id:v2.receipt.turn_id}),{code:'invalid_upstream_response'});
 });
+
+
+test('guest CRM configurado admite recibo verificado sin registro y conserva referencia local',async()=>{
+ const c={id:'guest-local',remoteId:v2.conversation_id,permissions:['history','sondeo','crm_prepare','callback_schedule'],ownerUserId:null};
+ const client={async call(cap,method,path,authority,dto,opts){opts.validateResponse(v2);return {data:structuredClone(v2)}}};
+ const svc=new AppGuestService({}, {guestCrmEnabled:true},{client});svc.owned=async()=>c;
+ const result=await svc.timeline({},c.id,{turn_id:v2.receipt.turn_id});
+ assert.deepEqual(result.receipt.result.appointment_receipt,v2.receipt.result.appointment_receipt);
+ assert.equal(result.conversation_id,c.id);
+});
+test('retirada CRM durante lectura no publica recibo ni permisos antiguos',async()=>{
+ const c={id:'guest-local',remoteId:v2.conversation_id,permissions:['history','sondeo','crm_prepare','callback_schedule'],ownerUserId:null};
+ const config={guestCrmEnabled:true};
+ const client={async call(cap,method,path,authority,dto,opts){opts.validateResponse(v2);config.guestCrmEnabled=false;return {data:structuredClone(v2)}}};
+ const svc=new AppGuestService({},config,{client});svc.owned=async()=>c;
+ const result=await svc.timeline({},c.id,{turn_id:v2.receipt.turn_id});
+ assert.equal(result.receipt.result.appointment_receipt,undefined);
+ assert.deepEqual(result.permissions,['history','sondeo']);
+ assert.ok(v2.receipt.result.appointment_receipt);
+});
+test('el opt-in guest no habilita recibos de cuenta ni suple permisos del receptor',async()=>{
+ for(const fields of [{ownerUserId:'account'},{permissions:['history','sondeo']},{permissions:['history','sondeo','crm_prepare']}]){
+  const c={id:'guest-local',remoteId:v2.conversation_id,permissions:['history','sondeo','crm_prepare','callback_schedule'],ownerUserId:null,...fields};
+  const client={async call(cap,method,path,authority,dto,opts){opts.validateResponse(v2);return {data:v2}}};
+  const svc=new AppGuestService({}, {guestCrmEnabled:true},{client});svc.owned=async()=>c;
+  await assert.rejects(svc.timeline({},c.id,{turn_id:v2.receipt.turn_id}),{code:'invalid_upstream_response'});
+ }
+});

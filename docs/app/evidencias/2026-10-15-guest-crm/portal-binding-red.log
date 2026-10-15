@@ -1,0 +1,40 @@
+✔ ACK guest con permisos CRM necesita opt-in y no concede otros permisos (52.817417ms)
+✔ turno guest acepta sólo cita verificada con ambos permisos y conserva ACK durable (35.386792ms)
+✔ reanudar chat existente reconcilia permisos con la misma sesión y atestación (0.838625ms)
+✔ reconciliación tardía no aplica permisos si cambió el propietario (0.510583ms)
+✖ binding admite CRM sólo en prepare invitado habilitado y lo rechaza tras commit (1.562292ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 701.379291
+
+✖ failing tests:
+
+test at backend/src/app/v2/guest-crm-authority.test.js:66:1
+✖ binding admite CRM sólo en prepare invitado habilitado y lo rechaza tras commit (1.562292ms)
+  AssertionError [ERR_ASSERTION]: The validation function is expected to return "true". Received false
+  
+  Caught error:
+  
+  Error: invalid_upstream_response
+      at async TestContext.<anonymous> (file:///Users/gonchumon/code/enmarkados/Gestadia_Portal/backend/src/app/v2/guest-crm-authority.test.js:77:3)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: invalid_upstream_response
+        at Object.validateResponse (file:///Users/gonchumon/code/enmarkados/Gestadia_Portal/backend/src/app/v2/responses.js:10:166)
+        at svc.client.call (file:///Users/gonchumon/code/enmarkados/Gestadia_Portal/backend/src/app/v2/guest-crm-authority.test.js:75:9)
+        at AppGuestService.bind (file:///Users/gonchumon/code/enmarkados/Gestadia_Portal/backend/src/app/v2/guest.js:176:29)
+        at async waitForActual (node:assert:646:5)
+        at async strict.rejects (node:assert:769:25)
+        at async TestContext.<anonymous> (file:///Users/gonchumon/code/enmarkados/Gestadia_Portal/backend/src/app/v2/guest-crm-authority.test.js:77:3)
+        at async Test.run (node:internal/test_runner/test:1125:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:787:7),
+    operator: 'rejects',
+    diff: 'simple'
+  }
