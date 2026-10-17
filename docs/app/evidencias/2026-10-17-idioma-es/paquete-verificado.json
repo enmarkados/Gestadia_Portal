@@ -1,0 +1,11 @@
+{
+  "version": "1.0.1",
+  "build": "13",
+  "locale": "es",
+  "spanishResources": true,
+  "englishResources": false,
+  "webAssetsIdenticalToBuild12": true,
+  "signatureVerified": true,
+  "ipaSha256": "adbea1350ccf9622d009f3094a9a5b2c8da230161e852a5122e694f3de02935d",
+  "uploaded": false
+}

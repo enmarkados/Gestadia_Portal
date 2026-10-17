@@ -1963,3 +1963,11 @@ Actualización del Emulador Gestadia QA: el usuario fija un mínimo de **4096 MB
 - **Definición:** cambio acotado de configuración y catálogo del invitado APP que habilita el circuito existente de Lead y llamada con las garantías de identidad y evidencia verificadas.
 - **Alcance:** LidIA PRO, integración gestadia-app-pro-guest, Project104/Agent123; preparación auditable en docs/app/evidencias/2026-10-15-guest-crm/ops/.
 - **Notas:** Portal debe admitir primero los permisos nuevos. Las definiciones originales de119 se conservan; las copias inactivas de103 no se reactivan. No se considera una validación conversacional ni una llamada creada.
+
+
+### Localización nativa española de Gestadia
+
+- **Tipo:** concepto de distribución iOS.
+- **Definición:** Español (`es`) es el idioma del paquete de Gestadia. Se declara en `CFBundleDevelopmentRegion` y `CFBundleLocalizations`, con recursos `es.lproj` para que iOS y App Store lo reconozcan.
+- **Alcance:** `frontend/ios/App/App/Info.plist`, `App/es.lproj/InfoPlist.strings` y `App.xcodeproj/project.pbxproj`.
+- **Notas:** La traducción de la ficha de App Store Connect no determina los idiomas del binario; se retira el valor inglés heredado del proyecto inicial.
