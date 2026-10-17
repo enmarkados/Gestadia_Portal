@@ -24,3 +24,7 @@ Compilación y exportación Release terminadas con código 0. Verificación prof
 Apple confirma «Idioma principal: Español (España)». El borrador 1.0.1 y sus notas están guardados, con publicación automática. Google confirma ficha predeterminada «Español (España) — es-ES» y el AAB 1.0 (5) contiene `base/assets/public/index.html` con `lang="es"`. No se sustituye ni reenvía la release Android.
 
 Verificación de sintaxis: `plutil -lint` correcto para Info.plist, InfoPlist.strings y project.pbxproj; `git diff --check` sin errores. Queda pendiente acreditar recepción, envío a revisión y publicación de 1.0.1 (13). El seguimiento horario ya espera la versión correctiva y el idioma público español.
+
+## Subida
+
+Xcode confirma subida de 1.0.1 (13) con código 0 el 17/10/2026 a las 21:58 de Madrid. Recibo `recibo-subida.json`. Pendiente de procesamiento y envío a revisión; no acredita publicación corregida.
